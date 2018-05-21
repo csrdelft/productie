@@ -1,0 +1,41 @@
+<?php
+
+namespace CsrDelft\controller\groepen;
+
+use CsrDelft\model\groepen\VerticalenModel;
+use CsrDelft\view\JsonResponse;
+
+/**
+ * VerticalenController.class.php
+ *
+ * @author P.W.G. Brussee <brussee@live.nl>
+ *
+ * Controller voor verticalen.
+ */
+class VerticalenController extends AbstractGroepenController {
+
+	public function __construct($query) {
+		parent::__construct($query, VerticalenModel::instance());
+	}
+
+	public function zoeken() {
+		if (!$this->hasParam('q')) {
+			$this->exit_http(403);
+		}
+		$zoekterm = '%' . $this->getParam('q') . '%';
+		$limit = 5;
+		if ($this->hasParam('limit')) {
+			$limit = (int)$this->getParam('limit');
+		}
+		$result = array();
+		foreach ($this->model->find('naam LIKE ?', array($zoekterm), null, null, $limit) as $verticale) {
+			$result[] = array(
+				'url' => $verticale->getUrl() . '#' . $verticale->id,
+				'label' => $verticale->naam,
+				'value' => 'Verticale:' . $verticale->letter
+			);
+		}
+		$this->view = new JsonResponse($result);
+	}
+
+}

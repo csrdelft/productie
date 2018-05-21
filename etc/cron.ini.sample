@@ -1,0 +1,7 @@
+;
+; Dit zijn de inloggegevens van de cron-user voor CLI uitvoering
+;
+
+[csrdelft]
+user = x900
+pass = password
