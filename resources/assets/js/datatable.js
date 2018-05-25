@@ -49,16 +49,20 @@ const evaluateMultiplicity = (expression, num) => {
         return true;
     }
 
-    let [expressionOperator, expressionAantal] = expression.split(' ');
+    let [expressionOperator, expressionAantalString] = expression.split(' ');
 
-    return {
+    let expressionAantal = parseInt(expressionAantalString);
+
+    let mapOperationToFunction = {
         '==': (a, b) => a === b,
         '!=': (a, b) => a !== b,
         '>=': (a, b) => a >= b,
         '>': (a, b) => a > b,
         '<=': (a, b) => a <= b,
         '<': (a, b) => a < b
-    }[expressionOperator](num, expressionAantal);
+    };
+
+    return mapOperationToFunction[expressionOperator](num, expressionAantal);
 };
 
 $.extend(true, $.fn.dataTable.defaults, {
@@ -142,6 +146,8 @@ $.fn.dataTable.ext.buttons.default = {
         dt.on('select.dt.DT deselect.dt.DT', toggle);
         // Initiele staat
         toggle();
+
+        console.log(config.multiplicity);
 
         // Vervang :col door de waarde te vinden in de geselecteerde row
         // Dit wordt alleen geprobeerd als dit voorkomt
