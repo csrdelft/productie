@@ -147,8 +147,6 @@ $.fn.dataTable.ext.buttons.default = {
         // Initiele staat
         toggle();
 
-        console.log(config.multiplicity);
-
         // Vervang :col door de waarde te vinden in de geselecteerde row
         // Dit wordt alleen geprobeerd als dit voorkomt
         if (config.href.indexOf(':') !== -1) {
