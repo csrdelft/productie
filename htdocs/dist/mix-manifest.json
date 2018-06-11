@@ -37,8 +37,8 @@
     "/css/opmaak/sineregno.css": "/css/opmaak/sineregno.css",
     "/js/vendor.js": "/js/vendor.js",
     "/js/ledenmemory.js": "/js/ledenmemory.js",
-    "/js/extern-vendor.js": "/js/extern-vendor.js",
     "/js/extern.js": "/js/extern.js",
+    "/js/extern-vendor.js": "/js/extern-vendor.js",
     "/js/bb-slideshow.js": "/js/bb-slideshow.js",
     "/js/manifest.js": "/js/manifest.js"
 }
