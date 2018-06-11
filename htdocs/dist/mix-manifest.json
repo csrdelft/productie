@@ -1,5 +1,4 @@
 {
-    "/js/vendor.js": "/js/vendor.js",
     "/js/app.js": "/js/app.js",
     "/css/bredeletters.css": "/css/bredeletters.css",
     "/css/extern-forum.css": "/css/extern-forum.css",
@@ -36,8 +35,10 @@
     "/css/opmaak/owee.css": "/css/opmaak/owee.css",
     "/css/opmaak/roze.css": "/css/opmaak/roze.css",
     "/css/opmaak/sineregno.css": "/css/opmaak/sineregno.css",
-    "/js/extern.js": "/js/extern.js",
+    "/js/vendor.js": "/js/vendor.js",
     "/js/ledenmemory.js": "/js/ledenmemory.js",
+    "/js/extern-vendor.js": "/js/extern-vendor.js",
+    "/js/extern.js": "/js/extern.js",
     "/js/bb-slideshow.js": "/js/bb-slideshow.js",
     "/js/manifest.js": "/js/manifest.js"
 }
