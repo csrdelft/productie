@@ -1,1 +1,25 @@
-body,h1,h2,h3,h4,h5,h6,input[type=text],select,textarea{font-family:Verdana,Geneva,Arial,Helvetica,sans-serif}
+/*
+	Opmaak voor bijv. mensen met dyslexie
+*/
+
+/* 
+    Created on : 1-okt-2014, 17:29:35
+    Author     : Paul Brussee
+*/
+
+body,
+textarea,
+input[type="text"],
+select,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+
+
+/*# sourceMappingURL=bredeletters.css.map*/

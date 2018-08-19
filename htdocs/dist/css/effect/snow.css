@@ -1,1 +1,40 @@
-@keyframes snow{0%{background-position:0 0,0 0,0 0}to{background-position:500px 1000px,400px 400px,300px 300px,0 0}}@-webkit-keyframes snow{0%{background-position:0 0,0 0,0 0,0 0}to{background-position:500px 1000px,400px 400px,300px 300px,0 0}}#cd-main-overlay{background-image:url(/dist/images/snowh.png?7c969c000622886bb6d86c648626abaf),url(/dist/images/snow3q.png?089e1ede3f10e8236f33476d9cd967f8),url(/dist/images/snow2l.png?e32dffcfdaaf8db4e69f733895cfa5dc),url(/dist/images/kristallen.jpg?4ae87379a8e2ae9736a9a3a88fcb4adb)}#cd-main-overlay.is-visible{-webkit-animation:snow 20s linear infinite;animation:snow 20s linear infinite}
+/*
+    Document   : fx-snow.css
+    Created on : 21-dec-2013, 19:00:57
+    Author     : Paul Brussee
+    Description:
+        http://cssdeck.com/labs/css3-snow
+*/
+
+@keyframes snow {
+  0% {
+    background-position: 0 0, 0 0, 0 0;
+  }
+
+  100% {
+    background-position: 500px 1000px, 400px 400px, 300px 300px, 0 0;
+  }
+}
+
+@-webkit-keyframes snow {
+  0% {
+    background-position: 0 0, 0 0, 0 0, 0 0;
+  }
+
+  100% {
+    background-position: 500px 1000px, 400px 400px, 300px 300px, 0 0;
+  }
+}
+
+#cd-main-overlay {
+  background-image: url(../images/snowh.png), url(../images/snow3q.png), url(../images/snow2l.png), url(../images/kristallen.jpg);
+}
+
+#cd-main-overlay.is-visible {
+  -webkit-animation: snow 20s linear infinite;
+          animation: snow 20s linear infinite;
+}
+
+
+
+/*# sourceMappingURL=snow.css.map*/
