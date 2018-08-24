@@ -26570,9 +26570,8 @@ Bootstrap submenu
   float: right;
   width: 0;
   height: 0;
-  border-color: transparent;
-  border-style: solid;
-  border-width: 5px 0 5px 5px;
+  border: 5px solid transparent;
+  border-right-width: 0;
   border-left-color: #999;
   margin-top: 5px;
   margin-right: -10px;
@@ -26688,17 +26687,17 @@ table.inline {
 .noselect {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 .select-text {
   -webkit-touch-callout: text;
   -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
+     -moz-user-select: text;
+      -ms-user-select: text;
+          user-select: text;
 }
 
 /* --------------------------------
@@ -26855,9 +26854,9 @@ Dragable objects
   z-index: 50;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 .dragobject:active {
@@ -27508,7 +27507,7 @@ Groepen
 }
 
 .groep-leden .groep-tab-content {
-  height: 0px;
+  height: 0;
   overflow-y: auto;
 }
 

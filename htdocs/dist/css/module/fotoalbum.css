@@ -150,7 +150,7 @@
   top: 0;
   bottom: 0;
   left: 0;
-  width: 0%;
+  width: 0;
   background-color: #8cc657;
 }
 
@@ -188,13 +188,10 @@
 
 .dropzone .dz-default.dz-message {
   opacity: 1;
-  -ms-filter: none;
   -webkit-filter: none;
           filter: none;
   transition: opacity 0.3s ease-in-out;
-  background-image: url(../images/dropzone.png);
-  background-repeat: no-repeat;
-  background-position: 0 0;
+  background: url(../images/dropzone.png) no-repeat 0 0;
   position: absolute;
   width: 428px;
   height: 123px;
@@ -253,7 +250,6 @@
 .dropzone .dz-preview.dz-success .dz-success-mark,
 .dropzone-previews .dz-preview.dz-success .dz-success-mark {
   opacity: 1;
-  -ms-filter: none;
   -webkit-filter: none;
           filter: none;
 }
@@ -261,7 +257,6 @@
 .dropzone .dz-preview.dz-error .dz-error-mark,
 .dropzone-previews .dz-preview.dz-error .dz-error-mark {
   opacity: 1;
-  -ms-filter: none;
   -webkit-filter: none;
           filter: none;
 }
@@ -280,8 +275,7 @@
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
   transition: opacity 0.4s ease-in-out;
-  background-image: url(../images/dropzone.png);
-  background-repeat: no-repeat;
+  background: url(../images/dropzone.png) no-repeat;
 }
 
 @media all and (-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5), (-webkit-min-device-pixel-ratio: 1.4375), (min-resolution: 138dpi), (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx) {
@@ -314,17 +308,15 @@
 .dropzone .dz-preview .dz-progress .dz-upload,
 .dropzone-previews .dz-preview .dz-progress .dz-upload {
   -webkit-animation: loading 0.4s linear infinite;
-  animation: loading 0.4s linear infinite;
+          animation: loading 0.4s linear infinite;
   transition: width 0.3s ease-in-out;
   border-radius: 2px;
   position: absolute;
   top: 0;
   left: 0;
-  width: 0%;
+  width: 0;
   height: 100%;
-  background-image: url(../images/dropzone.png);
-  background-repeat: repeat-x;
-  background-position: 0px -400px;
+  background: url(../images/dropzone.png) repeat-x 0px -400px;
 }
 
 @media all and (-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5), (-webkit-min-device-pixel-ratio: 1.4375), (min-resolution: 138dpi), (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx) {
