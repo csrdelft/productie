@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<?php echo $this->runChild('head'); ?>
+</head>
+<body class="nav-is-fixed">
+<nav class="navbar navbar-dark bg-primary fixed-top">
+	<a class="nav-option trigger text-white" href="#zijbalk"><span class="sr-only">Zijbalk openen</span><i
+ class="fa fa-lg fa-fw fa-bookmark"></i></a>
+	<a class="navbar-brand trigger" href="/">C.S.R. Delft</a>
+	<a class="nav-option trigger text-white" href="#search"><span class="sr-only">Zoeken</span><i
+ class="fa fa-lg fa-fw fa-search"></i></a>
+	<a class="nav-option trigger text-white" href="#menu"><span class="sr-only">Menu</span><i
+ class="fa fa-lg fa-fw fa-bars"></i></a>
+</nav>
+
+<?php if(\CsrDelft\model\LidInstellingenModel::get('zijbalk', 'scrollen') !== 'met pagina mee'): ?>
+	<?php ($scrollfix = \CsrDelft\model\DragObjectModel::getCoords('zijbalk', 0, 0)['top']); ?>
+	<nav id="zijbalk" class="<?php if(CsrDelft\model\LidInstellingenModel::get('zijbalk', 'scrollen')=='pauper/desktop'): ?>desktop-only <?php endif; ?>
+  <?php if(CsrDelft\model\LidInstellingenModel::get('zijbalk', 'scrollbalk')=='ja'): ?>scroll-hover <?php endif; ?> scroll-fixed dragobject dragvertical" data-scrollfix="<?php echo static::e($scrollfix); ?>">
+<?php else: ?>
+	<nav id="zijbalk">
+<?php endif; ?>
+	<a href="/">
+ <div class="cd-beeldmerk"></div>
+	</a>
+	<?php ($zijbalk = \CsrDelft\view\Zijbalk::addStandaardZijbalk(isset($zijbalk) ? $zijbalk : [])); ?>
+	<?php $__currentLoopData = $zijbalk; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $block): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <div class="blok"><?php ($block->view()); ?></div>
+	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+</nav>
+<?php ((new \CsrDelft\view\menu\MainMenuView())->view()); ?>
+<main class="cd-main-content">
+	<nav class="cd-page-top">
+ <div class="breadcrumbs"><?php echo $this->yieldContent('breadcrumbs'); ?></div>
+	</nav>
+	<div class="cd-page-content">
+ <?php echo getMelding(); ?>
+
+ <?php echo $this->yieldContent('content'); ?>
+	</div>
+	<footer class="cd-footer">
+ <?php (printDebug()); ?>
+	</footer>
+</main>
+<div id="cd-main-overlay">
+	<?php if(CsrDelft\model\LidInstellingenModel::get('layout', 'fx') == 'onontdekt'): ?>
+ <?php echo $this->runChild('effect.onontdekt'); ?>
+	<?php elseif(CsrDelft\model\LidInstellingenModel::get('layout', 'fx') == 'civisaldo'): ?>
+ <?php echo $this->runChild('effect.civisaldo'); ?>
+	<?php endif; ?>
+</div>
+<div id="modal-background" <?php if(isset($modal)): ?> style="display: block;"<?php endif; ?>></div>
+<?php if(isset($modal)): ?>
+	<?php ($modal->view()); ?>
+<?php else: ?>
+	<div id="modal" tabindex="-1"></div>
+<?php endif; ?>
+<?php if(CsrDelft\model\LidInstellingenModel::get('layout', 'minion') == 'ja'): ?>
+	<?php echo $this->runChild('effect.minion'); ?>
+<?php endif; ?>
+<?php if(CsrDelft\model\LidInstellingenModel::get('layout', 'fx') == 'wolken'): ?>
+	<?php echo $this->runChild('effect.clouds'); ?>
+<?php endif; ?>
+</body>
+</html>

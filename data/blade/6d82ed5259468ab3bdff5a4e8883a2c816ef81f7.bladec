@@ -1,0 +1,50 @@
+<div class="alternate-row">
+	<?php if($draad->wacht_goedkeuring): ?>
+ <small class="niet-dik">[ter goedkeuring...]</small>
+	<?php endif; ?>
+	<?php if($draad->belangrijk): ?>
+ <?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], [$draad->belangrijk, null, 'dit onderwerp is door het bestuur aangemerkt als belangrijk']); ?>
+	<?php elseif($draad->plakkerig): ?>
+ <?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['note', null, 'Dit onderwerp is plakkerig, het blijft bovenaan']); ?>
+	<?php elseif($draad->gesloten): ?>
+ <?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['lock', null, 'Dit onderwerp is gesloten, u kunt niet meer reageren']); ?>
+	<?php endif; ?>
+
+	<?php $lidInstellingenModel = $this->injectClass('CsrDelft\model\LidInstellingenModel', 'lidInstellingenModel'); ?>
+	<?php if($lidInstellingenModel::get('forum', 'open_draad_op_pagina') == 'ongelezen'): ?>
+ <?php ($urlHash = "#ongelezen"); ?>
+	<?php elseif($lidInstellingenModel::get('forum', 'open_draad_op_pagina') == 'laatste'): ?>
+ <?php ($urlHash = "#reageren"); ?>
+	<?php else: ?>
+ <?php ($urlHash = ""); ?>
+	<?php endif; ?>
+
+	<?php ($ongelezenWeergave = $lidInstellingenModel::get('forum', 'ongelezenWeergave')); ?>
+
+	<a id="<?php echo static::e($draad->draad_id); ?>"
+  href="/forum/onderwerp/<?php echo static::e($draad->draad_id); ?><?php echo static::e($urlHash); ?>"
+  <?php if(isset($this->currentUser)): ?> <?php if($draad->isOngelezen()): ?> class="<?php echo static::e($ongelezenWeergave); ?>"<?php endif; ?> <?php endif; ?>><?php echo static::e($draad->titel); ?></a>
+	<?php if(isset($this->currentUser)): ?>
+ <?php if($draad->getAantalOngelezenPosts() > 0): ?>
+ <span class="badge"><?php echo static::e($draad->getAantalOngelezenPosts()); ?></span>
+ <?php endif; ?>
+	<?php endif; ?>
+	<?php if(!isset($deel->forum_id)): ?>
+ <span class="lichtgrijs">[<a href="/forum/deel/<?php echo static::e($draad->getForumDeel()->forum_id); ?>"
+  class="lichtgrijs"><?php echo static::e($draad->getForumDeel()->titel); ?></a>]</span>
+	<?php endif; ?>
+</div>
+<div class="alternate-row">
+	<?php if(\CsrDelft\model\LidInstellingenModel::get('forum', 'datumWeergave') === 'relatief'): ?>
+ <?php echo reldate($draad->laatst_gewijzigd); ?>
+
+	<?php else: ?>
+ <?php echo static::e($draad->laatst_gewijzigd); ?>
+
+	<?php endif; ?>
+</div>
+<div class="alternate-row">
+	<a href="/forum/reactie/<?php echo static::e($draad->laatste_post_id); ?>#<?php echo static::e($draad->laatste_post_id); ?>">bericht</a>
+	door <?php echo CsrDelft\model\ProfielModel::getLink($draad->laatste_wijziging_uid, 'user'); ?>
+
+</div>

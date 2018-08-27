@@ -1,0 +1,27 @@
+<div class="zijbalk_forum">
+	<div class="zijbalk-kopje">
+ <a href="/profiel/<?php echo static::e(\CsrDelft\model\security\LoginModel::getUid()); ?>/#forum">Forum (zelf gepost)</a>
+	</div>
+	<?php $__currentLoopData = $posts; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php ($timestamp = strtotime($post->datum_tijd)); ?>
+ <?php ($draad = $post->getForumDraad()); ?>
+ <?php ($ongelezenWeergave = CsrDelft\model\LidInstellingenModel::get('forum', 'ongelezenWeergave')); ?>
+ <div class="item">
+ <a href="/forum/reactie/<?php echo static::e($post->post_id); ?>#<?php echo static::e($post->post_id); ?>" title="<?php echo static::e($draad->titel); ?>"
+  <?php if($draad->isOngelezen()): ?>class="<?php echo static::e($ongelezenWeergave); ?>" <?php endif; ?>>
+ <?php if(date('d-m', $timestamp) === date('d-m')): ?> <?php /* Vandaag */ ?>
+ <?php echo static::e(date_format($timestamp, '%H:%M')); ?>
+
+ <?php elseif(strftime('%U', $timestamp) === strftime('%U')): ?> <?php /* Zelfde week */ ?>
+ <div class="zijbalk-dag"><?php echo static::e(date_format($timestamp, '%a')); ?>&nbsp;</div><?php echo static::e(date_format($timestamp, '%d')); ?>
+
+ <?php else: ?>
+ <?php echo static::e(date_format($timestamp, '%d-%m')); ?>
+
+ <?php endif; ?>
+ &nbsp;<?php echo static::e($draad->titel); ?>
+
+ </a>
+ </div>
+	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+</div>

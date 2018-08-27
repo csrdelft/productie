@@ -1,0 +1,170 @@
+<?php $_shouldextend['5b847be91f12b']=1; ?>
+
+<?php $this->startSection('titel', $draad->titel); ?>
+
+<?php $this->startSection('breadcrumbs'); ?>
+	<?php ($deel = $draad->getForumDeel()); ?>
+	<a href="/forum" title="Forum"><span class="fa fa-wechat module-icon"></span></a>
+	» <span class="active"><?php echo static::e($deel->getForumCategorie()->titel); ?></span>
+	» <a href="/forum/deel/<?php echo static::e($deel->forum_id); ?>/<?php echo static::e(\CsrDelft\model\forum\ForumDradenModel::instance()->getPaginaVoorDraad($draad)); ?>#<?php echo static::e($draad->draad_id); ?>"><?php echo static::e($deel->titel); ?></a>
+<?php $this->stopSection(); ?>
+
+<?php $this->startSection('content'); ?>
+	<?php echo getMelding(); ?>
+
+	<div class="forum-header">
+ <?php ($zoekform->view()); ?>
+
+ <?php $this->startSection('kop'); ?>
+ <?php if(isset($this->currentUser)): ?>
+ <?php if(!$statistiek && $draad->magStatistiekBekijken()): ?>
+ <a
+ href="/forum/onderwerp/<?php echo static::e($draad->draad_id); ?>/<?php echo static::e(CsrDelft\model\forum\ForumPostsModel::instance()->getHuidigePagina()); ?>/statistiek"
+ class="btn btn-light" title="Toon statistieken"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['chart_line']); ?></a>
+ &nbsp;&nbsp;&nbsp;
+ <?php endif; ?>
+ <a title="Onderwerp toevoegen aan favorieten" class="btn btn-light post popup addfav"
+  href="/menubeheer/toevoegen/favoriet"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['start']); ?></a>
+ &nbsp;&nbsp;&nbsp;
+ <?php if($draad->isGevolgd()): ?>
+ <a href="/forum/volgenuit/<?php echo static::e($draad->draad_id); ?>" class="btn btn-light post ReloadPage volgenUit"
+  title="Onderwerp niet meer volgen per email"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['email_go', 'email_delete']); ?></a>
+ <?php elseif($draad->magVolgen()): ?>
+ <a href="/forum/volgenaan/<?php echo static::e($draad->draad_id); ?>" class="btn btn-light post ReloadPage volgenAan"
+  title="Onderwerp volgen per email"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['email', 'email_add']); ?></a>
+ <?php endif; ?>
+ &nbsp;&nbsp;&nbsp;
+ <?php if($draad->isVerborgen()): ?>
+ <a href="/forum/tonen/<?php echo static::e($draad->draad_id); ?>" class="btn btn-light post ReloadPage tonenAan"
+  title="Onderwerp tonen in zijbalk"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['layout', 'layout_add']); ?></a>
+ <?php elseif($draad->magVerbergen()): ?>
+ <a href="/forum/verbergen/<?php echo static::e($draad->draad_id); ?>" class="btn btn-light post ReloadPage tonenUit"
+  title="Onderwerp verbergen in zijbalk"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['layout_sidebar', 'layout_delete']); ?></a>
+ <?php endif; ?>
+ &nbsp;&nbsp;&nbsp;
+ <?php if($draad->magModereren()): ?>
+ <?php if($draad->gesloten): ?>
+ <a href="/forum/wijzigen/<?php echo static::e($draad->draad_id); ?>/gesloten" class="btn btn-light post ReloadPage slotjeUit"
+  title="Openen (reactie mogelijk)"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['lcok', 'lock_break']); ?></a>
+ <?php else: ?>
+ <a href="/forum/wijzigen/<?php echo static::e($draad->draad_id); ?>/gesloten" class="btn btn-light post ReloadPage slotjeAan"
+  title="Sluiten (geen reactie mogelijk)"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['lock_open', 'lock']); ?></a>
+ <?php endif; ?>
+ &nbsp;&nbsp;&nbsp;
+ <a class="btn btn-light modfuncties" title="Moderatie-functies weergeven" onclick="$('#forumtabel a.forummodknop').fadeIn();
+ $('#modereren').slideDown();
+ $(window).scrollTo('#modereren', 600, {
+ easing: 'easeInOutCubic',
+ offset: {
+ top: -100,
+ left: 0
+ }
+ });
+  "><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['wrench']); ?> Modereren</a>
+ <?php endif; ?>
+ <?php endif; ?>
+ <h1>
+ <?php echo static::e($draad->titel); ?>
+
+ <?php if($statistiek): ?>
+ &nbsp;&nbsp;&nbsp;
+ <span class="lichtgrijs small" title="Aantal lezers"><?php echo static::e($draad->getAantalLezers()); ?> lezers</span>
+ <?php endif; ?>
+ </h1>
+ <?php $this->stopSection(); ?>
+
+ <?php echo $this->yieldContent('kop'); ?>
+
+ <?php if($draad->magModereren()): ?>
+ <?php echo $this->runChild('forum.partial.draad_mod'); ?>
+ <?php endif; ?>
+	</div>
+
+<?php $this->startSection('magreageren'); ?>
+	<?php if($draad->verwijderd): ?>
+ <div class="draad-verwijderd">Dit onderwerp is verwijderd.</div>
+	<?php elseif($draad->gesloten): ?>
+ <div class="draad-gesloten">
+ U kunt hier niet meer reageren omdat dit onderwerp gesloten is.
+ <?php if($draad->getForumDeel()->isOpenbaar() && strtotime($draad->laatst_gewijzigd) < strtotime(\CsrDelft\model\InstellingenModel::get('forum', 'externen_geentoegang_gesloten'))): ?>
+ <div class="dikgedrukt">Dit externe onderwerp is niet meer toegankelijk voor externen en zoekmachines.</div>
+ <?php endif; ?>
+ </div>
+	<?php elseif(!$draad->magPosten()): ?>
+ <div class="draad-readonly">U mag in dit deel van het forum niet reageren.</div>
+	<?php endif; ?>
+<?php $this->stopSection(); ?>
+
+<div class="forum-draad">
+	<?php $this->startSection('paginering'); ?>
+ <div class="tussenschot"></div>
+ <div class="forum-paginering">
+ <?php if($draad->pagina_per_post): ?>
+ Bericht:
+ <?php else: ?>
+ Pagina:
+ <?php endif; ?>
+ <?php echo sliding_pager([
+ 'baseurl' => "/forum/onderwerp/$draad->draad_id/",
+ 'url_append' => $statistiek ? '/statistiek' : '',
+ 'pagecount' => \CsrDelft\model\forum\ForumPostsModel::instance()->getAantalPaginas($draad->draad_id),
+ 'curpage' => \CsrDelft\model\forum\ForumPostsModel::instance()->getHuidigePagina()
+ ]); ?>
+
+ </div>
+	<?php $this->stopSection(); ?>
+	 <?php /*Paginering boven eerste post op de pagina als de eerste post van het draadje niet plakkerig is of dit de eerste pagina is */ ?>
+	<?php if($paging && (!$draad->eerste_post_plakkerig || \CsrDelft\model\forum\ForumPostsModel::instance()->getHuidigePagina() === 1)): ?>
+ <?php echo $this->yieldContent('paginering'); ?>
+	<?php endif; ?>
+
+	<?php ($vanaf = false); ?>
+	<?php $__currentLoopData = $draad->getForumPosts(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+
+ <?php /* Als posts gewijzigd zijn zonder draad gewijzigd te triggeren voorkomt $draad->isOngelezen() dat de gele lijn wordt getoond */ ?>
+ <?php if(!$vanaf && $draad_ongelezen && (!$gelezen_moment || strtotime($post->laatst_gewijzigd) > $gelezen_moment)): ?>
+ <?php ($vanaf = true); ?>
+ <div class="tussenschot ongelezenvanaf"><a id="ongelezen"></a></div>
+ <?php else: ?>
+ <div class="tussenschot"></div>
+ <?php endif; ?>
+
+ <?php echo $this->runChild('forum.partial.post_lijst', ['post' => $post]); ?>
+
+ <?php /* Paginering onder eerste plakkerige post op alle pagina's behalve de eerste */ ?>
+ <?php if($paging && $draad->eerste_post_plakkerig && \CsrDelft\model\forum\ForumPostsModel::instance()->getHuidigePagina() !== 1 && $loop->first): ?>
+ <?php echo $this->yieldContent('paginering'); ?>
+ <?php endif; ?>
+	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+
+	<?php /* Paginering onderaan pagina */ ?>
+	<?php if($paging): ?>
+ <?php echo $this->yieldContent('paginering'); ?>
+	<?php endif; ?>
+
+	<?php /* Geen ongelezen berichten op de laatste pagina betekend in het geheel geen ongelezen berichten */ ?>
+
+	<?php if(!$vanaf && \CsrDelft\model\forum\ForumPostsModel::instance()->getHuidigePagina() === \CsrDelft\model\forum\ForumPostsModel::instance()->getAantalPaginas($draad->draad_id)): ?>
+ <div class="tussenschot ongelezenvanaf"><a id="ongelezen"></a></div>
+	<?php else: ?>
+ <div class="tussenschot"></div>
+	<?php endif; ?>
+
+	<div class="magreageren">
+ <?php echo $this->yieldContent('magreageren'); ?>
+	</div>
+
+	<div class="breadcrumbs"><?php echo $this->yieldContent('breadcrumbs'); ?></div>
+	<div class="forum-footer">
+ <?php echo $this->yieldContent('kop'); ?>
+	</div>
+
+	<?php if($draad->magPosten()): ?>
+ <?php echo $this->runChild('forum.partial.post_form', ['deel' => $draad->getForumDeel()]); ?>
+	<?php endif; ?>
+</div>
+
+<?php echo $this->runChild('forum.partial.rss_link'); ?>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend['5b847be91f12b']) { echo $this->runChild('forum.base'); } ?>

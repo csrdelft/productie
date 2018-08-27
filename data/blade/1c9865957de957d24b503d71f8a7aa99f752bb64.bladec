@@ -1,0 +1,37 @@
+<div class="zijbalk_forum">
+	<div class="zijbalk-kopje">
+ <?php if($belangrijk): ?>
+ <a href="/forum/recent/1/belangrijk">Forum belangrijk</a>
+ <?php else: ?>
+ <a href="/forum/recent">Forum</a>
+ <?php endif; ?>
+	</div>
+
+
+	<?php if (call_user_func($this->authCallBack,'P_FORUM_MOD')): ?>
+ <?php if($aantalWacht > 0): ?>
+ &nbsp;<a href="/forum/wacht" class="badge" title="<?php echo static::e($aantalWacht); ?> forumbericht<?php echo static::e(($aantalWacht === 1 ? '' : 'en')); ?> wacht<?php echo static::e(($aantalWacht === 1 ? '' : 'en')); ?> op goedkeuring"><?php echo static::e($aantalWacht); ?></a>';
+ <?php endif; ?>
+	<?php endif; ?>
+	<?php $__currentLoopData = $draden; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $draad): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php ($timestamp = strtotime($draad->laatst_gewijzigd)); ?>
+
+ <?php if(CsrDelft\model\LidInstellingenModel::get('forum', 'open_draad_op_pagina') == 'ongelezen'): ?>
+ <?php ($urlHash = '#ongelezen'); ?>
+ <?php elseif(CsrDelft\model\LidInstellingenModel::get('forum', 'open_draad_op_pagina') == 'laatste'): ?>
+ <?php ($urlHash = '#reageren'); ?>
+ <?php else: ?>
+ <?php ($urlHash = ''); ?>
+ <?php endif; ?>
+
+ <?php ($ongelezenWeergave = CsrDelft\model\LidInstellingenModel::get('forum', 'ongelezenWeergave')); ?>
+
+ <div class="item" id="forumdraad-row-<?php echo static::e($draad->draad_id); ?>">
+ <a href="/forum/onderwerp/<?php echo static::e($draad->draad_id); ?><?php echo static::e($urlHash); ?>" title="{$draad->titel}"
+  <?php if(isset($this->currentUser)): ?> <?php if($draad->isOngelezen()): ?> class="<?php echo static::e($ongelezenWeergave); ?>" <?php endif; ?> <?php endif; ?>>
+ <span class="zijbalk-moment"><?php echo static::e(zijbalk_date_format($timestamp)); ?></span>&nbsp;<?php echo static::e($draad->titel); ?>
+
+ </a>
+ </div>
+	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+</div>

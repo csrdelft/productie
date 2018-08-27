@@ -1,0 +1,20 @@
+<?php if(isset($this->currentUser)): ?>
+	<?php $_shouldextend['5b847be91e8cf']=1; ?>
+
+	<?php $this->startPush('styles'); ?>
+ <link rel="stylesheet" href="<?php echo static::e(asset("/dist/css/module/forum.css")); ?>"/>
+	<?php $this->stopPush(); ?>
+<?php endif; ?>
+<?php if(!isset($this->currentUser)): ?>
+	<?php $_shouldextend['5b847be91e96e']=1; ?>
+<?php endif; ?>
+
+<?php $this->startSection('breadcrumbs'); ?>
+	@parentXYZABC
+<a href="/forum" title="Forum"><span class="fa fa-wechat module-icon"></span></a>
+<?php $this->stopSection(); ?>
+
+
+
+<?php if (@$_shouldextend['5b847be91e96e']) { echo $this->runChild('layout-owee.layout'); } ?>
+<?php if (@$_shouldextend['5b847be91e8cf']) { echo $this->runChild('layout'); } ?>

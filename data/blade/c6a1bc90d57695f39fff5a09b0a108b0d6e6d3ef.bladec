@@ -1,0 +1,84 @@
+<?php $_shouldextend['5b847be92199a']=1; ?>
+
+<?php $this->startSection('titel'); ?>
+	<?php if(isset($query)): ?>
+ Resultaten voor <?php echo static::e($query); ?>
+
+	<?php else: ?>
+ Wacht op goedkeuring
+	<?php endif; ?>
+<?php $this->stopSection(); ?>
+
+<?php $this->startSection('content'); ?>
+	<?php echo getMelding(); ?>
+
+
+	<h1><?php echo static::e($titel); ?></h1>
+
+	<?php if($resultaten): ?>
+ <div class="forum-zoeken">
+ <table id="forumtabel">
+ <?php $__currentLoopData = $resultaten; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $draad): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <div class="forum-zoeken-header">
+
+ <div>
+ <?php if($draad->wacht_goedkeuring): ?>
+ <span title="Nieuw onderwerp in <?php echo static::e($draad->getForumDeel()->titel); ?>"><?php echo static::e($draad->titel); ?><span>[<a
+ href="/forum/deel/<?php echo static::e($draad->forum_id); ?>"><?php echo static::e($draad->getForumDeel()->titel); ?></a>]</span><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['new']); ?></span>
+ <?php else: ?>
+ <a id="<?php echo static::e($draad->draad_id); ?>"
+  href="/forum/onderwerp/<?php echo static::e($draad->draad_id); ?>"
+  <?php if($draad->isOngelezen()): ?>class="<?php echo static::e(CsrDelft\model\LidInstellingenModel::get('forum', 'ongelezenWeergave')); ?>" <?php endif; ?>>
+ <?php echo static::e($draad->titel); ?>
+
+ </a>
+ <?php if($draad->belangrijk): ?>
+ <?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], [$draad->belangrijk, null, 'Dit onderwerp is door het bestuur aangemerkt als belangrijk']); ?>
+ <?php elseif($draad->gesloten): ?>
+ <?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['lock', null, 'Dit onderwerp is gesloten, u kunt niet meer reageren']); ?>
+ <?php endif; ?>
+ <span>[<a href="/forum/deel/<?php echo static::e($draad->forum_id); ?>"><?php echo static::e($draad->getForumDeel()->titel); ?></a>]</span>
+ <?php endif; ?>
+ </div>
+ <div class="niet-dik">
+ <?php if(\CsrDelft\model\LidInstellingenModel::get('forum', 'datumWeergave') === 'relatief'): ?>
+ <?php echo reldate($draad->datum_tijd); ?>
+
+ <?php else: ?>
+ <?php echo static::e($draad->datum_tijd); ?>
+
+ <?php endif; ?>
+ </div>
+ </div>
+ <div class="forum-zoeken-bericht">
+ <?php $__currentLoopData = $draad->getForumPosts(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php echo $this->runChild('forum.partial.post_lijst', ['draad' => $draad, 'post' => $post]); ?>
+ <div class="tussenschot"></div>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </div>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ <?php if(isset($query)): ?>
+ <div class="forum-zoeken-footer">
+ <?php echo sliding_pager([
+ 'baseurl' => "/forum/zoeken/$query/",
+ 'pagecount' => \CsrDelft\model\forum\ForumDradenModel::instance()->getHuidigePagina(),
+ 'curpage' => \CsrDelft\model\forum\ForumDradenModel::instance()->getHuidigePagina(),
+ 'separator' => ' &nbsp;'
+ ]); ?>
+
+ <?php /*&nbsp;<a
+ href="/forum/zoeken/<?php echo static::e($query); ?>/<?php echo static::e(\CsrDelft\model\forum\ForumDradenModel::instance()->getAantalPaginas(0)); ?>">verder
+ zoeken</a> TODO: Fixen, is kneiterbrak*/ ?>
+ </div>
+ <?php endif; ?>
+ </table>
+ </div>
+ <h1><?php echo static::e($titel); ?></h1>
+ <?php echo $this->yieldContent('breadcrumbs'); ?>
+
+	<?php else: ?>
+ Geen resultaten.
+	<?php endif; ?>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend['5b847be92199a']) { echo $this->runChild('forum.base'); } ?>

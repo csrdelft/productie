@@ -1,0 +1,89 @@
+<div id="modereren">
+	<table>
+ <tbody>
+ <tr>
+ <td>
+ <a href="/forum/wijzigen/<?php echo static::e($draad->draad_id); ?>/plakkerig" class="btn btn-light post ReloadPage" title="Verander plakkerigheid">
+ <?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['note']); ?> maak <?php if($draad->plakkerig): ?><span class="dikgedrukt">niet</span> <?php endif; ?> plakkerig
+ </a>
+ <br /><br />
+ <a href="/forum/wijzigen/<?php echo static::e($draad->draad_id); ?>/eerste_post_plakkerig" class="btn btn-light post ReloadPage" title="Verander plakkerigheid van eerste post">
+ <label><input type="checkbox" <?php if($draad->eerste_post_plakkerig): ?>checked="checked" <?php endif; ?>/> 1e post plakkerig</label>
+ </a>
+ <br /><br />
+ <a href="/forum/wijzigen/<?php echo static::e($draad->draad_id); ?>/pagina_per_post" class="btn btn-light post ReloadPage" title="Verander 1 pagina per post">
+ <label><input type="checkbox" <?php if($draad->pagina_per_post): ?>checked="checked" <?php endif; ?>/> 1 pagina per post</label>
+ </a>
+ </td>
+ <td>
+ <a href="/forum/wijzigen/<?php echo static::e($draad->draad_id); ?>/verwijderd" class="btn btn-light post confirm ReloadPage" title="Verander status verwijderd (incl. alle reacties)">
+ <?php if($draad->verwijderd): ?>
+ <?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['arrow_undo']); ?> draad herstellen
+ <?php else: ?>
+ <?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['cross']); ?> draad verwijderen
+ <?php endif; ?>
+ </a>
+ &nbsp;
+ <a href="/forum/onderwerp/<?php echo static::e($draad->draad_id); ?>/prullenbak" class="btn btn-light"
+  title="Bekijk de reacties die zijn verwijderd"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['bin_closed']); ?> verwijderde reacties</a>
+ <br/><br/>
+ <form action="/forum/wijzigen/<?php echo static::e($draad->draad_id); ?>/forum_id" method="post">
+ <label>Verplaats naar &nbsp;</label>
+ <select name="forum_id">
+ <?php $__currentLoopData = $categorien; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $categorie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <optgroup label="<?php echo static::e($categorie->titel); ?>">
+ <?php $__currentLoopData = $categorie->getForumDelen(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $newDeel): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <option value="<?php echo static::e($newDeel->forum_id); ?>"
+ <?php if($newDeel->forum_id === $draad->getForumDeel()->forum_id): ?> selected="selected" <?php endif; ?>><?php echo static::e($newDeel->titel); ?></option>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </optgroup>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </select>
+ <input type="submit" value="Opslaan" class="btn btn-primary" />
+ </form>
+ <br />
+ <form action="/forum/wijzigen/<?php echo static::e($draad->draad_id); ?>/titel" method="post">
+ <label for="titel">Titel aanpassen &nbsp;</label>
+ <input id="titel" type="text" name="titel" value="<?php echo static::e($draad->titel); ?>" />
+ <input type="submit" value="Opslaan" class="btn btn-primary" />
+ </form>
+ <?php if (call_user_func($this->authCallBack,'P_FORUM_BELANGRIJK')): ?>
+ <br />
+ <form action="/forum/wijzigen/<?php echo static::e($draad->draad_id); ?>/belangrijk" method="post">
+ <label for="belangrijk">Belangrijk markeren &nbsp;</label>
+ <select id="belangrijk" name="belangrijk">
+ <option value="" <?php if(!$draad->belangrijk): ?>selected="selected"<?php endif; ?>>Niet belangrijk</option>
+ <?php $__currentLoopData = \CsrDelft\model\forum\ForumDradenModel::$belangrijk_opties; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $group => $list): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <optgroup label="<?php echo static::e($group); ?>">
+ <?php $__currentLoopData = $list; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $value => $label): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <option value="<?php echo static::e($value); ?>" <?php if($value === $draad->belangrijk): ?>selected="selected" <?php endif; ?>><?php echo static::e($label); ?></option>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </optgroup>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </select>
+ <input type="submit" value="Opslaan" class="btn btn-primary" />
+ </form>
+ <?php endif; ?>
+ <?php if($gedeeld_met_opties): ?>
+ <br />
+ <form action="/forum/wijzigen/<?php echo static::e($draad->draad_id); ?>/gedeeld_met" method="post">
+ <label for="gedeeld_met">Delen met &nbsp;</label>
+ <select id="gedeeld_met" name="gedeeld_met">
+ <option value=""></option>
+ <?php $__currentLoopData = $gedeeld_met_opties; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $gedeeld_deel): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <option value="<?php echo static::e($gedeeld_deel->forum_id); ?>" <?php if($draad->gedeeld_met === $gedeeld_deel->forum_id): ?> selected="selected" <?php endif; ?>><?php echo static::e($gedeeld_deel->titel); ?></option>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </select>
+ <input type="submit" value="Opslaan" class="btn btn-primary" />
+ </form>
+ <?php endif; ?>
+ </td>
+ <td>
+ <span id="modsluiten" onclick="$('#togglemodknop').toggle();
+ $('#modereren').slideUp();
+ $('#forumtabel a.forummodknop').fadeOut();" title="Moderatie-functies verbergen">×</span>
+ </td>
+ </tr>
+ </tbody>
+	</table>
+</div>

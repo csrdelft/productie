@@ -1,0 +1,134 @@
+<?php $_shouldextend['5b847be91eb47']=1; ?>
+
+<?php $this->startSection('titel', $deel->titel); ?>
+
+<?php $this->startSection('breadcrumbs'); ?>
+	<a href="/forum" title="Forum"><span class="fa fa-wechat module-icon"></span></a>
+	<?php if($deel->categorie_id): ?>
+ » <?php echo static::e($deel->getForumCategorie()->titel); ?>
+
+	<?php endif; ?>
+	» <select name="forum_id"
+ onchange="if (this.value.substr(0,4) === 'http') { window.open(this.value); } else { window.location.href = this.value; }">
+ <option value="/forum/recent/belangrijk"
+ <?php if($deel->titel === 'Belangrijk recent gewijzigd'): ?>selected="selected"<?php endif; ?>>
+ Belangrijk recent gewijzigd
+ </option>
+ <option value="/forum/recent" <?php if($deel->titel === 'Recent gewijzigd'): ?>selected="selected"<?php endif; ?>>
+ Recent gewijzigd
+ </option>
+
+ <?php $__currentLoopData = \CsrDelft\model\forum\ForumModel::instance()->getForumIndelingVoorLid(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $categorie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <optgroup label="<?php echo static::e($categorie->titel); ?>">;
+ <?php $__currentLoopData = $categorie->getForumDelen(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $newDeel): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?> {
+ <option value="/forum/deel/<?php echo static::e($newDeel->forum_id); ?>"
+ <?php if($newDeel->forum_id === $deel->forum_id): ?>selected="selected"<?php endif; ?>><?php echo static::e($newDeel->titel); ?></option>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </optgroup>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ <?php $__currentLoopData = \CsrDelft\model\MenuModel::instance()->getMenu('remotefora')->getChildren(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $remotecat): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php if($remotecat->magBekijken()): ?>
+ <optgroup label="<?php echo static::e($remotecat->tekst); ?>">
+ <?php $__currentLoopData = $remotecat->getChildren(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $remoteforum): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php if($remoteforum->magBekijken()): ?>
+ <option value="<?php echo static::e($remoteforum->link); ?>"><?php echo static::e($remoteforum->tekst); ?></option>
+ <?php endif; ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </optgroup>
+ <?php endif; ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+	</select>
+<?php $this->stopSection(); ?>
+
+<?php $this->startSection('content'); ?>
+	<?php echo getMelding(); ?>
+
+
+	<div class="forum-header">
+ <h1><?php echo static::e($deel->titel); ?></h1>
+
+ <?php ($zoekform->view()); ?>
+
+ <?php if (call_user_func($this->authCallBack,'P_ADMIN')): ?>
+ <?php if(isset($deel->forum_id)): ?>
+ <div class="forumheadbtn">
+ <a href="/forum/beheren/<?php echo static::e($deel->forum_id); ?>" class="btn post popup"
+  title="Deelforum beheren"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['wrench_orange']); ?> Beheren</a>
+ </div>
+ <?php endif; ?>
+ <?php endif; ?>
+
+ <?php echo $this->runChild('forum.partial.head_buttons'); ?>
+	</div>
+
+
+	<div class="forum-deel">
+ <div class="header">Titel</div>
+ <div class="header">Laatste wijziging</div>
+ <div class="header"></div>
+
+ <?php if(!$deel->hasForumDraden()): ?>
+ <div>Dit forum is nog leeg.</div>
+ <?php endif; ?>
+
+ <?php $__currentLoopData = $deel->getForumDraden(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $draad): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php echo $this->runChild('forum.partial.draad_lijst', ['draad' => $draad]); ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+
+ <?php if($paging): ?>
+ <div class="paging">
+ <?php if(isset($deel->forum_id)): ?>
+ <?php echo sliding_pager([
+ 'baseurl' => "/forum/deel/$deel->forum_id/",
+ 'pagecount' => \CsrDelft\model\forum\ForumDradenModel::instance()->getAantalPaginas($deel->forum_id),
+ 'curpage' => \CsrDelft\model\forum\ForumDradenModel::instance()->getHuidigePagina(),
+ 'separator' => ' &nbsp;',
+ 'show_prev_next' => true
+ ]); ?>
+
+ <?php else: ?>
+ <?php echo sliding_pager([
+ 'baseurl' => '/forum/recent/',
+ 'url_append' => $belangrijk,
+ 'pagecount' => \CsrDelft\model\forum\ForumDradenModel::instance()->getAantalPaginas(),
+ 'curpage' => \CsrDelft\model\forum\ForumDradenModel::instance()->getHuidigePagina(),
+ 'separator' => ' &nbsp;'
+ ]); ?>
+
+ &nbsp;
+ <a
+ href="/forum/recent/<?php echo static::e(CsrDelft\model\forum\ForumDradenModel::instance()->getAantalPaginas(null)); ?><?php echo static::e($belangrijk); ?>">verder
+ terug</a>
+ <?php endif; ?>
+ </div>
+ <?php endif; ?>
+
+
+ <div class="forumdeel-omschrijving">
+ <div class="breadcrumbs float-right"><?php echo $this->yieldContent('breadcrumbs'); ?></div>
+ <h2><?php echo static::e($deel->titel); ?></h2>
+ <?php echo static::e($deel->omschrijving); ?>
+
+
+ <?php if(isset($this->currentUser)): ?>
+ <?php if(!isset($deel->forum_id)): ?>
+ Berichten per dag: (sleep om te zoomen)
+ <div class="grafiek">
+ <?php /* forum.js pikt dit op en vult met een grafiekje. */ ?>
+ <div id="stats_grafiek_overview" style="height: 200px;"></div>
+ <div id="stats_grafiek_details" style="height: 500px;"></div>
+ </div>
+ <?php endif; ?>
+ <?php endif; ?>
+ </div>
+
+
+ <?php if($deel->magPosten()): ?>
+ <?php echo $this->runChild('forum.partial.post_form', ['draad' => null]); ?>
+ <?php endif; ?>
+	</div>
+
+	<?php echo $this->runChild('forum.partial.rss_link'); ?>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend['5b847be91eb47']) { echo $this->runChild('forum.base'); } ?>

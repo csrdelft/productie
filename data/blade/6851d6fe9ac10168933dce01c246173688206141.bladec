@@ -1,0 +1,59 @@
+<?php $_shouldextend['5b847be91f8ef']=1; ?>
+
+<?php $this->startSection('titel', 'Forum'); ?>
+
+<?php $this->startSection('breadcrumbs'); ?>
+	@parentXYZABC
+ » <a href="/forum/recent">Recent</a>
+<?php $this->stopSection(); ?>
+
+<?php $this->startSection('content'); ?>
+	<?php echo getMelding(); ?>
+
+
+	<?php ($zoekform->view()); ?>
+
+	<?php if (call_user_func($this->authCallBack,'P_ADMIN')): ?>
+ <div class="forumheadbtn">
+ <a href="/forum/aanmaken" class="btn post popup" title="Deelforum aanmaken"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['add']); ?></a>
+ </div>
+	<?php endif; ?>
+
+	<?php echo $this->runChild('forum.partial.head_buttons'); ?>
+
+	<h1>Forum</h1>
+
+	<?php $__currentLoopData = $categorien; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $categorie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <div class="forumcategorie">
+ <h3><a name="<?php echo static::e($categorie->categorie_id); ?>"><?php echo static::e($categorie->titel); ?></a></h3>
+ <div class="forumdelen">
+ <?php $__currentLoopData = $categorie->getForumDelen(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $deel): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <div class="forumdeel">
+ <h4><a href="/forum/deel/<?php echo static::e($deel->forum_id); ?>"><?php echo static::e($deel->titel); ?></a></h4>
+ <p class="forumdeel-omschrijving"><?php echo static::e($deel->omschrijving); ?></p>
+ </div>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </div>
+ </div>
+	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+
+	<?php $__currentLoopData = CsrDelft\model\MenuModel::instance()->getMenu('remotefora')->getChildren(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $remoteCategorie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <div class="forumcategorie">
+ <h3><a name="<?php echo static::e($remoteCategorie->tekst); ?>"><?php echo static::e($remoteCategorie->tekst); ?></a></h3>
+ <div class="forumdelen">
+ <?php $__currentLoopData = $remoteCategorie->getChildren(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $remoteForum): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <div class="forumdeel">
+ <h4><a href="<?php echo static::e($remoteForum->link); ?>" target="_blank"><?php echo static::e($remoteForum->tekst); ?></a></h4>
+ <p class="forumdeel-omschrijving">Het forum van onze <?php echo static::e(lcfirst($remoteCategorie->tekst)); ?>
+
+ bij <?php echo static::e($remoteForum->tekst); ?>.</p>
+ </div>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </div>
+ </div>
+	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+
+	<?php echo $this->runChild('forum.partial.rss_link'); ?>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend['5b847be91f8ef']) { echo $this->runChild('forum.base'); } ?>
