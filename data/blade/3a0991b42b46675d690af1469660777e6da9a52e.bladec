@@ -1,4 +1,4 @@
-<?php $_shouldextend['5b847be91d621']=1; ?>
+<?php $_shouldextend['5b847f34638ec']=1; ?>
 
 <?php $this->startSection('titel', 'Eetplanbeheer'); ?>
 
@@ -20,4 +20,4 @@
 	<?php echo $this->runChild('eetplan.table'); ?>
 <?php $this->stopSection(); ?>
 
-<?php if (@$_shouldextend['5b847be91d621']) { echo $this->runChild('eetplan.overzicht'); } ?>
+<?php if (@$_shouldextend['5b847f34638ec']) { echo $this->runChild('eetplan.overzicht'); } ?>

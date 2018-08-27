@@ -27,7 +27,7 @@
  <?php ($ongelezenWeergave = CsrDelft\model\LidInstellingenModel::get('forum', 'ongelezenWeergave')); ?>
 
  <div class="item" id="forumdraad-row-<?php echo static::e($draad->draad_id); ?>">
- <a href="/forum/onderwerp/<?php echo static::e($draad->draad_id); ?><?php echo static::e($urlHash); ?>" title="{$draad->titel}"
+ <a href="/forum/onderwerp/<?php echo static::e($draad->draad_id); ?><?php echo static::e($urlHash); ?>" title="<?php echo static::e($draad->titel); ?>"
   <?php if(isset($this->currentUser)): ?> <?php if($draad->isOngelezen()): ?> class="<?php echo static::e($ongelezenWeergave); ?>" <?php endif; ?> <?php endif; ?>>
  <span class="zijbalk-moment"><?php echo static::e(zijbalk_date_format($timestamp)); ?></span>&nbsp;<?php echo static::e($draad->titel); ?>
 
