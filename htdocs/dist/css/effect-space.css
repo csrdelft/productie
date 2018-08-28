@@ -1,0 +1,44 @@
+/*
+    Document   : fx-space.css
+    Created on : 21-dec-2013, 19:00:57
+    Author     : Paul Brussee
+    Description: based on fx-snow.css
+*/
+
+@keyframes space {
+  0% {
+    background-position: 5000px 3000px;
+  }
+
+  100% {
+    background-position: 0 0;
+  }
+}
+
+@-webkit-keyframes space {
+  0% {
+    background-position: 5000px 3000px;
+  }
+
+  100% {
+    background-position: 0 0;
+  }
+}
+
+#cd-main-overlay {
+  background-image: url(../images/stars.jpg);
+  background-size: cover;
+}
+
+#cd-main-overlay.is-visible,
+#menu.target ~ #cd-main-overlay,
+#menu:target ~ #cd-main-overlay,
+#search:target ~ #cd-main-overlay,
+#search.target ~ #cd-main-overlay {
+  -webkit-animation: space 360s linear infinite;
+          animation: space 360s linear infinite;
+}
+
+
+
+/*# sourceMappingURL=effect-space.css.map*/

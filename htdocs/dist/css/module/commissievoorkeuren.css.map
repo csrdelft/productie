@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./sass/module/commissievoorkeuren.scss"],"names":[],"mappings":"AAAA;AACA;AACA;;AAEA;AACA;AACA","file":"css/module/commissievoorkeuren.css","sourcesContent":["table.commissievoorkeuren tr:nth-of-type(odd) {\n  background: #e7e7e7;\n}\n\ntable.commissievoorkeuren td {\n  padding: 5px;\n}\n\n"],"sourceRoot":""}
