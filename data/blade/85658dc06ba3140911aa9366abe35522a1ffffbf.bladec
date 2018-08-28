@@ -1,4 +1,4 @@
-<?php $_shouldextend['5b858ed6eb404']=1; ?>
+<?php $_shouldextend['5b85adb5aabe1']=1; ?>
 
 <?php $this->startSection('titel', $titel); ?>
 
@@ -9,4 +9,4 @@
 	<?php ($body->view()); ?>
 <?php $this->stopSection(); ?>
 
-<?php if (@$_shouldextend['5b858ed6eb404']) { echo $this->runChild('layout-owee.layout'); } ?>
+<?php if (@$_shouldextend['5b85adb5aabe1']) { echo $this->runChild('layout-owee.layout'); } ?>
