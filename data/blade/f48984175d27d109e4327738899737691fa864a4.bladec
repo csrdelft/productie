@@ -1,4 +1,4 @@
-<?php $_shouldextend['5b85adb5a49b7']=1; ?>
+<?php $_shouldextend['5b85b8eeb5ac5']=1; ?>
 
 <?php $this->startSection('titel', $draad->titel); ?>
 
@@ -167,4 +167,4 @@
 <?php echo $this->runChild('forum.partial.rss_link'); ?>
 <?php $this->stopSection(); ?>
 
-<?php if (@$_shouldextend['5b85adb5a49b7']) { echo $this->runChild('forum.base'); } ?>
+<?php if (@$_shouldextend['5b85b8eeb5ac5']) { echo $this->runChild('forum.base'); } ?>

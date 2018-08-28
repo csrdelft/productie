@@ -1,0 +1,56 @@
+@-webkit-keyframes trein {
+  0% {
+    left: -1000px;
+  }
+
+  100% {
+    left: 4000px;
+  }
+}
+
+@keyframes trein {
+  0% {
+    left: -1000px;
+  }
+
+  100% {
+    left: 4000px;
+  }
+}
+
+.rails {
+  height: 50px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 3;
+}
+
+.trein {
+  left: -1000px;
+  position: absolute;
+  width: 545px;
+  height: 50px;
+  background-size: 545px 50px;
+  -webkit-animation-name: trein;
+          animation-name: trein;
+  -webkit-animation-duration: 10s;
+          animation-duration: 10s;
+}
+
+.ns-ddz {
+  background-image: url(../images/NS_DDZ_Treinstel.svg);
+}
+
+.ns-intercity {
+  background-image: url(../images/NS_Intercity_Treinstel.svg);
+}
+
+.ns-koploper {
+  background-image: url(../images/NS_Koploper_Treinstel.svg);
+}
+
+
+
+/*# sourceMappingURL=fxtrein.css.map*/

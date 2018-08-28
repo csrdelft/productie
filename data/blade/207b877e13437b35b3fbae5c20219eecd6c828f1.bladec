@@ -62,5 +62,9 @@
 <?php if(CsrDelft\model\LidInstellingenModel::get('layout', 'fx') == 'wolken'): ?>
 	<?php echo $this->runChild('effect.clouds'); ?>
 <?php endif; ?>
+Hieronder komt de trein
+<?php if(CsrDelft\model\LidInstellingenModel::get('layout', 'trein') !== 'nee'): ?>
+	<?php echo $this->runChild('effect.trein'); ?>
+<?php endif; ?>
 </body>
 </html>
