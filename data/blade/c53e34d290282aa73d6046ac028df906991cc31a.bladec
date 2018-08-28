@@ -90,7 +90,7 @@
  <?php endif; ?>
  <?php endif; ?>
 	</div>
-	<div class="forum-bericht <?php $this->i_5b85b8eeb7f60 = @$this->i_5b85b8eeb7f60; echo ['bericht0', 'bericht1'][($this->i_5b85b8eeb7f60++) % 2]; ?>" id="post<?php echo static::e($post->post_id); ?>">
+	<div class="forum-bericht <?php $this->i_5b85b9f05c1b8 = @$this->i_5b85b9f05c1b8; echo ['bericht0', 'bericht1'][($this->i_5b85b9f05c1b8++) % 2]; ?>" id="post<?php echo static::e($post->post_id); ?>">
  <?php ($account = \CsrDelft\model\security\AccountModel::get($post->uid)); ?>
  <?php if($account && \CsrDelft\model\security\AccessModel::mag($account, 'P_ADMIN')): ?>
  <?php echo bbcode($post->tekst, 'html'); ?>

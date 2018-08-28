@@ -1,6 +1,6 @@
 @-webkit-keyframes trein {
   0% {
-    left: -1000px;
+    left: -1200px;
   }
 
   100% {
@@ -10,7 +10,7 @@
 
 @keyframes trein {
   0% {
-    left: -1000px;
+    left: -1200px;
   }
 
   100% {
@@ -19,6 +19,7 @@
 }
 
 .rails {
+  pointer-events: none;
   height: 50px;
   position: fixed;
   bottom: 0;
@@ -28,7 +29,7 @@
 }
 
 .trein {
-  left: -1000px;
+  left: -1200px;
   position: absolute;
   width: 545px;
   height: 50px;
@@ -37,6 +38,10 @@
           animation-name: trein;
   -webkit-animation-duration: 10s;
           animation-duration: 10s;
+}
+
+.trein.lange {
+  width: 1090px;
 }
 
 .ns-ddz {
