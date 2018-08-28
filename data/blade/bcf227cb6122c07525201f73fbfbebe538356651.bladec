@@ -11,7 +11,7 @@
 	<channel>
  <copyright>Copyright <?php echo static::e(date('Y')); ?> C.S.R. Delft</copyright>
  <pubDate><?php echo static::e(rfc2822(null)); ?></pubDate>
- <lastBuildDate><?php echo static::e(rfc2882(null)); ?></lastBuildDate>
+ <lastBuildDate><?php echo static::e(rfc2822(null)); ?></lastBuildDate>
  <docs><?php echo static::e(CSR_ROOT); ?></docs>
  <description>C.S.R. Delft: Vereniging van Christen-studenten te Delft.</description>
  <image>

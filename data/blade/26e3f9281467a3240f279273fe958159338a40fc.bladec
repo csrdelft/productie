@@ -1,4 +1,4 @@
-<?php $_shouldextend['5b847f34645ca']=1; ?>
+<?php $_shouldextend['5b84eaf11add0']=1; ?>
 
 <?php $this->startSection('breadcrumbs'); ?>
 	@parentXYZABC
@@ -17,7 +17,7 @@
 	<tbody>
 	<?php $__currentLoopData = $eetplan; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $sessie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <?php ($huis = $sessie->getWoonoord()); ?>
- <tr class="<?php $this->i_5b847f34647ed = @$this->i_5b847f34647ed; echo ['donker','licht'][($this->i_5b847f34647ed++) % 2]; ?>">
+ <tr class="<?php $this->i_5b84eaf11aedf = @$this->i_5b84eaf11aedf; echo ['donker','licht'][($this->i_5b84eaf11aedf++) % 2]; ?>">
  <td><?php echo static::e($sessie->avond); ?></td>
  <td><a href="/groepen/woonoorden/<?php echo static::e($huis->id); ?>"><?php echo static::e($huis->naam); ?></a></td>
  </tr>
@@ -26,4 +26,4 @@
 </table>
 <?php $this->stopSection(); ?>
 
-<?php if (@$_shouldextend['5b847f34645ca']) { echo $this->runChild('eetplan.overzicht'); } ?>
+<?php if (@$_shouldextend['5b84eaf11add0']) { echo $this->runChild('eetplan.overzicht'); } ?>
