@@ -19,14 +19,16 @@ use CsrDelft\model\security\AccountModel;
 use CsrDelft\model\security\LoginModel;
 use CsrDelft\view\bbcode\CsrBB;
 
-require_once 'configuratie.include.php';
-
 class Roodschopper {
 
 	private $cie = 'soccie';
 	private $saldogrens;
 	private $bericht;
 	private $doelgroep = 'leden';
+	/**
+	 * @var String onderwerp
+	 */
+	private $onderwerp;
 	private $uitsluiten = array();
 	private $from;
 	private $bcc;

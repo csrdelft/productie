@@ -16,6 +16,7 @@ class ForumZoekenForm extends Formulier {
 		$this->formId = 'forumZoekenForm';
 		$this->css_classes[] = 'hoverIntent';
 
+		$fields = [];
 		$fields[] = new HtmlComment('<div class="forumZoekenGeavanceerd hoverIntentContent verborgen"><div class="form-inline">');
 		$fields[] = new SelectField('datumsoort', 'laatst_gewijzigd', null, array('laatst_gewijzigd' => 'Laatste reactie', 'datum_tijd' => 'Aanmaak-datum'));
 		$fields[] = new SelectField('ouderjonger', 'jonger', null, array('jonger' => 'Niet', 'ouder' => 'Wel'));

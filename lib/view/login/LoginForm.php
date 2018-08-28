@@ -18,6 +18,8 @@ class LoginForm extends Formulier {
 		$this->formId = 'loginform';
 		$this->showMelding = $showMelding;
 
+		$fields = [];
+
 		$redirectUri = filter_input(INPUT_GET, 'redirect', FILTER_UNSAFE_RAW);
 		$fields['redirect'] = new HiddenField('redirect', $redirectUri);
 

@@ -57,6 +57,7 @@ class ProfielForm extends Formulier {
 		$admin = LoginModel::mag('P_LEDEN_MOD');
 		$inschrijven = !$profiel->getAccount();
 
+		$fields = [];
 		if ($inschrijven) {
 			$this->titel = 'Welkom bij C.S.R.!';
 			$fields[] = new HtmlComment('<p>

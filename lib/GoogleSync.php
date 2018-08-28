@@ -20,8 +20,6 @@ define('GOOGLE_CONTACTS_BATCH_URL', 'https://www.google.com/m8/feeds/contacts/de
 
 define('GOOGLE_CONTACTS_MAX_RESULTS', 1000);
 
-require_once 'configuratie.include.php';
-
 /**
  * Documentatie voor Google Contacts API:
  * algemeen, interactie: https://developers.google.com/google-apps/contacts/v3/
@@ -58,7 +56,7 @@ class GoogleSync {
 
 	/**
 	 * An array containing array's with some data for each contact.
-	 * @var null
+	 * @var array|null
 	 */
 	private $contactData = null;
 
@@ -89,7 +87,7 @@ class GoogleSync {
 	 * @throws CsrException
 	 */
 	private function __construct() {
-		/** @var GoogleToken $google_token */
+		/** @var GoogleToken|false $google_token */
 		$google_token = GoogleTokenModel::instance()->find('uid = ?', [LoginModel::getUid()])->fetch();
 		if ($google_token === false) {
 			throw new CsrException('Authsub token not available, use doRequestToken.');
@@ -212,7 +210,7 @@ class GoogleSync {
 	 *
 	 * @param $profiel Profiel waarvan de aanwezigheid gechecked moet worden.
 	 *
-	 * @return array() met het google-id in het geval van voorkomen, anders null.
+	 * @return null|array met het google-id in het geval van voorkomen, anders null.
 	 */
 	public function existsInGoogleContacts(Profiel $profiel) {
 		if (!static::isAuthenticated()) return null;
