@@ -1,4 +1,4 @@
-<?php $_shouldextend['5b85b9f053d36']=1; ?>
+<?php $_shouldextend['5b86d7078d1b5']=1; ?>
 
 <?php $this->startSection('breadcrumbs'); ?>
 	@parentXYZABC
@@ -36,4 +36,4 @@
 	</table>
 <?php $this->stopSection(); ?>
 
-<?php if (@$_shouldextend['5b85b9f053d36']) { echo $this->runChild('eetplan.overzicht'); } ?>
+<?php if (@$_shouldextend['5b86d7078d1b5']) { echo $this->runChild('eetplan.overzicht'); } ?>
