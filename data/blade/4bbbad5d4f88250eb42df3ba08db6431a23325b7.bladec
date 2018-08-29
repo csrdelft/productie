@@ -1,4 +1,4 @@
-<?php $_shouldextend['5b86fdf0e7f2b']=1; ?>
+<?php $_shouldextend['5b87006291fed']=1; ?>
 
 <?php $this->startSection('titel', 'Eetplan'); ?>
 
@@ -21,4 +21,4 @@
 	<?php echo $this->runChild('eetplan.table'); ?>
 <?php $this->stopSection(); ?>
 
-<?php if (@$_shouldextend['5b86fdf0e7f2b']) { echo $this->runChild('layout'); } ?>
+<?php if (@$_shouldextend['5b87006291fed']) { echo $this->runChild('layout'); } ?>
