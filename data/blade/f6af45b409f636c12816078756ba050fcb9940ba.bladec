@@ -1,12 +1,12 @@
 <?php if(isset($this->currentUser)): ?>
-	<?php $_shouldextend['5b870a1fd69b4']=1; ?>
+	<?php $_shouldextend['5b87c9115722d']=1; ?>
 
 	<?php $this->startPush('styles'); ?>
  <link rel="stylesheet" href="<?php echo static::e(asset("/dist/css/module-forum.css")); ?>"/>
 	<?php $this->stopPush(); ?>
 <?php endif; ?>
 <?php if(!isset($this->currentUser)): ?>
-	<?php $_shouldextend['5b870a1fd6a50']=1; ?>
+	<?php $_shouldextend['5b87c911572ff']=1; ?>
 <?php endif; ?>
 
 <?php $this->startSection('breadcrumbs'); ?>
@@ -16,5 +16,5 @@
 
 
 
-<?php if (@$_shouldextend['5b870a1fd6a50']) { echo $this->runChild('layout-owee.layout'); } ?>
-<?php if (@$_shouldextend['5b870a1fd69b4']) { echo $this->runChild('layout'); } ?>
+<?php if (@$_shouldextend['5b87c911572ff']) { echo $this->runChild('layout-owee.layout'); } ?>
+<?php if (@$_shouldextend['5b87c9115722d']) { echo $this->runChild('layout'); } ?>

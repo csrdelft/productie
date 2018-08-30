@@ -1,4 +1,4 @@
-<?php $_shouldextend['5b870a1fd9b16']=1; ?>
+<?php $_shouldextend['5b87c9115bd7e']=1; ?>
 
 <?php $this->startSection('titel'); ?>
 	<?php if(isset($query)): ?>
@@ -81,4 +81,4 @@
 	<?php endif; ?>
 <?php $this->stopSection(); ?>
 
-<?php if (@$_shouldextend['5b870a1fd9b16']) { echo $this->runChild('forum.base'); } ?>
+<?php if (@$_shouldextend['5b87c9115bd7e']) { echo $this->runChild('forum.base'); } ?>
