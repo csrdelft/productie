@@ -1,0 +1,25 @@
+<?php ($uniqid = uniqid_safe('slider_')); ?>
+
+<div id="<?php echo static::e($uniqid); ?>" class="carousel slide bb-slider" data-ride="carousel">
+	<ol class="carousel-indicators">
+ <?php $__currentLoopData = $fotos; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $foto): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <li data-target="#<?php echo static::e($uniqid); ?>" data-slide-to="<?php echo static::e($loop->index-1); ?>"
+ <?php if($loop->first): ?> class="active" <?php endif; ?>></li>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+	</ol>
+	<div class="carousel-inner">
+ <?php $__currentLoopData = $fotos; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $foto): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <div class="carousel-item <?php if($loop->first): ?> active <?php endif; ?>">
+ <img class="" style="height: 360px;" src="<?php echo static::e($foto->getResizedUrl()); ?>" alt="<?php echo static::e($foto->filename); ?>">
+ </div>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+	</div>
+	<a class="carousel-control-prev" href="#<?php echo static::e($uniqid); ?>" role="button" data-slide="prev">
+ <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+ <span class="sr-only">Previous</span>
+	</a>
+	<a class="carousel-control-next" href="#<?php echo static::e($uniqid); ?>" role="button" data-slide="next">
+ <span class="carousel-control-next-icon" aria-hidden="true"></span>
+ <span class="sr-only">Next</span>
+	</a>
+</div>

@@ -3244,6 +3244,13 @@ a.responsive img.bb-img {
   margin-bottom: 0;
 }
 
+.bb-slider img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  height: 360px;
+  width: 100%;
+}
+
 @media screen and (max-width: 960px) {
   .bb-groep {
     flex-direction: column;
