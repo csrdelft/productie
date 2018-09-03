@@ -3,21 +3,22 @@
 <?php $this->startSection('titel', $titel); ?>
 
 <?php $this->startSection('body'); ?>
-<!-- Banner -->
-<section id="banner">
-	<div class="inner">
+	<!-- Banner -->
+	<section id="banner">
+ <div class="inner">
  <img src="/images/logo-bonfire.svg">
-	</div>
-	<div style="margin-top:40px" class="inner">
- <a href="https://www.youtube.com/watch?v=a7hhtoo_kzY&list=PLXBOhyG24-WnNgg2RloapxC5X73J1Zxvi" target="_blank" class="special">Video: Delft - studie is maar de helft</a>
-	</div>
-</section>
+ </div>
+ <div style="margin-top:40px" class="inner">
+ <a href="https://www.youtube.com/watch?v=a7hhtoo_kzY&list=PLXBOhyG24-WnNgg2RloapxC5X73J1Zxvi" target="_blank"
+  class="special">Video: Delft - studie is maar de helft</a>
+ </div>
+	</section>
 
-<!-- Wrapper -->
-<section id="wrapper">
+	<!-- Wrapper -->
+	<section id="wrapper">
 
-	<!-- One -->
-	<section id="one" class="wrapper kleur1">
+ <!-- One -->
+ <section id="one" class="wrapper kleur1">
  <div class="inner">
  <span class="image"><img src="/images/vereniging.jpg" alt="Foto vereniging"/></span>
  <div class="content">
@@ -32,10 +33,10 @@
  <a href="/vereniging" class="special">Lees meer over C.S.R.</a>
  </div>
  </div>
-	</section>
+ </section>
 
-	<!-- Two -->
-	<section id="two" class="wrapper alt kleur2">
+ <!-- Two -->
+ <section id="two" class="wrapper alt kleur2">
  <div class="inner">
  <noscript class="lazy-load">
  <span class="image"><img src="/images/podium.jpg" alt="Sfeerfoto buiten"/></span>
@@ -50,10 +51,10 @@
  manieren presenteren.</p>
  </div>
  </div>
-	</section>
+ </section>
 
-	<!-- Three -->
-	<section id="three" class="wrapper kleur3">
+ <!-- Three -->
+ <section id="three" class="wrapper kleur3">
  <div class="inner">
  <noscript class="lazy-load">
  <span class="image"><img src="/images/OC-2017.jpg" alt="Owee Commissie"/></span>
@@ -72,10 +73,10 @@
  <a href="/lidworden" class="special">Meer informatie over lid worden</a>
  </div>
  </div>
-	</section>
+ </section>
 
-	<!-- Four -->
-	<section id="four" class="wrapper alt kleur1">
+ <!-- Four -->
+ <section id="four" class="wrapper alt kleur1">
  <div class="inner">
  <div class="content">
  <h2 class="major">Foto's</h2>
@@ -129,11 +130,11 @@
  </noscript>
  </div>
  </div>
-	</section>
+ </section>
 
 
-	<!-- Footer -->
-	<section id="footer">
+ <!-- Footer -->
+ <section id="footer">
  <div class="inner">
  <h2 class="major">Interesseformulier</h2>
  <?php echo $this->runChild('layout-owee.form'); ?>
@@ -158,50 +159,47 @@
  <noscript class="lazy-load">
  <ul class="sponsors">
  <li>
- <a href="https://autoverzekering.nl/" class="lazy-load"
-  data-lazy="">
+ <a href="https://www.huizenmarkt.nl/">
+ <img src='https://csrdelft.nl/plaetjes/banners/logo-huizenmarkt.png' alt='Huurwoningen'>
+ </a>
+ </li>
+ <li>
+ <a href="https://autoverzekering.nl/">
  <img src='https://csrdelft.nl/plaetjes/banners/logo-AVZ.png' alt='autoverzekering vergelijken'>
  </a>
  </li>
  <li>
- <a href="https://www.easyswitch.nl/energie-vergelijken/" class="lazy-load"
-  data-lazy="">
+ <a href="https://www.easyswitch.nl/energie-vergelijken/">
  <img src='https://csrdelft.nl/plaetjes/banners/logo-ES.png' alt='energie vergelijken'>
  </a>
  </li>
  <li>
- <a href="https://overstappen.nl/autoverzekering" class="lazy-load"
-  data-lazy="">
+ <a href="https://overstappen.nl/autoverzekering">
  <img src='https://csrdelft.nl/plaetjes/banners/logo-OS.png' alt='goedkope autoverzekering'>
  </a>
  </li>
  <li>
- <a href="https://dosign.nl/" class="lazy-load"
-  data-lazy="">
+ <a href="https://dosign.nl/">
  <img src='https://csrdelft.nl/plaetjes/banners/dosign.gif' alt='Dosignadvertentie'>
  </a>
  </li>
  <li>
- <a href="http://mechdes.nl/" class="lazy-load"
-  data-lazy="">
+ <a href="http://mechdes.nl/">
  <img src='https://csrdelft.nl/plaetjes/banners/mechdes.gif' alt='Mechdesadvertentie'>
  </a>
  </li>
  <li>
- <a href="http://galjemadetachering.nl/" class="lazy-load"
-  data-lazy="">
+ <a href="http://galjemadetachering.nl/">
  <img src='https://csrdelft.nl/plaetjes/banners/galjema_banner.jpg' alt='Galjemaadvertentie'>
  </a>
  </li>
  <li>
- <a href="http://zoover.nl/" class="lazy-load"
-  data-lazy="">
+ <a href="http://zoover.nl/">
  <img src='https://csrdelft.nl/plaetjes/banners/Zoover.jpg' alt='Zooveradvertentie'>
  </a>
  </li>
  <li>
- <a href="https://www.maxilia.nl/banners-drukken/" class="lazy-load"
-  data-lazy="">
+ <a href="https://www.maxilia.nl/banners-drukken/">
  <img src='https://csrdelft.nl/plaetjes/banners/maxilia.png' class='white-background'
   alt='Maxiliaadvertentie'/>
  </a>
@@ -213,8 +211,7 @@
  </a>
  </li>
  <li>
- <a href="https://www.hoyhoy.nl/autoverzekering/" class="lazy-load"
-  data-lazy="">
+ <a href="https://www.hoyhoy.nl/autoverzekering/">
  <img src='https://csrdelft.nl/plaetjes/banners/logo_hoyhoy.png' alt='Autoverzekering - hoyhoy'/>
  </a>
  </li>
@@ -237,9 +234,9 @@
  href="/download/Privacyverklaring%20C.S.R.%20Delft%20-%20Extern%20-%2025-05-2018.pdf">Privacy</a></li>
  </ul>
  </div>
-	</section>
+ </section>
 
-</section>
+	</section>
 <?php $this->stopSection(); ?>
 
 <?php if (@$_shouldextend[1]) { echo $this->runChild('layout-owee.layout'); } ?>
