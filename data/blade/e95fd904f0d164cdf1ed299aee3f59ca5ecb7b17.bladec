@@ -10,7 +10,7 @@
 	<div class="carousel-inner">
  <?php $__currentLoopData = $fotos; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $foto): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <div class="carousel-item <?php if($loop->first): ?> active <?php endif; ?>">
- <img class="" style="height: 360px;" src="<?php echo static::e($foto->getResizedUrl()); ?>" alt="<?php echo static::e($foto->filename); ?>">
+ <img style="height: 360px;" src="<?php echo static::e($foto->getResizedUrl()); ?>" alt="<?php echo static::e($foto->filename); ?>">
  </div>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
 	</div>
