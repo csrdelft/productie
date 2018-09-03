@@ -2,22 +2,26 @@
 
 <?php $this->startSection('titel', 'Lid instellingen'); ?>
 
+<?php $this->startSection('bodyArgs', 'data-offset="5" data-spy="scroll" data-target="#instellingen"'); ?>
+
 <?php $this->startSection('content'); ?>
-	<h1>Lid instellingen</h1>
+	<div class="row">
+ <div class="col-md-8">
+ <h1>Lid instellingen</h1>
 
-	<p>
- Deze instellingen zijn voor hoe de stek er voor jou uit ziet. Wees dus niet bang dat er iets kapot gaat als je deze
- instellingen veranderd.
-	</p>
+ <p>
+ Deze instellingen zijn voor hoe de stek er voor jou uit ziet. Wees dus niet bang dat er iets kapot gaat als je
+ deze instellingen veranderd.
+ </p>
 
-	<div class="alert alert-warning d-none instellingen-bericht">
+ <div class="alert alert-warning d-none instellingen-bericht">
  <a href="<?php echo static::e(REQUEST_URI); ?>">Er zijn instellingen veranderd, klik hier of ververs de pagina om de veranderingen te
  zien.</a>
  <?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['page_error', 'page_refresh', 'Pagina verversen', 'float-right']); ?>
-	</div>
+ </div>
 
-	<?php $__currentLoopData = $defaultInstellingen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $module => $moduleInstellingen): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <h2><?php echo static::e(ucfirst($module)); ?></h2>
+ <?php $__currentLoopData = $defaultInstellingen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $module => $moduleInstellingen): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <h2 id="instelling-<?php echo static::e($module); ?>"><?php echo static::e(ucfirst($module)); ?></h2>
 
  <?php $__currentLoopData = $moduleInstellingen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $instelling): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <?php (list($titel, $type, $opties, $default, $beschrijving) = $instelling); ?>
@@ -76,7 +80,23 @@
  </small>
  </div>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
-	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+
+ <?php ((new \CsrDelft\view\login\RememberLoginTable())->view()); ?>
+ <?php ((new \CsrDelft\view\login\LoginSessionsTable())->view()); ?>
+ </div>
+
+ <div class="col-md-4">
+ <div id="instellingen" class="sticky-top list-group">
+ <?php $__currentLoopData = $defaultInstellingen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $module => $moduleInstellingen): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <a class="list-group-item list-group-item-action" href="#instelling-<?php echo static::e($module); ?>"><?php echo static::e(ucfirst($module)); ?></a>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+
+ <a class="list-group-item list-group-item-action" href="#table-automatisch-inloggen">Automatisch inloggen</a>
+ <a class="list-group-item list-group-item-action" href="#table-sessiebeheer">Sessiebeheer</a>
+ </div>
+ </div>
+	</div>
 <?php $this->stopSection(); ?>
 
 <?php if (@$_shouldextend[1]) { echo $this->runChild('layout'); } ?>
