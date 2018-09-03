@@ -14,13 +14,7 @@
  class="fa fa-lg fa-fw fa-bars"></i></a>
 </nav>
 
-<?php if(\CsrDelft\model\LidInstellingenModel::get('zijbalk', 'scrollen') !== 'met pagina mee'): ?>
-	<?php ($scrollfix = \CsrDelft\model\DragObjectModel::getCoords('zijbalk', 0, 0)['top']); ?>
-	<nav id="zijbalk" class="<?php if(CsrDelft\model\LidInstellingenModel::get('zijbalk', 'scrollen')=='pauper/desktop'): ?>desktop-only <?php endif; ?>
-  <?php if(CsrDelft\model\LidInstellingenModel::get('zijbalk', 'scrollbalk')=='ja'): ?>scroll-hover <?php endif; ?> scroll-fixed dragobject dragvertical" data-scrollfix="<?php echo static::e($scrollfix); ?>">
-<?php else: ?>
-	<nav id="zijbalk">
-<?php endif; ?>
+<nav id="zijbalk">
 	<a href="/">
  <div class="cd-beeldmerk"></div>
 	</a>

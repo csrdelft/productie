@@ -1,0 +1,82 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('titel', 'Lid instellingen'); ?>
+
+<?php $this->startSection('content'); ?>
+	<h1>Lid instellingen</h1>
+
+	<p>
+ Deze instellingen zijn voor hoe de stek er voor jou uit ziet. Wees dus niet bang dat er iets kapot gaat als je deze
+ instellingen veranderd.
+	</p>
+
+	<div class="alert alert-warning d-none instellingen-bericht">
+ <a href="<?php echo static::e(REQUEST_URI); ?>">Er zijn instellingen veranderd, klik hier of ververs de pagina om de veranderingen te
+ zien.</a>
+ <?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['page_error', 'page_refresh', 'Pagina verversen', 'float-right']); ?>
+	</div>
+
+	<?php $__currentLoopData = $defaultInstellingen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $module => $moduleInstellingen): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <h2><?php echo static::e(ucfirst($module)); ?></h2>
+
+ <?php $__currentLoopData = $moduleInstellingen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $instelling): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php (list($titel, $type, $opties, $default, $beschrijving) = $instelling); ?>
+ <?php ($keuze = isset($instellingen[$module][$id]) ? $instellingen[$module][$id] : $default); ?>
+ <div class="form-group row">
+ <label class="col-md-3 col-form-label" for="inst_<?php echo static::e($module); ?>_<?php echo static::e($id); ?>"><?php echo $titel; ?></label>
+
+ <?php if($type === CsrDelft\Orm\Entity\T::Enumeration): ?>
+ <?php if(count($opties) > 8): ?>
+ <div class="col-md-9">
+ <select name="<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" id="inst_<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" class="form-control change-opslaan"
+ data-href="/instellingen/update/<?php echo static::e($module); ?>/<?php echo static::e($id); ?>">
+ <?php $__currentLoopData = $opties; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $optie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <option value="<?php echo static::e($optie); ?>" <?php if($optie === $keuze): ?> selected <?php endif; ?>><?php echo static::e(ucfirst($optie)); ?></option>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </select>
+ </div>
+ <?php else: ?>
+ <?php /* Verticaal op xs */ ?>
+ <div class="d-block d-sm-none w-100">
+ <div class="btn-group-vertical btn-group-toggle col-md-9" data-buttons="radio">
+ <?php $__currentLoopData = $opties; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $optie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <a class="post noanim instellingKnop btn btn-secondary <?php if($optie === $keuze): ?> active <?php endif; ?>"
+  href="/instellingen/update/<?php echo static::e($module); ?>/<?php echo static::e($id); ?>/<?php echo static::e(urlencode($optie)); ?>"><?php echo static::e(ucfirst($optie)); ?></a>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </div>
+ </div>
+ <?php /* Horizontaal op alle andere */ ?>
+ <div class="d-none d-sm-block">
+ <div class="btn-group btn-group-toggle col-md-9" data-buttons="radio">
+ <?php $__currentLoopData = $opties; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $optie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <a class="post noanim instellingKnop btn btn-secondary <?php if($optie === $keuze): ?> active <?php endif; ?>"
+  href="/instellingen/update/<?php echo static::e($module); ?>/<?php echo static::e($id); ?>/<?php echo static::e(urlencode($optie)); ?>"><?php echo static::e(ucfirst($optie)); ?></a>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </div>
+ </div>
+ <?php endif; ?>
+ <?php elseif($type === CsrDelft\Orm\Entity\T::String): ?>
+ <div class="col-md-9">
+ <input type="text" name="<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" id="inst_<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" value="<?php echo static::e($keuze); ?>"
+  data-href="/instellingen/update/<?php echo static::e($module); ?>/<?php echo static::e($id); ?>"
+  class="form-control change-opslaan" minlength="<?php echo static::e($opties[0]); ?>" maxlength="<?php echo static::e($opties[1]); ?>"/>
+ </div>
+ <?php elseif($type === CsrDelft\Orm\Entity\T::Integer): ?>
+ <div class="col-md-9">
+ <input type="number" name="<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" id="inst_<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" value="<?php echo static::e($keuze); ?>"
+  data-href="/instellingen/update/<?php echo static::e($module); ?>/<?php echo static::e($id); ?>"
+  class="form-control change-opslaan" data-href="/instellingen/update/<?php echo static::e($module); ?>/<?php echo static::e($id); ?>"
+  min="<?php echo static::e($opties[0]); ?>" max="<?php echo static::e($opties[1]); ?>"/>
+ </div>
+ <?php else: ?>
+ <div class="col-md-9 bg-danger">Voor dit type bestaat geen optie.</div>
+ <?php endif; ?>
+ <small class="col-md-9 offset-md-3 form-text text-muted">
+ <?php echo static::e($beschrijving); ?> Standaard waarde: "<?php echo static::e($default); ?>".
+ </small>
+ </div>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('layout'); } ?>

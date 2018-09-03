@@ -296,6 +296,13 @@ input[type=button]:disabled {
   filter: alpha(opacity=30);
 }
 
+.btn.loading {
+  background-image: url(../images/loading-fb.gif);
+  background-repeat: no-repeat;
+  background-position: center center;
+  color: transparent;
+}
+
 /* --------------------------------
 
 DataTable knoppen
@@ -648,6 +655,12 @@ h1.Titel {
 
 .InlineForm .InlineForm.ToggleForm {
   display: none;
+}
+
+.form-control.loading {
+  background-image: url(../images/loading-fb.gif);
+  background-repeat: no-repeat;
+  background-position: right 40px center;
 }
 
 

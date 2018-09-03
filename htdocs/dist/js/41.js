@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[41],{351:function(n,a,e){"use strict";var t=function(n){return n&&n.__esModule?n:{default:n}}(e(0));function l(){(0,t.default)(".instellingen-bericht").removeClass("d-none")}function o(){var n=(0,t.default)(this),a=n.data("href");n.addClass("loading"),t.default.ajax({url:a,method:"POST",data:{waarde:n.val()}}).then(function(){l(),n.removeClass("loading")})}(0,t.default)(function(){(0,t.default)(".instellingKnop").on("click",l),(0,t.default)(".change-opslaan").on("change",o)})}}]);
+//# sourceMappingURL=41.js.map
