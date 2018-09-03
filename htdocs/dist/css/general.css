@@ -26934,6 +26934,20 @@ div.hoverIntentContent {
 }
 
 /**
+Bootstrap overrides / uitbreidingen
+ */
+
+.sticky-top {
+  top: 5px;
+}
+
+@media (max-width: 991.98px) {
+  .sticky-top {
+    top: 47px;
+  }
+}
+
+/**
  * De volgende variabelen worden in Twitter Bootstrap gebruikt.
  */
 
@@ -28408,14 +28422,6 @@ input[type="search"]::-webkit-search-results-decoration {
   top: 0;
   opacity: 1;
   visibility: visible;
-}
-
-.instellingen-bericht {
-  position: fixed;
-  left: 30px;
-  z-index: 100;
-  right: 30px;
-  top: 50px;
 }
 
 /* Standaard Kleuren */

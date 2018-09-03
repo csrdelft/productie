@@ -6,7 +6,7 @@
 
 <?php $this->startSection('content'); ?>
 	<div class="row">
- <div class="col-md-8">
+ <div class="col">
  <h1>Lid instellingen</h1>
 
  <p>
@@ -14,11 +14,13 @@
  deze instellingen veranderd.
  </p>
 
- <div class="alert alert-warning d-none instellingen-bericht">
- <a href="<?php echo static::e(REQUEST_URI); ?>">Er zijn instellingen veranderd, klik hier of ververs de pagina om de veranderingen te
- zien.</a>
+ <a href="<?php echo static::e(REQUEST_URI); ?>">
+ <div class="instellingen-bericht alert alert-warning d-none sticky-top">
+ Er zijn instellingen veranderd, klik hier of ververs de pagina om de veranderingen te
+ zien.
  <?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['page_error', 'page_refresh', 'Pagina verversen', 'float-right']); ?>
  </div>
+ </a>
 
  <?php $__currentLoopData = $defaultInstellingen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $module => $moduleInstellingen): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <h2 id="instelling-<?php echo static::e($module); ?>"><?php echo static::e(ucfirst($module)); ?></h2>
@@ -86,7 +88,7 @@
  <?php ((new \CsrDelft\view\login\LoginSessionsTable())->view()); ?>
  </div>
 
- <div class="col-md-4">
+ <div class="col-md-4 d-none d-lg-block">
  <div id="instellingen" class="sticky-top list-group">
  <?php $__currentLoopData = $defaultInstellingen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $module => $moduleInstellingen): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <a class="list-group-item list-group-item-action" href="#instelling-<?php echo static::e($module); ?>"><?php echo static::e(ucfirst($module)); ?></a>
