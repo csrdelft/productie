@@ -10,7 +10,7 @@
 
 	<?php if (call_user_func($this->authCallBack,'P_FORUM_MOD')): ?>
  <?php if($aantalWacht > 0): ?>
- &nbsp;<a href="/forum/wacht" class="badge" title="<?php echo static::e($aantalWacht); ?> forumbericht<?php echo static::e(($aantalWacht === 1 ? '' : 'en')); ?> wacht<?php echo static::e(($aantalWacht === 1 ? '' : 'en')); ?> op goedkeuring"><?php echo static::e($aantalWacht); ?></a>';
+ &nbsp;<a href="/forum/wacht" class="badge" title="<?php echo static::e($aantalWacht); ?> forumbericht<?php echo static::e(($aantalWacht === 1 ? '' : 'en')); ?> wacht<?php echo static::e(($aantalWacht === 1 ? '' : 'en')); ?> op goedkeuring"><?php echo static::e($aantalWacht); ?></a>
  <?php endif; ?>
 	<?php endif; ?>
 	<?php $__currentLoopData = $draden; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $draad): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
