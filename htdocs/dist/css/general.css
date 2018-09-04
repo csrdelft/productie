@@ -27550,11 +27550,11 @@ Groepen
 }
 
 .bb-groep .groep-leden {
-  width: 55%;
+  flex-basis: 55%;
 }
 
 .bb-groep .groep-samenvatting {
-  flex-grow: 1;
+  flex-basis: 45%;
 }
 
 .bb-groep.state-geschiedenis .groep-tabs .geschiedenis {
