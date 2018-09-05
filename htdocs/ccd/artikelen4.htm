@@ -1,0 +1,247 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+
+<title>CCD</title>
+
+<script language="JavaScript">
+
+<!-- Begin
+function NewWindow(mypage, myname, w, h) {
+var winl = (screen.width - w) / 2;
+var wint = (screen.height - h) / 2;
+winprops = 'height='+h+',width='+w+',top='+wint+',left='+winl+',scrollbars=no,resizable=yes,status=no'
+win = window.open(mypage, myname, winprops)
+if (parseInt(navigator.appVersion) >= 4) { win.window.focus(); }
+}
+//  End -->
+
+</script>
+
+<script language="JavaScript">
+function calc() {
+Maand_n = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+Maand_s = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+Maanden = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+jaar = 1977;
+jaardagen = 365;
+startnum = 53;
+if (document.forms[0].orga_input.value <= startnum) {
+   alert("Only ORGA numbers greater then "+startnum+" can be used with this decoder.");
+   return;
+}
+organr = (document.forms[0].orga_input.value - startnum);
+while (organr > jaardagen) {
+   organr = organr - jaardagen;
+   jaar++
+   if ( (jaar % 4) == 0 ) { jaardagen = 366 }
+   else { jaardagen = 365 }
+   if ( (jaar % 100) == 0 ) { jaardagen = 365 }
+   if ( (jaar % 400) == 0 ) { jaardagen = 366 }
+}
+if ( jaardagen == 366) {
+   Maand = Maand_s;
+   alert("schrikkeljaar");
+}
+else { Maand = Maand_n; }
+var i = 0
+while (organr > Maand[i]) {
+   organr = organr - Maand[i];
+   i++;
+}
+orgadag = organr;
+orgamaand = Maanden[i];
+orgajaar = jaar;
+document.forms[0].orga_output.value = orgamaand+" "+orgadag+", "+orgajaar;
+}
+</script>
+
+<link HREF="ccd.css" REL="stylesheet" TYPE="text/css">
+
+</head>
+
+<body bgcolor="#FFFFFF" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0">
+
+<center>
+
+<table width=780 height=96% valign="top" align="middle" cellpadding="0" cellspacing="0" border="0">
+
+<tr>
+<td width=99% height=96% valign="top" align="middle">
+
+
+<!-- ****** bovenste gedeelte ********* -->
+
+<table height=70 width=780 valign="top" align="left" cellpadding="0" cellspacing="0" border="0">
+
+<tr>
+<td bgcolor="#453011" width=520 height=4 valign="top" align="left"><img src="pics/pixel.gif" alt="ccd" width="260" height="4" border="0"></td>
+<td width=260 height=4 valign="top" align="left"><img src="pics/pixel.gif" alt="ccd" width="260" height="4" border="0"></td>
+</tr>
+
+<tr>
+<td bgcolor="#453011" width=520 height=16 valign="top" align="left"><a class="nav" href="http://www.csrdelft.nl">c.s.r.&nbsp;|</a> <a class="nav" href="index.htm">home</a> <a class="nav" href="nieuws.htm">nieuws</a> <a class="nav" href="columns.htm">columns</a> <a class="nav" href="artikelen.htm">artikelen</a> <a class="nav" href="profielen.htm">profielen</a> <a class="nav" href="nieuwsbrief.htm">nieuwsbrief</a> <a class="nav" href="faq.htm">faq</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class="nav" href="info.htm">?</a></td>
+
+<td width=260 height=16 valign="top" align="left"><img src="pics/pixel.gif" alt="ccd" width="260" height="16" border="0"></td>
+</tr>
+
+<tr>
+<td bgcolor="#453011" width=520 height=4 valign="top" align="left"><img src="pics/pixel.gif" alt="ccd" width="260" height="4" border="0"></td>
+<td width=260 height=4 valign="top" align="left"><img src="pics/pixel.gif" alt="ccd" width="260" height="4" border="0"></td>
+</tr>
+
+<tr>
+<td colspan=2 width=780 height=50 valign="top" align="left"><div class="hoofdstuk">Artikelen</div></td>
+</tr>
+
+</table>
+
+
+<br clear=all>
+
+<!-- ****** inhoud ********* -->
+
+<table width=100% valign="top" align="left" cellpadding="0" cellspacing="0" border="0">
+
+<tr>
+<td width=520 valign="top" align="left">
+
+<table width=520 valign="top" align="left" cellpadding="0" cellspacing="10" border="0">
+<tr>
+<td bgcolor="#ECEFF3" valign="top" align="left">
+<div class="titel"><b>Citro&euml;n ORGA nummer</b></div>
+
+
+<form>
+<table border="0" div class="tekst">
+<tr>
+<td>ORGA nummer:</td>
+<td><input type="text" name="orga_input" size="4"> <input type="button" value="Bereken" onclick="calc()"> <input type="reset">
+</td>
+</tr>
+<tr>
+<td>ORGA datum:</td>
+<td><input type="text" name="orga_output" size="20"></td>
+</tr>
+</table>
+</form><div class="tekst">
+<b>ORGA / RP nummer</b><br>
+ORGA is een afkorting van organisatie. Het ORGA- of RP (Replacement Parts)-nummer is de code waarmee de productiedag berekend kan worden. De ORGA code begon met nummer 0001 op 9 november 1976. Vanaf die dag is het ORGA nummer elke dag met 1 verhoogd. Vanaf 1980 heeft Citroën de viercijferige ORGA code aangebracht in al haar automobielen. Hieronder een overzicht waar de code per type gevonden kan worden.
+<br><br>
+<b>A-typen (2cv, Dyane, Ami, etc.)</b><br>
+Op het schutbord onder de motorkap vind je aan de passagierskant tal van codes, waaronder het aluminium typeplaatje en de verfcode (ovalen stempel met iets van AC123 of stempel met iets van EWT vanaf 1985). Er is ook een ronde stempel met AM12. De twee cijfers geven het bouwjaar (Année Modèle) aan en moet overeenkomen met de ORGA code die als viercijferig nummer daar ook gevonden kan worden.
+<br><br>
+
+<b>AX</b><br>
+Onder de motorkap, binnenkant wielscherm, vlak voor de linker<sup>*</sup> veerpoot.
+<br><br>
+
+<b>BX</b><br>
+Serie 1: onder de motorkap, binnenkant wielscherm, vlak voor de linker<sup>*</sup> veerpoot. Serie 2 en 3: op de A-stijl, in de deuropening bestuurderskant, vlak onder het scharnier, naast de sticker voor de bandenspanning.
+<br><br>
+<img src="pics/cxorga.jpg" alt="ORGA" align="right" width="200" height="150" border="0">
+<b>CX</b><br>
+Onder de motorkap, binnenkant wielscherm, vlak voor de linker<sup>*</sup> veerpot. Kan onder bedrading zitten.
+<br><br>
+
+<b>GSA</b><br>
+Onder de motorkap, binnenkant rechter<sup>*</sup> wielscherm.
+<br><br>
+
+<b>Xantia</b><br>
+Op het schutbord onder de motorkap, vlak voor de rechter<sup>*</sup> veerpoot, vlak onder de voorruit. Daar zie je de kleurcode (letters) en kleiner het ORGA nummer.
+<br><br>
+
+<b>XM</b><br>In witte inkt geprint op de A-stijl, in de deuropening bestuurderskant.
+<br><br>
+
+<b>Visa/C15</b><br>
+Onder de motorkap, binnenkant wielscherm, vlak voor de rechter<sup>*</sup> veerpot.
+<br><br>
+<sup>*</sup> Met links wordt altijd bestuurderskant bedoeld.<br><br>
+
+&copy; copyright: <a href="http://www.cats-citroen.net/" target="_blank">J.Cats</a>.
+</div>
+</td>
+</tr>
+</table>
+
+</td>
+
+<td width=100% height=206 valign="top" align="left">
+
+<table width=100% height=100% valign="top" align="left" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td bgcolor="#7D9BC6" width=100% height=206 valign="top" align="left">
+
+<table width=260 height=206 valign="top" align="left" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td width=260 height=206 valign="top" align="left"><div class="nieuws"><b><u>Andere artikelen:</u></b><br><br>
+<a href="artikelen7.htm">APK-eisen</a><br>
+<a href="artikelen6.htm">Testrit C2 - plussen en minnen</a><br>
+<a href="artikelen5.htm">Welke benzine moet in mijn Citroën?</a><br>
+<a href="artikelen4.htm">Productiedatum Citroën</a><br>
+<a href="artikelen3.htm">Citroën overzicht typen</a><br>
+<a href="artikelen2.htm">Techniek van de 2cv</a><br>
+<a href="artikelen.htm">Geschiedenis van de 2cv</a><br>
+<br></div></td>
+</tr>
+
+</table>
+</td>
+</tr>
+<tr>
+<td width=100% height=90% valign="top" align="left"><img src="pics/balkjedonkerblauw.gif" alt="ccd" width="220" height="40" border="0" valign=bottom></td>
+</tr>
+</table>
+
+</td>
+
+
+</table>
+
+
+<br clear=all>
+
+<table width=100% height=30 valign="top" align="left" cellpadding="0" cellspacing="0" border="0">
+
+<tr>
+<td width=520 height=8 valign="top" align="left"><br><img src="pics/pixel.gif" alt="ccd" width="520" height="8" border="0"></td>
+<td rowspan=2 width=100% height=30 valign="top" align="left"><br><a href="info.htm"><img src="pics/bar.gif" width="137" height="29" border="0"></a></td>
+</tr>
+
+<tr>
+<td width=520 height=20 valign="top" align="left">
+<table height=20 width=520 valign="top" align="left" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td colspan=2 bgcolor="#453011" width=520 height=2 valign="top" align="left"><img src="pics/pixel.gif" alt="ccd" width="260" height="2" border="0"></td>
+</tr>
+<tr>
+<td width=50% bgcolor="#453011" height=16 valign="top" align="left"><a class=nav href="info.htm">&copy; CCD 2003 - <i>i</i></a></td>
+<td width=50% bgcolor="#453011" height=16 valign="top" align="right"><a class="nav" href="mailto:ccd at oli punt tudelft punt nl">e-mail</a></td>
+</tr>
+<tr>
+<td colspan=2 bgcolor="#453011" width=520 height=2 valign="top" align="left"><img src="pics/pixel.gif" alt="ccd" width="260" height="2" border="0"></td>
+</tr>
+</table>
+</td>
+
+</tr>
+
+</table>
+
+
+
+
+
+</td>
+
+</tr>
+
+</table>
+
+
+
+</center></body></html>

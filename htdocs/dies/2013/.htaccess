@@ -1,0 +1,5 @@
+
+AddType audio/ogg oga ogg
+AddType application/vnd.ms-fontobject .eot
+AddType application/octet-stream .otf .ttf
+AddType application/font-woff .woff
