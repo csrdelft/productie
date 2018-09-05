@@ -102,7 +102,7 @@ $('#m').click(function (event) {
     }, 800);
 });
 
-$('nav a[href=#video]').click(function (event) {
+$('nav a[href="#video"]').click(function (event) {
     player.playVideo();
 });
 
