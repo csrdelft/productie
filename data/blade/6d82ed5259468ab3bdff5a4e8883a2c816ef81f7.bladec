@@ -1,4 +1,4 @@
-<div class="alternate-row">
+<div class="alternate-row draad-titel">
 	<?php if($draad->wacht_goedkeuring): ?>
  <small class="niet-dik">[ter goedkeuring...]</small>
 	<?php endif; ?>
@@ -34,7 +34,7 @@
   class="lichtgrijs"><?php echo static::e($draad->getForumDeel()->titel); ?></a>]</span>
 	<?php endif; ?>
 </div>
-<div class="alternate-row">
+<div class="alternate-row draad-laatst-gewijzigd">
 	<?php if(\CsrDelft\model\LidInstellingenModel::get('forum', 'datumWeergave') === 'relatief'): ?>
  <?php echo reldate($draad->laatst_gewijzigd); ?>
 
@@ -43,8 +43,7 @@
 
 	<?php endif; ?>
 </div>
-<div class="alternate-row">
-	<a href="/forum/reactie/<?php echo static::e($draad->laatste_post_id); ?>#<?php echo static::e($draad->laatste_post_id); ?>">bericht</a>
-	door <?php echo CsrDelft\model\ProfielModel::getLink($draad->laatste_wijziging_uid, 'user'); ?>
+<div class="alternate-row draad-laatste-post">
+	<?php echo CsrDelft\model\ProfielModel::getLink($draad->laatste_wijziging_uid, 'user'); ?>
 
 </div>

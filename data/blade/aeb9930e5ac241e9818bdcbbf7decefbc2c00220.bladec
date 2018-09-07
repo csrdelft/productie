@@ -105,7 +105,7 @@
 
 
  <div class="forumdeel-omschrijving">
- <div class="breadcrumbs float-right"><?php echo $this->yieldContent('breadcrumbs'); ?></div>
+ <div class="breadcrumbs"><?php echo $this->yieldContent('breadcrumbs'); ?></div>
  <h2><?php echo static::e($deel->titel); ?></h2>
  <?php echo static::e($deel->omschrijving); ?>
 

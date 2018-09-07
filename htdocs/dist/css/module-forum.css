@@ -277,8 +277,12 @@ span.curpage {
 }
 
 #forumZoekenForm .forumZoekenGeavanceerd {
-  right: 250px;
+  margin-top: 30px;
   padding: 25px;
+}
+
+#forumZoekenForm .forumZoekenGeavanceerd .form-group {
+  margin-bottom: 0;
 }
 
 #forumZoekenForm .forumZoekenGeavanceerd .InputField {
@@ -487,6 +491,34 @@ span.curpage {
 
   .forum-draad .forum-paginering {
     margin-left: 0;
+  }
+
+  #forumZoekenForm {
+    float: none;
+  }
+
+  .forum-deel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .forum-deel .header {
+    display: none;
+  }
+
+  .forum-deel .draad-titel {
+    padding-bottom: 0;
+  }
+
+  .forum-deel .draad-laatste-post {
+    flex-grow: 1;
+  }
+
+  .forum-deel .paging,
+  .forum-deel .draad-titel,
+  .forum-deel .forumdeel-omschrijving {
+    width: 100%;
   }
 
   .forum-deel .forum-posten {
