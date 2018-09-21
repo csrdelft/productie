@@ -3262,6 +3262,38 @@ a.responsive img.bb-img {
   }
 }
 
+/*
+Speciale styling voor een speciale maaltijd
+*/
+
+.maaltijdketzer-2053 {
+  background-color: #00541b;
+  background-image: url("/plaetjes/specialemaaltijd/rand.png");
+  border: solid 10px #030;
+  -o-border-image: url("/plaetjes/specialemaaltijd/rand.png") 50;
+     border-image: url("/plaetjes/specialemaaltijd/rand.png") 50;
+  color: #cfc;
+  padding: 8px 2px 8px 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.maaltijdketzer-2053 .titel a {
+  color: white;
+}
+
+@media screen and (min-width: 500px) and (max-width: 767px), screen and (min-width: 1150px) {
+  .maaltijdketzer-2053::after {
+    background: url("/plaetjes/specialemaaltijd/logo.png") no-repeat;
+    height: 80px;
+    width: 54px;
+    content: "";
+    display: block;
+    float: right;
+    margin: -68px 20px;
+  }
+}
+
 .grid {
   display: flex;
   flex-direction: row;
