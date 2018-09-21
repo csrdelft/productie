@@ -27927,7 +27927,8 @@ a.responsive img.bb-img {
 Speciale styling voor een speciale maaltijd
 */
 
-.maaltijdketzer-2053 {
+.maaltijdketzer-2053,
+.maaltijdketzer-2021 {
   background-color: #00541b;
   background-image: url("/plaetjes/specialemaaltijd/rand.png");
   border: solid 10px #030;
@@ -27939,13 +27940,15 @@ Speciale styling voor een speciale maaltijd
   overflow: hidden;
 }
 
-.maaltijdketzer-2053 .titel a {
+.maaltijdketzer-2053 .titel a,
+.maaltijdketzer-2021 .titel a {
   color: white;
 }
 
 @media screen and (min-width: 500px) and (max-width: 767px), screen and (min-width: 1150px) {
-  .maaltijdketzer-2053::after {
-    background: url("/plaetjes/specialemaaltijd/logo.png") no-repeat;
+  .maaltijdketzer-2053::after,
+  .maaltijdketzer-2021::after {
+    background: url("/plaetjes/specialemaaltijd/logo1.png") no-repeat;
     height: 80px;
     width: 54px;
     content: "";
@@ -27953,6 +27956,11 @@ Speciale styling voor een speciale maaltijd
     float: right;
     margin: -68px 20px;
   }
+}
+
+.maaltijdketzer-2053.maaltijdstijl-Faculteit::after,
+.maaltijdketzer-2021.maaltijdstijl-Faculteit::after {
+  background-image: url("/plaetjes/specialemaaltijd/logo.png");
 }
 
 #zijbalk {
