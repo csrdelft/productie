@@ -3,11 +3,11 @@
  <small class="niet-dik">[ter goedkeuring...]</small>
 	<?php endif; ?>
 	<?php if($draad->belangrijk): ?>
- <?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], [$draad->belangrijk, null, 'dit onderwerp is door het bestuur aangemerkt als belangrijk']); ?>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], [$draad->belangrijk, null, 'dit onderwerp is door het bestuur aangemerkt als belangrijk']); ?>
 	<?php elseif($draad->plakkerig): ?>
- <?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['note', null, 'Dit onderwerp is plakkerig, het blijft bovenaan']); ?>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['note', null, 'Dit onderwerp is plakkerig, het blijft bovenaan']); ?>
 	<?php elseif($draad->gesloten): ?>
- <?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['lock', null, 'Dit onderwerp is gesloten, u kunt niet meer reageren']); ?>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['lock', null, 'Dit onderwerp is gesloten, u kunt niet meer reageren']); ?>
 	<?php endif; ?>
 
 	<?php $lidInstellingenModel = $this->injectClass('CsrDelft\model\LidInstellingenModel', 'lidInstellingenModel'); ?>

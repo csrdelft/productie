@@ -20,35 +20,35 @@
  <?php if(!$statistiek && $draad->magStatistiekBekijken()): ?>
  <a
  href="/forum/onderwerp/<?php echo static::e($draad->draad_id); ?>/<?php echo static::e(CsrDelft\model\forum\ForumPostsModel::instance()->getHuidigePagina()); ?>/statistiek"
- class="btn btn-light" title="Toon statistieken"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['chart_line']); ?></a>
+ class="btn btn-light" title="Toon statistieken"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['chart_line']); ?></a>
  &nbsp;&nbsp;&nbsp;
  <?php endif; ?>
  <a title="Onderwerp toevoegen aan favorieten" class="btn btn-light post popup addfav"
-  href="/menubeheer/toevoegen/favoriet"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['start']); ?></a>
+  href="/menubeheer/toevoegen/favoriet"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['start']); ?></a>
  &nbsp;&nbsp;&nbsp;
  <?php if($draad->isGevolgd()): ?>
  <a href="/forum/volgenuit/<?php echo static::e($draad->draad_id); ?>" class="btn btn-light post ReloadPage volgenUit"
-  title="Onderwerp niet meer volgen per email"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['email_go', 'email_delete']); ?></a>
+  title="Onderwerp niet meer volgen per email"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['email_go', 'email_delete']); ?></a>
  <?php elseif($draad->magVolgen()): ?>
  <a href="/forum/volgenaan/<?php echo static::e($draad->draad_id); ?>" class="btn btn-light post ReloadPage volgenAan"
-  title="Onderwerp volgen per email"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['email', 'email_add']); ?></a>
+  title="Onderwerp volgen per email"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['email', 'email_add']); ?></a>
  <?php endif; ?>
  &nbsp;&nbsp;&nbsp;
  <?php if($draad->isVerborgen()): ?>
  <a href="/forum/tonen/<?php echo static::e($draad->draad_id); ?>" class="btn btn-light post ReloadPage tonenAan"
-  title="Onderwerp tonen in zijbalk"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['layout', 'layout_add']); ?></a>
+  title="Onderwerp tonen in zijbalk"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['layout', 'layout_add']); ?></a>
  <?php elseif($draad->magVerbergen()): ?>
  <a href="/forum/verbergen/<?php echo static::e($draad->draad_id); ?>" class="btn btn-light post ReloadPage tonenUit"
-  title="Onderwerp verbergen in zijbalk"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['layout_sidebar', 'layout_delete']); ?></a>
+  title="Onderwerp verbergen in zijbalk"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['layout_sidebar', 'layout_delete']); ?></a>
  <?php endif; ?>
  &nbsp;&nbsp;&nbsp;
  <?php if($draad->magModereren()): ?>
  <?php if($draad->gesloten): ?>
  <a href="/forum/wijzigen/<?php echo static::e($draad->draad_id); ?>/gesloten" class="btn btn-light post ReloadPage slotjeUit"
-  title="Openen (reactie mogelijk)"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['lcok', 'lock_break']); ?></a>
+  title="Openen (reactie mogelijk)"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['lcok', 'lock_break']); ?></a>
  <?php else: ?>
  <a href="/forum/wijzigen/<?php echo static::e($draad->draad_id); ?>/gesloten" class="btn btn-light post ReloadPage slotjeAan"
-  title="Sluiten (geen reactie mogelijk)"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['lock_open', 'lock']); ?></a>
+  title="Sluiten (geen reactie mogelijk)"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['lock_open', 'lock']); ?></a>
  <?php endif; ?>
  &nbsp;&nbsp;&nbsp;
  <a class="btn btn-light modfuncties" title="Moderatie-functies weergeven" onclick="$('#forumtabel a.forummodknop').fadeIn();
@@ -60,7 +60,7 @@
  left: 0
  }
  });
-  "><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['wrench']); ?> Modereren</a>
+  "><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['wrench']); ?> Modereren</a>
  <?php endif; ?>
  <?php endif; ?>
  <h1>

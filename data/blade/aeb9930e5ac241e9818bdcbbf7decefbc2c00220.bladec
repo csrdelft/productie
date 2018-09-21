@@ -53,7 +53,7 @@
  <?php if(isset($deel->forum_id)): ?>
  <div class="forumheadbtn">
  <a href="/forum/beheren/<?php echo static::e($deel->forum_id); ?>" class="btn post popup"
-  title="Deelforum beheren"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['wrench_orange']); ?> Beheren</a>
+  title="Deelforum beheren"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['wrench_orange']); ?> Beheren</a>
  </div>
  <?php endif; ?>
  <?php endif; ?>

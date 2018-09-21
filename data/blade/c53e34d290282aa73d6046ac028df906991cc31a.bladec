@@ -42,44 +42,44 @@
   title="Bericht goedkeuren">goedkeuren</a>
  <a href="/tools/stats.php?ip=<?php echo static::e($post->auteur_ip); ?>" class="btn" title="IP-log">IP-log</a>
  <a href="/forum/verwijderen/<?php echo static::e($post->post_id); ?>" class="btn post confirm"
-  title="Verwijder bericht of draad"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['cross']); ?></a>
+  title="Verwijder bericht of draad"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['cross']); ?></a>
  <?php if($post->magBewerken()): ?>
  <a href="#<?php echo static::e($post->post_id); ?>"
   class="<?php if($post->uid !== CsrDelft\model\security\LoginModel::getUid() && !$post->wacht_goedkeuring): ?>forummodknop <?php endif; ?>"
-  onclick="window.forum.forumBewerken(<?php echo static::e($post->post_id); ?>);" title="Bewerk bericht"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['pencil']); ?></a>
+  onclick="window.forum.forumBewerken(<?php echo static::e($post->post_id); ?>);" title="Bewerk bericht"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['pencil']); ?></a>
  <?php endif; ?>
  <?php else: ?>
  <?php if($post->verwijderd): ?>
  <div class="post-verwijderd">Deze reactie is verwijderd.</div>
- title="Bericht herstellen"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['arrow_undo']); ?></a>
+ title="Bericht herstellen"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['arrow_undo']); ?></a>
  <?php endif; ?>
  <?php if($post->magCiteren()): ?>
  <a href="#reageren" class="btn citeren" data-citeren="<?php echo static::e($post->post_id); ?>"
-  title="Citeer bericht"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['comments']); ?></a>
+  title="Citeer bericht"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['comments']); ?></a>
  <?php endif; ?>
  <?php if($post->magBewerken()): ?>
  <a href="#<?php echo static::e($post->post_id); ?>"
   class="<?php if($post->uid !== CsrDelft\model\security\LoginModel::getUid() && !$post->wacht_goedkeuring): ?>forummodknop <?php endif; ?>"
-  onclick="window.forum.forumBewerken(<?php echo static::e($post->post_id); ?>);" title="Bewerk bericht"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['pencil']); ?></a>
+  onclick="window.forum.forumBewerken(<?php echo static::e($post->post_id); ?>);" title="Bewerk bericht"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['pencil']); ?></a>
  <?php endif; ?>
  <?php if(isset($this->currentUser)): ?>
  <?php ($timestamp = strtotime($post->datum_tijd)); ?>
  <a id="timestamp<?php echo static::e($timestamp); ?>" href="/forum/bladwijzer/<?php echo static::e($post->draad_id); ?>"
   class="btn post forummodknop bladwijzer" data="timestamp=<?php echo static::e($timestamp); ?>"
-  title="Bladwijzer bij dit bericht leggen"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['tab']); ?></a>
+  title="Bladwijzer bij dit bericht leggen"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['tab']); ?></a>
  <?php endif; ?>
  <?php if($post->getForumDraad()->magModereren()): ?>
  <a href="/forum/offtopic/<?php echo static::e($post->post_id); ?>"
   class="btn post confirm <?php if(!$post->wacht_goedkeuring): ?> forummodknop <?php endif; ?>"
-  title="Offtopic markeren"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['thumb_down']); ?></a>
+  title="Offtopic markeren"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['thumb_down']); ?></a>
  <?php if(!$post->verwijderd): ?>
  <a href="/forum/verwijderen/<?php echo static::e($post->post_id); ?>"
   class="btn post confirm <?php if(!$post->wacht_goedkeuring): ?> forummodknop <?php endif; ?>"
-  title="Verwijder bericht"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['cross']); ?></a>
+  title="Verwijder bericht"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['cross']); ?></a>
  <?php endif; ?>
  <a href="/forum/verplaatsen/<?php echo static::e($post->post_id); ?>"
   class="btn post prompt <?php if(!$post->wacht_goedkeuring): ?> forummodknop <?php endif; ?>" title="Verplaats bericht"
-  data="Draad id=<?php echo static::e($post->draad_id); ?>"><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['arrow_right']); ?></a>
+  data="Draad id=<?php echo static::e($post->draad_id); ?>"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['arrow_right']); ?></a>
  <?php endif; ?>
  <?php endif; ?>
  </div>

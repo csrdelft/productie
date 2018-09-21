@@ -3,7 +3,7 @@
  <?php $__empty_1 = true; foreach($reageren as $react): $__empty_1 = false; ?>
  <li class="reagerenLid"
  title="<?php echo static::e(CsrDelft\model\ProfielModel::getNaam($react->uid, 'user')); ?> is een reactie aan het schrijven">
- <?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['comment_edit']); ?> <?php echo static::e(CsrDelft\model\ProfielModel::getNaam($react->uid, 'user')); ?></li>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['comment_edit']); ?> <?php echo static::e(CsrDelft\model\ProfielModel::getNaam($react->uid, 'user')); ?></li>
  <?php endforeach; if ($__empty_1): ?>
  <li class="reagerenLid"><br/></li>
  <?php endif; ?>

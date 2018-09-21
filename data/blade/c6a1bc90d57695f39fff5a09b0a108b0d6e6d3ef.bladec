@@ -24,7 +24,7 @@
  <div>
  <?php if($draad->wacht_goedkeuring): ?>
  <span title="Nieuw onderwerp in <?php echo static::e($draad->getForumDeel()->titel); ?>"><?php echo static::e($draad->titel); ?><span>[<a
- href="/forum/deel/<?php echo static::e($draad->forum_id); ?>"><?php echo static::e($draad->getForumDeel()->titel); ?></a>]</span><?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['new']); ?></span>
+ href="/forum/deel/<?php echo static::e($draad->forum_id); ?>"><?php echo static::e($draad->getForumDeel()->titel); ?></a>]</span><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['new']); ?></span>
  <?php else: ?>
  <a id="<?php echo static::e($draad->draad_id); ?>"
   href="/forum/onderwerp/<?php echo static::e($draad->draad_id); ?>"
@@ -33,9 +33,9 @@
 
  </a>
  <?php if($draad->belangrijk): ?>
- <?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], [$draad->belangrijk, null, 'Dit onderwerp is door het bestuur aangemerkt als belangrijk']); ?>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], [$draad->belangrijk, null, 'Dit onderwerp is door het bestuur aangemerkt als belangrijk']); ?>
  <?php elseif($draad->gesloten): ?>
- <?php echo call_user_func_array(["CsrDelft\Icon", "getTag"], ['lock', null, 'Dit onderwerp is gesloten, u kunt niet meer reageren']); ?>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['lock', null, 'Dit onderwerp is gesloten, u kunt niet meer reageren']); ?>
  <?php endif; ?>
  <span>[<a href="/forum/deel/<?php echo static::e($draad->forum_id); ?>"><?php echo static::e($draad->getForumDeel()->titel); ?></a>]</span>
  <?php endif; ?>
