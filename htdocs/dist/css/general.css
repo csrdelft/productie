@@ -28494,6 +28494,10 @@ input[type="search"]::-webkit-search-results-decoration {
   overflow: hidden;
 }
 
+.form-group .twitter-typeahead {
+  width: 100%;
+}
+
 .input-group {
   position: relative;
   display: flex;
