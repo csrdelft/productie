@@ -2798,7 +2798,7 @@ table {
 
 div.maaltijd-aangemeld {
   background-image: linear-gradient(to bottom, #5cb85c 0, #077b4e 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5cb85c',endColorstr='#ff077b4e',GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5cb85c', endColorstr='#ff077b4e', GradientType=0);
   background-repeat: repeat-x;
   color: white;
   font-weight: bold;
@@ -2806,7 +2806,7 @@ div.maaltijd-aangemeld {
 
 div.maaltijd-afgemeld {
   background-image: linear-gradient(to bottom, #d9534f 0, #7c2507 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9534f',endColorstr='#ff7c2507',GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9534f', endColorstr='#ff7c2507', GradientType=0);
   background-repeat: repeat-x;
   color: white;
   font-weight: bold;
@@ -3263,31 +3263,28 @@ a.responsive img.bb-img {
 }
 
 /*
-Speciale styling voor een speciale maaltijd
+Speciale styling voor speciale maaltijdsoorten
 */
 
-.maaltijdketzer-2053,
-.maaltijdketzer-2021 {
+.bb-maaltijd[data-maaltijdnaam='Verticalekring Primitus'] {
   background-color: #00541b;
-  background-image: url("/plaetjes/specialemaaltijd/rand.png");
+  background-image: url("/plaetjes/maaltijdstijlen/rand.png");
   border: solid 10px #030;
-  -o-border-image: url("/plaetjes/specialemaaltijd/rand.png") 50;
-     border-image: url("/plaetjes/specialemaaltijd/rand.png") 50;
+  -o-border-image: url("/plaetjes/maaltijdstijlen/rand.png") 50;
+     border-image: url("/plaetjes/maaltijdstijlen/rand.png") 50;
   color: #cfc;
   padding: 8px 2px 8px 12px;
   position: relative;
   overflow: hidden;
 }
 
-.maaltijdketzer-2053 .titel a,
-.maaltijdketzer-2021 .titel a {
+.bb-maaltijd[data-maaltijdnaam='Verticalekring Primitus'] .titel a {
   color: white;
 }
 
 @media screen and (min-width: 500px) and (max-width: 767px), screen and (min-width: 1150px) {
-  .maaltijdketzer-2053::after,
-  .maaltijdketzer-2021::after {
-    background: url("/plaetjes/specialemaaltijd/logo1.png") no-repeat;
+  .bb-maaltijd[data-maaltijdnaam='Verticalekring Primitus']::after {
+    background: url("/plaetjes/maaltijdstijlen/primituslogo.png") no-repeat;
     height: 80px;
     width: 54px;
     content: "";
@@ -3295,11 +3292,6 @@ Speciale styling voor een speciale maaltijd
     float: right;
     margin: -68px 20px;
   }
-}
-
-.maaltijdketzer-2053.maaltijdstijl-Faculteit::after,
-.maaltijdketzer-2021.maaltijdstijl-Faculteit::after {
-  background-image: url("/plaetjes/specialemaaltijd/logo.png");
 }
 
 .grid {
