@@ -480,6 +480,10 @@ div.dt-button-warning:hover:not(.disabled) {
   background-color: white !important;
 }
 
+.dataTable tbody .innerDetails {
+  margin-left: 30px;
+}
+
 .dataTable tbody tr.group,
 .dataTable tbody tr.group:hover {
   background-color: white !important;
