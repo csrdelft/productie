@@ -27664,10 +27664,6 @@ pre.bbcode {
   padding: 5px 10px;
 }
 
-.bb-peiling .beheer {
-  float: right;
-}
-
 .bb-peiling .totaal {
   float: right;
   color: #666;
@@ -27684,12 +27680,6 @@ pre.bbcode {
   border-bottom: 1px solid #eee;
   margin-left: 0;
   clear: both;
-  padding: 4px;
-}
-
-.bb-peiling input,
-.bb-peiling label {
-  margin: 0;
   padding: 4px;
 }
 
