@@ -9,17 +9,7 @@
  <div class="item">
  <a href="/forum/reactie/<?php echo static::e($post->post_id); ?>#<?php echo static::e($post->post_id); ?>" title="<?php echo static::e($draad->titel); ?>"
   <?php if($draad->isOngelezen()): ?>class="<?php echo static::e($ongelezenWeergave); ?>" <?php endif; ?>>
- <?php if(date('d-m', $timestamp) === date('d-m')): ?> <?php /* Vandaag */ ?>
- <?php echo static::e(date_format($timestamp, '%H:%M')); ?>
-
- <?php elseif(strftime('%U', $timestamp) === strftime('%U')): ?> <?php /* Zelfde week */ ?>
- <div class="zijbalk-dag"><?php echo static::e(date_format($timestamp, '%a')); ?>&nbsp;</div><?php echo static::e(date_format($timestamp, '%d')); ?>
-
- <?php else: ?>
- <?php echo static::e(date_format($timestamp, '%d-%m')); ?>
-
- <?php endif; ?>
- &nbsp;<?php echo static::e($draad->titel); ?>
+ <span class="zijbalk-moment"><?php echo static::e(zijbalk_date_format($timestamp)); ?></span>&nbsp;<?php echo static::e($draad->titel); ?>
 
  </a>
  </div>
