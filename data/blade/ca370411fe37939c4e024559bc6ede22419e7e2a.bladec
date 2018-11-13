@@ -1,0 +1,39 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('breadcrumbs'); ?>
+	<a href="/" title="Startpagina">
+ <span class="fa fa-home module-icon"></span>
+	</a> » <a href="/fiscaat">
+ Fiscaat
+	</a>
+<?php $this->stopSection(); ?>
+
+<?php $this->startSection('content'); ?>
+	<h1>Civisaldo Beheer</h1>
+	<?php if (call_user_func($this->authCallBack,'P_FISCAAT_READ')): ?>
+ <ul class="nav nav-tabs mb-2">
+ <li class="nav-item">
+ <?php echo link_for('Overzicht', '/fiscaat', 'nav-link', 'active'); ?>
+ </li>
+ <li class="nav-item">
+ <?php echo link_for('Producten Beheer', '/fiscaat/producten', 'nav-link', 'active'); ?>
+ </li>
+ <li class="nav-item">
+ <?php echo link_for('Saldo Beheer', '/fiscaat/saldo', 'nav-link', 'active'); ?>
+ </li>
+ <li class="nav-item">
+ <?php echo link_for('Bestellingen Beheer', '/fiscaat/bestellingen', 'nav-link', 'active'); ?>
+ </li>
+ <li class="nav-item">
+ <?php echo link_for('Pin Transacties', '/fiscaat/pin', 'nav-link', 'active'); ?>
+ </li>
+ </ul>
+	<?php endif; ?>
+	<div>
+ <?php echo $this->yieldContent('civisaldocontent'); ?>
+	</div>
+<?php $this->stopSection(); ?>
+
+
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('layout'); } ?>
