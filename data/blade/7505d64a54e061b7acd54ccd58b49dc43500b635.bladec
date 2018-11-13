@@ -1,5 +1,7 @@
 <?php $_shouldextend[1]=1; ?>
 
+<?php $this->startSection('titel', $titel); ?>
+
 <?php $this->startSection('content'); ?>
 	<?php echo $content->view(); ?>
 
