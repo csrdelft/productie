@@ -5201,6 +5201,10 @@ hr.major {
   background: white;
 }
 
+optgroup {
+  background-color: #414262;
+}
+
 
 
 /*# sourceMappingURL=extern.css.map*/
