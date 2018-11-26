@@ -127,12 +127,14 @@
 
  <?php if($deel->magPosten()): ?>
  <?php echo $this->runChild('forum.partial.draad_reageren'); ?>
+   <?php if(isset($this->currentUser)): ?>
  <div class="meldingen">
  <div id="draad-melding" class="alert alert-warning">
  Hier kunt u een onderwerp toevoegen in deze categorie van het forum.
  Kijkt u vooraf goed of het onderwerp waarover u post hier wel thuishoort.
  </div>
  </div>
+ <?php endif; ?>
  <?php echo $this->runChild('forum.partial.post_form', ['draad' => null]); ?>
  <?php endif; ?>
 	</div>

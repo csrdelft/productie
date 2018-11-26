@@ -3864,6 +3864,11 @@ form > :last-child {
   margin-bottom: 20px;
   border: 1px solid transparent;
   border-radius: 4px;
+  text-align: left;
+}
+
+.alert strong {
+  color: inherit;
 }
 
 .alert-success {
@@ -3872,8 +3877,15 @@ form > :last-child {
   border-color: #d6e9c6;
 }
 
+.alert-info {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+
 .waarschuwing,
-.error {
+.error,
+.alert-danger {
   padding: 15px;
   margin-bottom: 20px;
   border-radius: 4px;
