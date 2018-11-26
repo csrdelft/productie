@@ -64,6 +64,13 @@
   display: none;
 }
 
+@media screen and (max-width: 576px) {
+  .markItUpContainer .markItUpHeader ul {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
 @-webkit-keyframes rotate {
   from {
     -webkit-transform: rotate(0deg);
@@ -9359,29 +9366,6 @@
   top: -100px;
 }
 
-#draad-melding {
-  display: none;
-  background-color: #ffffc1;
-}
-
-#bewerk-melding {
-  display: none;
-  background-color: #ffffc1;
-}
-
-#public-melding {
-  color: #fff;
-  background-color: #f66;
-}
-
-#draad-melding,
-#bewerk-melding,
-#public-melding {
-  margin-bottom: 5px;
-  padding: 4px 8px 4px 4px;
-  text-align: left;
-}
-
 /* Paginering */
 
 span.curpage {
@@ -9514,6 +9498,7 @@ span.curpage {
 }
 
 .forum-deel .paging,
+.forum-deel .meldingen,
 .forum-deel .forumdeel-omschrijving,
 .forum-deel .forum-posten,
 .forum-deel .forum-reageren {

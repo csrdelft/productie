@@ -160,6 +160,7 @@
 	</div>
 
 	<?php if($draad->magPosten()): ?>
+ <?php echo $this->runChild('forum.partial.draad_reageren'); ?>
  <?php echo $this->runChild('forum.partial.post_form', ['deel' => $draad->getForumDeel()]); ?>
 	<?php endif; ?>
 </div>
