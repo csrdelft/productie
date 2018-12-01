@@ -1,0 +1,69 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('titel', 'Documenten overzicht'); ?>
+
+<?php $this->startSection('content'); ?>
+	<div id="controls">
+ <?php if (call_user_func($this->authCallBack,'P_DOCS_MOD')): ?>
+ <a class="btn" href="/documenten/toevoegen"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['toevoegen']); ?> Toevoegen</a>
+ <?php endif; ?>
+	</div>
+
+	<?php echo getMelding(); ?>
+
+
+	<h1>Documenten</h1>
+
+	<table id="documenten" class="documenten">
+ <thead>
+ <tr>
+ <th>Document</th>
+ <th>Grootte</th>
+ <th>Type</th>
+ <th>Toegevoegd</th>
+ <th>Eigenaar</th>
+ </tr>
+ </thead>
+
+ <?php $__empty_1 = true; foreach($categorieen as $categorie): $__empty_1 = false; ?>
+ <tbody>
+ <tr>
+ <th colspan="5">
+ <a href="/documenten/categorie/<?php echo static::e($categorie->id); ?>/" title="Alle documenten in <?php echo static::e($categorie->naam); ?>">
+ <?php echo static::e($categorie->naam); ?>
+
+ </a>
+ <?php if (call_user_func($this->authCallBack,'P_DOCS_MOD')): ?>
+ <a class="toevoegen" href="/documenten/toevoegen/?catID=<?php echo static::e($categorie->id); ?>"
+  title="Document toevoegen in categorie: <?php echo static::e($categorie->naam); ?>">
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['toevoegen']); ?>
+ </a>
+ <?php endif; ?>
+ </th>
+ </tr>
+ <?php $__empty_2 = true; foreach($model->getRecent($categorie, 5) as $document): $__empty_2 = false; ?>
+ <?php echo $this->runChild('documenten.documentregel', ['document' => $document]); ?>
+ <?php endforeach; if ($__empty_2): ?>
+ <tr>
+ <td class="document" colspan="5">Geen documenten in deze categorie</td>
+ </tr>
+ <?php endif; ?>
+ </tbody>
+ <?php endforeach; if ($__empty_1): ?>
+ <tr>
+ <td colspan="5">Geen categorieën in de database aanwezig.</td>
+ </tr>
+ <?php endif; ?>
+ <tfoot>
+ <tr>
+ <th>Document</th>
+ <th>Grootte</th>
+ <th>Type</th>
+ <th>Toegevoegd</th>
+ <th>Eigenaar</th>
+ </tr>
+ </tfoot>
+	</table>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('documenten.base'); } ?>
