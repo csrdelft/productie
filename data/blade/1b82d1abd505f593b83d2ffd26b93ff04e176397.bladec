@@ -21,7 +21,7 @@
   title="Document bewerken"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['bewerken']); ?></a>
  <?php endif; ?>
 	</td>
-	<td class="size"><?php echo static::e(format_filesize($document->filesize)); ?></td>
+	<td class="size"><?php echo static::e($document->filesize); ?></td>
 	<td title="<?php echo static::e($document->mimetype); ?>"><?php echo $document->getMimetypeIcon(); ?></td>
 	<td><?php echo reldate($document->toegevoegd); ?></td>
 	<td><?php echo CsrDelft\model\ProfielModel::getLink($document->eigenaar, 'civitas'); ?></td>
