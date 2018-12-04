@@ -1,5 +1,5 @@
 <div class="bb-block bb-document" id="document_bb-<?php echo static::e($document->id); ?>">
-	<span class="mimetype" title="<?php echo static::e($document->mimetype); ?>"><?php echo static::e($document->getMimetypeIcon()); ?></span>
+	<span class="mimetype" title="<?php echo static::e($document->mimetype); ?>"><?php echo $document->getMimetypeIcon(); ?></span>
 	<span class="size"><?php echo static::e(format_filesize($document->filesize)); ?></span>
 	<span class="download"><a href="<?php echo static::e($document->getDownloadUrl()); ?>" title="Document neerladen"><span class="fa fa-download module-icon"></span></a></span>
 	<a href="<?php echo static::e($document->getUrl()); ?>" target="_blank"><?php echo static::e($document->naam); ?></a>
