@@ -27108,11 +27108,11 @@ Dynamic reldate
 
 -------------------------------- */
 
-abbr.timeago {
+time.timeago {
   border: none;
 }
 
-abbr.timeago:hover {
+time.timeago:hover {
   border-bottom: 1px dotted grey;
 }
 
