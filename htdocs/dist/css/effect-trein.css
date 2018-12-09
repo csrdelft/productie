@@ -76,6 +76,22 @@
   background: url(../images/sgmm_3.png) 0 5px;
 }
 
+.ns-flirt-3 {
+  background: url(../images/nsr_flirt_3.png) 0 0;
+}
+
+.ns-slt-6 {
+  background: url(../images/slt_6.png) 0 0;
+}
+
+.ns-sng-4 {
+  background: url(../images/sng_4.png) 0 0;
+}
+
+.rnet-gtw {
+  background: url(../images/gtw_e_8_rnet.png) 0 1px;
+}
+
 .ns-icr-9,
 .ns-icr-7 {
   margin-left: 258px;
