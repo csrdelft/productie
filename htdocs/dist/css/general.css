@@ -28944,8 +28944,9 @@ ul.nobullets li {
   display: none;
 }
 
-.pubcie_debug {
-  margin: 10px;
+.pubcie_debug,
+.xdebug-error {
+  margin: 10px 10px 10px 200px;
   overflow: auto;
   color: #000;
   background-color: #fff;
