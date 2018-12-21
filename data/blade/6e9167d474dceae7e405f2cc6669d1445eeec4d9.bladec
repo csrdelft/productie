@@ -1,4 +1,6 @@
 <form method="post" id="contact-form" action="/contactformulier/interesse">
+ <?php echo getMelding(); ?>
+
 	<div class="field">
  <label for="naam">Naam</label>
  <input type="text" name="naam" id="naam" required/>
