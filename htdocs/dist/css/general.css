@@ -14263,6 +14263,46 @@ table {
   background-position: -1279px -91px;
 }
 
+/* source-sans-pro-300 - latin */
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 300;
+  src: local("Source Sans Pro Light"), local("SourceSansPro-Light"), url(../fonts/source-sans-pro-v11-latin-300.woff2) format("woff2"), url(../fonts/source-sans-pro-v11-latin-300.woff) format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* source-sans-pro-300italic - latin */
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: italic;
+  font-weight: 300;
+  src: local("Source Sans Pro Light Italic"), local("SourceSansPro-LightItalic"), url(../fonts/source-sans-pro-v11-latin-300italic.woff2) format("woff2"), url(../fonts/source-sans-pro-v11-latin-300italic.woff) format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* source-sans-pro-600 - latin */
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 600;
+  src: local("Source Sans Pro SemiBold"), local("SourceSansPro-SemiBold"), url(../fonts/source-sans-pro-v11-latin-600.woff2) format("woff2"), url(../fonts/source-sans-pro-v11-latin-600.woff) format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* source-sans-pro-600italic - latin */
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: italic;
+  font-weight: 600;
+  src: local("Source Sans Pro SemiBold Italic"), local("SourceSansPro-SemiBoldItalic"), url(../fonts/source-sans-pro-v11-latin-600italic.woff2) format("woff2"), url(../fonts/source-sans-pro-v11-latin-600italic.woff) format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
 /**
  * De volgende variabelen worden in Twitter Bootstrap gebruikt.
  */
@@ -26891,19 +26931,6 @@ Bootstrap submenu
 
 /* --------------------------------
 
-Fonts
-
--------------------------------- */
-
-@font-face {
-  font-family: "Source Sans Pro Light";
-  font-weight: 300;
-  font-style: normal;
-  src: local("Source Sans Pro Light"), url(../fonts/SourceSansPro-Light.ttf) format("truetype");
-}
-
-/* --------------------------------
-
 Primary style
 
 -------------------------------- */
@@ -26915,7 +26942,7 @@ html * {
 }
 
 html {
-  font-family: "Source Sans Pro Light", Helvetica, Arial, sans-serif;
+  font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
   font-size: 12px;
 }
 
@@ -26930,7 +26957,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Source Sans Pro Light", Helvetica, Arial, sans-serif;
+  font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
   text-align: left;
 }
 

@@ -1,4 +1,3 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:200,700|Source+Sans+Pro:300,600,300italic,600italic);
 html.lb-disable-scrolling {
   overflow: hidden;
   /* Position fixed required for iOS. Just putting overflow: hidden; on the body is not enough. */
@@ -3283,6 +3282,66 @@ Speciale styling voor speciale maaltijdsoorten
     float: right;
     margin: -68px 20px;
   }
+}
+
+/* raleway-200 - latin */
+
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 200;
+  src: local("Raleway ExtraLight"), local("Raleway-ExtraLight"), url(../fonts/raleway-v12-latin-200.woff2) format("woff2"), url(../fonts/raleway-v12-latin-200.woff) format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* raleway-700 - latin */
+
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 700;
+  src: local("Raleway Bold"), local("Raleway-Bold"), url(../fonts/raleway-v12-latin-700.woff2) format("woff2"), url(../fonts/raleway-v12-latin-700.woff) format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* source-sans-pro-300 - latin */
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 300;
+  src: local("Source Sans Pro Light"), local("SourceSansPro-Light"), url(../fonts/source-sans-pro-v11-latin-300.woff2) format("woff2"), url(../fonts/source-sans-pro-v11-latin-300.woff) format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* source-sans-pro-300italic - latin */
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: italic;
+  font-weight: 300;
+  src: local("Source Sans Pro Light Italic"), local("SourceSansPro-LightItalic"), url(../fonts/source-sans-pro-v11-latin-300italic.woff2) format("woff2"), url(../fonts/source-sans-pro-v11-latin-300italic.woff) format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* source-sans-pro-600 - latin */
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 600;
+  src: local("Source Sans Pro SemiBold"), local("SourceSansPro-SemiBold"), url(../fonts/source-sans-pro-v11-latin-600.woff2) format("woff2"), url(../fonts/source-sans-pro-v11-latin-600.woff) format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* source-sans-pro-600italic - latin */
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: italic;
+  font-weight: 600;
+  src: local("Source Sans Pro SemiBold Italic"), local("SourceSansPro-SemiBoldItalic"), url(../fonts/source-sans-pro-v11-latin-600italic.woff2) format("woff2"), url(../fonts/source-sans-pro-v11-latin-600italic.woff) format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
 .grid {
