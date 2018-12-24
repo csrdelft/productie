@@ -1,17 +1,1 @@
-* {
-  background-color: #ff33ff !important;
-  border-color: #fff !important;
-  color: #fff !important;
-  font-family: "Comic Sans MS", Arial, sans-serif !important;
-}
-
-/*OWee logo met gradient*/
-
-#zijbalk .cd-beeldmerk {
-  -webkit-filter: invert(100%);
-  filter: invert(100%);
-}
-
-
-
-/*# sourceMappingURL=opmaak-roze.css.map*/
+*{background-color:#f3f!important;border-color:#fff!important;color:#fff!important;font-family:Comic Sans MS,Arial,sans-serif!important}#zijbalk .cd-beeldmerk{-webkit-filter:invert(100%);filter:invert(100%)}
