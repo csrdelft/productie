@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head lang="nl">
 	<?php echo $this->runChild('head'); ?>
 </head>
 <body class="nav-is-fixed" <?php echo $this->yieldContent('bodyArgs'); ?>>

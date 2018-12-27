@@ -81,30 +81,30 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 418);
+/******/ 	return __webpack_require__(__webpack_require__.s = 329);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 418:
+/***/ 329:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(419);
+module.exports = __webpack_require__(330);
 
 
 /***/ }),
 
-/***/ 419:
+/***/ 330:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _three = __webpack_require__(420);
+var _three = __webpack_require__(331);
 
 var THREE = _interopRequireWildcard(_three);
 
-var _three2 = __webpack_require__(421);
+var _three2 = __webpack_require__(332);
 
 var _three3 = _interopRequireDefault(_three2);
 
@@ -258,7 +258,7 @@ function animateClouds() {
 
 /***/ }),
 
-/***/ 420:
+/***/ 331:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -36058,7 +36058,7 @@ THREE.ShaderSprite = {
 // the browser, add `_` as a global object via a string identifier,
 // for Closure Compiler "advanced" mode.
 if (true) {
-  if (typeof module !== 'undefined' && module.exports) {
+  if ( true && module.exports) {
     exports = module.exports = THREE;
   }
   exports.THREE = THREE;
@@ -36067,7 +36067,7 @@ if (true) {
 
 /***/ }),
 
-/***/ 421:
+/***/ 332:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

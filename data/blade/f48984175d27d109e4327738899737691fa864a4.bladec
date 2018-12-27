@@ -51,7 +51,7 @@
   title="Sluiten (geen reactie mogelijk)"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['lock_open', 'lock']); ?></a>
  <?php endif; ?>
  &nbsp;&nbsp;&nbsp;
- <a class="btn btn-light modfuncties" title="Moderatie-functies weergeven" onclick="$('#forumtabel a.forummodknop').fadeIn();
+ <a href="#" class="btn btn-light modfuncties" title="Moderatie-functies weergeven" onclick="$('#forumtabel a.forummodknop').fadeIn();
  $('#modereren').slideDown();
  $(window).scrollTo('#modereren', 600, {
  easing: 'easeInOutCubic',
