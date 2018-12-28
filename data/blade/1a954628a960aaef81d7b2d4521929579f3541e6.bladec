@@ -19,10 +19,10 @@
 <link rel="manifest" href="/manifest.json">
 <link rel="alternate" title="C.S.R. Delft RSS" type="application/rss+xml" href="<?php echo static::e(CSR_ROOT); ?>/forum/rss.xml" />
 <?php $__currentLoopData = \CsrDelft\view\CompressedLayout::getUserModules(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $sheet): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
-<link rel="stylesheet" href="<?php echo static::e(asset("/dist/css/$sheet.css")); ?>" type="text/css" />
+<link rel="stylesheet" href="<?php echo static::e(asset("$sheet.css")); ?>" type="text/css" />
 <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
 <?php echo $this->yieldPushContent('styles'); ?>
-<script type="text/javascript" src="/dist/js/app.js"></script>
+<script type="text/javascript" src="<?php echo asset('app.js')?>"></script>
 <?php echo $this->yieldPushContent('scripts'); ?>
 <!-- Google Analytics -->
 <script>
