@@ -30,4 +30,4 @@
 	}
 </script>
 
-<script type="text/javascript" src="<?php echo static::e(asset("/dist/js/fxclouds.js")); ?>"></script>
+<script type="text/javascript" src="<?php echo static::e(asset("fxclouds.js")); ?>"></script>
