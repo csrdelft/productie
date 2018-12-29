@@ -18,12 +18,12 @@
 <link rel="shortcut icon" href="<?php echo static::e(CSR_ROOT); ?>/images/favicon.ico" />
 <link rel="manifest" href="/manifest.json">
 <link rel="alternate" title="C.S.R. Delft RSS" type="application/rss+xml" href="<?php echo static::e(CSR_ROOT); ?>/forum/rss.xml" />
-<link rel="stylesheet" href="https://csrdelft.nl/dist/css/common.css" type="text/css"/>
+<link rel="stylesheet" href="https://csrdelft.nl/dist/css/common.ba8295dbe35deb72bfd7.css" type="text/css"/>
 <?php $__currentLoopData = \CsrDelft\view\CompressedLayout::getUserModules(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $sheet): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
 <link rel="stylesheet" href="<?php echo static::e(asset("$sheet.css")); ?>" type="text/css" />
 <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
 <?php echo $this->yieldPushContent('styles'); ?>
-<script type="text/javascript" src="https://csrdelft.nl/dist/js/app.js"></script>
+<script type="text/javascript" src="https://csrdelft.nl/dist/js/app.d03aeaea3e49815c8c0c.js"></script>
 <?php echo $this->yieldPushContent('scripts'); ?>
 <!-- Google Analytics -->
 <script>
