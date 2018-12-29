@@ -3,7 +3,7 @@
 <?php $this->startSection('titel', $titel); ?>
 
 <?php $this->startSection('styles'); ?>
-	<link rel="stylesheet" href="https://csrdelft.nl/dist/css/extern.dd8e4ac66d35e4da0f66.css" type="text/css"/>
+	<link rel="stylesheet" href="https://csrdelft.nl/dist/css/extern.css" type="text/css"/>
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('body'); ?>
