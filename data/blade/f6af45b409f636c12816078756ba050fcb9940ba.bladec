@@ -5,8 +5,8 @@
 	<?php $_shouldextend[2]=1; ?>
 
 	<?php $this->startSection('styles'); ?>
- <link rel="stylesheet" href="<?php echo asset('extern.css'); ?>" type="text/css"/>
- <link rel="stylesheet" href="<?php echo asset('extern-forum.css'); ?>" type="text/css"/>
+ <link rel="stylesheet" href="" type="text/css"/>
+ <link rel="stylesheet" href="" type="text/css"/>
 	<?php $this->stopSection(); ?>
 <?php endif; ?>
 
