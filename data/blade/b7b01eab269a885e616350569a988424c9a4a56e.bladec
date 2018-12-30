@@ -37,6 +37,7 @@
 
  <form id="forumForm" class="Formulier"
  action="/forum/posten/<?php echo static::e($deel->forum_id); ?><?php if(isset($draad)): ?>/<?php echo static::e($draad->draad_id); ?><?php endif; ?>" method="post">
+ <?php printCsrfField();?>
  <?php if(!isset($this->currentUser)): ?>
  <input type="text" name="email" class="FormElement TextField forumEmail form-control" placeholder="E-mailadres"/>
  <input type="text" name="firstname" value="" class="FormElement TextField verborgen"/>

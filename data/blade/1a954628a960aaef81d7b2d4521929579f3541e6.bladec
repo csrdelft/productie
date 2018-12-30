@@ -14,6 +14,8 @@
 <meta property="og:locale" content="nl_nl" />
 <meta property="og:image" content="<?php echo static::e(CSR_ROOT); ?>/dist/images/beeldmerk.png" />
 <meta property="og:description" content="<?php echo static::e(CsrDelft\model\InstellingenModel::get('stek', 'beschrijving')); ?>" />
+<?php echo csrfMetaTag(); ?>
+
 <title>C.S.R. Delft - <?php echo $this->yieldContent('titel'); ?></title>
 <link rel="shortcut icon" href="<?php echo static::e(CSR_ROOT); ?>/images/favicon.ico" />
 <link rel="manifest" href="/manifest.json">
@@ -23,7 +25,7 @@
 <link rel="stylesheet" href="<?php echo static::e(asset("$sheet.css")); ?>" type="text/css" />
 <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
 <?php echo $this->yieldPushContent('styles'); ?>
-<script type="text/javascript" src="https://csrdelft.nl/dist/js/app.d03aeaea3e49815c8c0c.js"></script>
+<script type="text/javascript" src="https://csrdelft.nl/dist/js/app.620715d4e7492bbb5710.js"></script>
 <?php echo $this->yieldPushContent('scripts'); ?>
 <!-- Google Analytics -->
 <script>
