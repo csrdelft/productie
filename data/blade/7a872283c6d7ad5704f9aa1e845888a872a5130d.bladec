@@ -1,0 +1,9 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('breadcrumbs', $breadcrumbs); ?>
+<?php $this->startSection('titel', $titel); ?>
+<?php $this->startSection('content'); ?>
+	<?php ($body->view()); ?>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('layout'); } ?>
