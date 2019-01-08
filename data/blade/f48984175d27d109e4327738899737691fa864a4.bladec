@@ -26,12 +26,15 @@
  <a title="Onderwerp toevoegen aan favorieten" class="btn btn-light post popup addfav"
   href="/menubeheer/toevoegen/favoriet"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['heart', 'heart_add']); ?></a>
  &nbsp;&nbsp;&nbsp;
- <?php if($draad->isGevolgd()): ?>
- <a href="/forum/volgenuit/<?php echo static::e($draad->draad_id); ?>" class="btn btn-light post ReloadPage volgenUit"
-  title="Onderwerp niet meer volgen per email"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['email_go', 'email_delete']); ?></a>
- <?php elseif($draad->magVolgen()): ?>
- <a href="/forum/volgenaan/<?php echo static::e($draad->draad_id); ?>" class="btn btn-light post ReloadPage volgenAan"
-  title="Onderwerp volgen per email"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['email', 'email_add']); ?></a>
+ <?php if($draad->magMeldingKrijgen()): ?>
+ <div class="btn-group">
+ <a href="/forum/meldingsniveau/<?php echo static::e($draad->draad_id); ?>/nooit" class="btn btn-light post ReloadPage melding-nooit <?php if($meldingsniveau == \CsrDelft\model\entity\forum\ForumDraadMeldingNiveau::NOOIT): ?> active <?php endif; ?>"
+  title="Nooit meldingen ontvangen"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['email_delete', 'email_delete']); ?></a>
+ <a href="/forum/meldingsniveau/<?php echo static::e($draad->draad_id); ?>/vermelding" class="btn btn-light post ReloadPage melding-vermelding <?php if($meldingsniveau == \CsrDelft\model\entity\forum\ForumDraadMeldingNiveau::VERMELDING): ?> active <?php endif; ?>"
+  title="Melding ontvangen als ik genoemd word"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['email_error', 'email_error']); ?></a>
+ <a href="/forum/meldingsniveau/<?php echo static::e($draad->draad_id); ?>/altijd" class="btn btn-light post ReloadPage melding-altijd <?php if($meldingsniveau == \CsrDelft\model\entity\forum\ForumDraadMeldingNiveau::ALTIJD): ?> active <?php endif; ?>"
+  title="Melding ontvangen bij elk nieuw bericht"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['email_add', 'email_add']); ?></a>
+ </div>
  <?php endif; ?>
  &nbsp;&nbsp;&nbsp;
  <?php if($draad->isVerborgen()): ?>
