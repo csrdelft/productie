@@ -6,7 +6,7 @@
 
 	<?php $this->startSection('styles'); ?>
  <link rel="stylesheet" href="https://csrdelft.nl/dist/css/extern.9912c759461e8118e658.css" type="text/css"/>
- <link rel="stylesheet" href="https://csrdelft.nl/dist/css/extern-forum.8906bce1169632281608.css" type="text/css"/>
+ <link rel="stylesheet" href="https://csrdelft.nl/dist/css/extern-forum.cc98d07f50825cc3f184.css" type="text/css"/>
 	<?php $this->stopSection(); ?>
 <?php endif; ?>
 
