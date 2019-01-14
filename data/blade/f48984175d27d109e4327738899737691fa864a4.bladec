@@ -6,7 +6,8 @@
 	<?php ($deel = $draad->getForumDeel()); ?>
 	<a href="/forum" title="Forum"><span class="fa fa-wechat module-icon"></span></a>
 	» <span class="active"><?php echo static::e($deel->getForumCategorie()->titel); ?></span>
-	» <a href="/forum/deel/<?php echo static::e($deel->forum_id); ?>/<?php echo static::e(\CsrDelft\model\forum\ForumDradenModel::instance()->getPaginaVoorDraad($draad)); ?>#<?php echo static::e($draad->draad_id); ?>"><?php echo static::e($deel->titel); ?></a>
+	» <a
+ href="/forum/deel/<?php echo static::e($deel->forum_id); ?>/<?php echo static::e(\CsrDelft\model\forum\ForumDradenModel::instance()->getPaginaVoorDraad($draad)); ?>#<?php echo static::e($draad->draad_id); ?>"><?php echo static::e($deel->titel); ?></a>
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('content'); ?>
@@ -28,11 +29,14 @@
  &nbsp;&nbsp;&nbsp;
  <?php if($draad->magMeldingKrijgen()): ?>
  <div class="btn-group">
- <a href="/forum/meldingsniveau/<?php echo static::e($draad->draad_id); ?>/nooit" class="btn btn-light post ReloadPage melding-nooit <?php if($meldingsniveau == \CsrDelft\model\entity\forum\ForumDraadMeldingNiveau::NOOIT): ?> active <?php endif; ?>"
+ <a href="/forum/meldingsniveau/<?php echo static::e($draad->draad_id); ?>/nooit"
+  class="btn btn-light post ReloadPage melding-nooit <?php if($meldingsniveau == \CsrDelft\model\entity\forum\ForumDraadMeldingNiveau::NOOIT): ?> active <?php endif; ?>"
   title="Nooit meldingen ontvangen"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['email_delete', 'email_delete']); ?></a>
- <a href="/forum/meldingsniveau/<?php echo static::e($draad->draad_id); ?>/vermelding" class="btn btn-light post ReloadPage melding-vermelding <?php if($meldingsniveau == \CsrDelft\model\entity\forum\ForumDraadMeldingNiveau::VERMELDING): ?> active <?php endif; ?>"
+ <a href="/forum/meldingsniveau/<?php echo static::e($draad->draad_id); ?>/vermelding"
+  class="btn btn-light post ReloadPage melding-vermelding <?php if($meldingsniveau == \CsrDelft\model\entity\forum\ForumDraadMeldingNiveau::VERMELDING): ?> active <?php endif; ?>"
   title="Melding ontvangen als ik genoemd word"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['email_error', 'email_error']); ?></a>
- <a href="/forum/meldingsniveau/<?php echo static::e($draad->draad_id); ?>/altijd" class="btn btn-light post ReloadPage melding-altijd <?php if($meldingsniveau == \CsrDelft\model\entity\forum\ForumDraadMeldingNiveau::ALTIJD): ?> active <?php endif; ?>"
+ <a href="/forum/meldingsniveau/<?php echo static::e($draad->draad_id); ?>/altijd"
+  class="btn btn-light post ReloadPage melding-altijd <?php if($meldingsniveau == \CsrDelft\model\entity\forum\ForumDraadMeldingNiveau::ALTIJD): ?> active <?php endif; ?>"
   title="Melding ontvangen bij elk nieuw bericht"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['email_add', 'email_add']); ?></a>
  </div>
  <?php endif; ?>
@@ -54,7 +58,7 @@
   title="Sluiten (geen reactie mogelijk)"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['lock_open', 'lock']); ?></a>
  <?php endif; ?>
  &nbsp;&nbsp;&nbsp;
- <a href="#" class="btn btn-light modfuncties" title="Moderatie-functies weergeven" onclick="$('#forumtabel a.forummodknop').fadeIn();
+ <a href="#" class="btn btn-light modfuncties" title="Moderatie-functies weergeven" onclick="
  $('#modereren').slideDown();
  $(window).scrollTo('#modereren', 600, {
  easing: 'easeInOutCubic',
@@ -116,7 +120,7 @@
 
  </div>
 	<?php $this->stopSection(); ?>
-	 <?php /*Paginering boven eerste post op de pagina als de eerste post van het draadje niet plakkerig is of dit de eerste pagina is */ ?>
+	<?php /*Paginering boven eerste post op de pagina als de eerste post van het draadje niet plakkerig is of dit de eerste pagina is */ ?>
 	<?php if($paging && (!$draad->eerste_post_plakkerig || \CsrDelft\model\forum\ForumPostsModel::instance()->getHuidigePagina() === 1)): ?>
  <?php echo $this->yieldContent('paginering'); ?>
 	<?php endif; ?>
