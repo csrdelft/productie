@@ -46,6 +46,7 @@
  <div class="d-block d-sm-none w-100">
  <div class="btn-group-vertical btn-group-toggle col-md-9" data-buttons="radio">
  <?php $__currentLoopData = $opties; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $optieId => $optie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php ($optieId = is_int($optieId) ? $optie : $optieId); ?>
  <a class="post noanim instellingKnop btn btn-secondary <?php if($optie === $keuze): ?> active <?php endif; ?>"
   href="/instellingen/update/<?php echo static::e($module); ?>/<?php echo static::e($id); ?>/<?php echo static::e($optieId); ?>"><?php echo static::e(ucfirst($optie)); ?></a>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
