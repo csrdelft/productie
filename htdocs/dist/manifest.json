@@ -1,6 +1,6 @@
 {
   "vendors~extern-defer~fotoalbum.js": "/dist/js/0.8eb068efad8e39d0e393.js",
-  "app.js": "/dist/js/app.2cc5533da91f71e49c28.js",
+  "app.js": "/dist/js/app.34ba2a26878bdf44101d.js",
   "bredeletters.css": "/dist/css/bredeletters.31d474353c7ff6d53687.css",
   "bredeletters.js": "/dist/js/bredeletters.5331f0f26d768c9ae1dd.js",
   "common.css": "/dist/css/common.a34caacc7b759fabb4bc.css",
@@ -13,8 +13,8 @@
   "effect-space.css": "/dist/css/effect-space.b74ad9004d3c0fd7832d.css",
   "effect-space.js": "/dist/js/effect-space.edbb1302177f97350299.js",
   "extern.css": "/dist/css/extern.cac0fd75399804fdadea.css",
-  "extern.js": "/dist/js/extern.b0829914d97bd394f44f.js",
-  "extern-defer.js": "/dist/js/9.aef5ac1446e54b3edf9c.js",
+  "extern.js": "/dist/js/extern.b55bf472e700fbaeb930.js",
+  "extern-defer.js": "/dist/js/9.f481ef65f86f46525331.js",
   "extern-forum.css": "/dist/css/extern-forum.0b66a8561a99bfcbb802.css",
   "extern-forum.js": "/dist/js/extern-forum.ef88017a14d3c4eed98d.js",
   "extern-fotoalbum.css": "/dist/css/extern-fotoalbum.c6f40ec5c63645d7fafd.css",
