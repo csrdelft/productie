@@ -1,4 +1,12 @@
 <?php if (call_user_func($this->authCallBack,'P_LOGGED_IN')): ?>
+	<?php if(isset($deelmelding)): ?>
+ <div class="forumheadbtn btn-group">
+ <a href="/forum/deelmelding/<?php echo static::e($deel->forum_id); ?>/uit" class="btn btn-light post ReloadPage melding-nooit <?php if(!$deelmelding): ?> active <?php endif; ?>"
+  title="Geen meldingen voor forumdeel onvangen"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['email_delete', 'email_delete']); ?></a>
+ <a href="/forum/deelmelding/<?php echo static::e($deel->forum_id); ?>/aan" class="btn btn-light post ReloadPage melding-altijd <?php if($deelmelding): ?> active <?php endif; ?>"
+  title="Meldingen ontvangen voor nieuwe berichten in forumdeel"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['email_add', 'email_add']); ?></a>
+ </div>
+	<?php endif; ?>
 	<div class="forumheadbtn">
  <a href="/forum/toonalles" class="btn btn-light post confirm ReloadPage"
   title="Verborgen onderwerpen weer laten zien"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['eye']); ?> <?php echo static::e(CsrDelft\model\forum\ForumDradenVerbergenModel::instance()->getAantalVerborgenVoorLid()); ?></a>
