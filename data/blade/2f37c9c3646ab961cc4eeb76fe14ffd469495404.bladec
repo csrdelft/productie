@@ -53,7 +53,7 @@
  </div>
  <h1 class="inline"><?php echo static::e(ucfirst($album->dirname)); ?></h1>
  <?php if($album->hasFotos()): ?>
- <div id="gallery" class="gallery">
+ <div id="gallery" class="gallery disable-swipe">
  </div>
  <?php else: ?>
  <div class="subalbums">
