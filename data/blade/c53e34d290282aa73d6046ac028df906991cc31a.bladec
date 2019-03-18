@@ -1,13 +1,13 @@
 <?php if($post->gefilterd): ?>
 	<div class="filtered">
- <a class="weergeeflink" onclick="$('#forumpost-row-<?php echo static::e($post->post_id); ?>').removeClass('verborgen');
+ <a class="weergeeflink" onclick="$('#forumpost-row-<?php echo static::e($post->post_id); ?>').show();
  $(this).remove()">
  &gt;&gt; <?php echo static::e($post->gefilterd); ?>, klik om weer te geven. &lt;&lt;
  </a>
 	</div>
 <?php endif; ?>
 
-<div id="forumpost-row-<?php echo static::e($post->post_id); ?>" class="forum-post <?php if($post->gefilterd): ?> verborgen <?php endif; ?>">
+<div id="forumpost-row-<?php echo static::e($post->post_id); ?>" class="forum-post" <?php if($post->gefilterd): ?> style="display: none;"<?php endif; ?>>
 	<div class="auteur">
  <div class="postpijl">
  <a class="postanchor" id="<?php echo static::e($post->post_id); ?>"></a>
