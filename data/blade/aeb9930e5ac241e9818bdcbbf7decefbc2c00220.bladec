@@ -44,23 +44,20 @@
 	<?php echo getMelding(); ?>
 
 
-	<div class="forum-header">
- <h1><?php echo static::e($deel->titel); ?></h1>
-
- <?php ($zoekform->view()); ?>
-
+	<div class="forum-header btn-toolbar">
  <?php if (call_user_func($this->authCallBack,'P_ADMIN')): ?>
  <?php if(isset($deel->forum_id)): ?>
- <div class="forumheadbtn">
- <a href="/forum/beheren/<?php echo static::e($deel->forum_id); ?>" class="btn post popup"
+ <div class="btn-group mr-2">
+ <a href="/forum/beheren/<?php echo static::e($deel->forum_id); ?>" class="btn btn-light post popup"
   title="Deelforum beheren"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['wrench_orange']); ?> Beheren</a>
  </div>
  <?php endif; ?>
  <?php endif; ?>
-
  <?php echo $this->runChild('forum.partial.head_buttons'); ?>
+ <?php ($zoekform->view()); ?>
 	</div>
 
+	<h1><?php echo static::e($deel->titel); ?></h1>
 
 	<div class="forum-deel">
  <div class="header">Titel</div>

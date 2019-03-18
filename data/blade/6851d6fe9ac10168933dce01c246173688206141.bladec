@@ -4,22 +4,24 @@
 
 <?php $this->startSection('breadcrumbs'); ?>
 	@parentXYZABC
- » <a href="/forum/recent">Recent</a>
+	» <a href="/forum/recent">Recent</a>
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('content'); ?>
 	<?php echo getMelding(); ?>
 
 
-	<?php ($zoekform->view()); ?>
-
-	<?php if (call_user_func($this->authCallBack,'P_ADMIN')): ?>
- <div class="forumheadbtn">
- <a href="/forum/aanmaken" class="btn post popup" title="Deelforum aanmaken"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['add']); ?></a>
+	<div class="forum-header btn-toolbar">
+ <?php if (call_user_func($this->authCallBack,'P_ADMIN')): ?>
+ <div class="btn-group mr-2">
+ <a href="/forum/aanmaken" class="btn btn-light post popup" title="Deelforum aanmaken"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['add']); ?></a>
  </div>
-	<?php endif; ?>
+ <?php endif; ?>
 
-	<?php echo $this->runChild('forum.partial.head_buttons'); ?>
+ <?php echo $this->runChild('forum.partial.head_buttons'); ?>
+
+ <?php ($zoekform->view()); ?>
+	</div>
 
 	<h1>Forum</h1>
 

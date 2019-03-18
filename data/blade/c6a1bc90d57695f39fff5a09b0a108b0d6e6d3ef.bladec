@@ -15,21 +15,28 @@
 
 	<h1><?php echo static::e($titel); ?></h1>
 
+	<div class="forum-zoeken">
+	<?php ($form->view()); ?>
+	</div>
+
 	<?php if($resultaten): ?>
  <div class="forum-zoeken">
- <table id="forumtabel">
  <?php $__currentLoopData = $resultaten; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $draad): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <div class="forum-zoeken-header">
-
  <div>
  <?php if($draad->wacht_goedkeuring): ?>
- <span title="Nieuw onderwerp in <?php echo static::e($draad->getForumDeel()->titel); ?>"><?php echo static::e($draad->titel); ?><span>[<a
- href="/forum/deel/<?php echo static::e($draad->forum_id); ?>"><?php echo static::e($draad->getForumDeel()->titel); ?></a>]</span><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['new']); ?></span>
+ <span title="Nieuw onderwerp in <?php echo static::e($draad->getForumDeel()->titel); ?>"><?php echo static::e($draad->titel); ?>
+
+ <span>
+ [<a href="/forum/deel/<?php echo static::e($draad->forum_id); ?>"><?php echo static::e($draad->getForumDeel()->titel); ?></a>]
+ </span>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['new']); ?>
+ </span>
  <?php else: ?>
  <a id="<?php echo static::e($draad->draad_id); ?>"
   href="/forum/onderwerp/<?php echo static::e($draad->draad_id); ?>"
   <?php if($draad->isOngelezen()): ?>class="<?php echo static::e(CsrDelft\model\LidInstellingenModel::get('forum', 'ongelezenWeergave')); ?>" <?php endif; ?>>
- <?php echo static::e($draad->titel); ?>
+ <?php echo highlight_zoekterm($draad->titel, $query); ?>
 
  </a>
  <?php if($draad->belangrijk): ?>
@@ -52,30 +59,44 @@
  </div>
  <div class="forum-zoeken-bericht">
  <?php $__currentLoopData = $draad->getForumPosts(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <?php echo $this->runChild('forum.partial.post_lijst', ['draad' => $draad, 'post' => $post]); ?>
+ <div id="forumpost-row-<?php echo static::e($post->post_id); ?>" class="forum-post <?php if($post->gefilterd): ?> verborgen <?php endif; ?>">
+ <div class="auteur">
+ <div class="postpijl">
+ <a class="postanchor" id="<?php echo static::e($post->post_id); ?>"></a>
+ <a class="postlink" href="/forum/reactie/<?php echo static::e($post->post_id); ?>#<?php echo static::e($post->post_id); ?>"
+  title="Link naar deze post">&rarr;</a>
+ </div>
+ <div class="naam">
+ <?php echo CsrDelft\model\ProfielModel::getLink($post->uid, 'user'); ?>
+
+ </div>
+ <span class="moment">
+ <?php if(\CsrDelft\model\LidInstellingenModel::get('forum', 'datumWeergave') === 'relatief'): ?>
+ <?php echo reldate($post->datum_tijd); ?>
+
+ <?php else: ?>
+ <?php echo static::e($post->datum_tijd); ?>
+
+ <?php endif; ?>
+ </span>
+ <?php if(isset($this->currentUser)): ?>
+ <?php if($post->uid !== 'x999'): ?>
+ <div class="forumpasfoto"><?php echo CsrDelft\model\ProfielModel::getLink($post->uid, 'pasfoto'); ?></div>
+ <?php endif; ?>
+ <?php endif; ?>
+ </div>
+ <div class="forum-bericht <?php $this->cycle_forum_resultaten0 = @$this->cycle_forum_resultaten0; echo ['bericht0', 'bericht1'][($this->cycle_forum_resultaten0++) % 2]; ?>" id="post<?php echo static::e($post->post_id); ?>">
+ <?php echo highlight_zoekterm(bbcode_light(split_on_keyword($post->tekst, $query)), $query); ?>
+
+ </div>
+ </div>
  <div class="tussenschot"></div>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </div>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
- <?php if(isset($query)): ?>
- <div class="forum-zoeken-footer">
- <?php echo sliding_pager([
- 'baseurl' => "/forum/zoeken/$query/",
- 'pagecount' => \CsrDelft\model\forum\ForumDradenModel::instance()->getHuidigePagina(),
- 'curpage' => \CsrDelft\model\forum\ForumDradenModel::instance()->getHuidigePagina(),
- 'separator' => ' &nbsp;'
- ]); ?>
-
- <?php /*&nbsp;<a
- href="/forum/zoeken/<?php echo static::e($query); ?>/<?php echo static::e(\CsrDelft\model\forum\ForumDradenModel::instance()->getAantalPaginas(0)); ?>">verder
- zoeken</a> TODO: Fixen, is kneiterbrak*/ ?>
- </div>
- <?php endif; ?>
- </table>
  </div>
  <h1><?php echo static::e($titel); ?></h1>
  <?php echo $this->yieldContent('breadcrumbs'); ?>
-
 	<?php else: ?>
  Geen resultaten.
 	<?php endif; ?>

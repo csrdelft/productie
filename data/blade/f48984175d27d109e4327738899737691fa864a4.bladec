@@ -13,22 +13,25 @@
 <?php $this->startSection('content'); ?>
 	<?php echo getMelding(); ?>
 
-	<div class="forum-header">
- <?php ($zoekform->view()); ?>
+	<div class="forum-header btn-toolbar">
 
  <?php $this->startSection('kop'); ?>
  <?php if(isset($this->currentUser)): ?>
  <?php if(!$statistiek && $draad->magStatistiekBekijken()): ?>
+ <div class="btn-group mr-2">
  <a
  href="/forum/onderwerp/<?php echo static::e($draad->draad_id); ?>/<?php echo static::e(CsrDelft\model\forum\ForumPostsModel::instance()->getHuidigePagina()); ?>/statistiek"
  class="btn btn-light" title="Toon statistieken"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['chart_line']); ?></a>
- &nbsp;&nbsp;&nbsp;
+ </div>
+
  <?php endif; ?>
+ <div class="btn-group mr-2">
  <a title="Onderwerp toevoegen aan favorieten" class="btn btn-light post popup addfav"
   href="/menubeheer/toevoegen/favoriet"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['heart', 'heart_add']); ?></a>
- &nbsp;&nbsp;&nbsp;
+ </div>
+
  <?php if($draad->magMeldingKrijgen()): ?>
- <div class="btn-group">
+ <div class="btn-group mr-2">
  <a href="/forum/meldingsniveau/<?php echo static::e($draad->draad_id); ?>/nooit"
   class="btn btn-light post ReloadPage melding-nooit <?php if($meldingsniveau == \CsrDelft\model\entity\forum\ForumDraadMeldingNiveau::NOOIT): ?> active <?php endif; ?>"
   title="Nooit meldingen ontvangen"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['email_delete', 'email_delete']); ?></a>
@@ -40,16 +43,21 @@
   title="Melding ontvangen bij elk nieuw bericht"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['email_add', 'email_add']); ?></a>
  </div>
  <?php endif; ?>
- &nbsp;&nbsp;&nbsp;
+
  <?php if($draad->isVerborgen()): ?>
+ <div class="btn-group mr-2">
  <a href="/forum/tonen/<?php echo static::e($draad->draad_id); ?>" class="btn btn-light post ReloadPage tonenAan"
   title="Onderwerp tonen in zijbalk"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['layout', 'layout_add']); ?></a>
+ </div>
  <?php elseif($draad->magVerbergen()): ?>
+ <div class="btn-group mr-2">
  <a href="/forum/verbergen/<?php echo static::e($draad->draad_id); ?>" class="btn btn-light post ReloadPage tonenUit"
   title="Onderwerp verbergen in zijbalk"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['layout_sidebar', 'layout_delete']); ?></a>
+ </div>
  <?php endif; ?>
- &nbsp;&nbsp;&nbsp;
+
  <?php if($draad->magModereren()): ?>
+ <div class="btn-group mr-2">
  <?php if($draad->gesloten): ?>
  <a href="/forum/wijzigen/<?php echo static::e($draad->draad_id); ?>/gesloten" class="btn btn-light post ReloadPage slotjeUit"
   title="Openen (reactie mogelijk)"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['lock', 'lock_break']); ?></a>
@@ -57,36 +65,30 @@
  <a href="/forum/wijzigen/<?php echo static::e($draad->draad_id); ?>/gesloten" class="btn btn-light post ReloadPage slotjeAan"
   title="Sluiten (geen reactie mogelijk)"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['lock_open', 'lock']); ?></a>
  <?php endif; ?>
- &nbsp;&nbsp;&nbsp;
- <a href="#" class="btn btn-light modfuncties" title="Moderatie-functies weergeven" onclick="
- $('#modereren').slideDown();
- $(window).scrollTo('#modereren', 600, {
- easing: 'easeInOutCubic',
- offset: {
- top: -100,
- left: 0
- }
- });
+ </div>
+
+ <div class="btn-group mr-2">
+ <a href="#modereren" class="btn btn-light modfuncties" title="Moderatie-functies weergeven" data-toggle="collapse" onclick="
   "><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['wrench']); ?> Modereren</a>
+ </div>
  <?php endif; ?>
  <?php endif; ?>
- <h1>
+ <?php $this->stopSection(); ?>
+
+ <?php echo $this->yieldContent('kop'); ?>
+ <?php ($zoekform->view()); ?>
+	</div>
+	<?php if($draad->magModereren()): ?>
+ <?php echo $this->runChild('forum.partial.draad_mod'); ?>
+	<?php endif; ?>
+	<h1>
  <?php echo static::e($draad->titel); ?>
 
  <?php if($statistiek): ?>
  &nbsp;&nbsp;&nbsp;
  <span class="lichtgrijs small" title="Aantal lezers"><?php echo static::e($draad->getAantalLezers()); ?> lezers</span>
  <?php endif; ?>
- </h1>
- <?php $this->stopSection(); ?>
-
- <?php echo $this->yieldContent('kop'); ?>
-
- <?php if($draad->magModereren()): ?>
- <?php echo $this->runChild('forum.partial.draad_mod'); ?>
- <?php endif; ?>
-	</div>
-
+	</h1>
 <?php $this->startSection('magreageren'); ?>
 	<?php if($draad->verwijderd): ?>
  <div class="draad-verwijderd">Dit onderwerp is verwijderd.</div>
