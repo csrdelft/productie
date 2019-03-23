@@ -1,0 +1,7 @@
+organization=csrdelft
+projectKey=csrdelft_csrdelft.nl
+serverUrl=https://sonarcloud.io
+serverVersion=7.7.0.22792
+dashboardUrl=https://sonarcloud.io/dashboard?id=csrdelft_csrdelft.nl
+ceTaskId=AWmrDo8zjwiscBO3mOb0
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AWmrDo8zjwiscBO3mOb0
