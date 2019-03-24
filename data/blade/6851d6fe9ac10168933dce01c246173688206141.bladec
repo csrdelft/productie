@@ -12,7 +12,7 @@
 
 
 	<div class="forum-header btn-toolbar">
- <?php if (call_user_func($this->authCallBack,'P_ADMIN')): ?>
+ <?php if (call_user_func($this->authCallBack,P_ADMIN)): ?>
  <div class="btn-group mr-2">
  <a href="/forum/aanmaken" class="btn btn-light post popup" title="Deelforum aanmaken"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['add']); ?></a>
  </div>

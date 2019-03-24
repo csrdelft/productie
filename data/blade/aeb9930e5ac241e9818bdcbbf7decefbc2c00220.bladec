@@ -45,7 +45,7 @@
 
 
 	<div class="forum-header btn-toolbar">
- <?php if (call_user_func($this->authCallBack,'P_ADMIN')): ?>
+ <?php if (call_user_func($this->authCallBack,P_ADMIN)): ?>
  <?php if(isset($deel->forum_id)): ?>
  <div class="btn-group mr-2">
  <a href="/forum/beheren/<?php echo static::e($deel->forum_id); ?>" class="btn btn-light post popup"

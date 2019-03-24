@@ -1,4 +1,4 @@
-<?php if (call_user_func($this->authCallBack,'P_LOGGED_IN')): ?>
+<?php if (call_user_func($this->authCallBack,P_LOGGED_IN)): ?>
 	<?php if(isset($deelmelding)): ?>
  <div class="btn-group mr-2">
  <a href="/forum/deelmelding/<?php echo static::e($deel->forum_id); ?>/uit" class="btn btn-light post ReloadPage melding-nooit <?php if(!$deelmelding): ?> active <?php endif; ?>"

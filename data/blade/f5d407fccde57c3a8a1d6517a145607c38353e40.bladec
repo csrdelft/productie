@@ -65,7 +65,7 @@
  </div>
  </div>
  </form>
- <?php if (call_user_func($this->authCallBack,'P_FORUM_BELANGRIJK')): ?>
+ <?php if (call_user_func($this->authCallBack,P_FORUM_BELANGRIJK)): ?>
  <form action="/forum/wijzigen/<?php echo static::e($draad->draad_id); ?>/belangrijk" method="post">
  <?php printCsrfField();?>
  <div class="form-group row">

@@ -11,7 +11,7 @@ Documenten in categorie: <?php echo static::e($categorie->naam); ?>
 
 <?php $this->startSection('content'); ?>
 	<div id="controls">
- <?php if (call_user_func($this->authCallBack,'P_DOCS_MOD')): ?>
+ <?php if (call_user_func($this->authCallBack,P_DOCS_MOD)): ?>
  <a class="btn" href="/documenten/toevoegen/?catID=<?php echo static::e($categorie->id); ?>"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['toevoegen']); ?> Toevoegen</a>
  <?php endif; ?>
 	</div>

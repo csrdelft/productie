@@ -59,17 +59,17 @@
   title="Pas voorkeuren voor commissies aan"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['report_edit']); ?></a>
  <a href="/toestemming" class="btn btn-light" title="Pas toestemming aan"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['lock_edit']); ?></a>
  <?php endif; ?>
- <?php if(mag('P_ADMIN') || is_ingelogd_account($profiel->uid)): ?>
+ <?php if(mag(P_ADMIN) || is_ingelogd_account($profiel->uid)): ?>
  <?php if(\CsrDelft\model\security\AccountModel::existsUid($profiel->uid)): ?>
  <a href="/account/<?php echo static::e($profiel->uid); ?>/bewerken" class="btn btn-light"
   title="Inloggegevens bewerken"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['key']); ?></a>
  <?php else: ?>
- <?php if (call_user_func($this->authCallBack,'P_ADMIN')): ?>
+ <?php if (call_user_func($this->authCallBack,P_ADMIN)): ?>
  <a href="/account/<?php echo static::e($profiel->uid); ?>/aanmaken" class="btn btn-light"
   title="Account aanmaken"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['key_delete', 'key_add']); ?></a>
  <?php endif; ?>
  <?php endif; ?>
- <?php if (call_user_func($this->authCallBack,'P_ADMIN')): ?>
+ <?php if (call_user_func($this->authCallBack,P_ADMIN)): ?>
  <a href="/tools/stats.php?uid=<?php echo static::e($profiel->uid); ?>" class="btn btn-light"
   title="Toon bezoeklog"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['server_chart']); ?></a>
  <?php endif; ?>
@@ -338,7 +338,7 @@
  </div>
  <?php endif; ?>
  </div>
- <?php if(mag('P_LEDEN_MOD') || is_ingelogd_account($profiel->uid)): ?>
+ <?php if(mag(P_LEDEN_MOD) || is_ingelogd_account($profiel->uid)): ?>
  <div class="col-12">
  <a class="btn btn-primary" onclick="$(this).parent().remove(); $('.meer-groepen').slideDown();" tabindex="0">
  Toon activiteiten
@@ -367,19 +367,19 @@
  <?php endif; ?>
  </div>
 
- <?php if(($profiel->isLid() OR (mag('P_LEDEN_MOD') AND $profiel->getCiviSaldo())) AND $profiel->bankrekening): ?>
+ <?php if(($profiel->isLid() OR (mag(P_LEDEN_MOD) AND $profiel->getCiviSaldo())) AND $profiel->bankrekening): ?>
  <div class="profielregel gegevens row">
  <div class="col-12">
  <?php if($profiel->bankrekening && is_zichtbaar($profiel, 'bankrekening', 'profiel_lid')): ?>
  <div class="label">Bankrekening:</div>
  <?php echo static::e($profiel->bankrekening); ?>
 
- <?php if (call_user_func($this->authCallBack,'P_MAAL_MOD')): ?>
+ <?php if (call_user_func($this->authCallBack,P_MAAL_MOD)): ?>
  <span class="lichtgrijs">(<?php if(!$profiel->machtiging): ?>geen <?php endif; ?> machtiging getekend)</span>
  <?php endif; ?>
  <?php endif; ?>
  <div class="clear-left"></div>
- <?php if(mag('P_FISCAAT_MOD') || is_ingelogd_account($profiel->uid)): ?>
+ <?php if(mag(P_FISCAAT_MOD) || is_ingelogd_account($profiel->uid)): ?>
  <a id="CiviSaldo"></a>
  <div class="label">Saldohistorie:</div>
  <?php $__currentLoopData = $bestellinglog; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $bestelling): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
@@ -395,7 +395,7 @@
  </div>
  <?php endif; ?>
  </div>
- <?php if(mag('P_FISCAAT_MOD') || is_ingelogd_account($profiel->uid)): ?>
+ <?php if(mag(P_FISCAAT_MOD) || is_ingelogd_account($profiel->uid)): ?>
  <div class="col-12 saldografiek">
  <div class="label">Saldografiek:</div>
  <div class="clear-left"></div>
@@ -423,7 +423,7 @@
  <?php endif; ?>
  </div>
  </div>
- <?php if(mag('P_MAAL_MOD') || is_ingelogd_account($profiel->uid)): ?>
+ <?php if(mag(P_MAAL_MOD) || is_ingelogd_account($profiel->uid)): ?>
  <div class="col-md-12">
  <?php if(isset($abos)): ?>
  <div class="label">Abo's:</div>
@@ -624,7 +624,7 @@
  </div>
  <?php endif; ?>
 
- <?php if (call_user_func($this->authCallBack,'P_ADMIN,bestuur,commissie:NovCie')): ?>
+ <?php if (call_user_func($this->authCallBack,P_ADMIN . ',bestuur,commissie:NovCie')): ?>
  <?php if($profiel->status === \CsrDelft\model\entity\LidStatus::Noviet && $profiel->kgb): ?>
  <div class="profielregel" id="novcieopmerking">
  <div style="cursor: pointer;" onclick="$('#novcie_gegevens').toggle();">NovCie-Opmerking &raquo;</div>
@@ -633,7 +633,7 @@
  <?php endif; ?>
  <?php endif; ?>
 
- <?php if (call_user_func($this->authCallBack,'P_LEDEN_MOD')): ?>
+ <?php if (call_user_func($this->authCallBack,P_LEDEN_MOD)): ?>
  <div class="profielregel gegevens row" id="changelog">
  <div class="col">
  <div style="cursor: pointer;" onclick="$('#changelog_gegevens').toggle();this.remove()">

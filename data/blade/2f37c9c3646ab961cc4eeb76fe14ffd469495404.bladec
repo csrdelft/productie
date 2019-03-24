@@ -22,7 +22,7 @@
 	<div id="tagMenu" class="dropdown-menu" role="menu"></div>
 	<div class="fotoalbum"
   data-fotos="<?php echo htmlspecialchars(json_encode($album->getAlbumArrayRecursive())); ?>"
-  data-is-logged-in="<?php echo static::e(\CsrDelft\model\security\LoginModel::mag('P_LOGGED_IN')); ?>"
+  data-is-logged-in="<?php echo static::e(\CsrDelft\model\security\LoginModel::mag(P_LOGGED_IN)); ?>"
   data-mag-aanpassen="<?php echo static::e(json_encode($album->magAanpassen())); ?>"
   data-root="<?php echo static::e(CSR_ROOT . '/plaetjes'); ?>"
   data-slideshow-interval="<?php echo static::e(\CsrDelft\model\InstellingenModel::get('fotoalbum', 'slideshow_interval')); ?>">
@@ -44,7 +44,7 @@
  Verwerken</a>
  <?php endif; ?>
  <?php endif; ?>
- <?php if (call_user_func($this->authCallBack,'P_LOGGED_IN')): ?>
+ <?php if (call_user_func($this->authCallBack,P_LOGGED_IN)): ?>
  <?php if($album->hasFotos()): ?>
  <a class="btn" href="/fotoalbum/downloaden/<?php echo static::e($album->subdir); ?>"
   title="Download als TAR-bestand"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['picture_save']); ?> Download album</a>
