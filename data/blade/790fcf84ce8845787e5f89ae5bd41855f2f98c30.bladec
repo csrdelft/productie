@@ -36,4 +36,4 @@
 	</table>
 <?php $this->stopSection(); ?>
 
-<?php if (@$_shouldextend[1]) { echo $this->runChild('eetplan.overzicht'); } ?>
+<?php if (@$_shouldextend[1]) { echo $this->runChild('eetplan.template'); } ?>
