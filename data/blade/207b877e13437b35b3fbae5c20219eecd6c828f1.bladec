@@ -63,6 +63,6 @@
 <script type="application/javascript">
 	const ASSISTENT = '<?php echo static::e(CsrDelft\model\LidInstellingenModel::get('layout', 'assistent')); ?>';
 </script>
-<script type="text/javascript" src="https://csrdelft.nl/dist/js/fxclippy.b1514c2586e7f3a76fba.js"></script>
+<script type="text/javascript" src="https://csrdelft.nl/dist/js/fxclippy.57d32e82a2d58a5d3cd7.js"></script>
 </body>
 </html>
