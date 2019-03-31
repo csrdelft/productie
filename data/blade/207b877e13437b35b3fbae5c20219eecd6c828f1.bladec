@@ -59,5 +59,10 @@
 <?php if(CsrDelft\model\LidInstellingenModel::get('layout', 'trein') !== 'nee'): ?>
 	<?php echo $this->runChild('effect.trein'); ?>
 <?php endif; ?>
+<link rel="stylesheet" type="text/css" href="https://gitcdn.xyz/repo/pi0/clippyjs/master/assets/clippy.css">
+<script type="application/javascript">
+	const ASSISTENT = '<?php echo static::e(CsrDelft\model\LidInstellingenModel::get('layout', 'assistent')); ?>';
+</script>
+<script type="text/javascript" src="https://csrdelft.nl/dist/js/fxclippy.e99589ee49864025ec23.js"></script>
 </body>
 </html>
