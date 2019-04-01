@@ -59,10 +59,12 @@
 <?php if(CsrDelft\model\LidInstellingenModel::get('layout', 'trein') !== 'nee'): ?>
 	<?php echo $this->runChild('effect.trein'); ?>
 <?php endif; ?>
-<link rel="stylesheet" type="text/css" href="https://gitcdn.xyz/repo/pi0/clippyjs/master/assets/clippy.css">
-<script type="application/javascript">
-	const ASSISTENT = '<?php echo static::e(CsrDelft\model\LidInstellingenModel::get('layout', 'assistent')); ?>';
-</script>
-<script type="text/javascript" src="https://csrdelft.nl/dist/js/fxclippy.57d32e82a2d58a5d3cd7.js"></script>
+<?php if(CsrDelft\model\LidInstellingenModel::get('layout', 'assistent') !== 'nee'): ?>
+	<link rel="stylesheet" type="text/css" href="https://gitcdn.xyz/repo/pi0/clippyjs/master/assets/clippy.css">
+	<script type="application/javascript">
+ const ASSISTENT = '<?php echo static::e(CsrDelft\model\LidInstellingenModel::get('layout', 'assistent')); ?>';
+	</script>
+	<script type="text/javascript" src="https://csrdelft.nl/dist/js/fxclippy.1939d952ffd98c232493.js"></script>
+<?php endif; ?>
 </body>
 </html>
