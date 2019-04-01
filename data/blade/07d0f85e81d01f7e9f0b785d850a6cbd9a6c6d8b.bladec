@@ -1,41 +1,25 @@
 <?php $_shouldextend[1]=1; ?>
 
-<?php $this->startSection('titel'); ?>
-	<?php if(isset($query)): ?>
- Resultaten voor <?php echo static::e($query); ?>
-
-	<?php else: ?>
- Wacht op goedkeuring
-	<?php endif; ?>
-<?php $this->stopSection(); ?>
+<?php $this->startSection('titel', 'Wacht op goedkeuring'); ?>
 
 <?php $this->startSection('content'); ?>
 	<?php echo getMelding(); ?>
 
 
-	<h1><?php echo static::e($titel); ?></h1>
-
-	<div class="forum-zoeken">
- <?php ($form->view()); ?>
-	</div>
+	<h1>Wacht op goedkeuring</h1>
 
 	<?php if($resultaten): ?>
  <div class="forum-zoeken">
  <?php $__currentLoopData = $resultaten; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $draad): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <div class="forum-zoeken-header">
  <div>
- <a id="<?php echo static::e($draad->draad_id); ?>"
-  href="/forum/onderwerp/<?php echo static::e($draad->draad_id); ?>"
-  <?php if($draad->isOngelezen()): ?>class="<?php echo static::e(CsrDelft\model\LidInstellingenModel::get('forum', 'ongelezenWeergave')); ?>" <?php endif; ?>>
- <?php echo highlight_zoekterm($draad->titel, $query); ?>
+ <span title="Nieuw onderwerp in <?php echo static::e($draad->getForumDeel()->titel); ?>"><?php echo static::e($draad->titel); ?>
 
- </a>
- <?php if($draad->belangrijk): ?>
- <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], [$draad->belangrijk, null, 'Dit onderwerp is door het bestuur aangemerkt als belangrijk']); ?>
- <?php elseif($draad->gesloten): ?>
- <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['lock', null, 'Dit onderwerp is gesloten, u kunt niet meer reageren']); ?>
- <?php endif; ?>
- <span>[<a href="/forum/deel/<?php echo static::e($draad->forum_id); ?>"><?php echo static::e($draad->getForumDeel()->titel); ?></a>]</span>
+ <span>
+ [<a href="/forum/deel/<?php echo static::e($draad->forum_id); ?>"><?php echo static::e($draad->getForumDeel()->titel); ?></a>]
+ </span>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['new']); ?>
+ </span>
  </div>
  <div class="niet-dik">
  <?php if(\CsrDelft\model\LidInstellingenModel::get('forum', 'datumWeergave') === 'relatief'): ?>
@@ -69,14 +53,9 @@
 
  <?php endif; ?>
  </span>
- <?php if(isset($this->currentUser)): ?>
- <?php if($post->uid !== 'x999'): ?>
- <div class="forumpasfoto"><?php echo CsrDelft\model\ProfielModel::getLink($post->uid, 'pasfoto'); ?></div>
- <?php endif; ?>
- <?php endif; ?>
  </div>
- <div class="forum-bericht <?php $this->cycle_forum_resultaten0 = @$this->cycle_forum_resultaten0; echo ['bericht0', 'bericht1'][($this->cycle_forum_resultaten0++) % 2]; ?>" id="post<?php echo static::e($post->post_id); ?>">
- <?php echo highlight_zoekterm(bbcode_light(split_on_keyword($post->tekst, $query)), $query); ?>
+ <div class="forum-bericht <?php $this->cycle_forum_wacht0 = @$this->cycle_forum_wacht0; echo ['bericht0', 'bericht1'][($this->cycle_forum_wacht0++) % 2]; ?>" id="post<?php echo static::e($post->post_id); ?>">
+ <?php echo bbcode($post->tekst); ?>
 
  </div>
  </div>
@@ -85,11 +64,12 @@
  </div>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </div>
- <h1><?php echo static::e($titel); ?></h1>
+ <h1>Wacht op goedkeuring</h1>
  <?php echo $this->yieldContent('breadcrumbs'); ?>
 	<?php else: ?>
- Geen resultaten.
+ Geen berichten die op goedkeuring wachten.
 	<?php endif; ?>
 <?php $this->stopSection(); ?>
+
 
 <?php if (@$_shouldextend[1]) { echo $this->runChild('forum.base'); } ?>
