@@ -36,8 +36,6 @@
  <?php echo $this->runChild('forum.partial.post_lijst', ['draad' => $draad, 'post' => $post]); ?>
  <div class="tussenschot"></div>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
- <div class="tussenschot"></div>
- <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </div>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </div>
