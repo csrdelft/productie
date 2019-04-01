@@ -15,9 +15,11 @@
 
 	<h1><?php echo static::e($titel); ?></h1>
 
+	<?php if(isset($form)): ?>
 	<div class="forum-zoeken">
 	<?php ($form->view()); ?>
 	</div>
+	<?php endif; ?>
 
 	<?php if($resultaten): ?>
  <div class="forum-zoeken">
