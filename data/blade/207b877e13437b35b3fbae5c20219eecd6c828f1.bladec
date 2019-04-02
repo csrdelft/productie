@@ -63,8 +63,9 @@
 	<link rel="stylesheet" type="text/css" href="https://gitcdn.xyz/repo/pi0/clippyjs/master/assets/clippy.css">
 	<script type="application/javascript">
  const ASSISTENT = '<?php echo static::e(CsrDelft\model\LidInstellingenModel::get('layout', 'assistent')); ?>';
+ const ASSISTENT_GELUIDEN = '<?php echo static::e(\CsrDelft\model\LidInstellingenModel::get('layout', 'assistentGeluiden')); ?>';
 	</script>
-	<script type="text/javascript" src="https://csrdelft.nl/dist/js/fxclippy.1939d952ffd98c232493.js"></script>
+	<script type="text/javascript" src="https://csrdelft.nl/dist/js/fxclippy.c776756ac8f041fc6a1a.js"></script>
 <?php endif; ?>
 </body>
 </html>
