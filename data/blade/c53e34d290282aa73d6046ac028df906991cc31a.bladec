@@ -40,7 +40,7 @@
  <?php if($post->wacht_goedkeuring): ?>
  <a href="/forum/goedkeuren/<?php echo static::e($post->post_id); ?>" class="btn post confirm"
   title="Bericht goedkeuren"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['check']); ?></a>
- <a href="/tools/stats.php?ip=<?php echo static::e($post->auteur_ip); ?>" class="btn" title="IP-log"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['server_chart']); ?></a>
+ <a href="/ttools/stats.php?ip=<?php echo static::e($post->auteur_ip); ?>" class="btn" title="IP-log"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['server_chart']); ?></a>
  <a href="/forum/verwijderen/<?php echo static::e($post->post_id); ?>" class="btn post confirm"
   title="Verwijder bericht of draad"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['cross']); ?></a>
  <?php if($post->magBewerken()): ?>
