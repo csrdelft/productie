@@ -2,6 +2,8 @@
 
 <?php $this->startSection('titel', $content->getTitel()); ?>
 
+<?php $this->startSection('breadcrumbs', $content->getBreadCrumbs()); ?>
+
 <?php $this->startSection('content'); ?>
 	<?php echo $content->view(); ?>
 
