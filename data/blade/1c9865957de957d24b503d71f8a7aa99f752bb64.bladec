@@ -1,7 +1,7 @@
 <div class="zijbalk_forum">
 	<div class="zijbalk-kopje">
  <?php if($belangrijk): ?>
- <a href="/forum/recent/1/belangrijk">Forum belangrijk</a>
+ <a href="/forum/belangrijk">Forum belangrijk</a>
  <?php else: ?>
  <a href="/forum/recent">Forum</a>
  <?php endif; ?>
