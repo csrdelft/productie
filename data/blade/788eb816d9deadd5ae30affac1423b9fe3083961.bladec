@@ -5,7 +5,7 @@
 <?php $this->startSection('content'); ?>
 	<div id="controls">
  <?php if (call_user_func($this->authCallBack,P_DOCS_MOD)): ?>
- <a class="btn post" href="/documenten/toevoegen"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['toevoegen']); ?> Toevoegen</a>
+ <a class="btn" href="/documenten/toevoegen"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['toevoegen']); ?> Toevoegen</a>
  <?php endif; ?>
 	</div>
 
@@ -34,7 +34,7 @@
 
  </a>
  <?php if (call_user_func($this->authCallBack,P_DOCS_MOD)): ?>
- <a class="toevoegen post float-right" href="/documenten/toevoegen?catID=<?php echo static::e($categorie->id); ?>"
+ <a class="toevoegen float-right" href="/documenten/toevoegen?catID=<?php echo static::e($categorie->id); ?>"
   title="Document toevoegen in categorie: <?php echo static::e($categorie->naam); ?>">
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['toevoegen']); ?>
  </a>
