@@ -70,7 +70,7 @@
  <?php endif; ?>
  <?php endif; ?>
  <?php if (call_user_func($this->authCallBack,P_ADMIN)): ?>
- <a href="/ttools/stats.php?uid=<?php echo static::e($profiel->uid); ?>" class="btn btn-light"
+ <a href="/tools/stats/?uid=<?php echo static::e($profiel->uid); ?>" class="btn btn-light"
   title="Toon bezoeklog"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['server_chart']); ?></a>
  <?php endif; ?>
  <?php endif; ?>
