@@ -25,7 +25,7 @@
 <link rel="stylesheet" href="<?php echo static::e(asset("$sheet.css")); ?>" type="text/css" />
 <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
 <?php echo $this->yieldPushContent('styles'); ?>
-<script type="text/javascript" src="https://csrdelft.nl/dist/js/app.4650de07cda56c6de3a3.js"></script>
+<script type="text/javascript" src="https://csrdelft.nl/dist/js/app.a4babefc1807d4c4073b.js"></script>
 <?php echo $this->yieldPushContent('scripts'); ?>
 <!-- Google Analytics -->
 <script>
