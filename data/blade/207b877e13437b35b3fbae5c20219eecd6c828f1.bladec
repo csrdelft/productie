@@ -65,7 +65,7 @@
  const ASSISTENT = '<?php echo static::e(CsrDelft\model\LidInstellingenModel::get('layout', 'assistent')); ?>';
  const ASSISTENT_GELUIDEN = '<?php echo static::e(\CsrDelft\model\LidInstellingenModel::get('layout', 'assistentGeluiden')); ?>';
 	</script>
-	<script type="text/javascript" src="https://csrdelft.nl/dist/js/fxclippy.53c4db80626f25925d52.js"></script>
+	<script type="text/javascript" src="https://csrdelft.nl/dist/js/fxclippy.2666d9ba96c49f0ac178.js"></script>
 <?php endif; ?>
 </body>
 </html>
