@@ -34,7 +34,7 @@
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('content'); ?>
-	<div id="profiel" <?php if($profiel->isJarig()): ?>class="jarig" <?php endif; ?> >
+	<div id="profiel" class="<?php echo static::e($profiel->getProfielClasses()); ?>">
  <div id="profielregel">
  <div class="naam">
  <div class="float-right">
@@ -75,6 +75,9 @@
  <?php endif; ?>
  <?php endif; ?>
  </div>
+ <?php if(in_array('banaan', $profiel->getProfielOpties())): ?>
+ <img src="/dist/images/banaan.gif" alt="Dansende banaan" class="banaan clear">
+ <?php endif; ?>
  </div>
  <?php echo getMelding(); ?>
 
