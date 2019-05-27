@@ -3,8 +3,8 @@
 <?php $this->startSection('titel', $titel); ?>
 
 <?php $this->startSection('styles'); ?>
-	<link rel="stylesheet" href="https://csrdelft.nl/dist/css/extern.60eaef0d378cce852acc.css" type="text/css"/>
-	<link rel="stylesheet" href="https://csrdelft.nl/dist/css/extern-fotoalbum.c6f40ec5c63645d7fafd.css" type="text/css"/>
+	<link rel="stylesheet" href="https://csrdelft.nl/dist/css/extern.e7bb700d321997286906.css" type="text/css"/>
+	<link rel="stylesheet" href="https://csrdelft.nl/dist/css/extern-fotoalbum.444d1c05c2c638d8faf3.css" type="text/css"/>
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('content'); ?>
