@@ -1,0 +1,14 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('titel', 'Geen toegang'); ?>
+
+<?php $this->startSection('breadcrumbs', ''); ?>
+
+<?php $this->startSection('content'); ?>
+	<h1>403: Geen toegang</h1>
+	<p>
+ Je hebt geen toegang tot de opgevraagde pagina.
+	</p>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('base'); } ?>

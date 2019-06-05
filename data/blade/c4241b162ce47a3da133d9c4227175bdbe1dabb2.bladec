@@ -1,0 +1,14 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('titel', 'Pagina niet gevonden'); ?>
+
+<?php $this->startSection('breadcrumbs', ''); ?>
+
+<?php $this->startSection('content'); ?>
+	<h1>404: Pagina niet gevonden</h1>
+	<p>
+ De pagina werd niet gevonden, neem contact op met de PubCie als deze pagina wel gevonden zou moeten worden.
+	</p>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('base'); } ?>
