@@ -39,22 +39,6 @@
  </div>
 	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
 
-	<?php $__currentLoopData = CsrDelft\model\MenuModel::instance()->getMenu('remotefora')->getChildren(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $remoteCategorie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <div class="forumcategorie">
- <h3><a name="<?php echo static::e($remoteCategorie->tekst); ?>"><?php echo static::e($remoteCategorie->tekst); ?></a></h3>
- <div class="forumdelen">
- <?php $__currentLoopData = $remoteCategorie->getChildren(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $remoteForum): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <div class="forumdeel">
- <h4><a href="<?php echo static::e($remoteForum->link); ?>" target="_blank"><?php echo static::e($remoteForum->tekst); ?></a></h4>
- <p class="forumdeel-omschrijving">Het forum van onze <?php echo static::e(lcfirst($remoteCategorie->tekst)); ?>
-
- bij <?php echo static::e($remoteForum->tekst); ?>.</p>
- </div>
- <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
- </div>
- </div>
-	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
-
 	<?php echo $this->runChild('forum.partial.rss_link'); ?>
 <?php $this->stopSection(); ?>
 
