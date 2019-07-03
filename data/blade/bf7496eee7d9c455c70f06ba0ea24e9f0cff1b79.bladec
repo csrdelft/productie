@@ -1,0 +1,18 @@
+<?php $__currentLoopData = $parent->getChildren(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+	<?php if($item->tekst == 'Personal'): ?>
+ <?php echo $this->runChild('menu.personal', ['parent' => $item]); ?>
+	<?php elseif($item->magBekijken()): ?>
+ <?php if($item->hasChildren()): ?>
+ <li class="has-children">
+ <a href="#menu"><?php echo static::e($item->tekst); ?></a>
+ <ul class="is-hidden">
+ <li class="go-back"><a href="#menu"><?php echo static::e($item->tekst); ?></a></li>
+ <?php echo $this->runChild('menu.main_tree', ['parent' => $item]); ?>
+ </ul>
+ </li>
+ <?php else: ?>
+ <li><a href="<?php echo static::e($item->link); ?>" <?php if(startsWith($item->link, 'http')): ?> target="_blank" <?php endif; ?> ><?php echo static::e($item->tekst); ?></a>
+ </li>
+ <?php endif; ?>
+	<?php endif; ?>
+<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>

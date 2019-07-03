@@ -1,0 +1,19 @@
+<div class="zijbalk-kopje <?php if($root->tekst == 'Sponsors'): ?> ads <?php endif; ?>">
+	<?php if($root->link): ?>
+ <a href="<?php echo static::e($root->link); ?>"><?php echo static::e($root->tekst); ?></a>
+	<?php else: ?>
+ <a href="#0"><?php echo static::e($root->tekst); ?></a>
+	<?php endif; ?>
+</div>
+<?php $__currentLoopData = $root->children; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+	<?php if($item->magBekijken()): ?>
+ <div class="item <?php if($item->active): ?> active <?php endif; ?> <?php if($root->tekst == 'Sponsors'): ?> ads <?php endif; ?>">
+ &raquo;
+ <a href="<?php echo static::e($item->link); ?>" title="<?php echo static::e($item->tekst); ?>"
+  <?php if($item->isOngelezen()): ?> class="{CsrDelft\model\LidInstellingenModel::get('forum', 'ongelezenWeergave')}" <?php endif; ?>>
+ <?php echo static::e($item->tekst); ?>
+
+ </a>
+ </div>
+	<?php endif; ?>
+<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
