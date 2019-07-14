@@ -1,0 +1,29 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('titel', 'Verticale emaillijsten'); ?>
+
+<?php $this->startSection('content'); ?>
+	<h1>Verticale emaillijsten</h1>
+	<p>Gebruik deze lijstjes om de maillijsten opnieuw in te stellen.</p>
+
+	<table class="table">
+ <tr>
+ <?php $__currentLoopData = $verticalen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $letter => $verticale): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <th><h3>Verticale <?php echo static::e(CsrDelft\model\groepen\VerticalenModel::get($letter)->naam); ?></h3></th>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </tr>
+ <tr>
+ <?php $__currentLoopData = $verticalen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $letter => $verticale): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <td>
+<pre onclick="let range = document.createRange(); range.selectNode(this); window.getSelection().addRange(range)">
+<?php $__currentLoopData = $verticale; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $profiel): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+<?php echo static::e($profiel->uid); ?>@csrdelft.nl
+<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+</pre>
+ </td>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </tr>
+	</table>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('layout'); } ?>

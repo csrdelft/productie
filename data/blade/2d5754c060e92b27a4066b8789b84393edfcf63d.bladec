@@ -1,0 +1,28 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('titel', 'Novieten'); ?>
+
+<?php $this->startSection('content'); ?>
+	<table class="table">
+ <tr>
+ <th>UID</th>
+ <th>Voornaam</th>
+ <th>Tussenvoegsel</th>
+ <th>Achternaam</th>
+ <th>Mobiel</th>
+ <th>Studie</th>
+ </tr>
+ <?php $__currentLoopData = $novieten; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $noviet): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <tr>
+ <td><a href="/profiel/<?php echo static::e($noviet['uid']); ?>"><?php echo static::e($noviet['uid']); ?></a></td>
+ <td><?php echo static::e($noviet['voornaam']); ?></td>
+ <td><?php echo static::e($noviet['tussenvoegsel']); ?></td>
+ <td><?php echo static::e($noviet['achternaam']); ?></td>
+ <td><?php echo static::e($noviet['mobiel']); ?></td>
+ <td><?php echo static::e($noviet['studie']); ?></td>
+ </tr>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+	</table>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('layout'); } ?>
