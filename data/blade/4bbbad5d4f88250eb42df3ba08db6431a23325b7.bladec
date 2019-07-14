@@ -1,7 +1,7 @@
 <?php $_shouldextend[1]=1; ?>
 
 <?php $this->startSection('breadcrumbs'); ?>
-	<?php echo breadcrumbs([
+	<?php echo csr_breadcrumbs([
 	'/' => 'main',
 	'/eetplan' => 'Eetplan',
 	]); ?>

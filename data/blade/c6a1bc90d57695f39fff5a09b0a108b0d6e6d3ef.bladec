@@ -10,7 +10,7 @@
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('breadcrumbs'); ?>
-	<?php echo breadcrumbs([
+	<?php echo csr_breadcrumbs([
  '/' => 'main',
  '/forum' => 'Forum',
  '' => 'Zoeken',

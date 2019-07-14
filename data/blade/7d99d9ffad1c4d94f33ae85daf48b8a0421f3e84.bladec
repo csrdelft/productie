@@ -29,7 +29,7 @@
 <?php $this->startSection('titel', 'Het profiel van '. $profiel->getNaam('volledig')); ?>
 
 <?php $this->startSection('breadcrumbs'); ?>
-	<?php echo breadcrumbs([
+	<?php echo csr_breadcrumbs([
 	'/' => 'main',
 	'/ledenlijst' => 'Leden',
 	'' => $profiel->getNaam('civitas'),

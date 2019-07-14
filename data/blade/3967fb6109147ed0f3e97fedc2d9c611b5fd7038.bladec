@@ -6,7 +6,7 @@ Documenten in categorie: <?php echo static::e($categorie->naam); ?>
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('breadcrumbs'); ?>
-	<?php echo breadcrumbs([
+	<?php echo csr_breadcrumbs([
 	'/' => 'main',
 	'/documenten' => 'Documenten',
 	'' => $categorie->naam,

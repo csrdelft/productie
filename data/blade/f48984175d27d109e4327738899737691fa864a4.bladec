@@ -4,7 +4,7 @@
 
 <?php $this->startSection('breadcrumbs'); ?>
 	<?php ($deel = $draad->getForumDeel()); ?>
-	<?php echo breadcrumbs([
+	<?php echo csr_breadcrumbs([
  '/' => 'main',
  '/forum' => 'Forum',
  '/forum/deel/' . $deel->forum_id => $deel->titel,

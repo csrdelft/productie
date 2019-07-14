@@ -3,7 +3,7 @@
 <?php $this->startSection('titel', 'Forum'); ?>
 
 <?php $this->startSection('breadcrumbs'); ?>
-	<?php echo breadcrumbs([
+	<?php echo csr_breadcrumbs([
 	'/' => 'main',
 	'/forum' => 'Forum',
 	]); ?>
