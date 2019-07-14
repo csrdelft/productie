@@ -3,12 +3,10 @@
 <?php $this->startSection('titel', $deel->titel); ?>
 
 <?php $this->startSection('breadcrumbs'); ?>
-	<a href="/forum" title="Forum"><span class="fa fa-wechat module-icon"></span></a>
-	<?php if($deel->categorie_id): ?>
- » <?php echo static::e($deel->getForumCategorie()->titel); ?>
-
-	<?php endif; ?>
-	» <select name="forum_id"
+	<ol class="breadcrumb">
+ <li class="breadcrumb-item"><a href="/" title="Thuis"><span class="fa fa-home"></span></a></li>
+ <li class="breadcrumb-item"><a href="/forum">Forum</a></li>
+ <li class="breadcrumb-item active"><select name="forum_id" class="form-control form-control-sm"
  onchange="if (this.value.substr(0,4) === 'http') { window.open(this.value); } else { window.location.href = this.value; }">
  <option value="/forum/recent/belangrijk"
  <?php if($deel->titel === 'Belangrijk recent gewijzigd'): ?>selected="selected"<?php endif; ?>>
@@ -37,7 +35,8 @@
  </optgroup>
  <?php endif; ?>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
-	</select>
+ </select></li>
+	</ol>
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('content'); ?>
@@ -113,7 +112,8 @@
  Berichten per dag:
  <div class="grafiek">
  <?php /* forum.ts pikt dit op en vult met een grafiekje. */ ?>
- <div id="stats_grafiek_overview" class="ctx-graph-line" data-url="/forum/grafiekdata/overview" style="height: 200px;"></div>
+ <div id="stats_grafiek_overview" class="ctx-graph-line" data-url="/forum/grafiekdata/overview"
+  style="height: 200px;"></div>
  </div>
  </div>
  <?php endif; ?>
@@ -123,7 +123,7 @@
 
  <?php if($deel->magPosten()): ?>
  <?php echo $this->runChild('forum.partial.draad_reageren'); ?>
-   <?php if(isset($this->currentUser)): ?>
+ <?php if(isset($this->currentUser)): ?>
  <div class="meldingen">
  <div id="draad-melding" class="alert alert-warning">
  Hier kunt u een onderwerp toevoegen in deze categorie van het forum.

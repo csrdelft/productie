@@ -3,8 +3,12 @@
 <?php $this->startSection('titel', 'Eetplanbeheer'); ?>
 
 <?php $this->startSection('breadcrumbs'); ?>
-	@parentXYZABC
-	» <span>Beheer</span>
+	<?php echo breadcrumbs([
+	'/' => 'main',
+	'/eetplan' => 'Eetplan',
+	'/eetplan/beheer' => 'Eetplanbeheer',
+	]); ?>
+
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('content'); ?>

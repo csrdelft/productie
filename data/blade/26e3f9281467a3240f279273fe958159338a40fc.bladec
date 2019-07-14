@@ -1,8 +1,11 @@
 <?php $_shouldextend[1]=1; ?>
 
 <?php $this->startSection('breadcrumbs'); ?>
-	@parentXYZABC
-	» <?php echo $noviet->getLink(); ?>
+	<?php echo breadcrumbs([
+	'/' => 'main',
+	'/eetplan' => 'Eetplan',
+	'/eetplan/noviet' => $noviet->getLink()
+	]); ?>
 
 <?php $this->stopSection(); ?>
 

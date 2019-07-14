@@ -2,9 +2,4 @@
 
 <?php $this->startSection('titel', 'Eetplan'); ?>
 
-<?php $this->startSection('breadcrumbs'); ?>
-	<a href="/agenda" title="Agenda"><span class="fa fa-calendar module-icon"></span></a>
-	» <a href="/eetplan">Eetplan</a>
-<?php $this->stopSection(); ?>
-
 <?php if (@$_shouldextend[1]) { echo $this->runChild('layout'); } ?>

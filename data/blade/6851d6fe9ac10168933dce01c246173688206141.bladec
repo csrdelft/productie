@@ -3,8 +3,11 @@
 <?php $this->startSection('titel', 'Forum'); ?>
 
 <?php $this->startSection('breadcrumbs'); ?>
-	@parentXYZABC
-	» <a href="/forum/recent">Recent</a>
+	<?php echo breadcrumbs([
+	'/' => 'main',
+	'/forum' => 'Forum',
+	]); ?>
+
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('content'); ?>

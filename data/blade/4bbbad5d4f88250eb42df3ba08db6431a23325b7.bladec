@@ -1,5 +1,13 @@
 <?php $_shouldextend[1]=1; ?>
 
+<?php $this->startSection('breadcrumbs'); ?>
+	<?php echo breadcrumbs([
+	'/' => 'main',
+	'/eetplan' => 'Eetplan',
+	]); ?>
+
+<?php $this->stopSection(); ?>
+
 <?php $this->startSection('content'); ?>
 	<?php if (call_user_func($this->authCallBack,P_ADMIN . ',commissie:NovCie')): ?>
 	<a href="/eetplan/beheer" class="btn btn-primary float-right"><span class="ico wrench"></span> Eetplanbeheer</a>

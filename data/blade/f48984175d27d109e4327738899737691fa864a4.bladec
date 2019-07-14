@@ -4,10 +4,13 @@
 
 <?php $this->startSection('breadcrumbs'); ?>
 	<?php ($deel = $draad->getForumDeel()); ?>
-	<a href="/forum" title="Forum"><span class="fa fa-wechat module-icon"></span></a>
-	» <span class="active"><?php echo static::e($deel->getForumCategorie()->titel); ?></span>
-	» <a
- href="/forum/deel/<?php echo static::e($deel->forum_id); ?>/<?php echo static::e(\CsrDelft\model\forum\ForumDradenModel::instance()->getPaginaVoorDraad($draad)); ?>#<?php echo static::e($draad->draad_id); ?>"><?php echo static::e($deel->titel); ?></a>
+	<?php echo breadcrumbs([
+ '/' => 'main',
+ '/forum' => 'Forum',
+ '/forum/deel/' . $deel->forum_id => $deel->titel,
+ '' => $draad->titel,
+	]); ?>
+
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('content'); ?>

@@ -1,7 +1,11 @@
 <?php $_shouldextend[1]=1; ?>
 
 <?php $this->startSection('breadcrumbs'); ?>
-	<a href="/documenten" title="Documenten"><span class="fa fa-file-text module-icon"></span></a>
+	<?php echo breadcrumbs([
+ '/' => 'main',
+ '' => 'Documenten',
+	]); ?>
+
 <?php $this->stopSection(); ?>
 
 <?php if (@$_shouldextend[1]) { echo $this->runChild('layout'); } ?>

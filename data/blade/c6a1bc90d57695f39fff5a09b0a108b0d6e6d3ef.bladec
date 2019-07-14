@@ -9,6 +9,15 @@
 	<?php endif; ?>
 <?php $this->stopSection(); ?>
 
+<?php $this->startSection('breadcrumbs'); ?>
+	<?php echo breadcrumbs([
+ '/' => 'main',
+ '/forum' => 'Forum',
+ '' => 'Zoeken',
+	]); ?>
+
+<?php $this->stopSection(); ?>
+
 <?php $this->startSection('content'); ?>
 	<?php echo getMelding(); ?>
 

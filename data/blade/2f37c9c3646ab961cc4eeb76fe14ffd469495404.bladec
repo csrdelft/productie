@@ -13,8 +13,10 @@
 <?php $this->startSection('titel', ucfirst($album->dirname)); ?>
 
 <?php $this->startSection('breadcrumbs'); ?>
+	<ol class="breadcrumb">
 	<?php echo \CsrDelft\view\fotoalbum\FotoAlbumBreadcrumbs::getBreadcrumbs($album); ?>
 
+	</ol>
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('content'); ?>

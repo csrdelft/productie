@@ -1,8 +1,12 @@
 <?php $_shouldextend[1]=1; ?>
 
 <?php $this->startSection('breadcrumbs'); ?>
-	@parentXYZABC
-	» <a href="/groepen/woonoorden/' . <?php echo static::e($woonoord->id); ?> . '"><?php echo static::e($woonoord->naam); ?></a>
+	<?php echo breadcrumbs([
+	'/' => 'main',
+	'/eetplan' => 'Eetplan',
+	'/eetplan/huis' => '<a href="/groepen/woonoorden/' . $woonoord->id . '">' . $woonoord->naam . '</a>',
+	]); ?>
+
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('content'); ?>

@@ -29,8 +29,12 @@
 <?php $this->startSection('titel', 'Het profiel van '. $profiel->getNaam('volledig')); ?>
 
 <?php $this->startSection('breadcrumbs'); ?>
-	<div class="breadcrumbs"><a href="/ledenlijst" title="Ledenlijst"><span class="fa fa-user module-icon"></span></a> »
- <span class="active"><?php echo static::e($profiel->getNaam('civitas')); ?></span></div>
+	<?php echo breadcrumbs([
+	'/' => 'main',
+	'/ledenlijst' => 'Leden',
+	'' => $profiel->getNaam('civitas'),
+	]); ?>
+
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('content'); ?>

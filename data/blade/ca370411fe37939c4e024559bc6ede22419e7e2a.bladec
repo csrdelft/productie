@@ -1,13 +1,5 @@
 <?php $_shouldextend[1]=1; ?>
 
-<?php $this->startSection('breadcrumbs'); ?>
-	<a href="/" title="Startpagina">
- <span class="fa fa-home module-icon"></span>
-	</a> » <a href="/fiscaat">
- Fiscaat
-	</a>
-<?php $this->stopSection(); ?>
-
 <?php $this->startSection('content'); ?>
 	<h1>Civisaldo Beheer</h1>
 	<?php if (call_user_func($this->authCallBack,P_FISCAAT_READ)): ?>

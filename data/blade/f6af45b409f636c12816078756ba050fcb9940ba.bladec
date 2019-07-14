@@ -10,12 +10,5 @@
 	<?php $this->stopSection(); ?>
 <?php endif; ?>
 
-<?php $this->startSection('breadcrumbs'); ?>
-	@parentXYZABC
-<a href="/forum" title="Forum"><span class="fa fa-wechat module-icon"></span></a>
-<?php $this->stopSection(); ?>
-
-
-
 <?php if (@$_shouldextend[2]) { echo $this->runChild('layout-owee.layout'); } ?>
 <?php if (@$_shouldextend[1]) { echo $this->runChild('layout'); } ?>
