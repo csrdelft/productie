@@ -1,0 +1,8 @@
+<?php /* Geen indent, want het maakt uit voor de gegenereerde bbcode */ ?>
+<?php $__currentLoopData = $items; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+<?php if($item instanceof \CsrDelft\model\entity\profiel\Profiel): ?> <?php /* Geen verjaardagen */ ?>
+<?php elseif($item instanceof \CsrDelft\model\entity\maalcie\CorveeTaak): ?> <?php /* Geen corvee */ ?>
+<?php else: ?>
+<?php echo static::e(strftime("%A %d-%m %H:%M", $item->getBeginMoment())); ?> [url=<?php echo static::e(CSR_ROOT); ?>/agenda/maand/<?php echo static::e(strftime("%Y-%m", $item->getBeginMoment)); ?>]<?php echo static::e($item->getTitel()); ?>[/url]
+<?php endif; ?>
+<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>

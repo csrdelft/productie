@@ -1,0 +1,77 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('titel'); ?>
+	Maandoverzicht voor <?php echo static::e(strftime('%B %Y', strtotime($jaar . '-' . $maand . '-01'))); ?>
+
+<?php $this->stopSection(); ?>
+
+<?php $this->startSection('breadcrumbs'); ?>
+	<?php echo \CsrDelft\view\agenda\AgendaBreadcrumbs::getBreadcrumbs2($maand, $jaar); ?>
+
+<?php $this->stopSection(); ?>
+
+<?php $this->startSection('navlinks'); ?>
+	<div class="maandnavigatie">
+ <a class="btn float-left" href="<?php echo static::e($urlVorige); ?>">&laquo; <?php echo static::e($prevMaand); ?></a>
+ <a class="btn float-right" href="<?php echo static::e($urlVolgende); ?>"><?php echo static::e($nextMaand); ?> &raquo;</a>
+ <h1><?php echo static::e(strftime("%B %Y", $datum)); ?></h1>
+	</div>
+<?php $this->stopSection(); ?>
+
+<?php $this->startSection('content'); ?>
+	<?php echo $this->yieldContent('navlinks'); ?>
+	<table class="agenda" id="maand">
+ <tr>
+ <th class="weeknr"></th>
+ <th>Zondag</th>
+ <th>Maandag</th>
+ <th>Dinsdag</th>
+ <th>Woensdag</th>
+ <th>Donderdag</th>
+ <th>Vrijdag</th>
+ <th>Zaterdag</th>
+ </tr>
+ <?php $__currentLoopData = $weken; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $weeknr => $dagen): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php $__currentLoopData = $dagen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $dagnr => $dag): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php if($loop->first): ?>
+ <tr <?php if(strftime('%U', $dag['datum']) == strftime('%U')): ?> id="dezeweek" <?php endif; ?> >
+ <th><?php echo static::e($weeknr); ?></th>
+ <?php endif; ?>
+ <td id="dag-<?php echo static::e(strftime("%Y-%m-%d", $dag['datum'])); ?>"
+ class="dag <?php if(strftime('%m', $dag['datum']) != strftime('%m', $datum)): ?> anderemaand <?php endif; ?> <?php if(date('d-m', $dag['datum'])==date('d-m')): ?> vandaag <?php endif; ?> ">
+ <div class="meta">
+ <?php if (call_user_func($this->authCallBack,P_AGENDA_ADD)): ?>
+ <a href="/agenda/toevoegen/<?php echo static::e(strftime("%Y-%m-%d", $dag['datum'])); ?>" class="beheren post popup"
+  title="Agenda-item toevoegen"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['add']); ?></a>
+ <?php endif; ?>
+ <?php echo static::e($dagnr); ?>
+
+ </div>
+ <ul id="items-<?php echo static::e(strftime("%Y-%m-%d", $dag['datum'])); ?>" class="items">
+ <?php $__currentLoopData = $dag['items']; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php echo $this->runChild('agenda.maand_item', ['item' => $item]); ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </ul>
+ </td>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </tr>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+	</table>
+	<?php echo $this->yieldContent('navlinks'); ?>
+	<div id="ICAL" class="input-group" title="Houd deze url privé!&#013;Nieuwe aanvragen: zie je profiel">
+ <div class="input-group-prepend">
+ <label class="input-group-text" for="ical-link"><img src="/images/ical.gif" alt="ICAL"/></label>
+ </div>
+ <?php if(CsrDelft\model\security\LoginModel::getUid() == 'x999' OR CsrDelft\model\security\LoginModel::getAccount()->hasPrivateToken()): ?>
+ <input class="form-control" type="text" id="ical-link"
+  value="<?php echo static::e(CsrDelft\model\security\LoginModel::getAccount()->getICalLink()); ?>"
+  size="35" onclick="this.setSelectionRange(0, this.value.length);" readonly/>
+ <?php else: ?>
+ <a class="input-group-text" href="/profiel/<?php echo static::e(CsrDelft\model\security\LoginModel::getUid()); ?>#tokenaanvragen">Privé
+ url
+ aanvragen</a>
+ <?php endif; ?>
+	</div>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('layout'); } ?>
