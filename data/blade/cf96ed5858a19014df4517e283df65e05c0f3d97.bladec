@@ -10,7 +10,7 @@
  <div class="item <?php if($item->active): ?> active <?php endif; ?> <?php if($root->tekst == 'Sponsors'): ?> ads <?php endif; ?>">
  &raquo;
  <a href="<?php echo static::e($item->link); ?>" title="<?php echo static::e($item->tekst); ?>"
-  <?php if($item->isOngelezen()): ?> class="{CsrDelft\model\LidInstellingenModel::get('forum', 'ongelezenWeergave')}" <?php endif; ?>>
+  <?php if($item->isOngelezen()): ?> class="<?php echo static::e(lid_instelling('forum', 'ongelezenWeergave')); ?>" <?php endif; ?>>
  <?php echo static::e($item->tekst); ?>
 
  </a>

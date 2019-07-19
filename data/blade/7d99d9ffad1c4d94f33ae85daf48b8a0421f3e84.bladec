@@ -537,7 +537,7 @@
  <td><a href="/forum/reactie/<?php echo static::e($post->post_id); ?>#<?php echo static::e($post->post_id); ?>"
   title="<?php echo static::e($post->tekst); ?>"
   <?php if($post->getForumDraad()->isOngelezen()): ?>
-  class="<?php echo static::e(\CsrDelft\model\LidInstellingenModel::get('forum', 'ongelezenWeergave')); ?>"
+  class="<?php echo static::e(lid_instelling('forum', 'ongelezenWeergave')); ?>"
  <?php endif; ?>
  >
  <?php echo static::e(truncate($post->getForumDraad()->titel, 75)); ?>
@@ -545,7 +545,7 @@
  </a>
  </td>
  <td>
- <?php if(\CsrDelft\model\LidInstellingenModel::get('forum', 'datumWeergave') === 'relatief'): ?>
+ <?php if(lid_instelling('forum', 'datumWeergave') === 'relatief'): ?>
  <?php echo reldate($post->datum_tijd); ?>
 
  <?php else: ?>

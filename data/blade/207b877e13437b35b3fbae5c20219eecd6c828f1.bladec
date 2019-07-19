@@ -47,9 +47,9 @@
 	</footer>
 </main>
 <div id="cd-main-overlay">
-	<?php if(CsrDelft\model\LidInstellingenModel::get('layout', 'fx') == 'onontdekt'): ?>
+	<?php if(lid_instelling('layout', 'fx') == 'onontdekt'): ?>
  <?php echo $this->runChild('effect.onontdekt'); ?>
-	<?php elseif(CsrDelft\model\LidInstellingenModel::get('layout', 'fx') == 'civisaldo'): ?>
+	<?php elseif(lid_instelling('layout', 'fx') == 'civisaldo'): ?>
  <?php echo $this->runChild('effect.civisaldo'); ?>
 	<?php endif; ?>
 </div>
@@ -59,20 +59,20 @@
 <?php else: ?>
 	<div id="modal" tabindex="-1"></div>
 <?php endif; ?>
-<?php if(CsrDelft\model\LidInstellingenModel::get('layout', 'minion') == 'ja'): ?>
+<?php if(lid_instelling('layout', 'minion') == 'ja'): ?>
 	<?php echo $this->runChild('effect.minion'); ?>
 <?php endif; ?>
-<?php if(CsrDelft\model\LidInstellingenModel::get('layout', 'fx') == 'wolken'): ?>
+<?php if(lid_instelling('layout', 'fx') == 'wolken'): ?>
 	<?php echo $this->runChild('effect.clouds'); ?>
 <?php endif; ?>
-<?php if(CsrDelft\model\LidInstellingenModel::get('layout', 'trein') !== 'nee'): ?>
+<?php if(lid_instelling('layout', 'trein') !== 'nee'): ?>
 	<?php echo $this->runChild('effect.trein'); ?>
 <?php endif; ?>
-<?php if(CsrDelft\model\LidInstellingenModel::get('layout', 'assistent') !== 'nee'): ?>
+<?php if(lid_instelling('layout', 'assistent') !== 'nee'): ?>
 	<link rel="stylesheet" type="text/css" href="https://gitcdn.xyz/repo/pi0/clippyjs/master/assets/clippy.css">
 	<script type="application/javascript">
- const ASSISTENT = '<?php echo static::e(CsrDelft\model\LidInstellingenModel::get('layout', 'assistent')); ?>';
- const ASSISTENT_GELUIDEN = '<?php echo static::e(\CsrDelft\model\LidInstellingenModel::get('layout', 'assistentGeluiden')); ?>';
+ const ASSISTENT = '<?php echo static::e(lid_instelling('layout', 'assistent')); ?>';
+ const ASSISTENT_GELUIDEN = '<?php echo static::e(lid_instelling('layout', 'assistentGeluiden')); ?>';
 	</script>
 	<script type="text/javascript" src="https://csrdelft.nl/dist/js/fxclippy.2666d9ba96c49f0ac178.js"></script>
 <?php endif; ?>

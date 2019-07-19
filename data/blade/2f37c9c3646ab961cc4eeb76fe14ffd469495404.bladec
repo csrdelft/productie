@@ -27,7 +27,7 @@
   data-is-logged-in="<?php echo static::e(\CsrDelft\model\security\LoginModel::mag(P_LOGGED_IN)); ?>"
   data-mag-aanpassen="<?php echo static::e(json_encode($album->magAanpassen())); ?>"
   data-root="<?php echo static::e(CSR_ROOT . '/plaetjes'); ?>"
-  data-slideshow-interval="<?php echo static::e(\CsrDelft\model\InstellingenModel::get('fotoalbum', 'slideshow_interval')); ?>">
+  data-slideshow-interval="<?php echo static::e(instelling('fotoalbum', 'slideshow_interval')); ?>">
  <div class="fotoalbum float-right">
  <?php if($album->magToevoegen()): ?>
  <a class="btn" href="/fotoalbum/uploaden/<?php echo static::e($album->subdir); ?>"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['picture_add']); ?> Toevoegen</a>

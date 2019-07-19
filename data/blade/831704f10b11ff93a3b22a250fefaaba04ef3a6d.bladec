@@ -26,12 +26,18 @@
  <h2 id="instelling-<?php echo static::e($module); ?>"><?php echo static::e(ucfirst($module)); ?></h2>
 
  <?php $__currentLoopData = $moduleInstellingen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $instelling): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <?php (list($titel, $type, $opties, $default, $beschrijving) = $instelling); ?>
+ <?php 
+ $titel = $instelling['titel'];
+ $type = $instelling['type'];
+ $opties = $instelling['opties'];
+  	$default = $instelling['default'];
+ $beschrijving = $instelling['beschrijving']
+  ?>
  <?php ($keuze = isset($instellingen[$module][$id]) ? $instellingen[$module][$id] : $default); ?>
  <div class="form-group row">
  <label class="col-md-3 col-form-label" for="inst_<?php echo static::e($module); ?>_<?php echo static::e($id); ?>"><?php echo $titel; ?></label>
 
- <?php if($type === CsrDelft\Orm\Entity\T::Enumeration): ?>
+ <?php if($type === \CsrDelft\model\instellingen\InstellingType::Enumeration): ?>
  <?php if(count($opties) > 8): ?>
  <div class="col-md-9">
  <select name="<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" id="inst_<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" class="form-control change-opslaan"
@@ -63,13 +69,13 @@
  </div>
  </div>
  <?php endif; ?>
- <?php elseif($type === CsrDelft\Orm\Entity\T::String): ?>
+ <?php elseif($type === \CsrDelft\model\instellingen\InstellingType::String): ?>
  <div class="col-md-9">
  <input type="text" name="<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" id="inst_<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" value="<?php echo static::e($keuze); ?>"
   data-href="/instellingen/update/<?php echo static::e($module); ?>/<?php echo static::e($id); ?>"
   class="form-control change-opslaan" minlength="<?php echo static::e($opties[0]); ?>" maxlength="<?php echo static::e($opties[1]); ?>"/>
  </div>
- <?php elseif($type === CsrDelft\Orm\Entity\T::Integer): ?>
+ <?php elseif($type === \CsrDelft\model\instellingen\InstellingType::Integer): ?>
  <div class="col-md-9">
  <input type="number" name="<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" id="inst_<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" value="<?php echo static::e($keuze); ?>"
   data-href="/instellingen/update/<?php echo static::e($module); ?>/<?php echo static::e($id); ?>"

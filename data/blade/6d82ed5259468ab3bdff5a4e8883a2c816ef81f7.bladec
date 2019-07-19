@@ -10,16 +10,15 @@
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['lock', null, 'Dit onderwerp is gesloten, u kunt niet meer reageren']); ?>
 	<?php endif; ?>
 
-	<?php $lidInstellingenModel = $this->injectClass('CsrDelft\model\LidInstellingenModel', 'lidInstellingenModel'); ?>
-	<?php if($lidInstellingenModel::get('forum', 'open_draad_op_pagina') == 'ongelezen'): ?>
+	<?php if(lid_instelling('forum', 'open_draad_op_pagina') == 'ongelezen'): ?>
  <?php ($urlHash = "#ongelezen"); ?>
-	<?php elseif($lidInstellingenModel::get('forum', 'open_draad_op_pagina') == 'laatste'): ?>
+	<?php elseif(lid_instelling('forum', 'open_draad_op_pagina') == 'laatste'): ?>
  <?php ($urlHash = "#reageren"); ?>
 	<?php else: ?>
  <?php ($urlHash = ""); ?>
 	<?php endif; ?>
 
-	<?php ($ongelezenWeergave = $lidInstellingenModel::get('forum', 'ongelezenWeergave')); ?>
+	<?php ($ongelezenWeergave = lid_instelling('forum', 'ongelezenWeergave')); ?>
 
 	<a id="<?php echo static::e($draad->draad_id); ?>"
   href="/forum/onderwerp/<?php echo static::e($draad->draad_id); ?><?php echo static::e($urlHash); ?>"
@@ -35,7 +34,7 @@
 	<?php endif; ?>
 </div>
 <div class="alternate-row draad-laatst-gewijzigd">
-	<?php if(\CsrDelft\model\LidInstellingenModel::get('forum', 'datumWeergave') === 'relatief'): ?>
+	<?php if(lid_instelling('forum', 'datumWeergave') === 'relatief'): ?>
  <?php echo reldate($draad->laatst_gewijzigd); ?>
 
 	<?php else: ?>

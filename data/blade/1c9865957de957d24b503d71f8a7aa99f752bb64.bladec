@@ -17,15 +17,15 @@
 	<?php $__currentLoopData = $draden; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $draad): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <?php ($timestamp = strtotime($draad->laatst_gewijzigd)); ?>
 
- <?php if(CsrDelft\model\LidInstellingenModel::get('forum', 'open_draad_op_pagina') == 'ongelezen'): ?>
+ <?php if(lid_instelling('forum', 'open_draad_op_pagina') == 'ongelezen'): ?>
  <?php ($urlHash = '#ongelezen'); ?>
- <?php elseif(CsrDelft\model\LidInstellingenModel::get('forum', 'open_draad_op_pagina') == 'laatste'): ?>
+ <?php elseif(lid_instelling('forum', 'open_draad_op_pagina') == 'laatste'): ?>
  <?php ($urlHash = '#reageren'); ?>
  <?php else: ?>
  <?php ($urlHash = ''); ?>
  <?php endif; ?>
 
- <?php ($ongelezenWeergave = CsrDelft\model\LidInstellingenModel::get('forum', 'ongelezenWeergave')); ?>
+ <?php ($ongelezenWeergave = lid_instelling('forum', 'ongelezenWeergave')); ?>
 
  <div class="item" id="forumdraad-row-<?php echo static::e($draad->draad_id); ?>">
  <a href="/forum/onderwerp/<?php echo static::e($draad->draad_id); ?><?php echo static::e($urlHash); ?>" title="<?php echo static::e($draad->titel); ?>"

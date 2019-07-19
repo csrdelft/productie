@@ -5,7 +5,7 @@
 	<?php $__currentLoopData = $posts; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <?php ($timestamp = strtotime($post->datum_tijd)); ?>
  <?php ($draad = $post->getForumDraad()); ?>
- <?php ($ongelezenWeergave = CsrDelft\model\LidInstellingenModel::get('forum', 'ongelezenWeergave')); ?>
+ <?php ($ongelezenWeergave = lid_instelling('forum', 'ongelezenWeergave')); ?>
  <div class="item">
  <a href="/forum/reactie/<?php echo static::e($post->post_id); ?>#<?php echo static::e($post->post_id); ?>" title="<?php echo static::e($draad->titel); ?>"
   <?php if($draad->isOngelezen()): ?>class="<?php echo static::e($ongelezenWeergave); ?>" <?php endif; ?>>
