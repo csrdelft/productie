@@ -1,0 +1,32 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('titel', 'Menubeheer'); ?>
+
+<?php $this->startSection('content'); ?>
+	<?php if($menus): ?>
+ <div class="float-right form-inline">
+ <label for="menu-select">Toon menu:</label>
+ <select name="toon" id="menu-select" onchange="location.href = '/menubeheer/beheer/' + this.value;" class="form-control">
+ <option selected="selected">kies</option>
+ <?php $__currentLoopData = $menus; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <option value="<?php echo static::e($item->tekst); ?>"><?php echo static::e($item->tekst); ?></option>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </select>
+ </div>
+	<?php endif; ?>
+	<h1>Menubeheer</h1>
+	<ul class="menubeheer-tree">
+ <?php if($root): ?>
+ <li>
+ <?php echo $this->runChild('menubeheer.root', ['root' => $root]); ?>
+ </li>
+ <?php if($root->children): ?>
+ <?php $__currentLoopData = $root->children; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $child): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php echo $this->runChild('menubeheer.item', ['item' => $child]); ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ <?php endif; ?>
+ <?php endif; ?>
+	</ul>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('layout'); } ?>
