@@ -104,7 +104,7 @@
  <div class="label">Lidnummer:</div>
  <div class="data">
  <?php if(\CsrDelft\model\security\AccountModel::existsUid($profiel->uid) && \CsrDelft\model\security\LoginModel::instance()->maySuTo($profiel->getAccount())): ?>
- <a href="/su/<?php echo static::e($profiel->uid); ?>/" title="Su naar dit lid"><?php echo static::e($profiel->uid); ?></a>
+ <a href="/su/<?php echo static::e($profiel->uid); ?>" title="Su naar dit lid"><?php echo static::e($profiel->uid); ?></a>
  <?php else: ?>
  <?php echo static::e($profiel->uid); ?>
 

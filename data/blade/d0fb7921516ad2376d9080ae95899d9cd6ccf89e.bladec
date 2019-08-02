@@ -1,0 +1,37 @@
+<tr id="instelling-row-<?php echo static::e($id); ?>">
+ <td>
+ <a title="Instelling wijzigen" class="btn wijzigknop" onclick="
+ if (confirm($(this).attr('title') + '.\n\nWeet u het zeker?')) {
+ var form = $('#form-<?php echo static::e($id); ?>');
+ window.formulier.formInlineToggle(form);
+ form.parent().find('.InstellingToggle').toggle();
+ $(this).toggle();
+ }
+ "><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['pencil']); ?></a>
+</td>
+<td><?php echo static::e(str_replace('_', ' ', $id)); ?></td>
+<td>
+	<div class="InlineForm">
+ <div class="InstellingToggle"><?php echo static::e($waarde); ?></div>
+ <form id="form-<?php echo static::e($id); ?>" method="post" action="/instellingenbeheer/opslaan/<?php echo static::e($module); ?>/<?php echo static::e($id); ?>"
+ class="Formulier InlineForm ToggleForm">
+ <?php (printCsrfField()); ?>
+ <textarea class="form-control FormElement" name="waarde" origvalue="<?php echo static::e(htmlspecialchars($waarde)); ?>"
+ rows="1"><?php echo static::e($waarde); ?></textarea>
+ <div class="input-group">
+ <a class="btn submit" title="Wijzigingen opslaan"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['accept']); ?> Opslaan</a>
+ <a class="btn reset cancel" title="Annuleren" onclick="
+ $(this).parents('.InlineForm').find('.InstellingToggle').toggle();
+ $('#instelling-row-<?php echo static::e($id); ?>').find('.wijzigknop').toggle();
+ ">
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['delete']); ?> Annuleren
+ </a>
+ </div>
+ </form>
+	</div>
+</td>
+<td class="col-del">
+	<a href="/instellingenbeheer/reset/<?php echo static::e($module); ?>/<?php echo static::e($id); ?>" title="Instelling resetten"
+  class="btn post confirm"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['arrow_rotate_anticlockwise']); ?></a>
+</td>
+</tr>
