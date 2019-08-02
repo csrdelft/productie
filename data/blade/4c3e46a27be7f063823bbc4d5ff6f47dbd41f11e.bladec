@@ -3,26 +3,36 @@
  <button class="btn btn-sm caret"
  onclick="$(this).parent().children('ul').slideToggle();$(this).children('span.fa').toggleClass('fa-caret-right fa-caret-down');">
  <span class="fa fa-caret-down fa-fw"></span>
-	</button>
+ </button>
 	<?php endif; ?>
-	<span class="text-muted"><?php echo static::e($item->volgorde); ?></span>
-	<span><?php echo static::e($item->tekst); ?></span>
-	[<a href="<?php echo static::e($item->link); ?>"><?php echo static::e($item->link); ?></a>]
-	<?php if (call_user_func($this->authCallBack,P_ADMIN)): ?>
+	<div class="menu-item-row row">
+ <div class="col">
+ <span class="text-muted"><?php echo static::e($item->volgorde); ?></span>
+ <span><?php echo static::e($item->tekst); ?></span>
+ [<a href="<?php echo static::e($item->link); ?>"><?php echo static::e($item->link); ?></a>]
+ <?php if (call_user_func($this->authCallBack,P_ADMIN)): ?>
  <?php if($item->item_id !== null && $item->item_id > 0): ?>
  <span class="text-muted">(<?php echo static::e($item->item_id); ?>)</span>
  <?php endif; ?>
-	<?php endif; ?>
-	<div class="float-right">
+ <?php endif; ?>
+ </div>
+ <div class="col-auto">
  <?php if($item->rechten_bekijken !== P_PUBLIC && $item->rechten_bekijken != \CsrDelft\model\security\LoginModel::getUid()): ?>
  <button class="btn btn-sm"
  disabled><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['group_key', null, 'Rechten bekijken: &#013; ' . $item->rechten_bekijken]); ?></button>
  <?php endif; ?>
  <?php if($item->item_id !== null && $item->item_id > 0): ?>
  <a href="/menubeheer/verwijderen/<?php echo static::e($item->item_id); ?>" class="btn btn-sm post confirm ReloadPage"
-  title="Dit menu-item definitief verwijderen"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['cross']); ?></a>
+  title="Dit menu-item definitief verwijderen">
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['cross']); ?>
+ </a>
  <a href="/menubeheer/zichtbaar/<?php echo static::e($item->item_id); ?>" class="btn btn-sm post ReloadPage"
-  title="Menu-item is nu <?php if(!$item->zichtbaar): ?> on <?php endif; ?> zichtbaar">
+  <?php if($item->zichtbaar): ?>
+  title="Menu-item is nu zichtbaar"
+  <?php else: ?>
+  title="Menu-item is nu onzichtbaar"
+ <?php endif; ?>
+ >
  <?php if($item->zichtbaar): ?>
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['eye']); ?>
  <?php else: ?>
@@ -42,6 +52,7 @@
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['wand', null, 'Automatisch menu item']); ?>
  </button>
  <?php endif; ?>
+ </div>
 	</div>
 	<?php if($item->children): ?>
  <ul class="menubeheer-tree">
