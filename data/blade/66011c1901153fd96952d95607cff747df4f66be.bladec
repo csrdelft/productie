@@ -17,7 +17,7 @@
 	<link rel="alternate" title="C.S.R. Delft RSS" type="application/rss+xml"
  href="<?php echo static::e(CSR_ROOT); ?>/forum/rss.xml"/>
 	<?php echo $this->yieldContent('styles'); ?>
-	<script type="text/javascript" src="https://csrdelft.nl/dist/js/extern.a9a49a2ed83fff72b90f.js"></script>
+	<script type="text/javascript" src="https://csrdelft.nl/dist/js/extern.dc5f7ddd3ebb241f640a.js"></script>
 </head>
 
 <body>
