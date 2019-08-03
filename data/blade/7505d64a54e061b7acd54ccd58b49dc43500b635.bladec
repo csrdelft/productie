@@ -1,3 +1,4 @@
+<?php /* Voor als je niet weet of je bent ingelogd */ ?>
 <?php if(isset($this->currentUser)): ?>
 	<?php $_shouldextend[1]=1; ?>
 <?php endif; ?>
@@ -5,7 +6,7 @@
 	<?php $_shouldextend[2]=1; ?>
 
 <?php $this->startSection('styles'); ?>
-	<link rel="stylesheet" href="https://csrdelft.nl/dist/css/extern.bc1c498ee0d390b7b3a7.css" type="text/css"/>
+	<link rel="stylesheet" href="https://csrdelft.nl/dist/css/extern.b09836ceccc6c99c8043.css" type="text/css"/>
 <?php $this->stopSection(); ?>
 <?php endif; ?>
 
