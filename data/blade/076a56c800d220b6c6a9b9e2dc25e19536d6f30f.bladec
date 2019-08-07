@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+	<title><?php echo static::e($titel); ?></title>
+	<link rel="stylesheet" href="https://csrdelft.nl/dist/css/ledenmemory.62766d4cad17733dd149.css" type="text/css"/>
+	<script type="text/javascript" src="https://csrdelft.nl/dist/js/ledenmemory.b6821fcdb6cb9fdefc74.js"></script>
+</head>
+<body data-groep="<?php echo static::e($groep->getUUID()); ?>">
+<table>
+	<tbody>
+	<tr>
+ <td class="pasfotos">
+ <?php if(!$cheat): ?>
+ <?php (shuffle($leden)); ?>
+ <?php endif; ?>
+ <?php $__currentLoopData = $leden; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $lid): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <div uid="<?php echo static::e($lid->uid); ?>" class="flip memorycard pasfoto <?php echo static::e($learnmode?'flipped':''); ?>">
+ <div class="blue front">
+ <?php if($cheat): ?>
+ <?php echo static::e($lid->uid); ?>
+
+ <?php endif; ?>
+ </div>
+ <div class="blue back">
+ <img src="<?php echo static::e($lid->getPasFotoPath(true)); ?>" title="<?php echo static::e($learnmode?$lid->getNaam('volledig'):''); ?>"/>
+ </div>
+ </div>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </td>
+ <td class="namen">
+ <?php if(!$cheat AND !$learnmode): ?>
+ <?php (shuffle($leden)); ?>
+ <?php endif; ?>
+ <?php $__currentLoopData = $leden; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $lid): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <div uid="<?php echo static::e($lid->uid); ?>" class="flip memorycard naam <?php echo static::e($learnmode?'flipped':''); ?>">
+ <div class="blue front">
+ <?php if($cheat): ?>
+ <?php echo static::e($lid->uid); ?>
+
+ <?php endif; ?>
+ </div>
+ <div class="blue back">
+ <h3 title="<?php echo static::e($lid->getNaam('volledig')); ?>"><?php echo static::e($lid->getNaam('civitas')); ?></h3>
+ </div>
+ </div>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </td>
+	</tr>
+	</tbody>
+</table>
+</body>
+</html>
