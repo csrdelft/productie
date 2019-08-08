@@ -1,0 +1,15 @@
+<div class="row">
+	<div class="col-sm-8"><?php echo static::e($regel->label); ?></div>
+	<div class="col-sm-4">
+ <?php $__currentLoopData = $regel->opties; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $value => $optie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php if($value != 0): ?>
+ <div class="form-check form-check-inline">
+ <input class="form-check-input" type="radio" name="<?php echo static::e($regel->module); ?>_<?php echo static::e($regel->id); ?>" id="<?php echo static::e($regel->module); ?>_<?php echo static::e($regel->id); ?>_<?php echo static::e($optie); ?>" value="<?php echo static::e($optie); ?>"
+  <?php if($optie=== $regel->waarde): ?> checked="checked" <?php endif; ?> >
+ <label class="form-check-label" for="<?php echo static::e($regel->module); ?>_<?php echo static::e($regel->id); ?>_<?php echo static::e($optie); ?>"><?php echo static::e($optie); ?></label>
+ </div>
+ <?php endif; ?>
+
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+	</div>
+</div>
