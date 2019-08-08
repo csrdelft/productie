@@ -42,7 +42,7 @@
  <div id="profielregel">
  <div class="naam">
  <div class="float-right">
- <div class="pasfoto float-left"><?php echo $profiel->getPasfotoTag(false); ?></div>
+ <div class="pasfoto float-left"><?php echo $profiel->getPasfotoTag(''); ?></div>
  <div class="knopjes">
  <?php /*{*<a href="/geolocation/map/{$profiel->uid}" class="btn" title="Huidige locatie op kaart tonen">{icon get="map"}</a>*}*/ ?>
  <?php if($profiel->isInGoogleContacts()): ?>
