@@ -23,7 +23,7 @@
  <ul>
  <li>
  <?php ($patroonNaam = \CsrDelft\model\ProfielModel::getNaam($profiel->patroon)); ?>
- <a href="/leden/stamboom/<?php echo static::e($profiel->patroon); ?>" title="Bekijk het nageslacht van <?php echo static::e($patroonNaam); ?>">&uArr; <?php echo static::e($patroonNaam); ?></a>
+ <a href="/profiel/<?php echo static::e($profiel->patroon); ?>/stamboom" title="Bekijk het nageslacht van <?php echo static::e($patroonNaam); ?>">&uArr; <?php echo static::e($patroonNaam); ?></a>
  <ul>
  <?php echo $this->runChild('profiel.stamboom_node', ['profiel' => $profiel]); ?>
  </ul>
