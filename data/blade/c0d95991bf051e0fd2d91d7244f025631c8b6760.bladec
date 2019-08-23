@@ -1,0 +1,49 @@
+<?php $this->startSection('titel', 'Patronaat'); ?>
+	<!DOCTYPE html>
+<html lang="nl">
+<head>
+	<?php echo $this->runChild('head'); ?>
+</head>
+<body>
+
+<div class="container">
+
+	<?php ($cats = ['student_assistent' => 'Student assistent', 'verticale_vriend' => 'Verticale vriend', 'gids_reisleider' => 'Gids/Reisleider', 'mentor' => 'Mentor']); ?>
+	<?php $__currentLoopData = $cats; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $cat => $catNaam): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <div class="page" style="clear: both">
+ <h1><?php echo static::e($catNaam); ?></h1>
+ <div class="" style="clear: both;">
+ <?php $__currentLoopData = $groep->getLeden(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $deelnemer): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php if($deelnemer->opmerking2): ?>
+ <?php $__currentLoopData = $deelnemer->opmerking2; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $opmerking): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php if($opmerking->naam == $cat && $opmerking->selectie != "Nee"): ?>
+ <?php ($lid = \CsrDelft\model\ProfielModel::get($deelnemer->uid)); ?>
+ <div class="" style="width: 33%; padding: 1em; display: inline-block;">
+ <div class="card d-block m-2" style="height: 200px;">
+ <?php if(is_zichtbaar($lid, 'profielfoto', 'intern', null)): ?> <?php /* geen override, wordt geprint */ ?>
+ <img class="" style="width: 150px; height: 200px; object-fit: cover; float:left;"
+  src="/profiel/pasfoto/<?php echo static::e($lid->uid); ?>.jpg" alt="">
+ <?php endif; ?>
+ <div class="card-body" style="float: left; width: calc(100% - 150px);">
+ <dl>
+ <dt>Naam</dt>
+ <dd><?php echo static::e($lid->getNaam()); ?></dd>
+ <dt>Lidjaar</dt>
+ <dd><?php echo static::e($lid->lidjaar); ?></dd>
+ <dt>Studie</dt>
+ <dd><?php echo static::e($lid->studie); ?></dd>
+ </dl>
+ </div>
+ </div>
+ </div>
+ <?php endif; ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ <?php endif; ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </div>
+ </div>
+ <div style="page-break-before: always"></div>
+	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+</div>
+</body>
+</html>
