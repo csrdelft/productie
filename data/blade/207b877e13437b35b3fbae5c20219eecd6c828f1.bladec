@@ -70,13 +70,16 @@
 <?php if(lid_instelling('layout', 'trein') !== 'nee'): ?>
 	<?php echo $this->runChild('effect.trein'); ?>
 <?php endif; ?>
+<?php if(lid_instelling('layout', 'raket') !== 'nee'): ?>
+	<?php echo $this->runChild('effect.raket'); ?>
+<?php endif; ?>
 <?php if(lid_instelling('layout', 'assistent') !== 'nee'): ?>
 	<link rel="stylesheet" type="text/css" href="https://gitcdn.xyz/repo/pi0/clippyjs/master/assets/clippy.css">
 	<script type="application/javascript">
  const ASSISTENT = '<?php echo static::e(lid_instelling('layout', 'assistent')); ?>';
  const ASSISTENT_GELUIDEN = '<?php echo static::e(lid_instelling('layout', 'assistentGeluiden')); ?>';
 	</script>
-	<script type="text/javascript" src="https://csrdelft.nl/dist/js/fxclippy.7aa6eebbbf7366429ced.js"></script>
+	<script type="text/javascript" src="https://csrdelft.nl/dist/js/fxclippy.b34eb705d8344bc8f7f4.js"></script>
 <?php endif; ?>
 </body>
 </html>
