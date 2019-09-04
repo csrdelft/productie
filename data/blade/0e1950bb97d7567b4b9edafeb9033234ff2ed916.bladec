@@ -11,7 +11,11 @@
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('content'); ?>
-	<div id="agenda" data-maand="<?php echo static::e($maand); ?>" data-jaar="<?php echo static::e($jaar); ?>" data-weergave="<?php echo static::e(lid_instelling('agenda', 'weergave')); ?>"></div>
+	<div id="agenda"
+  data-maand="<?php echo static::e($maand); ?>"
+  data-jaar="<?php echo static::e($jaar); ?>"
+  data-weergave="<?php echo static::e(lid_instelling('agenda', 'weergave')); ?>"
+  data-creator="<?php echo static::e($creator ? "true" : "false"); ?>"></div>
 	<div id="ICAL" class="input-group mt-2" title="Houd deze url privé!&#013;Nieuwe aanvragen: zie je profiel">
  <div class="input-group-prepend">
  <label class="input-group-text" for="ical-link"><img src="/images/ical.gif" alt="ICAL"/></label>

@@ -7,11 +7,36 @@
  */
 ?>
 <?php ($verborgen = \CsrDelft\model\agenda\AgendaVerbergenModel::instance()->isVerborgen($item)); ?>
-<div class="card" id="item-<?php echo static::e(str_replace('@', '-', str_replace('.', '-', $item->getUUID()))); ?>"
-  title="<?php echo static::e($item->getBeschrijving()); ?>"
-  parentid="items-<?php echo static::e(strftime("%Y-%m-%d", $item->getBeginMoment())); ?>">
+<div class="card agenda-card">
 	<div class="card-header">
- <div class="btn-group float-right">
+ <div class="row no-gutters align-items-center">
+ <div class="col">
+ <h5 class="card-title mb-0">
+ <?php if($item instanceof \CsrDelft\model\entity\profiel\Profiel): ?>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['verjaardag']); ?> <?php echo $item->getLink(); ?>
+
+ <?php elseif($item instanceof \CsrDelft\model\entity\maalcie\Maaltijd): ?>
+ <img src="/images/maalcie/cutlery.png" width="16" height="16" alt="cutlery" class="icon"/>
+ <a href="<?php echo static::e($item->getUrl()); ?>"><?php echo static::e($item->getTitel()); ?></a>
+ <?php elseif($item instanceof \CsrDelft\model\entity\maalcie\CorveeTaak): ?>
+ <?php if(stristr($item->getCorveeFunctie()->naam, "klus")): ?>
+ <img src="/images/maalcie/drill.png" width="16" height="16" alt="drill" class="icon"/>
+ <?php else: ?>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['paintcan']); ?>
+ <?php endif; ?>
+ <a href="<?php echo static::e($item->getUrl()); ?>"><?php echo static::e($item->getTitel()); ?></a>
+ <?php elseif($item instanceof \CsrDelft\model\entity\agenda\Agendeerbaar): ?>
+ <?php if($item->getUrl()): ?>
+ <a href="<?php echo static::e($item->getUrl()); ?>"><?php echo static::e($item->getTitel()); ?></a>
+ <?php else: ?>
+ <?php echo static::e($item->getTitel()); ?>
+
+ <?php endif; ?>
+ <?php endif; ?>
+ </h5>
+ </div>
+ <div class="col-auto">
+ <div class="btn-group btn-group-sm">
  <?php if($verborgen): ?>
  <a href="/agenda/verbergen/<?php echo static::e($item->getUUID()); ?>" class="btn beheren post" title="Toon dit agenda item">
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['shading']); ?>
@@ -27,61 +52,48 @@
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['bewerken']); ?>
  </a>
  <?php elseif($item instanceof \CsrDelft\model\entity\agenda\AgendaItem && $item->magBeheren()): ?>
- <a href="/agenda/bewerken/<?php echo static::e($item->item_id); ?>" class="btn beheren post popup" title="Dit agenda-item bewerken">
+ <a href="/agenda/bewerken/<?php echo static::e($item->item_id); ?>" class="btn beheren post popup"
+  title="Dit agenda-item bewerken">
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['bewerken']); ?>
  </a>
  <a href="/agenda/verwijderen/<?php echo static::e($item->item_id); ?>" class="btn beheren post confirm ReloadAgenda"
   title="Dit agenda-item definitief verwijderen">
- <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['verwijderen']); ?>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['bin']); ?>
  </a>
  <?php endif; ?>
+ <a href="#" class="btn close" title="Sluiten">
+ <i class="fa fa-times"></i>
+ </a>
+ </div>
+ </div>
  </div>
 	</div>
 	<div class="card-body">
- <?php if($item instanceof \CsrDelft\model\entity\profiel\Profiel): ?>
- <h5 class="card-title"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['verjaardag']); ?> <?php echo $item->getLink(); ?></h5>
- <?php elseif($item instanceof \CsrDelft\model\entity\maalcie\Maaltijd): ?>
- <img src="/images/maalcie/cutlery.png" width="16" height="16" alt="cutlery" class="icon"/>
+ <?php if($item instanceof CsrDelft\model\entity\maalcie\Maaltijd): ?>
  <div class="tijd">
  <?php echo static::e(strftime("%R", $item->getBeginMoment())); ?> - <?php echo static::e(strftime("%R", $item->getEindMoment())); ?>
 
  </div>
- <h5 class="card-title"><a href="<?php echo static::e($item->getUrl()); ?>"><?php echo static::e($item->getTitel()); ?></a></h5>
- <?php elseif($item instanceof \CsrDelft\model\entity\maalcie\CorveeTaak): ?>
- <?php if(stristr($item->getCorveeFunctie()->naam, "klus")): ?>
- <img src="/images/maalcie/drill.png" width="16" height="16" alt="drill" class="icon"/>
- <?php else: ?>
- <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['paintcan']); ?>
- <?php endif; ?>
- <h5 class="card-title"><a href="<?php echo static::e($item->getUrl()); ?>"><?php echo static::e($item->getTitel()); ?></a></h5>
- <?php elseif($item instanceof \CsrDelft\model\entity\agenda\Agendeerbaar): ?>
+ <?php elseif($item instanceof CsrDelft\model\entity\agenda\Agendeerbaar): ?>
  <?php if(!$item->isHeledag()): ?>
- <div class="tijd">
+ <p>
  <?php echo static::e(strftime("%R", $item->getBeginMoment())); ?>
 
  <?php if(!preg_match('/(00:00|23:59):[0-9]{2}$/', $item->eind_moment)): ?>
  - <?php echo static::e(strftime("%R", $item->getEindMoment())); ?>
 
  <?php endif; ?>
- </div>
+ </p>
  <?php endif; ?>
- <h5 class="card-title hoverIntent">
- <?php if($item->getUrl()): ?>
- <a href="<?php echo static::e($item->getUrl()); ?>"><?php echo static::e($item->getTitel()); ?></a>
- <?php else: ?>
- <?php echo static::e($item->getTitel()); ?>
-
+ <?php endif; ?>
+ <?php if($item->getBeschrijving()): ?>
+ <p><?php echo static::e($item->getBeschrijving()); ?></p>
  <?php endif; ?>
  <?php if($item->getLocatie()): ?>
- <a
- href="https://maps.google.nl/maps?q=<?php echo static::e(htmlspecialchars($item->getLocatie())); ?>"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['map', null,
- 'Kaart']); ?></a>
- <div class="hoverIntentContent">
- <?php echo bbcode('[kaart]' . $item->getLocatie() . '[/kaart]'); ?>
-
- </div>
+ <p><?php echo bbcode('[kaart h=200]' . $item->getLocatie() . '[/kaart]'); ?></p>
  <?php endif; ?>
- </h5>
+ <?php if($item instanceof CsrDelft\model\entity\agenda\AgendaItem && $item->rechten_bekijken != P_LOGGED_IN): ?>
+ <span class="text-muted small">Zichtbaar voor: <?php echo static::e($item->rechten_bekijken); ?></span>
  <?php endif; ?>
 	</div>
 </div>
