@@ -4,7 +4,7 @@ PRODID:-//C.S.R. Delft//C.S.R. agenda//NL
 VERSION:2.0
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-ORIGINAL-URL:<?php echo static::e(CSR_ROOT); ?>/agenda/
+X-ORIGINAL-URL:<?php echo CSR_ROOT; ?>/agenda/
 X-WR-CALNAME:C.S.R. agenda
 X-WR-TIMEZONE:Europe/Amsterdam
 X-WR-CALDESC:
@@ -29,34 +29,34 @@ END:VTIMEZONE
 <?php $__currentLoopData = $items; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
 BEGIN:VEVENT
 <?php if($item->isHeledag()): ?>
-DTSTART;VALUE=DATE:<?php echo static::e(escape_ical(strftime("%Y%m%d", $item->getBeginMoment()), 19)); ?>
+DTSTART;VALUE=DATE:<?php echo escape_ical(strftime("%Y%m%d", $item->getBeginMoment()), 19); ?>
 
 <?php else: ?>
-DTSTART;TZID=Europe/Amsterdam:<?php echo static::e(escape_ical(strftime("%Y%m%dT%H%M%S", $item->getBeginMoment()), 30)); ?>
+DTSTART;TZID=Europe/Amsterdam:<?php echo escape_ical(strftime("%Y%m%dT%H%M%S", $item->getBeginMoment()), 30); ?>
 
 <?php endif; ?>
 <?php if($item->isHeledag()): ?>
-DTEND;VALUE=DATE:<?php echo static::e(escape_ical(strftime("%Y%m%d", $item->getEindMoment()), 17)); ?>
+DTEND;VALUE=DATE:<?php echo escape_ical(strftime("%Y%m%d", $item->getEindMoment()), 17); ?>
 
 <?php else: ?>
-DTEND;TZID=Europe/Amsterdam:<?php echo static::e(escape_ical(strftime("%Y%m%dT%H%M%S", $item->getEindMoment()), 28)); ?>
+DTEND;TZID=Europe/Amsterdam:<?php echo escape_ical(strftime("%Y%m%dT%H%M%S", $item->getEindMoment()), 28); ?>
 
 <?php endif; ?>
-DTSTAMP:<?php echo static::e($published); ?>
+DTSTAMP:<?php echo $published; ?>
 
-UID:<?php echo static::e(escape_ical($item->getUUID(), 4)); ?>
+UID:<?php echo escape_ical($item->getUUID(), 4); ?>
 
-CREATED:<?php echo static::e($published); ?>
+CREATED:<?php echo $published; ?>
 
-DESCRIPTION:<?php echo static::e(escape_ical($item->getBeschrijving(), 12)); ?>
+DESCRIPTION:<?php echo escape_ical($item->getBeschrijving(), 12); ?>
 
-LAST-MODIFIED:<?php echo static::e($published); ?>
+LAST-MODIFIED:<?php echo $published; ?>
 
-LOCATION:<?php echo static::e(escape_ical($item->getLocatie(), 9)); ?>
+LOCATION:<?php echo escape_ical($item->getLocatie(), 9); ?>
 
 SEQUENCE:0
 STATUS:CONFIRMED
-SUMMARY:<?php echo static::e(escape_ical($item->getTitel(), 8)); ?>
+SUMMARY:<?php echo escape_ical($item->getTitel(), 8); ?>
 
 TRANSP:TRANSPARENT
 END:VEVENT
