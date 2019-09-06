@@ -1,0 +1,38 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('breadcrumbs'); ?>
+	<?php echo csr_breadcrumbs([
+ '/' => 'main',
+ '/ledenlijst' => 'Ledenlijst',
+ '/commissievoorkeuren' => 'Commissievoorkeuren',
+ '' => $profiel->getLink(),
+	]); ?>
+
+<?php $this->stopSection(); ?>
+
+<?php $this->startSection('content'); ?>
+<h1>Voorkeuren van lid</h1>
+<p>Naam: <?php echo $profiel->getLink('volledig'); ?></p>
+
+<table class="commissievoorkeuren">
+	<?php ($opties = [1 => 'nee', 2 => 'misschien', 3 => 'ja']); ?>
+	<?php $__currentLoopData = $commissies; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $commissie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php ($voorkeur = $voorkeuren[$commissie->id]); ?>
+ <tr>
+ <td><?php echo static::e($commissie->naam); ?></td>
+ <td>
+ <?php if($voorkeur === null): ?>
+ <?php echo static::e($opties[1]); ?> <?php else: ?> <?php echo static::e($opties[$voorkeur->voorkeur]); ?>
+
+ <?php endif; ?>
+ </td>
+ </tr>
+	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+</table>
+<h3>Opmerkingen van lid</h3>
+<p><?php echo static::e($lidOpmerking); ?></p>
+<h3>Opmerkingen van praeses</h3>
+<?php ($opmerkingForm->view()); ?>
+	<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('layout'); } ?>

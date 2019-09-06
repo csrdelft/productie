@@ -1,0 +1,37 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('breadcrumbs'); ?>
+	<?php echo csr_breadcrumbs([
+ '/' => 'main',
+ '/ledenlijst' => 'Ledenlijst',
+ '/commissievoorkeuren' => 'Commissievoorkeuren',
+	]); ?>
+
+<?php $this->stopSection(); ?>
+
+<?php $this->startSection('content'); ?>
+	<h2>Commissievoorkeuren</h2>
+	<div class="col-md-6">
+ <p>Klik op een commissie om de voorkeuren te bekijken</p>
+ <?php $__currentLoopData = $categorien; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $cid => $cat): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <h2><?php echo static::e($cat["categorie"]->naam); ?></h2>
+ <ul>
+ <?php $__currentLoopData = $cat['commissies']; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $commissie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <li <?php if(!$commissie->zichtbaar): ?> style="opacity: .50" <?php endif; ?> ><a
+ href="/commissievoorkeuren/overzicht/<?php echo static::e($commissie->id); ?>"><?php echo static::e($commissie->naam); ?></a></li>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ <?php if(count($cat['commissies']) == 0): ?>
+ Deze categorie bevat geen commissies.
+ <a href="/commissievoorkeuren/verwijdercategorie/<?php echo static::e($cid); ?>" class="btn post ReloadPage">Categorie
+ verwijderen</a>
+ <?php endif; ?>
+ </ul>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+	</div>
+	<div class="col-md-6">
+ <?php ($categorieFormulier->view()); ?>
+ <?php ($commissieFormulier->view()); ?>
+	</div>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('layout'); } ?>
