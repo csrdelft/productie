@@ -1,0 +1,45 @@
+<?php
+/** @var CsrDelft\model\entity\profiel\Profiel $profiel */
+?>
+BEGIN:VCARD
+VERSION:3.0
+FN;CHARSET=UTF-8:<?php echo static::e($profiel->getNaam('volledig')); ?>
+
+N;CHARSET=UTF-8:<?php echo static::e(($profiel->tussenvoegsel?$profiel->tussenvoegsel.' ':'').$profiel->achternaam); ?>;<?php echo static::e($profiel->voornaam); ?>;;;
+<?php if(is_zichtbaar($profiel, 'nickname')): ?>
+NICKNAME;CHARSET=UTF-8:<?php echo static::e($profiel->nickname); ?>
+
+<?php endif; ?>
+<?php if(is_zichtbaar($profiel, 'geslacht')): ?>
+GENDER:<?php echo static::e(['m' => 'M', 'v' => 'F'][$profiel->geslacht]); ?>
+
+<?php endif; ?>
+UID;CHARSET=UTF-8:<?php echo static::e($profiel->uid); ?>
+
+<?php if(is_zichtbaar($profiel, 'gebdatum')): ?>
+BDAY:<?php echo static::e(date('Ymd', strtotime($profiel->gebdatum))); ?>
+
+<?php endif; ?>
+<?php if(is_zichtbaar($profiel, 'email')): ?>
+EMAIL;CHARSET=UTF-8;type=HOME,INTERNET:<?php echo static::e($profiel->email); ?>
+
+<?php endif; ?>
+<?php if(is_zichtbaar($profiel, 'profielfoto', 'intern')): ?>
+PHOTO;ENCODING=BASE64;TYPE=JPEG:<?php echo static::e(base64_encode(file_get_contents($profiel->getPasfotoInternalPath()))); ?>
+
+<?php endif; ?>
+<?php if(is_zichtbaar($profiel, 'mobiel')): ?>
+TEL;TYPE=CELL:<?php echo static::e($profiel->mobiel); ?>
+
+<?php endif; ?>
+<?php if(is_zichtbaar($profiel, 'telefoon')): ?>
+TEL;TYPE=HOME,VOICE:<?php echo static::e($profiel->telefoon); ?>
+
+<?php endif; ?>
+<?php if(is_zichtbaar($profiel, ['adres', 'woonplaats', 'postcode', 'land'])): ?>
+ADR;CHARSET=UTF-8;TYPE=HOME:;;<?php echo static::e($profiel->adres); ?>;<?php echo static::e($profiel->woonplaats); ?>;;<?php echo static::e($profiel->postcode); ?>;<?php echo static::e($profiel->land); ?>
+
+<?php endif; ?>
+REV:<?php echo static::e(date('c')); ?>
+
+END:VCARD

@@ -41,9 +41,9 @@
 	<div id="profiel" class="<?php echo static::e($profiel->getProfielClasses()); ?>">
  <div id="profielregel">
  <div class="naam">
- <div class="float-right">
- <div class="pasfoto float-left"><?php echo $profiel->getPasfotoTag(''); ?></div>
- <div class="knopjes">
+ <div class="float-right d-flex align-items-center">
+ <div class="btn-toolbar flex-column">
+ <div class="btn-group-vertical mb-2">
  <?php /*{*<a href="/geolocation/map/{$profiel->uid}" class="btn" title="Huidige locatie op kaart tonen">{icon get="map"}</a>*}*/ ?>
  <?php if($profiel->isInGoogleContacts()): ?>
  <a href="/profiel/<?php echo static::e($profiel->uid); ?>/addToGoogleContacts" class="btn btn-light"
@@ -56,6 +56,12 @@
  <img src="/images/google.ico" width="16" height="16" alt="toevoegen aan Google contacts"/>
  </a>
  <?php endif; ?>
+ <a href="/profiel/<?php echo static::e($profiel->uid); ?>.vcf" class="btn btn-light"
+  title="Dit profiel opslaan in lokaal adresboek">
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['vcard_add']); ?>
+ </a>
+ </div>
+ <div class="btn-group-vertical">
  <?php if($profiel->magBewerken()): ?>
  <a href="/profiel/<?php echo static::e($profiel->uid); ?>/bewerken" class="btn btn-light"
   title="Bewerk dit profiel"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['pencil']); ?></a>
@@ -77,8 +83,10 @@
  <a href="/tools/stats?uid=<?php echo static::e($profiel->uid); ?>" class="btn btn-light"
   title="Toon bezoeklog"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['server_chart']); ?></a>
  <?php endif; ?>
+ </div>
  <?php endif; ?>
  </div>
+ <div class="pasfoto float-left"><?php echo $profiel->getPasfotoTag(''); ?></div>
  <?php if(in_array('banaan', $profiel->getProfielOpties())): ?>
  <img src="/dist/images/banaan.gif" alt="Dansende banaan" class="banaan clear">
  <?php endif; ?>
