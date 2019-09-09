@@ -3,43 +3,43 @@
 ?>
 BEGIN:VCARD
 VERSION:3.0
-FN;CHARSET=UTF-8:<?php echo static::e($profiel->getNaam('volledig')); ?>
+FN;CHARSET=UTF-8:<?php echo escape_ical($profiel->getNaam('volledig'), 0); ?>
 
-N;CHARSET=UTF-8:<?php echo static::e(($profiel->tussenvoegsel?$profiel->tussenvoegsel.' ':'').$profiel->achternaam); ?>;<?php echo static::e($profiel->voornaam); ?>;;;
+N;CHARSET=UTF-8:<?php echo escape_ical(($profiel->tussenvoegsel?$profiel->tussenvoegsel.' ':'').$profiel->achternaam, 0); ?>;<?php echo escape_ical($profiel->voornaam, 0); ?>;;;
 <?php if(is_zichtbaar($profiel, 'nickname')): ?>
-NICKNAME;CHARSET=UTF-8:<?php echo static::e($profiel->nickname); ?>
+NICKNAME;CHARSET=UTF-8:<?php echo escape_ical($profiel->nickname, 0); ?>
 
 <?php endif; ?>
 <?php if(is_zichtbaar($profiel, 'geslacht')): ?>
-GENDER:<?php echo static::e(['m' => 'M', 'v' => 'F'][$profiel->geslacht]); ?>
+GENDER:<?php echo escape_ical(['m' => 'M', 'v' => 'F'][$profiel->geslacht], 0); ?>
 
 <?php endif; ?>
-UID;CHARSET=UTF-8:<?php echo static::e($profiel->uid); ?>
+UID;CHARSET=UTF-8:<?php echo escape_ical($profiel->uid, 0); ?>
 
 <?php if(is_zichtbaar($profiel, 'gebdatum')): ?>
-BDAY:<?php echo static::e(date('Ymd', strtotime($profiel->gebdatum))); ?>
+BDAY:<?php echo escape_ical(date('Ymd', strtotime($profiel->gebdatum)), 0); ?>
 
 <?php endif; ?>
 <?php if(is_zichtbaar($profiel, 'email')): ?>
-EMAIL;CHARSET=UTF-8;type=HOME,INTERNET:<?php echo static::e($profiel->email); ?>
+EMAIL;CHARSET=UTF-8;type=HOME,INTERNET:<?php echo escape_ical($profiel->email, 0); ?>
 
 <?php endif; ?>
 <?php if(is_zichtbaar($profiel, 'profielfoto', 'intern')): ?>
-PHOTO;ENCODING=BASE64;TYPE=JPEG:<?php echo static::e(base64_encode(file_get_contents($profiel->getPasfotoInternalPath()))); ?>
+PHOTO;ENCODING=BASE64;TYPE=JPEG:<?php echo escape_ical(base64_encode(file_get_contents($profiel->getPasfotoInternalPath())), 0); ?>
 
 <?php endif; ?>
 <?php if(is_zichtbaar($profiel, 'mobiel')): ?>
-TEL;TYPE=CELL:<?php echo static::e($profiel->mobiel); ?>
+TEL;TYPE=CELL:<?php echo escape_ical($profiel->mobiel, 0); ?>
 
 <?php endif; ?>
 <?php if(is_zichtbaar($profiel, 'telefoon')): ?>
-TEL;TYPE=HOME,VOICE:<?php echo static::e($profiel->telefoon); ?>
+TEL;TYPE=HOME,VOICE:<?php echo escape_ical($profiel->telefoon, 0); ?>
 
 <?php endif; ?>
 <?php if(is_zichtbaar($profiel, ['adres', 'woonplaats', 'postcode', 'land'])): ?>
-ADR;CHARSET=UTF-8;TYPE=HOME:;;<?php echo static::e($profiel->adres); ?>;<?php echo static::e($profiel->woonplaats); ?>;;<?php echo static::e($profiel->postcode); ?>;<?php echo static::e($profiel->land); ?>
+ADR;CHARSET=UTF-8;TYPE=HOME:;;<?php echo escape_ical($profiel->adres, 0); ?>;<?php echo escape_ical($profiel->woonplaats, 0); ?>;;<?php echo escape_ical($profiel->postcode, 0); ?>;<?php echo escape_ical($profiel->land, 0); ?>
 
 <?php endif; ?>
-REV:<?php echo static::e(date('c')); ?>
+REV:<?php echo escape_ical(date('c'), 0); ?>
 
 END:VCARD
