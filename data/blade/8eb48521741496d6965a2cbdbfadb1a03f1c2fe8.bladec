@@ -44,7 +44,7 @@
  <?php $__currentLoopData = $berichten; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $bericht): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <dt>
  <span
- class="onderstreept"><?php echo static::e($bericht->categorie ? CsrDelft\model\entity\courant\CourantCategorie::getDescription($bericht->categorie) : 'Geen categorie'); ?></span>
+ class="onderstreept"><?php echo static::e($bericht->cat ? CsrDelft\model\entity\courant\CourantCategorie::getDescription($bericht->cat) : 'Geen categorie'); ?></span>
  <?php if($courant->magBeheren()): ?>
  <?php echo CsrDelft\model\ProfielModel::getLink($bericht->uid, 'civitas'); ?>
 
