@@ -58,7 +58,11 @@ SEQUENCE:0
 STATUS:CONFIRMED
 SUMMARY:<?php echo escape_ical($item->getTitel(), 8); ?>
 
+<?php if($item->isTransparant()): ?>
 TRANSP:TRANSPARENT
+<?php else: ?>
+TRANS:OPAQUE
+<?php endif; ?>
 END:VEVENT
 <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
 END:VCALENDAR
