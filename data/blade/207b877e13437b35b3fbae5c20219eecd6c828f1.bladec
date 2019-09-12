@@ -79,7 +79,7 @@
  const ASSISTENT = '<?php echo static::e(lid_instelling('layout', 'assistent')); ?>';
  const ASSISTENT_GELUIDEN = '<?php echo static::e(lid_instelling('layout', 'assistentGeluiden')); ?>';
 	</script>
-	<script type="text/javascript" src="https://csrdelft.nl/dist/js/fxclippy.b34eb705d8344bc8f7f4.js"></script>
+	<script type="text/javascript" src="https://csrdelft.nl/dist/js/fxclippy.8554d52acf521adefd50.js"></script>
 <?php endif; ?>
 </body>
 </html>

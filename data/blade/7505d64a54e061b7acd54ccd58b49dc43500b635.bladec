@@ -6,7 +6,7 @@
 	<?php $_shouldextend[2]=1; ?>
 
 <?php $this->startSection('styles'); ?>
-	<link rel="stylesheet" href="https://csrdelft.nl/dist/css/extern.6bcb36d3dee0a66dea41.css" type="text/css"/>
+	<link rel="stylesheet" href="https://csrdelft.nl/dist/css/extern.ea93eb49edc7b94164c2.css" type="text/css"/>
 <?php $this->stopSection(); ?>
 <?php endif; ?>
 
