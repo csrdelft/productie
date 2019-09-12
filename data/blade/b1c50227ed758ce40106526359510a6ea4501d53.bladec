@@ -1,0 +1,18 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('titel', $titel); ?>
+
+<?php $this->startSection('styles'); ?>
+	<link rel="stylesheet" href="https://csrdelft.nl/dist/css/extern.15b6b1ced40c898e69bf.css" type="text/css"/>
+	<link rel="stylesheet" href="https://csrdelft.nl/dist/css/extern-fotoalbum.bca7c37d70172b829f58.css" type="text/css"/>
+<?php $this->stopSection(); ?>
+
+<?php $this->startSection('content'); ?>
+	<?php if($showmenu): ?>
+ <?php echo $this->runChild('layout-extern.menu'); ?>
+	<?php endif; ?>
+	<?php ($body->view()); ?>
+<?php $this->stopSection(); ?>
+
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('layout-extern.layout'); } ?>

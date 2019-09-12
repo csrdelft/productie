@@ -5,9 +5,9 @@
 	<?php $_shouldextend[2]=1; ?>
 
 <?php $this->startSection('styles'); ?>
-	<link rel="stylesheet" href="https://csrdelft.nl/dist/css/extern.2183794ec2c5a6a07c37.css" type="text/css"/>
+	<link rel="stylesheet" href="https://csrdelft.nl/dist/css/extern.15b6b1ced40c898e69bf.css" type="text/css"/>
 <?php $this->stopSection(); ?>
 <?php endif; ?>
 
-<?php if (@$_shouldextend[2]) { echo $this->runChild('layout-owee.layout'); } ?>
+<?php if (@$_shouldextend[2]) { echo $this->runChild('layout-extern.layout'); } ?>
 <?php if (@$_shouldextend[1]) { echo $this->runChild('layout'); } ?>
