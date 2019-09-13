@@ -3,7 +3,7 @@
 <head>
 	<title><?php echo static::e($titel); ?></title>
 	<link rel="stylesheet" href="https://csrdelft.nl/dist/css/ledenmemory.62766d4cad17733dd149.css" type="text/css"/>
-	<script type="text/javascript" src="https://csrdelft.nl/dist/js/ledenmemory.dc8fb3fed5c9c752b7b1.js"></script>
+	<script type="text/javascript" src="https://csrdelft.nl/dist/js/ledenmemory.8b05dd36f9e6b4d8c058.js"></script>
 </head>
 <body data-groep="<?php echo static::e($groep->getUUID()); ?>">
 <table>
