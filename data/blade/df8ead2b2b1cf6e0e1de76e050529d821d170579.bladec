@@ -1,0 +1,44 @@
+<div class="card visitekaartje flex-row">
+	<div class="card-body <?php if($profiel->isJarig()): ?> jarig <?php endif; ?> ">
+ <?php if(CsrDelft\model\security\AccountModel::existsUid($profiel->uid) AND CsrDelft\model\security\LoginModel::instance()->maySuTo($profiel->getAccount())): ?>
+ <div class="float-right">
+ <a href="/su/<?php echo static::e($profiel->uid); ?>" title="Su naar dit lid"><?php echo static::e($profiel->uid); ?></a>
+ </div>
+ <?php endif; ?>
+ <p class="naam">
+ <a href="/profiel/<?php echo static::e($profiel->uid); ?>" class="lidLink <?php echo static::e($profiel->status); ?>">
+ <?php echo static::e($profiel->getNaam('volledig')); ?> &nbsp; <?php echo static::e(CsrDelft\model\entity\LidStatus::getChar($profiel->status)); ?>
+
+ </a>
+ </p>
+ <p>
+ <?php echo static::e($profiel->lidjaar); ?>
+
+ <?php if($profiel->getVerticale()): ?>
+ <?php echo static::e($profiel->getVerticale()->naam); ?>
+
+ <?php endif; ?>
+ </p>
+ <?php ($bestuurslid = CsrDelft\model\groepen\leden\BestuursLedenModel::instance()->find('uid = ?', array($profiel->uid), null, null, 1)->fetch()); ?>
+ <?php if($bestuurslid): ?>
+ <?php ($bestuur = CsrDelft\model\groepen\BesturenModel::get($bestuurslid->groep_id)); ?>
+ <p><a
+ href="<?php echo static::e($bestuur->getUrl()); ?>"><?php echo static::e(CsrDelft\model\entity\groepen\GroepStatus::getChar($bestuur->status)); ?> <?php echo static::e($bestuurslid->opmerking); ?></a>
+ </p>
+ <?php endif; ?>
+
+ <?php $__currentLoopData = CsrDelft\model\groepen\leden\CommissieLedenModel::instance()->find('uid = ?', array($profiel->uid), null, 'lid_sinds DESC'); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $commissielid): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php ($commissie = CsrDelft\model\groepen\CommissiesModel::get($commissielid->groep_id)); ?>
+ <?php if($commissie->status === CsrDelft\model\entity\groepen\GroepStatus::HT): ?>
+ <p>
+ <?php if(!empty($commissielid->opmerking)): ?>
+ <?php echo static::e($commissielid->opmerking); ?> <br/>
+ <?php endif; ?>
+ <a href="<?php echo static::e($commissie->getUrl()); ?>"><?php echo static::e($commissie->naam); ?></a></p>
+ <?php endif; ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+
+	</div>
+	<?php echo $profiel->getPasfotoTag(''); ?>
+
+</div>
