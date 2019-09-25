@@ -1,0 +1,35 @@
+<?php ($ongelezenWeergave = lid_instelling('forum', 'ongelezenWeergave')); ?>
+<?php if(lid_instelling('forum', 'open_draad_op_pagina') == 'ongelezen'): ?>
+	<?php ($urlHash = "#ongelezen"); ?>
+<?php elseif(lid_instelling('forum', 'open_draad_op_pagina') == 'laatste'): ?>
+	<?php ($urlHash = "#reageren"); ?>
+<?php else: ?>
+	<?php ($urlHash = ""); ?>
+<?php endif; ?>
+
+<div class="my-3 p-3 bg-white rounded shadow-sm">
+<h6 class="border-bottom border-gray pb-2 mb-0"><?php echo static::e($deel->titel); ?></h6>
+<?php $__currentLoopData = $deel->getForumDraden(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $draad): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+	<div class="media pt-3">
+ <a href="/forum/onderwerp/<?php echo static::e($draad->draad_id); ?><?php echo static::e($urlHash); ?>" class="media-body pb-3 mb-0 lh-125 border-bottom border-gray <?php if(isset($this->currentUser)): ?> <?php if($draad->isOngelezen()): ?> <?php echo static::e($ongelezenWeergave); ?><?php endif; ?> <?php endif; ?> ">
+ <?php if($draad->belangrijk): ?>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], [$draad->belangrijk, null, 'dit onderwerp is door het bestuur aangemerkt als belangrijk']); ?>
+ <?php elseif($draad->plakkerig): ?>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['note', null, 'Dit onderwerp is plakkerig, het blijft bovenaan']); ?>
+ <?php elseif($draad->gesloten): ?>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['lock', null, 'Dit onderwerp is gesloten, u kunt niet meer reageren']); ?>
+ <?php endif; ?>
+ <strong><?php echo static::e($draad->titel); ?></strong>
+ <?php if(isset($this->currentUser)): ?>
+ <?php if($draad->getAantalOngelezenPosts() > 0): ?>
+ <span class="badge"><?php echo static::e($draad->getAantalOngelezenPosts()); ?></span>
+ <?php endif; ?>
+ <?php endif; ?>
+ <span class="text-muted float-right"><?php echo reldate($draad->laatst_gewijzigd); ?></span>
+ </a>
+	</div>
+<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+	<small class="d-block text-right mt-3">
+ <a href="/forum/deel/<?php echo static::e($deel->forum_id); ?>">Meer lezen...</a>
+	</small>
+</div>
