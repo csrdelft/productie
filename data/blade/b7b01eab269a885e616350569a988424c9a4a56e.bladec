@@ -60,9 +60,7 @@
   onclick="window.forum.saveConceptForumBericht();"
   data-url="/forum/concept/<?php echo static::e($deel->forum_id); ?><?php if(isset($draad)): ?>/<?php echo static::e($draad->draad_id); ?><?php endif; ?>"/>
  <div class="float-right">
- <a
- href="/fotoalbum/uploaden/fotoalbum/<?php echo static::e(CsrDelft\model\groepen\LichtingenModel::getHuidigeJaargang()); ?>/Posters"
- target="_blank">Poster opladen</a>
+ <a href="/fotoalbum/uploaden/<?php echo static::e(CsrDelft\model\groepen\LichtingenModel::getHuidigeJaargang()); ?>/Posters" target="_blank">Poster opladen</a>
  <a href="/groepen/activiteiten/nieuw" class="post popup">Ketzer maken</a>
  <a href="/wiki/cie:diensten:forum" target="_blank">Opmaakhulp</a>
  </div>
