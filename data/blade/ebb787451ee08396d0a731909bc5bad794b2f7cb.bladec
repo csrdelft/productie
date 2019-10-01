@@ -29,7 +29,11 @@
  </a>
 	</div>
 <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
-	<small class="d-block text-right mt-3">
+	<div class="d-block text-right mt-3">
+ <?php if($id == 'recent' || $id == 'belangrijk'): ?>
+ <a href="/forum/<?php echo static::e($id); ?>">Meer lezen...</a>
+ <?php else: ?>
  <a href="/forum/deel/<?php echo static::e($deel->forum_id); ?>">Meer lezen...</a>
-	</small>
+ <?php endif; ?>
+	</div>
 </div>
