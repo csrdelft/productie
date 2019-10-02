@@ -459,8 +459,7 @@
  <dt>Saldografiek</dt>
  <dd>
  <div class="ctx-saldografiek verborgen" data-uid="<?php echo static::e($profiel->uid); ?>"
-  data-closed="<?php echo static::e(json_encode(!is_ingelogd_account($profiel->uid))); ?>"
-  style="width: 670px;"></div>
+  data-closed="<?php echo static::e(json_encode(!is_ingelogd_account($profiel->uid))); ?>"></div>
  </dd>
  </dl>
  <?php endif; ?>
