@@ -1,8 +1,4 @@
 <?php
-/**
- * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * @author     FFTiger <fftiger@wikisquare.com>, myst6re <myst6re@wikisquare.com>
- */
 
 if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../../').'/');
 if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
@@ -21,50 +17,43 @@ class syntax_plugin_imagebox extends DokuWiki_Syntax_Plugin {
 		switch($state){
 			case DOKU_LEXER_ENTER:
 				$match=Doku_Handler_Parse_Media(substr($match,3));
-
-                $dispMagnify = ($match['width'] || $match['height']) && $this->getConf('display_magnify')=='If necessary' || $this->getConf('display_magnify')=='Always';
-
-				$image_size = false;
+				$match['w'] = $match['width'];
+				$dispMagnify = ($match['w'] || $match['height']) && $this->getConf('display_magnify')=='If necessary' || $this->getConf('display_magnify')=='Always';
+				
+				$gimgs = false;
 				list($src,$hash) = explode('#',$match['src'],2);
-
+				
 				if($match['type']=='internalmedia') {
 					global $ID;
 					$exists = false;
 					resolve_mediaid(getNS($ID), $src, $exists);
-
+					
 					if($dispMagnify) {
 						$match['detail'] = ml($src,array('id'=>$ID,'cache'=>$match['cache']),($match['linking']=='direct'));
 						if($hash) $match['detail'] .= '#'.$hash;
 					}
-
-					if($exists)	$image_size = @getImageSize(mediaFN($src));
+					
+					if($exists)	$gimgs = @getImageSize(mediaFN($src));
 				}
 				else {
 					if($dispMagnify) {
 						$match['detail'] = ml($src,array('cache'=>'cache'),false);
 						if($hash) $match['detail'] .= '#'.$hash;
 					}
-
-					$image_size = @getImageSize($src);
+					
+					$gimgs = @getImageSize($src);
 				}
+				
+				$match['exist'] = $gimgs!==false;
 
-				$match['exist'] = $image_size!==false;
-
-                if($match['exist']){
-                    if(is_null($match['width']) && is_null($match['height'])) {
-                        $match['width'] = $image_size[0];
-                        $match['height'] = $image_size[1];
-                    }else {
-                        if (is_null($match['width'])) {
-                            $match['width'] = round($match['height'] * $image_size[0] / $image_size[1]);
-                        }
-                        if (is_null($match['height'])) {
-                            $match['height'] = round($match['width'] * $image_size[1] / $image_size[0]);
-                        }
-                    }
-                }
-
-				if(!$match['align'] /*|| $match['align']=='center'*/&&!$this->getConf('center_align'))
+				if(!$match['w'] && $match['exist']){
+					($match['height'])?
+					$match['w'] = $match['height']*$gimgs[0]/$gimgs[1]:
+					$match['w'] = $gimgs[0];
+				}
+                                $match['width'] = $match['w'];
+                                $match['height'] = $match['h'];
+				if(!$match['align'] || $match['align']=='center'&&!$this->getConf('center_align'))
 					$match['align'] = 'rien';
 			return array($state,$match);
 
@@ -77,22 +66,6 @@ class syntax_plugin_imagebox extends DokuWiki_Syntax_Plugin {
 	}
 
 	function render($mode, Doku_Renderer $renderer, $data){
-
-		global $ID;
-                if($mode == 'metadata'){
-			list($state,$match) = $data;
-
-			switch($state){
-				case DOKU_LEXER_ENTER:
-                                    list ($src) = explode('#', $match['src'], 2);
-                                    if(media_isexternal($src)) return;
-                                    resolve_mediaid(getNS($ID), $src, $exists);
-                                    $renderer->meta['relation']['media'][$src] = $exists;
-                                    $renderer->persistent['relation']['media'][$src] = $exists;
-                        }
-                }
-
-
 		if($mode == 'xhtml'){
 			list($state,$match) = $data;
 
@@ -106,7 +79,7 @@ class syntax_plugin_imagebox extends DokuWiki_Syntax_Plugin {
 					$renderer->doc.= '<div class="thumbcaption" style="max-width: '.($match['width']-6).'px">';
 					if($match['detail']) {
 						$renderer->doc.= '<div class="magnify">';
-						$renderer->doc.= '<a class="internal" title="'.$this->getLang('enlarge').'" href="'.$match['detail'].'" target="_blank">';
+						$renderer->doc.= '<a class="internal" title="'.$this->getLang('enlarge').'" href="'.$match['detail'].'">';
 						$renderer->doc.= '<img width="15" height="11" alt="" src="'.DOKU_BASE.'lib/plugins/imagebox/magnify-clip.png"/>';
 						$renderer->doc.= '</a></div>';
 					}

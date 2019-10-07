@@ -52,7 +52,7 @@ class admin_plugin_upgrade extends DokuWiki_Admin_Plugin {
 
         echo '<h1>'.$this->getLang('menu').'</h1>';
 
-        self::_say('<div id="plugin__upgrade">');
+        $this->_say('<div id="plugin__upgrade">');
         // enable auto scroll
         ?>
         <script language="javascript" type="text/javascript">
@@ -74,7 +74,7 @@ class admin_plugin_upgrade extends DokuWiki_Admin_Plugin {
             }, 50);
         </script>
         <?php
-        self::_say('</div>');
+        $this->_say('</div>');
 
         $careful = '';
         if($this->haderrors) {
@@ -178,7 +178,7 @@ class admin_plugin_upgrade extends DokuWiki_Admin_Plugin {
     /**
      * Output the given arguments using vsprintf and flush buffers
      */
-    public static function _say() {
+    public function _say() {
         $args = func_get_args();
         echo '<img src="'.DOKU_BASE.'lib/images/blank.gif" width="16" height="16" alt="" /> ';
         echo vsprintf(array_shift($args)."<br />\n", $args);
@@ -247,7 +247,7 @@ class admin_plugin_upgrade extends DokuWiki_Admin_Plugin {
             $tgzversionnum = 0;
         } else {
             $tgzversionnum = $m[2];
-            self::_say($this->getLang('vs_tgz'), $tgzversion);
+            $this->_say($this->getLang('vs_tgz'), $tgzversion);
         }
 
         // get the current version
@@ -257,7 +257,7 @@ class admin_plugin_upgrade extends DokuWiki_Admin_Plugin {
         } else {
             $versionnum = $m[2];
         }
-        self::_say($this->getLang('vs_local'), $version);
+        $this->_say($this->getLang('vs_local'), $version);
 
         // compare versions
         if(!$versionnum) {
@@ -311,7 +311,7 @@ class admin_plugin_upgrade extends DokuWiki_Admin_Plugin {
      * @return bool
      */
     private function _step_download() {
-        self::_say($this->getLang('dl_from'), $this->tgzurl);
+        $this->_say($this->getLang('dl_from'), $this->tgzurl);
 
         @set_time_limit(300);
         @ignore_user_abort();
@@ -331,7 +331,7 @@ class admin_plugin_upgrade extends DokuWiki_Admin_Plugin {
             return false;
         }
 
-        self::_say($this->getLang('dl_done'), filesize_h(strlen($data)));
+        $this->_say($this->getLang('dl_done'), filesize_h(strlen($data)));
 
         return true;
     }
@@ -342,7 +342,7 @@ class admin_plugin_upgrade extends DokuWiki_Admin_Plugin {
      * @return bool
      */
     private function _step_unpack() {
-        self::_say('<b>'.$this->getLang('pk_extract').'</b>');
+        $this->_say('<b>'.$this->getLang('pk_extract').'</b>');
 
         @set_time_limit(300);
         @ignore_user_abort();
@@ -358,9 +358,9 @@ class admin_plugin_upgrade extends DokuWiki_Admin_Plugin {
             return false;
         }
 
-        self::_say($this->getLang('pk_done'));
+        $this->_say($this->getLang('pk_done'));
 
-        self::_say(
+        $this->_say(
             $this->getLang('pk_version'),
             hsc(file_get_contents($this->tgzdir.'/VERSION')),
             getVersion()
@@ -374,10 +374,10 @@ class admin_plugin_upgrade extends DokuWiki_Admin_Plugin {
      * @return bool
      */
     private function _step_check() {
-        self::_say($this->getLang('ck_start'));
+        $this->_say($this->getLang('ck_start'));
         $ok = $this->_traverse('', true);
         if($ok) {
-            self::_say('<b>'.$this->getLang('ck_done').'</b>');
+            $this->_say('<b>'.$this->getLang('ck_done').'</b>');
         } else {
             $this->_warn('<b>'.$this->getLang('ck_fail').'</b>');
         }
@@ -390,12 +390,12 @@ class admin_plugin_upgrade extends DokuWiki_Admin_Plugin {
      * @return bool
      */
     private function _step_copy() {
-        self::_say($this->getLang('cp_start'));
+        $this->_say($this->getLang('cp_start'));
         $ok = $this->_traverse('', false);
         if($ok) {
-            self::_say('<b>'.$this->getLang('cp_done').'</b>');
+            $this->_say('<b>'.$this->getLang('cp_done').'</b>');
             $this->_rmold();
-            self::_say('<b>'.$this->getLang('finish').'</b>');
+            $this->_say('<b>'.$this->getLang('finish').'</b>');
         } else {
             $this->_warn('<b>'.$this->getLang('cp_fail').'</b>');
         }
@@ -417,14 +417,14 @@ class admin_plugin_upgrade extends DokuWiki_Admin_Plugin {
 
             // check that the given file is an case sensitive match
             if(basename(realpath($file)) != basename($file)) {
-                self::_say($this->getLang('rm_mismatch'), hsc($line));
+                $this->_say($this->getLang('rm_mismatch'), hsc($line));
                 continue;
             }
 
             if((is_dir($file) && $this->_rdel($file)) ||
                 @unlink($file)
             ) {
-                self::_say($this->getLang('rm_done'), hsc($line));
+                $this->_say($this->getLang('rm_done'), hsc($line));
             } else {
                 $this->_warn($this->getLang('rm_fail'), hsc($line));
             }
@@ -485,7 +485,7 @@ class admin_plugin_upgrade extends DokuWiki_Admin_Plugin {
                             $this->_warn('<b>'.$this->getLang('tv_noperm').'</b>', hsc("$dir/$file"));
                             $ok = false;
                         } else {
-                            self::_say($this->getLang('tv_upd'), hsc("$dir/$file"));
+                            $this->_say($this->getLang('tv_upd'), hsc("$dir/$file"));
                         }
                     } else {
                         // check dir
@@ -500,7 +500,7 @@ class admin_plugin_upgrade extends DokuWiki_Admin_Plugin {
                                 $this->_warn('<b>'.$this->getLang('tv_nocopy').'</b>', hsc("$dir/$file"));
                                 $ok = false;
                             } else {
-                                self::_say($this->getLang('tv_done'), hsc("$dir/$file"));
+                                $this->_say($this->getLang('tv_done'), hsc("$dir/$file"));
                             }
                         } else {
                             $this->_warn('<b>'.$this->getLang('tv_nodir').'</b>', hsc("$dir"));
