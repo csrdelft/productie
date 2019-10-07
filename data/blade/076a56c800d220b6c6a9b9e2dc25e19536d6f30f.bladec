@@ -2,8 +2,8 @@
 <html>
 <head>
 	<title><?php echo static::e($titel); ?></title>
-	<link rel="stylesheet" href="https://csrdelft.nl/dist/css/ledenmemory.42b5907e653fec3230d8.css" type="text/css"/>
-	<script type="text/javascript" src="https://csrdelft.nl/dist/js/ledenmemory.695fdeaf61806652d634.js"></script>
+	<link rel="stylesheet" href="/dist/css/ledenmemory.42b5907e653fec3230d8.css" type="text/css"/>
+	<script type="text/javascript" src="/dist/js/ledenmemory.695fdeaf61806652d634.js"></script>
 </head>
 <body data-groep="<?php echo static::e($groep->getUUID()); ?>">
 <table>
