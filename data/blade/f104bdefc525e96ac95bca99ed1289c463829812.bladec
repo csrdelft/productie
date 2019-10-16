@@ -56,7 +56,16 @@
 
  <?php else: ?>
  <?php if(isset($aanmelding)): ?>
+ <?php if($maaltijd->getEindMoment() > time()): ?>
  <span class="maaltijd-aangemeld">Aangemeld <?php if($aanmelding->door_abonnement): ?> (abo) <?php endif; ?></span>
+ <?php else: ?>
+ <span class="beoordeling-label">Kwaliteit:</span>
+ <?php echo $kwaliteit; ?>
+
+ <span class="beoordeling-label">Kwantiteit:</span>
+ <?php echo $kwantiteit; ?>
+
+ <?php endif; ?>
  <?php else: ?>
  <span class="maaltijd-afgemeld">Niet aangemeld</span>
  <?php endif; ?>
@@ -71,7 +80,7 @@
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["comment", null, $aanmelding->gasten_eetwens]); ?>
  <?php endif; ?>
 
- <?php if($maaltijd->gesloten): ?>
+ <?php if($maaltijd->gesloten && $maaltijd->getEindMoment() > time()): ?>
  <?php ($date = strftime("%H:%M", strtotime($maaltijd->laatst_gesloten))); ?>
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["lock", null, "Maaltijd is gesloten om " . $date]); ?>
  <?php endif; ?>

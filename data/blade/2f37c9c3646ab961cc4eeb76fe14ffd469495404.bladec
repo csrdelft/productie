@@ -5,7 +5,7 @@
 	<?php $_shouldextend[2]=1; ?>
 
 <?php $this->startSection('styles'); ?>
-	<link rel="stylesheet" href="/dist/css/extern.cdaababd4bc4ec304c80.css" type="text/css"/>
+	<link rel="stylesheet" href="/dist/css/extern.bd026a6eaeb841ee9faa.css" type="text/css"/>
 	<link rel="stylesheet" href="/dist/css/extern-fotoalbum.228473f870e692fc7a68.css" type="text/css"/>
 <?php $this->stopSection(); ?>
 <?php endif; ?>
