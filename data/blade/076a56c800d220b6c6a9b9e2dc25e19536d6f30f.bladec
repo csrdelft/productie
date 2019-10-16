@@ -6,7 +6,7 @@
 	<script type="text/javascript" src="/dist/js/ledenmemory.09d74ffc34e5c609bac2.js"></script>
 </head>
 <body data-groep="<?php echo static::e($groep->getUUID()); ?>">
-<table>
+<table role="presentation">
 	<tbody>
 	<tr>
  <td class="pasfotos">
