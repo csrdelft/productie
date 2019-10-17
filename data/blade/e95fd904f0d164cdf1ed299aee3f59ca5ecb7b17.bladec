@@ -1,6 +1,6 @@
 <?php ($uniqid = uniqid_safe('slider_')); ?>
 
-<div id="<?php echo static::e($uniqid); ?>" class="carousel slide bb-slider" data-ride="carousel">
+<div id="<?php echo static::e($uniqid); ?>" class="carousel slide bb-slider disable-swipe" data-ride="carousel">
 	<ol class="carousel-indicators">
  <?php $__currentLoopData = $fotos; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $foto): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <li data-target="#<?php echo static::e($uniqid); ?>" data-slide-to="<?php echo static::e($loop->index-1); ?>"
