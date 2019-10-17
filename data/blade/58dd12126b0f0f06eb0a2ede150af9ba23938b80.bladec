@@ -1,17 +1,17 @@
-<li>
-	<a href="/profiel/<?php echo static::e($profiel->uid); ?>" title="<?php echo static::e($profiel->getNaam('volledig')); ?>">
+<ul>
+	<?php $__currentLoopData = $profielen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $profiel): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <li>
+ <a href="/profiel/<?php echo static::e($profiel->uid); ?>" title="<?php echo static::e($profiel->getNaam('volledig')); ?>">
  <div class="d-flex flex-column align-items-center">
  <?php echo $profiel->getPasfotoTag(); ?>
 
  <?php echo static::e($profiel->getNaam('civitas')); ?>
 
  </div>
-	</a>
-	<?php if($profiel->hasKinderen()): ?>
- <ul>
- <?php $__currentLoopData = $profiel->getKinderen(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $kind): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <?php echo $this->runChild('profiel.stamboom_node', ['profiel' => $kind]); ?>
- <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
- </ul>
-	<?php endif; ?>
-</li>
+ </a>
+ <?php if($profiel->hasKinderen()): ?>
+ <?php echo $this->runChild('profiel.stamboom_node', ['profielen' => $profiel->getKinderen()]); ?>
+ <?php endif; ?>
+ </li>
+	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+</ul>
