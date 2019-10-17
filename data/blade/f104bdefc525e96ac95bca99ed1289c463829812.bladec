@@ -59,10 +59,10 @@
  <?php if($maaltijd->getEindMoment() > time()): ?>
  <span class="maaltijd-aangemeld">Aangemeld <?php if($aanmelding->door_abonnement): ?> (abo) <?php endif; ?></span>
  <?php else: ?>
- <span class="beoordeling-label">Kwaliteit:</span>
+ <span class="beoordeling-label bg-white">Kwaliteit:</span>
  <?php echo $kwaliteit; ?>
 
- <span class="beoordeling-label">Kwantiteit:</span>
+ <span class="beoordeling-label bg-white">Kwantiteit:</span>
  <?php echo $kwantiteit; ?>
 
  <?php endif; ?>
