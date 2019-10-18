@@ -22,6 +22,9 @@
  Inschrijvingen: <em><?php echo static::e($maaltijd->getAantalAanmeldingen()); ?></em> van <em><?php echo static::e($maaltijd->aanmeld_limiet); ?></em>
  <?php if($maaltijd->magSluiten(CsrDelft\model\security\LoginModel::getUid())): ?>
  </a>
+ <?php if($maaltijd->getEindMoment() < time()): ?>
+ <br><a href="/maaltijden/beheer/beoordelingen" title="Toon beoordelingen">Bekijk beoordelingen</a>
+ <?php endif; ?>
  <?php endif; ?>
  </div>
  </div>
