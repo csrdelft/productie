@@ -1,0 +1,38 @@
+<td id="abonnement-cell-<?php echo static::e($vanuid); ?>-<?php echo static::e($abonnement->mlt_repetitie_id); ?>"
+ class="
+ <?php if($abonnement->foutmelding): ?>
+ abonnement-error
+<?php elseif($abonnement->waarschuwing): ?>
+ abonnement-warning
+<?php else: ?>
+ <?php if($uid): ?>
+ abonnement-ingeschakeld
+<?php else: ?>
+ abonnement-uitgeschakeld
+<?php endif; ?>
+ <?php endif; ?>
+ "
+ title="<?php echo static::e($abonnement->foutmelding); ?><?php echo static::e($abonnement->waarschuwing); ?>">
+	<a
+ href="
+ <?php if($uid): ?>
+ /maaltijden/abonnementen/beheer/uitschakelen/<?php echo static::e($abonnement->mlt_repetitie_id); ?>/<?php echo static::e($vanuid); ?>
+
+ <?php else: ?>
+ /maaltijden/abonnementen/beheer/inschakelen/<?php echo static::e($abonnement->mlt_repetitie_id); ?>/<?php echo static::e($vanuid); ?>
+
+ <?php endif; ?>
+ "
+ class="btn post
+ <?php if($uid): ?>
+ abonnement-ingeschakeld
+ <?php else: ?>
+ abonnement-uitgeschakeld
+ <?php endif; ?>
+ ">
+ <input type="checkbox"
+  id="box-<?php echo static::e($vanuid); ?>-<?php echo static::e($abonnement->mlt_repetitie_id); ?>"
+  name="abo-<?php echo static::e($abonnement->mlt_repetitie_id); ?>"
+  <?php if($uid): ?> checked="checked" <?php endif; ?> />
+	</a>
+</td>

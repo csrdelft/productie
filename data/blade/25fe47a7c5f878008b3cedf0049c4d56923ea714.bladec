@@ -1,0 +1,20 @@
+<thead>
+<tr>
+	<th class="text-bottom">Lid</th>
+	<?php $__currentLoopData = $repetities; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $repetitie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <th class="<?php $this->cycle_maaltijden_abonnement_beheer_abonnement_head0 = @$this->cycle_maaltijden_abonnement_beheer_abonnement_head0; echo ['rowColor0','rowColor1'][($this->cycle_maaltijden_abonnement_beheer_abonnement_head0++) % 2]; ?>" style="width: 30px;">
+ <div style="width: 28px;">
+ <a href="/maaltijdenrepetities/beheer/<?php echo static::e($repetitie->mlt_repetitie_id); ?>" title="Wijzig maaltijdrepetitie"
+  class="btn popup">
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["calendar_edit"]); ?>
+ </a>
+ </div>
+ <div style="width: 26px; height: 140px;">
+ <div class="vertical niet-dik" style="position: relative; top: 120px;">
+ <nobr><?php echo static::e($repetitie->standaard_titel); ?></nobr>
+ </div>
+ </div>
+ </th>
+	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+</tr>
+</thead>

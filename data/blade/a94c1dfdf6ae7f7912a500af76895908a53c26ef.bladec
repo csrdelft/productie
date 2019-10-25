@@ -1,0 +1,47 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('titel', 'Beheer abonnementen'); ?>
+
+<?php $this->startSection('content'); ?>
+	<?php echo $this->runChild('maaltijden.menu_pagina'); ?>
+	<p>
+ Op deze pagina kunt u alle abonnementen beheren en zoeken.
+	</p>
+	<form action="/maaltijden/abonnementen/beheer/novieten" method="post"
+ class="Formulier ModalForm SubmitReset float-right">
+ <?php (printCsrfField()); ?>
+ Abonneer novieten op:
+ <select name="mrid" origvalue="kies" class="FormElement SubmitChange">
+ <option selected="selected">kies</option>
+ <?php $__currentLoopData = $aborepetities; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $repetitie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <option value="<?php echo static::e($repetitie->mlt_repetitie_id); ?>" class="save"><?php echo static::e($repetitie->standaard_titel); ?></option>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </select>
+	</form>
+	<div class="inline" style="width: 30%;"><label for="toon">Toon abonnementen:</label>
+	</div><select name="toon" onchange="location.href='/maaltijden/abonnementen/beheer/'+this.value;">
+ <option value="waarschuwingen" class="arrow" <?php if($toon === 'waarschuwing'): ?> selected="selected" <?php endif; ?> >
+ waarschuwingen
+ </option>
+ <option value="ingeschakeld" class="arrow" <?php if($toon === 'in'): ?> selected="selected" <?php endif; ?> >ingeschakeld</option>
+ <option value="abonneerbaar" class="arrow" <?php if($toon === 'abo'): ?> selected="selected" <?php endif; ?> >abonneerbaar</option>
+	</select>
+	<p>&nbsp;</p>
+	<table id="maalcie-tabel" class="maalcie-tabel">
+ <?php $__currentLoopData = $matrix; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $vanuid => $abonnementen): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php if($loop->index % 25 === 0): ?>
+ <?php if(!$loop->first): ?> </tbody> <?php endif; ?>
+ <?php echo $this->runChild('maaltijden.abonnement.beheer_abonnement_head', ['repetities' => $repetities]); ?>
+ <tbody>
+ <?php endif; ?>
+ <?php echo $this->runChild('maaltijden.abonnement.beheer_abonnement_lijst', ['vanuid' => $vanuid, 'abonnementen' => $abonnementen]); ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ <?php if(!$matrix): ?>
+ <?php echo $this->runChild('maaltijden.abonnement.beheer_abonnement_head', ['repetities' => $repetities]); ?>
+ <tbody>
+ <?php endif; ?>
+ </tbody>
+	</table>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('layout'); } ?>
