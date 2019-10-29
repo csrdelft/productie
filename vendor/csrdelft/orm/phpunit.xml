@@ -1,0 +1,37 @@
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         colors="true"
+         verbose="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         bootstrap="vendor/autoload.php">
+    <testsuites>
+        <testsuite name="csrdelft/orm PHP Coverage">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <logging>
+			  <log type="testdox-html" target="build/testdox.html"/>
+			  <log type="junit" target="build/logfile.xml"/>
+        <log type="coverage-html" target="build/coverage-html"/>
+        <log type="coverage-xml" target="build/coverage-xml"/>
+				<log type="coverage-clover" target="build/clover.xml"/>
+        <log type="coverage-text" target="build/coverage.txt"/>
+    </logging>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src</directory>
+            <exclude>
+                <!-- These files do not contain logic -->
+                <file>src/Entity/T.php</file>
+                <file>src/Entity/Sparse.php</file>
+                <file>src/Entity/PersistentEnum.php</file>
+                <file>src/Entity/DynamicEntityDefinition.php</file>
+                <file>src/Persistence.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>
