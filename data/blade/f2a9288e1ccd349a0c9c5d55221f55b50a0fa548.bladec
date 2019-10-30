@@ -1,16 +1,20 @@
 <?php $_shouldextend[1]=1; ?>
 
-<?php $this->startSection('titel', $titel); ?>
+<?php $this->startSection('titel', 'Login'); ?>
 
 <?php $this->startSection('styles'); ?>
 	<link rel="stylesheet" href="/dist/css/extern.5f864266900e47bd311b.css" type="text/css"/>
 <?php $this->stopSection(); ?>
 
+
 <?php $this->startSection('content'); ?>
-	<?php if($showmenu): ?>
- <?php echo $this->runChild('layout-extern.menu'); ?>
-	<?php endif; ?>
-	<?php ($body->view()); ?>
+
+	<div>
+ <h1>Inloggen</h1>
+ <p>U dient in te loggen om verder te gaan</p>
+ <?php ($loginForm->view()); ?>
+	</div>
+
 <?php $this->stopSection(); ?>
 
 <?php if (@$_shouldextend[1]) { echo $this->runChild('layout-extern.layout'); } ?>
