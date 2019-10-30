@@ -1,0 +1,12 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('titel', 'Foutmelding'); ?>
+
+<?php $this->startSection('breadcrumbs', ''); ?>
+
+<?php $this->startSection('content'); ?>
+	<h1>405: Methode niet toegestaan.</h1>
+	<p>Deze pagina zou je bij normaal gebruik niet moeten zien. Dat je deze pagina voor je neus hebt betekent dat er iets mis is, schop de PubCie en leg aan hen uit hoe je op deze pagina gekomen bent.</p>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('base'); } ?>
