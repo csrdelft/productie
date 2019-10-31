@@ -1342,8 +1342,6 @@ class ComposerStaticInit2616e2d90c2305d235c8741fa020aa12
         'CsrDelft\\view\\maalcie\\persoonlijk\\MijnCorveeView' => __DIR__ . '/../..' . '/lib/view/maalcie/persoonlijk/MijnCorveeView.php',
         'CsrDelft\\view\\maalcie\\persoonlijk\\MijnMaaltijdView' => __DIR__ . '/../..' . '/lib/view/maalcie/persoonlijk/MijnMaaltijdView.php',
         'CsrDelft\\view\\maalcie\\persoonlijk\\MijnMaaltijdenView' => __DIR__ . '/../..' . '/lib/view/maalcie/persoonlijk/MijnMaaltijdenView.php',
-        'CsrDelft\\view\\maalcie\\persoonlijk\\abonnementen\\MijnAbonnementView' => __DIR__ . '/../..' . '/lib/view/maalcie/persoonlijk/abonnementen/MijnAbonnementView.php',
-        'CsrDelft\\view\\maalcie\\persoonlijk\\abonnementen\\MijnAbonnementenView' => __DIR__ . '/../..' . '/lib/view/maalcie/persoonlijk/abonnementen/MijnAbonnementenView.php',
         'CsrDelft\\view\\maalcie\\persoonlijk\\voorkeuren\\MijnVoorkeurView' => __DIR__ . '/../..' . '/lib/view/maalcie/persoonlijk/voorkeuren/MijnVoorkeurView.php',
         'CsrDelft\\view\\maalcie\\persoonlijk\\voorkeuren\\MijnVoorkeurenView' => __DIR__ . '/../..' . '/lib/view/maalcie/persoonlijk/voorkeuren/MijnVoorkeurenView.php',
         'CsrDelft\\view\\maalcie\\repetities\\MaaltijdRepetitieView' => __DIR__ . '/../..' . '/lib/view/maalcie/repetities/MaaltijdRepetitieView.php',

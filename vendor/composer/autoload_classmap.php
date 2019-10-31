@@ -946,8 +946,6 @@ return array(
     'CsrDelft\\view\\maalcie\\persoonlijk\\MijnCorveeView' => $baseDir . '/lib/view/maalcie/persoonlijk/MijnCorveeView.php',
     'CsrDelft\\view\\maalcie\\persoonlijk\\MijnMaaltijdView' => $baseDir . '/lib/view/maalcie/persoonlijk/MijnMaaltijdView.php',
     'CsrDelft\\view\\maalcie\\persoonlijk\\MijnMaaltijdenView' => $baseDir . '/lib/view/maalcie/persoonlijk/MijnMaaltijdenView.php',
-    'CsrDelft\\view\\maalcie\\persoonlijk\\abonnementen\\MijnAbonnementView' => $baseDir . '/lib/view/maalcie/persoonlijk/abonnementen/MijnAbonnementView.php',
-    'CsrDelft\\view\\maalcie\\persoonlijk\\abonnementen\\MijnAbonnementenView' => $baseDir . '/lib/view/maalcie/persoonlijk/abonnementen/MijnAbonnementenView.php',
     'CsrDelft\\view\\maalcie\\persoonlijk\\voorkeuren\\MijnVoorkeurView' => $baseDir . '/lib/view/maalcie/persoonlijk/voorkeuren/MijnVoorkeurView.php',
     'CsrDelft\\view\\maalcie\\persoonlijk\\voorkeuren\\MijnVoorkeurenView' => $baseDir . '/lib/view/maalcie/persoonlijk/voorkeuren/MijnVoorkeurenView.php',
     'CsrDelft\\view\\maalcie\\repetities\\MaaltijdRepetitieView' => $baseDir . '/lib/view/maalcie/repetities/MaaltijdRepetitieView.php',
