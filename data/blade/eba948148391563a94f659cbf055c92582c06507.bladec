@@ -1,0 +1,42 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('titel', 'Beheer corveefuncties en kwalificaties'); ?>
+
+<?php $this->startSection('content'); ?>
+	@parentXYZABC
+	<p>
+ Op deze pagina kunt u corveefuncties aanmaken, wijzigen en verwijderen.
+ Onderstaande tabel toont alle functies in het systeem.
+ Ook kunt u aangeven of er een kwalificatie benodigd is en een kwalificatie toewijzen of intrekken.
+	</p>
+	<p>
+ N.B. Voordat een corveefunctie verwijderd kan worden moeten eerst alle bijbehorende corveetaken en alle bijbehorende
+ corveerepetities definitief zijn verwijderd.
+	</p>
+	<div class="float-right">
+ <a href="/corvee/functies/toevoegen" class="btn post popup">
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["add"]); ?> Nieuwe functie
+ </a>
+	</div>
+	<table id="maalcie-tabel" class="maalcie-tabel">
+ <thead>
+ <tr>
+ <th>Wijzig</th>
+ <th title="Afkorting">Afk</th>
+ <th>Naam</th>
+ <th>Standaard<br/>punten</th>
+ <th title="Email bericht"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["email"]); ?></th>
+ <th>Gekwalificeerden</th>
+ <th title="Mag maaltijden sluiten"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["lock_add"]); ?></th>
+ <th title="Definitief verwijderen" class="text-center"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["cross"]); ?></th>
+ </tr>
+ </thead>
+ <tbody>
+ <?php $__currentLoopData = $functies; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $functie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php echo $this->runChild('maaltijden.functie.beheer_functie_lijst', ['functie' => $functie]); ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </tbody>
+	</table>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('maaltijden.base'); } ?>

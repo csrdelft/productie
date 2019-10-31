@@ -1,0 +1,2 @@
+<?php echo $this->runChild('maaltijden.functie.beheer_functie_lijst', ['functie' => $functie]); ?>;
+<tr id="maalcie-melding"><td><?php echo getMelding(); ?></td></tr>
