@@ -43,8 +43,9 @@
  </a>
 
  <?php elseif($maaltijd->getAantalAanmeldingen() >= $maaltijd->aanmeld_limiet): ?>
- <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["stop", null, "Maaltijd is vol"]); ?>&nbsp;
- <span class="maaltijd-afgemeld">Niet aangemeld</span>
+ <div class="btn btn-danger disabled">
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["stop", null, "Maaltijd is vol"]); ?>&nbsp; Niet aangemeld
+ </div>
 
  <?php else: ?>
  <a
@@ -60,7 +61,7 @@
  <?php else: ?>
  <?php if(isset($aanmelding)): ?>
  <?php if($maaltijd->getEindMoment() > time()): ?>
- <span class="maaltijd-aangemeld">Aangemeld <?php if($aanmelding->door_abonnement): ?> (abo) <?php endif; ?></span>
+ <div class="btn btn-success disabled">Aangemeld <?php if($aanmelding->door_abonnement): ?> (abo) <?php endif; ?></div>
  <?php else: ?>
  <span class="beoordeling-label bg-white">Kwaliteit:</span>
  <?php echo $kwaliteit; ?>
@@ -70,7 +71,7 @@
 
  <?php endif; ?>
  <?php else: ?>
- <span class="maaltijd-afgemeld">Niet aangemeld</span>
+ <div class="btn btn-danger disabled">Niet aangemeld</div>
  <?php endif; ?>
  <?php endif; ?>
 
