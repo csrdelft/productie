@@ -940,7 +940,6 @@ return array(
     'CsrDelft\\view\\maalcie\\forms\\TaakForm' => $baseDir . '/lib/view/maalcie/forms/TaakForm.php',
     'CsrDelft\\view\\maalcie\\forms\\ToewijzenForm' => $baseDir . '/lib/view/maalcie/forms/ToewijzenForm.php',
     'CsrDelft\\view\\maalcie\\forms\\VrijstellingForm' => $baseDir . '/lib/view/maalcie/forms/VrijstellingForm.php',
-    'CsrDelft\\view\\maalcie\\persoonlijk\\MijnCorveeView' => $baseDir . '/lib/view/maalcie/persoonlijk/MijnCorveeView.php',
     'CsrDelft\\view\\maalcie\\persoonlijk\\MijnMaaltijdView' => $baseDir . '/lib/view/maalcie/persoonlijk/MijnMaaltijdView.php',
     'CsrDelft\\view\\maalcie\\persoonlijk\\MijnMaaltijdenView' => $baseDir . '/lib/view/maalcie/persoonlijk/MijnMaaltijdenView.php',
     'CsrDelft\\view\\maalcie\\persoonlijk\\voorkeuren\\MijnVoorkeurView' => $baseDir . '/lib/view/maalcie/persoonlijk/voorkeuren/MijnVoorkeurView.php',
