@@ -908,7 +908,6 @@ return array(
     'CsrDelft\\view\\maalcie\\beheer\\FiscaatMaaltijdenOverzichtResponse' => $baseDir . '/lib/view/maalcie/beheer/FiscaatMaaltijdenOverzichtResponse.php',
     'CsrDelft\\view\\maalcie\\beheer\\FiscaatMaaltijdenOverzichtTable' => $baseDir . '/lib/view/maalcie/beheer/FiscaatMaaltijdenOverzichtTable.php',
     'CsrDelft\\view\\maalcie\\beheer\\MaalCieBeheerMenuView' => $baseDir . '/lib/view/maalcie/beheer/MaalCieBeheerMenuView.php',
-    'CsrDelft\\view\\maalcie\\beheer\\MaalCieBoekjaarSluitenView' => $baseDir . '/lib/view/maalcie/beheer/MaalCieBoekjaarSluitenView.php',
     'CsrDelft\\view\\maalcie\\beheer\\MaaltijdLijstView' => $baseDir . '/lib/view/maalcie/beheer/MaaltijdLijstView.php',
     'CsrDelft\\view\\maalcie\\beheer\\OnverwerkteMaaltijdenTable' => $baseDir . '/lib/view/maalcie/beheer/OnverwerkteMaaltijdenTable.php',
     'CsrDelft\\view\\maalcie\\beheer\\PrullenbakMaaltijdenTable' => $baseDir . '/lib/view/maalcie/beheer/PrullenbakMaaltijdenTable.php',
