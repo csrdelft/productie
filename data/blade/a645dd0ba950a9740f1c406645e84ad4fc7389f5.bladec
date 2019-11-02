@@ -1,0 +1,37 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('titel', 'Beheer vrijstellingen'); ?>
+
+<?php $this->startSection('content'); ?>
+	@parentXYZABC
+	<p>
+ Op deze pagina kunt u vrijstellingen aanmaken, wijzigen en verwijderen. Onderstaande tabel toont alle vrijstellingen
+ in het systeem.
+	</p>
+	<p>
+ N.B. Pas bij het resetten van het corveejaar worden de punten toegekend (te behalen corveepunten per jaar maal het
+ vrijstellingspercentage afgerond naar boven).
+	</p>
+	<div class="float-right"><a href="/corvee/vrijstellingen/nieuw" class="btn post popup"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["add"]); ?> Nieuwe
+ vrijstelling</a></div>
+	<table id="maalcie-tabel" class="maalcie-tabel">
+ <thead>
+ <tr>
+ <th>Wijzig</th>
+ <th>Lid</th>
+ <th>Van <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["bullet_arrow_up"]); ?></th>
+ <th>Tot</th>
+ <th>Percentage</th>
+ <th>Punten</th>
+ <th title="Definitief verwijderen" class="text-center"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["cross"]); ?></th>
+ </tr>
+ </thead>
+ <tbody>
+ <?php $__currentLoopData = $vrijstellingen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $vrijstelling): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php echo $this->runChild('maaltijden.vrijstelling.beheer_vrijstelling_lijst', ['vrijstelling' => $vrijstelling]); ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </tbody>
+	</table>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('maaltijden.base'); } ?>
