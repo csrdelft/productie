@@ -1,0 +1,55 @@
+<tr id="punten-row-<?php echo static::e($puntenlijst["lid"]->uid); ?>">
+	<td><?php echo static::e($puntenlijst["lid"]->getNaam(instelling('corvee', 'weergave_ledennamen_beheer'))); ?></td>
+	<?php $__currentLoopData = $puntenlijst["aantal"]; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $fid => $aantal): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+	<td>
+ <?php if($aantal !== 0): ?>
+ <?php echo static::e($puntenlijst["punten"][$fid]); ?>
+
+ <?php endif; ?>
+ <?php if($puntenlijst["bonus"][$fid] > 0): ?>
+ +
+ <?php endif; ?>
+ <?php if($puntenlijst["bonus"][$fid] !== 0): ?>
+ <?php echo static::e($puntenlijst["bonus"][$fid]); ?>
+
+ <?php endif; ?>
+ <?php if($aantal !== 0): ?>
+ ,<?php echo static::e($aantal); ?>
+
+ <?php endif; ?>
+	</td>
+	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+	<td>
+ <div class="InlineForm">
+ <div class="InlineFormToggle"><?php echo static::e($puntenlijst["puntenTotaal"]); ?></div>
+ <form action="/corvee/punten/wijzigpunten/<?php echo static::e($puntenlijst["lid"]->uid); ?>" method="post" class="Formulier InlineForm ToggleForm">
+ <?php (printCsrfField()); ?>
+ <input type="text" name="totaal_punten" value="<?php echo static::e($puntenlijst["puntenTotaal"]); ?>" origvalue="<?php echo static::e($puntenlijst["puntenTotaal"]); ?>" class="FormElement" maxlength="4" size="4" />
+ <a class="btn submit" title="Wijzigingen opslaan"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["accept"]); ?></a>
+ <a class="btn reset cancel" title="Annuleren" ><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["delete"]); ?></a>
+ </form>
+ </div>
+	</td>
+	<td>
+ <div class="InlineForm">
+ <div class="InlineFormToggle"><?php echo static::e($puntenlijst["bonusTotaal"]); ?></div>
+ <form action="/corvee/punten/wijzigbonus/<?php echo static::e($puntenlijst["lid"]->uid); ?>" method="post" class="Formulier InlineForm ToggleForm">
+ <?php (printCsrfField()); ?>
+ <input type="text" name="totaal_bonus" value="<?php echo static::e($puntenlijst["bonusTotaal"]); ?>" origvalue="<?php echo static::e($puntenlijst["bonusTotaal"]); ?>" class="FormElement" maxlength="4" size="4" />
+ <a class="btn submit" title="Wijzigingen opslaan"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["accept"]); ?></a>
+ <a class="btn reset cancel" title="Annuleren"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["delete"]); ?></a>
+ </form>
+ </div>
+	</td>
+	<td style="text-align: right; background-color: <?php echo static::e('#' . $puntenlijst["prognoseColor"]); ?>;" <?php if($puntenlijst["vrijstelling"]): ?> title="<?php echo static::e($puntenlijst["vrijstelling"]->percentage); ?>% vrijstelling" <?php endif; ?> >
+	<?php echo static::e($puntenlijst["prognose"]); ?>
+
+	<div class="inline" style="width: 25px;">
+ <?php if($puntenlijst["vrijstelling"]): ?>
+ *
+ <?php else: ?>
+ &nbsp;
+ <?php endif; ?>
+	</div>
+	</td>
+</tr>
