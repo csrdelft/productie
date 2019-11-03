@@ -938,8 +938,6 @@ return array(
     'CsrDelft\\view\\maalcie\\forms\\VrijstellingForm' => $baseDir . '/lib/view/maalcie/forms/VrijstellingForm.php',
     'CsrDelft\\view\\maalcie\\persoonlijk\\MijnMaaltijdView' => $baseDir . '/lib/view/maalcie/persoonlijk/MijnMaaltijdView.php',
     'CsrDelft\\view\\maalcie\\persoonlijk\\MijnMaaltijdenView' => $baseDir . '/lib/view/maalcie/persoonlijk/MijnMaaltijdenView.php',
-    'CsrDelft\\view\\maalcie\\repetities\\MaaltijdRepetitieView' => $baseDir . '/lib/view/maalcie/repetities/MaaltijdRepetitieView.php',
-    'CsrDelft\\view\\maalcie\\repetities\\MaaltijdRepetitiesView' => $baseDir . '/lib/view/maalcie/repetities/MaaltijdRepetitiesView.php',
     'CsrDelft\\view\\menubeheer\\MenuBeheerView' => $baseDir . '/lib/view/menubeheer/MenuBeheerView.php',
     'CsrDelft\\view\\menubeheer\\MenuItemForm' => $baseDir . '/lib/view/menubeheer/MenuItemForm.php',
     'CsrDelft\\view\\menubeheer\\MenuItemView' => $baseDir . '/lib/view/menubeheer/MenuItemView.php',

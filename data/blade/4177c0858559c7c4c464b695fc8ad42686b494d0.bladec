@@ -1,0 +1,52 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('titel', 'Beheer maaltijdrepetities'); ?>
+
+<?php $this->startSection('content'); ?>
+	@parentXYZABC
+	<p>
+ Op deze pagina kunt u de repetitiespatronen voor maaltijden aanmaken, wijzigen en verwijderen.
+ Onderstaande tabel toont alle repetities.
+	</p>
+	<h3>Repetities verwijderen</h3>
+	<p>
+ Voordat een maaltijdrepetitie verwijderd kan worden moeten eerst alle bijbehorende maaltijden definitief zijn
+ verwijderd.
+ Dit is dus inclusief alle maaltijdaanmeldingen (die mogelijk door een abonnement op deze maaltijdrepetitie zijn
+ aangemaakt).
+ Bij het verwijderen van een maaltijdrepetitie zullen eerst deze bijbehorende maaltijden in de prullenbak worden
+ geplaatst als ze er zijn.
+ Daarnaast blijven bij het verwijderen eventuele gekoppelde corveerepetities bestaan.
+	</p>
+	<p>
+ N.B. Pas na het definitief verwijderen van de bijbehorende maaltijden zal de maaltijdrepetitie verwijderd kunnen
+ worden.
+ Dan pas zullen ook alle abonnementen op deze maaltijdrepetitie automatisch worden uitgeschakeld en verwijderd.
+	</p>
+	<div class="float-right"><a href="/maaltijden/repetities/nieuw" class="btn post popup"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["add"]); ?> Nieuwe
+ repetitie</a>
+	</div>
+	<table id="maalcie-tabel" class="maalcie-tabel">
+ <thead>
+ <tr>
+ <th>Wijzig</th>
+ <th>Titel</th>
+ <th>Dag</th>
+ <th>Periode</th>
+ <th>Tijd</th>
+ <th>Prijs</th>
+ <th>Limiet</th>
+ <th><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["tick", null, "Abonneerbaar"]); ?></th>
+ <th>Filter</th>
+ <th title="Definitief verwijderen" class="text-center"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["cross"]); ?></th>
+ </tr>
+ </thead>
+ <tbody>
+ <?php $__currentLoopData = $repetities; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $repetitie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php echo $this->runChild('maaltijden.maaltijdrepetitie.beheer_maaltijd_repetitie_lijst', ['repetitie' => $repetitie]); ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </tbody>
+	</table>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('maaltijden.base'); } ?>
