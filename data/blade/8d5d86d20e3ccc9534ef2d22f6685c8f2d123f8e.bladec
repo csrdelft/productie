@@ -1,0 +1,72 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php if(isset($maaltijdrepetitie)): ?>
+	<?php $this->startSection('titel', 'Corveebeheer maaltijdrepetitie: ' . $maaltijdrepetitie->standaard_titel); ?>
+<?php else: ?>
+	<?php $this->startSection('titel', 'Beheer corveerepetities'); ?>
+<?php endif; ?>
+
+<?php $this->startSection('content'); ?>
+	@parentXYZABC
+<p>
+	Op deze pagina kunt u corveerepetities aanmaken, wijzigen en verwijderen
+	<?php if(isset($maaltijdrepetitie)): ?>
+ behorend bij de maaltijdrepetitie:<br/>
+ <span class="dikgedrukt"><?php echo static::e($maaltijdrepetitie->standaard_titel); ?></span>
+ <a href="/maaltijdenrepetities/beheer/<?php echo static::e($maaltijdrepetitie->mlt_repetitie_id); ?>" title="Wijzig gekoppelde maaltijd"
+  class="btn popup"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["calendar_edit"]); ?></a>
+	<?php else: ?>
+ .
+	<?php endif; ?>
+</p>
+<p>
+	Onderstaande tabel toont
+	<?php if(isset($maaltijdrepetitie)): ?>
+ <span class="cursief">alleen</span> de corveerepetities voor deze maaltijdrepetitie
+	<?php else: ?>
+ alle repetities in het systeem
+	<?php endif; ?>
+	.
+</p>
+<h3>Repetities verwijderen</h3>
+<p>
+	Voordat een corveerepetitie verwijderd kan worden moeten eerst alle bijbehorende corveetaken definitief zijn
+	verwijderd.
+	Dit is dus inclusief maaltijdcorveetaken (die door een gekoppelde maaltijdrepetitie zijn aangemaakt).
+	Bij het verwijderen van een gekoppelde maaltijdrepetitie blijven de eventuele gekoppelde corveerepetities bestaan.
+</p>
+<p>
+	N.B. Als u kiest voor "Alles bijwerken" worden alle corveetaken die behoren tot de betreffende corveerepetitie
+	bijgewerkt, ongeacht of ze tot een maaltijd behoren. Er worden ook extra taken aangemaakt tot aan het standaard
+	aantal.
+</p>
+<div class="float-right">
+	<?php if(empty($maaltijdrepetitie)): ?>
+ <a href="/corvee/repetities/nieuw" class="btn post popup"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["add"]); ?> Nieuwe repetitie</a>
+	<?php else: ?>
+ <a href="/corvee/repetities/nieuw/<?php echo static::e($maaltijdrepetitie->mlt_repetitie_id); ?>" class="btn post popup"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["add"]); ?>
+ Nieuwe repetitie</a>
+	<?php endif; ?>
+</div>
+<table id="maalcie-tabel" class="maalcie-tabel">
+	<thead>
+	<tr>
+ <th>Wijzig</th>
+ <th>Functie</th>
+ <th>Dag</th>
+ <th>Periode</th>
+ <th><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["tick", null, "Voorkeurbaar"]); ?></th>
+ <th>Standaard<br/>punten</th>
+ <th>Aantal<br/>corveeërs</th>
+ <th title="Definitief verwijderen" class="text-center"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["cross"]); ?></th>
+	</tr>
+	</thead>
+	<tbody>
+	<?php $__currentLoopData = $repetities; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $repetitie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php echo $this->runChild('maaltijden.corveerepetitie.beheer_corvee_repetitie_lijst', ['repetitie' => $repetitie, 'maaltijdrepetitie' => $maaltijdrepetitie]); ?>
+	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+	</tbody>
+</table>
+	<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('maaltijden.base'); } ?>
