@@ -915,8 +915,6 @@ return array(
     'CsrDelft\\view\\maalcie\\corvee\\functies\\FunctieDeleteView' => $baseDir . '/lib/view/maalcie/corvee/functies/FunctieDeleteView.php',
     'CsrDelft\\view\\maalcie\\corvee\\functies\\FunctieForm' => $baseDir . '/lib/view/maalcie/corvee/functies/FunctieForm.php',
     'CsrDelft\\view\\maalcie\\corvee\\functies\\KwalificatieForm' => $baseDir . '/lib/view/maalcie/corvee/functies/KwalificatieForm.php',
-    'CsrDelft\\view\\maalcie\\corvee\\punten\\BeheerPuntenLidView' => $baseDir . '/lib/view/maalcie/corvee/punten/BeheerPuntenLidView.php',
-    'CsrDelft\\view\\maalcie\\corvee\\punten\\BeheerPuntenView' => $baseDir . '/lib/view/maalcie/corvee/punten/BeheerPuntenView.php',
     'CsrDelft\\view\\maalcie\\corvee\\taken\\BeheerTaakView' => $baseDir . '/lib/view/maalcie/corvee/taken/BeheerTaakView.php',
     'CsrDelft\\view\\maalcie\\corvee\\taken\\BeheerTakenLijstView' => $baseDir . '/lib/view/maalcie/corvee/taken/BeheerTakenLijstView.php',
     'CsrDelft\\view\\maalcie\\corvee\\taken\\BeheerTakenView' => $baseDir . '/lib/view/maalcie/corvee/taken/BeheerTakenView.php',

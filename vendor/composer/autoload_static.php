@@ -1311,8 +1311,6 @@ class ComposerStaticInit2616e2d90c2305d235c8741fa020aa12
         'CsrDelft\\view\\maalcie\\corvee\\functies\\FunctieDeleteView' => __DIR__ . '/../..' . '/lib/view/maalcie/corvee/functies/FunctieDeleteView.php',
         'CsrDelft\\view\\maalcie\\corvee\\functies\\FunctieForm' => __DIR__ . '/../..' . '/lib/view/maalcie/corvee/functies/FunctieForm.php',
         'CsrDelft\\view\\maalcie\\corvee\\functies\\KwalificatieForm' => __DIR__ . '/../..' . '/lib/view/maalcie/corvee/functies/KwalificatieForm.php',
-        'CsrDelft\\view\\maalcie\\corvee\\punten\\BeheerPuntenLidView' => __DIR__ . '/../..' . '/lib/view/maalcie/corvee/punten/BeheerPuntenLidView.php',
-        'CsrDelft\\view\\maalcie\\corvee\\punten\\BeheerPuntenView' => __DIR__ . '/../..' . '/lib/view/maalcie/corvee/punten/BeheerPuntenView.php',
         'CsrDelft\\view\\maalcie\\corvee\\taken\\BeheerTaakView' => __DIR__ . '/../..' . '/lib/view/maalcie/corvee/taken/BeheerTaakView.php',
         'CsrDelft\\view\\maalcie\\corvee\\taken\\BeheerTakenLijstView' => __DIR__ . '/../..' . '/lib/view/maalcie/corvee/taken/BeheerTakenLijstView.php',
         'CsrDelft\\view\\maalcie\\corvee\\taken\\BeheerTakenView' => __DIR__ . '/../..' . '/lib/view/maalcie/corvee/taken/BeheerTakenView.php',
