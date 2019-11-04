@@ -918,8 +918,6 @@ return array(
     'CsrDelft\\view\\maalcie\\corvee\\taken\\BeheerTaakView' => $baseDir . '/lib/view/maalcie/corvee/taken/BeheerTaakView.php',
     'CsrDelft\\view\\maalcie\\corvee\\taken\\BeheerTakenLijstView' => $baseDir . '/lib/view/maalcie/corvee/taken/BeheerTakenLijstView.php',
     'CsrDelft\\view\\maalcie\\corvee\\taken\\BeheerTakenView' => $baseDir . '/lib/view/maalcie/corvee/taken/BeheerTakenView.php',
-    'CsrDelft\\view\\maalcie\\corvee\\voorkeuren\\BeheerVoorkeurView' => $baseDir . '/lib/view/maalcie/corvee/voorkeuren/BeheerVoorkeurView.php',
-    'CsrDelft\\view\\maalcie\\corvee\\voorkeuren\\BeheerVoorkeurenView' => $baseDir . '/lib/view/maalcie/corvee/voorkeuren/BeheerVoorkeurenView.php',
     'CsrDelft\\view\\maalcie\\forms\\AanmeldingForm' => $baseDir . '/lib/view/maalcie/forms/AanmeldingForm.php',
     'CsrDelft\\view\\maalcie\\forms\\BoekjaarSluitenForm' => $baseDir . '/lib/view/maalcie/forms/BoekjaarSluitenForm.php',
     'CsrDelft\\view\\maalcie\\forms\\CorveeRepetitieForm' => $baseDir . '/lib/view/maalcie/forms/CorveeRepetitieForm.php',

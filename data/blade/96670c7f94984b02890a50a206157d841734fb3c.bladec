@@ -1,0 +1,11 @@
+<td id="voorkeur-cell-<?php echo static::e($voorkeur->getVanUid()); ?>-<?php echo static::e($crid); ?>"
+ class="<?php if(isset($uid)): ?> voorkeur-ingeschakeld <?php else: ?> voorkeur-uitgeschakeld <?php endif; ?> ">
+	<a
+ href="/corvee/voorkeuren/beheer/<?php echo static::e(!empty($uid) ? 'uitschakelen' : 'inschakelen'); ?>/<?php echo static::e($crid); ?>/<?php echo static::e($voorkeur->getVanUid()); ?>"
+ class="btn post <?php if(isset($uid)): ?> voorkeur-ingeschakeld <?php else: ?> voorkeur-uitgeschakeld <?php endif; ?> ">
+ <input type="checkbox"
+  id="box-<?php echo static::e($voorkeur->getVanUid()); ?>-<?php echo static::e($crid); ?>"
+  name="vrk-<?php echo static::e($crid); ?>"
+  <?php if(isset($uid)): ?> checked="checked" <?php endif; ?> />
+	</a>
+</td>

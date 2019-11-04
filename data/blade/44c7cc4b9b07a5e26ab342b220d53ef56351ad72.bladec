@@ -1,0 +1,44 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('titel', 'Beheer voorkeuren'); ?>
+
+<?php $this->startSection('content'); ?>
+	@parentXYZABC
+	<p>
+ Op deze pagina kunt u voor alle leden de voorkeuren beheren.
+	</p>
+	<table id="maalcie-tabel" class="maalcie-tabel">
+ <?php $__currentLoopData = $matrix; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $voorkeuren): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php if($loop->index % 25 === 0): ?>
+ <?php if(!$loop->first): ?></tbody><?php endif; ?>
+ <thead>
+ <tr>
+ <th class="text-bottom">Lid</th>
+ <?php $__currentLoopData = $repetities; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $repetitie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <th class="<?php $this->cycle_maaltijden_voorkeur_beheer_voorkeuren0 = @$this->cycle_maaltijden_voorkeur_beheer_voorkeuren0; echo ['rowColor0','rowColor1'][($this->cycle_maaltijden_voorkeur_beheer_voorkeuren0++) % 2]; ?>" style="width: 30px;">
+ <div style="width: 28px;">
+ <a href="/corveerepetities/beheer/<?php echo static::e($repetitie->crv_repetitie_id); ?>" title="Wijzig corveerepetitie"
+  class="btn popup">
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["calendar_edit"]); ?>
+ </a>
+ </div>
+ <div style="width: 26px; height: 160px;">
+ <div class="vertical niet-dik" style="position: relative; top: 130px;">
+ <nobr><?php echo static::e($repetitie->getCorveeFunctie()->naam); ?></nobr>
+ <br/>
+ <nobr>op <?php echo static::e($repetitie->getDagVanDeWeekText()); ?></nobr>
+ </div>
+ </div>
+ </th>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </tr>
+ </thead>
+ <tbody>
+ <?php endif; ?>
+ <?php echo $this->runChild('maaltijden.voorkeur.beheer_voorkeur_lijst', ['voorkeuren' => $voorkeuren]); ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </tbody>
+	</table>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('maaltijden.base'); } ?>

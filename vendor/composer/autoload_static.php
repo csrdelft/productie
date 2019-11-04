@@ -1314,8 +1314,6 @@ class ComposerStaticInit2616e2d90c2305d235c8741fa020aa12
         'CsrDelft\\view\\maalcie\\corvee\\taken\\BeheerTaakView' => __DIR__ . '/../..' . '/lib/view/maalcie/corvee/taken/BeheerTaakView.php',
         'CsrDelft\\view\\maalcie\\corvee\\taken\\BeheerTakenLijstView' => __DIR__ . '/../..' . '/lib/view/maalcie/corvee/taken/BeheerTakenLijstView.php',
         'CsrDelft\\view\\maalcie\\corvee\\taken\\BeheerTakenView' => __DIR__ . '/../..' . '/lib/view/maalcie/corvee/taken/BeheerTakenView.php',
-        'CsrDelft\\view\\maalcie\\corvee\\voorkeuren\\BeheerVoorkeurView' => __DIR__ . '/../..' . '/lib/view/maalcie/corvee/voorkeuren/BeheerVoorkeurView.php',
-        'CsrDelft\\view\\maalcie\\corvee\\voorkeuren\\BeheerVoorkeurenView' => __DIR__ . '/../..' . '/lib/view/maalcie/corvee/voorkeuren/BeheerVoorkeurenView.php',
         'CsrDelft\\view\\maalcie\\forms\\AanmeldingForm' => __DIR__ . '/../..' . '/lib/view/maalcie/forms/AanmeldingForm.php',
         'CsrDelft\\view\\maalcie\\forms\\BoekjaarSluitenForm' => __DIR__ . '/../..' . '/lib/view/maalcie/forms/BoekjaarSluitenForm.php',
         'CsrDelft\\view\\maalcie\\forms\\CorveeRepetitieForm' => __DIR__ . '/../..' . '/lib/view/maalcie/forms/CorveeRepetitieForm.php',
