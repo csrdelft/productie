@@ -901,7 +901,6 @@ return array(
     'CsrDelft\\view\\maalcie\\beheer\\ArchiefMaaltijdenTable' => $baseDir . '/lib/view/maalcie/beheer/ArchiefMaaltijdenTable.php',
     'CsrDelft\\view\\maalcie\\beheer\\BeheerMaaltijdenBeoordelingenLijst' => $baseDir . '/lib/view/maalcie/beheer/BeheerMaaltijdenBeoordelingenLijst.php',
     'CsrDelft\\view\\maalcie\\beheer\\BeheerMaaltijdenBeoordelingenTable' => $baseDir . '/lib/view/maalcie/beheer/BeheerMaaltijdenBeoordelingenTable.php',
-    'CsrDelft\\view\\maalcie\\beheer\\BeheerMaaltijdenBeoordelingenView' => $baseDir . '/lib/view/maalcie/beheer/BeheerMaaltijdenBeoordelingenView.php',
     'CsrDelft\\view\\maalcie\\beheer\\BeheerMaaltijdenLijst' => $baseDir . '/lib/view/maalcie/beheer/BeheerMaaltijdenLijst.php',
     'CsrDelft\\view\\maalcie\\beheer\\BeheerMaaltijdenTable' => $baseDir . '/lib/view/maalcie/beheer/BeheerMaaltijdenTable.php',
     'CsrDelft\\view\\maalcie\\beheer\\BeheerMaaltijdenView' => $baseDir . '/lib/view/maalcie/beheer/BeheerMaaltijdenView.php',

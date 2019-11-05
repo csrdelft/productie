@@ -1297,7 +1297,6 @@ class ComposerStaticInit2616e2d90c2305d235c8741fa020aa12
         'CsrDelft\\view\\maalcie\\beheer\\ArchiefMaaltijdenTable' => __DIR__ . '/../..' . '/lib/view/maalcie/beheer/ArchiefMaaltijdenTable.php',
         'CsrDelft\\view\\maalcie\\beheer\\BeheerMaaltijdenBeoordelingenLijst' => __DIR__ . '/../..' . '/lib/view/maalcie/beheer/BeheerMaaltijdenBeoordelingenLijst.php',
         'CsrDelft\\view\\maalcie\\beheer\\BeheerMaaltijdenBeoordelingenTable' => __DIR__ . '/../..' . '/lib/view/maalcie/beheer/BeheerMaaltijdenBeoordelingenTable.php',
-        'CsrDelft\\view\\maalcie\\beheer\\BeheerMaaltijdenBeoordelingenView' => __DIR__ . '/../..' . '/lib/view/maalcie/beheer/BeheerMaaltijdenBeoordelingenView.php',
         'CsrDelft\\view\\maalcie\\beheer\\BeheerMaaltijdenLijst' => __DIR__ . '/../..' . '/lib/view/maalcie/beheer/BeheerMaaltijdenLijst.php',
         'CsrDelft\\view\\maalcie\\beheer\\BeheerMaaltijdenTable' => __DIR__ . '/../..' . '/lib/view/maalcie/beheer/BeheerMaaltijdenTable.php',
         'CsrDelft\\view\\maalcie\\beheer\\BeheerMaaltijdenView' => __DIR__ . '/../..' . '/lib/view/maalcie/beheer/BeheerMaaltijdenView.php',
