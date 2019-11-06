@@ -1,0 +1,126 @@
+<tr id="maaltijd-row-<?php echo static::e($maaltijd->maaltijd_id); ?>"
+ <?php if($maaltijd->aanmeld_limiet === 0 or ($maaltijd->gesloten and ! $aanmelding)): ?> class="taak-grijs" <?php endif; ?> >
+	<td>
+ <?php echo static::e(strftime("%a %e %b", strtotime($maaltijd->datum))); ?> <?php echo static::e(strftime("%H:%M", strtotime($maaltijd->tijd))); ?>
+
+ <?php if($maaltijd->magBekijken(CsrDelft\model\security\LoginModel::getUid())): ?>
+ <div class="float-right">
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["paintcan", null, $maaltijd->maaltijdcorvee->getCorveeFunctie()->naam]); ?>
+ </div>
+ <?php endif; ?>
+	</td>
+	<td>
+ <div class="titel"><?php echo static::e($maaltijd->titel); ?>
+
+ <span title="BB-code: [maaltijd=<?php echo static::e($maaltijd->maaltijd_id); ?>]"
+ class="maaltijd-id"> (#<?php echo static::e($maaltijd->maaltijd_id); ?>)</span>
+ <div class="float-right">
+ <?php ($prijs = sprintf("%.2f", $maaltijd->getPrijsFloat())); ?>
+ <?php if($aanmelding and $aanmelding->getSaldoStatus() < 0): ?>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["money_delete", null, "U hebt een negatief CiviSaldo!&#013;Maaltijdprijs: &euro; " . $prijs]); ?>
+ <?php elseif($aanmelding and $aanmelding->getSaldoStatus() < 2): ?>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["money_delete", null, "Uw CiviSaldo is te laag!&#013;Maaltijdprijs: &euro; " . $prijs]); ?>
+ <?php elseif($maaltijd->getPrijs() != $standaardprijs): ?>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["money", null, "Afwijkende maaltijdprijs: &euro; " . $prijs]); ?>
+ <?php else: ?>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["money_euro", null, "Maaltijdprijs: &euro; " . $prijs]); ?>
+ <?php endif; ?>
+ </div>
+ </div>
+ <?php echo bbcode($maaltijd->omschrijving ?? ""); ?>
+
+	</td>
+	<td class="text-center">
+ <?php echo static::e($maaltijd->getAantalAanmeldingen()); ?> (<?php echo static::e($maaltijd->aanmeld_limiet); ?>)
+ <?php if($maaltijd->magSluiten(CsrDelft\model\security\LoginModel::getUid())): ?>
+ <div class="float-right">
+ <a href="/maaltijden/lijst/<?php echo static::e($maaltijd->maaltijd_id); ?>" title="Toon maaltijdlijst" class="btn"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["table"]); ?></a>
+ </div>
+ <?php endif; ?>
+	</td>
+	<?php if($aanmelding): ?>
+ <?php if($maaltijd->gesloten): ?>
+ <td class="maaltijd-aangemeld">
+ Ja
+ <?php if($aanmelding->door_abonnement): ?> (abo) <?php endif; ?>
+ <div class="float-right">
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["lock", null, "Maaltijd is gesloten om " . strftime('%H:%M', strtotime($maaltijd->laatst_gesloten)) . ""]); ?>
+ </div>
+ <?php else: ?>
+ <td class="maaltijd-aangemeld">
+ <a href="/maaltijden/ketzer/afmelden/<?php echo static::e($maaltijd->maaltijd_id); ?>" class="btn post maaltijd-aangemeld">
+ <input type="checkbox" checked="checked"/> Ja
+ </a>
+ <?php if($aanmelding->door_abonnement): ?> (abo) <?php endif; ?>
+ <?php endif; ?>
+ </td>
+ <td class="maaltijd-gasten">
+ <?php if($maaltijd->gesloten): ?>
+ <?php echo static::e($aanmelding->aantal_gasten); ?>
+
+ <?php else: ?>
+ <div class="InlineForm">
+ <div class="InlineFormToggle maaltijd-gasten"><?php echo static::e($aanmelding->aantal_gasten); ?></div>
+ <form action="/maaltijden/ketzer/gasten/<?php echo static::e($maaltijd->maaltijd_id); ?>" method="post"
+ class="Formulier InlineForm ToggleForm">
+ <?php echo printCsrfField(); ?>
+
+ <input type="text" name="aantal_gasten" value="<?php echo static::e($aanmelding->aantal_gasten); ?>"
+  origvalue="<?php echo static::e($aanmelding->aantal_gasten); ?>" class="FormElement" maxlength="4" size="4"/>
+ <a class="btn submit" title="Wijzigingen opslaan"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["accept"]); ?></a>
+ <a class="btn reset cancel" title="Annuleren"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["delete"]); ?></a>
+ </form>
+ </div>
+ <?php endif; ?>
+ </td>
+ <td>
+ <?php if($maaltijd->gesloten): ?>
+ <?php if($aanmelding->gasten_eetwens): ?>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["comment", null, $aanmelding->gasten_eetwens]); ?>
+ <?php endif; ?>
+ <?php else: ?>
+ <?php if($aanmelding->aantal_gasten > 0): ?>
+ <div class="InlineForm">
+ <div class="InlineFormToggle" title="<?php echo static::e($aanmelding->gasten_eetwens); ?>">
+ <?php if($aanmelding->gasten_eetwens): ?>
+ <a class="btn"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["comment_edit", null, $aanmelding->gasten_eetwens]); ?></a>
+ <?php else: ?>
+ <a class="btn"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["comment_add", null, "Gasten allergie/diëet"]); ?></a>
+ <?php endif; ?>
+ </div>
+ <form action="/maaltijden/ketzer/opmerking/<?php echo static::e($maaltijd->maaltijd_id); ?>" method="post"
+ class="Formulier InlineForm ToggleForm">
+ <?php echo printCsrfField("/maaltijden/ketzer/opmerking/<?php echo static::e($maaltijd->maaltijd_id); ?>"); ?>
+
+ <input type="text" name="gasten_eetwens" value="<?php echo static::e($aanmelding->gasten_eetwens); ?>"
+  origvalue="<?php echo static::e($aanmelding->gasten_eetwens); ?>" class="FormElement" maxlength="255" size="20"/>
+ <a class="btn submit" title="Wijzigingen opslaan"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["accept"]); ?></a>
+ <a class="btn reset cancel" title="Annuleren"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["delete"]); ?></a>
+ </form>
+ </div>
+ <?php endif; ?>
+ <?php endif; ?>
+ </td>
+ <?php else: ?>
+ <?php if($maaltijd->gesloten or $maaltijd->getAantalAanmeldingen() >= $maaltijd->aanmeld_limiet): ?>
+ <td class="maaltijd-afgemeld">
+ <?php if(!$maaltijd->gesloten and $maaltijd->getAantalAanmeldingen() >= $maaltijd->aanmeld_limiet): ?>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["stop", null, "Maaltijd is vol"]); ?>&nbsp;
+ <?php endif; ?>
+ Nee
+ <?php if($maaltijd->gesloten): ?>
+ <span class="float-right">
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["lock", null, "Maaltijd is gesloten om " . strftime("%H:%M", strtotime($maaltijd->laatst_gesloten)) . ""]); ?>
+ </span>
+ <?php endif; ?>
+ <?php else: ?>
+ <td class="maaltijd-afgemeld">
+ <a href="/maaltijden/ketzer/aanmelden/<?php echo static::e($maaltijd->maaltijd_id); ?>" class="btn post maaltijd-afgemeld">
+ <input type="checkbox"/> Nee
+ </a>
+ <?php endif; ?>
+ </td>
+ <td>-</td>
+ <td></td>
+ <?php endif; ?>
+</tr>

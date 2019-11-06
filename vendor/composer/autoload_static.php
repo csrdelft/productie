@@ -1326,8 +1326,6 @@ class ComposerStaticInit2616e2d90c2305d235c8741fa020aa12
         'CsrDelft\\view\\maalcie\\forms\\TaakForm' => __DIR__ . '/../..' . '/lib/view/maalcie/forms/TaakForm.php',
         'CsrDelft\\view\\maalcie\\forms\\ToewijzenForm' => __DIR__ . '/../..' . '/lib/view/maalcie/forms/ToewijzenForm.php',
         'CsrDelft\\view\\maalcie\\forms\\VrijstellingForm' => __DIR__ . '/../..' . '/lib/view/maalcie/forms/VrijstellingForm.php',
-        'CsrDelft\\view\\maalcie\\persoonlijk\\MijnMaaltijdView' => __DIR__ . '/../..' . '/lib/view/maalcie/persoonlijk/MijnMaaltijdView.php',
-        'CsrDelft\\view\\maalcie\\persoonlijk\\MijnMaaltijdenView' => __DIR__ . '/../..' . '/lib/view/maalcie/persoonlijk/MijnMaaltijdenView.php',
         'CsrDelft\\view\\menubeheer\\MenuBeheerView' => __DIR__ . '/../..' . '/lib/view/menubeheer/MenuBeheerView.php',
         'CsrDelft\\view\\menubeheer\\MenuItemForm' => __DIR__ . '/../..' . '/lib/view/menubeheer/MenuItemForm.php',
         'CsrDelft\\view\\menubeheer\\MenuItemView' => __DIR__ . '/../..' . '/lib/view/menubeheer/MenuItemView.php',
