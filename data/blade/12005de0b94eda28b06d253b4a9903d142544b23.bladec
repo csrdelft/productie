@@ -1,0 +1,107 @@
+<?php $_shouldextend[1]=1; ?>
+<?php $this->startSection('titel', $titel . " " . strftime("%A %e %B", strtotime($maaltijd->datum))); ?>
+
+<?php $this->startSection('content'); ?>
+	<h1><?php echo static::e($titel); ?> op <?php echo static::e(strftime("%A %e %B %Y", strtotime($maaltijd->datum))); ?></h1>
+	<div
+ class="header"><?php echo str_replace("MAALTIJDPRIJS", $prijs, instelling('maaltijden', 'maaltijdlijst_tekst')); ?></div>
+	<?php if(!$maaltijd->gesloten): ?>
+ <h1 id="gesloten-melding">De maaltijd is nog niet gesloten
+ <?php if(!$maaltijd->verwijderd and !$maaltijd->gesloten): ?>
+ &nbsp;
+ <button href="/maaltijden/lijst/sluit/<?php echo static::e($maaltijd->maaltijd_id); ?>" class="btn btn-primary post confirm"
+ title="Het sluiten van de maaltijd betekent dat niemand zich meer kan aanmelden voor deze maaltijd">
+ Inschrijving sluiten
+ </button>
+ <?php endif; ?>
+ </h1>
+	<?php endif; ?>
+	<?php if($maaltijd->getAantalAanmeldingen() > 0): ?>
+ <div class="w-100" style="column-count: 3">
+ <?php $__currentLoopData = $aanmeldingen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $aanmelding): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <div class="row no-gutters py-1" style="border-bottom: 1px solid #999;">
+ <?php if($aanmelding->uid): ?>
+ <div class="col">
+ <?php echo CsrDelft\model\ProfielModel::getLink($aanmelding->uid,instelling('maaltijden', 'weergave_ledennamen_maaltijdlijst')); ?>
+
+ <br/>
+ <?php ($eetwens = CsrDelft\model\ProfielModel::get($aanmelding->uid)->eetwens); ?>
+ <?php if($eetwens !== ''): ?>
+ <strong class="eetwens"><?php echo static::e($eetwens); ?></strong>
+ <?php endif; ?>
+ <?php if(! CsrDelft\model\ProfielModel::get($aanmelding->uid)->propertyMogelijk("eetwens") ): ?>
+ <strong class="geeneetwens">Let op!</strong> Van deze gast is geen eetwens of allergie bekend (vanwege
+ de
+ lidstatus). Neem contact met deze persoon op voor informatie.
+ <?php endif; ?>
+ <?php if($aanmelding->gasten_eetwens !== ''): ?>
+ <?php if($eetwens !== ''): ?>
+ <br/>
+ <?php endif; ?>
+ <span class="opmerking">Gasten: </span>
+ <strong class="eetwens"><?php echo static::e($aanmelding->gasten_eetwens); ?></strong>
+ <?php endif; ?>
+ </div>
+ <div class="col-auto"><?php echo static::e($aanmelding->getSaldoMelding()); ?></div>
+ <?php elseif($aanmelding->door_uid): ?>
+ <div class="col">Gast
+ van <?php echo CsrDelft\model\ProfielModel::getLink($aanmelding->door_uid,instelling('maaltijden', 'weergave_ledennamen_maaltijdlijst')); ?></div>
+ <div class="col-auto">-</div>
+ <?php else: ?>
+ <div class="col" style="line-height: 2.2em;">&nbsp;</div>
+ <div class="col-auto"></div>
+ <?php endif; ?>
+ </div>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </div>
+	<?php else: ?>
+ <p>Nog geen aanmeldingen voor deze maaltijd.</p>
+	<?php endif; ?>
+	<div class="w-100">
+ <div class="row">
+ <div class="col-md-4">
+ <h3>Maaltijdgegevens</h3>
+ <table>
+ <tr>
+ <td>Inschrijvingen:</td>
+ <td><?php echo static::e($maaltijd->getAantalAanmeldingen()); ?></td>
+ </tr>
+ <tr>
+ <td>Marge:</td>
+ <td><?php echo static::e($maaltijd->getMarge()); ?></td>
+ </tr>
+ <tr>
+ <td>Eters:</td>
+ <td><?php echo static::e($eterstotaal); ?></td>
+ </tr>
+ <tr>
+ <td>Budget koks:</td>
+ <td>&euro; <?php echo static::e(sprintf("%.2f", $maaltijd->getBudget())); ?></td>
+ </tr>
+ </table>
+ </div>
+ <div class="col-md-8">
+ <h3>Corvee</h3>
+ <?php if($corveetaken): ?>
+ <div style="column-count: 2">
+ <?php $__currentLoopData = $corveetaken; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $taak): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <div>
+ <?php if($taak->uid): ?>
+ <?php echo CsrDelft\model\ProfielModel::getLink($taak->uid,instelling('maaltijden', 'weergave_ledennamen_maaltijdlijst')); ?>
+
+ <?php else: ?>
+ <span class="cursief">vacature</span>
+ <?php endif; ?>
+ &nbsp;(<?php echo static::e($taak->getCorveeFunctie()->naam); ?>)
+ </div>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </div>
+ <?php else: ?>
+ <p>Geen corveetaken voor deze maaltijd in het systeem.</p>
+ <?php endif; ?>
+ </div>
+ </div>
+	</div>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('plain'); } ?>
