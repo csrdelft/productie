@@ -16,9 +16,9 @@
  class="maaltijd-id"> (#<?php echo static::e($maaltijd->maaltijd_id); ?>)</span>
  <div class="float-right">
  <?php ($prijs = sprintf("%.2f", $maaltijd->getPrijsFloat())); ?>
- <?php if($aanmelding and $aanmelding->getSaldoStatus() < 0): ?>
+ <?php if(isset($aanmelding) and $aanmelding->getSaldoStatus() < 0): ?>
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["money_delete", null, "U hebt een negatief CiviSaldo!&#013;Maaltijdprijs: &euro; " . $prijs]); ?>
- <?php elseif($aanmelding and $aanmelding->getSaldoStatus() < 2): ?>
+ <?php elseif(isset($aanmelding) and $aanmelding->getSaldoStatus() < 2): ?>
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["money_delete", null, "Uw CiviSaldo is te laag!&#013;Maaltijdprijs: &euro; " . $prijs]); ?>
  <?php elseif($maaltijd->getPrijs() != $standaardprijs): ?>
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["money", null, "Afwijkende maaltijdprijs: &euro; " . $prijs]); ?>
