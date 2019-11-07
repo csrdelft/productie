@@ -909,7 +909,6 @@ return array(
     'CsrDelft\\view\\maalcie\\beheer\\MaalCieBeheerMenuView' => $baseDir . '/lib/view/maalcie/beheer/MaalCieBeheerMenuView.php',
     'CsrDelft\\view\\maalcie\\beheer\\OnverwerkteMaaltijdenTable' => $baseDir . '/lib/view/maalcie/beheer/OnverwerkteMaaltijdenTable.php',
     'CsrDelft\\view\\maalcie\\beheer\\PrullenbakMaaltijdenTable' => $baseDir . '/lib/view/maalcie/beheer/PrullenbakMaaltijdenTable.php',
-    'CsrDelft\\view\\maalcie\\corvee\\CorveeRoosterView' => $baseDir . '/lib/view/maalcie/corvee/CorveeRoosterView.php',
     'CsrDelft\\view\\maalcie\\corvee\\functies\\FunctieDeleteView' => $baseDir . '/lib/view/maalcie/corvee/functies/FunctieDeleteView.php',
     'CsrDelft\\view\\maalcie\\corvee\\functies\\FunctieForm' => $baseDir . '/lib/view/maalcie/corvee/functies/FunctieForm.php',
     'CsrDelft\\view\\maalcie\\corvee\\functies\\KwalificatieForm' => $baseDir . '/lib/view/maalcie/corvee/functies/KwalificatieForm.php',

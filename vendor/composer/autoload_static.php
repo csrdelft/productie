@@ -1305,7 +1305,6 @@ class ComposerStaticInit2616e2d90c2305d235c8741fa020aa12
         'CsrDelft\\view\\maalcie\\beheer\\MaalCieBeheerMenuView' => __DIR__ . '/../..' . '/lib/view/maalcie/beheer/MaalCieBeheerMenuView.php',
         'CsrDelft\\view\\maalcie\\beheer\\OnverwerkteMaaltijdenTable' => __DIR__ . '/../..' . '/lib/view/maalcie/beheer/OnverwerkteMaaltijdenTable.php',
         'CsrDelft\\view\\maalcie\\beheer\\PrullenbakMaaltijdenTable' => __DIR__ . '/../..' . '/lib/view/maalcie/beheer/PrullenbakMaaltijdenTable.php',
-        'CsrDelft\\view\\maalcie\\corvee\\CorveeRoosterView' => __DIR__ . '/../..' . '/lib/view/maalcie/corvee/CorveeRoosterView.php',
         'CsrDelft\\view\\maalcie\\corvee\\functies\\FunctieDeleteView' => __DIR__ . '/../..' . '/lib/view/maalcie/corvee/functies/FunctieDeleteView.php',
         'CsrDelft\\view\\maalcie\\corvee\\functies\\FunctieForm' => __DIR__ . '/../..' . '/lib/view/maalcie/corvee/functies/FunctieForm.php',
         'CsrDelft\\view\\maalcie\\corvee\\functies\\KwalificatieForm' => __DIR__ . '/../..' . '/lib/view/maalcie/corvee/functies/KwalificatieForm.php',
