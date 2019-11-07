@@ -1,0 +1,6 @@
+<tr id="maalcie-melding">
+	<td><?php echo getMelding(); ?></td>
+</tr>
+<?php $__currentLoopData = $taken; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $taak): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+	<?php echo $this->runChild('maaltijden.corveetaak.beheer_taak_lijst', ['show' => true, 'prullenbak' => false, 'taak' => $taak]); ?>
+<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
