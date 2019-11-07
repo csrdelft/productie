@@ -38,7 +38,7 @@
  </div>
  <?php endif; ?>
 	</td>
-	<?php if($aanmelding): ?>
+	<?php if(!empty($aanmelding)): ?>
  <?php if($maaltijd->gesloten): ?>
  <td class="maaltijd-aangemeld">
  Ja
