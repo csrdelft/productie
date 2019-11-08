@@ -1014,7 +1014,6 @@ class ComposerStaticInit2616e2d90c2305d235c8741fa020aa12
         'CsrDelft\\view\\IsHetAlView' => __DIR__ . '/../..' . '/lib/view/IsHetAlView.php',
         'CsrDelft\\view\\JsonLijstResponse' => __DIR__ . '/../..' . '/lib/view/JsonLijstResponse.php',
         'CsrDelft\\view\\JsonResponse' => __DIR__ . '/../..' . '/lib/view/JsonResponse.php',
-        'CsrDelft\\view\\MailTemplateView' => __DIR__ . '/../..' . '/lib/view/MailTemplateView.php',
         'CsrDelft\\view\\MeldingResponse' => __DIR__ . '/../..' . '/lib/view/MeldingResponse.php',
         'CsrDelft\\view\\PlainView' => __DIR__ . '/../..' . '/lib/view/PlainView.php',
         'CsrDelft\\view\\RechtenData' => __DIR__ . '/../..' . '/lib/view/RechtenData.php',

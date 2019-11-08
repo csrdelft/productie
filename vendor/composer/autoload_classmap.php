@@ -618,7 +618,6 @@ return array(
     'CsrDelft\\view\\IsHetAlView' => $baseDir . '/lib/view/IsHetAlView.php',
     'CsrDelft\\view\\JsonLijstResponse' => $baseDir . '/lib/view/JsonLijstResponse.php',
     'CsrDelft\\view\\JsonResponse' => $baseDir . '/lib/view/JsonResponse.php',
-    'CsrDelft\\view\\MailTemplateView' => $baseDir . '/lib/view/MailTemplateView.php',
     'CsrDelft\\view\\MeldingResponse' => $baseDir . '/lib/view/MeldingResponse.php',
     'CsrDelft\\view\\PlainView' => $baseDir . '/lib/view/PlainView.php',
     'CsrDelft\\view\\RechtenData' => $baseDir . '/lib/view/RechtenData.php',
