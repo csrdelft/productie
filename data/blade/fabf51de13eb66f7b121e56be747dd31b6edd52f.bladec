@@ -1,0 +1,11 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('titel', $titel); ?>
+
+<?php $this->startSection('content'); ?>
+	@parentXYZABC
+
+	<?php ($content->view()); ?>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('maaltijden.base'); } ?>
