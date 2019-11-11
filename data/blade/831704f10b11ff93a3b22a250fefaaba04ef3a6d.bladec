@@ -34,7 +34,7 @@
  $beschrijving = $instelling['beschrijving']
   ?>
  <?php ($keuze = isset($instellingen[$module][$id]) ? $instellingen[$module][$id] : $default); ?>
- <div class="form-group row">
+ <div class="form-group row instelling" id="instelling-<?php echo static::e($module); ?>-<?php echo static::e($id); ?>">
  <label class="col-md-3 col-form-label" for="inst_<?php echo static::e($module); ?>_<?php echo static::e($id); ?>"><?php echo $titel; ?></label>
 
  <?php if($type === \CsrDelft\model\instellingen\InstellingType::Enumeration): ?>
