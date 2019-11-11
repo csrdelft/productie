@@ -291,6 +291,7 @@ return array(
     'CsrDelft\\controller\\PeilingenController' => $baseDir . '/lib/controller/PeilingenController.php',
     'CsrDelft\\controller\\ProfielController' => $baseDir . '/lib/controller/ProfielController.php',
     'CsrDelft\\controller\\RechtenController' => $baseDir . '/lib/controller/RechtenController.php',
+    'CsrDelft\\controller\\RedirectingController' => $baseDir . '/lib/controller/RedirectingController.php',
     'CsrDelft\\controller\\SessionController' => $baseDir . '/lib/controller/SessionController.php',
     'CsrDelft\\controller\\ToestemmingController' => $baseDir . '/lib/controller/ToestemmingController.php',
     'CsrDelft\\controller\\ToolsController' => $baseDir . '/lib/controller/ToolsController.php',

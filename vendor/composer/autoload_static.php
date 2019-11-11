@@ -687,6 +687,7 @@ class ComposerStaticInit2616e2d90c2305d235c8741fa020aa12
         'CsrDelft\\controller\\PeilingenController' => __DIR__ . '/../..' . '/lib/controller/PeilingenController.php',
         'CsrDelft\\controller\\ProfielController' => __DIR__ . '/../..' . '/lib/controller/ProfielController.php',
         'CsrDelft\\controller\\RechtenController' => __DIR__ . '/../..' . '/lib/controller/RechtenController.php',
+        'CsrDelft\\controller\\RedirectingController' => __DIR__ . '/../..' . '/lib/controller/RedirectingController.php',
         'CsrDelft\\controller\\SessionController' => __DIR__ . '/../..' . '/lib/controller/SessionController.php',
         'CsrDelft\\controller\\ToestemmingController' => __DIR__ . '/../..' . '/lib/controller/ToestemmingController.php',
         'CsrDelft\\controller\\ToolsController' => __DIR__ . '/../..' . '/lib/controller/ToolsController.php',
