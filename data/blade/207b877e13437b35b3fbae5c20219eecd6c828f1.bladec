@@ -22,6 +22,11 @@
 	<?php $__currentLoopData = $zijbalk; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $block): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <div class="blok"><?php ($block->view()); ?></div>
 	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+	<?php if(!DEBUG): ?> <?php if (call_user_func($this->authCallBack,P_ADMIN)): ?>
+ <div class="commit-hash">
+ <a href="<?php echo static::e(commitLink()); ?>" target="_blank" class="not-external"><?php echo static::e(commitHash()); ?></a>
+ </div>
+	<?php endif; ?> <?php endif; ?>
 </nav>
 <?php (view('menu.main', [
  'root' => \CsrDelft\model\MenuModel::instance()->getMenu('main'),
