@@ -65,7 +65,7 @@
 	<?php echo $this->runChild('effect.minion'); ?>
 <?php endif; ?>
 <?php if(lid_instelling('layout', 'fx') == 'wolken'): ?>
-	<script type="text/javascript" src="/dist/js/fxclouds.558ccfc051e6175e9563.js"></script>
+	<script type="text/javascript" src="/dist/js/fxclouds.6cd81e0fd63e503e3db5.js"></script>
 <?php endif; ?>
 <?php if(lid_instelling('layout', 'trein') !== 'nee'): ?>
 	<?php echo $this->runChild('effect.trein'); ?>
