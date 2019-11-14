@@ -416,12 +416,12 @@ function escape_ical($string, $prefix_length) {
 
 function commitHash($full = false) {
 	if ($full) {
-		return `git rev-parse HEAD`;
+		return trim(`git rev-parse HEAD`);
 	} else {
-		return `git rev-parse --short HEAD`;
+		return trim(`git rev-parse --short HEAD`);
 	}
 }
 
 function commitLink() {
-	return 'https://github.com/csrdelft/productie/commits/' . commitHash(true);
+	return 'https://github.com/csrdelft/productie/commit/' . commitHash(true);
 }
