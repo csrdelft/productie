@@ -65,7 +65,7 @@
 	<?php echo $this->runChild('effect.minion'); ?>
 <?php endif; ?>
 <?php if(lid_instelling('layout', 'fx') == 'wolken'): ?>
-	<script type="text/javascript" src="/dist/js/fxclouds.6cd81e0fd63e503e3db5.js"></script>
+	<script type="text/javascript" src="/dist/js/fxclouds.678a0208eef9afcad71a.js"></script>
 <?php endif; ?>
 <?php if(lid_instelling('layout', 'trein') !== 'nee'): ?>
 	<?php echo $this->runChild('effect.trein'); ?>
@@ -79,7 +79,7 @@
  const ASSISTENT = '<?php echo static::e(lid_instelling('layout', 'assistent')); ?>';
  const ASSISTENT_GELUIDEN = '<?php echo static::e(lid_instelling('layout', 'assistentGeluiden')); ?>';
 	</script>
-	<script type="text/javascript" src="/dist/js/fxclippy.efb1844bb5904ef2ab8d.js"></script>
+	<script type="text/javascript" src="/dist/js/fxclippy.d00d3788b0b5ae748ed8.js"></script>
 <?php endif; ?>
 </body>
 </html>
