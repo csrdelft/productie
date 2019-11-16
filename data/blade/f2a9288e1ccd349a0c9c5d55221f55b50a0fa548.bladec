@@ -3,7 +3,7 @@
 <?php $this->startSection('titel', 'Login'); ?>
 
 <?php $this->startSection('styles'); ?>
-	<link rel="stylesheet" href="/dist/css/extern.96448c7509e982ee88ee.css" type="text/css"/>
+	<link rel="stylesheet" href="/dist/css/extern.d8fafd60502eafb60c37.css" type="text/css"/>
 <?php $this->stopSection(); ?>
 
 
