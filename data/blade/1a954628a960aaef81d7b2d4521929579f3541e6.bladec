@@ -16,6 +16,7 @@
 <meta property="og:description" content="<?php echo static::e(instelling('stek', 'beschrijving')); ?>" />
 <?php echo csrfMetaTag(); ?>
 
+<meta property="X-CSR-LOGGEDIN" content="<?php echo static::e(mag('P_LOGGED_IN')); ?>" />
 <title>C.S.R. Delft - <?php echo $this->yieldContent('titel'); ?></title>
 <link rel="shortcut icon" href="<?php echo static::e(CSR_ROOT); ?>/images/favicon.ico" />
 <link rel="manifest" href="/manifest.json">
@@ -25,7 +26,7 @@
 <link rel="stylesheet" href="<?php echo static::e(asset("$sheet.css")); ?>" type="text/css" />
 <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
 <?php echo $this->yieldPushContent('styles'); ?>
-<script type="text/javascript" src="/dist/js/app.55892b8eb02ee978984f.js"></script>
+<script type="text/javascript" src="/dist/js/app.501ce0d26f45d33c469d.js"></script>
 <?php echo $this->yieldPushContent('scripts'); ?>
 <!-- Google Analytics -->
 <script>
