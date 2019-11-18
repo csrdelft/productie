@@ -15,16 +15,16 @@
  * the License.
  */
 
-class Google_Service_Dialogflow_GoogleCloudDialogflowV2KnowledgeOperationMetadata extends Google_Model
+class Google_Service_Docs_CreateFooterResponse extends Google_Model
 {
-  public $state;
+  public $footerId;
 
-  public function setState($state)
+  public function setFooterId($footerId)
   {
-    $this->state = $state;
+    $this->footerId = $footerId;
   }
-  public function getState()
+  public function getFooterId()
   {
-    return $this->state;
+    return $this->footerId;
   }
 }

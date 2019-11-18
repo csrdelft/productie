@@ -15,29 +15,16 @@
  * the License.
  */
 
-class Google_Service_GamesManagement_QuestsResetMultipleForAllRequest extends Google_Collection
+class Google_Service_Container_VerticalPodAutoscaling extends Google_Model
 {
-  protected $collection_key = 'quest_ids';
-  protected $internal_gapi_mappings = array(
-        "questIds" => "quest_ids",
-  );
-  public $kind;
-  public $questIds;
+  public $enabled;
 
-  public function setKind($kind)
+  public function setEnabled($enabled)
   {
-    $this->kind = $kind;
+    $this->enabled = $enabled;
   }
-  public function getKind()
+  public function getEnabled()
   {
-    return $this->kind;
-  }
-  public function setQuestIds($questIds)
-  {
-    $this->questIds = $questIds;
-  }
-  public function getQuestIds()
-  {
-    return $this->questIds;
+    return $this->enabled;
   }
 }

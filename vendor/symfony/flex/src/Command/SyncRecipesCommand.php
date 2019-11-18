@@ -43,7 +43,7 @@ class SyncRecipesCommand extends BaseCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $win = '\\' === \DIRECTORY_SEPARATOR;
         $force = $input->getOption('force');
@@ -70,7 +70,7 @@ class SyncRecipesCommand extends BaseCommand
         }
 
         if (!$packages) {
-            return;
+            return 0;
         }
 
         $composer = $this->getComposer();
@@ -106,7 +106,7 @@ class SyncRecipesCommand extends BaseCommand
                 '<bg=blue;fg=white> Config files are now reset to their initial state. </>',
                 '<bg=blue;fg=white>                                                    </>',
                 '',
-                '  * Use <comment>git diff</comment> to inspect the changes.',
+                '  * Use <comment>git diff</> to inspect the changes.',
                 '',
                 '    Not all of the changes will be relevant to your app: you now',
                 '    need to selectively add or revert them using e.g. a combination',
@@ -136,5 +136,7 @@ class SyncRecipesCommand extends BaseCommand
 
             $io->write($output);
         }
+
+        return 0;
     }
 }

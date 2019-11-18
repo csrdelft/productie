@@ -15,34 +15,25 @@
  * the License.
  */
 
-class Google_Service_Games_QuestContribution extends Google_Model
+class Google_Service_Container_AuthenticatorGroupsConfig extends Google_Model
 {
-  public $formattedValue;
-  public $kind;
-  public $value;
+  public $enabled;
+  public $securityGroup;
 
-  public function setFormattedValue($formattedValue)
+  public function setEnabled($enabled)
   {
-    $this->formattedValue = $formattedValue;
+    $this->enabled = $enabled;
   }
-  public function getFormattedValue()
+  public function getEnabled()
   {
-    return $this->formattedValue;
+    return $this->enabled;
   }
-  public function setKind($kind)
+  public function setSecurityGroup($securityGroup)
   {
-    $this->kind = $kind;
+    $this->securityGroup = $securityGroup;
   }
-  public function getKind()
+  public function getSecurityGroup()
   {
-    return $this->kind;
-  }
-  public function setValue($value)
-  {
-    $this->value = $value;
-  }
-  public function getValue()
-  {
-    return $this->value;
+    return $this->securityGroup;
   }
 }
