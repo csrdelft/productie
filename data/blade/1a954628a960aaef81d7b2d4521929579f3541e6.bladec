@@ -16,7 +16,7 @@
 <meta property="og:description" content="<?php echo static::e(instelling('stek', 'beschrijving')); ?>" />
 <?php echo csrfMetaTag(); ?>
 
-<meta property="X-CSR-LOGGEDIN" content="<?php echo static::e(mag('P_LOGGED_IN')); ?>" />
+<meta property="X-CSR-LOGGEDIN" content="<?php echo static::e(mag('P_LOGGED_IN') ? 'true' : 'false'); ?>" />
 <title>C.S.R. Delft - <?php echo $this->yieldContent('titel'); ?></title>
 <link rel="shortcut icon" href="<?php echo static::e(CSR_ROOT); ?>/images/favicon.ico" />
 <link rel="manifest" href="/manifest.json">
