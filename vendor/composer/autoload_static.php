@@ -593,7 +593,6 @@ class ComposerStaticInit2616e2d90c2305d235c8741fa020aa12
         'Cake\\Utility\\Text' => __DIR__ . '/..' . '/cakephp/utility/Text.php',
         'Cake\\Utility\\Xml' => __DIR__ . '/..' . '/cakephp/utility/Xml.php',
         'CsrDelft\\Kernel' => __DIR__ . '/../..' . '/lib/Kernel.php',
-        'CsrDelft\\LegacyRouter' => __DIR__ . '/../..' . '/lib/LegacyRouter.php',
         'CsrDelft\\Orm\\CachedPersistenceModel' => __DIR__ . '/..' . '/csrdelft/orm/src/CachedPersistenceModel.php',
         'CsrDelft\\Orm\\Configuration' => __DIR__ . '/..' . '/csrdelft/orm/src/Configuration.php',
         'CsrDelft\\Orm\\DependencyManager' => __DIR__ . '/..' . '/csrdelft/orm/src/DependencyManager.php',

@@ -198,7 +198,6 @@ return array(
     'Cake\\Utility\\Text' => $vendorDir . '/cakephp/utility/Text.php',
     'Cake\\Utility\\Xml' => $vendorDir . '/cakephp/utility/Xml.php',
     'CsrDelft\\Kernel' => $baseDir . '/lib/Kernel.php',
-    'CsrDelft\\LegacyRouter' => $baseDir . '/lib/LegacyRouter.php',
     'CsrDelft\\Orm\\CachedPersistenceModel' => $vendorDir . '/csrdelft/orm/src/CachedPersistenceModel.php',
     'CsrDelft\\Orm\\Configuration' => $vendorDir . '/csrdelft/orm/src/Configuration.php',
     'CsrDelft\\Orm\\DependencyManager' => $vendorDir . '/csrdelft/orm/src/DependencyManager.php',
