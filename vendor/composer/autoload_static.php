@@ -675,7 +675,6 @@ class ComposerStaticInit2616e2d90c2305d235c8741fa020aa12
         'CsrDelft\\controller\\FotoAlbumController' => __DIR__ . '/../..' . '/lib/controller/FotoAlbumController.php',
         'CsrDelft\\controller\\GeoLocationController' => __DIR__ . '/../..' . '/lib/controller/GeoLocationController.php',
         'CsrDelft\\controller\\GoogleController' => __DIR__ . '/../..' . '/lib/controller/GoogleController.php',
-        'CsrDelft\\controller\\GroepenRouterController' => __DIR__ . '/../..' . '/lib/controller/GroepenRouterController.php',
         'CsrDelft\\controller\\InstellingenBeheerController' => __DIR__ . '/../..' . '/lib/controller/InstellingenBeheerController.php',
         'CsrDelft\\controller\\LedenLijstController' => __DIR__ . '/../..' . '/lib/controller/LedenLijstController.php',
         'CsrDelft\\controller\\LedenMemoryController' => __DIR__ . '/../..' . '/lib/controller/LedenMemoryController.php',

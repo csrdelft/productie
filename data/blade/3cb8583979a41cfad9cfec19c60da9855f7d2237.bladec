@@ -95,6 +95,6 @@
  </section>
 	<?php echo $this->yieldSection(); ?>
 </div>
-<script type="text/javascript" src="/dist/js/extern.db71595830ab99e20df1.js"></script>
+<script type="text/javascript" src="/dist/js/extern.3863cb407f45d1da5528.js"></script>
 </body>
 </html>

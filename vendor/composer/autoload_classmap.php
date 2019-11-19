@@ -280,7 +280,6 @@ return array(
     'CsrDelft\\controller\\FotoAlbumController' => $baseDir . '/lib/controller/FotoAlbumController.php',
     'CsrDelft\\controller\\GeoLocationController' => $baseDir . '/lib/controller/GeoLocationController.php',
     'CsrDelft\\controller\\GoogleController' => $baseDir . '/lib/controller/GoogleController.php',
-    'CsrDelft\\controller\\GroepenRouterController' => $baseDir . '/lib/controller/GroepenRouterController.php',
     'CsrDelft\\controller\\InstellingenBeheerController' => $baseDir . '/lib/controller/InstellingenBeheerController.php',
     'CsrDelft\\controller\\LedenLijstController' => $baseDir . '/lib/controller/LedenLijstController.php',
     'CsrDelft\\controller\\LedenMemoryController' => $baseDir . '/lib/controller/LedenMemoryController.php',
