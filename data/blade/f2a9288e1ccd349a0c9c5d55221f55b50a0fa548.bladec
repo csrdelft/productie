@@ -6,6 +6,12 @@
 	<link rel="stylesheet" href="/dist/css/extern.d8fafd60502eafb60c37.css" type="text/css"/>
 <?php $this->stopSection(); ?>
 
+<?php /*Verberg login popup*/ ?>
+<?php $this->startSection('loginpopup'); ?>
+<?php $this->stopSection(); ?>
+
+<?php $this->startSection('loginbutton'); ?>
+<?php $this->stopSection(); ?>
 
 <?php $this->startSection('content'); ?>
 
