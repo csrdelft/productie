@@ -20,7 +20,7 @@
  <thead>
  <tr>
  <?php $__currentLoopData = $eetplan['avonden']; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $avond): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <th scope="col"><?php echo static::e($avond); ?></th>
+ <th scope="col"><?php echo static::e($avond->format("d-m-Y")); ?></th>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </tr>
  </thead>
