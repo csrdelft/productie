@@ -129,8 +129,8 @@
  </thead>
  <tbody>
  <tr>
- <td><?php echo static::e(strftime("%e %b %Y", $vrijstelling->begin_datum)); ?></td>
- <td><?php echo static::e(strftime("%e %b %Y", $vrijstelling->eind_datum)); ?></td>
+ <td><?php echo static::e(strftime("%e %b %Y", strtotime($vrijstelling->begin_datum))); ?></td>
+ <td><?php echo static::e(strftime("%e %b %Y", strtotime($vrijstelling->eind_datum))); ?></td>
  <td><?php echo static::e($vrijstelling->percentage); ?>%</td>
  <td><?php echo static::e($vrijstelling->getPunten()); ?></td>
  </tr>
