@@ -139,7 +139,7 @@ final class Versions
   'symfony/web-profiler-bundle' => 'v3.4.35@b4c78b585d60a0b96ed735ce40f964bd3a228f73',
   'theseer/tokenizer' => '1.1.3@11336f6f84e16a720dae9d8e6ed5019efa85a0f9',
   'webmozart/assert' => '1.5.0@88e6d84706d09a236046d686bbea96f07b3a34f4',
-  'csr/csrdelft.nl' => 'dev-1c8dcfdcfa406b3c897cd10f6de84e7a8114661d@1c8dcfdcfa406b3c897cd10f6de84e7a8114661d',
+  'csr/csrdelft.nl' => 'dev-ab122110bb86e6e3f932bc16ed997b2e7cbb2f48@ab122110bb86e6e3f932bc16ed997b2e7cbb2f48',
 );
 
     private function __construct()
