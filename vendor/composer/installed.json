@@ -394,17 +394,17 @@
     },
     {
         "name": "csrdelft/orm",
-        "version": "v1.8.4",
-        "version_normalized": "1.8.4.0",
+        "version": "v1.8.5",
+        "version_normalized": "1.8.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/csrdelft/orm.git",
-            "reference": "4dc8b408dfb411323ff92dfdc82ebaf48a822b36"
+            "reference": "8a28b99112584f206bce909a95c4461b7c8337d2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/csrdelft/orm/zipball/4dc8b408dfb411323ff92dfdc82ebaf48a822b36",
-            "reference": "4dc8b408dfb411323ff92dfdc82ebaf48a822b36",
+            "url": "https://api.github.com/repos/csrdelft/orm/zipball/8a28b99112584f206bce909a95c4461b7c8337d2",
+            "reference": "8a28b99112584f206bce909a95c4461b7c8337d2",
             "shasum": ""
         },
         "require": {
@@ -418,7 +418,7 @@
             "phpunit/php-code-coverage": "^6.0",
             "phpunit/phpunit": "^7.0"
         },
-        "time": "2019-08-18T13:57:48+00:00",
+        "time": "2019-11-30T12:09:57+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -441,13 +441,13 @@
             },
             {
                 "name": "Paul Brussee",
-                "role": "Creator",
-                "homepage": "https://github.com/brussee"
+                "homepage": "https://github.com/brussee",
+                "role": "Creator"
             },
             {
                 "name": "Gerben Oolbekkink",
-                "role": "Developer",
-                "email": "g.j.w.oolbekkink@gmail.com"
+                "email": "g.j.w.oolbekkink@gmail.com",
+                "role": "Developer"
             }
         ],
         "description": "The creatively named object-relational mapping library for csrdelft.nl",
@@ -3737,17 +3737,17 @@
     },
     {
         "name": "symfony/flex",
-        "version": "v1.4.8",
-        "version_normalized": "1.4.8.0",
+        "version": "v1.5.0",
+        "version_normalized": "1.5.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/flex.git",
-            "reference": "f5bfc79c1f5bed6b2bb4ca9e49a736c2abc03e8f"
+            "reference": "97d4d94bff1b6bd9e9c5750ddbe248185ecb588b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/flex/zipball/f5bfc79c1f5bed6b2bb4ca9e49a736c2abc03e8f",
-            "reference": "f5bfc79c1f5bed6b2bb4ca9e49a736c2abc03e8f",
+            "url": "https://api.github.com/repos/symfony/flex/zipball/97d4d94bff1b6bd9e9c5750ddbe248185ecb588b",
+            "reference": "97d4d94bff1b6bd9e9c5750ddbe248185ecb588b",
             "shasum": ""
         },
         "require": {
@@ -3760,11 +3760,11 @@
             "symfony/phpunit-bridge": "^3.4.19|^4.1.8|^5.0",
             "symfony/process": "^2.7|^3.0|^4.0|^5.0"
         },
-        "time": "2019-11-14T09:25:51+00:00",
+        "time": "2019-11-30T11:43:11+00:00",
         "type": "composer-plugin",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.4-dev"
+                "dev-master": "1.5-dev"
             },
             "class": "Symfony\\Flex\\Flex"
         },
@@ -4083,27 +4083,27 @@
     },
     {
         "name": "symfony/polyfill-apcu",
-        "version": "v1.12.0",
-        "version_normalized": "1.12.0.0",
+        "version": "v1.13.1",
+        "version_normalized": "1.13.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-apcu.git",
-            "reference": "71ce80635d5dcd67772b4dda00b86068595f64d5"
+            "reference": "a8e961c841b9ec52927a87914f8820a1ad8f8116"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-apcu/zipball/71ce80635d5dcd67772b4dda00b86068595f64d5",
-            "reference": "71ce80635d5dcd67772b4dda00b86068595f64d5",
+            "url": "https://api.github.com/repos/symfony/polyfill-apcu/zipball/a8e961c841b9ec52927a87914f8820a1ad8f8116",
+            "reference": "a8e961c841b9ec52927a87914f8820a1ad8f8116",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2019-08-06T08:03:45+00:00",
+        "time": "2019-11-27T13:56:44+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.12-dev"
+                "dev-master": "1.13-dev"
             }
         },
         "installation-source": "dist",
@@ -4141,17 +4141,17 @@
     },
     {
         "name": "symfony/polyfill-ctype",
-        "version": "v1.12.0",
-        "version_normalized": "1.12.0.0",
+        "version": "v1.13.1",
+        "version_normalized": "1.13.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-ctype.git",
-            "reference": "550ebaac289296ce228a706d0867afc34687e3f4"
+            "reference": "f8f0b461be3385e56d6de3dbb5a0df24c0c275e3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/550ebaac289296ce228a706d0867afc34687e3f4",
-            "reference": "550ebaac289296ce228a706d0867afc34687e3f4",
+            "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/f8f0b461be3385e56d6de3dbb5a0df24c0c275e3",
+            "reference": "f8f0b461be3385e56d6de3dbb5a0df24c0c275e3",
             "shasum": ""
         },
         "require": {
@@ -4160,11 +4160,11 @@
         "suggest": {
             "ext-ctype": "For best performance"
         },
-        "time": "2019-08-06T08:03:45+00:00",
+        "time": "2019-11-27T13:56:44+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.12-dev"
+                "dev-master": "1.13-dev"
             }
         },
         "installation-source": "dist",
@@ -4201,17 +4201,17 @@
     },
     {
         "name": "symfony/polyfill-mbstring",
-        "version": "v1.12.0",
-        "version_normalized": "1.12.0.0",
+        "version": "v1.13.1",
+        "version_normalized": "1.13.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-mbstring.git",
-            "reference": "b42a2f66e8f1b15ccf25652c3424265923eb4f17"
+            "reference": "7b4aab9743c30be783b73de055d24a39cf4b954f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/b42a2f66e8f1b15ccf25652c3424265923eb4f17",
-            "reference": "b42a2f66e8f1b15ccf25652c3424265923eb4f17",
+            "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/7b4aab9743c30be783b73de055d24a39cf4b954f",
+            "reference": "7b4aab9743c30be783b73de055d24a39cf4b954f",
             "shasum": ""
         },
         "require": {
@@ -4220,11 +4220,11 @@
         "suggest": {
             "ext-mbstring": "For best performance"
         },
-        "time": "2019-08-06T08:03:45+00:00",
+        "time": "2019-11-27T14:18:11+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.12-dev"
+                "dev-master": "1.13-dev"
             }
         },
         "installation-source": "dist",
@@ -4262,28 +4262,28 @@
     },
     {
         "name": "symfony/polyfill-php56",
-        "version": "v1.12.0",
-        "version_normalized": "1.12.0.0",
+        "version": "v1.13.1",
+        "version_normalized": "1.13.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-php56.git",
-            "reference": "0e3b212e96a51338639d8ce175c046d7729c3403"
+            "reference": "53dd1cdf3cb986893ccf2b96665b25b3abb384f4"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-php56/zipball/0e3b212e96a51338639d8ce175c046d7729c3403",
-            "reference": "0e3b212e96a51338639d8ce175c046d7729c3403",
+            "url": "https://api.github.com/repos/symfony/polyfill-php56/zipball/53dd1cdf3cb986893ccf2b96665b25b3abb384f4",
+            "reference": "53dd1cdf3cb986893ccf2b96665b25b3abb384f4",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3",
             "symfony/polyfill-util": "~1.0"
         },
-        "time": "2019-08-06T08:03:45+00:00",
+        "time": "2019-11-27T13:56:44+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.12-dev"
+                "dev-master": "1.13-dev"
             }
         },
         "installation-source": "dist",
@@ -4320,28 +4320,28 @@
     },
     {
         "name": "symfony/polyfill-php70",
-        "version": "v1.12.0",
-        "version_normalized": "1.12.0.0",
+        "version": "v1.13.1",
+        "version_normalized": "1.13.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-php70.git",
-            "reference": "54b4c428a0054e254223797d2713c31e08610831"
+            "reference": "af23c7bb26a73b850840823662dda371484926c4"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-php70/zipball/54b4c428a0054e254223797d2713c31e08610831",
-            "reference": "54b4c428a0054e254223797d2713c31e08610831",
+            "url": "https://api.github.com/repos/symfony/polyfill-php70/zipball/af23c7bb26a73b850840823662dda371484926c4",
+            "reference": "af23c7bb26a73b850840823662dda371484926c4",
             "shasum": ""
         },
         "require": {
             "paragonie/random_compat": "~1.0|~2.0|~9.99",
             "php": ">=5.3.3"
         },
-        "time": "2019-08-06T08:03:45+00:00",
+        "time": "2019-11-27T13:56:44+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.12-dev"
+                "dev-master": "1.13-dev"
             }
         },
         "installation-source": "dist",
@@ -4381,27 +4381,27 @@
     },
     {
         "name": "symfony/polyfill-util",
-        "version": "v1.12.0",
-        "version_normalized": "1.12.0.0",
+        "version": "v1.13.1",
+        "version_normalized": "1.13.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-util.git",
-            "reference": "4317de1386717b4c22caed7725350a8887ab205c"
+            "reference": "964a67f293b66b95883a5ed918a65354fcd2258f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-util/zipball/4317de1386717b4c22caed7725350a8887ab205c",
-            "reference": "4317de1386717b4c22caed7725350a8887ab205c",
+            "url": "https://api.github.com/repos/symfony/polyfill-util/zipball/964a67f293b66b95883a5ed918a65354fcd2258f",
+            "reference": "964a67f293b66b95883a5ed918a65354fcd2258f",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2019-08-06T08:03:45+00:00",
+        "time": "2019-11-27T13:56:44+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.12-dev"
+                "dev-master": "1.13-dev"
             }
         },
         "installation-source": "dist",
