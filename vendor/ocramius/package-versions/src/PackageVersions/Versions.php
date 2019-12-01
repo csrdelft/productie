@@ -19,7 +19,7 @@ final class Versions
   'cakephp/log' => '3.8.6@726495fab14a0beea38a2a40cabf8fca018aacef',
   'cakephp/utility' => '3.8.6@de3288dd74119e120c36576db33f401ec8e9549e',
   'csrdelft/bb' => 'v1.1.6@9b0a1f1281f8f8b985605082fcfd9ce730ae99f8',
-  'csrdelft/orm' => 'v1.8.5@8a28b99112584f206bce909a95c4461b7c8337d2',
+  'csrdelft/orm' => 'v1.8.6@31e3cf528c261cb2f40bf774143a899a8b795a76',
   'doctrine/annotations' => 'v1.4.0@54cacc9b81758b14e3ce750f205a393d52339e97',
   'doctrine/cache' => 'v1.6.2@eb152c5100571c7a45470ff2a35095ab3f3b900b',
   'doctrine/collections' => 'v1.4.0@1a4fb7e902202c33cce8c55989b945612943c2ba',
@@ -74,7 +74,7 @@ final class Versions
   'symfony/event-dispatcher' => 'v3.4.35@f9031c22ec127d4a2450760f81a8677fe8a10177',
   'symfony/filesystem' => 'v3.4.35@00e3a6ddd723b8bcfe4f2a1b6f82b98eeeb51516',
   'symfony/finder' => 'v3.4.35@3e915e5ce305f8bc8017597f71f1f4095092ddf8',
-  'symfony/flex' => 'v1.5.0@97d4d94bff1b6bd9e9c5750ddbe248185ecb588b',
+  'symfony/flex' => 'v1.5.2@45ec0287c13fb8383d61bc8486ee5da5c43556fe',
   'symfony/framework-bundle' => 'v3.4.35@3cb98792e8d1fa332c65b28521eeaa6e9bbeea34',
   'symfony/http-foundation' => 'v3.4.35@9e4b3ac8fa3348b4811674d23de32d201de225ce',
   'symfony/http-kernel' => 'v3.4.35@e1764b3de00ec5636dd03d02fd44bcb1147d70d9',
@@ -139,7 +139,7 @@ final class Versions
   'symfony/web-profiler-bundle' => 'v3.4.35@b4c78b585d60a0b96ed735ce40f964bd3a228f73',
   'theseer/tokenizer' => '1.1.3@11336f6f84e16a720dae9d8e6ed5019efa85a0f9',
   'webmozart/assert' => '1.6.0@573381c0a64f155a0d9a23f4b0c797194805b925',
-  'csr/csrdelft.nl' => 'dev-f4b796fd54b394a1ef9b084c996de2c290366c19@f4b796fd54b394a1ef9b084c996de2c290366c19',
+  'csr/csrdelft.nl' => 'dev-a42eb1ff556b04c0f7de32c4425df9d4fd59c0d1@a42eb1ff556b04c0f7de32c4425df9d4fd59c0d1',
 );
 
     private function __construct()

@@ -270,6 +270,10 @@ class Flex implements PluginInterface, EventSubscriberInterface
 
     public function lockPlatform()
     {
+        if (!$this->downloader->isEnabled()) {
+            return; // "symfony/flex" not found in the root composer.json - don't create the symfony.lock file
+        }
+
         $this->lock->set('php', [
             'version' => $this->config->get('platform')['php'] ?? (PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION),
         ]);
@@ -670,6 +674,10 @@ class Flex implements PluginInterface, EventSubscriberInterface
 
         $autoloadFile = $this->config->get('vendor-dir').'/autoload.php';
 
+        if (!file_exists($autoloadFile)) {
+            return;
+        }
+
         $code = file_get_contents($autoloadFile);
         $code = substr($code, \strlen("<?php\n"));
 
@@ -678,7 +686,7 @@ class Flex implements PluginInterface, EventSubscriberInterface
         }
 
         $platform = preg_replace('/[^-+.~_\w]/', '', $platform);
-        $version = sprintf('%d%02d%02d', ...explode('.', $platform.'.0.0'));
+        $version = sprintf('%d%02d00', ...explode('.', $platform.'.0'));
 
         file_put_contents($autoloadFile, <<<EOPHP
 <?php

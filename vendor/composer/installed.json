@@ -394,23 +394,24 @@
     },
     {
         "name": "csrdelft/orm",
-        "version": "v1.8.5",
-        "version_normalized": "1.8.5.0",
+        "version": "v1.8.6",
+        "version_normalized": "1.8.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/csrdelft/orm.git",
-            "reference": "8a28b99112584f206bce909a95c4461b7c8337d2"
+            "reference": "31e3cf528c261cb2f40bf774143a899a8b795a76"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/csrdelft/orm/zipball/8a28b99112584f206bce909a95c4461b7c8337d2",
-            "reference": "8a28b99112584f206bce909a95c4461b7c8337d2",
+            "url": "https://api.github.com/repos/csrdelft/orm/zipball/31e3cf528c261cb2f40bf774143a899a8b795a76",
+            "reference": "31e3cf528c261cb2f40bf774143a899a8b795a76",
             "shasum": ""
         },
         "require": {
             "ext-json": "*",
             "ext-pdo": "*",
             "php": ">=7.0.27",
+            "psr/container": "^1.0",
             "zumba/json-serializer": "^2.2"
         },
         "require-dev": {
@@ -418,7 +419,7 @@
             "phpunit/php-code-coverage": "^6.0",
             "phpunit/phpunit": "^7.0"
         },
-        "time": "2019-11-30T12:09:57+00:00",
+        "time": "2019-12-01T13:02:58+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -2317,7 +2318,7 @@
             "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
             "sentry/sentry": "Allow sending log messages to a Sentry server"
         },
-        "time": "2019-11-13T10:00:05+00:00",
+        "time": "2019-09-06T13:49:17+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -3737,17 +3738,17 @@
     },
     {
         "name": "symfony/flex",
-        "version": "v1.5.0",
-        "version_normalized": "1.5.0.0",
+        "version": "v1.5.2",
+        "version_normalized": "1.5.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/flex.git",
-            "reference": "97d4d94bff1b6bd9e9c5750ddbe248185ecb588b"
+            "reference": "45ec0287c13fb8383d61bc8486ee5da5c43556fe"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/flex/zipball/97d4d94bff1b6bd9e9c5750ddbe248185ecb588b",
-            "reference": "97d4d94bff1b6bd9e9c5750ddbe248185ecb588b",
+            "url": "https://api.github.com/repos/symfony/flex/zipball/45ec0287c13fb8383d61bc8486ee5da5c43556fe",
+            "reference": "45ec0287c13fb8383d61bc8486ee5da5c43556fe",
             "shasum": ""
         },
         "require": {
@@ -3760,7 +3761,7 @@
             "symfony/phpunit-bridge": "^3.4.19|^4.1.8|^5.0",
             "symfony/process": "^2.7|^3.0|^4.0|^5.0"
         },
-        "time": "2019-11-30T11:43:11+00:00",
+        "time": "2019-12-01T09:24:34+00:00",
         "type": "composer-plugin",
         "extra": {
             "branch-alias": {
