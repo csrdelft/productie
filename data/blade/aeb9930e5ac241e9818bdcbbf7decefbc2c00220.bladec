@@ -16,7 +16,7 @@
  Recent gewijzigd
  </option>
 
- <?php $__currentLoopData = \CsrDelft\model\forum\ForumModel::instance()->getForumIndelingVoorLid(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $categorie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php $__currentLoopData = $categorien; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $categorie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <optgroup label="<?php echo static::e($categorie->titel); ?>">;
  <?php $__currentLoopData = $categorie->getForumDelen(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $newDeel): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?> {
  <option value="/forum/deel/<?php echo static::e($newDeel->forum_id); ?>"
