@@ -9,7 +9,7 @@
 	<table class="table">
  <tr>
  <?php $__currentLoopData = $verticalen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $letter => $verticale): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <th scope="col"><h3>Verticale <?php echo static::e(CsrDelft\model\groepen\VerticalenModel::get($letter)->naam); ?></h3></th>
+ <th scope="col"><h3>Verticale <?php echo static::e(CsrDelft\model\groepen\VerticalenModel::instance()->get($letter)->naam); ?></h3></th>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </tr>
  <tr>

@@ -21,14 +21,14 @@
  </p>
  <?php ($bestuurslid = CsrDelft\model\groepen\leden\BestuursLedenModel::instance()->find('uid = ?', array($profiel->uid), null, null, 1)->fetch()); ?>
  <?php if($bestuurslid): ?>
- <?php ($bestuur = CsrDelft\model\groepen\BesturenModel::get($bestuurslid->groep_id)); ?>
+ <?php ($bestuur = CsrDelft\model\groepen\BesturenModel::instance()->get($bestuurslid->groep_id)); ?>
  <p><a
  href="<?php echo static::e($bestuur->getUrl()); ?>"><?php echo static::e(CsrDelft\model\entity\groepen\GroepStatus::getChar($bestuur->status)); ?> <?php echo static::e($bestuurslid->opmerking); ?></a>
  </p>
  <?php endif; ?>
 
  <?php $__currentLoopData = CsrDelft\model\groepen\leden\CommissieLedenModel::instance()->find('uid = ?', array($profiel->uid), null, 'lid_sinds DESC'); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $commissielid): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <?php ($commissie = CsrDelft\model\groepen\CommissiesModel::get($commissielid->groep_id)); ?>
+ <?php ($commissie = CsrDelft\model\groepen\CommissiesModel::instance()->get($commissielid->groep_id)); ?>
  <?php if($commissie->status === CsrDelft\model\entity\groepen\GroepStatus::HT): ?>
  <p>
  <?php if(!empty($commissielid->opmerking)): ?>
