@@ -776,6 +776,7 @@ class ComposerStaticInitad05eb84167adc4f0b93f591d247d4e0
         'CsrDelft\\controller\\LoggerController' => __DIR__ . '/../..' . '/lib/controller/LoggerController.php',
         'CsrDelft\\controller\\LoginController' => __DIR__ . '/../..' . '/lib/controller/LoginController.php',
         'CsrDelft\\controller\\MenuBeheerController' => __DIR__ . '/../..' . '/lib/controller/MenuBeheerController.php',
+        'CsrDelft\\controller\\PasfotoController' => __DIR__ . '/../..' . '/lib/controller/PasfotoController.php',
         'CsrDelft\\controller\\PeilingOptiesController' => __DIR__ . '/../..' . '/lib/controller/PeilingOptiesController.php',
         'CsrDelft\\controller\\PeilingenController' => __DIR__ . '/../..' . '/lib/controller/PeilingenController.php',
         'CsrDelft\\controller\\ProfielController' => __DIR__ . '/../..' . '/lib/controller/ProfielController.php',

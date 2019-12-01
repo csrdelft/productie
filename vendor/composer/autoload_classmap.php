@@ -286,6 +286,7 @@ return array(
     'CsrDelft\\controller\\LoggerController' => $baseDir . '/lib/controller/LoggerController.php',
     'CsrDelft\\controller\\LoginController' => $baseDir . '/lib/controller/LoginController.php',
     'CsrDelft\\controller\\MenuBeheerController' => $baseDir . '/lib/controller/MenuBeheerController.php',
+    'CsrDelft\\controller\\PasfotoController' => $baseDir . '/lib/controller/PasfotoController.php',
     'CsrDelft\\controller\\PeilingOptiesController' => $baseDir . '/lib/controller/PeilingOptiesController.php',
     'CsrDelft\\controller\\PeilingenController' => $baseDir . '/lib/controller/PeilingenController.php',
     'CsrDelft\\controller\\ProfielController' => $baseDir . '/lib/controller/ProfielController.php',
