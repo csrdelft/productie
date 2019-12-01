@@ -41,8 +41,7 @@
  <a href="#_" class="overlay"></a>
  <div class="inner">
  <h2>Inloggen</h2>
- <?php $loginform = $this->injectClass('CsrDelft\view\login\LoginForm', 'loginform'); ?>
- <?php ($loginform->view()); ?>
+ <?php ((new \CsrDelft\view\login\LoginForm())->view()); ?>
  <a href="#_" class="close">Close</a>
  </div>
 	</nav>
