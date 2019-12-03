@@ -6,6 +6,9 @@
 
 <?php $this->startSection('content'); ?>
 	<h1>404: Pagina niet gevonden</h1>
+	<?php if(isset($bericht)): ?>
+ <p><?php echo static::e($bericht); ?></p>
+	<?php endif; ?>
 	<p>
  De pagina werd niet gevonden, neem contact op met de PubCie als deze pagina wel gevonden zou moeten worden.
 	</p>
