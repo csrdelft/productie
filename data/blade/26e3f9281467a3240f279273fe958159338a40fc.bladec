@@ -21,7 +21,7 @@
 	<?php $__currentLoopData = $eetplan; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $sessie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <?php ($huis = $sessie->getWoonoord()); ?>
  <tr class="<?php $this->cycle_eetplan_noviet0 = @$this->cycle_eetplan_noviet0; echo ['donker','licht'][($this->cycle_eetplan_noviet0++) % 2]; ?>">
- <td><?php echo static::e($sessie->avond); ?></td>
+ <td><?php echo static::e($sessie->avond->format("d-m-Y")); ?></td>
  <td><a href="/groepen/woonoorden/<?php echo static::e($huis->id); ?>"><?php echo static::e($huis->naam); ?></a></td>
  </tr>
 	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>

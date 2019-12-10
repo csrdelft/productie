@@ -28,7 +28,7 @@
  <?php ($noviet = $sessie->getNoviet()); ?>
  <tr>
  <?php if($loop->index == 1): ?>
- <th rowspan="<?php echo static::e(count($avond)); ?>" class="table-light"><?php echo static::e($sessie->avond); ?></th>
+ <th rowspan="<?php echo static::e(count($avond)); ?>" class="table-light"><?php echo static::e($sessie->avond->format("d-m-Y")); ?></th>
  <?php endif; ?>
  <td><?php echo CsrDelft\model\ProfielModel::getLink($noviet->uid, 'civitas'); ?></td>
  <td><?php echo static::e($noviet->mobiel); ?></td>
