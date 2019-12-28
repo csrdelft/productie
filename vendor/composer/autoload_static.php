@@ -745,6 +745,7 @@ class ComposerStaticInitad05eb84167adc4f0b93f591d247d4e0
         'CsrDelft\\common\\ContainerFacade' => __DIR__ . '/../..' . '/lib/common/ContainerFacade.php',
         'CsrDelft\\common\\CsrException' => __DIR__ . '/../..' . '/lib/common/CsrException.php',
         'CsrDelft\\common\\CsrGebruikerException' => __DIR__ . '/../..' . '/lib/common/CsrGebruikerException.php',
+        'CsrDelft\\common\\CsrNotFoundException' => __DIR__ . '/../..' . '/lib/common/CsrNotFoundException.php',
         'CsrDelft\\common\\CsrToegangException' => __DIR__ . '/../..' . '/lib/common/CsrToegangException.php',
         'CsrDelft\\common\\GoogleSync' => __DIR__ . '/../..' . '/lib/common/GoogleSync.php',
         'CsrDelft\\common\\Ini' => __DIR__ . '/../..' . '/lib/common/Ini.php',
