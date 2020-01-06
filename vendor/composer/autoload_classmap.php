@@ -252,6 +252,7 @@ return array(
     'CsrDelft\\bb\\tag\\BbTableRow' => $vendorDir . '/csrdelft/bb/src/tag/BbTableRow.php',
     'CsrDelft\\bb\\tag\\BbUnderline' => $vendorDir . '/csrdelft/bb/src/tag/BbUnderline.php',
     'CsrDelft\\command\\MaaltijdVerwerkingTerugdraaienCommand' => $baseDir . '/lib/command/MaaltijdVerwerkingTerugdraaienCommand.php',
+    'CsrDelft\\command\\StudieOpDatumCommand' => $baseDir . '/lib/command/StudieOpDatumCommand.php',
     'CsrDelft\\common\\ContainerFacade' => $baseDir . '/lib/common/ContainerFacade.php',
     'CsrDelft\\common\\CsrException' => $baseDir . '/lib/common/CsrException.php',
     'CsrDelft\\common\\CsrGebruikerException' => $baseDir . '/lib/common/CsrGebruikerException.php',

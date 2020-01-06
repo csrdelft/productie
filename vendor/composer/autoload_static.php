@@ -742,6 +742,7 @@ class ComposerStaticInitad05eb84167adc4f0b93f591d247d4e0
         'CsrDelft\\bb\\tag\\BbTableRow' => __DIR__ . '/..' . '/csrdelft/bb/src/tag/BbTableRow.php',
         'CsrDelft\\bb\\tag\\BbUnderline' => __DIR__ . '/..' . '/csrdelft/bb/src/tag/BbUnderline.php',
         'CsrDelft\\command\\MaaltijdVerwerkingTerugdraaienCommand' => __DIR__ . '/../..' . '/lib/command/MaaltijdVerwerkingTerugdraaienCommand.php',
+        'CsrDelft\\command\\StudieOpDatumCommand' => __DIR__ . '/../..' . '/lib/command/StudieOpDatumCommand.php',
         'CsrDelft\\common\\ContainerFacade' => __DIR__ . '/../..' . '/lib/common/ContainerFacade.php',
         'CsrDelft\\common\\CsrException' => __DIR__ . '/../..' . '/lib/common/CsrException.php',
         'CsrDelft\\common\\CsrGebruikerException' => __DIR__ . '/../..' . '/lib/common/CsrGebruikerException.php',
