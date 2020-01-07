@@ -35,6 +35,7 @@ class UndefinedCallableHandler
         'form_widget' => 'form',
         'form_errors' => 'form',
         'form_label' => 'form',
+        'form_help' => 'form',
         'form_row' => 'form',
         'form_rest' => 'form',
         'form' => 'form',
@@ -71,8 +72,6 @@ class UndefinedCallableHandler
         }
 
         self::onUndefined($name, 'filter', self::$filterComponents[$name]);
-
-        return true;
     }
 
     public static function onUndefinedFunction($name)
@@ -82,8 +81,6 @@ class UndefinedCallableHandler
         }
 
         self::onUndefined($name, 'function', self::$functionComponents[$name]);
-
-        return true;
     }
 
     private static function onUndefined($name, $type, $component)

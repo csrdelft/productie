@@ -34,7 +34,7 @@ class TransNodeTest extends TestCase
 
         $this->assertEquals(
             sprintf(
-                'echo $this->env->getExtension(\'Symfony\Bridge\Twig\Extension\TranslationExtension\')->getTranslator()->trans("trans %%var%%", array_merge(["%%var%%" => %s], %s), "messages");',
+                'echo $this->env->getExtension(\'Symfony\Bridge\Twig\Extension\TranslationExtension\')->trans("trans %%var%%", array_merge(["%%var%%" => %s], %s), "messages");',
                 $this->getVariableGetterWithoutStrictCheck('var'),
                 $this->getVariableGetterWithStrictCheck('foo')
              ),
@@ -44,11 +44,7 @@ class TransNodeTest extends TestCase
 
     protected function getVariableGetterWithoutStrictCheck($name)
     {
-        if (\PHP_VERSION_ID >= 70000) {
-            return sprintf('($context["%s"] ?? null)', $name);
-        }
-
-        return sprintf('(isset($context["%s"]) ? $context["%1$s"] : null)', $name);
+        return sprintf('($context["%s"] ?? null)', $name);
     }
 
     protected function getVariableGetterWithStrictCheck($name)
@@ -57,10 +53,6 @@ class TransNodeTest extends TestCase
             return sprintf('(isset($context["%1$s"]) || array_key_exists("%1$s", $context) ? $context["%1$s"] : (function () { throw new %2$s(\'Variable "%1$s" does not exist.\', 0, $this->source); })())', $name, Environment::VERSION_ID >= 20700 ? 'RuntimeError' : 'Twig_Error_Runtime');
         }
 
-        if (\PHP_VERSION_ID >= 70000) {
-            return sprintf('($context["%s"] ?? $this->getContext($context, "%1$s"))', $name);
-        }
-
-        return sprintf('(isset($context["%s"]) ? $context["%1$s"] : $this->getContext($context, "%1$s"))', $name);
+        return sprintf('($context["%s"] ?? $this->getContext($context, "%1$s"))', $name);
     }
 }

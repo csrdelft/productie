@@ -107,8 +107,6 @@ class TranslationDefaultDomainNodeVisitor extends AbstractNodeVisitor
 
     /**
      * {@inheritdoc}
-     *
-     * @return int
      */
     public function getPriority()
     {

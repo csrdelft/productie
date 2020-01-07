@@ -97,20 +97,13 @@ class TranslationNodeVisitor extends AbstractNodeVisitor
 
     /**
      * {@inheritdoc}
-     *
-     * @return int
      */
     public function getPriority()
     {
         return 0;
     }
 
-    /**
-     * @param int $index
-     *
-     * @return string|null
-     */
-    private function getReadDomainFromArguments(Node $arguments, $index)
+    private function getReadDomainFromArguments(Node $arguments, int $index): ?string
     {
         if ($arguments->hasNode('domain')) {
             $argument = $arguments->getNode('domain');
@@ -123,10 +116,7 @@ class TranslationNodeVisitor extends AbstractNodeVisitor
         return $this->getReadDomainFromNode($argument);
     }
 
-    /**
-     * @return string|null
-     */
-    private function getReadDomainFromNode(Node $node)
+    private function getReadDomainFromNode(Node $node): ?string
     {
         if ($node instanceof ConstantExpression) {
             return $node->getAttribute('value');

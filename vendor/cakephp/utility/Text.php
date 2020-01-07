@@ -42,7 +42,7 @@ class Text
      */
     protected static $_defaultHtmlNoCount = [
         'style',
-        'script'
+        'script',
     ];
 
     /**
@@ -110,7 +110,7 @@ class Text
             $offsets = [
                 mb_strpos($data, $separator, $offset),
                 mb_strpos($data, $leftBound, $offset),
-                mb_strpos($data, $rightBound, $offset)
+                mb_strpos($data, $rightBound, $offset),
             ];
             for ($i = 0; $i < 3; $i++) {
                 if ($offsets[$i] !== false && ($offsets[$i] < $tmpOffset || $tmpOffset == -1)) {
@@ -189,7 +189,7 @@ class Text
     public static function insert($str, $data, array $options = [])
     {
         $defaults = [
-            'before' => ':', 'after' => null, 'escape' => '\\', 'format' => null, 'clean' => false
+            'before' => ':', 'after' => null, 'escape' => '\\', 'format' => null, 'clean' => false,
         ];
         $options += $defaults;
         $format = $options['format'];
@@ -571,7 +571,7 @@ class Text
     public static function tail($text, $length = 100, array $options = [])
     {
         $default = [
-            'ellipsis' => '...', 'exact' => true
+            'ellipsis' => '...', 'exact' => true,
         ];
         $options += $default;
         $exact = $ellipsis = null;
@@ -827,7 +827,8 @@ class Text
 
             $len = self::_strlen($part, $options);
             if ($offset !== 0 || $totalLength + $len > $length) {
-                if (strpos($part, '&') === 0 && preg_match($pattern, $part)
+                if (
+                    strpos($part, '&') === 0 && preg_match($pattern, $part)
                     && $part !== html_entity_decode($part, ENT_HTML5 | ENT_QUOTES, 'UTF-8')
                 ) {
                     // Entities cannot be passed substr.
@@ -1162,23 +1163,25 @@ class Text
         $options += [
             'replacement' => '-',
             'transliteratorId' => null,
-            'preserve' => null
+            'preserve' => null,
         ];
 
         if ($options['transliteratorId'] !== false) {
             $string = static::transliterate($string, $options['transliteratorId']);
         }
 
-        $regex = '^\s\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}';
+        $regex = '^\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}';
         if ($options['preserve']) {
             $regex .= preg_quote($options['preserve'], '/');
         }
         $quotedReplacement = preg_quote($options['replacement'], '/');
         $map = [
-            '/[' . $regex . ']/mu' => ' ',
-            '/[\s]+/mu' => $options['replacement'],
+            '/[' . $regex . ']/mu' => $options['replacement'],
             sprintf('/^[%s]+|[%s]+$/', $quotedReplacement, $quotedReplacement) => '',
         ];
+        if (is_string($options['replacement']) && strlen($options['replacement']) > 0) {
+            $map[sprintf('/[%s]+/mu', $quotedReplacement)] = $options['replacement'];
+        }
         $string = preg_replace(array_keys($map), $map, $string);
 
         return $string;

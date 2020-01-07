@@ -127,10 +127,12 @@ class TwigDataCollector extends DataCollector implements LateDataCollectorInterf
             '<span style="background-color: #ffd">',
             '<span style="color: #d44">',
             '<span style="background-color: #dfd">',
+            '<span style="background-color: #ddf">',
         ], [
             '<span class="status-warning">',
             '<span class="status-error">',
             '<span class="status-success">',
+            '<span class="status-info">',
         ], $dump);
 
         return new Markup($dump, 'UTF-8');
@@ -139,11 +141,7 @@ class TwigDataCollector extends DataCollector implements LateDataCollectorInterf
     public function getProfile()
     {
         if (null === $this->profile) {
-            if (\PHP_VERSION_ID >= 70000) {
-                $this->profile = unserialize($this->data['profile'], ['allowed_classes' => ['Twig_Profiler_Profile', 'Twig\Profiler\Profile']]);
-            } else {
-                $this->profile = unserialize($this->data['profile']);
-            }
+            $this->profile = unserialize($this->data['profile'], ['allowed_classes' => ['Twig_Profiler_Profile', 'Twig\Profiler\Profile']]);
         }
 
         return $this->profile;

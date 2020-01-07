@@ -50,9 +50,8 @@ class AppVariableTest extends TestCase
      */
     public function testGetSession()
     {
-        $session = $this->getMockBuilder(Session::class)->disableOriginalConstructor()->getMock();
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')->getMock();
-        $request->method('getSession')->willReturn($session);
+        $request->method('getSession')->willReturn($session = new Session());
 
         $this->setRequestStack($request);
 
@@ -114,39 +113,51 @@ class AppVariableTest extends TestCase
         $this->assertNull($this->appVariable->getUser());
     }
 
+    /**
+     * @expectedException \RuntimeException
+     */
     public function testEnvironmentNotSet()
     {
-        $this->expectException('RuntimeException');
         $this->appVariable->getEnvironment();
     }
 
+    /**
+     * @expectedException \RuntimeException
+     */
     public function testDebugNotSet()
     {
-        $this->expectException('RuntimeException');
         $this->appVariable->getDebug();
     }
 
+    /**
+     * @expectedException \RuntimeException
+     */
     public function testGetTokenWithTokenStorageNotSet()
     {
-        $this->expectException('RuntimeException');
         $this->appVariable->getToken();
     }
 
+    /**
+     * @expectedException \RuntimeException
+     */
     public function testGetUserWithTokenStorageNotSet()
     {
-        $this->expectException('RuntimeException');
         $this->appVariable->getUser();
     }
 
+    /**
+     * @expectedException \RuntimeException
+     */
     public function testGetRequestWithRequestStackNotSet()
     {
-        $this->expectException('RuntimeException');
         $this->appVariable->getRequest();
     }
 
+    /**
+     * @expectedException \RuntimeException
+     */
     public function testGetSessionWithRequestStackNotSet()
     {
-        $this->expectException('RuntimeException');
         $this->appVariable->getSession();
     }
 
@@ -180,10 +191,10 @@ class AppVariableTest extends TestCase
         $flashMessages = $this->setFlashMessages();
         $this->assertEquals($flashMessages, $this->appVariable->getFlashes([]));
 
-        $this->setFlashMessages();
+        $flashMessages = $this->setFlashMessages();
         $this->assertEquals([], $this->appVariable->getFlashes('this-does-not-exist'));
 
-        $this->setFlashMessages();
+        $flashMessages = $this->setFlashMessages();
         $this->assertEquals(
             ['this-does-not-exist' => []],
             $this->appVariable->getFlashes(['this-does-not-exist'])

@@ -22,9 +22,11 @@ use Twig\Loader\ArrayLoader;
 
 class HttpKernelExtensionTest extends TestCase
 {
+    /**
+     * @expectedException \Twig\Error\RuntimeError
+     */
     public function testFragmentWithError()
     {
-        $this->expectException('Twig\Error\RuntimeError');
         $renderer = $this->getFragmentHandler($this->throwException(new \Exception('foo')));
 
         $this->renderTemplate($renderer);
@@ -47,8 +49,12 @@ class HttpKernelExtensionTest extends TestCase
         ;
         $renderer = new FragmentHandler($context);
 
-        $this->expectException('InvalidArgumentException');
-        $this->expectExceptionMessage('The "inline" renderer does not exist.');
+        if (method_exists($this, 'expectException')) {
+            $this->expectException('InvalidArgumentException');
+            $this->expectExceptionMessage('The "inline" renderer does not exist.');
+        } else {
+            $this->setExpectedException('InvalidArgumentException', 'The "inline" renderer does not exist.');
+        }
 
         $renderer->render('/foo');
     }

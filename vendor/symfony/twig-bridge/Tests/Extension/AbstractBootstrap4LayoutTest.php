@@ -160,6 +160,43 @@ abstract class AbstractBootstrap4LayoutTest extends AbstractBootstrap3LayoutTest
         );
     }
 
+    public function testHelp()
+    {
+        $form = $this->factory->createNamed('name', TextType::class, null, [
+            'help' => 'Help text test!',
+        ]);
+        $view = $form->createView();
+        $html = $this->renderHelp($view);
+
+        $this->assertMatchesXpath($html,
+'/small
+    [@id="name_help"]
+    [@class="form-text text-muted"]
+    [.="[trans]Help text test![/trans]"]
+'
+        );
+    }
+
+    public function testHelpAttr()
+    {
+        $form = $this->factory->createNamed('name', 'Symfony\Component\Form\Extension\Core\Type\TextType', null, [
+            'help' => 'Help text test!',
+            'help_attr' => [
+                'class' => 'class-test',
+            ],
+        ]);
+        $view = $form->createView();
+        $html = $this->renderHelp($view);
+
+        $this->assertMatchesXpath($html,
+            '/small
+    [@id="name_help"]
+    [@class="class-test form-text text-muted"]
+    [.="[trans]Help text test![/trans]"]
+'
+        );
+    }
+
     public function testErrors()
     {
         $form = $this->factory->createNamed('name', TextType::class);
@@ -923,9 +960,34 @@ abstract class AbstractBootstrap4LayoutTest extends AbstractBootstrap3LayoutTest
     {
         $form = $this->factory->createNamed('name', FileType::class);
 
-        $this->assertWidgetMatchesXpath($form->createView(), ['attr' => ['class' => 'my&class form-control-file']],
-'/input
-    [@type="file"]
+        $this->assertWidgetMatchesXpath($form->createView(), ['id' => 'n/a', 'attr' => ['class' => 'my&class form-control-file']],
+'/div
+    [@class="custom-file"]
+    [
+        ./input
+            [@type="file"]
+            [@name="name"]
+        /following-sibling::label
+            [@for="name"]
+    ]
+'
+        );
+    }
+
+    public function testFileWithPlaceholder()
+    {
+        $form = $this->factory->createNamed('name', FileType::class);
+
+        $this->assertWidgetMatchesXpath($form->createView(), ['id' => 'n/a', 'attr' => ['class' => 'my&class form-control-file', 'placeholder' => 'Custom Placeholder']],
+'/div
+    [@class="custom-file"]
+    [
+        ./input
+            [@type="file"]
+            [@name="name"]
+        /following-sibling::label
+            [@for="name" and text() = "[trans]Custom Placeholder[/trans]"]
+    ]
 '
         );
     }

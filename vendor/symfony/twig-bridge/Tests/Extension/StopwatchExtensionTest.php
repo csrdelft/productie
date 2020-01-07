@@ -19,9 +19,11 @@ use Twig\Loader\ArrayLoader;
 
 class StopwatchExtensionTest extends TestCase
 {
+    /**
+     * @expectedException \Twig\Error\SyntaxError
+     */
     public function testFailIfStoppingWrongEvent()
     {
-        $this->expectException('Twig\Error\SyntaxError');
         $this->testTiming('{% stopwatch "foo" %}{% endstopwatch "bar" %}', []);
     }
 
@@ -34,7 +36,7 @@ class StopwatchExtensionTest extends TestCase
         $twig->addExtension(new StopwatchExtension($this->getStopwatch($events)));
 
         try {
-            $twig->render('template');
+            $nodes = $twig->render('template');
         } catch (RuntimeError $e) {
             throw $e->getPrevious();
         }

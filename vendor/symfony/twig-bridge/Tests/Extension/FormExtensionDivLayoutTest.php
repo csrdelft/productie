@@ -33,11 +33,10 @@ class FormExtensionDivLayoutTest extends AbstractDivLayoutTest
 
     protected static $supportedFeatureSetVersion = 304;
 
-    /**
-     * @before
-     */
-    public function doSetUp()
+    protected function setUp()
     {
+        parent::setUp();
+
         $loader = new StubFilesystemLoader([
             __DIR__.'/../../Resources/views/Form',
             __DIR__.'/Fixtures/templates/form',
@@ -193,6 +192,26 @@ class FormExtensionDivLayoutTest extends AbstractDivLayoutTest
         $this->assertSame('&euro; <input type="text" id="name" name="name" required="required" />', $this->renderWidget($view));
     }
 
+    public function testHelpAttr()
+    {
+        $form = $this->factory->createNamed('name', 'Symfony\Component\Form\Extension\Core\Type\TextType', null, [
+            'help' => 'Help text test!',
+            'help_attr' => [
+                'class' => 'class-test',
+            ],
+        ]);
+        $view = $form->createView();
+        $html = $this->renderHelp($view);
+
+        $this->assertMatchesXpath($html,
+            '/p
+    [@id="name_help"]
+    [@class="class-test help-text"]
+    [.="[trans]Help text test![/trans]"]
+'
+        );
+    }
+
     protected function renderForm(FormView $view, array $vars = [])
     {
         return (string) $this->renderer->renderBlock($view, 'form', $vars);
@@ -205,6 +224,11 @@ class FormExtensionDivLayoutTest extends AbstractDivLayoutTest
         }
 
         return (string) $this->renderer->searchAndRenderBlock($view, 'label', $vars);
+    }
+
+    protected function renderHelp(FormView $view)
+    {
+        return (string) $this->renderer->searchAndRenderBlock($view, 'help');
     }
 
     protected function renderErrors(FormView $view)

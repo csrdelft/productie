@@ -27,7 +27,7 @@ class_exists('Twig\Node\Expression\ArrayExpression');
  */
 class TransNode extends Node
 {
-    public function __construct(Node $body, Node $domain = null, AbstractExpression $count = null, AbstractExpression $vars = null, AbstractExpression $locale = null, $lineno = 0, $tag = null)
+    public function __construct(Node $body, Node $domain = null, AbstractExpression $count = null, AbstractExpression $vars = null, AbstractExpression $locale = null, int $lineno = 0, string $tag = null)
     {
         $nodes = ['body' => $body];
         if (null !== $domain) {
@@ -60,18 +60,11 @@ class TransNode extends Node
         $method = !$this->hasNode('count') ? 'trans' : 'transChoice';
 
         $compiler
-            ->write('echo $this->env->getExtension(\'Symfony\Bridge\Twig\Extension\TranslationExtension\')->getTranslator()->'.$method.'(')
+            ->write('echo $this->env->getExtension(\'Symfony\Bridge\Twig\Extension\TranslationExtension\')->trans(')
             ->subcompile($msg)
         ;
 
         $compiler->raw(', ');
-
-        if ($this->hasNode('count')) {
-            $compiler
-                ->subcompile($this->getNode('count'))
-                ->raw(', ')
-            ;
-        }
 
         if (null !== $vars) {
             $compiler
@@ -98,7 +91,17 @@ class TransNode extends Node
                 ->raw(', ')
                 ->subcompile($this->getNode('locale'))
             ;
+        } elseif ($this->hasNode('count')) {
+            $compiler->raw(', null');
         }
+
+        if ($this->hasNode('count')) {
+            $compiler
+                ->raw(', ')
+                ->subcompile($this->getNode('count'))
+            ;
+        }
+
         $compiler->raw(");\n");
     }
 

@@ -10,6 +10,10 @@
 
 {%- block form_widget_simple -%}
     {%- set type = type|default('text') -%}
+    {%- if type == 'range' or type == 'color' -%}
+        {# Attribute "required" is not supported #}
+        {%- set required = false -%}
+    {%- endif -%}
     <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
 {%- endblock form_widget_simple -%}
 
@@ -283,6 +287,21 @@
 
 {%- block button_label -%}{%- endblock -%}
 
+{# Help #}
+
+{% block form_help -%}
+    {%- if help is not empty -%}
+        {%- set help_attr = help_attr|merge({class: (help_attr.class|default('') ~ ' help-text')|trim}) -%}
+        <p id="{{ id }}_help"{% with { attr: help_attr } %}{{ block('attributes') }}{% endwith %}>
+            {%- if translation_domain is same as(false) -%}
+                {{- help -}}
+            {%- else -%}
+                {{- help|trans({}, translation_domain) -}}
+            {%- endif -%}
+        </p>
+    {%- endif -%}
+{%- endblock form_help %}
+
 {# Rows #}
 
 {%- block repeated_row -%}
@@ -294,10 +313,15 @@
 {%- endblock repeated_row -%}
 
 {%- block form_row -%}
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
     <div>
         {{- form_label(form) -}}
         {{- form_errors(form) -}}
-        {{- form_widget(form) -}}
+        {{- form_widget(form, widget_attr) -}}
+        {{- form_help(form) -}}
     </div>
 {%- endblock form_row -%}
 
@@ -375,7 +399,7 @@
 {# Support #}
 
 {%- block form_rows -%}
-    {% for child in form %}
+    {% for child in form|filter(child => not child.rendered) %}
         {{- form_row(child) -}}
     {% endfor %}
 {%- endblock form_rows -%}
