@@ -5,10 +5,7 @@ namespace Doctrine\Bundle\DoctrineBundle\DependencyInjection;
 use Doctrine\Bundle\DoctrineBundle\Dbal\RegexSchemaAssetFilter;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\ServiceRepositoryCompilerPass;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
-use Doctrine\Bundle\DoctrineCacheBundle\DependencyInjection\CacheProviderLoader;
-use Doctrine\Bundle\DoctrineCacheBundle\DependencyInjection\SymfonyBridgeAdapter;
 use Doctrine\ORM\UnitOfWork;
-use Doctrine\Persistence\Mapping\ClassMetadataFactory;
 use LogicException;
 use Symfony\Bridge\Doctrine\DependencyInjection\AbstractDoctrineExtension;
 use Symfony\Bridge\Doctrine\Messenger\DoctrineClearEntityManagerWorkerSubscriber;
@@ -28,9 +25,7 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Transport\Doctrine\DoctrineTransportFactory;
-use Symfony\Component\PropertyInfo\PropertyAccessExtractorInterface;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractorInterface;
-use Symfony\Component\Validator\Mapping\Loader\LoaderInterface;
 use function class_exists;
 use function sprintf;
 
@@ -42,14 +37,6 @@ class DoctrineExtension extends AbstractDoctrineExtension
     /** @var string */
     private $defaultConnection;
 
-    /** @var SymfonyBridgeAdapter */
-    private $adapter;
-
-    public function __construct(SymfonyBridgeAdapter $adapter = null)
-    {
-        $this->adapter = $adapter ?: new SymfonyBridgeAdapter(new CacheProviderLoader(), 'doctrine.orm', 'orm');
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -57,8 +44,6 @@ class DoctrineExtension extends AbstractDoctrineExtension
     {
         $configuration = $this->getConfiguration($configs, $container);
         $config        = $this->processConfiguration($configuration, $configs);
-
-        $this->adapter->loadServicesConfiguration($container);
 
         if (! empty($config['dbal'])) {
             $this->dbalLoad($config['dbal'], $container);
@@ -91,12 +76,6 @@ class DoctrineExtension extends AbstractDoctrineExtension
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('dbal.xml');
-
-        if (method_exists(Alias::class, 'setDeprecated')) {
-            $container->getAlias('Symfony\Bridge\Doctrine\RegistryInterface')->setDeprecated(true, 'The "%alias_id%" service alias is deprecated, use `Doctrine\Persistence\ManagerRegistry` instead.');
-            $container->getAlias('Doctrine\Bundle\DoctrineBundle\Registry')->setDeprecated(true, 'The "%alias_id%" service alias is deprecated, use `Doctrine\Persistence\ManagerRegistry` instead.');
-            $container->getAlias('Doctrine\Common\Persistence\ManagerRegistry')->setDeprecated(true, 'The "%alias_id%" service alias is deprecated, use `Doctrine\Persistence\ManagerRegistry` instead.');
-        }
 
         if (empty($config['default_connection'])) {
             $keys                         = array_keys($config['connections']);
@@ -171,14 +150,9 @@ class DoctrineExtension extends AbstractDoctrineExtension
         unset($connection['auto_commit']);
 
         if (isset($connection['schema_filter']) && $connection['schema_filter']) {
-            if (method_exists(\Doctrine\DBAL\Configuration::class, 'setSchemaAssetsFilter')) {
-                $definition = new Definition(RegexSchemaAssetFilter::class, [$connection['schema_filter']]);
-                $definition->addTag('doctrine.dbal.schema_filter', ['connection' => $name]);
-                $container->setDefinition(sprintf('doctrine.dbal.%s_regex_schema_filter', $name), $definition);
-            } else {
-                // backwards compatibility with dbal < 2.9
-                $configuration->addMethodCall('setFilterSchemaAssetsExpression', [$connection['schema_filter']]);
-            }
+            $definition = new Definition(RegexSchemaAssetFilter::class, [$connection['schema_filter']]);
+            $definition->addTag('doctrine.dbal.schema_filter', ['connection' => $name]);
+            $container->setDefinition(sprintf('doctrine.dbal.%s_regex_schema_filter', $name), $definition);
         }
 
         unset($connection['schema_filter']);
@@ -354,10 +328,6 @@ class DoctrineExtension extends AbstractDoctrineExtension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('orm.xml');
 
-        if (method_exists(Alias::class, 'setDeprecated')) {
-            $container->getAlias('Doctrine\Common\Persistence\ObjectManager')->setDeprecated(true, 'The "%alias_id%" service alias is deprecated, use `Doctrine\ORM\EntityManagerInterface` instead.');
-        }
-
         if (class_exists(AbstractType::class)) {
             $container->getDefinition('form.type.entity')->addTag('kernel.reset', ['method' => 'reset']);
         }
@@ -384,14 +354,11 @@ class DoctrineExtension extends AbstractDoctrineExtension
 
         $config['entity_managers'] = $this->fixManagersAutoMappings($config['entity_managers'], $container->getParameter('kernel.bundles'));
 
-        $loadPropertyInfoExtractor = interface_exists(PropertyInfoExtractorInterface::class)
-            && class_exists(DoctrineExtractor::class);
-
         foreach ($config['entity_managers'] as $name => $entityManager) {
             $entityManager['name'] = $name;
             $this->loadOrmEntityManager($entityManager, $container);
 
-            if ($loadPropertyInfoExtractor) {
+            if (interface_exists(PropertyInfoExtractorInterface::class)) {
                 $this->loadPropertyInfoExtractor($name, $container);
             }
 
@@ -751,34 +718,31 @@ class DoctrineExtension extends AbstractDoctrineExtension
         $serviceId = null;
         $aliasId   = $this->getObjectManagerElementName(sprintf('%s_%s', $objectManagerName, $cacheName));
 
-        if ($cacheDriver['type'] === null) {
-            $cacheDriver = [
-                'type' => 'pool',
-                'pool' => $this->createArrayAdapterCachePool($container, $objectManagerName, $cacheName),
-            ];
-        }
-
-        switch ($cacheDriver['type']) {
+        switch ($cacheDriver['type'] ?? 'pool') {
             case 'service':
                 $serviceId = $cacheDriver['id'];
                 break;
 
             case 'pool':
-                $serviceId = $this->createPoolCacheDefinition($container, $cacheDriver['pool']);
+                $serviceId = $this->createPoolCacheDefinition($container, $cacheDriver['pool'] ?? $this->createArrayAdapterCachePool($container, $objectManagerName, $cacheName));
                 break;
 
             case 'provider':
                 $serviceId = sprintf('doctrine_cache.providers.%s', $cacheDriver['cache_provider']);
                 break;
+
+            default:
+                throw new \InvalidArgumentException(sprintf(
+                    'Unknown cache of type "%s" configured for cache "%s" in entity manager "%s".',
+                    $cacheDriver['type'],
+                    $cacheName,
+                    $objectManagerName
+                ));
         }
 
-        if ($serviceId !== null) {
-            $container->setAlias($aliasId, new Alias($serviceId, false));
+        $container->setAlias($aliasId, new Alias($serviceId, false));
 
-            return $aliasId;
-        }
-
-        return $this->adapter->loadCacheDriver($cacheName, $objectManagerName, $cacheDriver, $container);
+        return $aliasId;
     }
 
     /**
@@ -802,28 +766,12 @@ class DoctrineExtension extends AbstractDoctrineExtension
     private function loadPropertyInfoExtractor($entityManagerName, ContainerBuilder $container)
     {
         $propertyExtractorDefinition = $container->register(sprintf('doctrine.orm.%s_entity_manager.property_info_extractor', $entityManagerName), DoctrineExtractor::class);
-        if (property_exists(DoctrineExtractor::class, 'entityManager')) {
-            $argumentId = sprintf('doctrine.orm.%s_entity_manager', $entityManagerName);
-        } else {
-            $argumentId = sprintf('doctrine.orm.%s_entity_manager.metadata_factory', $entityManagerName);
-
-            $metadataFactoryDefinition = $container->register($argumentId, ClassMetadataFactory::class);
-            $metadataFactoryDefinition->setFactory([
-                new Reference(sprintf('doctrine.orm.%s_entity_manager', $entityManagerName)),
-                'getMetadataFactory',
-            ]);
-            $metadataFactoryDefinition->setPublic(false);
-        }
+        $argumentId                  = sprintf('doctrine.orm.%s_entity_manager', $entityManagerName);
 
         $propertyExtractorDefinition->addArgument(new Reference($argumentId));
 
         $propertyExtractorDefinition->addTag('property_info.list_extractor', ['priority' => -1001]);
         $propertyExtractorDefinition->addTag('property_info.type_extractor', ['priority' => -999]);
-
-        if (! is_a(DoctrineExtractor::class, PropertyAccessExtractorInterface::class, true)) {
-            return;
-        }
-
         $propertyExtractorDefinition->addTag('property_info.access_extractor', ['priority' => -999]);
     }
 
@@ -832,10 +780,6 @@ class DoctrineExtension extends AbstractDoctrineExtension
      */
     private function loadValidatorLoader(string $entityManagerName, ContainerBuilder $container) : void
     {
-        if (! interface_exists(LoaderInterface::class) || ! class_exists(DoctrineLoader::class)) {
-            return;
-        }
-
         $validatorLoaderDefinition = $container->register(sprintf('doctrine.orm.%s_entity_manager.validator_loader', $entityManagerName), DoctrineLoader::class);
         $validatorLoaderDefinition->addArgument(new Reference(sprintf('doctrine.orm.%s_entity_manager', $entityManagerName)));
 

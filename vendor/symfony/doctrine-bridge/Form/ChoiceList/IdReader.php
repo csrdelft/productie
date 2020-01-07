@@ -11,8 +11,8 @@
 
 namespace Symfony\Bridge\Doctrine\Form\ChoiceList;
 
-use Doctrine\Common\Persistence\Mapping\ClassMetadata;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\Mapping\ClassMetadata;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Form\Exception\RuntimeException;
 
 /**
@@ -63,7 +63,7 @@ class IdReader
      * @return bool returns `true` if the class has a single-column ID and
      *              `false` otherwise
      */
-    public function isSingleId()
+    public function isSingleId(): bool
     {
         return $this->singleId;
     }
@@ -74,7 +74,7 @@ class IdReader
      * @return bool returns `true` if the class has a single-column integer ID
      *              and `false` otherwise
      */
-    public function isIntId()
+    public function isIntId(): bool
     {
         return $this->intId;
     }
@@ -116,7 +116,7 @@ class IdReader
      *
      * @return string The name of the ID field
      */
-    public function getIdField()
+    public function getIdField(): string
     {
         return $this->idField;
     }

@@ -11,11 +11,14 @@
 
 namespace Symfony\Bridge\Doctrine\PropertyInfo;
 
-use Doctrine\Common\Persistence\Mapping\ClassMetadataFactory;
-use Doctrine\Common\Persistence\Mapping\MappingException;
 use Doctrine\DBAL\Types\Type as DBALType;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Mapping\MappingException as OrmMappingException;
+use Doctrine\Persistence\Mapping\ClassMetadataFactory;
+use Doctrine\Persistence\Mapping\MappingException;
+use Symfony\Component\PropertyInfo\PropertyAccessExtractorInterface;
 use Symfony\Component\PropertyInfo\PropertyListExtractorInterface;
 use Symfony\Component\PropertyInfo\PropertyTypeExtractorInterface;
 use Symfony\Component\PropertyInfo\Type;
@@ -25,13 +28,24 @@ use Symfony\Component\PropertyInfo\Type;
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-class DoctrineExtractor implements PropertyListExtractorInterface, PropertyTypeExtractorInterface
+class DoctrineExtractor implements PropertyListExtractorInterface, PropertyTypeExtractorInterface, PropertyAccessExtractorInterface
 {
+    private $entityManager;
     private $classMetadataFactory;
 
-    public function __construct(ClassMetadataFactory $classMetadataFactory)
+    /**
+     * @param EntityManagerInterface $entityManager
+     */
+    public function __construct($entityManager)
     {
-        $this->classMetadataFactory = $classMetadataFactory;
+        if ($entityManager instanceof EntityManagerInterface) {
+            $this->entityManager = $entityManager;
+        } elseif ($entityManager instanceof ClassMetadataFactory) {
+            @trigger_error(sprintf('Injecting an instance of "%s" in "%s" is deprecated since Symfony 4.2, inject an instance of "%s" instead.', ClassMetadataFactory::class, __CLASS__, EntityManagerInterface::class), E_USER_DEPRECATED);
+            $this->classMetadataFactory = $entityManager;
+        } else {
+            throw new \TypeError(sprintf('$entityManager must be an instance of "%s", "%s" given.', EntityManagerInterface::class, \is_object($entityManager) ? \get_class($entityManager) : \gettype($entityManager)));
+        }
     }
 
     /**
@@ -39,11 +53,7 @@ class DoctrineExtractor implements PropertyListExtractorInterface, PropertyTypeE
      */
     public function getProperties($class, array $context = [])
     {
-        try {
-            $metadata = $this->classMetadataFactory->getMetadataFor($class);
-        } catch (MappingException $exception) {
-            return null;
-        } catch (OrmMappingException $exception) {
+        if (null === $metadata = $this->getMetadata($class)) {
             return null;
         }
 
@@ -65,11 +75,7 @@ class DoctrineExtractor implements PropertyListExtractorInterface, PropertyTypeE
      */
     public function getTypes($class, $property, array $context = [])
     {
-        try {
-            $metadata = $this->classMetadataFactory->getMetadataFor($class);
-        } catch (MappingException $exception) {
-            return null;
-        } catch (OrmMappingException $exception) {
+        if (null === $metadata = $this->getMetadata($class)) {
             return null;
         }
 
@@ -96,7 +102,7 @@ class DoctrineExtractor implements PropertyListExtractorInterface, PropertyTypeE
                 if (isset($associationMapping['indexBy'])) {
                     $indexProperty = $associationMapping['indexBy'];
                     /** @var ClassMetadataInfo $subMetadata */
-                    $subMetadata = $this->classMetadataFactory->getMetadataFor($associationMapping['targetEntity']);
+                    $subMetadata = $this->entityManager ? $this->entityManager->getClassMetadata($associationMapping['targetEntity']) : $this->classMetadataFactory->getMetadataFor($associationMapping['targetEntity']);
                     $typeOfField = $subMetadata->getTypeOfField($indexProperty);
 
                     if (null === $typeOfField) {
@@ -104,7 +110,7 @@ class DoctrineExtractor implements PropertyListExtractorInterface, PropertyTypeE
 
                         /** @var ClassMetadataInfo $subMetadata */
                         $indexProperty = $subMetadata->getSingleAssociationReferencedJoinColumnName($indexProperty);
-                        $subMetadata = $this->classMetadataFactory->getMetadataFor($associationMapping['targetEntity']);
+                        $subMetadata = $this->entityManager ? $this->entityManager->getClassMetadata($associationMapping['targetEntity']) : $this->classMetadataFactory->getMetadataFor($associationMapping['targetEntity']);
                         $typeOfField = $subMetadata->getTypeOfField($indexProperty);
                     }
 
@@ -167,13 +173,44 @@ class DoctrineExtractor implements PropertyListExtractorInterface, PropertyTypeE
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function isReadable($class, $property, array $context = [])
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isWritable($class, $property, array $context = [])
+    {
+        if (
+            null === ($metadata = $this->getMetadata($class))
+            || ClassMetadata::GENERATOR_TYPE_NONE === $metadata->generatorType
+            || !\in_array($property, $metadata->getIdentifierFieldNames(), true)
+        ) {
+            return null;
+        }
+
+        return false;
+    }
+
+    private function getMetadata(string $class): ?ClassMetadata
+    {
+        try {
+            return $this->entityManager ? $this->entityManager->getClassMetadata($class) : $this->classMetadataFactory->getMetadataFor($class);
+        } catch (MappingException | OrmMappingException $exception) {
+            return null;
+        }
+    }
+
+    /**
      * Determines whether an association is nullable.
-     *
-     * @return bool
      *
      * @see https://github.com/doctrine/doctrine2/blob/v2.5.4/lib/Doctrine/ORM/Tools/EntityGenerator.php#L1221-L1246
      */
-    private function isAssociationNullable(array $associationMapping)
+    private function isAssociationNullable(array $associationMapping): bool
     {
         if (isset($associationMapping['id']) && $associationMapping['id']) {
             return false;
@@ -195,12 +232,8 @@ class DoctrineExtractor implements PropertyListExtractorInterface, PropertyTypeE
 
     /**
      * Gets the corresponding built-in PHP type.
-     *
-     * @param string $doctrineType
-     *
-     * @return string|null
      */
-    private function getPhpType($doctrineType)
+    private function getPhpType(string $doctrineType): ?string
     {
         switch ($doctrineType) {
             case DBALType::SMALLINT:

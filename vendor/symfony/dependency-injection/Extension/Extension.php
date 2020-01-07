@@ -80,17 +80,33 @@ abstract class Extension implements ExtensionInterface, ConfigurationExtensionIn
     public function getConfiguration(array $config, ContainerBuilder $container)
     {
         $class = \get_class($this);
+
+        if (false !== strpos($class, "\0")) {
+            return null; // ignore anonymous classes
+        }
+
         $class = substr_replace($class, '\Configuration', strrpos($class, '\\'));
         $class = $container->getReflectionClass($class);
-        $constructor = $class ? $class->getConstructor() : null;
 
-        return $class && (!$constructor || !$constructor->getNumberOfRequiredParameters()) ? $class->newInstance() : null;
+        if (!$class) {
+            return null;
+        }
+
+        if (!$class->implementsInterface(ConfigurationInterface::class)) {
+            @trigger_error(sprintf('Not implementing "%s" in the extension configuration class "%s" is deprecated since Symfony 4.1.', ConfigurationInterface::class, $class->getName()), E_USER_DEPRECATED);
+            //throw new LogicException(sprintf('The extension configuration class "%s" must implement "%s".', $class->getName(), ConfigurationInterface::class));
+
+            return null;
+        }
+
+        if (!($constructor = $class->getConstructor()) || !$constructor->getNumberOfRequiredParameters()) {
+            return $class->newInstance();
+        }
+
+        return null;
     }
 
-    /**
-     * @return array
-     */
-    final protected function processConfiguration(ConfigurationInterface $configuration, array $configs)
+    final protected function processConfiguration(ConfigurationInterface $configuration, array $configs): array
     {
         $processor = new Processor();
 
@@ -100,7 +116,7 @@ abstract class Extension implements ExtensionInterface, ConfigurationExtensionIn
     /**
      * @internal
      */
-    final public function getProcessedConfigs()
+    final public function getProcessedConfigs(): array
     {
         try {
             return $this->processedConfigs;
