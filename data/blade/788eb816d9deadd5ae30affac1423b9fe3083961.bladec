@@ -41,7 +41,7 @@
  <?php endif; ?>
  </td>
  </tr>
- <?php $__empty_2 = true; foreach($model->getRecent($categorie, 5) as $document): $__empty_2 = false; ?>
+ <?php $__empty_2 = true; foreach($categorie->documenten->slice(0, 5) as $document): $__empty_2 = false; ?>
  <?php echo $this->runChild('documenten.documentregel', ['document' => $document]); ?>
  <?php endforeach; if ($__empty_2): ?>
  <tr>

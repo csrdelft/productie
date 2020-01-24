@@ -34,7 +34,7 @@ Documenten in categorie: <?php echo static::e($categorie->naam); ?>
  </tr>
  </thead>
  <tbody>
- <?php $__empty_1 = true; foreach($documenten as $document): $__empty_1 = false; ?>
+ <?php $__empty_1 = true; foreach($categorie->documenten as $document): $__empty_1 = false; ?>
  <?php echo $this->runChild('documenten.documentregel', ['document' => $document]); ?>
  <?php endforeach; if ($__empty_1): ?>
  <tr>
