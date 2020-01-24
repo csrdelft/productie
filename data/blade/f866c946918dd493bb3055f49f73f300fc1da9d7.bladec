@@ -75,7 +75,7 @@
  <?php if($taak->uid): ?>
  <?php if($taak->uid === CsrDelft\model\security\LoginModel::getUid()): ?>
  <?php endif; ?>
- <?php echo CsrDelft\model\ProfielModel::getLink($taak->uid,instelling('corvee', 'weergave_ledennamen_corveerooster')); ?>
+ <?php echo \CsrDelft\repository\ProfielRepository::getLink($taak->uid,instelling('corvee', 'weergave_ledennamen_corveerooster')); ?>
 
  <?php else: ?>
  <span class="cursief">vacature</span>

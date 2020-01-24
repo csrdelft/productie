@@ -2,7 +2,7 @@
 	<?php if($voorkeur): ?>
  <?php if($loop->first): ?>
  <tr id="voorkeur-row-<?php echo static::e($voorkeur->getVanUid()); ?>">
- <td><?php echo CsrDelft\model\ProfielModel::getLink($voorkeur->getVanUid(),instelling('corvee', 'weergave_ledennamen_beheer')); ?></td>
+ <td><?php echo \CsrDelft\repository\ProfielRepository::getLink($voorkeur->getVanUid(),instelling('corvee', 'weergave_ledennamen_beheer')); ?></td>
  <?php endif; ?>
  <?php echo $this->runChild('maaltijden.voorkeur.beheer_voorkeur_veld', ['voorkeur' => $voorkeur, 'crid' => $voorkeur->crv_repetitie_id, 'uid' => $voorkeur->uid]); ?>
  <?php if($loop->last): ?>

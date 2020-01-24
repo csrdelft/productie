@@ -17,7 +17,7 @@
  <?php if($deelnemer->opmerking2): ?>
  <?php $__currentLoopData = $deelnemer->opmerking2; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $opmerking): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <?php if($opmerking->naam == $cat && $opmerking->selectie != "Nee"): ?>
- <?php ($lid = \CsrDelft\model\ProfielModel::get($deelnemer->uid)); ?>
+ <?php ($lid = \CsrDelft\repository\ProfielRepository::get($deelnemer->uid)); ?>
  <div class="" style="width: 33%; padding: 1em; display: inline-block;">
  <div class="card d-block m-2" style="height: 200px;">
  <?php if(is_zichtbaar($lid, 'profielfoto', 'intern', null)): ?> <?php /* geen override, wordt geprint */ ?>

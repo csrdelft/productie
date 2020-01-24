@@ -1,6 +1,6 @@
 <?php
 /**
- * @var \CsrDelft\model\entity\profiel\Profiel $profiel
+ * @var \CsrDelft\entity\profiel\Profiel $profiel
  * @var \CsrDelft\model\entity\groepen\Bestuur[] $besturen
  * @var \CsrDelft\model\entity\groepen\Commissie[] $commissies
  * @var \CsrDelft\model\entity\groepen\Werkgroep[] $werkgroepen
@@ -137,15 +137,15 @@
  <dt>Voorletters</dt>
  <dd><?php echo static::e($profiel->voorletters); ?></dd>
  <?php endif; ?>
- <?php if($profiel->gebdatum != '0000-00-00' && is_zichtbaar($profiel, 'gebdatum')): ?>
+ <?php if($profiel->gebdatum->format(DATE_FORMAT) != '0000-00-00' && is_zichtbaar($profiel, 'gebdatum')): ?>
  <dt>Geboortedatum</dt>
- <dd><?php echo static::e(strftime('%d-%m-%Y', strtotime($profiel->gebdatum))); ?></dd>
+ <dd><?php echo static::e(strftime('%d-%m-%Y', $profiel->gebdatum->getTimestamp())); ?></dd>
  <?php endif; ?>
- <?php if($profiel->status === \CsrDelft\model\entity\LidStatus::Overleden && $profiel->sterfdatum !== '0000-00-00'): ?>
+ <?php if($profiel->status === \CsrDelft\model\entity\LidStatus::Overleden && $profiel->sterfdatum->format(DATE_FORMAT) !== '0000-00-00'): ?>
  <dt>Overleden op</dt>
- <dd><?php echo static::e(strftime('%d-%m-%y', strtotime($profiel->sterfdatum))); ?></dd>
+ <dd><?php echo static::e(strftime('%d-%m-%y', $profiel->sterfdatum->getTimestamp())); ?></dd>
  <?php endif; ?>
- <?php ($echtgenoot = \CsrDelft\model\ProfielModel::get($profiel->echtgenoot)); ?>
+ <?php ($echtgenoot = \CsrDelft\repository\ProfielRepository::get($profiel->echtgenoot)); ?>
  <?php if($echtgenoot): ?>
  <dt>
  <?php if($echtgenoot->geslacht === \CsrDelft\model\entity\Geslacht::Vrouw): ?>
@@ -214,7 +214,7 @@
  <dl class="col-md-6">
  <?php if(is_zichtbaar($profiel, 'email')): ?>
  <dt>Email</dt>
- <dd><?php echo static::e($profiel->primary_email); ?></dd>
+ <dd><?php echo static::e($profiel->getPrimaryEmail()); ?></dd>
  <?php endif; ?>
  <?php if($profiel->linkedin): ?>
  <dt>LinkedIn</dt>
@@ -256,7 +256,7 @@
  </dl>
  <?php if(is_zichtbaar($profiel, ['kinderen'], 'intern') && is_zichtbaar($profiel, ['patroon'], 'profiel')): ?>
  <dl class="col-md-6">
- <?php ($patroon = \CsrDelft\model\ProfielModel::get($profiel->patroon)); ?>
+ <?php ($patroon = \CsrDelft\repository\ProfielRepository::get($profiel->patroon)); ?>
  <?php if($patroon): ?>
  <dt>
  <?php if($patroon->geslacht === \CsrDelft\model\entity\Geslacht::Vrouw): ?>
@@ -311,11 +311,11 @@
  <?php if($profiel->getKring() && is_zichtbaar($profiel, 'kring', 'intern')): ?>
  <dt>Kring</dt>
  <dd>
- <a href="<?php echo static::e($profiel->kring->getUrl()); ?>"><?php echo static::e($profiel->kring->naam); ?>
+ <a href="<?php echo static::e($profiel->getKring()->getUrl()); ?>"><?php echo static::e($profiel->getKring()->naam); ?>
 
  <?php if($profiel->status === \CsrDelft\model\entity\LidStatus::Kringel): ?>
  (kringel)
- <?php elseif($profiel->kring->getLid($profiel->uid)->opmerking === 'leider'): ?>
+ <?php elseif($profiel->getKring()->getLid($profiel->uid)->opmerking === 'leider'): ?>
  (kringleider)
  <?php elseif($profiel->verticaleleider): ?>
  (leider)

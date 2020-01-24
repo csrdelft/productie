@@ -26,7 +26,7 @@
  <tr class="
  <?php if(!$suggestie["voorkeur"]): ?>  geenvoorkeur <?php endif; ?>
  <?php if($suggestie["recent"]): ?>  recent <?php endif; ?>
- <?php if($jongsteLichting === CsrDelft\model\ProfielModel::get($uid)->lidjaar): ?>  jongste <?php else: ?> oudere <?php endif; ?>
+ <?php if($jongsteLichting === \CsrDelft\repository\ProfielRepository::get($uid)->lidjaar): ?>  jongste <?php else: ?> oudere <?php endif; ?>
  ">
  <td style="width: 15px;">
  <a class="btn submit" style="padding: 0 2px;"
@@ -51,7 +51,7 @@
  <?php endif; ?>
  </td>
  <td style="width: 140px;">
- <?php echo static::e(CsrDelft\model\ProfielModel::get($uid)->getNaam(instelling('corvee', 'weergave_ledennamen_beheer'))); ?>
+ <?php echo static::e(\CsrDelft\repository\ProfielRepository::get($uid)->getNaam(instelling('corvee', 'weergave_ledennamen_beheer'))); ?>
 
  </td>
  <?php if($suggestie["laatste"]): ?>

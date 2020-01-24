@@ -24,6 +24,6 @@
 	<td class="size"><?php echo static::e($document->filesize); ?></td>
 	<td title="<?php echo static::e($document->mimetype); ?>"><?php echo $document->getMimetypeIcon(); ?></td>
 	<td><?php echo reldate($document->toegevoegd); ?></td>
-	<td><?php echo CsrDelft\model\ProfielModel::getLink($document->eigenaar, 'civitas'); ?></td>
+	<td><?php echo \CsrDelft\repository\ProfielRepository::getLink($document->eigenaar, 'civitas'); ?></td>
 </tr>
 

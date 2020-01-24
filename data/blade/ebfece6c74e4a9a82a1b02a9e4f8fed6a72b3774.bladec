@@ -25,7 +25,7 @@
  </td>
  <td>
  <a href="?uid=<?php echo static::e($logRegel->uid); ?>">+</a>
- <?php echo \CsrDelft\model\ProfielModel::getLink($logRegel->uid, 'volledig'); ?>
+ <?php echo \CsrDelft\repository\ProfielRepository::getLink($logRegel->uid, 'volledig'); ?>
 
  </td>
  <td>

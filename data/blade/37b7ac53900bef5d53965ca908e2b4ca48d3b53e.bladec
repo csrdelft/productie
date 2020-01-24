@@ -132,7 +132,7 @@
  <?php $__empty_1 = true; foreach($boek->getExemplaren() as $exemplaar): $__empty_1 = false; ?>
  <div
  class="exemplaar uitgebreid <?php if(count($boek->getExemplaren())>4 && !$exemplaar->isEigenaar() && ($exemplaar->eigenaar_uid!='x222' || $total_exemplaren_bibliotheek>0 )): ?>verborgen <?php endif; ?> ">
- <div class="fotolabel"><?php echo CsrDelft\model\ProfielModel::getLink($exemplaar->eigenaar_uid, 'pasfoto'); ?></div>
+ <div class="fotolabel"><?php echo \CsrDelft\repository\ProfielRepository::getLink($exemplaar->eigenaar_uid, 'pasfoto'); ?></div>
  <div class="gegevensexemplaar" id="ex<?php echo static::e($exemplaar->id); ?>">
  <?php /* eigenaar */ ?>
  <div class="regel">
@@ -140,7 +140,7 @@
  <?php if($exemplaar->eigenaar_uid=='x222'): ?><?php ($total_exemplaren_bibliotheek += 1); ?>
  C.S.R.-bibliotheek
  <?php else: ?>
- <?php echo CsrDelft\model\ProfielModel::getLink($exemplaar->eigenaar_uid, 'civitas'); ?>
+ <?php echo \CsrDelft\repository\ProfielRepository::getLink($exemplaar->eigenaar_uid, 'civitas'); ?>
 
  <?php endif; ?>
  </div>
@@ -160,10 +160,10 @@
  <label>Status</label>
  <?php if($exemplaar->getStatus()=='uitgeleend'): ?>
  <span
- title="Sinds <?php echo static::e(strip_tags(reldate($exemplaar->uitleendatum))); ?>">Uitgeleend aan <?php echo static::e(CsrDelft\model\ProfielModel::getLink($exemplaar->uitgeleend_uid, 'civitas')); ?></span>
+ title="Sinds <?php echo static::e(strip_tags(reldate($exemplaar->uitleendatum))); ?>">Uitgeleend aan <?php echo static::e(\CsrDelft\repository\ProfielRepository::getLink($exemplaar->uitgeleend_uid, 'civitas')); ?></span>
  <?php elseif($exemplaar->getStatus()=='teruggegeven'): ?>
  <span
- title="Was uitgeleend sinds <?php echo static::e(strip_tags(reldate($exemplaar->uitleendatum))); ?>">Teruggegeven door <?php echo static::e(CsrDelft\model\ProfielModel::getLink($exemplaar->uitgeleend_uid, 'civitas')); ?></span>
+ title="Was uitgeleend sinds <?php echo static::e(strip_tags(reldate($exemplaar->uitleendatum))); ?>">Teruggegeven door <?php echo static::e(\CsrDelft\repository\ProfielRepository::getLink($exemplaar->uitgeleend_uid, 'civitas')); ?></span>
  <?php elseif($exemplaar->getStatus()=='vermist'): ?>
  <span class="waarschuwing"
  title="Sinds <?php echo static::e(strip_tags(reldate($exemplaar->uitleendatum))); ?>">Vermist</span>
@@ -188,35 +188,35 @@
  <?php else: ?>
  <a class="btn post ReloadPage" href="/bibliotheek/exemplaarlenen/<?php echo static::e($exemplaar->id); ?>"
   title="Leen dit boek"
-  onclick="return confirm('U wilt dit boek van <?php echo static::e(CsrDelft\model\ProfielModel::getNaam($exemplaar->eigenaar_uid)); ?> lenen?')"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["lorry"]); ?>
+  onclick="return confirm('U wilt dit boek van <?php echo static::e(\CsrDelft\repository\ProfielRepository::getNaam($exemplaar->eigenaar_uid)); ?> lenen?')"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["lorry"]); ?>
  Exemplaar lenen</a>
  <?php endif; ?>
  <?php elseif($exemplaar->status=='uitgeleend' && CsrDelft\model\security\LoginModel::getUid()==$exemplaar->uitgeleend_uid && $exemplaar->uitgeleend_uid!=$exemplaar->eigenaar_uid): ?>
  <a class="btn post ReloadPage" href="/bibliotheek/exemplaarteruggegeven/<?php echo static::e($exemplaar->id); ?>"
   title="Boek heb ik teruggegeven"
-  onclick="return confirm('U heeft dit exemplaar van <?php echo static::e(CsrDelft\model\ProfielModel::getNaam($exemplaar->eigenaar_uid)); ?> teruggegeven?')"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["lorry_go"]); ?>
+  onclick="return confirm('U heeft dit exemplaar van <?php echo static::e(\CsrDelft\repository\ProfielRepository::getNaam($exemplaar->eigenaar_uid)); ?> teruggegeven?')"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["lorry_go"]); ?>
  Teruggegeven</a>
  <?php endif; ?>
  <?php if($exemplaar->isEigenaar()): ?>
  <?php if(($exemplaar->getStatus()=='uitgeleend' || $exemplaar->isTeruggegeven())): ?>
  <a class="btn post ReloadPage" href="/bibliotheek/exemplaarterugontvangen/<?php echo static::e($exemplaar->id); ?>"
   title="Boek is ontvangen"
-  onclick="return confirm('Dit exemplaar van <?php echo static::e(CsrDelft\model\ProfielModel::getNaam($exemplaar->eigenaar_uid)); ?> is terugontvangen?')"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["lorry_flatbed"]); ?>
+  onclick="return confirm('Dit exemplaar van <?php echo static::e(\CsrDelft\repository\ProfielRepository::getNaam($exemplaar->eigenaar_uid)); ?> is terugontvangen?')"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["lorry_flatbed"]); ?>
  Ontvangen</a>
  <?php elseif($exemplaar->getStatus()=='beschikbaar'): ?>
  <a class="btn post ReloadPage" href="/bibliotheek/exemplaarvermist/<?php echo static::e($exemplaar->id); ?>"
   title="Exemplaar is vermist"
-  onclick="return confirm('Is het exemplaar van <?php echo static::e(CsrDelft\model\ProfielModel::getNaam($exemplaar->eigenaar_uid)); ?> vermist?')"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["emoticon_unhappy"]); ?>
+  onclick="return confirm('Is het exemplaar van <?php echo static::e(\CsrDelft\repository\ProfielRepository::getNaam($exemplaar->eigenaar_uid)); ?> vermist?')"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["emoticon_unhappy"]); ?>
  Vermist</a>
  <?php elseif($exemplaar->getStatus()=='vermist'): ?>
  <a class="btn post ReloadPage" href="/bibliotheek/exemplaargevonden/<?php echo static::e($exemplaar->id); ?>"
   title="Exemplaar teruggevonden"
-  onclick="return confirm('Is het exemplaar van <?php echo static::e(CsrDelft\model\ProfielModel::getNaam($exemplaar->eigenaar_uid)); ?> teruggevonden?')"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["emoticon_smile"]); ?>
+  onclick="return confirm('Is het exemplaar van <?php echo static::e(\CsrDelft\repository\ProfielRepository::getNaam($exemplaar->eigenaar_uid)); ?> teruggevonden?')"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["emoticon_smile"]); ?>
  Teruggevonden</a>
  <?php endif; ?>
  <a class="btn post ReloadPage" href="/bibliotheek/verwijderexemplaar/<?php echo static::e($exemplaar->id); ?>"
   title="Exemplaar verwijderen"
-  onclick="return confirm('Weet u zeker dat u dit exemplaar van <?php echo static::e(CsrDelft\model\ProfielModel::getNaam($exemplaar->eigenaar_uid)); ?> wilt verwijderen?')"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["verwijderen"]); ?>
+  onclick="return confirm('Weet u zeker dat u dit exemplaar van <?php echo static::e(\CsrDelft\repository\ProfielRepository::getNaam($exemplaar->eigenaar_uid)); ?> wilt verwijderen?')"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["verwijderen"]); ?>
  Verwijderen</a>
  <?php endif; ?>
  </div>
@@ -233,7 +233,7 @@
  <div class="exemplaar compact">
  <?php $__currentLoopData = $boek->getExemplaren(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $exemplaar): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <?php if(!$boek->isEigenaar($exemplaar->id) && ($exemplaar->eigenaar_uid!='x222' || $total_exemplaren_bibliotheek>0 )): ?>
- <?php echo static::e(CsrDelft\model\ProfielModel::getLink($exemplaar->eigenaar_uid, 'pasfoto')); ?>
+ <?php echo static::e(\CsrDelft\repository\ProfielRepository::getLink($exemplaar->eigenaar_uid, 'pasfoto')); ?>
 
  <div class="statusmarkering"><span class="biebindicator <?php echo static::e($exemplaar->status); ?>"
   title="Boek is <?php echo static::e($exemplaar->status); ?>">• </span></div>
@@ -264,7 +264,7 @@
  <tr>
  <td class="linkerkolom recensist">
  <span
- class="recensist"><?php echo CsrDelft\model\ProfielModel::getLink($beschrijving->schrijver_uid, 'civitas'); ?></span><br/>
+ class="recensist"><?php echo \CsrDelft\repository\ProfielRepository::getLink($beschrijving->schrijver_uid, 'civitas'); ?></span><br/>
  <span class="moment"><?php echo reldate($beschrijving->toegevoegd); ?></span><br/>
 
  <?php /* knopjes bij elke post */ ?>

@@ -23,13 +23,13 @@
  <a class="postlink">&rarr;</a>
  </div>
  <div class="naam">
- <?php echo static::e(CsrDelft\model\ProfielModel::getNaam(CsrDelft\model\security\LoginModel::getUid(), 'user')); ?>
+ <?php echo static::e(\CsrDelft\repository\ProfielRepository::getNaam(CsrDelft\model\security\LoginModel::getUid(), 'user')); ?>
 
  </div>
 
  <?php if(isset($this->currentUser)): ?>
  <div
- class="forumpasfoto"><?php echo CsrDelft\model\ProfielModel::getLink(CsrDelft\model\security\LoginModel::getUid(), 'pasfoto'); ?></div>
+ class="forumpasfoto"><?php echo \CsrDelft\repository\ProfielRepository::getLink(CsrDelft\model\security\LoginModel::getUid(), 'pasfoto'); ?></div>
  <?php endif; ?>
 	</div>
 

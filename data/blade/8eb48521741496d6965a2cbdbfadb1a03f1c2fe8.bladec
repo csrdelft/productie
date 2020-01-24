@@ -46,7 +46,7 @@
  <span
  class="onderstreept"><?php echo static::e($bericht->cat ? CsrDelft\model\entity\courant\CourantCategorie::getDescription($bericht->cat) : 'Geen categorie'); ?></span>
  <?php if($courantModel->magBeheren()): ?>
- <?php echo CsrDelft\model\ProfielModel::getLink($bericht->uid, 'civitas'); ?>
+ <?php echo \CsrDelft\repository\ProfielRepository::getLink($bericht->uid, 'civitas'); ?>
 
  <?php endif; ?>
  <span class="dikgedrukt"><?php echo static::e($bericht->titel); ?></span>

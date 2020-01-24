@@ -1,4 +1,4 @@
-<?php /** @var \CsrDelft\model\entity\profiel\Profiel $profiel */ ?>
+<?php /** @var \CsrDelft\entity\profiel\Profiel $profiel */ ?>
 <?php $_shouldextend[1]=1; ?>
 
 <?php $this->startSection('titel'); ?>
@@ -22,7 +22,7 @@
 	<div class="tree">
  <ul>
  <li>
- <?php ($patroonNaam = \CsrDelft\model\ProfielModel::getNaam($profiel->patroon)); ?>
+ <?php ($patroonNaam = \CsrDelft\repository\ProfielRepository::getNaam($profiel->patroon)); ?>
  <a href="/profiel/<?php echo static::e($profiel->patroon); ?>/stamboom"
   title="Bekijk het nageslacht van <?php echo static::e($patroonNaam); ?>">&uArr; <?php echo static::e($patroonNaam); ?></a>
  <?php echo $this->runChild('profiel.stamboom_node', ['profielen' => [$profiel]]); ?>

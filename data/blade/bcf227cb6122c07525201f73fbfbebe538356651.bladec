@@ -34,7 +34,7 @@
  <?php /*<?php $__currentLoopData = $draad->getForumPosts(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?><description><![CDATA[ <?php echo static::e(bbcode($post->tekst)); ?> ]]></description>
  <pubDate><?php echo static::e(rfc2822($post->datum_tijd)); ?></pubDate>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>*/ ?>
- <dc:creator><?php echo static::e(CsrDelft\model\ProfielModel::getNaam($draad->laatste_wijziging_uid, 'user')); ?></dc:creator>
+ <dc:creator><?php echo static::e(\CsrDelft\repository\ProfielRepository::getNaam($draad->laatste_wijziging_uid, 'user')); ?></dc:creator>
  <category><?php echo static::e($draad->getForumDeel()->getForumCategorie()->titel); ?> » <?php echo static::e($draad->getForumDeel()->titel); ?></category>
  <comments><?php echo static::e(CSR_ROOT); ?>/forum/onderwerp/<?php echo static::e($draad->draad_id); ?></comments>
  <guid isPermaLink="true"><?php echo static::e(CSR_ROOT); ?>/forum/reactie/<?php echo static::e($draad->laatste_post_id); ?>#<?php echo static::e($draad->laatste_post_id); ?></guid>

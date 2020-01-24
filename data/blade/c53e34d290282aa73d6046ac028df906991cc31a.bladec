@@ -15,7 +15,7 @@
   title="Link naar deze post">&rarr;</a>
  </div>
  <div class="naam">
- <?php echo CsrDelft\model\ProfielModel::getLink($post->uid, 'user'); ?>
+ <?php echo \CsrDelft\repository\ProfielRepository::getLink($post->uid, 'user'); ?>
 
  </div>
 
@@ -86,7 +86,7 @@
 
  <?php if(isset($this->currentUser)): ?>
  <?php if($post->uid !== 'x999'): ?>
- <div class="forumpasfoto"><?php echo CsrDelft\model\ProfielModel::getLink($post->uid, 'pasfoto'); ?></div>
+ <div class="forumpasfoto"><?php echo \CsrDelft\repository\ProfielRepository::getLink($post->uid, 'pasfoto'); ?></div>
  <?php endif; ?>
  <?php endif; ?>
 	</div>
