@@ -5,6 +5,7 @@
  <a href="#0"><?php echo static::e($root->tekst); ?></a>
 	<?php endif; ?>
 </div>
+<?php if($root->children): ?>
 <?php $__currentLoopData = $root->children; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
 	<?php if($item->magBekijken()): ?>
  <div class="item <?php if($item->active): ?> active <?php endif; ?> <?php if($root->tekst == 'Sponsors'): ?> ads <?php endif; ?>">
@@ -17,3 +18,4 @@
  </div>
 	<?php endif; ?>
 <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+<?php endif; ?>
