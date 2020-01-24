@@ -242,7 +242,7 @@
  <a href="/ledenlijst?q=lichting:<?php echo static::e($profiel->lidjaar); ?>&amp;status=ALL"
   title="Bekijk de leden van lichting <?php echo static::e($profiel->lidjaar); ?>"><?php echo static::e($profiel->lidjaar); ?></a>
  <?php endif; ?>
- <?php if(!$profiel->isLid() && $profiel->lidafdatum->format(DATE_FORMAT) != '0000-00-00'): ?>
+ <?php if(!$profiel->isLid() && $profiel->lidafdatum): ?>
  tot <?php echo static::e($profiel->lidafdatum->format('Y')); ?>
 
  <?php endif; ?>
