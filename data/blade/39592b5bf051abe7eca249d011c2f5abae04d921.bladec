@@ -15,7 +15,7 @@
  <?php $__currentLoopData = $verjaardagen[$maand - 1]; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $verjaardag): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <tr>
  <td class="text-right <?php if($verjaardag->isJarig()): ?> dikgedrukt cursief <?php endif; ?> ">
- <?php echo static::e(date('j', strtotime($verjaardag->gebdatum))); ?>
+ <?php echo static::e($verjaardag->gebdatum->format('j')); ?>
 
  </td>
  <td <?php if($verjaardag->isJarig()): ?> class="dikgedrukt cursief" <?php endif; ?> >
