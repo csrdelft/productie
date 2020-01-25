@@ -25,15 +25,14 @@
 
  <?php $__currentLoopData = $eetplan; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $avond): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <?php $__currentLoopData = $avond; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $sessie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <?php ($noviet = $sessie->getNoviet()); ?>
  <tr>
  <?php if($loop->index == 1): ?>
  <th rowspan="<?php echo static::e(count($avond)); ?>" class="table-light"><?php echo static::e($sessie->avond->format("d-m-Y")); ?></th>
  <?php endif; ?>
- <td><?php echo \CsrDelft\repository\ProfielRepository::getLink($noviet->uid, 'civitas'); ?></td>
- <td><?php echo static::e($noviet->mobiel); ?></td>
- <td><?php echo static::e($noviet->email); ?></td>
- <td><?php echo static::e($noviet->eetwens); ?></td>
+ <td><?php echo $sessie->noviet->getLink('civitas'); ?></td>
+ <td><?php echo static::e($sessie->noviet->mobiel); ?></td>
+ <td><?php echo static::e($sessie->noviet->email); ?></td>
+ <td><?php echo static::e($sessie->noviet->eetwens); ?></td>
  </tr>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
