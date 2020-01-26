@@ -16,7 +16,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Mapping\MappingException as OrmMappingException;
-use Doctrine\Persistence\Mapping\ClassMetadataFactory;
 use Doctrine\Persistence\Mapping\MappingException;
 use Symfony\Component\PropertyInfo\PropertyAccessExtractorInterface;
 use Symfony\Component\PropertyInfo\PropertyListExtractorInterface;
@@ -33,25 +32,15 @@ class DoctrineExtractor implements PropertyListExtractorInterface, PropertyTypeE
     private $entityManager;
     private $classMetadataFactory;
 
-    /**
-     * @param EntityManagerInterface $entityManager
-     */
-    public function __construct($entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        if ($entityManager instanceof EntityManagerInterface) {
-            $this->entityManager = $entityManager;
-        } elseif ($entityManager instanceof ClassMetadataFactory) {
-            @trigger_error(sprintf('Injecting an instance of "%s" in "%s" is deprecated since Symfony 4.2, inject an instance of "%s" instead.', ClassMetadataFactory::class, __CLASS__, EntityManagerInterface::class), E_USER_DEPRECATED);
-            $this->classMetadataFactory = $entityManager;
-        } else {
-            throw new \TypeError(sprintf('$entityManager must be an instance of "%s", "%s" given.', EntityManagerInterface::class, \is_object($entityManager) ? \get_class($entityManager) : \gettype($entityManager)));
-        }
+        $this->entityManager = $entityManager;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getProperties($class, array $context = [])
+    public function getProperties(string $class, array $context = [])
     {
         if (null === $metadata = $this->getMetadata($class)) {
             return null;
@@ -73,7 +62,7 @@ class DoctrineExtractor implements PropertyListExtractorInterface, PropertyTypeE
     /**
      * {@inheritdoc}
      */
-    public function getTypes($class, $property, array $context = [])
+    public function getTypes(string $class, string $property, array $context = [])
     {
         if (null === $metadata = $this->getMetadata($class)) {
             return null;
@@ -175,7 +164,7 @@ class DoctrineExtractor implements PropertyListExtractorInterface, PropertyTypeE
     /**
      * {@inheritdoc}
      */
-    public function isReadable($class, $property, array $context = [])
+    public function isReadable(string $class, string $property, array $context = [])
     {
         return null;
     }
@@ -183,7 +172,7 @@ class DoctrineExtractor implements PropertyListExtractorInterface, PropertyTypeE
     /**
      * {@inheritdoc}
      */
-    public function isWritable($class, $property, array $context = [])
+    public function isWritable(string $class, string $property, array $context = [])
     {
         if (
             null === ($metadata = $this->getMetadata($class))

@@ -49,7 +49,7 @@ class ChainUserProvider implements UserProviderInterface, PasswordUpgraderInterf
     /**
      * {@inheritdoc}
      */
-    public function loadUserByUsername($username)
+    public function loadUserByUsername(string $username)
     {
         foreach ($this->providers as $provider) {
             try {
@@ -73,6 +73,10 @@ class ChainUserProvider implements UserProviderInterface, PasswordUpgraderInterf
 
         foreach ($this->providers as $provider) {
             try {
+                if (!$provider->supportsClass(\get_class($user))) {
+                    continue;
+                }
+
                 return $provider->refreshUser($user);
             } catch (UnsupportedUserException $e) {
                 // try next one
@@ -94,7 +98,7 @@ class ChainUserProvider implements UserProviderInterface, PasswordUpgraderInterf
     /**
      * {@inheritdoc}
      */
-    public function supportsClass($class)
+    public function supportsClass(string $class)
     {
         foreach ($this->providers as $provider) {
             if ($provider->supportsClass($class)) {
