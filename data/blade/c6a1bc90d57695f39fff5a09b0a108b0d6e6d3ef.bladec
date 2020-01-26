@@ -79,7 +79,7 @@
  <?php endif; ?>
  </span>
  <?php if(isset($this->currentUser)): ?>
- <?php if($post->uid !== 'x999'): ?>
+ <?php if($post->uid !== \CsrDelft\model\security\LoginModel::UID_EXTERN): ?>
  <div class="forumpasfoto"><?php echo \CsrDelft\repository\ProfielRepository::getLink($post->uid, 'pasfoto'); ?></div>
  <?php endif; ?>
  <?php endif; ?>

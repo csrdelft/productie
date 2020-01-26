@@ -2,7 +2,7 @@
 	<div class="input-group-prepend">
  <span class="input-group-text"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['feed']); ?></span>
 	</div>
-	<?php if(CsrDelft\model\security\LoginModel::getUid() == 'x999' || CsrDelft\model\security\LoginModel::getAccount()->hasPrivateToken()): ?>
+	<?php if(CsrDelft\model\security\LoginModel::getUid() == \CsrDelft\model\security\LoginModel::UID_EXTERN || CsrDelft\model\security\LoginModel::getAccount()->hasPrivateToken()): ?>
  <input type="text" class="form-control" value="<?php echo static::e(CsrDelft\model\security\LoginModel::getAccount()->getRssLink()); ?>"
   size="35" onclick="this.setSelectionRange(0, this.value.length);" readonly title="RSS Link"/>
 	<?php else: ?>
