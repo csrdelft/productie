@@ -33,7 +33,7 @@
 	</p>
 	<?php if(count($berichten) > 0): ?>
  <div id="courantKnoppenContainer">
- <?php if($courantModel->magVerzenden()): ?>
+ <?php if($magVerzenden): ?>
  <a href="/courant/verzenden" title="De C.S.R.-courant wilt versturen?" class="btn btn-primary post confirm">Verzenden</a>
  <a href="/courant/voorbeeld" class="btn btn-primary" target="_blank">Laat voorbeeld zien</a>
  <?php endif; ?>
@@ -44,20 +44,20 @@
  <?php $__currentLoopData = $berichten; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $bericht): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <dt>
  <span
- class="onderstreept"><?php echo static::e($bericht->cat ? CsrDelft\model\entity\courant\CourantCategorie::getDescription($bericht->cat) : 'Geen categorie'); ?></span>
- <?php if($courantModel->magBeheren()): ?>
+ class="onderstreept"><?php echo static::e($bericht->cat ? \CsrDelft\entity\courant\CourantCategorie::getDescription($bericht->cat) : 'Geen categorie'); ?></span>
+ <?php if($magBeheren): ?>
  <?php echo \CsrDelft\repository\ProfielRepository::getLink($bericht->uid, 'civitas'); ?>
 
  <?php endif; ?>
  <span class="dikgedrukt"><?php echo static::e($bericht->titel); ?></span>
- <?php if($courantModel->magBeheren($bericht->uid)): ?>
+ <?php if($bericht->magBeheren()): ?>
  <a class="btn btn-primary" href="/courant/bewerken/<?php echo static::e($bericht->id); ?>">bewerken</a>
  <a class="btn btn-primary post confirm ReloadPage" href="/courant/verwijderen/<?php echo static::e($bericht->id); ?>"
   title="Bericht verwijderen">verwijderen</a>
  <?php endif; ?>
  </dt>
  <dd id="courantbericht{$bericht->id}"></dd>
- <?php if(!$courantModel->magBeheren($bericht->uid)): ?>
+ <?php if(!$bericht->magBeheren()): ?>
  <dd><?php echo bbcode($bericht->bericht, "mail"); ?></dd>
  <?php endif; ?>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
