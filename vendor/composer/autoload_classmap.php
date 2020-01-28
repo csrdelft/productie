@@ -893,7 +893,6 @@ return array(
     'CsrDelft\\view\\login\\LoginForm' => $baseDir . '/lib/view/login/LoginForm.php',
     'CsrDelft\\view\\login\\LoginSessionsData' => $baseDir . '/lib/view/login/LoginSessionsData.php',
     'CsrDelft\\view\\login\\LoginSessionsTable' => $baseDir . '/lib/view/login/LoginSessionsTable.php',
-    'CsrDelft\\view\\login\\RememberAfterLoginForm' => $baseDir . '/lib/view/login/RememberAfterLoginForm.php',
     'CsrDelft\\view\\login\\RememberLoginData' => $baseDir . '/lib/view/login/RememberLoginData.php',
     'CsrDelft\\view\\login\\RememberLoginForm' => $baseDir . '/lib/view/login/RememberLoginForm.php',
     'CsrDelft\\view\\login\\RememberLoginTable' => $baseDir . '/lib/view/login/RememberLoginTable.php',
