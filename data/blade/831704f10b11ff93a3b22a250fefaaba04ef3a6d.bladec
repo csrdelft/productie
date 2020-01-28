@@ -37,19 +37,18 @@
  <div class="form-group row instelling" id="instelling-<?php echo static::e($module); ?>-<?php echo static::e($id); ?>">
  <label class="col-md-3 col-form-label" for="inst_<?php echo static::e($module); ?>_<?php echo static::e($id); ?>"><?php echo $titel; ?></label>
 
+ <div class="col-md-9">
  <?php if($type === \CsrDelft\model\instellingen\InstellingType::Enumeration): ?>
  <?php if(count($opties) > 8): ?>
- <div class="col-md-9">
  <select name="<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" id="inst_<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" class="form-control change-opslaan"
  data-href="/instellingen/update/<?php echo static::e($module); ?>/<?php echo static::e($id); ?>">
  <?php $__currentLoopData = $opties; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $optie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <option value="<?php echo static::e($optie); ?>" <?php if($optie === $keuze): ?> selected <?php endif; ?>><?php echo static::e(ucfirst($optie)); ?></option>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </select>
- </div>
  <?php else: ?>
  <?php /* Verticaal op xs */ ?>
- <div class="btn-group-vertical btn-group-toggle col d-inline-flex d-sm-none" data-buttons="radio">
+ <div class="btn-group-vertical btn-group-toggle d-inline-flex d-sm-none" data-buttons="radio">
  <?php $__currentLoopData = $opties; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $optieId => $optie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <?php ($optieId = is_int($optieId) ? $optie : $optieId); ?>
  <a class="post noanim instellingKnop btn btn-secondary <?php if($optie === $keuze): ?> active <?php endif; ?>"
@@ -57,7 +56,8 @@
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </div>
  <?php /* Horizontaal op alle andere */ ?>
- <div class="d-none d-sm-inline-flex btn-group btn-group-toggle col-auto" data-buttons="radio">
+ <div class="d-none d-sm-inline-flex btn-group btn-group-toggle"
+  data-buttons="radio">
  <?php $__currentLoopData = $opties; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $optieId => $optie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <?php ($optieId = is_int($optieId) ? $optie : $optieId); ?>
  <a class="post noanim instellingKnop btn btn-secondary <?php if($optieId === $keuze): ?> active <?php endif; ?>"
@@ -66,25 +66,22 @@
  </div>
  <?php endif; ?>
  <?php elseif($type === \CsrDelft\model\instellingen\InstellingType::String): ?>
- <div class="col-md-9">
  <input type="text" name="<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" id="inst_<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" value="<?php echo static::e($keuze); ?>"
   data-href="/instellingen/update/<?php echo static::e($module); ?>/<?php echo static::e($id); ?>"
   class="form-control change-opslaan" minlength="<?php echo static::e($opties[0]); ?>" maxlength="<?php echo static::e($opties[1]); ?>"/>
- </div>
  <?php elseif($type === \CsrDelft\model\instellingen\InstellingType::Integer): ?>
- <div class="col-md-9">
  <input type="number" name="<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" id="inst_<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" value="<?php echo static::e($keuze); ?>"
   data-href="/instellingen/update/<?php echo static::e($module); ?>/<?php echo static::e($id); ?>"
   class="form-control change-opslaan" data-href="/instellingen/update/<?php echo static::e($module); ?>/<?php echo static::e($id); ?>"
   min="<?php echo static::e($opties[0]); ?>" max="<?php echo static::e($opties[1]); ?>"/>
- </div>
  <?php else: ?>
- <div class="col-md-9 bg-danger">Voor dit type bestaat geen optie.</div>
+ <div class="bg-danger">Voor dit type bestaat geen optie.</div>
  <?php endif; ?>
- <small class="col-md-9 offset-md-3 form-text text-muted">
+ <small class="form-text text-muted">
  <?php ($default = isset($opties[$default]) ? $opties[$default] : $default); ?>
  <?php echo static::e($beschrijving); ?> Standaard waarde: "<?php echo static::e(ucfirst($default)); ?>".
  </small>
+ </div>
  </div>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
