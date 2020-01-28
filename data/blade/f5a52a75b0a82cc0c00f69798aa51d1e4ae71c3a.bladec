@@ -1,12 +1,21 @@
-<li class="has-children <?php if(CsrDelft\model\security\LoginModel::instance()->isSued()): ?> sued <?php endif; ?>">
-	<a href="#menu"><?php echo static::e(CsrDelft\model\security\LoginModel::getProfiel()->getNaam('volledig')); ?></a>
-	<ul class="is-hidden">
- <li class="go-back"><a class="trigger" href="#menu"><?php echo static::e(CsrDelft\model\security\LoginModel::getProfiel()->getNaam('volledig')); ?></a></li>
+<li class="nav-item dropdown">
+	<a class="nav-link dropdown-toggle" href="#" id="menu-personal" role="button" data-toggle="dropdown"
+  aria-haspopup="true" aria-expanded="false">
+ <?php echo \CsrDelft\model\security\LoginModel::getProfiel()->getPasfotoTag("pasfoto-menu"); ?>
+
+ <?php echo static::e(CsrDelft\model\security\LoginModel::getProfiel()->getNaam('volledig')); ?>
+
+	</a>
+	<ul class="dropdown-menu" aria-labelledby="menu-personal">
  <?php if(\CsrDelft\model\security\LoginModel::instance()->isSued()): ?>
- <li><a href="/endsu" class="error" title="Switch user actie beeindingen">SU <?php echo static::e(\CsrDelft\repository\ProfielRepository::getNaam(CsrDelft\model\security\LoginModel::getSuedFrom()->uid, 'civitas')); ?></a></li>
+ <li>
+ <a href="/endsu" class="dropdown-item error"
+  title="Switch user actie beeindingen">SU <?php echo static::e(\CsrDelft\repository\ProfielRepository::getNaam(CsrDelft\model\security\LoginModel::getSuedFrom()->uid, 'civitas')); ?></a>
+ </li>
  <?php endif; ?>
  <li>
- <a href="/profiel/<?php echo static::e(CsrDelft\model\security\LoginModel::getUid()); ?>#CiviSaldo" title="Bekijk CiviSaldo historie">
+ <a class="dropdown-item" href="/profiel/<?php echo static::e(CsrDelft\model\security\LoginModel::getUid()); ?>#CiviSaldo"
+  title="Bekijk CiviSaldo historie">
  <?php ($saldo = \CsrDelft\model\security\LoginModel::getProfiel()->getCiviSaldo()); ?>
  <?php if($saldo < 0): ?>
  CiviSaldo: <span class="staatrood">&euro; <?php echo static::e(number_format($saldo, 2, ',', '.')); ?></span>
@@ -15,14 +24,14 @@
  <?php endif; ?>
  </a>
  </li>
- <li class="has-children">
- <a href="#menu">Favorieten</a>
- <ul class="is-hidden">
- <li class="go-back"><a href="#menu">Favorieten</a></li>
- <?php echo $this->runChild('menu.main_tree', ['parent' => $favorieten]); ?>
+ <li class="dropdown-submenu dropleft">
+ <a class="dropdown-item dropdown-toggle" href="#" id="menu-favorieten">Favorieten</a>
+ <ul class="dropdown-menu" aria-labelledby="menu-favorieten">
+ <?php echo $this->runChild('menu.sub_tree', ['parent' => $favorieten]); ?>
  </ul>
  </li>
- <li><a href="/menubeheer/toevoegen/favoriet" class="post popup addfav" title="Huidige pagina toevoegen aan favorieten">Favoriet toevoegen</a></li>
- <?php echo $this->runChild('menu.main_tree', ['parent' => $parent]); ?>
+ <li><a href="/menubeheer/toevoegen/favoriet" class="dropdown-item post popup addfav"
+  title="Huidige pagina toevoegen aan favorieten">Favoriet toevoegen</a></li>
+ <?php echo $this->runChild('menu.sub_tree', ['parent' => $parent, 'dropleft' => true]); ?>
 	</ul>
 </li>
