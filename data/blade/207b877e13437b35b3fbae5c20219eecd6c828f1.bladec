@@ -51,6 +51,7 @@
  <?php ($menu = \CsrDelft\model\MenuModel::instance()->getMenu('main')); ?>
 
  <?php $__currentLoopData = $menu->getChildren(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php if($item->magBekijken()): ?>
  <div class="col-6 col-md">
  <h5><?php echo static::e($item->tekst); ?></h5>
  <ul class="list-unstyled text-small">
@@ -61,6 +62,7 @@
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </ul>
  </div>
+ <?php endif; ?>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </div>
 	</div>
