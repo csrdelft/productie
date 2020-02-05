@@ -1,0 +1,32 @@
+label span.label
+{
+	float:left;
+	font-size:90%;
+	font-style:italic;
+	width:150px;
+}
+
+label input.checkbox
+{
+	float:left;
+	margin-right:20px;
+	display:inline; /* dubble margin hack */
+}
+
+label span.checkbox
+{
+	float:left;
+	width:300px;
+	font-style:italic;
+}
+
+span.error
+{
+	display:block;
+	color:#F15E6C;
+}
+
+input.error
+{
+	color:#F15E6C;
+}
