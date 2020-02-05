@@ -353,6 +353,7 @@ return array(
     'CsrDelft\\entity\\eetplan\\EetplanBekenden' => $baseDir . '/lib/entity/eetplan/EetplanBekenden.php',
     'CsrDelft\\entity\\profiel\\Profiel' => $baseDir . '/lib/entity/profiel/Profiel.php',
     'CsrDelft\\events\\AccessControlEventListener' => $baseDir . '/lib/events/AccessControlEventListener.php',
+    'CsrDelft\\events\\ExceptionListener' => $baseDir . '/lib/events/ExceptionListener.php',
     'CsrDelft\\events\\JsonBodyEventListener' => $baseDir . '/lib/events/JsonBodyEventListener.php',
     'CsrDelft\\events\\ViewEventListener' => $baseDir . '/lib/events/ViewEventListener.php',
     'CsrDelft\\model\\AbstractGroepLedenModel' => $baseDir . '/lib/model/AbstractGroepLedenModel.php',

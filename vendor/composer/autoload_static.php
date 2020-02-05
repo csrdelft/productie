@@ -875,6 +875,7 @@ class ComposerStaticInit6a111c8e2f350725e26a2bdda1f31ed7
         'CsrDelft\\entity\\eetplan\\EetplanBekenden' => __DIR__ . '/../..' . '/lib/entity/eetplan/EetplanBekenden.php',
         'CsrDelft\\entity\\profiel\\Profiel' => __DIR__ . '/../..' . '/lib/entity/profiel/Profiel.php',
         'CsrDelft\\events\\AccessControlEventListener' => __DIR__ . '/../..' . '/lib/events/AccessControlEventListener.php',
+        'CsrDelft\\events\\ExceptionListener' => __DIR__ . '/../..' . '/lib/events/ExceptionListener.php',
         'CsrDelft\\events\\JsonBodyEventListener' => __DIR__ . '/../..' . '/lib/events/JsonBodyEventListener.php',
         'CsrDelft\\events\\ViewEventListener' => __DIR__ . '/../..' . '/lib/events/ViewEventListener.php',
         'CsrDelft\\model\\AbstractGroepLedenModel' => __DIR__ . '/../..' . '/lib/model/AbstractGroepLedenModel.php',
