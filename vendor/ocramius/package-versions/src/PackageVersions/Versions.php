@@ -92,6 +92,8 @@ final class Versions
   'symfony/http-foundation' => 'v5.0.3@5dc0db5026f2b611cb8910a1f465e95eafd84c2e',
   'symfony/http-kernel' => 'v5.0.3@9e31e5e11cbe038cbb853beb3e3bb6e4f2500259',
   'symfony/mime' => 'v5.0.3@2a3c7fee1f1a0961fa9cf360d5da553d05095e59',
+  'symfony/monolog-bridge' => 'v5.0.4@3e081905b32e24742c16f7bb2cf0cd182598a32d',
+  'symfony/monolog-bundle' => 'v3.5.0@dd80460fcfe1fa2050a7103ad818e9d0686ce6fd',
   'symfony/orm-pack' => 'v1.0.7@c57f5e05232ca40626eb9fa52a32bc8565e9231c',
   'symfony/polyfill-ctype' => 'v1.13.1@f8f0b461be3385e56d6de3dbb5a0df24c0c275e3',
   'symfony/polyfill-intl-idn' => 'v1.13.1@6f9c239e61e1b0c9229a28ff89a812dc449c3d46',
@@ -145,7 +147,7 @@ final class Versions
   'symfony/web-profiler-bundle' => 'v5.0.3@438d072d21675806dedd3ca31c7a436db3ac3688',
   'theseer/tokenizer' => '1.1.3@11336f6f84e16a720dae9d8e6ed5019efa85a0f9',
   'webmozart/assert' => '1.6.0@573381c0a64f155a0d9a23f4b0c797194805b925',
-  'csr/csrdelft.nl' => 'dev-b11bfa0b59a18e5fab8995cab90e7523bbf647d1@b11bfa0b59a18e5fab8995cab90e7523bbf647d1',
+  'csr/csrdelft.nl' => 'dev-083ccbf65627645b5933d6fcb8dbdae8b928ab94@083ccbf65627645b5933d6fcb8dbdae8b928ab94',
 );
 
     private function __construct()

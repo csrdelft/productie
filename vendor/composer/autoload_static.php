@@ -84,8 +84,10 @@ class ComposerStaticInit6a111c8e2f350725e26a2bdda1f31ed7
             'Symfony\\Component\\Config\\' => 25,
             'Symfony\\Component\\Cache\\' => 24,
             'Symfony\\Bundle\\TwigBundle\\' => 26,
+            'Symfony\\Bundle\\MonologBundle\\' => 29,
             'Symfony\\Bundle\\FrameworkBundle\\' => 31,
             'Symfony\\Bridge\\Twig\\' => 20,
+            'Symfony\\Bridge\\Monolog\\' => 23,
             'Symfony\\Bridge\\Doctrine\\' => 24,
         ),
         'P' => 
@@ -308,6 +310,10 @@ class ComposerStaticInit6a111c8e2f350725e26a2bdda1f31ed7
         array (
             0 => __DIR__ . '/..' . '/symfony/twig-bundle',
         ),
+        'Symfony\\Bundle\\MonologBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/monolog-bundle',
+        ),
         'Symfony\\Bundle\\FrameworkBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/framework-bundle',
@@ -315,6 +321,10 @@ class ComposerStaticInit6a111c8e2f350725e26a2bdda1f31ed7
         'Symfony\\Bridge\\Twig\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/twig-bridge',
+        ),
+        'Symfony\\Bridge\\Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/monolog-bridge',
         ),
         'Symfony\\Bridge\\Doctrine\\' => 
         array (
@@ -875,7 +885,6 @@ class ComposerStaticInit6a111c8e2f350725e26a2bdda1f31ed7
         'CsrDelft\\entity\\eetplan\\EetplanBekenden' => __DIR__ . '/../..' . '/lib/entity/eetplan/EetplanBekenden.php',
         'CsrDelft\\entity\\profiel\\Profiel' => __DIR__ . '/../..' . '/lib/entity/profiel/Profiel.php',
         'CsrDelft\\events\\AccessControlEventListener' => __DIR__ . '/../..' . '/lib/events/AccessControlEventListener.php',
-        'CsrDelft\\events\\ExceptionListener' => __DIR__ . '/../..' . '/lib/events/ExceptionListener.php',
         'CsrDelft\\events\\JsonBodyEventListener' => __DIR__ . '/../..' . '/lib/events/JsonBodyEventListener.php',
         'CsrDelft\\events\\ViewEventListener' => __DIR__ . '/../..' . '/lib/events/ViewEventListener.php',
         'CsrDelft\\model\\AbstractGroepLedenModel' => __DIR__ . '/../..' . '/lib/model/AbstractGroepLedenModel.php',
@@ -13532,6 +13541,25 @@ class ComposerStaticInit6a111c8e2f350725e26a2bdda1f31ed7
         'Symfony\\Bridge\\Doctrine\\Validator\\Constraints\\UniqueEntityValidator' => __DIR__ . '/..' . '/symfony/doctrine-bridge/Validator/Constraints/UniqueEntityValidator.php',
         'Symfony\\Bridge\\Doctrine\\Validator\\DoctrineInitializer' => __DIR__ . '/..' . '/symfony/doctrine-bridge/Validator/DoctrineInitializer.php',
         'Symfony\\Bridge\\Doctrine\\Validator\\DoctrineLoader' => __DIR__ . '/..' . '/symfony/doctrine-bridge/Validator/DoctrineLoader.php',
+        'Symfony\\Bridge\\Monolog\\Command\\ServerLogCommand' => __DIR__ . '/..' . '/symfony/monolog-bridge/Command/ServerLogCommand.php',
+        'Symfony\\Bridge\\Monolog\\Formatter\\ConsoleFormatter' => __DIR__ . '/..' . '/symfony/monolog-bridge/Formatter/ConsoleFormatter.php',
+        'Symfony\\Bridge\\Monolog\\Formatter\\VarDumperFormatter' => __DIR__ . '/..' . '/symfony/monolog-bridge/Formatter/VarDumperFormatter.php',
+        'Symfony\\Bridge\\Monolog\\Handler\\ChromePhpHandler' => __DIR__ . '/..' . '/symfony/monolog-bridge/Handler/ChromePhpHandler.php',
+        'Symfony\\Bridge\\Monolog\\Handler\\ConsoleHandler' => __DIR__ . '/..' . '/symfony/monolog-bridge/Handler/ConsoleHandler.php',
+        'Symfony\\Bridge\\Monolog\\Handler\\ElasticsearchLogstashHandler' => __DIR__ . '/..' . '/symfony/monolog-bridge/Handler/ElasticsearchLogstashHandler.php',
+        'Symfony\\Bridge\\Monolog\\Handler\\FingersCrossed\\HttpCodeActivationStrategy' => __DIR__ . '/..' . '/symfony/monolog-bridge/Handler/FingersCrossed/HttpCodeActivationStrategy.php',
+        'Symfony\\Bridge\\Monolog\\Handler\\FingersCrossed\\NotFoundActivationStrategy' => __DIR__ . '/..' . '/symfony/monolog-bridge/Handler/FingersCrossed/NotFoundActivationStrategy.php',
+        'Symfony\\Bridge\\Monolog\\Handler\\FirePHPHandler' => __DIR__ . '/..' . '/symfony/monolog-bridge/Handler/FirePHPHandler.php',
+        'Symfony\\Bridge\\Monolog\\Handler\\NotifierHandler' => __DIR__ . '/..' . '/symfony/monolog-bridge/Handler/NotifierHandler.php',
+        'Symfony\\Bridge\\Monolog\\Handler\\ServerLogHandler' => __DIR__ . '/..' . '/symfony/monolog-bridge/Handler/ServerLogHandler.php',
+        'Symfony\\Bridge\\Monolog\\Handler\\ServerLogHandlerTrait' => __DIR__ . '/..' . '/symfony/monolog-bridge/Handler/ServerLogHandler.php',
+        'Symfony\\Bridge\\Monolog\\Handler\\SwiftMailerHandler' => __DIR__ . '/..' . '/symfony/monolog-bridge/Handler/SwiftMailerHandler.php',
+        'Symfony\\Bridge\\Monolog\\Logger' => __DIR__ . '/..' . '/symfony/monolog-bridge/Logger.php',
+        'Symfony\\Bridge\\Monolog\\Processor\\ConsoleCommandProcessor' => __DIR__ . '/..' . '/symfony/monolog-bridge/Processor/ConsoleCommandProcessor.php',
+        'Symfony\\Bridge\\Monolog\\Processor\\DebugProcessor' => __DIR__ . '/..' . '/symfony/monolog-bridge/Processor/DebugProcessor.php',
+        'Symfony\\Bridge\\Monolog\\Processor\\RouteProcessor' => __DIR__ . '/..' . '/symfony/monolog-bridge/Processor/RouteProcessor.php',
+        'Symfony\\Bridge\\Monolog\\Processor\\TokenProcessor' => __DIR__ . '/..' . '/symfony/monolog-bridge/Processor/TokenProcessor.php',
+        'Symfony\\Bridge\\Monolog\\Processor\\WebProcessor' => __DIR__ . '/..' . '/symfony/monolog-bridge/Processor/WebProcessor.php',
         'Symfony\\Bridge\\Twig\\AppVariable' => __DIR__ . '/..' . '/symfony/twig-bridge/AppVariable.php',
         'Symfony\\Bridge\\Twig\\Command\\DebugCommand' => __DIR__ . '/..' . '/symfony/twig-bridge/Command/DebugCommand.php',
         'Symfony\\Bridge\\Twig\\Command\\LintCommand' => __DIR__ . '/..' . '/symfony/twig-bridge/Command/LintCommand.php',
@@ -13658,6 +13686,15 @@ class ComposerStaticInit6a111c8e2f350725e26a2bdda1f31ed7
         'Symfony\\Bundle\\FrameworkBundle\\Test\\WebTestAssertionsTrait' => __DIR__ . '/..' . '/symfony/framework-bundle/Test/WebTestAssertionsTrait.php',
         'Symfony\\Bundle\\FrameworkBundle\\Test\\WebTestCase' => __DIR__ . '/..' . '/symfony/framework-bundle/Test/WebTestCase.php',
         'Symfony\\Bundle\\FrameworkBundle\\Translation\\Translator' => __DIR__ . '/..' . '/symfony/framework-bundle/Translation/Translator.php',
+        'Symfony\\Bundle\\MonologBundle\\DependencyInjection\\Compiler\\AddProcessorsPass' => __DIR__ . '/..' . '/symfony/monolog-bundle/DependencyInjection/Compiler/AddProcessorsPass.php',
+        'Symfony\\Bundle\\MonologBundle\\DependencyInjection\\Compiler\\AddSwiftMailerTransportPass' => __DIR__ . '/..' . '/symfony/monolog-bundle/DependencyInjection/Compiler/AddSwiftMailerTransportPass.php',
+        'Symfony\\Bundle\\MonologBundle\\DependencyInjection\\Compiler\\DebugHandlerPass' => __DIR__ . '/..' . '/symfony/monolog-bundle/DependencyInjection/Compiler/DebugHandlerPass.php',
+        'Symfony\\Bundle\\MonologBundle\\DependencyInjection\\Compiler\\FixEmptyLoggerPass' => __DIR__ . '/..' . '/symfony/monolog-bundle/DependencyInjection/Compiler/FixEmptyLoggerPass.php',
+        'Symfony\\Bundle\\MonologBundle\\DependencyInjection\\Compiler\\LoggerChannelPass' => __DIR__ . '/..' . '/symfony/monolog-bundle/DependencyInjection/Compiler/LoggerChannelPass.php',
+        'Symfony\\Bundle\\MonologBundle\\DependencyInjection\\Configuration' => __DIR__ . '/..' . '/symfony/monolog-bundle/DependencyInjection/Configuration.php',
+        'Symfony\\Bundle\\MonologBundle\\DependencyInjection\\MonologExtension' => __DIR__ . '/..' . '/symfony/monolog-bundle/DependencyInjection/MonologExtension.php',
+        'Symfony\\Bundle\\MonologBundle\\MonologBundle' => __DIR__ . '/..' . '/symfony/monolog-bundle/MonologBundle.php',
+        'Symfony\\Bundle\\MonologBundle\\SwiftMailer\\MessageFactory' => __DIR__ . '/..' . '/symfony/monolog-bundle/SwiftMailer/MessageFactory.php',
         'Symfony\\Bundle\\TwigBundle\\CacheWarmer\\TemplateCacheWarmer' => __DIR__ . '/..' . '/symfony/twig-bundle/CacheWarmer/TemplateCacheWarmer.php',
         'Symfony\\Bundle\\TwigBundle\\Command\\LintCommand' => __DIR__ . '/..' . '/symfony/twig-bundle/Command/LintCommand.php',
         'Symfony\\Bundle\\TwigBundle\\DependencyInjection\\Compiler\\ExtensionPass' => __DIR__ . '/..' . '/symfony/twig-bundle/DependencyInjection/Compiler/ExtensionPass.php',
