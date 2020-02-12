@@ -1,7 +1,12 @@
-<a class="bb-block bb-boek" id="boek_bb-<?php echo static::e($boek->getID()); ?>" href="<?php echo static::e($boek->getUrl()); ?>"
-	 title="Boek: <?php echo static::e($boek->getTitel()); ?>">
+<?php
+/**
+ * @var $boek \CsrDelft\entity\bibliotheek\Boek
+ */
+?>
+<a class="bb-block bb-boek" id="boek_bb-<?php echo static::e($boek->id); ?>" href="<?php echo static::e($boek->getUrl()); ?>"
+	 title="Boek: <?php echo static::e($boek->titel); ?>">
 	<?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["book"]); ?>
 	<span title="<?php echo static::e($boek->getStatus()); ?> boek" class="boekindicator <?php echo static::e($boek->getStatus()); ?>">•</span>
-	<span class="titel"><?php echo static::e($boek->getTitel()); ?></span>
-	<span class="auteur"><?php echo static::e($boek->getAuteur()); ?></span>
+	<span class="titel"><?php echo static::e($boek->titel); ?></span>
+	<span class="auteur"><?php echo static::e($boek->auteur); ?></span>
 </a>
