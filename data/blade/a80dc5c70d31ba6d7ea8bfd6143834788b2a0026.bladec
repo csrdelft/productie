@@ -10,7 +10,7 @@
  - Animation when changing the clothes.
 -->
 <link rel="stylesheet" href="/dist/css/fxminion.59a83bb3f65a71ec0888.css" type="text/css"/>
-<script type="text/javascript" src="/dist/js/fxminion.b9b49b111d8eedce9647.js"></script>
+<script type="text/javascript" src="/dist/js/fxminion.8d065120d0bdb999f449.js"></script>
 <?php ($minioncoords = \CsrDelft\service\DragObjectService::getCoords('minion', 40, 40)); ?>
 <div id="minion" class="dragobject savepos" style="top: <?php echo static::e($minioncoords["top"]); ?>px; left: <?php echo static::e($minioncoords["left"]); ?>px;">
 	<ul class="hair hair-left">

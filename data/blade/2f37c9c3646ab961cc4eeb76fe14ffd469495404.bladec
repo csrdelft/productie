@@ -6,7 +6,7 @@
 
 <?php $this->startSection('styles'); ?>
 	<link rel="stylesheet" href="/dist/css/extern.0129e3ad2e955fb8094d.css" type="text/css"/>
-	<link rel="stylesheet" href="/dist/css/extern-fotoalbum.228473f870e692fc7a68.css" type="text/css"/>
+	<link rel="stylesheet" href="/dist/css/extern-fotoalbum.3f2866f50a7dec80901a.css" type="text/css"/>
 <?php $this->stopSection(); ?>
 <?php endif; ?>
 
@@ -14,28 +14,22 @@
 
 <?php $this->startSection('breadcrumbs'); ?>
 	<ol class="breadcrumb">
-	<?php echo \CsrDelft\view\fotoalbum\FotoAlbumBreadcrumbs::getBreadcrumbs($album); ?>
+ <?php echo \CsrDelft\view\fotoalbum\FotoAlbumBreadcrumbs::getBreadcrumbs($album); ?>
 
 	</ol>
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('content'); ?>
-	<div id="contextMenu" class="dropdown-menu" role="menu"></div>
-	<div id="tagMenu" class="dropdown-menu" role="menu"></div>
-	<div class="fotoalbum"
-  data-fotos="<?php echo htmlspecialchars(json_encode($album->getAlbumArrayRecursive())); ?>"
-  data-is-logged-in="<?php echo static::e(\CsrDelft\model\security\LoginModel::mag(P_LOGGED_IN)); ?>"
-  data-mag-aanpassen="<?php echo static::e(json_encode($album->magAanpassen())); ?>"
-  data-root="<?php echo static::e(CSR_ROOT . '/fotoalbum'); ?>"
-  data-slideshow-interval="<?php echo static::e(instelling('fotoalbum', 'slideshow_interval')); ?>">
- <div class="fotoalbum float-right">
+	<div class="float-right">
  <?php if($album->magToevoegen()): ?>
  <a class="btn" href="<?php echo static::e(join_paths("/fotoalbum/uploaden", $album->subdir)); ?>"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['picture_add']); ?> Toevoegen</a>
- <a class="btn post popup" href="<?php echo static::e(join_paths("/fotoalbum/toevoegen", $album->subdir)); ?>"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['folder_add']); ?> Nieuw album</a>
+ <a class="btn post popup" href="<?php echo static::e(join_paths("/fotoalbum/toevoegen", $album->subdir)); ?>"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['folder_add']); ?> Nieuw
+ album</a>
  <?php endif; ?>
  <?php if($album->magAanpassen()): ?>
- <a href="<?php echo static::e(join_paths("/fotoalbum/hernoemen", $album->subdir)); ?>" class="btn post prompt redirect" title="Fotoalbum hernoemen"
-  data="Nieuwe naam=<?php echo static::e(ucfirst($album->dirname)); ?>"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['pencil']); ?> Naam wijzigen</a>
+ <a href="<?php echo static::e(join_paths("/fotoalbum/hernoemen", $album->subdir)); ?>" class="btn post prompt redirect"
+  title="Fotoalbum hernoemen"
+  data="naam=<?php echo static::e(ucfirst($album->dirname)); ?>"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['pencil']); ?> Naam wijzigen</a>
  <?php if($album->isEmpty()): ?>
  <a href="<?php echo static::e(join_paths("/fotoalbum/verwijderen", $album->subdir)); ?>" class="btn post confirm redirect"
   title="Fotoalbum verwijderen"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['cross']); ?> Verwijderen</a>
@@ -50,15 +44,19 @@
   title="Download als TAR-bestand"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['picture_save']); ?> Download album</a>
  <?php endif; ?>
  <?php endif; ?>
+	</div>
+	<h1 class="inline"><?php echo static::e(ucfirst($album->dirname)); ?></h1>
+	<?php if($album->hasFotos()): ?>
+ <div class="fotoalbum disable-swipe"
+  data-fotos="<?php echo htmlspecialchars(json_encode($album->getAlbumArrayRecursive())); ?>"
+  data-is-logged-in="<?php echo static::e(json_encode(\CsrDelft\model\security\LoginModel::mag(P_LOGGED_IN))); ?>"
+  data-mag-aanpassen="<?php echo static::e(json_encode($album->magAanpassen())); ?>"
+  data-root="<?php echo static::e(CSR_ROOT . '/fotoalbum'); ?>"
+  data-slideshow-interval="<?php echo static::e(instelling('fotoalbum', 'slideshow_interval')); ?>">
  </div>
- <h1 class="inline"><?php echo static::e(ucfirst($album->dirname)); ?></h1>
- <?php if($album->hasFotos()): ?>
- <div id="gallery" class="gallery disable-swipe">
- </div>
- <?php else: ?>
+	<?php else: ?>
  <div class="subalbums">
  <?php $__currentLoopData = $album->getSubAlbums(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $subAlbum): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <?php ($cover_url = $subAlbum->getCoverUrl()); ?>
  <div class="subalbum">
  <a href="<?php echo static::e($subAlbum->getUrl()); ?>#<?php echo static::e(preg_replace('/_thumbs/', '_resized', $subAlbum->getCoverUrl())); ?>">
  <img src="<?php echo static::e($subAlbum->getCoverUrl()); ?>" alt="<?php echo static::e(ucfirst($subAlbum->dirname)); ?>"/>
@@ -67,8 +65,7 @@
  </div>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </div>
- <?php endif; ?>
-	</div>
+	<?php endif; ?>
 <?php $this->stopSection(); ?>
 
 <?php if (@$_shouldextend[2]) { echo $this->runChild('layout-extern.layout'); } ?>

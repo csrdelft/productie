@@ -4,7 +4,7 @@
 
 <?php $this->startSection('styles'); ?>
 	<link rel="stylesheet" href="/dist/css/extern.0129e3ad2e955fb8094d.css" type="text/css"/>
-	<link rel="stylesheet" href="/dist/css/extern-fotoalbum.228473f870e692fc7a68.css" type="text/css"/>
+	<link rel="stylesheet" href="/dist/css/extern-fotoalbum.3f2866f50a7dec80901a.css" type="text/css"/>
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('content'); ?>
