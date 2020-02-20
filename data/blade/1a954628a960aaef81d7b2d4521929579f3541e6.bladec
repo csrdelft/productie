@@ -26,7 +26,7 @@
 <link rel="stylesheet" href="<?php echo static::e(asset("$sheet.css")); ?>" type="text/css" />
 <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
 <?php echo $this->yieldPushContent('styles'); ?>
-<script type="text/javascript" src="/dist/js/app.cac4cadee0d69a0d60de.js"></script>
+<script type="text/javascript" src="/dist/js/app.8e8f2acec371ee6e5dc9.js"></script>
 <?php echo $this->yieldPushContent('scripts'); ?>
 <!-- Google Analytics -->
 <script>
