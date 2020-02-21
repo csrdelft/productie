@@ -58,9 +58,17 @@
  <div class="subalbums">
  <?php $__currentLoopData = $album->getSubAlbums(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $subAlbum): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <div class="subalbum">
- <a href="<?php echo static::e($subAlbum->getUrl()); ?>#<?php echo static::e(preg_replace('/_thumbs/', '_resized', $subAlbum->getCoverUrl())); ?>">
- <img src="<?php echo static::e($subAlbum->getCoverUrl()); ?>" alt="<?php echo static::e(ucfirst($subAlbum->dirname)); ?>"/>
- <div class="subalbumname"><?php echo static::e(ucfirst($subAlbum->dirname)); ?></div>
+ <div class="subalbum-cover">
+ <?php $__currentLoopData = $subAlbum->getCoverUrls(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $index=> $cover): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <a class="img<?php echo static::e($index); ?>" href="<?php echo static::e($subAlbum->getUrl()); ?>#<?php echo static::e(preg_replace('/_thumbs\//', '', $cover)); ?>">
+ <img src="<?php echo static::e($cover); ?>" alt="<?php echo static::e($cover); ?>"/>
+ </a>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </div>
+ <a href="<?php echo static::e($subAlbum->getUrl()); ?>">
+ <div class="album-description">
+ <h4 class="subalbumname"><?php echo static::e(ucfirst($subAlbum->dirname)); ?></h4>
+ </div>
  </a>
  </div>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
