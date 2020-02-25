@@ -1277,7 +1277,6 @@ class ComposerStaticInit6a111c8e2f350725e26a2bdda1f31ed7
         'CsrDelft\\view\\documenten\\DocumentBewerkenForm' => __DIR__ . '/../..' . '/lib/view/documenten/DocumentBewerkenForm.php',
         'CsrDelft\\view\\documenten\\DocumentToevoegenForm' => __DIR__ . '/../..' . '/lib/view/documenten/DocumentToevoegenForm.php',
         'CsrDelft\\view\\eetplan\\EetplanBekendeHuizenForm' => __DIR__ . '/../..' . '/lib/view/eetplan/EetplanBekendeHuizenForm.php',
-        'CsrDelft\\view\\eetplan\\EetplanBekendeHuizenResponse' => __DIR__ . '/../..' . '/lib/view/eetplan/EetplanBekendeHuizenResponse.php',
         'CsrDelft\\view\\eetplan\\EetplanBekendeHuizenTable' => __DIR__ . '/../..' . '/lib/view/eetplan/EetplanBekendeHuizenTable.php',
         'CsrDelft\\view\\eetplan\\EetplanBekendenForm' => __DIR__ . '/../..' . '/lib/view/eetplan/EetplanBekendenForm.php',
         'CsrDelft\\view\\eetplan\\EetplanBekendenTable' => __DIR__ . '/../..' . '/lib/view/eetplan/EetplanBekendenTable.php',

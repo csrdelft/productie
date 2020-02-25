@@ -710,7 +710,6 @@ return array(
     'CsrDelft\\view\\documenten\\DocumentBewerkenForm' => $baseDir . '/lib/view/documenten/DocumentBewerkenForm.php',
     'CsrDelft\\view\\documenten\\DocumentToevoegenForm' => $baseDir . '/lib/view/documenten/DocumentToevoegenForm.php',
     'CsrDelft\\view\\eetplan\\EetplanBekendeHuizenForm' => $baseDir . '/lib/view/eetplan/EetplanBekendeHuizenForm.php',
-    'CsrDelft\\view\\eetplan\\EetplanBekendeHuizenResponse' => $baseDir . '/lib/view/eetplan/EetplanBekendeHuizenResponse.php',
     'CsrDelft\\view\\eetplan\\EetplanBekendeHuizenTable' => $baseDir . '/lib/view/eetplan/EetplanBekendeHuizenTable.php',
     'CsrDelft\\view\\eetplan\\EetplanBekendenForm' => $baseDir . '/lib/view/eetplan/EetplanBekendenForm.php',
     'CsrDelft\\view\\eetplan\\EetplanBekendenTable' => $baseDir . '/lib/view/eetplan/EetplanBekendenTable.php',
