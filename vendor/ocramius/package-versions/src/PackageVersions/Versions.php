@@ -150,9 +150,9 @@ final class Versions
   'sebastian/version' => '2.0.1@99732be0ddb3361e16ad77b68ba41efc8e979019',
   'spatie/phpunit-snapshot-assertions' => '1.4.2@b237c40d4b7ffdb824b75d30169070772acd2e96',
   'symfony/profiler-pack' => 'v1.0.4@99c4370632c2a59bb0444852f92140074ef02209',
-  'symfony/web-profiler-bundle' => 'v5.0.3@438d072d21675806dedd3ca31c7a436db3ac3688',
+  'symfony/web-profiler-bundle' => 'v5.0.5@209b76b879fee706fecbd8ad2113d810322ab62a',
   'theseer/tokenizer' => '1.1.3@11336f6f84e16a720dae9d8e6ed5019efa85a0f9',
-  'csr/csrdelft.nl' => 'dev-f859fd668a408e15d6c6b2f96bb1169423d2678d@f859fd668a408e15d6c6b2f96bb1169423d2678d',
+  'csr/csrdelft.nl' => 'dev-36e349598519fc37f4d7eb316a2109a5445df37c@36e349598519fc37f4d7eb316a2109a5445df37c',
 );
 
     private function __construct()
