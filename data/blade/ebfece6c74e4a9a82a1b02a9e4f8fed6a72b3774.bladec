@@ -20,7 +20,7 @@
  <?php $__currentLoopData = $log; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $logRegel): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <tr>
  <td>
- <?php echo static::e(date('D H:i', strtotime($logRegel->moment))); ?>
+ <?php echo static::e($logRegel->moment->format("D H:i")); ?>
 
  </td>
  <td>
