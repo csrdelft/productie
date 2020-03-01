@@ -215,7 +215,13 @@
  <?php if(is_zichtbaar($profiel, 'email')): ?>
  <dt>Email</dt>
  <dd><?php echo static::e($profiel->getPrimaryEmail()); ?></dd>
+ <?php if($profiel->sec_email): ?>
+ <dt></dt>
+ <dd><?php echo static::e($profiel->sec_email); ?></dd>
  <?php endif; ?>
+
+ <?php endif; ?>
+
  <?php if($profiel->linkedin): ?>
  <dt>LinkedIn</dt>
  <dd><?php echo static::e($profiel->linkedin); ?></dd>
