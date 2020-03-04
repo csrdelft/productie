@@ -1,0 +1,109 @@
+*
+{
+	outline:none;
+}
+
+body
+{
+	background-color:#ffffff;
+	background-position:top left;
+	background-image: url("../img/background.png");
+}
+
+
+#container
+{
+	width:984px;
+	margin:0 auto;
+	background-color:#ffffff;
+	background-position:top right;
+	background-repeat: no-repeat;
+	background-image: url("../img/camera.png");
+}
+
+#header
+{
+	display: block;
+	width: 454px;
+	height: 124px;
+	background-position: top left;
+	background-repeat: no-repeat;
+	background-image: url("../img/header-logo.png");
+}
+
+#menu
+{
+	margin-top: 25px;
+	margin-left: 56px;
+	margin-right: 300px;
+	height:71px;
+}
+
+	#menu a:link, #menu a:visited
+	{
+		font-size: 80%;
+		color: #ffffff;
+		text-decoration: none;
+	
+		padding-bottom: 1px;
+		padding-left: 4px;
+		padding-right: 4px;
+		margin-left:10px;
+		margin-right:10px;
+		
+		background-color: #000000;
+	}
+	
+	#menu a:hover
+	{
+		color: #ffffff;
+		background-color: #000000 !important;
+		text-decoration: none;
+	}
+
+
+
+
+
+#content
+{ 
+	margin-left: 66px;
+	margin-right: 200px;
+}
+
+#footer
+{
+	padding-top:25px;
+	padding-bottom:25px;
+
+	margin-left: 66px;
+	margin-right: 200px;
+	font-size: 75%;
+	clear: both;
+}
+
+.quoin
+{
+	clear:both;
+}
+
+
+
+/* kleuren */
+h1.docu, h1.bemmel, h1.waterloop, h1.drugs, h1.dvd { border-left: 45px solid black; padding-left: 15px; }
+
+
+#menu a.docu	{ background-color: #EE771A; }
+h1.docu 		{ border-color: #EE771A; }
+
+#menu a.bemmel	{ background-color: #D43283; }
+h1.bemmel 		{ border-color: #D43283; }
+
+#menu a.waterloop	{ background-color: #344999; }
+h1.waterloop 		{ border-color: #344999; }
+
+#menu a.drugs	{ background-color: #6EBC87; }
+h1.drugs 		{ border-color: #6EBC87; }
+
+#menu a.dvd	{ background-color: #7F4896; }
+h1.dvd 		{ border-color: #7F4896; }
