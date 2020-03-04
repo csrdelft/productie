@@ -830,6 +830,7 @@ class ComposerStaticInitb62cab97a059f32db32f58330262e046
         'CsrDelft\\common\\ShutdownHandler' => __DIR__ . '/../..' . '/lib/common/ShutdownHandler.php',
         'CsrDelft\\common\\SimpleSpamFilter' => __DIR__ . '/../..' . '/lib/common/SimpleSpamFilter.php',
         'CsrDelft\\common\\SuDataCollector' => __DIR__ . '/../..' . '/lib/common/SuDataCollector.php',
+        'CsrDelft\\common\\cache\\MemcacheCache' => __DIR__ . '/../..' . '/lib/common/cache/MemcacheCache.php',
         'CsrDelft\\common\\datatable\\DataTableEntry' => __DIR__ . '/../..' . '/lib/common/datatable/DataTableEntry.php',
         'CsrDelft\\common\\datatable\\DataTableEntryNormalizer' => __DIR__ . '/../..' . '/lib/common/datatable/DataTableEntryNormalizer.php',
         'CsrDelft\\common\\datatable\\RemoveDataTableEntry' => __DIR__ . '/../..' . '/lib/common/datatable/RemoveDataTableEntry.php',
