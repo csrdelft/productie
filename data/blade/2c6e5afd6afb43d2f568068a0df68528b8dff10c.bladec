@@ -1,4 +1,4 @@
-<?php $__currentLoopData = $parent->getChildren(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+<?php $__currentLoopData = $parent->children; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
 	<?php if($item->magBekijken()): ?>
  <?php if($item->hasChildren()): ?>
  <li class="dropdown-submenu <?php if(isset($dropleft)): ?> dropleft <?php endif; ?> ">

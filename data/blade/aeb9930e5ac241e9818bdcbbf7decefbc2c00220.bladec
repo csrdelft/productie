@@ -24,10 +24,10 @@
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </optgroup>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
- <?php $__currentLoopData = \CsrDelft\model\MenuModel::instance()->getMenu('remotefora')->getChildren(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $remotecat): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php $__currentLoopData = get_menu('remotefora')->children; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $remotecat): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <?php if($remotecat->magBekijken()): ?>
  <optgroup label="<?php echo static::e($remotecat->tekst); ?>">
- <?php $__currentLoopData = $remotecat->getChildren(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $remoteforum): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php $__currentLoopData = $remotecat->children; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $remoteforum): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <?php if($remoteforum->magBekijken()): ?>
  <option value="<?php echo static::e($remoteforum->link); ?>"><?php echo static::e($remoteforum->tekst); ?></option>
  <?php endif; ?>

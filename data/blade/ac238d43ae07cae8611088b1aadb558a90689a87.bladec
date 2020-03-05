@@ -31,7 +31,7 @@
  <?php ((new \CsrDelft\view\formulier\InstantSearchForm())->view()); ?>
  </div>
  <ul class="navbar-nav">
- <?php $__currentLoopData = $root->getChildren(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php $__currentLoopData = $root->children; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <?php if($item->tekst == 'Personal'): ?>
  <?php echo $this->runChild('menu.personal', ['parent' => $item]); ?>
  <?php endif; ?>
