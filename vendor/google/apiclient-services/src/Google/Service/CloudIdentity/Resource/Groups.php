@@ -41,7 +41,7 @@ class Google_Service_CloudIdentity_Resource_Groups extends Google_Service_Resour
   /**
    * Deletes a Group. (groups.delete)
    *
-   * @param string $name [Resource
+   * @param string $name Required. [Resource
    * name](https://cloud.google.com/apis/design/resource_names) of the Group in
    * the format: `groups/{group_id}`, where `group_id` is the unique ID assigned
    * to the Group.
@@ -57,7 +57,7 @@ class Google_Service_CloudIdentity_Resource_Groups extends Google_Service_Resour
   /**
    * Retrieves a Group. (groups.get)
    *
-   * @param string $name [Resource
+   * @param string $name Required. [Resource
    * name](https://cloud.google.com/apis/design/resource_names) of the Group in
    * the format: `groups/{group_id}`, where `group_id` is the unique ID assigned
    * to the Group.
@@ -75,14 +75,13 @@ class Google_Service_CloudIdentity_Resource_Groups extends Google_Service_Resour
    *
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string view Group resource view to be returned. Defaults to
-   * [View.BASIC]().
-   * @opt_param string parent `Required`. May be made Optional in the future.
-   * Customer ID to list all groups from.
+   * @opt_param string parent Required. Customer ID to list all groups from.
    * @opt_param string pageToken The next_page_token value returned from a
    * previous list request, if any.
    * @opt_param int pageSize The default page size is 200 (max 1000) for the BASIC
    * view, and 50 (max 500) for the FULL view.
+   * @opt_param string view Group resource view to be returned. Defaults to
+   * [View.BASIC]().
    * @return Google_Service_CloudIdentity_ListGroupsResponse
    */
   public function listGroups($optParams = array())
@@ -125,7 +124,8 @@ class Google_Service_CloudIdentity_Resource_Groups extends Google_Service_Resour
    * @param Google_Service_CloudIdentity_Group $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string updateMask Editable fields: `display_name`, `description`
+   * @opt_param string updateMask Required. Editable fields: `display_name`,
+   * `description`
    * @return Google_Service_CloudIdentity_Operation
    */
   public function patch($name, Google_Service_CloudIdentity_Group $postBody, $optParams = array())
@@ -139,16 +139,16 @@ class Google_Service_CloudIdentity_Resource_Groups extends Google_Service_Resour
    *
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string query `Required`. Query string for performing search on
-   * groups. Users can search on parent and label attributes of groups. EXACT
-   * match ('==') is supported on parent, and CONTAINS match ('in') is supported
-   * on labels.
-   * @opt_param string view Group resource view to be returned. Defaults to
-   * [View.BASIC]().
    * @opt_param string pageToken The next_page_token value returned from a
    * previous search request, if any.
    * @opt_param int pageSize The default page size is 200 (max 1000) for the BASIC
    * view, and 50 (max 500) for the FULL view.
+   * @opt_param string query Required. `Required`. Query string for performing
+   * search on groups. Users can search on parent and label attributes of groups.
+   * EXACT match ('==') is supported on parent, and CONTAINS match ('in') is
+   * supported on labels.
+   * @opt_param string view Group resource view to be returned. Defaults to
+   * [View.BASIC]().
    * @return Google_Service_CloudIdentity_SearchGroupsResponse
    */
   public function search($optParams = array())

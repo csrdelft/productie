@@ -48,8 +48,6 @@ class Google_Service_SecurityCommandCenter_Resource_OrganizationsAssets extends 
    * to. Its format is "organizations/[organization_id]".
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int pageSize The maximum number of results to return in a single
-   * response. Default is 10, minimum is 1, maximum is 1000.
    * @opt_param string readTime Time used as a reference point when filtering
    * assets. The filter is limited to assets existing at the supplied time and
    * their values are those at that specific time. Absence of this field will
@@ -148,6 +146,8 @@ class Google_Service_SecurityCommandCenter_Resource_OrganizationsAssets extends 
    * @opt_param string fieldMask Optional. A field mask to specify the
    * ListAssetsResult fields to be listed in the response. An empty field mask
    * will list all fields.
+   * @opt_param int pageSize The maximum number of results to return in a single
+   * response. Default is 10, minimum is 1, maximum is 1000.
    * @return Google_Service_SecurityCommandCenter_ListAssetsResponse
    */
   public function listOrganizationsAssets($parent, $optParams = array())
