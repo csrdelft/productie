@@ -1,3 +1,3 @@
 <div class="rails"></div>
-<script type="text/javascript" src="/dist/js/fxtrein.ffb5408549deaf9502cc.js"></script>
-<link rel="stylesheet" href="/dist/css/fxtrein.079cecc5be1869a72df6.css" type="text/css"/>
+<script type="text/javascript" src="<?php echo asset('fxtrein.js')?>"></script>
+<link rel="stylesheet" href="<?php echo asset('fxtrein.css'); ?>" type="text/css"/>

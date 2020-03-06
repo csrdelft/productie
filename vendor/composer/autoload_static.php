@@ -825,7 +825,6 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\common\\CsrNotFoundException' => __DIR__ . '/../..' . '/lib/common/CsrNotFoundException.php',
         'CsrDelft\\common\\CsrToegangException' => __DIR__ . '/../..' . '/lib/common/CsrToegangException.php',
         'CsrDelft\\common\\GoogleSync' => __DIR__ . '/../..' . '/lib/common/GoogleSync.php',
-        'CsrDelft\\common\\Ini' => __DIR__ . '/../..' . '/lib/common/Ini.php',
         'CsrDelft\\common\\LDAP' => __DIR__ . '/../..' . '/lib/common/LDAP.php',
         'CsrDelft\\common\\ShutdownHandler' => __DIR__ . '/../..' . '/lib/common/ShutdownHandler.php',
         'CsrDelft\\common\\SimpleSpamFilter' => __DIR__ . '/../..' . '/lib/common/SimpleSpamFilter.php',

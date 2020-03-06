@@ -3,8 +3,8 @@
 <?php $this->startSection('titel', $titel); ?>
 
 <?php $this->startSection('styles'); ?>
-	<link rel="stylesheet" href="/dist/css/extern.0129e3ad2e955fb8094d.css" type="text/css"/>
-	<link rel="stylesheet" href="/dist/css/extern-fotoalbum.3f2866f50a7dec80901a.css" type="text/css"/>
+	<link rel="stylesheet" href="<?php echo asset('extern.css'); ?>" type="text/css"/>
+	<link rel="stylesheet" href="<?php echo asset('extern-fotoalbum.css'); ?>" type="text/css"/>
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('content'); ?>

@@ -3,7 +3,7 @@
 <?php $this->startSection('titel', 'Login'); ?>
 
 <?php $this->startSection('styles'); ?>
-	<link rel="stylesheet" href="/dist/css/extern.0129e3ad2e955fb8094d.css" type="text/css"/>
+	<link rel="stylesheet" href="<?php echo asset('extern.css'); ?>" type="text/css"/>
 <?php $this->stopSection(); ?>
 
 <?php /*Verberg login popup*/ ?>

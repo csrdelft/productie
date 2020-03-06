@@ -81,7 +81,7 @@
 <?php elseif(lid_instelling('layout', 'fx') == 'civisaldo'): ?>
 	<?php echo $this->runChild('effect.civisaldo'); ?>
 <?php elseif(lid_instelling('layout', 'fx') == 'wolken'): ?>
-	<script type="text/javascript" src="/dist/js/fxclouds.d98881aa13b2bf46b4e5.js"></script>
+	<script type="text/javascript" src="<?php echo asset('fxclouds.js')?>"></script>
 <?php endif; ?>
 <?php if(lid_instelling('layout', 'trein') !== 'nee'): ?>
 	<?php echo $this->runChild('effect.trein'); ?>
@@ -95,7 +95,7 @@
  const ASSISTENT = '<?php echo static::e(lid_instelling('layout', 'assistent')); ?>';
  const ASSISTENT_GELUIDEN = '<?php echo static::e(lid_instelling('layout', 'assistentGeluiden')); ?>';
 	</script>
-	<script type="text/javascript" src="/dist/js/fxclippy.15130a8bee250eeeba69.js"></script>
+	<script type="text/javascript" src="<?php echo asset('fxclippy.js')?>"></script>
 <?php endif; ?>
 </body>
 </html>

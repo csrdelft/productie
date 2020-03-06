@@ -3,7 +3,7 @@
 <?php $this->startSection('titel', 'Namen leren'); ?>
 
 <?php $this->startPush('styles'); ?>
-	<link rel="stylesheet" href="" type="text/css"/>
+	<link rel="stylesheet" href="<?php echo asset('app.css'); ?>" type="text/css"/>
 <?php $this->stopPush(); ?>
 
 <?php $this->startSection('content'); ?>
