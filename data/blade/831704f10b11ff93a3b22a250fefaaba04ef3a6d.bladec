@@ -38,7 +38,7 @@
  <label class="col-md-3 col-form-label" for="inst_<?php echo static::e($module); ?>_<?php echo static::e($id); ?>"><?php echo $titel; ?></label>
 
  <div class="col-md-9">
- <?php if($type === \CsrDelft\model\instellingen\InstellingType::Enumeration): ?>
+ <?php if($type === \CsrDelft\common\instellingen\InstellingType::Enumeration): ?>
  <?php if(count($opties) > 8): ?>
  <select name="<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" id="inst_<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" class="form-control change-opslaan"
  data-href="/instellingen/update/<?php echo static::e($module); ?>/<?php echo static::e($id); ?>">
@@ -65,11 +65,11 @@
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </div>
  <?php endif; ?>
- <?php elseif($type === \CsrDelft\model\instellingen\InstellingType::String): ?>
+ <?php elseif($type === \CsrDelft\common\instellingen\InstellingType::String): ?>
  <input type="text" name="<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" id="inst_<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" value="<?php echo static::e($keuze); ?>"
   data-href="/instellingen/update/<?php echo static::e($module); ?>/<?php echo static::e($id); ?>"
   class="form-control change-opslaan" minlength="<?php echo static::e($opties[0]); ?>" maxlength="<?php echo static::e($opties[1]); ?>"/>
- <?php elseif($type === \CsrDelft\model\instellingen\InstellingType::Integer): ?>
+ <?php elseif($type === \CsrDelft\common\instellingen\InstellingType::Integer): ?>
  <input type="number" name="<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" id="inst_<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" value="<?php echo static::e($keuze); ?>"
   data-href="/instellingen/update/<?php echo static::e($module); ?>/<?php echo static::e($id); ?>"
   class="form-control change-opslaan" data-href="/instellingen/update/<?php echo static::e($module); ?>/<?php echo static::e($id); ?>"
