@@ -3,9 +3,9 @@
 namespace CsrDelft\repository\forum;
 
 use CsrDelft\common\ContainerFacade;
+use CsrDelft\entity\forum\ForumDraad;
 use CsrDelft\entity\forum\ForumDraadMelding;
 use CsrDelft\entity\profiel\Profiel;
-use CsrDelft\model\entity\forum\ForumDraad;
 use CsrDelft\model\entity\forum\ForumDraadMeldingNiveau;
 use CsrDelft\model\entity\forum\ForumPost;
 use CsrDelft\model\entity\Mail;
@@ -66,7 +66,7 @@ class ForumDradenMeldingRepository extends AbstractRepository {
 		return $melding;
 	}
 
-	public function stopAlleMeldingenVoorLid($uid) {
+	public function stopAlleMeldingenVoorLid(string $uid) {
 		$this->createQueryBuilder('m')
 			->where('m.uid = :uid')
 			->setParameter('uid', $uid)
@@ -74,10 +74,10 @@ class ForumDradenMeldingRepository extends AbstractRepository {
 			->getQuery()->execute();
 	}
 
-	public function stopMeldingenVoorIedereen($draad) {
+	public function stopMeldingenVoorIedereen(ForumDraad $draad) {
 		$this->createQueryBuilder('m')
 			->where('m.draad_id = :draad_id')
-			->setParameter('draad_id', $draad->id)
+			->setParameter('draad_id', $draad->draad_id)
 			->delete()
 			->getQuery()->execute();
 	}

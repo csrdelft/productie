@@ -21,6 +21,7 @@ final class Versions
      * @internal
      */
     public const VERSIONS          = array (
+  'beberlei/doctrineextensions' => 'v1.2.6@af72c4a136b744f1268ca8bb4da47a2f8af78f86',
   'cakephp/cache' => '3.8.10@c1153129d87e051acd6e09140c3139911b11ab79',
   'cakephp/collection' => '3.8.10@013e9d02552c56d737a6bff91e59544c735efed7',
   'cakephp/core' => '3.8.10@16249fa6771663e6649cbdb832f7ff25bf568b84',
@@ -152,7 +153,7 @@ final class Versions
   'symfony/profiler-pack' => 'v1.0.4@99c4370632c2a59bb0444852f92140074ef02209',
   'symfony/web-profiler-bundle' => 'v5.0.5@209b76b879fee706fecbd8ad2113d810322ab62a',
   'theseer/tokenizer' => '1.1.3@11336f6f84e16a720dae9d8e6ed5019efa85a0f9',
-  'csr/csrdelft.nl' => 'dev-205bae04c8e8850c99153c8fe5355252b0b96564@205bae04c8e8850c99153c8fe5355252b0b96564',
+  'csr/csrdelft.nl' => 'dev-8045f6ff4fd440606c8ccf6fbe31e133af7be13b@8045f6ff4fd440606c8ccf6fbe31e133af7be13b',
 );
 
     private function __construct()

@@ -73,7 +73,7 @@
  <div class="col-md-6">
  <select id="belangrijk" class="form-control" name="belangrijk">
  <option value="" <?php if(!$draad->belangrijk): ?>selected="selected"<?php endif; ?>>Niet belangrijk</option>
- <?php $__currentLoopData = \CsrDelft\model\forum\ForumDradenModel::$belangrijk_opties; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $group => $list): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php $__currentLoopData = \CsrDelft\repository\forum\ForumDradenRepository::$belangrijk_opties; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $group => $list): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <optgroup label="<?php echo static::e($group); ?>">
  <?php $__currentLoopData = $list; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $value => $label): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <option value="<?php echo static::e($value); ?>"
