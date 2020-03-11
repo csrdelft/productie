@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \CsrDelft\entity\forum\ForumCategorie[] $categorien
+ * @var \CsrDelft\view\forum\ForumZoekenForm $zoekform
+ */
+?>
 <?php $_shouldextend[1]=1; ?>
 
 <?php $this->startSection('titel', 'Forum'); ?>
@@ -32,7 +38,7 @@
  <div class="forumcategorie">
  <h3><a name="<?php echo static::e($categorie->categorie_id); ?>"><?php echo static::e($categorie->titel); ?></a></h3>
  <div class="forumdelen">
- <?php $__currentLoopData = $categorie->getForumDelen(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $deel): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php $__currentLoopData = $categorie->forum_delen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $deel): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <div class="forumdeel">
  <h4><a href="/forum/deel/<?php echo static::e($deel->forum_id); ?>"><?php echo static::e($deel->titel); ?></a></h4>
  <p class="forumdeel-omschrijving"><?php echo static::e($deel->omschrijving); ?></p>

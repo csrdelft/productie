@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var \CsrDelft\entity\forum\ForumCategorie[] $categorien
+ */
+?>
 <?php $_shouldextend[1]=1; ?>
 
 <?php $this->startSection('titel', $deel->titel); ?>
@@ -7,7 +12,7 @@
  <li class="breadcrumb-item"><a href="/" title="Thuis"><span class="fa fa-home"></span></a></li>
  <li class="breadcrumb-item"><a href="/forum">Forum</a></li>
  <li class="breadcrumb-item active"><select name="forum_id" class="form-control form-control-sm"
- onchange="if (this.value.substr(0,4) === 'http') { window.open(this.value); } else { window.location.href = this.value; }">
+  onchange="if (this.value.substr(0,4) === 'http') { window.open(this.value); } else { window.location.href = this.value; }">
  <option value="/forum/belangrijk"
  <?php if($deel->titel === 'Belangrijk recent gewijzigd'): ?>selected="selected"<?php endif; ?>>
  Belangrijk recent gewijzigd
@@ -18,7 +23,10 @@
 
  <?php $__currentLoopData = $categorien; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $categorie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <optgroup label="<?php echo static::e($categorie->titel); ?>">;
- <?php $__currentLoopData = $categorie->getForumDelen(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $newDeel): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?> {
+ <?php $__currentLoopData = $categorie->forum_delen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $newDeel): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?> {
+ <?php if(!$newDeel->magLezen()): ?>
+ <?php continue; ?>
+ <?php endif; ?>
  <option value="/forum/deel/<?php echo static::e($newDeel->forum_id); ?>"
  <?php if($newDeel->forum_id === $deel->forum_id): ?>selected="selected"<?php endif; ?>><?php echo static::e($newDeel->titel); ?></option>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>

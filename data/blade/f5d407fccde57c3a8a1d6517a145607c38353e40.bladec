@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \CsrDelft\entity\forum\ForumDraad $draad
+ * @var \CsrDelft\entity\forum\ForumCategorie[] $categorien
+ */
+?>
 <div id="modereren" class="card collapse forum-header">
 	<div class="modal-header">
  <h5 class="modal-title">Draad modereren</h5>
@@ -40,7 +46,7 @@
  <select id="verplaats-naar" class="form-control" name="forum_id">
  <?php $__currentLoopData = $categorien; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $categorie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <optgroup label="<?php echo static::e($categorie->titel); ?>">
- <?php $__currentLoopData = $categorie->getForumDelen(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $newDeel): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php $__currentLoopData = $categorie->forum_delen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $newDeel): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <option value="<?php echo static::e($newDeel->forum_id); ?>"
  <?php if($newDeel->forum_id === $draad->getForumDeel()->forum_id): ?> selected="selected" <?php endif; ?>><?php echo static::e($newDeel->titel); ?></option>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>

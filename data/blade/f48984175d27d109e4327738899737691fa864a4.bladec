@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \CsrDelft\entity\forum\ForumDraad $draad
+ * @var \CsrDelft\view\forum\ForumZoekenForm $zoekform
+ */
+?>
 <?php $_shouldextend[1]=1; ?>
 
 <?php $this->startSection('titel', $draad->titel); ?>
