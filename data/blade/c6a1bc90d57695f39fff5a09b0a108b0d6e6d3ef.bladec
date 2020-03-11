@@ -64,7 +64,7 @@
  </div>
  <div class="forum-zoeken-bericht">
  <?php $__currentLoopData = $draad->getForumPosts(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <div id="forumpost-row-<?php echo static::e($post->post_id); ?>" class="forum-post <?php if($post->gefilterd): ?> verborgen <?php endif; ?>">
+ <div id="forumpost-row-<?php echo static::e($post->post_id); ?>" class="forum-post">
  <div class="auteur">
  <div class="postpijl">
  <a class="postanchor" id="<?php echo static::e($post->post_id); ?>"></a>
