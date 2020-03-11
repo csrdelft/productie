@@ -257,6 +257,7 @@ return array(
     'CsrDelft\\common\\CsrGebruikerException' => $baseDir . '/lib/common/CsrGebruikerException.php',
     'CsrDelft\\common\\CsrNotFoundException' => $baseDir . '/lib/common/CsrNotFoundException.php',
     'CsrDelft\\common\\CsrToegangException' => $baseDir . '/lib/common/CsrToegangException.php',
+    'CsrDelft\\common\\Eisen' => $baseDir . '/lib/common/Eisen.php',
     'CsrDelft\\common\\GoogleSync' => $baseDir . '/lib/common/GoogleSync.php',
     'CsrDelft\\common\\LDAP' => $baseDir . '/lib/common/LDAP.php',
     'CsrDelft\\common\\ShutdownHandler' => $baseDir . '/lib/common/ShutdownHandler.php',

@@ -45,13 +45,13 @@
  <?php if($draad->magMeldingKrijgen()): ?>
  <div class="btn-group mr-2">
  <a href="/forum/meldingsniveau/<?php echo static::e($draad->draad_id); ?>/nooit"
-  class="btn btn-light post ReloadPage melding-nooit <?php if($meldingsniveau == \CsrDelft\entity\forum\ForumDraadMeldingNiveau::NOOIT): ?> active <?php endif; ?>"
+  class="btn btn-light post ReloadPage melding-nooit <?php if($draad->getMeldingsNiveau() == \CsrDelft\entity\forum\ForumDraadMeldingNiveau::NOOIT): ?> active <?php endif; ?>"
   title="Nooit meldingen ontvangen"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['email_delete', 'email_delete']); ?></a>
  <a href="/forum/meldingsniveau/<?php echo static::e($draad->draad_id); ?>/vermelding"
-  class="btn btn-light post ReloadPage melding-vermelding <?php if($meldingsniveau == \CsrDelft\entity\forum\ForumDraadMeldingNiveau::VERMELDING): ?> active <?php endif; ?>"
+  class="btn btn-light post ReloadPage melding-vermelding <?php if($draad->getMeldingsNiveau() == \CsrDelft\entity\forum\ForumDraadMeldingNiveau::VERMELDING): ?> active <?php endif; ?>"
   title="Melding ontvangen als ik genoemd word"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['email_error', 'email_error']); ?></a>
  <a href="/forum/meldingsniveau/<?php echo static::e($draad->draad_id); ?>/altijd"
-  class="btn btn-light post ReloadPage melding-altijd <?php if($meldingsniveau == \CsrDelft\entity\forum\ForumDraadMeldingNiveau::ALTIJD): ?> active <?php endif; ?>"
+  class="btn btn-light post ReloadPage melding-altijd <?php if($draad->getMeldingsNiveau() == \CsrDelft\entity\forum\ForumDraadMeldingNiveau::ALTIJD): ?> active <?php endif; ?>"
   title="Melding ontvangen bij elk nieuw bericht"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['email_add', 'email_add']); ?></a>
  </div>
  <?php endif; ?>
