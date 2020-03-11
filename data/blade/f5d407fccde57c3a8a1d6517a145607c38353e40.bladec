@@ -48,7 +48,7 @@
  <optgroup label="<?php echo static::e($categorie->titel); ?>">
  <?php $__currentLoopData = $categorie->forum_delen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $newDeel): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <option value="<?php echo static::e($newDeel->forum_id); ?>"
- <?php if($newDeel->forum_id === $draad->getForumDeel()->forum_id): ?> selected="selected" <?php endif; ?>><?php echo static::e($newDeel->titel); ?></option>
+ <?php if($newDeel->forum_id === $draad->deel->forum_id): ?> selected="selected" <?php endif; ?>><?php echo static::e($newDeel->titel); ?></option>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </optgroup>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>

@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \CsrDelft\entity\forum\ForumDraad $draad
+ * @var \CsrDelft\entity\forum\ForumDeel $deel
+ */
+?>
 <div class="alternate-row draad-titel">
 	<?php if($draad->wacht_goedkeuring): ?>
  <small class="niet-dik">[ter goedkeuring...]</small>
@@ -29,8 +35,8 @@
  <?php endif; ?>
 	<?php endif; ?>
 	<?php if(!isset($deel->forum_id)): ?>
- <span class="lichtgrijs">[<a href="/forum/deel/<?php echo static::e($draad->getForumDeel()->forum_id); ?>"
-  class="lichtgrijs"><?php echo static::e($draad->getForumDeel()->titel); ?></a>]</span>
+ <span class="lichtgrijs">[<a href="/forum/deel/<?php echo static::e($draad->deel->forum_id); ?>"
+  class="lichtgrijs"><?php echo static::e($draad->deel->titel); ?></a>]</span>
 	<?php endif; ?>
 </div>
 <div class="alternate-row draad-laatst-gewijzigd">

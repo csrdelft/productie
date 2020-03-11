@@ -65,7 +65,7 @@
   class="btn post forummodknop bladwijzer" data="timestamp=<?php echo static::e($timestamp); ?>"
   title="Bladwijzer bij dit bericht leggen"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['tab']); ?></a>
  <?php endif; ?>
- <?php if($post->getForumDraad()->magModereren()): ?>
+ <?php if($post->draad->magModereren()): ?>
  <a href="/forum/offtopic/<?php echo static::e($post->post_id); ?>"
   class="btn post confirm <?php if(!$post->wacht_goedkeuring): ?> forummodknop <?php endif; ?>"
   title="Offtopic markeren"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['thumb_down']); ?></a>

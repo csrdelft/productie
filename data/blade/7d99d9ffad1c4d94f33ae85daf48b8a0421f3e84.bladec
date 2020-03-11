@@ -595,11 +595,11 @@
  <tr>
  <td><a href="/forum/reactie/<?php echo static::e($post->post_id); ?>#<?php echo static::e($post->post_id); ?>"
   title="<?php echo static::e($post->tekst); ?>"
-  <?php if($post->getForumDraad()->isOngelezen()): ?>
+  <?php if($post->draad->isOngelezen()): ?>
   class="<?php echo static::e(lid_instelling('forum', 'ongelezenWeergave')); ?>"
  <?php endif; ?>
  >
- <?php echo static::e(truncate($post->getForumDraad()->titel, 75)); ?>
+ <?php echo static::e(truncate($post->draad->titel, 75)); ?>
 
  </a>
  </td>

@@ -50,7 +50,7 @@
  <?php elseif($draad->gesloten): ?>
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['lock', null, 'Dit onderwerp is gesloten, u kunt niet meer reageren']); ?>
  <?php endif; ?>
- <span>[<a href="/forum/deel/<?php echo static::e($draad->forum_id); ?>"><?php echo static::e($draad->getForumDeel()->titel); ?></a>]</span>
+ <span>[<a href="/forum/deel/<?php echo static::e($draad->forum_id); ?>"><?php echo static::e($draad->deel->titel); ?></a>]</span>
  </div>
  <div class="niet-dik">
  <?php if(lid_instelling('forum', 'datumWeergave') === 'relatief'): ?>

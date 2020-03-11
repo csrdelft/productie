@@ -27,10 +27,10 @@
  <?php $__currentLoopData = $resultaten; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $draad): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <div class="forum-zoeken-header">
  <div>
- <span title="Nieuw onderwerp in <?php echo static::e($draad->getForumDeel()->titel); ?>"><?php echo static::e($draad->titel); ?>
+ <span title="Nieuw onderwerp in <?php echo static::e($draad->deel->titel); ?>"><?php echo static::e($draad->titel); ?>
 
  <span>
- [<a href="/forum/deel/<?php echo static::e($draad->forum_id); ?>"><?php echo static::e($draad->getForumDeel()->titel); ?></a>]
+ [<a href="/forum/deel/<?php echo static::e($draad->forum_id); ?>"><?php echo static::e($draad->deel->titel); ?></a>]
  </span>
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['new']); ?>
  </span>

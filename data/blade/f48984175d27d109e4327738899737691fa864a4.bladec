@@ -9,7 +9,7 @@
 <?php $this->startSection('titel', $draad->titel); ?>
 
 <?php $this->startSection('breadcrumbs'); ?>
-	<?php ($deel = $draad->getForumDeel()); ?>
+	<?php ($deel = $draad->deel); ?>
 	<?php echo csr_breadcrumbs([
  '/' => 'main',
  '/forum' => 'Forum',
@@ -107,7 +107,7 @@
 	<?php elseif($draad->gesloten): ?>
  <div class="draad-gesloten">
  U kunt hier niet meer reageren omdat dit onderwerp gesloten is.
- <?php if($draad->getForumDeel()->isOpenbaar() && strtotime($draad->laatst_gewijzigd) < strtotime(instelling('forum', 'externen_geentoegang_gesloten'))): ?>
+ <?php if($draad->deel->isOpenbaar() && strtotime($draad->laatst_gewijzigd) < strtotime(instelling('forum', 'externen_geentoegang_gesloten'))): ?>
  <div class="dikgedrukt">Dit externe onderwerp is niet meer toegankelijk voor externen en zoekmachines.</div>
  <?php endif; ?>
  </div>
@@ -182,7 +182,7 @@
 
 	<?php if($draad->magPosten()): ?>
  <?php echo $this->runChild('forum.partial.draad_reageren'); ?>
- <?php echo $this->runChild('forum.partial.post_form', ['deel' => $draad->getForumDeel()]); ?>
+ <?php echo $this->runChild('forum.partial.post_form', ['deel' => $draad->deel]); ?>
 	<?php endif; ?>
 </div>
 
