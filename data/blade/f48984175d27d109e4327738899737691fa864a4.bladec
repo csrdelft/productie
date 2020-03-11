@@ -14,6 +14,9 @@
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('content'); ?>
+	<?php 
+ $forumPostsRepository = \CsrDelft\common\ContainerFacade::getContainer()->get(\CsrDelft\repository\forum\ForumPostsRepository::class);
+	 ?>
 	<?php echo getMelding(); ?>
 
 	<div class="forum-header btn-toolbar">
@@ -23,7 +26,7 @@
  <?php if(!$statistiek && $draad->magStatistiekBekijken()): ?>
  <div class="btn-group mr-2">
  <a
- href="/forum/onderwerp/<?php echo static::e($draad->draad_id); ?>/<?php echo static::e(CsrDelft\model\forum\ForumPostsModel::instance()->getHuidigePagina()); ?>/statistiek"
+ href="/forum/onderwerp/<?php echo static::e($draad->draad_id); ?>/<?php echo static::e($forumPostsRepository->getHuidigePagina()); ?>/statistiek"
  class="btn btn-light" title="Toon statistieken"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['chart_line']); ?></a>
  </div>
 
@@ -119,14 +122,14 @@
  <?php echo sliding_pager([
  'baseurl' => "/forum/onderwerp/$draad->draad_id/",
  'url_append' => $statistiek ? '/statistiek' : '',
- 'pagecount' => \CsrDelft\model\forum\ForumPostsModel::instance()->getAantalPaginas($draad->draad_id),
- 'curpage' => \CsrDelft\model\forum\ForumPostsModel::instance()->getHuidigePagina()
+ 'pagecount' => $forumPostsRepository->getAantalPaginas($draad->draad_id),
+ 'curpage' => $forumPostsRepository->getHuidigePagina()
  ]); ?>
 
  </div>
 	<?php $this->stopSection(); ?>
 	<?php /*Paginering boven eerste post op de pagina als de eerste post van het draadje niet plakkerig is of dit de eerste pagina is */ ?>
-	<?php if($paging && (!$draad->eerste_post_plakkerig || \CsrDelft\model\forum\ForumPostsModel::instance()->getHuidigePagina() === 1)): ?>
+	<?php if($paging && (!$draad->eerste_post_plakkerig || $forumPostsRepository->getHuidigePagina() === 1)): ?>
  <?php echo $this->yieldContent('paginering'); ?>
 	<?php endif; ?>
 
@@ -134,7 +137,7 @@
 	<?php $__currentLoopData = $draad->getForumPosts(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
 
  <?php /* Als posts gewijzigd zijn zonder draad gewijzigd te triggeren voorkomt $draad->isOngelezen() dat de gele lijn wordt getoond */ ?>
- <?php if(!$vanaf && $draad_ongelezen && (!$gelezen_moment || strtotime($post->laatst_gewijzigd) > $gelezen_moment)): ?>
+ <?php if(!$vanaf && $draad_ongelezen && (!$gelezen_moment || $post->laatst_gewijzigd > $gelezen_moment)): ?>
  <?php ($vanaf = true); ?>
  <div class="tussenschot ongelezenvanaf"><a id="ongelezen"></a></div>
  <?php else: ?>
@@ -144,7 +147,7 @@
  <?php echo $this->runChild('forum.partial.post_lijst', ['post' => $post]); ?>
 
  <?php /* Paginering onder eerste plakkerige post op alle pagina's behalve de eerste */ ?>
- <?php if($paging && $draad->eerste_post_plakkerig && \CsrDelft\model\forum\ForumPostsModel::instance()->getHuidigePagina() !== 1 && $loop->first): ?>
+ <?php if($paging && $draad->eerste_post_plakkerig && $forumPostsRepository->getHuidigePagina() !== 1 && $loop->first): ?>
  <?php echo $this->yieldContent('paginering'); ?>
  <?php endif; ?>
 	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
@@ -156,7 +159,7 @@
 
 	<?php /* Geen ongelezen berichten op de laatste pagina betekend in het geheel geen ongelezen berichten */ ?>
 
-	<?php if(!$vanaf && \CsrDelft\model\forum\ForumPostsModel::instance()->getHuidigePagina() === \CsrDelft\model\forum\ForumPostsModel::instance()->getAantalPaginas($draad->draad_id)): ?>
+	<?php if(!$vanaf && $forumPostsRepository->getHuidigePagina() === $forumPostsRepository->getAantalPaginas($draad->draad_id)): ?>
  <div class="tussenschot ongelezenvanaf"><a id="ongelezen"></a></div>
 	<?php else: ?>
  <div class="tussenschot"></div>

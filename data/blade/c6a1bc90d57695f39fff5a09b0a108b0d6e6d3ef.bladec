@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \CsrDelft\entity\forum\ForumDraad[] $resultaten
+ * @var \CsrDelft\view\forum\ForumZoekenForm $form
+ */
+?>
 <?php $_shouldextend[1]=1; ?>
 
 <?php $this->startSection('titel'); ?>
@@ -74,7 +80,7 @@
  <?php echo reldate($post->datum_tijd); ?>
 
  <?php else: ?>
- <?php echo static::e($post->datum_tijd); ?>
+ <?php echo static::e($post->datum_tijd->format(DATETIME_FORMAT)); ?>
 
  <?php endif; ?>
  </span>

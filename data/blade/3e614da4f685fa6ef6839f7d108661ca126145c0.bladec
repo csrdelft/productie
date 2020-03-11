@@ -14,7 +14,7 @@
 	<?php if(!isset($deel->forum_id) || (isset($deel->forum_id) && $deel->magModereren())): ?>
  <div class="btn-group mr-2">
  <a href="/forum/wacht" class="btn btn-light"
-  title="Reacties die wachten op goedkeuring"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['hourglass']); ?> <?php echo static::e(CsrDelft\model\forum\ForumPostsModel::instance()->getAantalWachtOpGoedkeuring()); ?></a>
+  title="Reacties die wachten op goedkeuring"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['hourglass']); ?> <?php echo static::e(\CsrDelft\common\ContainerFacade::getContainer()->get(\CsrDelft\repository\forum\ForumPostsRepository::class)->getAantalWachtOpGoedkeuring()); ?></a>
  </div>
 	<?php endif; ?>
 <?php endif; ?>

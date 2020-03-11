@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var \CsrDelft\entity\forum\ForumPost $post
+ */
+?>
 <div id="forumpost-row-<?php echo static::e($post->post_id); ?>" class="forum-post">
 	<div class="auteur">
  <div class="postpijl">
@@ -16,7 +21,7 @@
  <?php echo reldate($post->datum_tijd); ?>
 
  <?php else: ?>
- <?php echo static::e($post->datum_tijd); ?>
+ <?php echo static::e($post->datum_tijd->format(DATETIME_FORMAT)); ?>
 
  <?php endif; ?>
  </span>
@@ -42,6 +47,7 @@
  <?php else: ?>
  <?php if($post->verwijderd): ?>
  <div class="post-verwijderd">Deze reactie is verwijderd.</div>
+ <a href="/forum/verwijderen/<?php echo static::e($post->post_id); ?>" class="btn post"
  title="Bericht herstellen"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['arrow_undo']); ?></a>
  <?php endif; ?>
  <?php if($post->magCiteren()): ?>
@@ -54,7 +60,7 @@
   onclick="window.forum.forumBewerken(<?php echo static::e($post->post_id); ?>);" title="Bewerk bericht"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['pencil']); ?></a>
  <?php endif; ?>
  <?php if(isset($this->currentUser)): ?>
- <?php ($timestamp = strtotime($post->datum_tijd)); ?>
+ <?php ($timestamp = $post->datum_tijd->getTimestamp()); ?>
  <a id="timestamp<?php echo static::e($timestamp); ?>" href="/forum/bladwijzer/<?php echo static::e($post->draad_id); ?>"
   class="btn post forummodknop bladwijzer" data="timestamp=<?php echo static::e($timestamp); ?>"
   title="Bladwijzer bij dit bericht leggen"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['tab']); ?></a>
