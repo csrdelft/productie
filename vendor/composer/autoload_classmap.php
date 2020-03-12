@@ -258,6 +258,7 @@ return array(
     'CsrDelft\\common\\CsrToegangException' => $baseDir . '/lib/common/CsrToegangException.php',
     'CsrDelft\\common\\Doctrine\\Type\\ChangeLogType' => $baseDir . '/lib/common/Doctrine/Type/ChangeLogType.php',
     'CsrDelft\\common\\Doctrine\\Type\\LongTextType' => $baseDir . '/lib/common/Doctrine/Type/LongTextType.php',
+    'CsrDelft\\common\\Doctrine\\Type\\StringKeyType' => $baseDir . '/lib/common/Doctrine/Type/StringKeyType.php',
     'CsrDelft\\common\\Doctrine\\Type\\UidType' => $baseDir . '/lib/common/Doctrine/Type/UidType.php',
     'CsrDelft\\common\\Eisen' => $baseDir . '/lib/common/Eisen.php',
     'CsrDelft\\common\\GoogleSync' => $baseDir . '/lib/common/GoogleSync.php',

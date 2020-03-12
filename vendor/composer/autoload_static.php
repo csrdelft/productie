@@ -830,6 +830,7 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\common\\CsrToegangException' => __DIR__ . '/../..' . '/lib/common/CsrToegangException.php',
         'CsrDelft\\common\\Doctrine\\Type\\ChangeLogType' => __DIR__ . '/../..' . '/lib/common/Doctrine/Type/ChangeLogType.php',
         'CsrDelft\\common\\Doctrine\\Type\\LongTextType' => __DIR__ . '/../..' . '/lib/common/Doctrine/Type/LongTextType.php',
+        'CsrDelft\\common\\Doctrine\\Type\\StringKeyType' => __DIR__ . '/../..' . '/lib/common/Doctrine/Type/StringKeyType.php',
         'CsrDelft\\common\\Doctrine\\Type\\UidType' => __DIR__ . '/../..' . '/lib/common/Doctrine/Type/UidType.php',
         'CsrDelft\\common\\Eisen' => __DIR__ . '/../..' . '/lib/common/Eisen.php',
         'CsrDelft\\common\\GoogleSync' => __DIR__ . '/../..' . '/lib/common/GoogleSync.php',
