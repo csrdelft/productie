@@ -22,7 +22,7 @@
  <?php endif; ?>
  </div>
  <div class="blue back">
- <img src="<?php echo static::e($lid->getPasFotoPath(true)); ?>" title="<?php echo static::e($learnmode?$lid->getNaam('volledig'):''); ?>"/>
+ <img src="<?php echo static::e($lid->getPasFotoPath('vierkant')); ?>" title="<?php echo static::e($learnmode?$lid->getNaam('volledig'):''); ?>"/>
  </div>
  </div>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
