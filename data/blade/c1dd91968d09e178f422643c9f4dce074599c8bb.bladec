@@ -1,0 +1,19 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('titel', 'StekPakket kiezen'); ?>
+
+<?php $this->startPush('styles'); ?>
+	<link rel="stylesheet" href="<?php echo asset('app.css'); ?>" type="text/css"/>
+<?php $this->stopPush(); ?>
+
+<?php $this->startSection('content'); ?>
+	<StekPakket
+ class="vue-context"
+ basispakket="<?php echo static::e($basispakket); ?>"
+ :basispakketten="Object.values(<?php echo static::e($basispakketten); ?>)"
+ :opties="Object.values(<?php echo static::e($opties); ?>)"
+ opslaan="<?php echo static::e($opslaan); ?>">
+	</StekPakket>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('layout'); } ?>
