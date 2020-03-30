@@ -93,7 +93,7 @@ final class Versions
   'symfony/finder' => 'v5.0.5@6251f201187ca9d66f6b099d3de65d279e971138',
   'symfony/flex' => 'v1.6.2@e4f5a2653ca503782a31486198bd1dd1c9a47f83',
   'symfony/framework-bundle' => 'v5.0.5@fc6a0059fedaaf15efc66b64b7a3cedaa4b1edf4',
-  'symfony/http-foundation' => 'v5.0.5@6f9c2ba72f4295d7ce6cf9f79dbb18036291d335',
+  'symfony/http-foundation' => 'v5.0.7@26fb006a2c7b6cdd23d52157b05f8414ffa417b6',
   'symfony/http-kernel' => 'v5.0.5@021d7d54e080405678f2d8c54cb31d0bb03b4520',
   'symfony/inflector' => 'v5.0.5@e375603b6bd12e8e3aec3fc1b640ac18a4ef4cb2',
   'symfony/mime' => 'v5.0.5@9b3e5b5e58c56bbd76628c952d2b78556d305f3c',
@@ -153,7 +153,7 @@ final class Versions
   'symfony/profiler-pack' => 'v1.0.4@99c4370632c2a59bb0444852f92140074ef02209',
   'symfony/web-profiler-bundle' => 'v5.0.5@209b76b879fee706fecbd8ad2113d810322ab62a',
   'theseer/tokenizer' => '1.1.3@11336f6f84e16a720dae9d8e6ed5019efa85a0f9',
-  'csr/csrdelft.nl' => 'dev-8c928a43f022d3199367efffe994eb5777481aae@8c928a43f022d3199367efffe994eb5777481aae',
+  'csr/csrdelft.nl' => 'dev-4565f2d6423f1b25230e8b9ebfe5db64846b5fb7@4565f2d6423f1b25230e8b9ebfe5db64846b5fb7',
 );
 
     private function __construct()
