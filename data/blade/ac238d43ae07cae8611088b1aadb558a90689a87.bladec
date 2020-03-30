@@ -20,7 +20,7 @@
  <ul class="dropdown-menu" aria-labelledby="menu-favorieten">
  <?php echo $this->runChild('menu.sub_tree', ['parent' => $favorieten]); ?>
  <li><a href="/menubeheer/toevoegen/favoriet" class="dropdown-item post popup addfav"
-  title="Huidige pagina toevoegen aan favorieten"><i class="fa fa-plus"></i> Favoriet toevoegen</a></li>
+    title="Huidige pagina toevoegen aan favorieten"><i class="fa fa-plus"></i> Favoriet toevoegen</a></li>
  </ul>
  </li>
  <?php else: ?>
@@ -39,4 +39,42 @@
  </ul>
 	</div>
 </nav>
+<?php if(time() < strtotime("2-4-2020")): ?>
+	<a class="notice" href="/stekpakket">
+ U heeft
+ <?php if(date('j') == 30): ?>
+ nog 3 dagen
+ <?php endif; ?>
+ <?php if(date('j') == 31): ?>
+ nog 2 dagen
+ <?php endif; ?>
+ <?php if(date('j') == 1): ?>
+ alleen vandaag nog
+ <?php endif; ?>
+ om uw stekpakket te configureren.</a>
+	<style>
+ .notice {
+ display: block;
+ background: #e59200;
+ margin-left: -200px;
+ z-index: 1000;
+ color: white;
+ padding: 8px 18px 11px;
+ font-size: 15px;
+ line-height: 16px;
+ font-weight: bold;
+ text-align: center;
+ }
 
+ .notice:hover {
+ color: white;
+ text-decoration: none;
+ }
+
+ @media (max-width: 991.98px) {
+ .notice {
+ margin-left: 0;
+ }
+ }
+	</style>
+<?php endif; ?>
