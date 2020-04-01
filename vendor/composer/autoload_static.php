@@ -839,6 +839,7 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\common\\Eisen' => __DIR__ . '/../..' . '/lib/common/Eisen.php',
         'CsrDelft\\common\\GoogleSync' => __DIR__ . '/../..' . '/lib/common/GoogleSync.php',
         'CsrDelft\\common\\LDAP' => __DIR__ . '/../..' . '/lib/common/LDAP.php',
+        'CsrDelft\\common\\Logging\\LogProcessor' => __DIR__ . '/../..' . '/lib/common/Logging/LogProcessor.php',
         'CsrDelft\\common\\ShutdownHandler' => __DIR__ . '/../..' . '/lib/common/ShutdownHandler.php',
         'CsrDelft\\common\\SimpleSpamFilter' => __DIR__ . '/../..' . '/lib/common/SimpleSpamFilter.php',
         'CsrDelft\\common\\SuDataCollector' => __DIR__ . '/../..' . '/lib/common/SuDataCollector.php',

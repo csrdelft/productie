@@ -267,6 +267,7 @@ return array(
     'CsrDelft\\common\\Eisen' => $baseDir . '/lib/common/Eisen.php',
     'CsrDelft\\common\\GoogleSync' => $baseDir . '/lib/common/GoogleSync.php',
     'CsrDelft\\common\\LDAP' => $baseDir . '/lib/common/LDAP.php',
+    'CsrDelft\\common\\Logging\\LogProcessor' => $baseDir . '/lib/common/Logging/LogProcessor.php',
     'CsrDelft\\common\\ShutdownHandler' => $baseDir . '/lib/common/ShutdownHandler.php',
     'CsrDelft\\common\\SimpleSpamFilter' => $baseDir . '/lib/common/SimpleSpamFilter.php',
     'CsrDelft\\common\\SuDataCollector' => $baseDir . '/lib/common/SuDataCollector.php',
