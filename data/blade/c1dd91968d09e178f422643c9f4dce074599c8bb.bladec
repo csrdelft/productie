@@ -12,6 +12,8 @@
  basispakket="<?php echo static::e($basispakket); ?>"
  :basispakketten="Object.values(<?php echo static::e($basispakketten); ?>)"
  :opties="Object.values(<?php echo static::e($opties); ?>)"
+ :donatie="JSON.parse(<?php echo static::e($donatie); ?>)"
+ :heeftcivisaldo="JSON.parse(<?php echo static::e($heeftCiviSaldo); ?>)"
  opslaan="<?php echo static::e($opslaan); ?>">
 	</StekPakket>
 <?php $this->stopSection(); ?>
