@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var \CsrDelft\entity\maalcie\MaaltijdRepetitie $repetitie
+ */
+?>
 <tr id="repetitie-row-<?php echo static::e($repetitie->mlt_repetitie_id); ?>">
 	<td>
  <a href="/maaltijden/repetities/bewerk/<?php echo static::e($repetitie->mlt_repetitie_id); ?>" title="Maaltijdrepetitie wijzigen" class="btn post popup"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["pencil"]); ?></a>
@@ -6,7 +11,7 @@
 	<td><?php echo static::e($repetitie->standaard_titel); ?></td>
 	<td><?php echo static::e($repetitie->getDagVanDeWeekText()); ?></td>
 	<td><?php echo static::e($repetitie->getPeriodeInDagenText()); ?></td>
-	<td><?php echo static::e(strftime("%H:%M", strtotime($repetitie->standaard_tijd))); ?></td>
+	<td><?php echo static::e($repetitie->standaard_tijd->format(TIME_FORMAT)); ?></td>
 	<td>&euro; <?php echo static::e(sprintf("%.2f", $repetitie->getStandaardPrijsFloat())); ?></td>
 	<td><?php echo static::e($repetitie->standaard_limiet); ?></td>
 	<td><?php if($repetitie->abonneerbaar): ?><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["tick", null, "Abonneerbaar"]); ?><?php endif; ?></td>
