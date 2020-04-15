@@ -8,7 +8,7 @@
  &nbsp; (&euro; <?php echo static::e(sprintf("%.2f", $maaltijd->getPrijsFloat())); ?>)
  <?php endif; ?>
  </h6>
- op <?php echo static::e(strftime("%A %e %B", strtotime($maaltijd->datum))); ?> om <?php echo static::e(strftime("%H:%M", strtotime($maaltijd->tijd))); ?>
+ op <?php echo static::e($maaltijd->datum->format(LONG_DATE_FORMAT)); ?> om <?php echo static::e($maaltijd->tijd->format(TIME_FORMAT)); ?>
 
  <?php if($maaltijd->magBekijken(CsrDelft\model\security\LoginModel::getUid())): ?>
  <div class="float-right">
@@ -85,7 +85,7 @@
  <?php endif; ?>
 
  <?php if($maaltijd->gesloten && $maaltijd->getEindMoment() > time()): ?>
- <?php ($date = strftime("%H:%M", strtotime($maaltijd->laatst_gesloten))); ?>
+ <?php ($date = $maaltijd->laatst_gesloten->format(TIME_FORMAT)); ?>
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["lock", null, "Maaltijd is gesloten om " . $date]); ?>
  <?php endif; ?>
  <?php endif; ?>

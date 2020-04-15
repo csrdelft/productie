@@ -1,8 +1,14 @@
+<?php
+/**
+ * @var \CsrDelft\entity\maalcie\Maaltijd $maaltijd
+ * @var \CsrDelft\entity\maalcie\MaaltijdAanmelding $aanmelding
+ */
+?>
 <?php $_shouldextend[1]=1; ?>
-<?php $this->startSection('titel', $titel . " " . strftime("%A %e %B", strtotime($maaltijd->datum))); ?>
+<?php $this->startSection('titel', $titel . " " . $maaltijd->datum->format(LONG_DATE_FORMAT)); ?>
 
 <?php $this->startSection('content'); ?>
-	<h1><?php echo static::e($titel); ?> op <?php echo static::e(strftime("%A %e %B %Y", strtotime($maaltijd->datum))); ?></h1>
+	<h1><?php echo static::e($titel); ?> op <?php echo static::e($maaltijd->datum->format(LONG_DATE_FORMAT . ' %Y')); ?></h1>
 	<div
  class="header"><?php echo str_replace("MAALTIJDPRIJS", $prijs, instelling('maaltijden', 'maaltijdlijst_tekst')); ?></div>
 	<?php if(!$maaltijd->gesloten): ?>
@@ -22,7 +28,7 @@
  <div class="row no-gutters py-1" style="border-bottom: 1px solid #999;">
  <?php if($aanmelding->uid): ?>
  <div class="col">
- <?php echo \CsrDelft\repository\ProfielRepository::getLink($aanmelding->uid,instelling('maaltijden', 'weergave_ledennamen_maaltijdlijst')); ?>
+ <?php echo \CsrDelft\repository\ProfielRepository::getLink($aanmelding->uid, instelling('maaltijden', 'weergave_ledennamen_maaltijdlijst')); ?>
 
  <br/>
  <?php ($eetwens = \CsrDelft\repository\ProfielRepository::get($aanmelding->uid)->eetwens); ?>

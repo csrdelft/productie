@@ -518,7 +518,7 @@
  <ul class="list-unstyled">
  <?php $__currentLoopData = $recenteAanmeldingen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $aanmelding): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <li>
- <?php echo static::e($aanmelding->maaltijd->getTitel()); ?> <span class="lichtgrijs">(<?php echo static::e(strftime('%a %e %b', strtotime($aanmelding->maaltijd->datum))); ?>)</span>
+ <?php echo static::e($aanmelding->maaltijd->getTitel()); ?> <span class="lichtgrijs">(<?php echo static::e($aanmelding->maaltijd->datum->format(LONG_DATE_FORMAT)); ?>)</span>
  </li>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </ul>
