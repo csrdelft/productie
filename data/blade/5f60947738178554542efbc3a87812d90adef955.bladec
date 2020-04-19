@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var \CsrDelft\entity\security\Account[] $accounts
+ */
+?>
 <?php $_shouldextend[1]=1; ?>
 
 <?php $this->startSection('titel', 'Admins'); ?>
@@ -39,7 +44,7 @@
 	<?php $__currentLoopData = $accounts; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <tr>
  <td><?php echo static::e($account->uid); ?></td>
- <td><?php echo $account->getProfiel()->getLink(); ?></td>
+ <td><?php echo $account->profiel->getLink(); ?></td>
  <td><?php echo static::e($account->perm_role); ?></td>
  </tr>
 	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>

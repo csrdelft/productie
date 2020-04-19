@@ -10,7 +10,7 @@
  </div>
  </a>
  <?php if($profiel->hasKinderen()): ?>
- <?php echo $this->runChild('profiel.stamboom_node', ['profielen' => $profiel->getKinderen()]); ?>
+ <?php echo $this->runChild('profiel.stamboom_node', ['profielen' => $profiel->kinderen]); ?>
  <?php endif; ?>
  </li>
 	<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>

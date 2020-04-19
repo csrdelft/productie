@@ -118,7 +118,7 @@
  <dd><?php echo static::e($profiel->getNaam('civitas')); ?></dd>
  <dt>Lidnummer</dt>
  <dd>
- <?php if(\CsrDelft\repository\security\AccountRepository::existsUid($profiel->uid) && \CsrDelft\model\security\LoginModel::instance()->maySuTo($profiel->getAccount())): ?>
+ <?php if($profiel->account && \CsrDelft\model\security\LoginModel::instance()->maySuTo($profiel->account)): ?>
  <a href="/su/<?php echo static::e($profiel->uid); ?>" title="Su naar dit lid"><?php echo static::e($profiel->uid); ?></a>
  <?php else: ?>
  <?php echo static::e($profiel->uid); ?>
@@ -262,17 +262,16 @@
  </dl>
  <?php if(is_zichtbaar($profiel, ['kinderen'], 'intern') && is_zichtbaar($profiel, ['patroon'], 'profiel')): ?>
  <dl class="col-md-6">
- <?php ($patroon = \CsrDelft\repository\ProfielRepository::get($profiel->patroon)); ?>
- <?php if($patroon): ?>
+ <?php if($profiel->patroonProfiel): ?>
  <dt>
- <?php if($patroon->geslacht === \CsrDelft\model\entity\Geslacht::Vrouw): ?>
+ <?php if($profiel->patroonProfiel->geslacht === \CsrDelft\model\entity\Geslacht::Vrouw): ?>
  Matroon
  <?php else: ?>
  Patroon
  <?php endif; ?>
  </dt>
  <dd>
- <?php echo $patroon->getLink('civitas'); ?>
+ <?php echo $profiel->patroonProfiel->getLink('civitas'); ?>
 
  </dd>
  <?php endif; ?>
@@ -280,13 +279,13 @@
  <dt>Kinderen</dt>
  <dd>
  <ul class="list-unstyled">
- <?php $__currentLoopData = $profiel->getKinderen(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $kind): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php $__currentLoopData = $profiel->kinderen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $kind): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <li><?php echo $kind->getLink('civitas'); ?></li>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </ul>
  </dd>
  <?php endif; ?>
- <?php if($patroon || $profiel->hasKinderen()): ?>
+ <?php if($profiel->patroonProfiel || $profiel->hasKinderen()): ?>
  <dt></dt>
  <dd>
  <a class="btn btn-light" href="/profiel/<?php echo static::e($profiel->uid); ?>/stamboom"
@@ -557,9 +556,9 @@
  <dl id="agenda">
  <dt>Persoonlijke ICal-feed</dt>
  <dd>
- <?php if($profiel->getAccount()->hasPrivateToken()): ?>
+ <?php if($profiel->account->hasPrivateToken()): ?>
  <input title="ICal-feed" class="form-control" type="text"
-  value="<?php echo static::e($profiel->getAccount()->getICalLink()); ?>"
+  value="<?php echo static::e($profiel->account->getICalLink()); ?>"
   onclick="this.setSelectionRange(0, this.value.length);" readonly/>
  <?php endif; ?>
  &nbsp;
@@ -573,9 +572,9 @@
  <?php if(is_ingelogd_account($profiel->uid)): ?>
  <dt>Persoonlijk RSS-feed</dt>
  <dd>
- <?php if($profiel->getAccount()->hasPrivateToken()): ?>
+ <?php if($profiel->account->hasPrivateToken()): ?>
  <input title="RSS-feed" class="form-control" type="text"
-  value="<?php echo static::e($profiel->getAccount()->getRssLink()); ?>"
+  value="<?php echo static::e($profiel->account->getRssLink()); ?>"
   onclick="this.setSelectionRange(0, this.value.length);" readonly/>
  <?php endif; ?>
  <a id="tokenaanvragen" class="btn btn-primary" href="/profiel/<?php echo static::e($profiel->uid); ?>/resetPrivateToken">
