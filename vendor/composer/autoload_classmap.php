@@ -256,6 +256,7 @@ return array(
     'CsrDelft\\common\\CsrGebruikerException' => $baseDir . '/lib/common/CsrGebruikerException.php',
     'CsrDelft\\common\\CsrNotFoundException' => $baseDir . '/lib/common/CsrNotFoundException.php',
     'CsrDelft\\common\\CsrToegangException' => $baseDir . '/lib/common/CsrToegangException.php',
+    'CsrDelft\\common\\Doctrine\\Type\\BoekExemplaarStatusType' => $baseDir . '/lib/common/Doctrine/Type/BoekExemplaarStatusType.php',
     'CsrDelft\\common\\Doctrine\\Type\\ChangeLogType' => $baseDir . '/lib/common/Doctrine/Type/ChangeLogType.php',
     'CsrDelft\\common\\Doctrine\\Type\\DateImmutableType' => $baseDir . '/lib/common/Doctrine/Type/DateImmutableType.php',
     'CsrDelft\\common\\Doctrine\\Type\\DateTimeImmutableType' => $baseDir . '/lib/common/Doctrine/Type/DateTimeImmutableType.php',
