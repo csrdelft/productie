@@ -79,7 +79,7 @@
  <a href="/toestemming" class="btn btn-light" title="Pas toestemming aan"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['lock_edit']); ?></a>
  <?php endif; ?>
  <?php if(mag(P_ADMIN) || is_ingelogd_account($profiel->uid)): ?>
- <?php if(\CsrDelft\model\security\AccountModel::existsUid($profiel->uid)): ?>
+ <?php if(\CsrDelft\repository\security\AccountRepository::existsUid($profiel->uid)): ?>
  <a href="/account/<?php echo static::e($profiel->uid); ?>/bewerken" class="btn btn-light"
   title="Inloggegevens bewerken"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['key']); ?></a>
  <?php else: ?>
@@ -118,7 +118,7 @@
  <dd><?php echo static::e($profiel->getNaam('civitas')); ?></dd>
  <dt>Lidnummer</dt>
  <dd>
- <?php if(\CsrDelft\model\security\AccountModel::existsUid($profiel->uid) && \CsrDelft\model\security\LoginModel::instance()->maySuTo($profiel->getAccount())): ?>
+ <?php if(\CsrDelft\repository\security\AccountRepository::existsUid($profiel->uid) && \CsrDelft\model\security\LoginModel::instance()->maySuTo($profiel->getAccount())): ?>
  <a href="/su/<?php echo static::e($profiel->uid); ?>" title="Su naar dit lid"><?php echo static::e($profiel->uid); ?></a>
  <?php else: ?>
  <?php echo static::e($profiel->uid); ?>

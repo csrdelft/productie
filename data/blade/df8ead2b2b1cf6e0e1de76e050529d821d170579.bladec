@@ -1,6 +1,6 @@
 <div class="card visitekaartje flex-row">
 	<div class="card-body <?php if($profiel->isJarig()): ?> jarig <?php endif; ?> ">
- <?php if(CsrDelft\model\security\AccountModel::existsUid($profiel->uid) AND CsrDelft\model\security\LoginModel::instance()->maySuTo($profiel->getAccount())): ?>
+ <?php if(\CsrDelft\repository\security\AccountRepository::existsUid($profiel->uid) AND CsrDelft\model\security\LoginModel::instance()->maySuTo($profiel->getAccount())): ?>
  <div class="float-right">
  <a href="/su/<?php echo static::e($profiel->uid); ?>" title="Su naar dit lid"><?php echo static::e($profiel->uid); ?></a>
  </div>

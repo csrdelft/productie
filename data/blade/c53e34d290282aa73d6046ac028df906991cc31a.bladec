@@ -88,7 +88,7 @@
  <?php endif; ?>
 	</div>
 	<div class="forum-bericht <?php $this->cycle_forum_partial_post_lijst0 = @$this->cycle_forum_partial_post_lijst0; echo ['bericht0', 'bericht1'][($this->cycle_forum_partial_post_lijst0++) % 2]; ?>" id="post<?php echo static::e($post->post_id); ?>">
- <?php ($account = \CsrDelft\model\security\AccountModel::get($post->uid)); ?>
+ <?php ($account = \CsrDelft\repository\security\AccountRepository::get($post->uid)); ?>
  <?php if($account && \CsrDelft\model\security\AccessModel::mag($account, P_ADMIN)): ?>
  <?php echo bbcode($post->tekst, 'html'); ?>
 
