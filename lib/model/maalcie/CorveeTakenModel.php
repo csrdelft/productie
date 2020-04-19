@@ -49,7 +49,7 @@ class CorveeTakenModel extends PersistenceModel {
 	}
 
 	public function puntenToekennen(CorveeTaak $taak) {
-		CorveePuntenModel::puntenToekennen($taak->uid, $taak->punten, $taak->bonus_malus);
+		ContainerFacade::getContainer()->get(CorveePuntenService::class)->puntenToekennen($taak->uid, $taak->punten, $taak->bonus_malus);
 		$taak->punten_toegekend = $taak->punten_toegekend + $taak->punten;
 		$taak->bonus_toegekend = $taak->bonus_toegekend + $taak->bonus_malus;
 		$taak->wanneer_toegekend = date('Y-m-d H:i');
@@ -57,7 +57,7 @@ class CorveeTakenModel extends PersistenceModel {
 	}
 
 	public function puntenIntrekken(CorveeTaak $taak) {
-		CorveePuntenModel::puntenIntrekken($taak->uid, $taak->punten, $taak->bonus_malus);
+		ContainerFacade::getContainer()->get(CorveePuntenService::class)->puntenIntrekken($taak->uid, $taak->punten, $taak->bonus_malus);
 		$taak->punten_toegekend = $taak->punten_toegekend - $taak->punten;
 		$taak->bonus_toegekend = $taak->bonus_toegekend - $taak->bonus_malus;
 		$taak->wanneer_toegekend = null;
