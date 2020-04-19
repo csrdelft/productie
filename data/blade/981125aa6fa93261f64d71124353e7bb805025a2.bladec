@@ -135,7 +135,7 @@ Subject: C.S.R.-courant <?php echo static::e(strftime("%e %B %Y")); ?>
  <div class="inhoudKop"><b><?php echo static::e($catName); ?></b></div>
  <ul>
  <?php $__currentLoopData = $berichten; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $bericht): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <?php if($bericht->cat == $categorie): ?>
+ <?php if($bericht->cat->getValue() == $categorie): ?>
  <li><a href="#<?php echo static::e($bericht->id); ?>"
   style="text-decoration: none;"><?php echo bbcode($bericht->titel, "mail"); ?></a></li>
  <?php endif; ?>
