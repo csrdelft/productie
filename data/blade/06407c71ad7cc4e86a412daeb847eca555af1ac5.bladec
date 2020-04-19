@@ -1,6 +1,6 @@
 <?php
 /**
- * @var \CsrDelft\model\entity\agenda\Agendeerbaar $item
+ * @var \CsrDelft\entity\agenda\Agendeerbaar $item
  * @var \CsrDelft\entity\agenda\AgendaItem $item
  * @var \CsrDelft\entity\profiel\Profiel $item
  * @var \CsrDelft\model\entity\maalcie\CorveeTaak $item
@@ -24,7 +24,7 @@
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['paintcan']); ?>
  <?php endif; ?>
  <a href="<?php echo static::e($item->getUrl()); ?>"><?php echo static::e($item->getTitel()); ?></a>
- <?php elseif($item instanceof \CsrDelft\model\entity\agenda\Agendeerbaar): ?>
+ <?php elseif($item instanceof \CsrDelft\entity\agenda\Agendeerbaar): ?>
  <?php if($item->getUrl()): ?>
  <a href="<?php echo static::e($item->getUrl()); ?>"><?php echo static::e($item->getTitel()); ?></a>
  <?php else: ?>
@@ -77,7 +77,7 @@
  <?php echo static::e($item->getBeginMoment()->format('H:i')); ?> - <?php echo static::e($item->getEindMoment()->format('H:i')); ?>
 
  </div>
- <?php elseif($item instanceof CsrDelft\model\entity\agenda\Agendeerbaar): ?>
+ <?php elseif($item instanceof \CsrDelft\entity\agenda\Agendeerbaar): ?>
  <?php if(!$item->isHeledag()): ?>
  <p>
  <?php echo static::e(strftime("%R", $item->getBeginMoment())); ?>
