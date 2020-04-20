@@ -262,16 +262,16 @@
  </dl>
  <?php if(is_zichtbaar($profiel, ['kinderen'], 'intern') && is_zichtbaar($profiel, ['patroon'], 'profiel')): ?>
  <dl class="col-md-6">
- <?php if($profiel->patroonProfiel): ?>
+ <?php if($profiel->getPatroonProfiel()): ?>
  <dt>
- <?php if($profiel->patroonProfiel->geslacht === \CsrDelft\model\entity\Geslacht::Vrouw): ?>
+ <?php if($profiel->getPatroonProfiel()->geslacht === \CsrDelft\model\entity\Geslacht::Vrouw): ?>
  Matroon
  <?php else: ?>
  Patroon
  <?php endif; ?>
  </dt>
  <dd>
- <?php echo $profiel->patroonProfiel->getLink('civitas'); ?>
+ <?php echo $profiel->getPatroonProfiel()->getLink('civitas'); ?>
 
  </dd>
  <?php endif; ?>
@@ -285,7 +285,7 @@
  </ul>
  </dd>
  <?php endif; ?>
- <?php if($profiel->patroonProfiel || $profiel->hasKinderen()): ?>
+ <?php if($profiel->getPatroonProfiel() || $profiel->hasKinderen()): ?>
  <dt></dt>
  <dd>
  <a class="btn btn-light" href="/profiel/<?php echo static::e($profiel->uid); ?>/stamboom"
