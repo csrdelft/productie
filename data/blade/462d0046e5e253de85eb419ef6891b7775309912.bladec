@@ -11,7 +11,7 @@
 	<td><?php echo static::e($repetitie->standaard_titel); ?></td>
 	<td><?php echo static::e($repetitie->getDagVanDeWeekText()); ?></td>
 	<td><?php echo static::e($repetitie->getPeriodeInDagenText()); ?></td>
-	<td><?php echo static::e($repetitie->standaard_tijd->format(TIME_FORMAT)); ?></td>
+	<td><?php echo static::e(date_format_intl($repetitie->standaard_tijd, TIME_FORMAT)); ?></td>
 	<td>&euro; <?php echo static::e(sprintf("%.2f", $repetitie->getStandaardPrijsFloat())); ?></td>
 	<td><?php echo static::e($repetitie->standaard_limiet); ?></td>
 	<td><?php if($repetitie->abonneerbaar): ?><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["tick", null, "Abonneerbaar"]); ?><?php endif; ?></td>

@@ -5,10 +5,10 @@
  */
 ?>
 <?php $_shouldextend[1]=1; ?>
-<?php $this->startSection('titel', $titel . " " . $maaltijd->datum->format(LONG_DATE_FORMAT)); ?>
+<?php $this->startSection('titel', $titel . " " . date_format($maaltijd->datum, LONG_DATE_FORMAT)); ?>
 
 <?php $this->startSection('content'); ?>
-	<h1><?php echo static::e($titel); ?> op <?php echo static::e($maaltijd->datum->format(LONG_DATE_FORMAT . ' %Y')); ?></h1>
+	<h1><?php echo static::e($titel); ?> op <?php echo static::e(date_format($maaltijd->datum, LONG_DATE_FORMAT . ' Y')); ?></h1>
 	<div
  class="header"><?php echo str_replace("MAALTIJDPRIJS", $prijs, instelling('maaltijden', 'maaltijdlijst_tekst')); ?></div>
 	<?php if(!$maaltijd->gesloten): ?>

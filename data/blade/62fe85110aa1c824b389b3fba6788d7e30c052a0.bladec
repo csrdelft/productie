@@ -35,7 +35,7 @@
   class="btn popup"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["cup_edit"]); ?></a>
  <?php endif; ?>
  <span
- class="dikgedrukt"><?php echo static::e($maaltijd->getTitel()); ?> op <?php echo static::e($maaltijd->datum->format(LONG_DATE_FORMAT)); ?> om <?php echo static::e($maaltijd->tijd->format(TIME_FORMAT)); ?></span>
+ class="dikgedrukt"><?php echo static::e($maaltijd->getTitel()); ?> op <?php echo static::e(date_format_intl($maaltijd->datum, LONG_DATE_FORMAT)); ?> om <?php echo static::e(date_format_intl($maaltijd->tijd, TIME_FORMAT)); ?></span>
  </p>
  <?php if($maaltijd->verwijderd): ?>
  <p>Onderstaande tabel toont de corveetaken voor deze maaltijd, ook die verwijderd zijn.

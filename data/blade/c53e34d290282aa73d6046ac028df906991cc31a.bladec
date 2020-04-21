@@ -21,7 +21,7 @@
  <?php echo reldate($post->datum_tijd); ?>
 
  <?php else: ?>
- <?php echo static::e($post->datum_tijd->format(DATETIME_FORMAT)); ?>
+ <?php echo static::e(date_format_intl($post->datum_tijd, DATETIME_FORMAT)); ?>
 
  <?php endif; ?>
  </span>

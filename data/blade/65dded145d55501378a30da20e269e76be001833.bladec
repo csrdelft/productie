@@ -58,7 +58,7 @@
  <tbody>
  <?php $__currentLoopData = $beoordelen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $mid => $maaltijd): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <tr>
- <td><?php echo static::e($maaltijd->datum->format(LONG_DATE_FORMAT)); ?></td>
+ <td><?php echo static::e(date_format_intl($maaltijd->datum, LONG_DATE_FORMAT)); ?></td>
  <td><?php echo static::e($maaltijd->titel); ?></td>
  <td><?php echo static::e($kwantiteit[$mid]->view()); ?></td>
  <td><?php echo static::e($kwaliteit[$mid]->view()); ?></td>

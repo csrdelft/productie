@@ -1,4 +1,8 @@
-<div class="media pt-3 maaltijdketzer-<?php echo static::e($maaltijd->maaltijd_id); ?>" data-maaltijdnaam="<?php echo static::e($maaltijd->titel); ?>">
+<?php
+/**
+ * @var \CsrDelft\entity\maalcie\Maaltijd $maaltijd
+ */
+?><div class="media pt-3 maaltijdketzer-<?php echo static::e($maaltijd->maaltijd_id); ?>" data-maaltijdnaam="<?php echo static::e($maaltijd->titel); ?>">
 	<div class="media-body pb-3 mb-0 lh-125 <?php if(isset($border) && $border): ?> border-bottom border-gray <?php endif; ?> ">
  <div class="row">
  <div class="col">
@@ -8,7 +12,7 @@
  &nbsp; (&euro; <?php echo static::e(sprintf("%.2f", $maaltijd->getPrijsFloat())); ?>)
  <?php endif; ?>
  </h6>
- op <?php echo static::e($maaltijd->datum->format(LONG_DATE_FORMAT)); ?> om <?php echo static::e($maaltijd->tijd->format(TIME_FORMAT)); ?>
+ op <?php echo static::e(date_format_intl($maaltijd->datum, LONG_DATE_FORMAT)); ?> om <?php echo static::e(date_format_intl($maaltijd->tijd, TIME_FORMAT)); ?>
 
  <?php if($maaltijd->magBekijken(CsrDelft\model\security\LoginModel::getUid())): ?>
  <div class="float-right">
@@ -85,7 +89,7 @@
  <?php endif; ?>
 
  <?php if($maaltijd->gesloten && $maaltijd->getEindMoment() > time()): ?>
- <?php ($date = $maaltijd->laatst_gesloten->format(TIME_FORMAT)); ?>
+ <?php ($date = date_format_intl($maaltijd->laatst_gesloten, TIME_FORMAT)); ?>
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["lock", null, "Maaltijd is gesloten om " . $date]); ?>
  <?php endif; ?>
  <?php endif; ?>

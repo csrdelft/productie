@@ -7,7 +7,7 @@
 <tr id="maaltijd-row-<?php echo static::e($maaltijd->maaltijd_id); ?>"
  <?php if($maaltijd->aanmeld_limiet === 0 or ($maaltijd->gesloten and ! $aanmelding)): ?> class="taak-grijs" <?php endif; ?> >
 	<td>
- <?php echo static::e($maaltijd->datum->format(LONG_DATE_FORMAT)); ?> <?php echo static::e($maaltijd->tijd->format(TIME_FORMAT)); ?>
+ <?php echo static::e(date_format_intl($maaltijd->datum, LONG_DATE_FORMAT)); ?> <?php echo static::e(date_format_intl($maaltijd->tijd, TIME_FORMAT)); ?>
 
  <?php if($maaltijd->magBekijken(CsrDelft\model\security\LoginModel::getUid())): ?>
  <div class="float-right">
@@ -50,7 +50,7 @@
  Ja
  <?php if($aanmelding->door_abonnement): ?> (abo) <?php endif; ?>
  <div class="float-right">
- <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["lock", null, "Maaltijd is gesloten om " . $maaltijd->laatst_gesloten->format(TIME_FORMAT) . ""]); ?>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["lock", null, "Maaltijd is gesloten om " . date_format_intl($maaltijd->laatst_gesloten, TIME_FORMAT) . ""]); ?>
  </div>
  <?php else: ?>
  <td class="maaltijd-aangemeld">
@@ -116,7 +116,7 @@
  Nee
  <?php if($maaltijd->gesloten): ?>
  <span class="float-right">
- <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["lock", null, "Maaltijd is gesloten om " . $maaltijd->laatst_gesloten->format(TIME_FORMAT) . ""]); ?>
+ <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["lock", null, "Maaltijd is gesloten om " . date_format_intl($maaltijd->laatst_gesloten, TIME_FORMAT) . ""]); ?>
  </span>
  <?php endif; ?>
  <?php else: ?>

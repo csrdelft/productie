@@ -137,11 +137,11 @@
  <dt>Voorletters</dt>
  <dd><?php echo static::e($profiel->voorletters); ?></dd>
  <?php endif; ?>
- <?php if($profiel->gebdatum->format(DATE_FORMAT) != '0000-00-00' && is_zichtbaar($profiel, 'gebdatum')): ?>
+ <?php if(date_format_intl($profiel->gebdatum, DATE_FORMAT) != '0000-00-00' && is_zichtbaar($profiel, 'gebdatum')): ?>
  <dt>Geboortedatum</dt>
  <dd><?php echo static::e(strftime('%d-%m-%Y', $profiel->gebdatum->getTimestamp())); ?></dd>
  <?php endif; ?>
- <?php if($profiel->status === \CsrDelft\model\entity\LidStatus::Overleden && $profiel->sterfdatum->format(DATE_FORMAT) !== '0000-00-00'): ?>
+ <?php if($profiel->status === \CsrDelft\model\entity\LidStatus::Overleden && date_format_intl($profiel->sterfdatum, DATE_FORMAT) !== '0000-00-00'): ?>
  <dt>Overleden op</dt>
  <dd><?php echo static::e(strftime('%d-%m-%y', $profiel->sterfdatum->getTimestamp())); ?></dd>
  <?php endif; ?>
@@ -517,7 +517,7 @@
  <ul class="list-unstyled">
  <?php $__currentLoopData = $recenteAanmeldingen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $aanmelding): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <li>
- <?php echo static::e($aanmelding->maaltijd->getTitel()); ?> <span class="lichtgrijs">(<?php echo static::e($aanmelding->maaltijd->datum->format(LONG_DATE_FORMAT)); ?>)</span>
+ <?php echo static::e($aanmelding->maaltijd->getTitel()); ?> <span class="lichtgrijs">(<?php echo static::e(date_format_intl($aanmelding->maaltijd->datum, LONG_DATE_FORMAT)); ?>)</span>
  </li>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </ul>
@@ -607,7 +607,7 @@
  <?php echo reldate($post->datum_tijd); ?>
 
  <?php else: ?>
- <?php echo static::e($post->datum_tijd->format(DATETIME_FORMAT)); ?>
+ <?php echo static::e(date_format_intl($post->datum_tijd, DATETIME_FORMAT)); ?>
 
  <?php endif; ?>
  </td>
