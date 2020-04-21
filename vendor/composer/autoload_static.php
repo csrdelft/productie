@@ -836,6 +836,7 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\common\\Doctrine\\Type\\DateTimeImmutableTypeTrait' => __DIR__ . '/../..' . '/lib/common/Doctrine/Type/DateTimeImmutableTypeTrait.php',
         'CsrDelft\\common\\Doctrine\\Type\\DateTimeTzImmutableType' => __DIR__ . '/../..' . '/lib/common/Doctrine/Type/DateTimeTzImmutableType.php',
         'CsrDelft\\common\\Doctrine\\Type\\EnumType' => __DIR__ . '/../..' . '/lib/common/Doctrine/Type/EnumType.php',
+        'CsrDelft\\common\\Doctrine\\Type\\ForumDraadMeldingNiveauType' => __DIR__ . '/../..' . '/lib/common/Doctrine/Type/ForumDraadMeldingNiveauType.php',
         'CsrDelft\\common\\Doctrine\\Type\\LongTextType' => __DIR__ . '/../..' . '/lib/common/Doctrine/Type/LongTextType.php',
         'CsrDelft\\common\\Doctrine\\Type\\OntvangtContactueelType' => __DIR__ . '/../..' . '/lib/common/Doctrine/Type/OntvangtContactueelType.php',
         'CsrDelft\\common\\Doctrine\\Type\\StringKeyType' => __DIR__ . '/../..' . '/lib/common/Doctrine/Type/StringKeyType.php',

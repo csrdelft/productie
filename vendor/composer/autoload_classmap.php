@@ -264,6 +264,7 @@ return array(
     'CsrDelft\\common\\Doctrine\\Type\\DateTimeImmutableTypeTrait' => $baseDir . '/lib/common/Doctrine/Type/DateTimeImmutableTypeTrait.php',
     'CsrDelft\\common\\Doctrine\\Type\\DateTimeTzImmutableType' => $baseDir . '/lib/common/Doctrine/Type/DateTimeTzImmutableType.php',
     'CsrDelft\\common\\Doctrine\\Type\\EnumType' => $baseDir . '/lib/common/Doctrine/Type/EnumType.php',
+    'CsrDelft\\common\\Doctrine\\Type\\ForumDraadMeldingNiveauType' => $baseDir . '/lib/common/Doctrine/Type/ForumDraadMeldingNiveauType.php',
     'CsrDelft\\common\\Doctrine\\Type\\LongTextType' => $baseDir . '/lib/common/Doctrine/Type/LongTextType.php',
     'CsrDelft\\common\\Doctrine\\Type\\OntvangtContactueelType' => $baseDir . '/lib/common/Doctrine/Type/OntvangtContactueelType.php',
     'CsrDelft\\common\\Doctrine\\Type\\StringKeyType' => $baseDir . '/lib/common/Doctrine/Type/StringKeyType.php',
