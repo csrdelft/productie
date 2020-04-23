@@ -1126,7 +1126,7 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\model\\groepen\\leden\\VerticaleLedenModel' => __DIR__ . '/../..' . '/lib/model/groepen/leden/VerticaleLedenModel.php',
         'CsrDelft\\model\\groepen\\leden\\WerkgroepDeelnemersModel' => __DIR__ . '/../..' . '/lib/model/groepen/leden/WerkgroepDeelnemersModel.php',
         'CsrDelft\\model\\maalcie\\CorveeFunctiesModel' => __DIR__ . '/../..' . '/lib/model/maalcie/CorveeFunctiesModel.php',
-        'CsrDelft\\model\\maalcie\\CorveeHerinneringenModel' => __DIR__ . '/../..' . '/lib/model/maalcie/CorveeHerinneringenModel.php',
+        'CsrDelft\\model\\maalcie\\CorveeHerinneringService' => __DIR__ . '/../..' . '/lib/model/maalcie/CorveeHerinneringService.php',
         'CsrDelft\\model\\maalcie\\CorveeKwalificatiesModel' => __DIR__ . '/../..' . '/lib/model/maalcie/CorveeKwalificatiesModel.php',
         'CsrDelft\\model\\maalcie\\CorveePuntenService' => __DIR__ . '/../..' . '/lib/model/maalcie/CorveePuntenService.php',
         'CsrDelft\\model\\maalcie\\CorveeRepetitiesModel' => __DIR__ . '/../..' . '/lib/model/maalcie/CorveeRepetitiesModel.php',

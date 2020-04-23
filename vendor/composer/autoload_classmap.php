@@ -554,7 +554,7 @@ return array(
     'CsrDelft\\model\\groepen\\leden\\VerticaleLedenModel' => $baseDir . '/lib/model/groepen/leden/VerticaleLedenModel.php',
     'CsrDelft\\model\\groepen\\leden\\WerkgroepDeelnemersModel' => $baseDir . '/lib/model/groepen/leden/WerkgroepDeelnemersModel.php',
     'CsrDelft\\model\\maalcie\\CorveeFunctiesModel' => $baseDir . '/lib/model/maalcie/CorveeFunctiesModel.php',
-    'CsrDelft\\model\\maalcie\\CorveeHerinneringenModel' => $baseDir . '/lib/model/maalcie/CorveeHerinneringenModel.php',
+    'CsrDelft\\model\\maalcie\\CorveeHerinneringService' => $baseDir . '/lib/model/maalcie/CorveeHerinneringService.php',
     'CsrDelft\\model\\maalcie\\CorveeKwalificatiesModel' => $baseDir . '/lib/model/maalcie/CorveeKwalificatiesModel.php',
     'CsrDelft\\model\\maalcie\\CorveePuntenService' => $baseDir . '/lib/model/maalcie/CorveePuntenService.php',
     'CsrDelft\\model\\maalcie\\CorveeRepetitiesModel' => $baseDir . '/lib/model/maalcie/CorveeRepetitiesModel.php',
