@@ -17,7 +17,7 @@
  <?php $__currentLoopData = $repetities; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $repetitie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <th class="<?php $this->cycle_maaltijden_voorkeur_beheer_voorkeuren0 = @$this->cycle_maaltijden_voorkeur_beheer_voorkeuren0; echo ['rowColor0','rowColor1'][($this->cycle_maaltijden_voorkeur_beheer_voorkeuren0++) % 2]; ?>" style="width: 30px;">
  <div style="width: 28px;">
- <a href="/corveerepetities/beheer/<?php echo static::e($repetitie->crv_repetitie_id); ?>" title="Wijzig corveerepetitie"
+ <a href="/corvee/repetities/<?php echo static::e($repetitie->crv_repetitie_id); ?>" title="Wijzig corveerepetitie"
   class="btn popup">
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["calendar_edit"]); ?>
  </a>

@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var \CsrDelft\entity\corvee\CorveePuntenOverzicht $punten
+ * @var \CsrDelft\entity\corvee\CorveeVrijstelling $vrijstelling
+ * @var \CsrDelft\entity\corvee\CorveeTaak[] $taak
+ */
+?>
 <?php $_shouldextend[1]=1; ?>
 
 <?php $this->startSection('titel', 'Mijn corveeoverzicht'); ?>
@@ -72,16 +79,16 @@
  </tr>
  </thead>
  <tbody>
- <?php $__currentLoopData = $punten['aantal']; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $fid => $aantal): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php $__currentLoopData = $punten->aantal; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $fid => $aantal): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <tr>
  <td><?php echo static::e($functies[$fid]->naam); ?> (<?php echo static::e($aantal); ?>)</td>
- <td><?php echo static::e($punten['punten'][$fid]); ?>
+ <td><?php echo static::e($punten->punten[$fid]); ?>
 
- <?php if($punten['bonus'][$fid] > 0): ?>
+ <?php if($punten->bonus[$fid] > 0): ?>
  +
  <?php endif; ?>
- <?php if($punten['bonus'][$fid] !== 0): ?>
- <?php echo static::e($punten['bonus'][$fid]); ?>
+ <?php if($punten->bonus[$fid] !== 0): ?>
+ <?php echo static::e($punten->bonus[$fid]); ?>
 
  <?php endif; ?>
  </td>
@@ -89,24 +96,24 @@
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  <tr class="dikgedrukt">
  <td>Totaal</td>
- <td><?php echo static::e($punten['puntenTotaal']); ?>
+ <td><?php echo static::e($punten->puntenTotaal); ?>
 
- <?php if($punten['bonusTotaal'] > 0): ?>
+ <?php if($punten->bonusTotaal > 0): ?>
  +
  <?php endif; ?>
- <?php if($punten['bonusTotaal'] !== 0): ?>
- <?php echo static::e($punten['bonusTotaal']); ?>
+ <?php if($punten->bonusTotaal !== 0): ?>
+ <?php echo static::e($punten->bonusTotaal); ?>
 
  <?php endif; ?>
  </td>
  </tr>
  <tr class="dikgedrukt">
  <td>Prognose</td>
- <td><?php echo static::e($punten['prognose']); ?></td>
+ <td><?php echo static::e($punten->prognose); ?></td>
  </tr>
  <tr class="dikgedrukt">
  <td>Tekort</td>
- <td style="background-color: <?php echo static::e('#' . $punten['tekortColor']); ?>;"><?php echo static::e($punten['tekort']); ?></td>
+ <td style="background-color: <?php echo static::e('#' . $punten->tekortColor); ?>;"><?php echo static::e($punten->tekort); ?></td>
  </tr>
  </tbody>
 	</table>

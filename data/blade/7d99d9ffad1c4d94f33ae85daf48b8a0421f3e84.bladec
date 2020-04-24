@@ -10,7 +10,7 @@
  * @var \CsrDelft\model\entity\groepen\Activiteit[] $activiteiten
  * @var object[] bestellinglog
  * @var string $bestellingenlink
- * @var \CsrDelft\model\entity\maalcie\CorveeTaak[] $corveetaken
+ * @var \CsrDelft\entity\corvee\CorveeTaak[] $corveetaken
  * @var \CsrDelft\model\entity\maalcie\CorveeVoorkeur $corveevoorkeuren
  * @var \CsrDelft\entity\corvee\CorveeVrijstelling $corveevrijstelling
  * @var \CsrDelft\entity\corvee\CorveeKwalificatie $corveekwalificaties
@@ -532,7 +532,7 @@
  <ul class="list-unstyled">
  <?php $__currentLoopData = $corveetaken; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $taak): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <li>
- <?php echo static::e($taak->getCorveeFunctie()->naam); ?> <span class="lichtgrijs">(<?php echo static::e(strftime('%a %e %b', strtotime($taak->datum))); ?>)</span>
+ <?php echo static::e($taak->getCorveeFunctie()->naam); ?> <span class="lichtgrijs">(<?php echo static::e(date_format_intl($taak->datum, LONG_DATE_FORMAT)); ?>)</span>
  </li>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </ul>

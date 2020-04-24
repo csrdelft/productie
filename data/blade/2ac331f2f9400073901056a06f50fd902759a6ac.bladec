@@ -1,7 +1,12 @@
+<?php
+/**
+ * @var \CsrDelft\entity\corvee\CorveeTaak $taak
+ */
+?>
 <tr id="taak-datum-summary-<?php echo static::e($datum); ?>"
  class="taak-datum-summary taak-datum-<?php echo static::e($datum); ?>
 
- <?php if(strtotime($datum) < strtotime('-1 day')): ?>
+ <?php if(date_create_immutable($datum) < date_create_immutable('-1 day')): ?>
  <?php if(!$show and !$prullenbak): ?>  taak-datum-oud
 	<?php endif; ?>  taak-oud
 <?php endif; ?>
@@ -13,7 +18,7 @@
  <?php if($loop->first): ?> <?php /* eerste taak van functie: reset ingedeeld-teller */ ?>
  <?php ($count = 0); ?>
  <?php if($loop->parent->first): ?>
- <div class="inline niet-dik" style="width: 80px;"><?php echo static::e(strftime("%a %e %b", strtotime($taak->datum))); ?></div>
+ <div class="inline niet-dik" style="width: 80px;"><?php echo static::e(date_format_intl($taak->datum, LONG_DATE_FORMAT)); ?></div>
  <?php endif; ?>
  <div class="inline" style="width: 70px;">
  <span title="<?php echo static::e($taak->getCorveeFunctie()->naam); ?>">

@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \CsrDelft\entity\corvee\CorveeTaak $taak
+ * @var \CsrDelft\entity\maalcie\Maaltijd $maaltijd
+ */
+?>
 <?php $_shouldextend[1]=1; ?>
 
 <?php $this->startSection('titel'); ?>

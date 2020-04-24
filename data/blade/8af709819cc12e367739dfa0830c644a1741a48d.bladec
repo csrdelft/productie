@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var \CsrDelft\entity\corvee\CorveePuntenOverzicht[] $suggesties[]
+ */
+?>
 <br/>
 <div id="suggesties" style="border: 1px solid #A9A9A9; ">
 	<table class="maalcie-tabel" style="padding: 0;">
@@ -24,16 +29,16 @@
  <tbody>
  <?php $__currentLoopData = $suggesties; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $uid => $suggestie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <tr class="
- <?php if(!$suggestie["voorkeur"]): ?>  geenvoorkeur <?php endif; ?>
- <?php if($suggestie["recent"]): ?>  recent <?php endif; ?>
+ <?php if(!$suggestie->voorkeur): ?>  geenvoorkeur <?php endif; ?>
+ <?php if($suggestie->recent): ?>  recent <?php endif; ?>
  <?php if($jongsteLichting === \CsrDelft\repository\ProfielRepository::get($uid)->lidjaar): ?>  jongste <?php else: ?> oudere <?php endif; ?>
  ">
  <td style="width: 15px;">
  <a class="btn submit" style="padding: 0 2px;"
   onclick="$(this).closest('form').find('.LidField').val('<?php echo static::e($uid); ?>');">
- <?php if($suggestie["recent"]): ?>
+ <?php if($suggestie->recent): ?>
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["time_delete", null, "Recent gecorveed"]); ?>
- <?php elseif($suggestie["voorkeur"]): ?>
+ <?php elseif($suggestie->voorkeur): ?>
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["emoticon_smile", null, "Heeft voorkeur"]); ?>
  <?php else: ?>
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["bullet_go", null, "Toewijzen aan dit lid"]); ?>
@@ -42,11 +47,11 @@
  </td>
  <td style="width: 30px; padding-right: 10px; text-align: right;">
  <?php if($kwalificatie_benodigd): ?>
- <?php if($suggestie["relatief"] > 0): ?> +<?php endif; ?>
- <?php echo static::e($suggestie["relatief"]); ?>
+ <?php if($suggestie->relatief > 0): ?> +<?php endif; ?>
+ <?php echo static::e($suggestie->relatief); ?>
 
  <?php else: ?>
- <?php echo static::e($suggestie["prognose"]); ?>
+ <?php echo static::e($suggestie->prognose); ?>
 
  <?php endif; ?>
  </td>
@@ -54,9 +59,9 @@
  <?php echo static::e(\CsrDelft\repository\ProfielRepository::get($uid)->getNaam(instelling('corvee', 'weergave_ledennamen_beheer'))); ?>
 
  </td>
- <?php if($suggestie["laatste"]): ?>
- <td><?php echo static::e(strftime("%d %b %Y", $suggestie["laatste"]->getBeginMoment())); ?></td>
- <td><?php echo static::e($suggestie["laatste"]->getCorveeFunctie()->naam); ?></td>
+ <?php if($suggestie->laatste): ?>
+ <td><?php echo static::e(strftime("%d %b %Y", $suggestie->laatste->getBeginMoment())); ?></td>
+ <td><?php echo static::e($suggestie->laatste->getCorveeFunctie()->naam); ?></td>
  <?php else: ?>
  <td colspan="2"></td>
  <?php endif; ?>
