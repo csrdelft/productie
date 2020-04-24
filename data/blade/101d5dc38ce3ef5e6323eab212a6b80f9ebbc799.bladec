@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var \CsrDelft\entity\corvee\CorveeKwalificatie $kwali
+ */
+?>
 <tr id="corveefunctie-row-<?php echo static::e($functie->functie_id); ?>">
 	<td>
  <a href="/corvee/functies/bewerken/<?php echo static::e($functie->functie_id); ?>" title="Functie wijzigen" class="btn post popup"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["pencil"]); ?></a>
@@ -15,11 +20,11 @@
  <div class="kwali verborgen"><a title="Toon leden" class="btn" onclick="$('div.kwali').toggle();"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["eye"]); ?> Toon leden</a></div>
  <?php endif; ?>
  <?php $__currentLoopData = $functie->getKwalificaties(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $kwali): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <div class="kwali <?php if(\CsrDelft\repository\ProfielRepository::get($kwali->uid)->isOudlid()): ?> verborgen <?php endif; ?> ">
+ <div class="kwali <?php if($kwali->profiel->isOudlid()): ?> verborgen <?php endif; ?> ">
  <a href="/corvee/functies/dekwalificeer/<?php echo static::e($functie->functie_id); ?>/<?php echo static::e($kwali->uid); ?>" title="Kwalificatie intrekken" class="btn post"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["vcard_delete"]); ?></a>
- &nbsp;<?php echo static::e(\CsrDelft\repository\ProfielRepository::get($kwali->uid)->getNaam(instelling('corvee', 'weergave_ledennamen_beheer'))); ?>
+ &nbsp;<?php echo static::e($kwali->profiel->getNaam(instelling('corvee', 'weergave_ledennamen_beheer'))); ?>
 
- <span class="lichtgrijs"> (sinds <?php echo static::e($kwali->wanneer_toegewezen); ?>)</span>
+ <span class="lichtgrijs"> (sinds <?php echo static::e(date_format_intl($kwali->wanneer_toegewezen, DATETIME_FORMAT)); ?>)</span>
  </div>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
 	</td>

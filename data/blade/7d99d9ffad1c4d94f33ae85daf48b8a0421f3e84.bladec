@@ -13,7 +13,7 @@
  * @var \CsrDelft\model\entity\maalcie\CorveeTaak[] $corveetaken
  * @var \CsrDelft\model\entity\maalcie\CorveeVoorkeur $corveevoorkeuren
  * @var \CsrDelft\model\entity\maalcie\CorveeVrijstelling $corveevrijstelling
- * @var \CsrDelft\model\entity\maalcie\CorveeKwalificatie $corveekwalificaties
+ * @var \CsrDelft\entity\corvee\CorveeKwalificatie $corveekwalificaties
  * @var int $forumpostcount
  * @var \CsrDelft\entity\forum\ForumPost[] $forumrecent
  * @var \CsrDelft\entity\bibliotheek\BoekExemplaar[] $boeken
@@ -544,7 +544,7 @@
  <ul class="list-unstyled">
  <?php $__currentLoopData = $corveekwalificaties; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $kwali): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <li><?php echo static::e($kwali->getCorveeFunctie()->naam); ?><span
- class="lichtgrijs"> (sinds <?php echo static::e($kwali->wanneer_toegewezen); ?>)</span></li>
+ class="lichtgrijs"> (sinds <?php echo static::e(date_format_intl($kwali->wanneer_toegewezen, DATETIME_FORMAT)); ?>)</span></li>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </ul>
  </dd>
