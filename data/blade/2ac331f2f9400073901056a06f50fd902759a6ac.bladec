@@ -21,8 +21,8 @@
  <div class="inline niet-dik" style="width: 80px;"><?php echo static::e(date_format_intl($taak->datum, LONG_DATE_FORMAT)); ?></div>
  <?php endif; ?>
  <div class="inline" style="width: 70px;">
- <span title="<?php echo static::e($taak->getCorveeFunctie()->naam); ?>">
- &nbsp;<?php echo static::e($taak->getCorveeFunctie()->afkorting); ?>:&nbsp;
+ <span title="<?php echo static::e($taak->corveeFunctie->naam); ?>">
+ &nbsp;<?php echo static::e($taak->corveeFunctie->afkorting); ?>:&nbsp;
  </span>
  <?php endif; ?>
  <?php if($taak->uid): ?> <?php /* ingedeelde taak van functie: teller++ */ ?>

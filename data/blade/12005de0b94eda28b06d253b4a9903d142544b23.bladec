@@ -2,6 +2,7 @@
 /**
  * @var \CsrDelft\entity\maalcie\Maaltijd $maaltijd
  * @var \CsrDelft\entity\maalcie\MaaltijdAanmelding $aanmelding
+ * @var \CsrDelft\entity\corvee\CorveeTaak[] $corveetaken
  */
 ?>
 <?php $_shouldextend[1]=1; ?>
@@ -98,7 +99,7 @@
  <?php else: ?>
  <span class="cursief">vacature</span>
  <?php endif; ?>
- &nbsp;(<?php echo static::e($taak->getCorveeFunctie()->naam); ?>)
+ &nbsp;(<?php echo static::e($taak->corveeFunctie->naam); ?>)
  </div>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </div>

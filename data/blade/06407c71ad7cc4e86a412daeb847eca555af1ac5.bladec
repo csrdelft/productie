@@ -18,7 +18,7 @@
  <img src="/images/maalcie/cutlery.png" width="16" height="16" alt="cutlery" class="icon"/>
  <a href="<?php echo static::e($item->getUrl()); ?>"><?php echo static::e($item->getTitel()); ?></a>
  <?php elseif($item instanceof \CsrDelft\entity\corvee\CorveeTaak): ?>
- <?php if(stristr($item->getCorveeFunctie()->naam, "klus")): ?>
+ <?php if(stristr($item->corveeFunctie->naam, "klus")): ?>
  <img src="/images/maalcie/drill.png" width="16" height="16" alt="drill" class="icon"/>
  <?php else: ?>
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['paintcan']); ?>

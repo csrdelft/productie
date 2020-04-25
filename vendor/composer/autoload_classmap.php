@@ -384,7 +384,7 @@ return array(
     'CsrDelft\\entity\\commissievoorkeuren\\VoorkeurVoorkeur' => $baseDir . '/lib/entity/commissievoorkeuren/VoorkeurVoorkeur.php',
     'CsrDelft\\entity\\corvee\\CorveeFunctie' => $baseDir . '/lib/entity/corvee/CorveeFunctie.php',
     'CsrDelft\\entity\\corvee\\CorveeKwalificatie' => $baseDir . '/lib/entity/corvee/CorveeKwalificatie.php',
-    'CsrDelft\\entity\\corvee\\CorveePuntenOverzicht' => $baseDir . '/lib/entity/corvee/CorveePuntenOverzicht.php',
+    'CsrDelft\\entity\\corvee\\CorveePuntenOverzichtDTO' => $baseDir . '/lib/entity/corvee/CorveePuntenOverzichtDTO.php',
     'CsrDelft\\entity\\corvee\\CorveeRepetitie' => $baseDir . '/lib/entity/corvee/CorveeRepetitie.php',
     'CsrDelft\\entity\\corvee\\CorveeTaak' => $baseDir . '/lib/entity/corvee/CorveeTaak.php',
     'CsrDelft\\entity\\corvee\\CorveeVoorkeur' => $baseDir . '/lib/entity/corvee/CorveeVoorkeur.php',

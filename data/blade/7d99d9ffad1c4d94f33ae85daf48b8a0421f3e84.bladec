@@ -532,7 +532,7 @@
  <ul class="list-unstyled">
  <?php $__currentLoopData = $corveetaken; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $taak): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <li>
- <?php echo static::e($taak->getCorveeFunctie()->naam); ?> <span class="lichtgrijs">(<?php echo static::e(date_format_intl($taak->datum, LONG_DATE_FORMAT)); ?>)</span>
+ <?php echo static::e($taak->corveeFunctie->naam); ?> <span class="lichtgrijs">(<?php echo static::e(date_format_intl($taak->datum, LONG_DATE_FORMAT)); ?>)</span>
  </li>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </ul>
@@ -543,7 +543,7 @@
  <dd>
  <ul class="list-unstyled">
  <?php $__currentLoopData = $corveekwalificaties; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $kwali): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <li><?php echo static::e($kwali->getCorveeFunctie()->naam); ?><span
+ <li><?php echo static::e($kwali->corveeFunctie->naam); ?><span
  class="lichtgrijs"> (sinds <?php echo static::e(date_format_intl($kwali->wanneer_toegewezen, DATETIME_FORMAT)); ?>)</span></li>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </ul>

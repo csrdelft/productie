@@ -956,7 +956,7 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\entity\\commissievoorkeuren\\VoorkeurVoorkeur' => __DIR__ . '/../..' . '/lib/entity/commissievoorkeuren/VoorkeurVoorkeur.php',
         'CsrDelft\\entity\\corvee\\CorveeFunctie' => __DIR__ . '/../..' . '/lib/entity/corvee/CorveeFunctie.php',
         'CsrDelft\\entity\\corvee\\CorveeKwalificatie' => __DIR__ . '/../..' . '/lib/entity/corvee/CorveeKwalificatie.php',
-        'CsrDelft\\entity\\corvee\\CorveePuntenOverzicht' => __DIR__ . '/../..' . '/lib/entity/corvee/CorveePuntenOverzicht.php',
+        'CsrDelft\\entity\\corvee\\CorveePuntenOverzichtDTO' => __DIR__ . '/../..' . '/lib/entity/corvee/CorveePuntenOverzichtDTO.php',
         'CsrDelft\\entity\\corvee\\CorveeRepetitie' => __DIR__ . '/../..' . '/lib/entity/corvee/CorveeRepetitie.php',
         'CsrDelft\\entity\\corvee\\CorveeTaak' => __DIR__ . '/../..' . '/lib/entity/corvee/CorveeTaak.php',
         'CsrDelft\\entity\\corvee\\CorveeVoorkeur' => __DIR__ . '/../..' . '/lib/entity/corvee/CorveeVoorkeur.php',

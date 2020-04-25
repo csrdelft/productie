@@ -1,6 +1,6 @@
 <?php
 /**
- * @var \CsrDelft\entity\corvee\CorveePuntenOverzicht[] $suggesties[]
+ * @var \CsrDelft\entity\corvee\CorveePuntenOverzichtDTO[] $suggesties[]
  */
 ?>
 <br/>
@@ -61,7 +61,7 @@
  </td>
  <?php if($suggestie->laatste): ?>
  <td><?php echo static::e(strftime("%d %b %Y", $suggestie->laatste->getBeginMoment())); ?></td>
- <td><?php echo static::e($suggestie->laatste->getCorveeFunctie()->naam); ?></td>
+ <td><?php echo static::e($suggestie->laatste->corveeFunctie->naam); ?></td>
  <?php else: ?>
  <td colspan="2"></td>
  <?php endif; ?>

@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var \CsrDelft\entity\corvee\CorveeTaak[] $taken
+ */
+?>
 <?php $_shouldextend[1]=1; ?>
 
 <?php $this->startSection('titel', 'Corveerooster'); ?>
@@ -56,7 +61,7 @@
  <?php endif; ?>
  <?php if(array_key_exists(0, $taken)): ?>
  <td>
- <nobr><?php echo static::e($taken[0]->getCorveeFunctie()->naam); ?></nobr>
+ <nobr><?php echo static::e($taken[0]->corveeFunctie->naam); ?></nobr>
  </td>
  <?php endif; ?>
  <?php if(!isset($mijn)): ?>
