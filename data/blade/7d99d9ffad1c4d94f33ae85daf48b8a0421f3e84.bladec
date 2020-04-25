@@ -137,7 +137,7 @@
  <dt>Voorletters</dt>
  <dd><?php echo static::e($profiel->voorletters); ?></dd>
  <?php endif; ?>
- <?php if(date_format_intl($profiel->gebdatum, DATE_FORMAT) != '0000-00-00' && is_zichtbaar($profiel, 'gebdatum')): ?>
+ <?php if($profiel->gebdatum && date_format_intl($profiel->gebdatum, DATE_FORMAT) != '0000-00-00' && is_zichtbaar($profiel, 'gebdatum')): ?>
  <dt>Geboortedatum</dt>
  <dd><?php echo static::e(strftime('%d-%m-%Y', $profiel->gebdatum->getTimestamp())); ?></dd>
  <?php endif; ?>
