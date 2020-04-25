@@ -40,7 +40,7 @@
  <?php $__currentLoopData = $voorkeuren; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $voorkeur): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <tr>
  <?php echo $this->runChild('maaltijden.voorkeuren.mijn_voorkeur_veld', ['uid' => $voorkeur->uid, 'crid' => $voorkeur->crv_repetitie_id]); ?>
- <td><?php echo static::e($voorkeur->corveeRepetitie->getCorveeFunctie()->naam); ?></td>
+ <td><?php echo static::e($voorkeur->corveeRepetitie->corveeFunctie->naam); ?></td>
  <td><?php echo static::e($voorkeur->corveeRepetitie->getDagVanDeWeekText()); ?></td>
  <td><?php echo static::e($voorkeur->corveeRepetitie->getPeriodeInDagenText()); ?></td>
  </tr>

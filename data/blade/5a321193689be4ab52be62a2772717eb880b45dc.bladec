@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var \CsrDelft\entity\corvee\CorveeRepetitie $repetitie
+ */
+?>
 <tr id="repetitie-row-<?php echo static::e($repetitie->crv_repetitie_id); ?>">
 	<td>
  <a href="/corvee/repetities/bewerk/<?php echo static::e($repetitie->crv_repetitie_id); ?>" title="Corveerepetitie wijzigen"
@@ -8,7 +13,7 @@
   class="btn"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["calendar_link"]); ?></a>
  <?php endif; ?>
 	</td>
-	<td><?php echo static::e($repetitie->getCorveeFunctie()->naam); ?></td>
+	<td><?php echo static::e($repetitie->corveeFunctie->naam); ?></td>
 	<td><?php echo static::e($repetitie->getDagVanDeWeekText()); ?></td>
 	<td><?php echo static::e($repetitie->getPeriodeInDagenText()); ?></td>
 	<td>

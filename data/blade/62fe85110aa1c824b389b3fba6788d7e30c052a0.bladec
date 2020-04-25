@@ -2,6 +2,7 @@
 /**
  * @var \CsrDelft\entity\corvee\CorveeTaak $taak
  * @var \CsrDelft\entity\maalcie\Maaltijd $maaltijd
+ * @var \CsrDelft\entity\corvee\CorveeRepetitie[] $repetities
  */
 ?>
 <?php $_shouldextend[1]=1; ?>
@@ -87,7 +88,7 @@
  <select id="crid" name="crv_repetitie_id" value="kies" origvalue="kies" class="FormElement SubmitChange">
  <option selected="selected">kies</option>
  <?php $__currentLoopData = $repetities; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $repetitie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <option value="<?php echo static::e($repetitie->crv_repetitie_id); ?>"><?php echo static::e($repetitie->getCorveeFunctie()->naam); ?>
+ <option value="<?php echo static::e($repetitie->crv_repetitie_id); ?>"><?php echo static::e($repetitie->corveeFunctie->naam); ?>
 
  op <?php echo static::e($repetitie->getDagVanDeWeekText()); ?></option>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
