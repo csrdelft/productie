@@ -27,28 +27,53 @@
 
 	<!-- Header -->
 	<header id="header" class="alt">
- <h1><a href="/">C.S.R. Delft</a></h1>
+ <nav>
+ <a class="nav-link" href="/owee">Owee</a>
+ <span class="dropdown-menu">
+ <a href="/vereniging" class="nav-link dropdown-link">Vereniging</a>
+ <span class="dropdown">
+ <a href="/vereniging/geloof">Geloof</a>
+ <a href="/vereniging/vorming">Vorming</a>
+ <a href="/vereniging/gezelligheid">Gezelligheid</a>
+ <a href="/vereniging/sport">Sport</a>
+ <a href="/vereniging/ontspanning">Ontspanning</a>
+ </span>
+ </span>
+ <a class="nav-link" href="/fotoalbum/Publiek">Foto's</a>
+ <span class="dropdown-menu">
+ <a class="nav-link" href="/forum">Forum</a>
+ <span class="dropdown">
+ <a href="/forum/deel/12">Kamers zoeken en aanbieden</a>
+ </span>
+ </span>
+ <a class="nav-link" href="/lidworden">Lid worden?</a>
+ <span class="dropdown-menu">
+ <a class="nav-link" href="/contact">Contact</a>
+ <span class="dropdown">
+ <a href="/contact/bedrijven">Bedrijven</a>
+ </span>
+ </span>
+ </nav>
  <nav>
  <?php $this->startSection('loginbutton'); ?>
- <a class="inloggen" href="#login">Inloggen</a>
+ <a class="nav-link inloggen" href="#login">Inloggen</a>
  <?php echo $this->yieldSection(); ?>
- <a href="#menu">Menu</a>
  </nav>
 	</header>
 
-	<?php $this->startSection('loginpopup'); ?>
+<?php $this->startSection('loginpopup'); ?>
 	<!-- Loginform -->
-	<nav id="login">
+ <nav id="login">
  <a href="#_" class="overlay"></a>
  <div class="inner">
  <h2>Inloggen</h2>
  <?php ((new \CsrDelft\view\login\LoginForm())->view()); ?>
  <a href="#_" class="close">Close</a>
  </div>
-	</nav>
-	<?php echo $this->yieldSection(); ?>
+ </nav>
+<?php echo $this->yieldSection(); ?>
 
-	<!-- Menu -->
+<!-- Menu -->
 	<nav id="menu">
  <a href="#_" class="overlay"></a>
  <div class="inner">
