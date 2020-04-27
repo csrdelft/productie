@@ -11,11 +11,14 @@
 	<?php if($toonpasfotos): ?>
  <div class="item" id="komende_pasfotos">
  <?php $__currentLoopData = $verjaardagen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $profiel): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php if($profiel->gebdatum): ?>
+<?php /*					Profiel heeft misschien niet toestemming gegeven. */ ?>
  <div class="verjaardag <?php if($profiel->isJarig()): ?> cursief <?php endif; ?> ">
  <?php echo $profiel->getLink('pasfoto'); ?>
 
  <span class="datum"><?php echo static::e(date('d-m', $profiel->gebdatum->getTimestamp())); ?></span>
  </div>
+ <?php endif; ?>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  <div class="clear"></div>
  </div>
