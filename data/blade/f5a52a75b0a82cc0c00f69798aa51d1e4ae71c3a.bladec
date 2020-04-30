@@ -8,7 +8,7 @@
 
 	</a>
 	<ul class="dropdown-menu" aria-labelledby="menu-personal">
- <?php if(\CsrDelft\model\security\LoginModel::instance()->isSued()): ?>
+ <?php if(\CsrDelft\common\ContainerFacade::getContainer()->get(\CsrDelft\model\security\LoginModel::class)->isSued()): ?>
  <li>
  <a href="/endsu" class="dropdown-item error"
   title="Switch user actie beeindingen">SU <?php echo static::e(\CsrDelft\repository\ProfielRepository::getNaam(CsrDelft\model\security\LoginModel::getSuedFrom()->uid, 'civitas')); ?></a>
