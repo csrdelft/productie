@@ -28,31 +28,21 @@
 	<!-- Header -->
 	<header id="header" class="alt">
  <nav>
-<?php /*			<a class="nav-link" href="/owee">Owee</a>*/ ?>
+ <?php /*			<a class="nav-link" href="/owee">Owee</a>*/ ?>
+ <?php $__currentLoopData = get_menu('extern', true)->children; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $menuItem): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php if(count($menuItem->children) > 0): ?>
  <span class="dropdown-menu">
- <a href="/vereniging" class="nav-link dropdown-link">Vereniging</a>
+ <a href="<?php echo static::e($menuItem->link); ?>" class="nav-link dropdown-link"><?php echo static::e($menuItem->tekst); ?></a>
  <span class="dropdown">
- <a href="/vereniging/geloof">Geloof</a>
- <a href="/vereniging/vorming">Vorming</a>
- <a href="/vereniging/gezelligheid">Gezelligheid</a>
- <a href="/vereniging/sport">Sport</a>
- <a href="/vereniging/ontspanning">Ontspanning</a>
+ <?php $__currentLoopData = $menuItem->children; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $childMenuItem): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <a href="<?php echo static::e($childMenuItem->link); ?>"><?php echo static::e($childMenuItem->tekst); ?></a>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </span>
  </span>
- <a class="nav-link" href="/fotoalbum/Publiek">Foto's</a>
- <span class="dropdown-menu">
- <a class="nav-link" href="/forum">Forum</a>
- <span class="dropdown">
- <a href="/forum/deel/12">Kamers zoeken en aanbieden</a>
- </span>
- </span>
- <a class="nav-link" href="/lidworden">Lid worden?</a>
- <span class="dropdown-menu">
- <a class="nav-link" href="/contact">Contact</a>
- <span class="dropdown">
- <a href="/contact/bedrijven">Bedrijven</a>
- </span>
- </span>
+ <?php else: ?>
+ <a class="nav-link" href="<?php echo static::e($menuItem->link); ?>"><?php echo static::e($menuItem->tekst); ?></a>
+ <?php endif; ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </nav>
  <nav>
  <?php $this->startSection('loginbutton'); ?>
