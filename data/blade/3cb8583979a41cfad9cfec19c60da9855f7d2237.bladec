@@ -27,12 +27,12 @@
 
 	<!-- Header -->
 	<header id="header" class="alt">
- <nav>
+ <nav id="menu">
  <?php /*			<a class="nav-link" href="/owee">Owee</a>*/ ?>
  <?php $__currentLoopData = get_menu('extern', true)->children; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $menuItem): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <?php if(count($menuItem->children) > 0): ?>
  <span class="dropdown-menu">
- <a href="<?php echo static::e($menuItem->link); ?>" class="nav-link dropdown-link"><?php echo static::e($menuItem->tekst); ?></a>
+ <a href="<?php echo static::e($menuItem->link); ?>" class="nav-link dropdown-link"><?php echo static::e($menuItem->tekst); ?> <span class="expand-dropdown"><i class="fa fa-plus"></i></span></a>
  <span class="dropdown">
  <?php $__currentLoopData = $menuItem->children; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $childMenuItem): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <a href="<?php echo static::e($childMenuItem->link); ?>"><?php echo static::e($childMenuItem->tekst); ?></a>
@@ -44,10 +44,12 @@
  <?php endif; ?>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </nav>
- <nav>
+ <nav class="nav-login">
  <?php $this->startSection('loginbutton'); ?>
+ <a class="login-knop" href="#login"><i class="fa fa-2x fa-fw fa-user"></i></a>
  <a class="nav-link inloggen" href="#login">Inloggen</a>
  <?php echo $this->yieldSection(); ?>
+ <a href="#menu" class="menu-knop"><i class="fa fa-2x fa-fw fa-bars"></i></a>
  </nav>
 	</header>
 
@@ -62,24 +64,6 @@
  </div>
  </nav>
 <?php echo $this->yieldSection(); ?>
-
-<!-- Menu -->
-	<nav id="menu">
- <a href="#_" class="overlay"></a>
- <div class="inner">
- <h2>Menu</h2>
- <ul class="links">
- <li><a href="/">Begin</a></li>
- <li><a href="/vereniging">Informatie over C.S.R.</a></li>
- <li><a href="/fotoalbum">Fotoalbum</a></li>
- <li><a href="/forum">Forum</a></li>
- <li><a href="/forum/deel/12">Kamers zoeken/aanbieden</a></li>
- <li><a href="/contact">Contactinformatie</a></li>
- <li><a href="/contact/bedrijven">Bedrijven</a></li>
- </ul>
- <a href="#_" class="close">Close</a>
- </div>
-	</nav>
 
 <?php $this->startSection('body'); ?>
 	<!-- Banner -->
