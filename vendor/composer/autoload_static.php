@@ -1071,8 +1071,6 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\model\\entity\\fiscaat\\CiviSaldoCommissieEnum' => __DIR__ . '/../..' . '/lib/model/entity/fiscaat/CiviSaldoCommissieEnum.php',
         'CsrDelft\\model\\entity\\fiscaat\\CiviSaldoLog' => __DIR__ . '/../..' . '/lib/model/entity/fiscaat/CiviSaldoLog.php',
         'CsrDelft\\model\\entity\\fiscaat\\CiviSaldoLogEnum' => __DIR__ . '/../..' . '/lib/model/entity/fiscaat/CiviSaldoLogEnum.php',
-        'CsrDelft\\model\\entity\\fiscaat\\Saldo' => __DIR__ . '/../..' . '/lib/model/entity/fiscaat/Saldo.php',
-        'CsrDelft\\model\\entity\\fiscaat\\SaldoCommissie' => __DIR__ . '/../..' . '/lib/model/entity/fiscaat/SaldoCommissie.php',
         'CsrDelft\\model\\entity\\groepen\\GroepKeuze' => __DIR__ . '/../..' . '/lib/model/entity/groepen/GroepKeuze.php',
         'CsrDelft\\model\\entity\\groepen\\GroepKeuzeSelectie' => __DIR__ . '/../..' . '/lib/model/entity/groepen/GroepKeuzeSelectie.php',
         'CsrDelft\\model\\entity\\profiel\\AbstractProfielLogChangeEntry' => __DIR__ . '/../..' . '/lib/model/entity/profiel/AbstractProfielLogChangeEntry.php',

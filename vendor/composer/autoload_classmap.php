@@ -499,8 +499,6 @@ return array(
     'CsrDelft\\model\\entity\\fiscaat\\CiviSaldoCommissieEnum' => $baseDir . '/lib/model/entity/fiscaat/CiviSaldoCommissieEnum.php',
     'CsrDelft\\model\\entity\\fiscaat\\CiviSaldoLog' => $baseDir . '/lib/model/entity/fiscaat/CiviSaldoLog.php',
     'CsrDelft\\model\\entity\\fiscaat\\CiviSaldoLogEnum' => $baseDir . '/lib/model/entity/fiscaat/CiviSaldoLogEnum.php',
-    'CsrDelft\\model\\entity\\fiscaat\\Saldo' => $baseDir . '/lib/model/entity/fiscaat/Saldo.php',
-    'CsrDelft\\model\\entity\\fiscaat\\SaldoCommissie' => $baseDir . '/lib/model/entity/fiscaat/SaldoCommissie.php',
     'CsrDelft\\model\\entity\\groepen\\GroepKeuze' => $baseDir . '/lib/model/entity/groepen/GroepKeuze.php',
     'CsrDelft\\model\\entity\\groepen\\GroepKeuzeSelectie' => $baseDir . '/lib/model/entity/groepen/GroepKeuzeSelectie.php',
     'CsrDelft\\model\\entity\\profiel\\AbstractProfielLogChangeEntry' => $baseDir . '/lib/model/entity/profiel/AbstractProfielLogChangeEntry.php',
