@@ -49,7 +49,7 @@
 	<?php if($album->hasFotos()): ?>
  <div class="fotoalbum disable-swipe"
   data-fotos="<?php echo htmlspecialchars(json_encode($album->getAlbumArrayRecursive())); ?>"
-  data-is-logged-in="<?php echo static::e(json_encode(\CsrDelft\model\security\LoginModel::mag(P_LOGGED_IN))); ?>"
+  data-is-logged-in="<?php echo static::e(json_encode(\CsrDelft\service\security\LoginService::mag(P_LOGGED_IN))); ?>"
   data-mag-aanpassen="<?php echo static::e(json_encode($album->magAanpassen())); ?>"
   data-root="<?php echo static::e(CSR_ROOT . '/fotoalbum'); ?>"
   data-slideshow-interval="<?php echo static::e(instelling('fotoalbum', 'slideshow_interval')); ?>">

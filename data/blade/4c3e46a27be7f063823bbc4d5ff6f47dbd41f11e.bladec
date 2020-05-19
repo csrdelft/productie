@@ -17,7 +17,7 @@
  <?php endif; ?>
  </div>
  <div class="col-auto">
- <?php if($item->rechten_bekijken !== P_PUBLIC && $item->rechten_bekijken != \CsrDelft\model\security\LoginModel::getUid()): ?>
+ <?php if($item->rechten_bekijken !== P_PUBLIC && $item->rechten_bekijken != \CsrDelft\service\security\LoginService::getUid()): ?>
  <button class="btn btn-sm"
  disabled><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['group_key', null, 'Rechten bekijken: &#013; ' . $item->rechten_bekijken]); ?></button>
  <?php endif; ?>

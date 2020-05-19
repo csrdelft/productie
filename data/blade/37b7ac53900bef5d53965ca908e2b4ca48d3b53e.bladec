@@ -200,7 +200,7 @@
   onclick="return confirm('U wilt dit boek van <?php echo static::e(\CsrDelft\repository\ProfielRepository::getNaam($exemplaar->eigenaar_uid)); ?> lenen?')"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["lorry"]); ?>
  Exemplaar lenen</a>
  <?php endif; ?>
- <?php elseif($exemplaar->status===\CsrDelft\entity\bibliotheek\BoekExemplaarStatus::uitgeleend() && CsrDelft\model\security\LoginModel::getUid()==$exemplaar->uitgeleend_uid && $exemplaar->uitgeleend_uid!=$exemplaar->eigenaar_uid): ?>
+ <?php elseif($exemplaar->status===\CsrDelft\entity\bibliotheek\BoekExemplaarStatus::uitgeleend() && \CsrDelft\service\security\LoginService::getUid()==$exemplaar->uitgeleend_uid && $exemplaar->uitgeleend_uid!=$exemplaar->eigenaar_uid): ?>
  <a class="btn post ReloadPage" href="/bibliotheek/exemplaarteruggegeven/<?php echo static::e($exemplaar->id); ?>"
   title="Boek heb ik teruggegeven"
   onclick="return confirm('U heeft dit exemplaar van <?php echo static::e(\CsrDelft\repository\ProfielRepository::getNaam($exemplaar->eigenaar_uid)); ?> teruggegeven?')"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["lorry_go"]); ?>
@@ -279,7 +279,7 @@
  <?php /* knopjes bij elke post */ ?>
  <?php if($beschrijving->magVerwijderen()): ?>
  <a
- href="/bibliotheek/verwijderbeschrijving/<?php echo static::e($boek->id); ?>/<?php echo static::e(CsrDelft\model\security\LoginModel::getUid()); ?>"
+ href="/bibliotheek/verwijderbeschrijving/<?php echo static::e($boek->id); ?>/<?php echo static::e(\CsrDelft\service\security\LoginService::getUid()); ?>"
  class="post ReloadPage"
  onclick="return confirm('Weet u zeker dat u deze beschrijving wilt verwijderen?')"><span
  class="ico cross  " title="Verwijderen"></span> Verwijderen</a>

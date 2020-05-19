@@ -118,7 +118,7 @@
  <dd><?php echo static::e($profiel->getNaam('civitas')); ?></dd>
  <dt>Lidnummer</dt>
  <dd>
- <?php if($profiel->account && \CsrDelft\common\ContainerFacade::getContainer()->get(\CsrDelft\model\security\LoginModel::class)->maySuTo($profiel->account)): ?>
+ <?php if($profiel->account && \CsrDelft\common\ContainerFacade::getContainer()->get(\CsrDelft\service\security\SuService::class)->maySuTo($profiel->account)): ?>
  <a href="/su/<?php echo static::e($profiel->uid); ?>" title="Su naar dit lid"><?php echo static::e($profiel->uid); ?></a>
  <?php else: ?>
  <?php echo static::e($profiel->uid); ?>

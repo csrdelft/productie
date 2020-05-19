@@ -9,7 +9,7 @@
 	<td>
  <?php echo static::e(date_format_intl($maaltijd->datum, LONG_DATE_FORMAT)); ?> <?php echo static::e(date_format_intl($maaltijd->tijd, TIME_FORMAT)); ?>
 
- <?php if($maaltijd->magBekijken(CsrDelft\model\security\LoginModel::getUid())): ?>
+ <?php if($maaltijd->magBekijken(\CsrDelft\service\security\LoginService::getUid())): ?>
  <div class="float-right">
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["paintcan", null, $maaltijd->maaltijdcorvee->corveeFunctie->naam]); ?>
  </div>
@@ -38,7 +38,7 @@
 	</td>
 	<td class="text-center">
  <?php echo static::e($maaltijd->getAantalAanmeldingen()); ?> (<?php echo static::e($maaltijd->aanmeld_limiet); ?>)
- <?php if($maaltijd->magSluiten(CsrDelft\model\security\LoginModel::getUid())): ?>
+ <?php if($maaltijd->magSluiten(\CsrDelft\service\security\LoginService::getUid())): ?>
  <div class="float-right">
  <a href="/maaltijden/lijst/<?php echo static::e($maaltijd->maaltijd_id); ?>" title="Toon maaltijdlijst" class="btn"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["table"]); ?></a>
  </div>

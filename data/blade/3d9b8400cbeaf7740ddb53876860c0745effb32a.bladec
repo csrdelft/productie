@@ -1,7 +1,7 @@
 <div class="menu-item-row row">
 	<div class="col">
 <span>
-	<?php if($root->tekst == CsrDelft\model\security\LoginModel::getUid()): ?>
+	<?php if($root->tekst == \CsrDelft\service\security\LoginService::getUid()): ?>
  Favorieten
 	<?php else: ?>
  <?php echo static::e($root->tekst); ?>

@@ -68,7 +68,7 @@
  <td>
  <?php $__currentLoopData = $taken; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $taak): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <?php if($taak->uid): ?>
- <?php if($taak->uid === CsrDelft\model\security\LoginModel::getUid()): ?>
+ <?php if($taak->uid === \CsrDelft\service\security\LoginService::getUid()): ?>
  <?php ($class = "taak-self"); ?>
  <?php else: ?>
  <?php ($class= ""); ?>
@@ -78,7 +78,7 @@
  <?php endif; ?>
  <div class="taak <?php echo static::e($class); ?>">
  <?php if($taak->uid): ?>
- <?php if($taak->uid === CsrDelft\model\security\LoginModel::getUid()): ?>
+ <?php if($taak->uid === \CsrDelft\service\security\LoginService::getUid()): ?>
  <?php endif; ?>
  <?php echo \CsrDelft\repository\ProfielRepository::getLink($taak->uid,instelling('corvee', 'weergave_ledennamen_corveerooster')); ?>
 
