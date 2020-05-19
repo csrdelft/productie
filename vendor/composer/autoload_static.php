@@ -1204,8 +1204,6 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\service\\fiscaat\\SaldoGrafiekService' => __DIR__ . '/../..' . '/lib/service/fiscaat/SaldoGrafiekService.php',
         'CsrDelft\\service\\pin\\PinTransactieDownloader' => __DIR__ . '/../..' . '/lib/service/pin/PinTransactieDownloader.php',
         'CsrDelft\\service\\pin\\PinTransactieMatcher' => __DIR__ . '/../..' . '/lib/service/pin/PinTransactieMatcher.php',
-        'CsrDelft\\service\\security\\CliLoginService' => __DIR__ . '/../..' . '/lib/service/security/CliLoginService.php',
-        'CsrDelft\\service\\security\\ILoginService' => __DIR__ . '/../..' . '/lib/service/security/ILoginService.php',
         'CsrDelft\\service\\security\\LoginService' => __DIR__ . '/../..' . '/lib/service/security/LoginService.php',
         'CsrDelft\\service\\security\\SuService' => __DIR__ . '/../..' . '/lib/service/security/SuService.php',
         'CsrDelft\\view\\ChartTimeSeries' => __DIR__ . '/../..' . '/lib/view/ChartTimeSeries.php',

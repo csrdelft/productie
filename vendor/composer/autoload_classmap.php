@@ -632,8 +632,6 @@ return array(
     'CsrDelft\\service\\fiscaat\\SaldoGrafiekService' => $baseDir . '/lib/service/fiscaat/SaldoGrafiekService.php',
     'CsrDelft\\service\\pin\\PinTransactieDownloader' => $baseDir . '/lib/service/pin/PinTransactieDownloader.php',
     'CsrDelft\\service\\pin\\PinTransactieMatcher' => $baseDir . '/lib/service/pin/PinTransactieMatcher.php',
-    'CsrDelft\\service\\security\\CliLoginService' => $baseDir . '/lib/service/security/CliLoginService.php',
-    'CsrDelft\\service\\security\\ILoginService' => $baseDir . '/lib/service/security/ILoginService.php',
     'CsrDelft\\service\\security\\LoginService' => $baseDir . '/lib/service/security/LoginService.php',
     'CsrDelft\\service\\security\\SuService' => $baseDir . '/lib/service/security/SuService.php',
     'CsrDelft\\view\\ChartTimeSeries' => $baseDir . '/lib/view/ChartTimeSeries.php',
