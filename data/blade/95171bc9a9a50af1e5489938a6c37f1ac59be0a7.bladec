@@ -11,7 +11,7 @@ NICKNAME;CHARSET=UTF-8:<?php echo escape_ical($profiel->nickname, 0); ?>
 
 <?php endif; ?>
 <?php if(is_zichtbaar($profiel, 'geslacht')): ?>
-GENDER:<?php echo escape_ical(['m' => 'M', 'v' => 'F'][$profiel->geslacht], 0); ?>
+GENDER:<?php echo escape_ical(['m' => 'M', 'v' => 'F'][$profiel->geslacht->getValue()], 0); ?>
 
 <?php endif; ?>
 UID;CHARSET=UTF-8:<?php echo escape_ical($profiel->uid, 0); ?>

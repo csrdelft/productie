@@ -148,7 +148,7 @@
  <?php ($echtgenoot = \CsrDelft\repository\ProfielRepository::get($profiel->echtgenoot)); ?>
  <?php if($echtgenoot): ?>
  <dt>
- <?php if($echtgenoot->geslacht === \CsrDelft\model\entity\Geslacht::Vrouw): ?>
+ <?php if($echtgenoot->geslacht === \CsrDelft\entity\Geslacht::Vrouw()): ?>
  Echtgenote <?php else: ?> Echtgenoot
  <?php endif; ?>
  </dt>
@@ -264,7 +264,7 @@
  <dl class="col-md-6">
  <?php if($profiel->getPatroonProfiel()): ?>
  <dt>
- <?php if($profiel->getPatroonProfiel()->geslacht === \CsrDelft\model\entity\Geslacht::Vrouw): ?>
+ <?php if($profiel->getPatroonProfiel()->geslacht === \CsrDelft\entity\Geslacht::Vrouw()): ?>
  Matroon
  <?php else: ?>
  Patroon
