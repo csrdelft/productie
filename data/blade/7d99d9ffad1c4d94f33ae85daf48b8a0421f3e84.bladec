@@ -8,7 +8,7 @@
  * @var \CsrDelft\entity\groepen\RechtenGroep[] $groepen
  * @var \CsrDelft\entity\groepen\Ketzer[] $ketzers
  * @var \CsrDelft\entity\groepen\Activiteit[] $activiteiten
- * @var object[] bestellinglog
+ * @var \CsrDelft\entity\fiscaat\CiviBestelling[] $bestellinglog
  * @var string $bestellingenlink
  * @var \CsrDelft\entity\corvee\CorveeTaak[] $corveetaken
  * @var \CsrDelft\entity\corvee\CorveeVoorkeur[] $corveevoorkeuren
@@ -445,9 +445,9 @@
  <table class="table table-sm table-striped">
  <?php $__currentLoopData = $bestellinglog; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $bestelling): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <tr>
- <td><?php echo static::e(implode(", ", $bestelling->inhoud)); ?></td>
+ <td><?php echo static::e($bestelling->getInhoudTekst()); ?></td>
  <td><?php echo static::e(format_bedrag($bestelling->totaal)); ?></td>
- <td>(<?php echo static::e(strftime('%D', strtotime($bestelling->moment))); ?>)</td>
+ <td>(<?php echo static::e(date_format_intl($bestelling->moment, DATETIME_FORMAT)); ?>)</td>
  </tr>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </table>
