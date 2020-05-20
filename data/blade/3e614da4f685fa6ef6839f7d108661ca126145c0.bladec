@@ -4,7 +4,7 @@
  */
 ?>
 <?php if (call_user_func($this->authCallBack,P_LOGGED_IN)): ?>
-	<?php if($deel && $deel->magMeldingKrijgen()): ?>
+	<?php if(isset($deel) && $deel->magMeldingKrijgen()): ?>
  <div class="btn-group mr-2">
  <a href="/forum/deelmelding/<?php echo static::e($deel->forum_id); ?>/uit" class="btn btn-light post ReloadPage melding-nooit <?php if(!$deel->lidWilMeldingVoorDeel()): ?> active <?php endif; ?>"
   title="Geen meldingen voor forumdeel onvangen"><?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['email_delete', 'email_delete']); ?></a>
