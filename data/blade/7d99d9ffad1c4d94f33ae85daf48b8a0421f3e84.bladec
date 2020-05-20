@@ -264,7 +264,7 @@
  <dl class="col-md-6">
  <?php if($profiel->getPatroonProfiel()): ?>
  <dt>
- <?php if($profiel->getPatroonProfiel()->geslacht === \CsrDelft\entity\Geslacht::Vrouw()): ?>
+ <?php if($profiel->getPatroonProfiel()->geslacht->getValue() === \CsrDelft\entity\Geslacht::Vrouw): ?>
  Matroon
  <?php else: ?>
  Patroon
