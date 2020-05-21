@@ -150,7 +150,7 @@ abstract class AbstractRecursivePass implements CompilerPassInterface
                 throw new RuntimeException(sprintf('Invalid service "%s": class "%s" does not exist.', $this->currentId, $class));
             }
         } catch (\ReflectionException $e) {
-            throw new RuntimeException(sprintf('Invalid service "%s": %s.', $this->currentId, lcfirst(rtrim($e->getMessage(), '.'))));
+            throw new RuntimeException(sprintf('Invalid service "%s": '.lcfirst($e->getMessage()), $this->currentId));
         }
         if (!$r = $r->getConstructor()) {
             if ($required) {
@@ -209,7 +209,7 @@ abstract class AbstractRecursivePass implements CompilerPassInterface
                     $arg = $this->processValue(new Reference($id));
                     $this->inExpression = false;
                     if (!$arg instanceof Reference) {
-                        throw new RuntimeException(sprintf('"%s::processValue()" must return a Reference when processing an expression, %s returned for service("%s").', static::class, \is_object($arg) ? \get_class($arg) : \gettype($arg), $id));
+                        throw new RuntimeException(sprintf('"%s::processValue()" must return a Reference when processing an expression, "%s" returned for service("%s").', static::class, \is_object($arg) ? \get_class($arg) : \gettype($arg), $id));
                     }
                     $arg = sprintf('"%s"', $arg);
                 }
