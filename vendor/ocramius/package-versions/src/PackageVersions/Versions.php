@@ -29,7 +29,7 @@ final class Versions
   'cakephp/datasource' => '3.8.10@e2fff5bd4adb650d565c853fb25380657e2d1dbb',
   'cakephp/log' => '3.8.10@2dae5b32430ca89d66c73bd9d568fcf68736eae5',
   'cakephp/utility' => '3.8.10@9f121defbff4b5f3691b33de8cb203b8923fc2a4',
-  'csrdelft/bb' => 'v1.1.8@d474bf45fbcea5abafc35185051e552e302f5239',
+  'csrdelft/bb' => 'v1.1.9@fea37a4c6cc65e721a27f014ecbb8e3e1460e090',
   'csrdelft/orm' => 'v1.9.0@ec8b8d161aad28faddc359268d27d2264d33a2a4',
   'doctrine/annotations' => 'v1.8.0@904dca4eb10715b92569fbcd79e201d5c349b6bc',
   'doctrine/cache' => '1.10.0@382e7f4db9a12dc6c19431743a2b096041bcdd62',
@@ -153,7 +153,7 @@ final class Versions
   'symfony/profiler-pack' => 'v1.0.4@99c4370632c2a59bb0444852f92140074ef02209',
   'symfony/web-profiler-bundle' => 'v5.0.5@209b76b879fee706fecbd8ad2113d810322ab62a',
   'theseer/tokenizer' => '1.1.3@11336f6f84e16a720dae9d8e6ed5019efa85a0f9',
-  'csr/csrdelft.nl' => 'dev-7f844866def23246e34231af6da21bca7591401b@7f844866def23246e34231af6da21bca7591401b',
+  'csr/csrdelft.nl' => 'dev-db52d3953e02cb37304ef545773fd8a9ffe04db6@db52d3953e02cb37304ef545773fd8a9ffe04db6',
 );
 
     private function __construct()
