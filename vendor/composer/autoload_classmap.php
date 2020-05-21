@@ -618,7 +618,6 @@ return array(
     'CsrDelft\\service\\DragObjectService' => $baseDir . '/lib/service/DragObjectService.php',
     'CsrDelft\\service\\EetplanFactory' => $baseDir . '/lib/service/EetplanFactory.php',
     'CsrDelft\\service\\GoogleSync' => $baseDir . '/lib/service/GoogleSync.php',
-    'CsrDelft\\service\\GroepenService' => $baseDir . '/lib/service/GroepenService.php',
     'CsrDelft\\service\\LidZoeker' => $baseDir . '/lib/service/LidZoeker.php',
     'CsrDelft\\service\\PeilingenService' => $baseDir . '/lib/service/PeilingenService.php',
     'CsrDelft\\service\\ProfielService' => $baseDir . '/lib/service/ProfielService.php',

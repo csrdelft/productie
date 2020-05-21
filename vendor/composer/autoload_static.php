@@ -1195,7 +1195,6 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\service\\DragObjectService' => __DIR__ . '/../..' . '/lib/service/DragObjectService.php',
         'CsrDelft\\service\\EetplanFactory' => __DIR__ . '/../..' . '/lib/service/EetplanFactory.php',
         'CsrDelft\\service\\GoogleSync' => __DIR__ . '/../..' . '/lib/service/GoogleSync.php',
-        'CsrDelft\\service\\GroepenService' => __DIR__ . '/../..' . '/lib/service/GroepenService.php',
         'CsrDelft\\service\\LidZoeker' => __DIR__ . '/../..' . '/lib/service/LidZoeker.php',
         'CsrDelft\\service\\PeilingenService' => __DIR__ . '/../..' . '/lib/service/PeilingenService.php',
         'CsrDelft\\service\\ProfielService' => __DIR__ . '/../..' . '/lib/service/ProfielService.php',
