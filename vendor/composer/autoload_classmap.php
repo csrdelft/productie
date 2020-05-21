@@ -287,6 +287,7 @@ return array(
     'CsrDelft\\common\\SimpleSpamFilter' => $baseDir . '/lib/common/SimpleSpamFilter.php',
     'CsrDelft\\common\\SuDataCollector' => $baseDir . '/lib/common/SuDataCollector.php',
     'CsrDelft\\common\\cache\\MemcacheCache' => $baseDir . '/lib/common/cache/MemcacheCache.php',
+    'CsrDelft\\common\\datatable\\CustomDataTableEntry' => $baseDir . '/lib/common/datatable/CustomDataTableEntry.php',
     'CsrDelft\\common\\datatable\\DataTableEntry' => $baseDir . '/lib/common/datatable/DataTableEntry.php',
     'CsrDelft\\common\\datatable\\RemoveDataTableEntry' => $baseDir . '/lib/common/datatable/RemoveDataTableEntry.php',
     'CsrDelft\\common\\instellingen\\InstellingConfiguration' => $baseDir . '/lib/common/instellingen/InstellingConfiguration.php',
