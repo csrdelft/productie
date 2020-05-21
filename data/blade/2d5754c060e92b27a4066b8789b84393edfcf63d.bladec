@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var \CsrDelft\entity\profiel\Profiel[] $novieten
+ */
+?>
 <?php $_shouldextend[1]=1; ?>
 
 <?php $this->startSection('titel', 'Novieten'); ?>
@@ -15,13 +20,13 @@
  </tr>
  <?php $__currentLoopData = $novieten; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $noviet): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <tr>
- <td><a href="/profiel/<?php echo static::e($noviet['uid']); ?>"><?php echo static::e($noviet['uid']); ?></a></td>
- <td><?php echo static::e($noviet['voornaam']); ?></td>
- <td><?php echo static::e($noviet['tussenvoegsel']); ?></td>
- <td><?php echo static::e($noviet['achternaam']); ?></td>
- <td><?php echo static::e($noviet['mobiel']); ?></td>
- <td><?php echo static::e($noviet['studie']); ?></td>
- <td><?php if($noviet['novietSoort'] == '1'): ?> <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['tick']); ?> <?php else: ?> <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['cross']); ?> <?php endif; ?> </td>
+ <td><a href="/profiel/<?php echo static::e($noviet->uid); ?>"><?php echo static::e($noviet->uid); ?></a></td>
+ <td><?php echo static::e($noviet->voornaam); ?></td>
+ <td><?php echo static::e($noviet->tussenvoegsel); ?></td>
+ <td><?php echo static::e($noviet->achternaam); ?></td>
+ <td><?php echo static::e($noviet->mobiel); ?></td>
+ <td><?php echo static::e($noviet->studie); ?></td>
+ <td><?php if($noviet->novietSoort == '1'): ?> <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['tick']); ?> <?php else: ?> <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['cross']); ?> <?php endif; ?> </td>
  </tr>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
 	</table>
