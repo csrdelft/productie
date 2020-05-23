@@ -32,7 +32,7 @@
  <?php endif; ?>
 
  <?php $__currentLoopData = \CsrDelft\common\ContainerFacade::getContainer()->get(CsrDelft\repository\groepen\leden\CommissieLedenRepository::class)->findBy(['uid' => $profiel->uid], ['lid_sinds' => 'DESC']); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $commissielid): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <?php if($commissielid->groep->status === CsrDelft\entity\groepen\GroepStatus::HT()): ?>
+ <?php if($commissielid->groep->status === \CsrDelft\entity\groepen\enum\GroepStatus::HT()): ?>
  <p>
  <?php if(!empty($commissielid->opmerking)): ?>
  <?php echo static::e($commissielid->opmerking); ?> <br/>

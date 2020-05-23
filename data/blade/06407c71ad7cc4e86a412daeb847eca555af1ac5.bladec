@@ -50,7 +50,7 @@
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['date_go']); ?>
  </a>
 
- <?php if($item instanceof \CsrDelft\entity\groepen\AbstractGroep && $item->mag(\CsrDelft\model\entity\security\AccessAction::Wijzigen)): ?>
+ <?php if($item instanceof \CsrDelft\entity\groepen\AbstractGroep && $item->mag(\CsrDelft\entity\security\enum\AccessAction::Wijzigen)): ?>
  <a href="<?php echo static::e($item->getUrl()); ?>/wijzigen" class="beheren btn" title="Wijzig <?php echo static::e($item->naam); ?>">
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['bewerken']); ?>
  </a>
