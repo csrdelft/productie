@@ -12,7 +12,7 @@
  <?php endif; ?>
  <p class="naam">
  <a href="/profiel/<?php echo static::e($profiel->uid); ?>" class="lidLink <?php echo static::e($profiel->status); ?>">
- <?php echo static::e($profiel->getNaam('volledig')); ?> &nbsp; <?php echo static::e(CsrDelft\model\entity\LidStatus::getChar($profiel->status)); ?>
+ <?php echo static::e($profiel->getNaam('volledig')); ?> &nbsp; <?php echo static::e(CsrDelft\model\entity\LidStatus::from($profiel->status)->getChar()); ?>
 
  </a>
  </p>
