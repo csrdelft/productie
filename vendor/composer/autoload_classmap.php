@@ -489,7 +489,6 @@ return array(
     'CsrDelft\\events\\AccessControlEventListener' => $baseDir . '/lib/events/AccessControlEventListener.php',
     'CsrDelft\\events\\JsonBodyEventListener' => $baseDir . '/lib/events/JsonBodyEventListener.php',
     'CsrDelft\\events\\ViewEventListener' => $baseDir . '/lib/events/ViewEventListener.php',
-    'CsrDelft\\model\\OrmTrait' => $baseDir . '/lib/model/OrmTrait.php',
     'CsrDelft\\model\\entity\\Adres' => $baseDir . '/lib/model/entity/Adres.php',
     'CsrDelft\\model\\entity\\Afbeelding' => $baseDir . '/lib/model/entity/Afbeelding.php',
     'CsrDelft\\model\\entity\\Bestand' => $baseDir . '/lib/model/entity/Bestand.php',

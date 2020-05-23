@@ -1066,7 +1066,6 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\events\\AccessControlEventListener' => __DIR__ . '/../..' . '/lib/events/AccessControlEventListener.php',
         'CsrDelft\\events\\JsonBodyEventListener' => __DIR__ . '/../..' . '/lib/events/JsonBodyEventListener.php',
         'CsrDelft\\events\\ViewEventListener' => __DIR__ . '/../..' . '/lib/events/ViewEventListener.php',
-        'CsrDelft\\model\\OrmTrait' => __DIR__ . '/../..' . '/lib/model/OrmTrait.php',
         'CsrDelft\\model\\entity\\Adres' => __DIR__ . '/../..' . '/lib/model/entity/Adres.php',
         'CsrDelft\\model\\entity\\Afbeelding' => __DIR__ . '/../..' . '/lib/model/entity/Afbeelding.php',
         'CsrDelft\\model\\entity\\Bestand' => __DIR__ . '/../..' . '/lib/model/entity/Bestand.php',
