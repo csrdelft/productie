@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var $voorkeuren \CsrDelft\entity\commissievoorkeuren\VoorkeurVoorkeur[]
+ * @var $commissieFormulier \CsrDelft\view\commissievoorkeuren\CommissieFormulier
+ * @var $opties string[]
+ */
+?>
 <?php $_shouldextend[1]=1; ?>
 
 <?php $this->startSection('breadcrumbs'); ?>
@@ -20,10 +27,9 @@
  </tr>
  <?php ($opties = ['', 'nee', 'misschien', 'ja']); ?>
  <?php $__currentLoopData = $voorkeuren; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $voorkeur): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <?php ($profiel = $voorkeur->profiel); ?>
- <?php if($profiel->isLid() && $voorkeur->voorkeur >= 2): ?>
+ <?php if($voorkeur->profiel->isLid() && $voorkeur->voorkeur >= 2): ?>
  <tr <?php if($voorkeur->heeftGedaan()): ?> style="opacity: .50" <?php endif; ?> >
- <td><a href="/commissievoorkeuren/lidpagina/<?php echo static::e($voorkeur->uid); ?>"><?php echo static::e($profiel->getNaam()); ?></a>
+ <td><a href="/commissievoorkeuren/lidpagina/<?php echo static::e($voorkeur->uid); ?>"><?php echo static::e($voorkeur->profiel->getNaam()); ?></a>
  </td>
  <td><?php echo static::e($opties[$voorkeur->voorkeur]); ?></td>
  </tr>

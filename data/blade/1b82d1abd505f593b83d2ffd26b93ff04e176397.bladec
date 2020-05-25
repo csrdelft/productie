@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var $document \CsrDelft\entity\documenten\Document
+ */
+?>
 <tr class="document" id="document-<?php echo static::e($document->id); ?>">
 	<td>
  <?php if($document->hasFile()): ?>
@@ -24,6 +29,6 @@
 	<td class="size"><?php echo static::e($document->filesize); ?></td>
 	<td title="<?php echo static::e($document->mimetype); ?>"><?php echo $document->getMimetypeIcon(); ?></td>
 	<td><?php echo reldate($document->toegevoegd); ?></td>
-	<td><?php echo \CsrDelft\repository\ProfielRepository::getLink($document->eigenaar, 'civitas'); ?></td>
+	<td><?php echo $document->eigenaar_profiel->getLink('civitas'); ?></td>
 </tr>
 

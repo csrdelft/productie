@@ -51,7 +51,7 @@
  <span
  class="onderstreept"><?php echo static::e($bericht->cat ? $bericht->cat->getDescription() : 'Geen categorie'); ?></span>
  <?php if($magBeheren): ?>
- <?php echo \CsrDelft\repository\ProfielRepository::getLink($bericht->uid, 'civitas'); ?>
+ <?php echo $bericht->schrijver->getLink('civitas'); ?>
 
  <?php endif; ?>
  <span class="dikgedrukt"><?php echo static::e($bericht->titel); ?></span>
