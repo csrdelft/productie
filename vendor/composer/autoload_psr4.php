@@ -89,7 +89,6 @@ return array(
     'Doctrine\\Bundle\\DoctrineBundle\\' => array($vendorDir . '/doctrine/doctrine-bundle'),
     'DoctrineExtensions\\' => array($vendorDir . '/beberlei/doctrineextensions/src'),
     'CsrDelft\\bb\\' => array($vendorDir . '/csrdelft/bb/src'),
-    'CsrDelft\\Orm\\' => array($vendorDir . '/csrdelft/orm/src'),
     'CsrDelft\\' => array($baseDir . '/lib'),
     'Cake\\Utility\\' => array($vendorDir . '/cakephp/utility'),
     'Cake\\Log\\' => array($vendorDir . '/cakephp/log'),

@@ -1,13 +1,12 @@
 <?php
 
-namespace CsrDelft\Orm\JsonSerializer;
+namespace CsrDelft\common\Doctrine\Type\Serializer;
 
 use ReflectionClass;
 use Zumba\JsonSerializer\JsonSerializer;
 
 /**
  * JsonSerializer that only allows serializing and deserializing of classes that are explicitly allowed.
- * @package CsrDelft\Orm\JsonSerializer
  * @author Sander
  * @since 13-07-2018
  */

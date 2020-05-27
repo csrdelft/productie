@@ -449,68 +449,6 @@
         "homepage": "https://csrdelft.github.io/bb"
     },
     {
-        "name": "csrdelft/orm",
-        "version": "v1.9.0",
-        "version_normalized": "1.9.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/csrdelft/orm.git",
-            "reference": "ec8b8d161aad28faddc359268d27d2264d33a2a4"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/csrdelft/orm/zipball/ec8b8d161aad28faddc359268d27d2264d33a2a4",
-            "reference": "ec8b8d161aad28faddc359268d27d2264d33a2a4",
-            "shasum": ""
-        },
-        "require": {
-            "ext-json": "*",
-            "ext-pdo": "*",
-            "php": ">=7.0.27",
-            "psr/container": "^1.0",
-            "zumba/json-serializer": "^2.2"
-        },
-        "require-dev": {
-            "phpunit/dbunit": "^4.0",
-            "phpunit/php-code-coverage": "^6.0",
-            "phpunit/phpunit": "^7.0"
-        },
-        "time": "2020-03-05T16:18:53+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "CsrDelft\\Orm\\": "src"
-            },
-            "files": [
-                "src/common.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "PubCie der C.S.R. Delft",
-                "email": "pubcie@csrdelft.nl",
-                "homepage": "https://csrdelft.nl"
-            },
-            {
-                "name": "Paul Brussee",
-                "homepage": "https://github.com/brussee",
-                "role": "Creator"
-            },
-            {
-                "name": "Gerben Oolbekkink",
-                "email": "g.j.w.oolbekkink@gmail.com",
-                "role": "Developer"
-            }
-        ],
-        "description": "The creatively named object-relational mapping library for csrdelft.nl",
-        "homepage": "https://csrdelft.github.io/orm"
-    },
-    {
         "name": "doctrine/annotations",
         "version": "1.10.2",
         "version_normalized": "1.10.2.0",

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace CsrDelft\Orm\JsonSerializer;
+namespace CsrDelft\common\Doctrine\Type\Serializer;
 
 
 use Zumba\JsonSerializer\Exception\JsonSerializerException;

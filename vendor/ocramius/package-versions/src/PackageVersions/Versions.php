@@ -30,7 +30,6 @@ final class Versions
   'cakephp/log' => '3.8.12@2dae5b32430ca89d66c73bd9d568fcf68736eae5',
   'cakephp/utility' => '3.8.12@9f121defbff4b5f3691b33de8cb203b8923fc2a4',
   'csrdelft/bb' => 'v1.1.9@fea37a4c6cc65e721a27f014ecbb8e3e1460e090',
-  'csrdelft/orm' => 'v1.9.0@ec8b8d161aad28faddc359268d27d2264d33a2a4',
   'doctrine/annotations' => '1.10.2@b9d758e831c70751155c698c2f7df4665314a1cb',
   'doctrine/cache' => '1.10.0@382e7f4db9a12dc6c19431743a2b096041bcdd62',
   'doctrine/collections' => '1.6.4@6b1e4b2b66f6d6e49983cebfe23a21b7ccc5b0d7',
