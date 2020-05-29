@@ -6,7 +6,7 @@
 
 <?php $this->startSection('content'); ?>
 	<h1>404: Pagina niet gevonden</h1>
-	<?php if(isset($bericht)): ?>
+	<?php if(\CsrDelft\service\security\LoginService::mag(P_ADMIN) && isset($bericht)): ?>
  <p><?php echo static::e($bericht); ?></p>
 	<?php endif; ?>
 	<p>
