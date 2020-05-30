@@ -1,9 +1,9 @@
 <?php if(is_null($uid)): ?>
-<td id="voorkeur-row-<?php echo static::e($crid); ?>" class="voorkeur-uitgeschakeld">
-	<a href="/corvee/voorkeuren/inschakelen/<?php echo static::e($crid); ?>" class="btn post voorkeur-uitgeschakeld"><input type="checkbox" /> Nee</a>
+<td id="voorkeur-row-<?php echo static::e($crv_repetitie_id); ?>" class="voorkeur-uitgeschakeld">
+	<a href="/corvee/voorkeuren/inschakelen/<?php echo static::e($crv_repetitie_id); ?>" class="btn post voorkeur-uitgeschakeld"><input type="checkbox" /> Nee</a>
 </td>
 <?php else: ?>
-<td id="voorkeur-row-<?php echo static::e($crid); ?>" class="voorkeur-ingeschakeld">
-	<a href="/corvee/voorkeuren/uitschakelen/<?php echo static::e($crid); ?>" class="btn post voorkeur-ingeschakeld"><input type="checkbox" checked="checked" /> Ja</a>
+<td id="voorkeur-row-<?php echo static::e($crv_repetitie_id); ?>" class="voorkeur-ingeschakeld">
+	<a href="/corvee/voorkeuren/uitschakelen/<?php echo static::e($crv_repetitie_id); ?>" class="btn post voorkeur-ingeschakeld"><input type="checkbox" checked="checked" /> Ja</a>
 </td>
 <?php endif; ?>
