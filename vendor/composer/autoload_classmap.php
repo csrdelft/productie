@@ -895,6 +895,7 @@ return array(
     'CsrDelft\\view\\login\\LoginSessionsTable' => $baseDir . '/lib/view/login/LoginSessionsTable.php',
     'CsrDelft\\view\\login\\RememberLoginForm' => $baseDir . '/lib/view/login/RememberLoginForm.php',
     'CsrDelft\\view\\login\\RememberLoginTable' => $baseDir . '/lib/view/login/RememberLoginTable.php',
+    'CsrDelft\\view\\login\\UpdateLoginForm' => $baseDir . '/lib/view/login/UpdateLoginForm.php',
     'CsrDelft\\view\\login\\WachtwoordVergetenForm' => $baseDir . '/lib/view/login/WachtwoordVergetenForm.php',
     'CsrDelft\\view\\login\\WachtwoordWijzigenForm' => $baseDir . '/lib/view/login/WachtwoordWijzigenForm.php',
     'CsrDelft\\view\\maalcie\\beheer\\ArchiefMaaltijdenTable' => $baseDir . '/lib/view/maalcie/beheer/ArchiefMaaltijdenTable.php',

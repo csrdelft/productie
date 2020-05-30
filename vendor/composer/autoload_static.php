@@ -1471,6 +1471,7 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\view\\login\\LoginSessionsTable' => __DIR__ . '/../..' . '/lib/view/login/LoginSessionsTable.php',
         'CsrDelft\\view\\login\\RememberLoginForm' => __DIR__ . '/../..' . '/lib/view/login/RememberLoginForm.php',
         'CsrDelft\\view\\login\\RememberLoginTable' => __DIR__ . '/../..' . '/lib/view/login/RememberLoginTable.php',
+        'CsrDelft\\view\\login\\UpdateLoginForm' => __DIR__ . '/../..' . '/lib/view/login/UpdateLoginForm.php',
         'CsrDelft\\view\\login\\WachtwoordVergetenForm' => __DIR__ . '/../..' . '/lib/view/login/WachtwoordVergetenForm.php',
         'CsrDelft\\view\\login\\WachtwoordWijzigenForm' => __DIR__ . '/../..' . '/lib/view/login/WachtwoordWijzigenForm.php',
         'CsrDelft\\view\\maalcie\\beheer\\ArchiefMaaltijdenTable' => __DIR__ . '/../..' . '/lib/view/maalcie/beheer/ArchiefMaaltijdenTable.php',
