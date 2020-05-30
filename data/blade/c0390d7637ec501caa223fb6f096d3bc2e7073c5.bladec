@@ -79,7 +79,7 @@
  </tr>
  </thead>
  <tbody>
- <?php $__currentLoopData = $punten->aantal; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $fid => $aantal): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php $__currentLoopData = $punten->aantallen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $fid => $aantal): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <tr>
  <td><?php echo static::e($functies[$fid]->naam); ?> (<?php echo static::e($aantal); ?>)</td>
  <td><?php echo static::e($punten->punten[$fid]); ?>

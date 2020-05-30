@@ -5,7 +5,7 @@
 ?>
 <tr id="punten-row-<?php echo static::e($puntenlijst->lid->uid); ?>">
 	<td><?php echo static::e($puntenlijst->lid->getNaam(instelling('corvee', 'weergave_ledennamen_beheer'))); ?></td>
-	<?php $__currentLoopData = $puntenlijst->aantal; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $fid => $aantal): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+	<?php $__currentLoopData = $puntenlijst->aantallen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $fid => $aantal): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
 	<td>
  <?php if($aantal !== 0): ?>
  <?php echo static::e($puntenlijst->punten[$fid]); ?>

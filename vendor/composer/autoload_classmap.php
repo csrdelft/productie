@@ -383,6 +383,7 @@ return array(
     'CsrDelft\\entity\\corvee\\CorveeVoorkeur' => $baseDir . '/lib/entity/corvee/CorveeVoorkeur.php',
     'CsrDelft\\entity\\corvee\\CorveeVoorkeurMatrixDTO' => $baseDir . '/lib/entity/corvee/CorveeVoorkeurMatrixDTO.php',
     'CsrDelft\\entity\\corvee\\CorveeVrijstelling' => $baseDir . '/lib/entity/corvee/CorveeVrijstelling.php',
+    'CsrDelft\\entity\\corvee\\RepetitieTakenUpdateDTO' => $baseDir . '/lib/entity/corvee/RepetitieTakenUpdateDTO.php',
     'CsrDelft\\entity\\courant\\Courant' => $baseDir . '/lib/entity/courant/Courant.php',
     'CsrDelft\\entity\\courant\\CourantBericht' => $baseDir . '/lib/entity/courant/CourantBericht.php',
     'CsrDelft\\entity\\courant\\CourantCategorie' => $baseDir . '/lib/entity/courant/CourantCategorie.php',
