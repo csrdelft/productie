@@ -29,14 +29,14 @@
  <div class="row no-gutters py-1" style="border-bottom: 1px solid #999;">
  <?php if($aanmelding->uid): ?>
  <div class="col">
- <?php echo \CsrDelft\repository\ProfielRepository::getLink($aanmelding->uid, instelling('maaltijden', 'weergave_ledennamen_maaltijdlijst')); ?>
+ <?php echo $aanmelding->profiel->getLink(instelling('maaltijden', 'weergave_ledennamen_maaltijdlijst')); ?>
 
  <br/>
- <?php ($eetwens = \CsrDelft\repository\ProfielRepository::get($aanmelding->uid)->eetwens); ?>
+ <?php ($eetwens = $aanmelding->profiel->eetwens); ?>
  <?php if($eetwens !== ''): ?>
  <strong class="eetwens"><?php echo static::e($eetwens); ?></strong>
  <?php endif; ?>
- <?php if(! \CsrDelft\repository\ProfielRepository::get($aanmelding->uid)->propertyMogelijk("eetwens") ): ?>
+ <?php if(! $aanmelding->profiel->propertyMogelijk("eetwens") ): ?>
  <strong class="geeneetwens">Let op!</strong> Van deze gast is geen eetwens of allergie bekend (vanwege
  de
  lidstatus). Neem contact met deze persoon op voor informatie.
@@ -52,7 +52,7 @@
  <div class="col-auto"><?php echo static::e($aanmelding->getSaldoMelding()); ?></div>
  <?php elseif($aanmelding->door_uid): ?>
  <div class="col">Gast
- van <?php echo \CsrDelft\repository\ProfielRepository::getLink($aanmelding->door_uid,instelling('maaltijden', 'weergave_ledennamen_maaltijdlijst')); ?></div>
+ van <?php echo $aanmelding->door_profiel->getLink(instelling('maaltijden', 'weergave_ledennamen_maaltijdlijst')); ?></div>
  <div class="col-auto">-</div>
  <?php else: ?>
  <div class="col" style="line-height: 2.2em;">&nbsp;</div>
