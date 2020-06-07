@@ -25,6 +25,8 @@
 <!-- Page Wrapper -->
 <div id="page-wrapper">
 
+	<?php echo $this->yieldContent('oweebanner'); ?>
+
 	<!-- Header -->
 	<header id="header" class="alt">
  <nav id="menu">

@@ -6,6 +6,22 @@
 	<link rel="stylesheet" href="<?php echo asset('extern.css'); ?>" type="text/css"/>
 <?php $this->stopSection(); ?>
 
+<?php $this->startSection('oweebanner'); ?>
+	<a href="/lidworden" class="owee-banner">
+ <div class="logo">
+ <img src="/images/owee/owee2020.svg" alt="C.S.R. - Machtig Mooi">
+ </div>
+ <div class="tekst">
+ <p>Kom je volgend jaar in Delft studeren?
+ <br>Lees hier alles over de OWee en lid worden bij C.S.R.</p>
+ <div><span>Alles over de </span>OWee & lid worden</div>
+ </div>
+	</a>
+	<script>
+ document.body.className += ' ' + 'met-owee-banner';
+	</script>
+<?php $this->stopSection(); ?>
+
 <?php $this->startSection('body'); ?>
 	<!-- Banner -->
 	<section id="banner">
@@ -95,47 +111,47 @@
  <noscript class="lazy-load">
  <div class="grid">
  <a class="lightbox-link" href="/fotoalbum/Publiek/Voorpagina/csr1.jpg"
-  data-lightbox="page-lightbox">
+    data-lightbox="page-lightbox">
  <img class="bb-img" alt="/fotoalbum/Publiek/Voorpagina/csr1.jpg"
   src="/fotoalbum/Publiek/Voorpagina/_resized/csr1.jpg"/>
  </a>
  <a class="lightbox-link" href="/fotoalbum/Publiek/Voorpagina/csr2.jpg"
-  data-lightbox="page-lightbox">
+    data-lightbox="page-lightbox">
  <img class="bb-img" alt="/fotoalbum/Publiek/Voorpagina/csr2.jpg"
   src="/fotoalbum/Publiek/Voorpagina/_resized/csr2.jpg">
  </a>
  <a class="lightbox-link" href="/fotoalbum/Publiek/Voorpagina/csr3.jpg"
-  data-lightbox="page-lightbox">
+    data-lightbox="page-lightbox">
  <img class="bb-img" alt="/fotoalbum/Publiek/Voorpagina/csr3.jpg"
   src="/fotoalbum/Publiek/Voorpagina/_resized/csr3.jpg">
  </a>
  <a class="lightbox-link" href="/fotoalbum/Publiek/Voorpagina/csr4.jpg"
-  data-lightbox="page-lightbox">
+    data-lightbox="page-lightbox">
  <img class="bb-img" alt="/fotoalbum/Publiek/Voorpagina/csr4.jpg"
   src="/fotoalbum/Publiek/Voorpagina/_resized/csr4.jpg">
  </a>
  <a class="lightbox-link" href="/fotoalbum/Publiek/Voorpagina/csr5.jpg"
-  data-lightbox="page-lightbox">
+    data-lightbox="page-lightbox">
  <img class="bb-img" alt="/fotoalbum/Publiek/Voorpagina/csr5.jpg"
   src="/fotoalbum/Publiek/Voorpagina/_resized/csr5.jpg">
  </a>
  <a class="lightbox-link" href="/fotoalbum/Publiek/Voorpagina/csr6.jpg"
-  data-lightbox="page-lightbox">
+    data-lightbox="page-lightbox">
  <img class="bb-img" alt="/fotoalbum/Publiek/Voorpagina/csr6.jpg"
   src="/fotoalbum/Publiek/Voorpagina/_resized/csr6.jpg">
  </a>
  <a class="lightbox-link" href="/fotoalbum/Publiek/Voorpagina/csr7.jpg"
-  data-lightbox="page-lightbox">
+    data-lightbox="page-lightbox">
  <img class="bb-img" alt="/fotoalbum/Publiek/Voorpagina/csr7.jpg"
   src="/fotoalbum/Publiek/Voorpagina/_resized/csr7.jpg">
  </a>
  <a class="lightbox-link" href="/fotoalbum/Publiek/Voorpagina/csr8.jpg"
-  data-lightbox="page-lightbox">
+    data-lightbox="page-lightbox">
  <img class="bb-img" alt="/fotoalbum/Publiek/Voorpagina/csr8.jpg"
   src="/fotoalbum/Publiek/Voorpagina/_resized/csr8.jpg">
  </a>
  <a class="lightbox-link" href="/fotoalbum/Publiek/Voorpagina/csr9.jpg"
-  data-lightbox="page-lightbox">
+    data-lightbox="page-lightbox">
  <img class="bb-img" alt="/fotoalbum/Publiek/Voorpagina/csr9.jpg"
   src="/fotoalbum/Publiek/Voorpagina/_resized/csr9.jpg">
  </a>
