@@ -1189,6 +1189,7 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\service\\security\\SuService' => __DIR__ . '/../..' . '/lib/service/security/SuService.php',
         'CsrDelft\\view\\ChartTimeSeries' => __DIR__ . '/../..' . '/lib/view/ChartTimeSeries.php',
         'CsrDelft\\view\\CompressedLayout' => __DIR__ . '/../..' . '/lib/view/CompressedLayout.php',
+        'CsrDelft\\view\\GenericSuggestiesResponse' => __DIR__ . '/../..' . '/lib/view/GenericSuggestiesResponse.php',
         'CsrDelft\\view\\HtmlPage' => __DIR__ . '/../..' . '/lib/view/HtmlPage.php',
         'CsrDelft\\view\\Icon' => __DIR__ . '/../..' . '/lib/view/Icon.php',
         'CsrDelft\\view\\IsHetAlView' => __DIR__ . '/../..' . '/lib/view/IsHetAlView.php',
