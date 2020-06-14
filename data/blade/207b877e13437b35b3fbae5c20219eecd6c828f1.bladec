@@ -4,11 +4,12 @@
 	<?php echo $this->runChild('head'); ?>
 </head>
 <body class="nav-is-fixed <?php echo static::e(lid_instelling('zijbalk', 'breedte')); ?>" <?php echo $this->yieldContent('bodyArgs'); ?>>
-<?php (view('menu.main', [
+<?php echo view('menu.main', [
  'root' => get_menu('main'),
  'personal' => get_menu('Personal'),
  'favorieten' => get_menu(\CsrDelft\service\security\LoginService::getUid()),
-])->view()); ?>
+])->toString(); ?>
+
 <nav id="zijbalk">
 	<?php ($zijbalk = \CsrDelft\view\Zijbalk::addStandaardZijbalk(isset($zijbalk) ? $zijbalk : [])); ?>
 	<?php $__currentLoopData = $zijbalk; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $block): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
@@ -20,7 +21,7 @@
  </div>
 	<?php endif; ?> <?php endif; ?>
 </nav>
-<main class="container my-3 flex-shrink-0">
+<main class="container my-3 py-3 flex-shrink-0">
 	<nav aria-label="breadcrumb">
  <?php $this->startSection('breadcrumbs'); ?>
  <?php echo csr_breadcrumbs(get_breadcrumbs($_SERVER['REQUEST_URI'])); ?>
@@ -32,9 +33,13 @@
 
  <?php echo $this->yieldContent('content'); ?>
 	</div>
-	<footer class="cd-footer">
- <?php (printDebug()); ?>
-	</footer>
+	<?php ($debug = getDebugFooter()); ?>
+	<?php if($debug): ?>
+ <footer class="cd-footer">
+ <?php echo $debug; ?>
+
+ </footer>
+	<?php endif; ?>
 </main>
 <footer class="footer mt-auto py-3">
 	<div class="container-fluid p-md-5">
@@ -69,7 +74,8 @@
 <?php if(isset($modal)): ?>
 	<?php ($modal->view()); ?>
 <?php elseif(!isset($modal) && !toestemming_gegeven()): ?>
-	<?php (toestemming_form()->view()); ?>
+	<?php echo toestemming_form()->toString(); ?>
+
 <?php else: ?>
 	<div id="modal" tabindex="-1"></div>
 <?php endif; ?>
