@@ -5,8 +5,8 @@
 	<link rel="stylesheet" href="/dist/css/ledenmemory.e31cef0257552950f10a.css" type="text/css"/>
 
 	<script type="text/javascript" src="/dist/js/vendors~app~extern-defer~extern-owee~fxclippy~fxminion~jquery~ledenmemory.d7aec03bfd68a4b3152f.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/ledenmemory.468060d068a9147866b8.bundle.js"></script>
-<script type="text/javascript" src="/dist/js/vendors~ledenmemory.8dfd078d3c1f6d6e8c48.chunk.js"></script>
+<script type="text/javascript" src="/dist/js/ledenmemory.220b5dccd42197ec055c.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/vendors~ledenmemory.0fef5ab743a3fd36c9df.chunk.js"></script>
 
 </head>
 <body data-groep="<?php echo static::e($groep->getUUID()); ?>">

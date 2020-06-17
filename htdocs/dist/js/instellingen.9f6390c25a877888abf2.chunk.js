@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[31],{285:function(n,a,e){"use strict";e.r(a);var o=e(0),t=e.n(o);function i(){t()(".instellingen-bericht").removeClass("d-none")}t()(()=>{t()(".instellingKnop").on("click",i),t()(".change-opslaan").on("change",n=>(function(n){if(n.target.checkValidity()){const a=t()(n.target),e=a.data("href");a.addClass("loading"),t.a.ajax({data:{waarde:a.val()},method:"POST",url:e}).then(()=>{i(),a.removeClass("loading")})}})(n))})}}]);
+//# sourceMappingURL=instellingen.9f6390c25a877888abf2.chunk.js.map

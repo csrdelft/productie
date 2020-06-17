@@ -10,7 +10,7 @@
 
 	<script type="text/javascript" src="/dist/js/vendors~app~extern-defer~extern-owee~fxclippy~fxminion~jquery~ledenmemory.d7aec03bfd68a4b3152f.chunk.js"></script>
 <script type="text/javascript" src="/dist/js/vendors~app~extern-defer~extern-owee.d4f650a6d1966bb39723.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/extern-owee.567494c16841633de43e.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/extern-owee.1ad1027c99c207baf75c.bundle.js"></script>
 
 <?php $this->stopSection(); ?>
 
