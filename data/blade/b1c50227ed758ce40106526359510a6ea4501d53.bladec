@@ -3,8 +3,11 @@
 <?php $this->startSection('titel', $titel); ?>
 
 <?php $this->startSection('styles'); ?>
-	<link rel="stylesheet" href="/dist/css/extern.9724b31738db04f60265.css" type="text/css"/>
+	<link rel="stylesheet" href="/dist/css/extern.76dc3a645682084bd725.css" type="text/css"/>
+<link rel="stylesheet" href="/dist/css/vendors~extern.ad0501e787bc3eba954c.css" type="text/css"/>
+
 	<link rel="stylesheet" href="/dist/css/extern-fotoalbum.ffa42c4b75e5c98d0442.css" type="text/css"/>
+
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('content'); ?>

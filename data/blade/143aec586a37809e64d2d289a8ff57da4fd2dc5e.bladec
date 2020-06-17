@@ -8,4 +8,7 @@
 </div>
 </div>
 <link rel="stylesheet" href="/dist/css/fxonontdekt.53530cbd1513c2a4aab9.css" type="text/css"/>
-<script type="text/javascript" src="/dist/js/fxonontdekt.1506bc3b7b213d4914c3.js"></script>
+
+<script type="text/javascript" src="/dist/js/fxonontdekt.559cab3feaf1eba0b9e9.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/vendors~fxonontdekt.04fda42b5fb4717d2223.chunk.js"></script>
+
