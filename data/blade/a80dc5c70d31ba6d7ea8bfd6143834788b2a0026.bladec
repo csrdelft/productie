@@ -9,8 +9,8 @@
  - Wave on the coat.
  - Animation when changing the clothes.
 -->
-<link rel="stylesheet" href="<?php echo asset('fxminion.css'); ?>" type="text/css"/>
-<script type="text/javascript" src="<?php echo asset('fxminion.js')?>"></script>
+<?php echo css_asset('fxminion'); ?>
+<?php echo js_asset('fxminion'); ?>
 <?php ($minioncoords = \CsrDelft\service\DragObjectService::getCoords('minion', 40, 40)); ?>
 <div id="minion" class="dragobject savepos" style="top: <?php echo static::e($minioncoords["top"]); ?>px; left: <?php echo static::e($minioncoords["left"]); ?>px;">
 	<ul class="hair hair-left">

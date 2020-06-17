@@ -3,7 +3,7 @@
 <?php $this->startSection('titel', $titel); ?>
 
 <?php $this->startSection('styles'); ?>
-	<link rel="stylesheet" href="<?php echo asset('extern.css'); ?>" type="text/css"/>
+	<?php echo css_asset('extern'); ?>
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('oweebanner'); ?>

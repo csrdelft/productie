@@ -2,8 +2,8 @@
 <html>
 <head>
 	<title><?php echo static::e($titel); ?></title>
-	<link rel="stylesheet" href="<?php echo asset('ledenmemory.css'); ?>" type="text/css"/>
-	<script type="text/javascript" src="<?php echo asset('ledenmemory.js')?>"></script>
+	<?php echo css_asset('ledenmemory'); ?>
+	<?php echo js_asset('ledenmemory'); ?>
 </head>
 <body data-groep="<?php echo static::e($groep->getUUID()); ?>">
 <table role="presentation">

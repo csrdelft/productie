@@ -1,2 +1,2 @@
-<script type="text/javascript" src="<?php echo asset('fxraket.js')?>"></script>
-<link rel="stylesheet" href="<?php echo asset('fxraket.css'); ?>" type="text/css"/>
+<?php echo js_asset('fxraket'); ?>
+<?php echo css_asset('fxraket'); ?>
