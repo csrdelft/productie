@@ -21,16 +21,16 @@
 <link rel="shortcut icon" href="<?php echo static::e(CSR_ROOT); ?>/images/favicon.ico" />
 <link rel="manifest" href="/manifest.json">
 <link rel="alternate" title="C.S.R. Delft RSS" type="application/rss+xml" href="<?php echo static::e(CSR_ROOT); ?>/forum/rss.xml" />
-<link rel="stylesheet" href="/dist/css/common.15211180f618bc7016f5.css" type="text/css"/>
+<link rel="stylesheet" href="/dist/css/common.1d0ff88b6f868a29b3b4.css" type="text/css"/>
 
 <?php $__currentLoopData = \CsrDelft\view\CompressedLayout::getUserModules(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $sheet): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
 	<?php echo css_asset($sheet); ?>
 
 <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
 <?php echo $this->yieldPushContent('styles'); ?>
-<script type="text/javascript" src="/dist/js/vendors~app~extern-defer~extern-owee~fxclippy~fxminion~jquery~ledenmemory.d7aec03bfd68a4b3152f.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/vendors~app~extern-defer~extern-owee.d4f650a6d1966bb39723.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/app.fd9eb53c5f8e14918ea8.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/vendors~app~extern-defer~extern-owee~fxclippy~fxminion~jquery~ledenmemory.3a15356ef84dc9b24924.chunk.js"></script>
+<script type="text/javascript" src="/dist/js/vendors~app~extern-defer~extern-owee.5197842efd51f7114fbe.chunk.js"></script>
+<script type="text/javascript" src="/dist/js/app.2ab58f087ea4c2ce7211.bundle.js"></script>
 
 <?php echo $this->yieldPushContent('scripts'); ?>
 <!-- Google Analytics -->
