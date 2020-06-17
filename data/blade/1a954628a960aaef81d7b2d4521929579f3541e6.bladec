@@ -28,9 +28,8 @@
 
 <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
 <?php echo $this->yieldPushContent('styles'); ?>
-<script type="text/javascript" src="/dist/js/vendors~app~extern~extern-owee~fxclippy~fxminion~fxraket~ledenmemory.45d50f12b07e734816a9.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/vendors~app~extern-defer~extern-owee.50a2d3eeec95ce899f7c.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/app.794881b57f22a4465b58.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/vendors~app~extern-defer~extern-owee.db970684a4dbe70623b2.chunk.js"></script>
+<script type="text/javascript" src="/dist/js/app.1de3c5a6874e2bcc0380.bundle.js"></script>
 
 <?php echo $this->yieldPushContent('scripts'); ?>
 <!-- Google Analytics -->
