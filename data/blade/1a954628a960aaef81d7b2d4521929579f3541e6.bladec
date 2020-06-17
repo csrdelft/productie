@@ -22,15 +22,11 @@
 <link rel="manifest" href="/manifest.json">
 <link rel="alternate" title="C.S.R. Delft RSS" type="application/rss+xml" href="<?php echo static::e(CSR_ROOT); ?>/forum/rss.xml" />
 <link rel="stylesheet" href="/dist/css/common.15211180f618bc7016f5.css" type="text/css"/>
-
 <?php $__currentLoopData = \CsrDelft\view\CompressedLayout::getUserModules(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $sheet): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
-	<?php echo css_asset($sheet); ?>
-
+<link rel="stylesheet" href="<?php echo static::e(asset("$sheet.css")); ?>" type="text/css" />
 <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
 <?php echo $this->yieldPushContent('styles'); ?>
-<script type="text/javascript" src="/dist/js/vendors~app~extern-defer~extern-owee.db970684a4dbe70623b2.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/app.1de3c5a6874e2bcc0380.bundle.js"></script>
-
+<script type="text/javascript" src="/dist/js/app.a1c1b866a8ceba1c18a9.js"></script>
 <?php echo $this->yieldPushContent('scripts'); ?>
 <!-- Google Analytics -->
 <script>
