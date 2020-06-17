@@ -3,9 +3,15 @@
 <?php $this->startSection('titel', 'Machtig mooi - OWee 2020'); ?>
 
 <?php $this->startSection('styles'); ?>
-	<?php echo css_asset('extern'); ?>
-	<?php echo css_asset('extern-owee'); ?>
-	<?php echo js_asset('extern-owee'); ?>
+	<link rel="stylesheet" href="/dist/css/extern.467e0933e0f1bba0cecc.css" type="text/css"/>
+<link rel="stylesheet" href="/dist/css/vendors~extern.ad0501e787bc3eba954c.css" type="text/css"/>
+
+	<link rel="stylesheet" href="/dist/css/extern-owee.36de35f310ddc1338d9a.css" type="text/css"/>
+
+	<script type="text/javascript" src="/dist/js/vendors~app~extern~extern-owee~fxclippy~fxminion~fxraket~ledenmemory.45d50f12b07e734816a9.chunk.js"></script>
+<script type="text/javascript" src="/dist/js/vendors~app~extern-defer~extern-owee.50a2d3eeec95ce899f7c.chunk.js"></script>
+<script type="text/javascript" src="/dist/js/extern-owee.cc55f7b91a2465f51627.bundle.js"></script>
+
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('body'); ?>

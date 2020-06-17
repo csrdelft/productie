@@ -2,8 +2,12 @@
 <html>
 <head>
 	<title><?php echo static::e($titel); ?></title>
-	<?php echo css_asset('ledenmemory'); ?>
-	<?php echo js_asset('ledenmemory'); ?>
+	<link rel="stylesheet" href="/dist/css/ledenmemory.e31cef0257552950f10a.css" type="text/css"/>
+
+	<script type="text/javascript" src="/dist/js/vendors~app~extern~extern-owee~fxclippy~fxminion~fxraket~ledenmemory.45d50f12b07e734816a9.chunk.js"></script>
+<script type="text/javascript" src="/dist/js/ledenmemory.f934b7f99f7180929cbc.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/vendors~ledenmemory.7b03722084acfe4943b2.chunk.js"></script>
+
 </head>
 <body data-groep="<?php echo static::e($groep->getUUID()); ?>">
 <table role="presentation">
