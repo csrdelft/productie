@@ -88,6 +88,8 @@
 	<?php echo $this->runChild('effect.civisaldo'); ?>
 <?php elseif(lid_instelling('layout', 'fx') == 'wolken'): ?>
 	<script type="text/javascript" src="/dist/js/fxclouds.b6db837f670b612f74bf.js"></script>
+<?php elseif(lid_instelling('layout', 'fx') == 'sneeuw'): ?>
+	<script type="text/javascript" src="/dist/js/fxsneeuw.1c17a268114ffed995c9.js"></script>
 <?php endif; ?>
 <?php if(lid_instelling('layout', 'trein') !== 'nee'): ?>
 	<?php echo $this->runChild('effect.trein'); ?>
