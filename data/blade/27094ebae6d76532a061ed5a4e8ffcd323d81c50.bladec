@@ -3,7 +3,7 @@
 <?php $this->startSection('titel', $titel); ?>
 
 <?php $this->startSection('styles'); ?>
-	<link rel="stylesheet" href="/dist/css/extern.4c9cfb96996bde33975b.css" type="text/css"/>
+	<link rel="stylesheet" href="/dist/css/extern.9724b31738db04f60265.css" type="text/css"/>
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('oweebanner'); ?>
