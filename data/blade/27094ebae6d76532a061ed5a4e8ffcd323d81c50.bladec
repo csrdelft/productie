@@ -3,8 +3,7 @@
 <?php $this->startSection('titel', $titel); ?>
 
 <?php $this->startSection('styles'); ?>
-	<link rel="stylesheet" href="/dist/css/extern.15d07b680dc873555a4b.css" type="text/css"/>
-<link rel="stylesheet" href="/dist/css/vendors~extern.ad0501e787bc3eba954c.css" type="text/css"/>
+	<link rel="stylesheet" href="/dist/css/extern.68e6333f069d5aa15800.css" type="text/css"/>
 
 <?php $this->stopSection(); ?>
 
@@ -61,10 +60,13 @@
  <div class="een-minuut">
  <div id="hero">
  <h1 class="major">C.S.R. IN 1 MINUUT</h1>
+ <noscript class="lazy-load">
  <div class="bb-video">
  <iframe src="https://www.youtube-nocookie.com/embed/AE8RE8e5qI4?hl=nl" title="C.S.R. Delft in 1 minuut" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
  </div>
+ </noscript>
  </div>
+ <noscript class="lazy-load">
  <div class="sociaal">
  <div class="youtube">
  <p>Wil je zien hoe
@@ -81,6 +83,7 @@
  </div>
  </div>
  </div>
+ </noscript>
 
  <p>
  De OWee gaat er anders uitzien, voor meer informatie zie de <a href="https://owee.nl">OWee website</a>.<br>
