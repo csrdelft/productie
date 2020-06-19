@@ -6,7 +6,7 @@
 
 	<script type="text/javascript" src="/dist/js/vendors~app~extern-defer~fxclippy~fxminion~jquery~ledenmemory.3a15356ef84dc9b24924.chunk.js"></script>
 <script type="text/javascript" src="/dist/js/ledenmemory.788733343b7ef1d7935a.bundle.js"></script>
-<script type="text/javascript" src="/dist/js/vendors~ledenmemory.e59f7bf0fd335d107384.chunk.js"></script>
+<script type="text/javascript" src="/dist/js/vendors~ledenmemory.964ef37c5412a88aadc1.chunk.js"></script>
 
 </head>
 <body data-groep="<?php echo static::e($groep->getUUID()); ?>">

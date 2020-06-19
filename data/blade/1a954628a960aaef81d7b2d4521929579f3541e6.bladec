@@ -30,7 +30,7 @@
 <?php echo $this->yieldPushContent('styles'); ?>
 <script type="text/javascript" src="/dist/js/vendors~app~extern-defer~fxclippy~fxminion~jquery~ledenmemory.3a15356ef84dc9b24924.chunk.js"></script>
 <script type="text/javascript" src="/dist/js/vendors~app~datatable-api~formulier~grafiek~knop.9a760cdc7b4798b67126.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/app.2f7ecfb5374e11977b1f.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/app.dff187e270c8825eaa2b.bundle.js"></script>
 
 <?php echo $this->yieldPushContent('scripts'); ?>
 <!-- Google Analytics -->

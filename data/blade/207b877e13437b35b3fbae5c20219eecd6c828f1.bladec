@@ -87,12 +87,16 @@
 <?php elseif(lid_instelling('layout', 'fx') == 'civisaldo'): ?>
 	<?php echo $this->runChild('effect.civisaldo'); ?>
 <?php elseif(lid_instelling('layout', 'fx') == 'wolken'): ?>
-	<script type="text/javascript" src="/dist/js/vendors~fxclouds~fxsneeuw.12f6d3f3e293b3658442.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/fxclouds.0ea6d3d2e18753ec6cd5.bundle.js"></script>
+	<script type="text/javascript" src="/dist/js/vendors~fxclouds~fxsneeuw~fxspace.8ec4bd7bc8a2718d51b2.chunk.js"></script>
+<script type="text/javascript" src="/dist/js/fxclouds.c9d2215ede8b5aa294c3.bundle.js"></script>
 
 <?php elseif(lid_instelling('layout', 'fx') == 'sneeuw'): ?>
-	<script type="text/javascript" src="/dist/js/vendors~fxclouds~fxsneeuw.12f6d3f3e293b3658442.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/fxsneeuw.c84db021e3168965b07d.bundle.js"></script>
+	<script type="text/javascript" src="/dist/js/vendors~fxclouds~fxsneeuw~fxspace.8ec4bd7bc8a2718d51b2.chunk.js"></script>
+<script type="text/javascript" src="/dist/js/fxsneeuw.7248388dbd0069b756d7.bundle.js"></script>
+
+<?php elseif(lid_instelling('layout', 'fx') == 'space'): ?>
+	<script type="text/javascript" src="/dist/js/vendors~fxclouds~fxsneeuw~fxspace.8ec4bd7bc8a2718d51b2.chunk.js"></script>
+<script type="text/javascript" src="/dist/js/fxspace.c6a780568e2d33725caf.bundle.js"></script>
 
 <?php endif; ?>
 <?php if(lid_instelling('layout', 'trein') !== 'nee'): ?>
@@ -108,7 +112,7 @@
  const ASSISTENT_GELUIDEN = '<?php echo static::e(lid_instelling('layout', 'assistentGeluiden')); ?>';
 	</script>
 	<script type="text/javascript" src="/dist/js/vendors~app~extern-defer~fxclippy~fxminion~jquery~ledenmemory.3a15356ef84dc9b24924.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/fxclippy.f26306f096ffce4120c9.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/fxclippy.40eb4d59a94b859a020a.bundle.js"></script>
 
 <?php endif; ?>
 </body>
