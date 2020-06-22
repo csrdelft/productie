@@ -445,7 +445,13 @@
  <table class="table table-sm table-striped">
  <?php $__currentLoopData = $bestellinglog; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $bestelling): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <tr>
- <td><?php echo static::e($bestelling->getInhoudTekst()); ?></td>
+ <td>
+ <?php echo static::e($bestelling->getInhoudTekst()); ?>
+
+ <?php if($bestelling->comment): ?>
+ <br><i><?php echo static::e($bestelling->comment); ?></i>
+ <?php endif; ?>
+ </td>
  <td><?php echo static::e(format_bedrag($bestelling->totaal)); ?></td>
  <td>(<?php echo static::e(date_format_intl($bestelling->moment, DATETIME_FORMAT)); ?>)</td>
  </tr>

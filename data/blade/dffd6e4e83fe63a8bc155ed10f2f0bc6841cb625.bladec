@@ -1,0 +1,70 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('titel', 'Bulk afschrijven CiviSaldo - Controle'); ?>
+
+<?php $this->startSection('civisaldocontent'); ?>
+	<h2>Controleer de lijst</h2>
+	<p>Controleer onderstaande lijst en klik op verwerk als deze klopt.</p>
+
+	<div class="table-responsive-md">
+ <table class="table table-striped">
+ <thead>
+ <tr>
+ <th></th>
+ <th>Account</th>
+ <th>Product</th>
+ <th>Aantal</th>
+ <th>Totaal</th>
+ <th>Nieuw saldo</th>
+ <th>Beschrijving</th>
+ <th></th>
+ </tr>
+ </thead>
+ <tbody>
+ <?php $__currentLoopData = $afschriften; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $afschrift): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <tr class="<?php if(!$afschrift->succes): ?> table-warning <?php endif; ?>">
+ <td><input type="checkbox" <?php if($afschrift->succes): ?> checked <?php endif; ?> disabled></td>
+ <td><?php echo static::e($afschrift->accountNaam); ?></td>
+ <td><?php echo static::e($afschrift->productNaam); ?></td>
+ <td><?php echo static::e($afschrift->regel['aantal']); ?></td>
+ <td style="<?php if($afschrift->totaal < 0): ?> color: red; <?php endif; ?>"><?php echo static::e(sprintf('€%.2f', $afschrift->totaal)); ?></td>
+ <?php if($afschrift->succes): ?>
+ <td style="<?php if($afschrift->nieuwSaldo < 0): ?> color: red; <?php endif; ?>"><?php echo static::e(sprintf('€%.2f', $afschrift->nieuwSaldo)); ?></td>
+ <?php else: ?>
+ <td></td>
+ <?php endif; ?>
+ <td><?php echo static::e($afschrift->regel['beschrijving']); ?></td>
+ <td><?php echo implode('<br>', $afschrift->waarschuwing); ?></td>
+ </tr>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </tbody>
+ </table>
+	</div>
+
+	<form action="/fiscaat/afschrijven/verwerk/<?php echo static::e($key); ?>" method="post" class="mt-4">
+ <div class="form-check">
+ <input onclick="checkDone()" type="checkbox" class="form-check-input" id="gecheckt" name="gecheckt">
+ <label class="form-check-label" for="gecheckt">Ik heb bovenstaande lijst gecheckt.</label>
+ </div>
+ <?php if($aantalGefaald > 0): ?>
+ <div class="form-check">
+ <input onclick="checkDone()" type="checkbox" class="form-check-input" id="foutenAkkoord" name="foutenAkkoord">
+ <label class="form-check-label" for="foutenAkkoord">Ik begrijp dat <?php echo static::e($aantalGefaald); ?> regels met fouten niet verwerkt worden.</label>
+ </div>
+ <?php else: ?>
+ <input type="hidden" name="foutenAkkoord" value="1">
+ <?php endif; ?>
+ <?php printCsrfField();?>
+ <input class="btn btn-primary mt-2" id="verwerkKnop" type="submit" value="Vewerk <?php echo static::e($aantalSucces); ?> afschrijvingen" disabled>
+	</form>
+	<script>
+ function checkDone() {
+ const gecheckt = document.getElementById("gecheckt");
+ const foutenAkkoord = document.getElementById("foutenAkkoord");
+ const knop = document.getElementById("verwerkKnop");
+ knop.disabled = (foutenAkkoord && !foutenAkkoord.checked) || !gecheckt.checked;
+ }
+	</script>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('fiscaat.base'); } ?>

@@ -1,0 +1,10 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('titel', 'Bulk afschrijven CiviSaldo - Controle'); ?>
+
+<?php $this->startSection('civisaldocontent'); ?>
+	<h2>Succesvol afgeschreven</h2>
+	<p>Er zijn <?php echo static::e($aantalSucces); ?> bestellingen toegevoegd. Vergeet niet <b><?php echo static::e(sprintf('€%.2f', $totaal)); ?></b> uit Tussenrekening CiviSaldi - Incidenteel te halen in Exact.</p>
+<?php $this->stopSection(); ?>
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('fiscaat.base'); } ?>

@@ -108,6 +108,7 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
             'Psr\\Container\\' => 14,
             'Psr\\Cache\\' => 10,
             'Phinx\\' => 6,
+            'ParseCsv\\' => 9,
             'PackageVersions\\' => 16,
         ),
         'M' => 
@@ -397,6 +398,10 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'Phinx\\' => 
         array (
             0 => __DIR__ . '/..' . '/robmorgan/phinx/src/Phinx',
+        ),
+        'ParseCsv\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/parsecsv/php-parsecsv/src',
         ),
         'PackageVersions\\' => 
         array (
@@ -895,6 +900,7 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\controller\\fiscaat\\BeheerCiviCategorienController' => __DIR__ . '/../..' . '/lib/controller/fiscaat/BeheerCiviCategorienController.php',
         'CsrDelft\\controller\\fiscaat\\BeheerCiviProductenController' => __DIR__ . '/../..' . '/lib/controller/fiscaat/BeheerCiviProductenController.php',
         'CsrDelft\\controller\\fiscaat\\BeheerCiviSaldoController' => __DIR__ . '/../..' . '/lib/controller/fiscaat/BeheerCiviSaldoController.php',
+        'CsrDelft\\controller\\fiscaat\\CiviSaldoAfschrijvenController' => __DIR__ . '/../..' . '/lib/controller/fiscaat/CiviSaldoAfschrijvenController.php',
         'CsrDelft\\controller\\fiscaat\\FiscaatController' => __DIR__ . '/../..' . '/lib/controller/fiscaat/FiscaatController.php',
         'CsrDelft\\controller\\fiscaat\\PinTransactieController' => __DIR__ . '/../..' . '/lib/controller/fiscaat/PinTransactieController.php',
         'CsrDelft\\controller\\groepen\\AbstractGroepenController' => __DIR__ . '/../..' . '/lib/controller/groepen/AbstractGroepenController.php',
@@ -14465,6 +14471,12 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'PackageVersions\\FallbackVersions' => __DIR__ . '/..' . '/ocramius/package-versions/src/PackageVersions/FallbackVersions.php',
         'PackageVersions\\Installer' => __DIR__ . '/..' . '/ocramius/package-versions/src/PackageVersions/Installer.php',
         'PackageVersions\\Versions' => __DIR__ . '/..' . '/ocramius/package-versions/src/PackageVersions/Versions.php',
+        'ParseCsv\\Csv' => __DIR__ . '/..' . '/parsecsv/php-parsecsv/src/Csv.php',
+        'ParseCsv\\enums\\AbstractEnum' => __DIR__ . '/..' . '/parsecsv/php-parsecsv/src/enums/AbstractEnum.php',
+        'ParseCsv\\enums\\DatatypeEnum' => __DIR__ . '/..' . '/parsecsv/php-parsecsv/src/enums/DatatypeEnum.php',
+        'ParseCsv\\enums\\FileProcessingModeEnum' => __DIR__ . '/..' . '/parsecsv/php-parsecsv/src/enums/FileProcessingModeEnum.php',
+        'ParseCsv\\enums\\SortEnum' => __DIR__ . '/..' . '/parsecsv/php-parsecsv/src/enums/SortEnum.php',
+        'ParseCsv\\extensions\\DatatypeTrait' => __DIR__ . '/..' . '/parsecsv/php-parsecsv/src/extensions/DatatypeTrait.php',
         'Phinx\\Config\\Config' => __DIR__ . '/..' . '/robmorgan/phinx/src/Phinx/Config/Config.php',
         'Phinx\\Config\\ConfigInterface' => __DIR__ . '/..' . '/robmorgan/phinx/src/Phinx/Config/ConfigInterface.php',
         'Phinx\\Config\\NamespaceAwareInterface' => __DIR__ . '/..' . '/robmorgan/phinx/src/Phinx/Config/NamespaceAwareInterface.php',

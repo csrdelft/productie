@@ -19,6 +19,11 @@
  <li class="nav-item">
  <?php echo link_for('Pin Transacties', '/fiscaat/pin', 'nav-link', 'active'); ?>
  </li>
+ <?php if (call_user_func($this->authCallBack,P_FISCAAT_MOD)): ?>
+ <li class="nav-item">
+ <?php echo link_for('Bulk afschrijven', '/fiscaat/afschrijven', 'nav-link', 'active'); ?>
+ </li>
+ <?php endif; ?>
  </ul>
 	<?php endif; ?>
 	<div>
