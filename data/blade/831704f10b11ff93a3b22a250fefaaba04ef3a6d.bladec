@@ -43,7 +43,13 @@
  <select name="<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" id="inst_<?php echo static::e($module); ?>_<?php echo static::e($id); ?>" class="form-control change-opslaan"
  data-href="/instellingen/update/<?php echo static::e($module); ?>/<?php echo static::e($id); ?>">
  <?php $__currentLoopData = $opties; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $optieId => $optie): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <option value="<?php echo static::e($optieId); ?>" <?php if($optieId === $keuze): ?> selected <?php endif; ?>><?php echo static::e(ucfirst($optie)); ?></option>
+ <?php if(is_numeric($optieId)): ?>
+ <option value="<?php echo static::e($optie); ?>"
+ <?php if($optie === $keuze): ?> selected <?php endif; ?>><?php echo static::e(ucfirst($optie)); ?></option>
+ <?php else: ?>
+ <option value="<?php echo static::e($optieId); ?>"
+ <?php if($optieId === $keuze): ?> selected <?php endif; ?>><?php echo static::e(ucfirst($optie)); ?></option>
+ <?php endif; ?>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </select>
  <?php else: ?>
