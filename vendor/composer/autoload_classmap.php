@@ -723,7 +723,6 @@ return array(
     'CsrDelft\\view\\fiscaat\\pin\\PinBestellingVeranderenForm' => $baseDir . '/lib/view/fiscaat/pin/PinBestellingVeranderenForm.php',
     'CsrDelft\\view\\fiscaat\\pin\\PinBestellingVerwijderenForm' => $baseDir . '/lib/view/fiscaat/pin/PinBestellingVerwijderenForm.php',
     'CsrDelft\\view\\fiscaat\\pin\\PinTransactieMatchTable' => $baseDir . '/lib/view/fiscaat/pin/PinTransactieMatchTable.php',
-    'CsrDelft\\view\\fiscaat\\pin\\PinTransactieMatchTableResponse' => $baseDir . '/lib/view/fiscaat/pin/PinTransactieMatchTableResponse.php',
     'CsrDelft\\view\\fiscaat\\producten\\CiviProductForm' => $baseDir . '/lib/view/fiscaat/producten/CiviProductForm.php',
     'CsrDelft\\view\\fiscaat\\producten\\CiviProductSuggestiesResponse' => $baseDir . '/lib/view/fiscaat/producten/CiviProductSuggestiesResponse.php',
     'CsrDelft\\view\\fiscaat\\producten\\CiviProductTable' => $baseDir . '/lib/view/fiscaat/producten/CiviProductTable.php',

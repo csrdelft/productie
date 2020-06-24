@@ -1304,7 +1304,6 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\view\\fiscaat\\pin\\PinBestellingVeranderenForm' => __DIR__ . '/../..' . '/lib/view/fiscaat/pin/PinBestellingVeranderenForm.php',
         'CsrDelft\\view\\fiscaat\\pin\\PinBestellingVerwijderenForm' => __DIR__ . '/../..' . '/lib/view/fiscaat/pin/PinBestellingVerwijderenForm.php',
         'CsrDelft\\view\\fiscaat\\pin\\PinTransactieMatchTable' => __DIR__ . '/../..' . '/lib/view/fiscaat/pin/PinTransactieMatchTable.php',
-        'CsrDelft\\view\\fiscaat\\pin\\PinTransactieMatchTableResponse' => __DIR__ . '/../..' . '/lib/view/fiscaat/pin/PinTransactieMatchTableResponse.php',
         'CsrDelft\\view\\fiscaat\\producten\\CiviProductForm' => __DIR__ . '/../..' . '/lib/view/fiscaat/producten/CiviProductForm.php',
         'CsrDelft\\view\\fiscaat\\producten\\CiviProductSuggestiesResponse' => __DIR__ . '/../..' . '/lib/view/fiscaat/producten/CiviProductSuggestiesResponse.php',
         'CsrDelft\\view\\fiscaat\\producten\\CiviProductTable' => __DIR__ . '/../..' . '/lib/view/fiscaat/producten/CiviProductTable.php',
