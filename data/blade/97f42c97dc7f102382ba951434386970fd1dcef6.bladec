@@ -2,9 +2,6 @@
 	<li class="rotate"><a href="/vereniging/geloof" <?php if(startsWith(REQUEST_URI, '/vereniging/geloof')): ?> class="is-active" <?php endif; ?>>Geloof</a></li>
 	<li class="rotate"><a href="/vereniging/vorming" <?php if(startsWith(REQUEST_URI, '/vereniging/vorming')): ?> class="is-active" <?php endif; ?>>Vorming</a></li>
 	<li class="rotate"><a href="/vereniging/gezelligheid" <?php if(startsWith(REQUEST_URI, '/vereniging/gezelligheid')): ?> class="is-active" <?php endif; ?>>Gezelligheid</a></li>
-	<li class="rotate"><a href="/vereniging/sport" <?php if(startsWith(REQUEST_URI, '/vereniging/sport')): ?> class="is-active" <?php endif; ?>>Sport</a></li>
+	<li class="rotate"><a href="/vereniging/onderverenigingen" <?php if(startsWith(REQUEST_URI, '/vereniging/onderverenigingen')): ?> class="is-active" <?php endif; ?>>Onderverenigingen</a></li>
 	<li class="rotate"><a href="/vereniging/ontspanning" <?php if(startsWith(REQUEST_URI, '/vereniging/ontspanning')): ?> class="is-active" <?php endif; ?>>Ontspanning</a></li>
-	<!--li class="rotate"><a href="/vereniging/maaltijden">Maaltijden</a></li-->
-	<li class="rotate"><a href="/vereniging/societeit" <?php if(startsWith(REQUEST_URI, '/vereniging/societeit')): ?> class="is-active" <?php endif; ?>>Sociëteit</a></li>
-	<li class="rotate"><a href="/vereniging/officieel" <?php if(startsWith(REQUEST_URI, '/vereniging/officieel')): ?> class="is-active" <?php endif; ?>>Officieel</a></li>
 </ul>
