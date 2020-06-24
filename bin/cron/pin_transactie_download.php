@@ -24,13 +24,14 @@ require_once __DIR__ . '/../../lib/configuratie.include.php';
 if (isset($argv[1])) {
 	$moment = date_create_immutable($argv[1]);
 	$interactive = true;
+	$from = date_format_intl($moment, DATE_FORMAT) . ' 00:00:00';
+	$to = date_format_intl($moment, DATE_FORMAT) . ' 23:59:59';
 } else {
 	$moment = date_create_immutable()->sub(new DateInterval('P1D'));
 	$interactive = false;
+	$from = date_format_intl($moment->sub(new DateInterval('P1D')), DATE_FORMAT) . ' 12:00:00';
+	$to = date_format_intl($moment, DATE_FORMAT) . ' 12:00:00';
 }
-
-$from = date_format_intl($moment->sub(new DateInterval('P1D')), DATE_FORMAT) . ' 12:00:00';
-$to = date_format_intl($moment, DATE_FORMAT) . ' 12:00:00';
 
 $container = ContainerFacade::getContainer();
 $pinTransactieRepository = $container->get(PinTransactieRepository::class);
@@ -87,7 +88,11 @@ MAIL;
 			$mail->send();
 		}
 	} elseif($interactive) {
-		echo "Er is niets gedownload!\n";
+		if (count($pintransacties) > 0) {
+			echo sprintf("Er zijn %d pin transacties gedownload en gematcht.\n", count($pintransacties));
+		} else {
+			echo "Er is niets gedownload!\n";
+		}
 	}
 
 } catch (Exception $e) {

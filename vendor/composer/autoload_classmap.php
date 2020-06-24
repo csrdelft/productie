@@ -227,6 +227,7 @@ return array(
     'CsrDelft\\bb\\tag\\BbTableRow' => $vendorDir . '/csrdelft/bb/src/tag/BbTableRow.php',
     'CsrDelft\\bb\\tag\\BbUnderline' => $vendorDir . '/csrdelft/bb/src/tag/BbUnderline.php',
     'CsrDelft\\command\\MaaltijdVerwerkingTerugdraaienCommand' => $baseDir . '/lib/command/MaaltijdVerwerkingTerugdraaienCommand.php',
+    'CsrDelft\\command\\PinTransactiesDownloadenCommand' => $baseDir . '/lib/command/PinTransactiesDownloadenCommand.php',
     'CsrDelft\\command\\StudieOpDatumCommand' => $baseDir . '/lib/command/StudieOpDatumCommand.php',
     'CsrDelft\\common\\Annotation\\Auth' => $baseDir . '/lib/common/Annotation/Auth.php',
     'CsrDelft\\common\\ContainerFacade' => $baseDir . '/lib/common/ContainerFacade.php',
