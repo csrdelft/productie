@@ -3,7 +3,7 @@
 <?php $this->startSection('titel', 'Machtig mooi - OWee 2020'); ?>
 
 <?php $this->startSection('styles'); ?>
-	<link rel="stylesheet" href="/dist/css/extern.3b6d19ab8abd8e8b6a26.css" type="text/css"/>
+	<link rel="stylesheet" href="/dist/css/extern.478c507edb241c5cec2e.css" type="text/css"/>
 
 	<link rel="stylesheet" href="/dist/css/extern-owee.447171b080e0476410bf.css" type="text/css"/>
 

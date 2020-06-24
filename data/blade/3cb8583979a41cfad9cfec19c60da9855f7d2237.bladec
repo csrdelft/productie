@@ -36,15 +36,15 @@
  <?php $__currentLoopData = get_menu('extern', true)->children; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $menuItem): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <?php if(count($menuItem->children) > 0): ?>
  <span class="dropdown-menu">
- <a href="<?php echo static::e($menuItem->link); ?>" class="nav-link dropdown-link"><?php echo static::e($menuItem->tekst); ?> <span class="expand-dropdown"><i class="fa fa-plus"></i></span></a>
+ <a href="<?php echo static::e($menuItem->link); ?>" class="nav-link dropdown-link <?php if(startsWith(REQUEST_URI, $menuItem->link)): ?> is-active <?php endif; ?>"><?php echo static::e($menuItem->tekst); ?> <span class="expand-dropdown"><i class="fa fa-plus"></i></span></a>
  <span class="dropdown">
  <?php $__currentLoopData = $menuItem->children; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $childMenuItem): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <a href="<?php echo static::e($childMenuItem->link); ?>"><?php echo static::e($childMenuItem->tekst); ?></a>
+ <a href="<?php echo static::e($childMenuItem->link); ?>" <?php if(startsWith(REQUEST_URI, $childMenuItem->link)): ?> class="is-active" <?php endif; ?>><?php echo static::e($childMenuItem->tekst); ?></a>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </span>
  </span>
  <?php else: ?>
- <a class="nav-link" href="<?php echo static::e($menuItem->link); ?>"><?php echo static::e($menuItem->tekst); ?></a>
+ <a class="nav-link <?php if(startsWith(REQUEST_URI, $menuItem->link)): ?> is-active <?php endif; ?>" href="<?php echo static::e($menuItem->link); ?>"><?php echo static::e($menuItem->tekst); ?></a>
  <?php endif; ?>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </nav>
