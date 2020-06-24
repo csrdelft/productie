@@ -67,8 +67,8 @@
  <?php if(!isset($mijn)): ?>
  <td>
  <?php $__currentLoopData = $taken; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $taak): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <?php if($taak->uid): ?>
- <?php if($taak->uid === \CsrDelft\service\security\LoginService::getUid()): ?>
+ <?php if($taak->profiel): ?>
+ <?php if($taak->profiel->uid === \CsrDelft\service\security\LoginService::getUid()): ?>
  <?php ($class = "taak-self"); ?>
  <?php else: ?>
  <?php ($class= ""); ?>
@@ -77,10 +77,10 @@
  <?php ($class= "taak-grijs"); ?>
  <?php endif; ?>
  <div class="taak <?php echo static::e($class); ?>">
- <?php if($taak->uid): ?>
- <?php if($taak->uid === \CsrDelft\service\security\LoginService::getUid()): ?>
+ <?php if($taak->profiel): ?>
+ <?php if($taak->profiel->uid === \CsrDelft\service\security\LoginService::getUid()): ?>
  <?php endif; ?>
- <?php echo \CsrDelft\repository\ProfielRepository::getLink($taak->uid,instelling('corvee', 'weergave_ledennamen_corveerooster')); ?>
+ <?php echo $taak->profiel->getLink(instelling('corvee', 'weergave_ledennamen_corveerooster')); ?>
 
  <?php else: ?>
  <span class="cursief">vacature</span>

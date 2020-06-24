@@ -93,8 +93,8 @@
  <div style="column-count: 2">
  <?php $__currentLoopData = $corveetaken; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $taak): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <div>
- <?php if($taak->uid): ?>
- <?php echo \CsrDelft\repository\ProfielRepository::getLink($taak->uid,instelling('maaltijden', 'weergave_ledennamen_maaltijdlijst')); ?>
+ <?php if($taak->profiel): ?>
+ <?php echo $taak->profiel->getlink(instelling('maaltijden', 'weergave_ledennamen_maaltijdlijst')); ?>
 
  <?php else: ?>
  <span class="cursief">vacature</span>

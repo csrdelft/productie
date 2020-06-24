@@ -35,7 +35,7 @@
  ">
  <td style="width: 15px;">
  <a class="btn submit" style="padding: 0 2px;"
-  onclick="$(this).closest('form').find('.LidField').val('<?php echo static::e($uid); ?>');">
+  onclick="$(this).closest('form').find('.LidObjectField').val('<?php echo static::e($uid); ?>');">
  <?php if($suggestie->recent): ?>
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["time_delete", null, "Recent gecorveed"]); ?>
  <?php elseif($suggestie->voorkeur): ?>

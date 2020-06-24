@@ -8,7 +8,7 @@
 
  <?php if(date_create_immutable($datum) < date_create_immutable('-1 day')): ?>
  <?php if(!$show and !$prullenbak): ?>  taak-datum-oud
-	<?php endif; ?>  taak-oud
+	<?php endif; ?>  taak-oud verborgen
 <?php endif; ?>
  <?php if($show): ?>  verborgen
 <?php endif; ?> " onclick="window.maalcie.takenToggleDatum('<?php echo static::e($datum); ?>');">
@@ -25,7 +25,7 @@
  &nbsp;<?php echo static::e($taak->corveeFunctie->afkorting); ?>:&nbsp;
  </span>
  <?php endif; ?>
- <?php if($taak->uid): ?> <?php /* ingedeelde taak van functie: teller++ */ ?>
+ <?php if($taak->profiel): ?> <?php /* ingedeelde taak van functie: teller++ */ ?>
  <?php ($count = $count + 1); ?>
  <?php endif; ?>
  <?php if($loop->last): ?> <?php /* laatste taak van functie: toon ingedeeld-teller en totaal aantal taken van deze functie */ ?>
