@@ -12,7 +12,7 @@
  </a>
  <?php else: ?>
  <a title="<?php echo static::e($item->getBeschrijving()); ?>"
-  href="/agenda/maand/<?php echo static::e(strftime("%Y/%m", $item->getBeginMoment())); ?>#dag-<?php echo static::e(strftime("%Y-%m-%d", $item->getBeginMoment())); ?>">
+  href="/agenda/<?php echo static::e(strftime("%Y/%m", $item->getBeginMoment())); ?>#dag-<?php echo static::e(strftime("%Y-%m-%d", $item->getBeginMoment())); ?>">
  <span class="zijbalk-moment"><?php echo static::e(zijbalk_date_format($item->getBeginMoment())); ?></span>
  &nbsp;<?php echo static::e($item->getTitel()); ?>
 
