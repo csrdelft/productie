@@ -3,7 +3,7 @@
 <?php $this->startSection('titel', $titel); ?>
 
 <?php $this->startSection('styles'); ?>
-	<link rel="stylesheet" href="/dist/css/extern.da92892867e0b1967458.css" type="text/css"/>
+	<link rel="stylesheet" href="/dist/css/extern.56b1614b4b0e25ca6eea.css" type="text/css"/>
 
 	<link rel="stylesheet" href="/dist/css/extern-fotoalbum.ffa42c4b75e5c98d0442.css" type="text/css"/>
 

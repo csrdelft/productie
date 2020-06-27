@@ -3,7 +3,7 @@
 <?php $this->startSection('titel', $titel); ?>
 
 <?php $this->startSection('styles'); ?>
-	<link rel="stylesheet" href="/dist/css/extern.da92892867e0b1967458.css" type="text/css"/>
+	<link rel="stylesheet" href="/dist/css/extern.56b1614b4b0e25ca6eea.css" type="text/css"/>
 
 <?php $this->stopSection(); ?>
 
@@ -199,9 +199,10 @@
  <!-- Footer -->
  <section id="footer">
  <div class="inner">
- <h2 class="major">Interesseformulier</h2>
- <?php echo $this->runChild('layout-extern.form'); ?>
- <ul class="contact">
+ <h2 class="major">Contact</h2>
+<?php /*				<h2 class="major">Interesseformulier</h2>*/ ?>
+<?php /*				<?php echo $this->runChild('layout-extern.form'); ?>*/ ?>
+ <ul class="contact zonder-interesseformulier">
  <li class="fa-home">
  Soci&euml;teit Confide <br/>
  Oude Delft 9<br/>
