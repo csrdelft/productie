@@ -48,7 +48,7 @@
  <?php if($maaltijd->gesloten): ?>
  <td class="maaltijd-aangemeld">
  Ja
- <?php if($aanmelding->door_abonnement): ?> (abo) <?php endif; ?>
+ <?php if($aanmelding->abonnementRepetitie): ?> (abo) <?php endif; ?>
  <div class="float-right">
  <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ["lock", null, "Maaltijd is gesloten om " . date_format_intl($maaltijd->laatst_gesloten, TIME_FORMAT) . ""]); ?>
  </div>
@@ -57,7 +57,7 @@
  <a href="/maaltijden/ketzer/afmelden/<?php echo static::e($maaltijd->maaltijd_id); ?>" class="btn post maaltijd-aangemeld">
  <input type="checkbox" checked="checked"/> Ja
  </a>
- <?php if($aanmelding->door_abonnement): ?> (abo) <?php endif; ?>
+ <?php if($aanmelding->abonnementRepetitie): ?> (abo) <?php endif; ?>
  <?php endif; ?>
  </td>
  <td class="maaltijd-gasten">
