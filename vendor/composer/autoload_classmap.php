@@ -249,6 +249,7 @@ return array(
     'CsrDelft\\common\\Doctrine\\Type\\GroepKeuzeSelectieType' => $baseDir . '/lib/common/Doctrine/Type/GroepKeuzeSelectieType.php',
     'CsrDelft\\common\\Doctrine\\Type\\GroepKeuzeType' => $baseDir . '/lib/common/Doctrine/Type/GroepKeuzeType.php',
     'CsrDelft\\common\\Doctrine\\Type\\GroepStatusType' => $baseDir . '/lib/common/Doctrine/Type/GroepStatusType.php',
+    'CsrDelft\\common\\Doctrine\\Type\\GroepVersieType' => $baseDir . '/lib/common/Doctrine/Type/GroepVersieType.php',
     'CsrDelft\\common\\Doctrine\\Type\\HuisStatusType' => $baseDir . '/lib/common/Doctrine/Type/HuisStatusType.php',
     'CsrDelft\\common\\Doctrine\\Type\\LongTextType' => $baseDir . '/lib/common/Doctrine/Type/LongTextType.php',
     'CsrDelft\\common\\Doctrine\\Type\\OntvangtContactueelType' => $baseDir . '/lib/common/Doctrine/Type/OntvangtContactueelType.php',

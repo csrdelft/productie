@@ -830,6 +830,7 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\common\\Doctrine\\Type\\GroepKeuzeSelectieType' => __DIR__ . '/../..' . '/lib/common/Doctrine/Type/GroepKeuzeSelectieType.php',
         'CsrDelft\\common\\Doctrine\\Type\\GroepKeuzeType' => __DIR__ . '/../..' . '/lib/common/Doctrine/Type/GroepKeuzeType.php',
         'CsrDelft\\common\\Doctrine\\Type\\GroepStatusType' => __DIR__ . '/../..' . '/lib/common/Doctrine/Type/GroepStatusType.php',
+        'CsrDelft\\common\\Doctrine\\Type\\GroepVersieType' => __DIR__ . '/../..' . '/lib/common/Doctrine/Type/GroepVersieType.php',
         'CsrDelft\\common\\Doctrine\\Type\\HuisStatusType' => __DIR__ . '/../..' . '/lib/common/Doctrine/Type/HuisStatusType.php',
         'CsrDelft\\common\\Doctrine\\Type\\LongTextType' => __DIR__ . '/../..' . '/lib/common/Doctrine/Type/LongTextType.php',
         'CsrDelft\\common\\Doctrine\\Type\\OntvangtContactueelType' => __DIR__ . '/../..' . '/lib/common/Doctrine/Type/OntvangtContactueelType.php',
