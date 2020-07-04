@@ -950,6 +950,7 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\entity\\agenda\\AgendaItem' => __DIR__ . '/../..' . '/lib/entity/agenda/AgendaItem.php',
         'CsrDelft\\entity\\agenda\\AgendaVerbergen' => __DIR__ . '/../..' . '/lib/entity/agenda/AgendaVerbergen.php',
         'CsrDelft\\entity\\agenda\\Agendeerbaar' => __DIR__ . '/../..' . '/lib/entity/agenda/Agendeerbaar.php',
+        'CsrDelft\\entity\\bibliotheek\\BiebAuteur' => __DIR__ . '/../..' . '/lib/entity/bibliotheek/BiebAuteur.php',
         'CsrDelft\\entity\\bibliotheek\\BiebRubriek' => __DIR__ . '/../..' . '/lib/entity/bibliotheek/BiebRubriek.php',
         'CsrDelft\\entity\\bibliotheek\\Boek' => __DIR__ . '/../..' . '/lib/entity/bibliotheek/Boek.php',
         'CsrDelft\\entity\\bibliotheek\\BoekExemplaar' => __DIR__ . '/../..' . '/lib/entity/bibliotheek/BoekExemplaar.php',

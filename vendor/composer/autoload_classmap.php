@@ -369,6 +369,7 @@ return array(
     'CsrDelft\\entity\\agenda\\AgendaItem' => $baseDir . '/lib/entity/agenda/AgendaItem.php',
     'CsrDelft\\entity\\agenda\\AgendaVerbergen' => $baseDir . '/lib/entity/agenda/AgendaVerbergen.php',
     'CsrDelft\\entity\\agenda\\Agendeerbaar' => $baseDir . '/lib/entity/agenda/Agendeerbaar.php',
+    'CsrDelft\\entity\\bibliotheek\\BiebAuteur' => $baseDir . '/lib/entity/bibliotheek/BiebAuteur.php',
     'CsrDelft\\entity\\bibliotheek\\BiebRubriek' => $baseDir . '/lib/entity/bibliotheek/BiebRubriek.php',
     'CsrDelft\\entity\\bibliotheek\\Boek' => $baseDir . '/lib/entity/bibliotheek/Boek.php',
     'CsrDelft\\entity\\bibliotheek\\BoekExemplaar' => $baseDir . '/lib/entity/bibliotheek/BoekExemplaar.php',
