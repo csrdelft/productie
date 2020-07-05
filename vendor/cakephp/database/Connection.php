@@ -106,7 +106,15 @@ class Connection implements ConnectionInterface
     /**
      * Constructor.
      *
-     * @param array $config configuration for connecting to database
+     * ### Available options:
+     * - `driver` Sort name or FCQN for driver.
+     * - `log` Boolean indicating whether to use query logging.
+     * - `name` Connection name.
+     * - `cacheMetaData` Boolean indicating whether metadata (datasource schemas) should be cached.
+     *    If set to a string it will be used as the name of cache config to use.
+     * - `cacheKeyPrefix` Custom prefix to use when generation cache keys. Defaults to connection name.
+     *
+     * @param array $config Configuration array.
      */
     public function __construct($config)
     {
@@ -729,12 +737,12 @@ class Connection implements ConnectionInterface
      * });
      * ```
      */
-    public function transactional(callable $callback)
+    public function transactional(callable $transaction)
     {
         $this->begin();
 
         try {
-            $result = $callback($this);
+            $result = $transaction($this);
         } catch (Exception $e) {
             $this->rollback(false);
             throw $e;
@@ -777,13 +785,13 @@ class Connection implements ConnectionInterface
      * });
      * ```
      */
-    public function disableConstraints(callable $callback)
+    public function disableConstraints(callable $operation)
     {
-        return $this->getDisconnectRetry()->run(function () use ($callback) {
+        return $this->getDisconnectRetry()->run(function () use ($operation) {
             $this->disableForeignKeys();
 
             try {
-                $result = $callback($this);
+                $result = $operation($this);
             } catch (Exception $e) {
                 $this->enableForeignKeys();
                 throw $e;
