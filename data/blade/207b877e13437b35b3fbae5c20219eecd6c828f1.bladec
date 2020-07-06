@@ -98,7 +98,7 @@
 
 <?php elseif(lid_instelling('layout', 'fx') == 'space'): ?>
 	<script type="text/javascript" src="/dist/js/vendors~fxclouds~fxsneeuw~fxspace.8ec4bd7bc8a2718d51b2.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/fxspace.ac966b4f525bbcac8670.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/fxspace.fce575ab2c0b40363755.bundle.js"></script>
 
 <?php endif; ?>
 <?php if(lid_instelling('layout', 'trein') !== 'nee'): ?>
