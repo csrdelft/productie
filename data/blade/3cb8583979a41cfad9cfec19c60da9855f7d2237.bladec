@@ -18,7 +18,7 @@
  href="<?php echo static::e(CSR_ROOT); ?>/forum/rss.xml"/>
 	<?php echo $this->yieldContent('styles'); ?>
 	<script type="text/javascript" src="/dist/js/vendors~extern~extern-owee.a06a260be2fcf9e27159.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/extern.8f64d42d62f1b705e191.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/extern.4f36f38624e99ba56702.bundle.js"></script>
 
 </head>
 
