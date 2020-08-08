@@ -1457,6 +1457,7 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\view\\formulier\\knoppen\\FormDefaultKnoppen' => __DIR__ . '/../..' . '/lib/view/formulier/knoppen/FormDefaultKnoppen.php',
         'CsrDelft\\view\\formulier\\knoppen\\FormKnoppen' => __DIR__ . '/../..' . '/lib/view/formulier/knoppen/FormKnoppen.php',
         'CsrDelft\\view\\formulier\\knoppen\\FormulierKnop' => __DIR__ . '/../..' . '/lib/view/formulier/knoppen/FormulierKnop.php',
+        'CsrDelft\\view\\formulier\\knoppen\\LoginFormKnoppen' => __DIR__ . '/../..' . '/lib/view/formulier/knoppen/LoginFormKnoppen.php',
         'CsrDelft\\view\\formulier\\knoppen\\ModalCloseButtons' => __DIR__ . '/../..' . '/lib/view/formulier/knoppen/ModalCloseButtons.php',
         'CsrDelft\\view\\formulier\\knoppen\\PasfotoAanmeldenKnop' => __DIR__ . '/../..' . '/lib/view/formulier/knoppen/PasfotoAanmeldenKnop.php',
         'CsrDelft\\view\\formulier\\knoppen\\ResetKnop' => __DIR__ . '/../..' . '/lib/view/formulier/knoppen/ResetKnop.php',

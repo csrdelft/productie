@@ -846,6 +846,7 @@ return array(
     'CsrDelft\\view\\formulier\\knoppen\\FormDefaultKnoppen' => $baseDir . '/lib/view/formulier/knoppen/FormDefaultKnoppen.php',
     'CsrDelft\\view\\formulier\\knoppen\\FormKnoppen' => $baseDir . '/lib/view/formulier/knoppen/FormKnoppen.php',
     'CsrDelft\\view\\formulier\\knoppen\\FormulierKnop' => $baseDir . '/lib/view/formulier/knoppen/FormulierKnop.php',
+    'CsrDelft\\view\\formulier\\knoppen\\LoginFormKnoppen' => $baseDir . '/lib/view/formulier/knoppen/LoginFormKnoppen.php',
     'CsrDelft\\view\\formulier\\knoppen\\ModalCloseButtons' => $baseDir . '/lib/view/formulier/knoppen/ModalCloseButtons.php',
     'CsrDelft\\view\\formulier\\knoppen\\PasfotoAanmeldenKnop' => $baseDir . '/lib/view/formulier/knoppen/PasfotoAanmeldenKnop.php',
     'CsrDelft\\view\\formulier\\knoppen\\ResetKnop' => $baseDir . '/lib/view/formulier/knoppen/ResetKnop.php',
