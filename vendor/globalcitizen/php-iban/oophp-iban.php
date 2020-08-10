@@ -1,5 +1,4 @@
 <?php
-namespace PHP_IBAN;
 
 # OO wrapper for 'php-iban.php'
 Class IBAN {
