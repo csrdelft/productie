@@ -195,11 +195,13 @@ class ProfielController extends AbstractController {
 	/**
 	 * @param $lidjaar
 	 * @param $status
+	 * @param EntityManagerInterface $em
 	 * @return TemplateView|RedirectResponse
 	 * @Route("/profiel/{lidjaar}/nieuw/{status}", methods={"GET", "POST"}, requirements={"uid": ".{4}"})
 	 * @Auth({P_LEDEN_MOD,"commissie:NovCie"})
 	 */
-	public function nieuw($lidjaar, $status) {
+	public function nieuw($lidjaar, $status, EntityManagerInterface $em) {
+		$em->getFilters()->disable('verbergNovieten');
 		// Controleer invoer
 		$lidstatus = 'S_' . strtoupper($status);
 		if (!preg_match('/^[0-9]{4}$/', $lidjaar) || !in_array($lidstatus, LidStatus::getEnumValues())) {
@@ -226,7 +228,7 @@ class ProfielController extends AbstractController {
 			if (empty($diff)) {
 				setMelding('Geen wijzigingen', 0);
 			} else {
-				$nieuw = $this->profielRepository->find($profiel->uid) == null;
+				$nieuw = $profiel->uid === null || $this->profielRepository->find($profiel->uid) == null;
 				$changeEntry = ProfielRepository::changelog($diff, LoginService::getUid());
 				foreach ($diff as $change) {
 					if ($change->property === 'status') {
