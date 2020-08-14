@@ -3,10 +3,12 @@
 namespace Zumba\JsonSerializer\Test;
 
 use Zumba\JsonSerializer\JsonSerializer;
+use Zumba\JsonSerializer\Exception\JsonSerializerException;
 use stdClass;
 use SuperClosure\Serializer as ClosureSerializer;
+use PHPUnit\Framework\TestCase;
 
-class JsonSerializerTest extends \PHPUnit_Framework_TestCase
+class JsonSerializerTest extends TestCase
 {
 
     /**
@@ -32,9 +34,9 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
      * Test serialization of scalar values
      *
      * @dataProvider scalarData
-     * @param mixed $scalar
-     * @param string $jsoned
-     * @return void
+     * @param        mixed  $scalar
+     * @param        string $jsoned
+     * @return       void
      */
     public function testSerializeScalar($scalar, $jsoned)
     {
@@ -55,7 +57,9 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
         }
 
         $data = [1.0, 1.1, 0.00000000001, 1.999999999999, 223423.123456789, 1e5, 1e11];
-        $expected = '[1.0,1.1,1.0e-11,1.999999999999,223423.12345679,100000.0,100000000000.0]';
+        $expected = version_compare(PHP_VERSION, '7.1', '>=') ?
+            '[1.0,1.1,1.0e-11,1.999999999999,223423.123456789,100000.0,100000000000.0]' :
+            '[1.0,1.1,1.0e-11,1.999999999999,223423.12345679,100000.0,100000000000.0]';
         $this->assertSame($expected, $this->serializer->serialize($data));
 
         setlocale(LC_NUMERIC, $originalLocale);
@@ -64,9 +68,9 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
      * Test unserialization of scalar values
      *
      * @dataProvider scalarData
-     * @param mixed $scalar
-     * @param string $jsoned
-     * @return void
+     * @param        mixed  $scalar
+     * @param        string $jsoned
+     * @return       void
      */
     public function testUnserializeScalar($scalar, $jsoned)
     {
@@ -103,7 +107,7 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializeResource()
     {
-        $this->setExpectedException('Zumba\JsonSerializer\Exception\JsonSerializerException');
+        $this->expectException(JsonSerializerException::class);
         $this->serializer->serialize(fopen(__FILE__, 'r'));
     }
 
@@ -114,19 +118,21 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializeClosureWithoutSerializer()
     {
-        $this->setExpectedException('Zumba\JsonSerializer\Exception\JsonSerializerException');
-        $this->serializer->serialize(array('func' => function () {
-            echo 'whoops';
-        }));
+        $this->expectException(JsonSerializerException::class);
+        $this->serializer->serialize(
+            array('func' => function () {
+                echo 'whoops';
+            })
+        );
     }
 
     /**
      * Test serialization of array without objects
      *
      * @dataProvider arrayNoObjectData
-     * @param array $array
-     * @param string $jsoned
-     * @return void
+     * @param        array  $array
+     * @param        string $jsoned
+     * @return       void
      */
     public function testSerializeArrayNoObject($array, $jsoned)
     {
@@ -137,9 +143,9 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
      * Test unserialization of array without objects
      *
      * @dataProvider arrayNoObjectData
-     * @param array $array
-     * @param string $jsoned
-     * @return void
+     * @param        array  $array
+     * @param        string $jsoned
+     * @return       void
      */
     public function testUnserializeArrayNoObject($array, $jsoned)
     {
@@ -301,12 +307,14 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
 
         $closureSerializer = new ClosureSerializer();
         $serializer = new JsonSerializer($closureSerializer);
-        $serialized = $serializer->serialize(array(
+        $serialized = $serializer->serialize(
+            array(
             'func' => function () {
                 return 'it works';
             },
             'nice' => true
-        ));
+            )
+        );
 
         $unserialized = $serializer->unserialize($serialized);
         $this->assertTrue(is_array($unserialized));
@@ -328,14 +336,16 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
 
         $closureSerializer = new ClosureSerializer();
         $serializer = new JsonSerializer($closureSerializer);
-        $serialized = $serializer->serialize(array(
+        $serialized = $serializer->serialize(
+            array(
             'func' => function () {
                 return 'it works';
             },
             'nice' => true
-        ));
+            )
+        );
 
-        $this->setExpectedException('Zumba\JsonSerializer\Exception\JsonSerializerException');
+        $this->expectException(JsonSerializerException::class);
         $this->serializer->unserialize($serialized);
     }
 
@@ -346,7 +356,7 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnserializeUnknownClass()
     {
-        $this->setExpectedException('Zumba\JsonSerializer\Exception\JsonSerializerException');
+        $this->expectException(JsonSerializerException::class);
         $serialized = '{"@type":"UnknownClass"}';
         $this->serializer->unserialize($serialized);
     }
@@ -380,7 +390,8 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function testSetUnserializeUndeclaredPropertyModeValid() {
+    public function testSetUnserializeUndeclaredPropertyModeValid()
+    {
         $value = $this->serializer->setUnserializeUndeclaredPropertyMode(JsonSerializer::UNDECLARED_PROPERTY_MODE_SET);
         $this->assertSame($value, $this->serializer);
     }
@@ -390,8 +401,9 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function testSetUnserializeUndeclaredPropertyModeInvalid() {
-        $this->setExpectedException('InvalidArgumentException');
+    public function testSetUnserializeUndeclaredPropertyModeInvalid()
+    {
+        $this->expectException('InvalidArgumentException');
         $value = $this->serializer->setUnserializeUndeclaredPropertyMode('bad value');
     }
 
@@ -400,7 +412,8 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function testUnserializeUndeclaredPropertySet() {
+    public function testUnserializeUndeclaredPropertySet()
+    {
         $this->serializer->setUnserializeUndeclaredPropertyMode(JsonSerializer::UNDECLARED_PROPERTY_MODE_SET);
 
         $serialized = '{"@type":"stdClass","sub":{"@type":"stdClass","key":"value"}}';
@@ -414,7 +427,8 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function testUnserializeUndeclaredPropertyIgnore() {
+    public function testUnserializeUndeclaredPropertyIgnore()
+    {
         $this->serializer->setUnserializeUndeclaredPropertyMode(JsonSerializer::UNDECLARED_PROPERTY_MODE_IGNORE);
 
         $serialized = '{"@type":"stdClass","sub":{"@type":"stdClass","key":"value"}}';
@@ -427,10 +441,11 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function testUnserializeUndeclaredPropertyException() {
+    public function testUnserializeUndeclaredPropertyException()
+    {
         $this->serializer->setUnserializeUndeclaredPropertyMode(JsonSerializer::UNDECLARED_PROPERTY_MODE_EXCEPTION);
 
-        $this->setExpectedException('Zumba\Exception\JsonSerializerException');
+        $this->expectException(JsonSerializerException::class);
         $serialized = '{"@type":"stdClass","sub":{"@type":"stdClass","key":"value"}}';
         $obj = $this->serializer->unserialize($serialized);
     }
@@ -486,7 +501,7 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnserializeBadJSON()
     {
-        $this->setExpectedException('Zumba\Exception\JsonSerializerException');
+        $this->expectException(JsonSerializerException::class);
         $this->serializer->unserialize('[this is not a valid json!}');
     }
 
@@ -495,15 +510,12 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializeInvalidData()
     {
-        if (PHP_VERSION_ID < 50500) {
-            $this->markTestSkipped('PHP 5.4 raises a warning when encoding NAN, which fails the test.');
-        }
-
-        $this->setExpectedException('Zumba\Exception\JsonSerializerException');
+        $this->expectException(JsonSerializerException::class);
         $this->serializer->serialize(array(NAN));
     }
 
     /**
+     *
      * @return void
      */
     public function testSerializeBinaryStringScalar()
@@ -518,6 +530,7 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     *
      * @return void
      */
     public function testSerializeArrayWithBinaryStringsAsValues()
@@ -552,6 +565,7 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     *
      * @return void
      */
     public function testSerializeObjectWithBinaryStrings()
@@ -566,21 +580,6 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
         $unserialized = $this->serializer->unserialize($this->serializer->serialize($obj));
         $this->assertInstanceOf('stdClass', $obj);
         $this->assertSame($obj->string, $unserialized->string);
-    }
-
-    /*
-     * Test namespace change (backward compatibility)
-     *
-     * @return void
-     * @deprecated
-     */
-    public function testNamespaceRename()
-    {
-        $serializer = new \Zumba\Util\JsonSerializer();
-
-        $f = fopen(__FILE__, 'r');
-        $this->setExpectedException('Zumba\Exception\JsonSerializerException');
-        $this->serializer->serialize($f);
     }
 
     /**
