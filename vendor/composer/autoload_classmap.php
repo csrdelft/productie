@@ -240,6 +240,7 @@ return array(
     'CsrDelft\\command\\PinTransactiesDownloadenCommand' => $baseDir . '/lib/command/PinTransactiesDownloadenCommand.php',
     'CsrDelft\\command\\StudieOpDatumCommand' => $baseDir . '/lib/command/StudieOpDatumCommand.php',
     'CsrDelft\\common\\Annotation\\Auth' => $baseDir . '/lib/common/Annotation/Auth.php',
+    'CsrDelft\\common\\Annotation\\CsrfUnsafe' => $baseDir . '/lib/common/Annotation/CsrfUnsafe.php',
     'CsrDelft\\common\\ContainerFacade' => $baseDir . '/lib/common/ContainerFacade.php',
     'CsrDelft\\common\\CsrException' => $baseDir . '/lib/common/CsrException.php',
     'CsrDelft\\common\\CsrGebruikerException' => $baseDir . '/lib/common/CsrGebruikerException.php',
