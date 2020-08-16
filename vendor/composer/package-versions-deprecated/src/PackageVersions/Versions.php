@@ -54,7 +54,6 @@ final class Versions
   'doctrine/sql-formatter' => '1.1.1@56070bebac6e77230ed7d306ad13528e60732871',
   'easyrdf/easyrdf' => '0.9.1@acd09dfe0555fbcfa254291e433c45fdd4652566',
   'eftec/bladeone' => '3.21@684d4613ff7ff17eec02c7b3661b5f6489c16e65',
-  'ferno/loco' => 'dev-master@e8a2383bc274b6868592eb774ffce5338ab76a62',
   'firebase/php-jwt' => 'v5.2.0@feb0e820b8436873675fd3aca04f3728eb2185cb',
   'globalcitizen/php-iban' => 'v2.7.5@4c0fc54877948ac667c0ab29c2d1afbe47705599',
   'google/apiclient' => 'v2.7.0@48ec94577b51bde415270116118b07a294e07c43',

@@ -24,7 +24,6 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
-        'fc02b509339d59ba77930732314eb7b3' => __DIR__ . '/..' . '/ferno/loco/src/Loco.php',
         '241d2bc730dc592f76425fee315639b6' => __DIR__ . '/..' . '/globalcitizen/php-iban/oophp-iban.php',
         'ac2da84b5f360a33c0c760ac23936bfb' => __DIR__ . '/..' . '/globalcitizen/php-iban/php-iban.php',
         'b45b351e6b6f7487d819961fef2fda77' => __DIR__ . '/..' . '/jakeasmith/http_build_url/src/http_build_url.php',

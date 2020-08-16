@@ -23,7 +23,6 @@ return array(
     'c964ee0ededf28c96ebd9db5099ef910' => $vendorDir . '/guzzlehttp/promises/src/functions_include.php',
     '37a3dc5111fe8f707ab4c132ef1dbc62' => $vendorDir . '/guzzlehttp/guzzle/src/functions_include.php',
     'decc78cc4436b1292c6c0d151b19445c' => $vendorDir . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
-    'fc02b509339d59ba77930732314eb7b3' => $vendorDir . '/ferno/loco/src/Loco.php',
     '241d2bc730dc592f76425fee315639b6' => $vendorDir . '/globalcitizen/php-iban/oophp-iban.php',
     'ac2da84b5f360a33c0c760ac23936bfb' => $vendorDir . '/globalcitizen/php-iban/php-iban.php',
     'b45b351e6b6f7487d819961fef2fda77' => $vendorDir . '/jakeasmith/http_build_url/src/http_build_url.php',
