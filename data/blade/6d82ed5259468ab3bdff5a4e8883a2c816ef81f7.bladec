@@ -44,7 +44,7 @@
  <?php echo reldate($draad->laatst_gewijzigd); ?>
 
 	<?php else: ?>
- <?php echo static::e($draad->laatst_gewijzigd); ?>
+ <?php echo static::e(date_format_intl($draad->laatst_gewijzigd, DATETIME_FORMAT)); ?>
 
 	<?php endif; ?>
 </div>
