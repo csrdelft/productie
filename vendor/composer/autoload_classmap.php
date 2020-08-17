@@ -83,7 +83,7 @@ return array(
     'CsrDelft\\common\\Eisen' => $baseDir . '/lib/common/Eisen.php',
     'CsrDelft\\common\\Enum' => $baseDir . '/lib/common/Enum.php',
     'CsrDelft\\common\\LDAP' => $baseDir . '/lib/common/LDAP.php',
-    'CsrDelft\\common\\LogActivationStrategy' => $baseDir . '/lib/common/LogActivationStrategy.php',
+    'CsrDelft\\common\\Logging\\LogActivationStrategy' => $baseDir . '/lib/common/Logging/LogActivationStrategy.php',
     'CsrDelft\\common\\Logging\\LogProcessor' => $baseDir . '/lib/common/Logging/LogProcessor.php',
     'CsrDelft\\common\\Mail' => $baseDir . '/lib/common/Mail.php',
     'CsrDelft\\common\\Security\\JwtToken' => $baseDir . '/lib/common/Security/JwtToken.php',

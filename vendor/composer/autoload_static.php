@@ -743,7 +743,7 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\common\\Eisen' => __DIR__ . '/../..' . '/lib/common/Eisen.php',
         'CsrDelft\\common\\Enum' => __DIR__ . '/../..' . '/lib/common/Enum.php',
         'CsrDelft\\common\\LDAP' => __DIR__ . '/../..' . '/lib/common/LDAP.php',
-        'CsrDelft\\common\\LogActivationStrategy' => __DIR__ . '/../..' . '/lib/common/LogActivationStrategy.php',
+        'CsrDelft\\common\\Logging\\LogActivationStrategy' => __DIR__ . '/../..' . '/lib/common/Logging/LogActivationStrategy.php',
         'CsrDelft\\common\\Logging\\LogProcessor' => __DIR__ . '/../..' . '/lib/common/Logging/LogProcessor.php',
         'CsrDelft\\common\\Mail' => __DIR__ . '/../..' . '/lib/common/Mail.php',
         'CsrDelft\\common\\Security\\JwtToken' => __DIR__ . '/../..' . '/lib/common/Security/JwtToken.php',
