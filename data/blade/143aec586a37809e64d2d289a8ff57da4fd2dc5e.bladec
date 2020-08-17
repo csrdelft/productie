@@ -7,5 +7,8 @@
 	<div class="layer" data-depth="0.80" style="background-image: url('/images/onontdekt/laag5.png')"></div>
 </div>
 </div>
-<?php echo css_asset('fxonontdekt'); ?>
-<?php echo js_asset('fxonontdekt'); ?>
+<link rel="stylesheet" href="/dist/css/fxonontdekt.53530cbd1513c2a4aab9.css" type="text/css"/>
+
+<script type="text/javascript" src="/dist/js/fxonontdekt.7c6a666b5eeb18ce7aa6.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/vendors~fxonontdekt.e1facf025994af0b5e41.chunk.js"></script>
+

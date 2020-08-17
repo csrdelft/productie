@@ -1,2 +1,4 @@
-<?php echo js_asset('fxraket'); ?>
-<?php echo css_asset('fxraket'); ?>
+<script type="text/javascript" src="/dist/js/fxraket.7070c63121fc19ee2387.bundle.js"></script>
+
+<link rel="stylesheet" href="/dist/css/fxraket.7a3648ab308678ea8735.css" type="text/css"/>
+

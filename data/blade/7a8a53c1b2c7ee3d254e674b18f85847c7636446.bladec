@@ -1,3 +1,5 @@
 <div class="rails"></div>
-<?php echo js_asset('fxtrein'); ?>
-<?php echo css_asset('fxtrein'); ?>
+<script type="text/javascript" src="/dist/js/fxtrein.54f07c4759d5afd7be6c.bundle.js"></script>
+
+<link rel="stylesheet" href="/dist/css/fxtrein.57ee593d321e7858eac3.css" type="text/css"/>
+

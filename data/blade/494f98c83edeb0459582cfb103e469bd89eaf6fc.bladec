@@ -3,7 +3,8 @@
 <?php $this->startSection('titel', $titel); ?>
 
 <?php $this->startSection('styles'); ?>
-	<?php echo css_asset('extern'); ?>
+	<link rel="stylesheet" href="/dist/css/extern.eb61c96c1ebf07797de3.css" type="text/css"/>
+
 <?php $this->stopSection(); ?>
 
 <?php $this->startSection('content'); ?>
