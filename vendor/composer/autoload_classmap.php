@@ -55,7 +55,6 @@ return array(
     'CsrDelft\\common\\ContainerFacade' => $baseDir . '/lib/common/ContainerFacade.php',
     'CsrDelft\\common\\CsrException' => $baseDir . '/lib/common/CsrException.php',
     'CsrDelft\\common\\CsrGebruikerException' => $baseDir . '/lib/common/CsrGebruikerException.php',
-    'CsrDelft\\common\\CsrNotFoundException' => $baseDir . '/lib/common/CsrNotFoundException.php',
     'CsrDelft\\common\\CsrToegangException' => $baseDir . '/lib/common/CsrToegangException.php',
     'CsrDelft\\common\\Doctrine\\Type\\BoekExemplaarStatusType' => $baseDir . '/lib/common/Doctrine/Type/BoekExemplaarStatusType.php',
     'CsrDelft\\common\\Doctrine\\Type\\ChangeLogType' => $baseDir . '/lib/common/Doctrine/Type/ChangeLogType.php',

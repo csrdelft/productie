@@ -700,7 +700,6 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\common\\ContainerFacade' => __DIR__ . '/../..' . '/lib/common/ContainerFacade.php',
         'CsrDelft\\common\\CsrException' => __DIR__ . '/../..' . '/lib/common/CsrException.php',
         'CsrDelft\\common\\CsrGebruikerException' => __DIR__ . '/../..' . '/lib/common/CsrGebruikerException.php',
-        'CsrDelft\\common\\CsrNotFoundException' => __DIR__ . '/../..' . '/lib/common/CsrNotFoundException.php',
         'CsrDelft\\common\\CsrToegangException' => __DIR__ . '/../..' . '/lib/common/CsrToegangException.php',
         'CsrDelft\\common\\Doctrine\\Type\\BoekExemplaarStatusType' => __DIR__ . '/../..' . '/lib/common/Doctrine/Type/BoekExemplaarStatusType.php',
         'CsrDelft\\common\\Doctrine\\Type\\ChangeLogType' => __DIR__ . '/../..' . '/lib/common/Doctrine/Type/ChangeLogType.php',
