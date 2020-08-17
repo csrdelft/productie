@@ -133,8 +133,11 @@ final class Versions
   'symfony/property-access' => 'v5.1.3@eb617a57fc38f43bf4208dcbdb2dab3c14d9cbd9',
   'symfony/property-info' => 'v5.1.3@0c4813930953f6db6c62ebec8ee695a897b89020',
   'symfony/routing' => 'v5.1.3@08c9a82f09d12ee048f85e76e0d783f82844eb5d',
+  'symfony/security-bundle' => 'v5.1.3@7e64ee9df4f7565133c745244816be65db8aed0a',
   'symfony/security-core' => 'v5.1.3@18551ee726b18591d1da5c3209d61f5904fff3b3',
   'symfony/security-csrf' => 'v5.1.3@962323e4db4458d731d5006f14019a22a2f84b06',
+  'symfony/security-guard' => 'v5.1.3@85c368be963e9f0df9e93d830f966fc0af531703',
+  'symfony/security-http' => 'v5.1.3@436e749842736bd047c96ae53e86a8b6dc9d2222',
   'symfony/serializer' => 'v5.1.3@c977301a898088f483f7a9b479dd050d84ef3fed',
   'symfony/serializer-pack' => 'v1.0.3@9bbce72dcad0cca797b678d3bfb764cf923ab28a',
   'symfony/service-contracts' => 'v2.1.3@58c7475e5457c5492c26cc740cc0ad7464be9442',
@@ -184,7 +187,7 @@ final class Versions
   'symfony/profiler-pack' => 'v1.0.5@29ec66471082b4eb068db11eb4f0a48c277653f7',
   'symfony/web-profiler-bundle' => 'v5.1.3@6d32d311d9d599830f57a2fe6bb6e38970150acd',
   'theseer/tokenizer' => '1.2.0@75a63c33a8577608444246075ea0af0d052e452a',
-  'csr/csrdelft.nl' => 'dev-6d3c8ae72808f6f934c950285a2c09bd6d4dacdb@6d3c8ae72808f6f934c950285a2c09bd6d4dacdb',
+  'csr/csrdelft.nl' => 'dev-43ca63f4da609b0a581c5de1fa251343fb2b42d7@43ca63f4da609b0a581c5de1fa251343fb2b42d7',
 );
 
     private function __construct()

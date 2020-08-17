@@ -119,7 +119,7 @@
  <dt>Lidnummer</dt>
  <dd>
  <?php if($profiel->account && \CsrDelft\common\ContainerFacade::getContainer()->get(\CsrDelft\service\security\SuService::class)->maySuTo($profiel->account)): ?>
- <a href="/su/<?php echo static::e($profiel->uid); ?>" title="Su naar dit lid"><?php echo static::e($profiel->uid); ?></a>
+ <a href="?_switch_user=<?php echo static::e($profiel->uid); ?>" title="Su naar dit lid"><?php echo static::e($profiel->uid); ?></a>
  <?php else: ?>
  <?php echo static::e($profiel->uid); ?>
 

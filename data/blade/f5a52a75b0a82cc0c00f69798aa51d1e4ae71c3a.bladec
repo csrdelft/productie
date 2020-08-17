@@ -8,14 +8,14 @@
 
 	</a>
 	<ul class="dropdown-menu" aria-labelledby="menu-personal">
- <?php if(\CsrDelft\common\ContainerFacade::getContainer()->get(\CsrDelft\service\security\SuService::class)->isSued()): ?>
+ <?php if(is_granted('IS_IMPERSONATOR')): ?>
  <li>
- <a href="/endsu" class="dropdown-item error"
-  title="Switch user actie beeindingen">SU <?php echo static::e(\CsrDelft\repository\ProfielRepository::getNaam(\CsrDelft\service\security\SuService::getSuedFrom()->uid, 'civitas')); ?></a>
+ <a href="?_switch_user=_exit" class="dropdown-item error"
+  title="Switch user actie beeindingen">SU <?php echo static::e(\CsrDelft\repository\ProfielRepository::getNaam(current_token()->getOriginalToken()->getUserName(), 'civitas')); ?></a>
  </li>
  <?php endif; ?>
  <li>
- <a class="dropdown-item" href="/profiel/<?php echo static::e(\CsrDelft\service\security\LoginService::getUid()); ?>#CiviSaldo"
+ <a class="dropdown-item" href="/profiel/<?php echo static::e(current_account()->uid); ?>#CiviSaldo"
   title="Bekijk CiviSaldo historie">
  <?php ($saldo = \CsrDelft\service\security\LoginService::getProfiel()->getCiviSaldo()); ?>
  <?php if($saldo < 0): ?>
