@@ -89,16 +89,16 @@
 <?php elseif(lid_instelling('layout', 'fx') == 'civisaldo'): ?>
 	<?php echo $this->runChild('effect.civisaldo'); ?>
 <?php elseif(lid_instelling('layout', 'fx') == 'wolken'): ?>
-	<script type="text/javascript" src="/dist/js/vendors~fxclouds~fxsneeuw~fxspace.8ec4bd7bc8a2718d51b2.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/fxclouds.3ed3009577059caeaf36.bundle.js"></script>
+	<script type="text/javascript" src="/dist/js/vendors~fxclouds~fxsneeuw~fxspace.704fd071f7f178a35f64.chunk.js"></script>
+<script type="text/javascript" src="/dist/js/fxclouds.d7007c9b9abfd94da670.bundle.js"></script>
 
 <?php elseif(lid_instelling('layout', 'fx') == 'sneeuw'): ?>
-	<script type="text/javascript" src="/dist/js/vendors~fxclouds~fxsneeuw~fxspace.8ec4bd7bc8a2718d51b2.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/fxsneeuw.4dfc1d57e79a6167b5f7.bundle.js"></script>
+	<script type="text/javascript" src="/dist/js/vendors~fxclouds~fxsneeuw~fxspace.704fd071f7f178a35f64.chunk.js"></script>
+<script type="text/javascript" src="/dist/js/fxsneeuw.9b1b49ca02bc9cd3d5e1.bundle.js"></script>
 
 <?php elseif(lid_instelling('layout', 'fx') == 'space'): ?>
-	<script type="text/javascript" src="/dist/js/vendors~fxclouds~fxsneeuw~fxspace.8ec4bd7bc8a2718d51b2.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/fxspace.6476dc1b1ba4ae0c899c.bundle.js"></script>
+	<script type="text/javascript" src="/dist/js/vendors~fxclouds~fxsneeuw~fxspace.704fd071f7f178a35f64.chunk.js"></script>
+<script type="text/javascript" src="/dist/js/fxspace.79f0e8341bcc2b829585.bundle.js"></script>
 
 <?php endif; ?>
 <?php if(lid_instelling('layout', 'trein') !== 'nee'): ?>
@@ -114,7 +114,7 @@
  const ASSISTENT_GELUIDEN = '<?php echo static::e(lid_instelling('layout', 'assistentGeluiden')); ?>';
 	</script>
 	<script type="text/javascript" src="/dist/js/vendors~app~extern-defer~fxclippy~fxminion~jquery~ledenmemory.3a15356ef84dc9b24924.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/fxclippy.5c30f00bed96cac137d7.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/fxclippy.de26942ef5d7419d6fb9.bundle.js"></script>
 
 <?php endif; ?>
 </body>

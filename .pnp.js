@@ -82,6 +82,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:4.4.2"
       ],
       [
+        "@sentry/browser",
+        "npm:5.21.1"
+      ],
+      [
         "@types/bootstrap",
         "npm:4.5.0"
       ],
@@ -498,6 +502,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fullcalendar/interaction", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:4.4.2"],
             ["@fullcalendar/list", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:4.4.2"],
             ["@fullcalendar/timegrid", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:4.4.2"],
+            ["@sentry/browser", "npm:5.21.1"],
             ["@types/bootstrap", "npm:4.5.0"],
             ["@types/chart.js", "npm:2.9.22"],
             ["@types/datatables.net", "npm:1.10.19"],
@@ -2013,6 +2018,77 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["chalk", "npm:2.4.2"],
             ["consola", "npm:2.14.0"],
             ["node-fetch", "npm:2.6.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@sentry/browser", [
+        ["npm:5.21.1", {
+          "packageLocation": "./.yarn/cache/@sentry-browser-npm-5.21.1-ecb33fea97-04d7f72e9f.zip/node_modules/@sentry/browser/",
+          "packageDependencies": [
+            ["@sentry/browser", "npm:5.21.1"],
+            ["@sentry/core", "npm:5.21.1"],
+            ["@sentry/types", "npm:5.21.1"],
+            ["@sentry/utils", "npm:5.21.1"],
+            ["tslib", "npm:1.13.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@sentry/core", [
+        ["npm:5.21.1", {
+          "packageLocation": "./.yarn/cache/@sentry-core-npm-5.21.1-000acd34e2-729117cf54.zip/node_modules/@sentry/core/",
+          "packageDependencies": [
+            ["@sentry/core", "npm:5.21.1"],
+            ["@sentry/hub", "npm:5.21.1"],
+            ["@sentry/minimal", "npm:5.21.1"],
+            ["@sentry/types", "npm:5.21.1"],
+            ["@sentry/utils", "npm:5.21.1"],
+            ["tslib", "npm:1.13.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@sentry/hub", [
+        ["npm:5.21.1", {
+          "packageLocation": "./.yarn/cache/@sentry-hub-npm-5.21.1-fadeb0cafe-08250ad280.zip/node_modules/@sentry/hub/",
+          "packageDependencies": [
+            ["@sentry/hub", "npm:5.21.1"],
+            ["@sentry/types", "npm:5.21.1"],
+            ["@sentry/utils", "npm:5.21.1"],
+            ["tslib", "npm:1.13.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@sentry/minimal", [
+        ["npm:5.21.1", {
+          "packageLocation": "./.yarn/cache/@sentry-minimal-npm-5.21.1-6214edd44c-fe35186154.zip/node_modules/@sentry/minimal/",
+          "packageDependencies": [
+            ["@sentry/minimal", "npm:5.21.1"],
+            ["@sentry/hub", "npm:5.21.1"],
+            ["@sentry/types", "npm:5.21.1"],
+            ["tslib", "npm:1.13.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@sentry/types", [
+        ["npm:5.21.1", {
+          "packageLocation": "./.yarn/cache/@sentry-types-npm-5.21.1-b92067f149-7d82e857dc.zip/node_modules/@sentry/types/",
+          "packageDependencies": [
+            ["@sentry/types", "npm:5.21.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@sentry/utils", [
+        ["npm:5.21.1", {
+          "packageLocation": "./.yarn/cache/@sentry-utils-npm-5.21.1-ce1be9ad88-93681a4cff.zip/node_modules/@sentry/utils/",
+          "packageDependencies": [
+            ["@sentry/utils", "npm:5.21.1"],
+            ["@sentry/types", "npm:5.21.1"],
+            ["tslib", "npm:1.13.0"]
           ],
           "linkType": "HARD",
         }]
@@ -9527,6 +9603,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fullcalendar/interaction", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:4.4.2"],
             ["@fullcalendar/list", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:4.4.2"],
             ["@fullcalendar/timegrid", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:4.4.2"],
+            ["@sentry/browser", "npm:5.21.1"],
             ["@types/bootstrap", "npm:4.5.0"],
             ["@types/chart.js", "npm:2.9.22"],
             ["@types/datatables.net", "npm:1.10.19"],
