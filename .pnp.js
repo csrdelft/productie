@@ -294,6 +294,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.1.11"
       ],
       [
+        "flatpickr",
+        "npm:4.6.6"
+      ],
+      [
         "google-palette",
         "npm:1.1.0"
       ],
@@ -316,10 +320,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       [
         "jquery-ui",
         "npm:1.12.1"
-      ],
-      [
-        "jquery-ui-timepicker-addon",
-        "npm:1.6.3"
       ],
       [
         "jquery.maskedinput",
@@ -551,13 +551,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:6.8.0"],
             ["eslint-loader", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:3.0.4"],
             ["file-loader", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.1.11"],
+            ["flatpickr", "npm:4.6.6"],
             ["google-palette", "npm:1.1.0"],
             ["hammerjs", "npm:2.0.8"],
             ["jgallery", "https://github.com/jakubkowalczyk-pl/jgallery.git#commit:7f517e2ae765f6423c4d6b2337a83a7da6f9c22d"],
             ["jquery", "npm:3.5.1"],
             ["jquery-hoverintent", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.10.1"],
             ["jquery-ui", "npm:1.12.1"],
-            ["jquery-ui-timepicker-addon", "npm:1.6.3"],
             ["jquery.maskedinput", "npm:1.4.1"],
             ["jquery.scrollto", "npm:2.1.2"],
             ["jqueryui", "npm:1.11.1"],
@@ -5590,6 +5590,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["flatpickr", [
+        ["npm:4.6.6", {
+          "packageLocation": "./.yarn/cache/flatpickr-npm-4.6.6-655b2013e5-a16cd4bdb1.zip/node_modules/flatpickr/",
+          "packageDependencies": [
+            ["flatpickr", "npm:4.6.6"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["flatted", [
         ["npm:2.0.2", {
           "packageLocation": "./.yarn/cache/flatted-npm-2.0.2-ccb06e14ff-a3e5fb71ad.zip/node_modules/flatted/",
@@ -6828,15 +6837,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/jquery-ui-npm-1.12.1-68f09cf82e-bdb5a4d786.zip/node_modules/jquery-ui/",
           "packageDependencies": [
             ["jquery-ui", "npm:1.12.1"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["jquery-ui-timepicker-addon", [
-        ["npm:1.6.3", {
-          "packageLocation": "./.yarn/cache/jquery-ui-timepicker-addon-npm-1.6.3-b43c27b305-22dac53a71.zip/node_modules/jquery-ui-timepicker-addon/",
-          "packageDependencies": [
-            ["jquery-ui-timepicker-addon", "npm:1.6.3"]
           ],
           "linkType": "HARD",
         }]
@@ -9580,13 +9580,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:6.8.0"],
             ["eslint-loader", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:3.0.4"],
             ["file-loader", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.1.11"],
+            ["flatpickr", "npm:4.6.6"],
             ["google-palette", "npm:1.1.0"],
             ["hammerjs", "npm:2.0.8"],
             ["jgallery", "https://github.com/jakubkowalczyk-pl/jgallery.git#commit:7f517e2ae765f6423c4d6b2337a83a7da6f9c22d"],
             ["jquery", "npm:3.5.1"],
             ["jquery-hoverintent", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.10.1"],
             ["jquery-ui", "npm:1.12.1"],
-            ["jquery-ui-timepicker-addon", "npm:1.6.3"],
             ["jquery.maskedinput", "npm:1.4.1"],
             ["jquery.scrollto", "npm:2.1.2"],
             ["jqueryui", "npm:1.11.1"],
