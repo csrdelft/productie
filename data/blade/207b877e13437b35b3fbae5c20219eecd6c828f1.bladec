@@ -114,7 +114,7 @@
  const ASSISTENT_GELUIDEN = '<?php echo static::e(lid_instelling('layout', 'assistentGeluiden')); ?>';
 	</script>
 	<script type="text/javascript" src="/dist/js/vendors~app~extern-defer~fxclippy~fxminion~jquery~ledenmemory.3a15356ef84dc9b24924.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/fxclippy.80a4ace3dc9679daba4c.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/fxclippy.a7be6efe20fac929ed14.bundle.js"></script>
 
 <?php endif; ?>
 </body>
