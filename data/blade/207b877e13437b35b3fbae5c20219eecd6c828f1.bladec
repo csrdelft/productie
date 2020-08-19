@@ -90,11 +90,11 @@
 	<?php echo $this->runChild('effect.civisaldo'); ?>
 <?php elseif(lid_instelling('layout', 'fx') == 'wolken'): ?>
 	<script type="text/javascript" src="/dist/js/vendors~fxclouds~fxsneeuw~fxspace.704fd071f7f178a35f64.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/fxclouds.d7007c9b9abfd94da670.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/fxclouds.9fd31b28ff7f882500a8.bundle.js"></script>
 
 <?php elseif(lid_instelling('layout', 'fx') == 'sneeuw'): ?>
 	<script type="text/javascript" src="/dist/js/vendors~fxclouds~fxsneeuw~fxspace.704fd071f7f178a35f64.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/fxsneeuw.9b1b49ca02bc9cd3d5e1.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/fxsneeuw.3dcf28ed0702b9154ba2.bundle.js"></script>
 
 <?php elseif(lid_instelling('layout', 'fx') == 'space'): ?>
 	<script type="text/javascript" src="/dist/js/vendors~fxclouds~fxsneeuw~fxspace.704fd071f7f178a35f64.chunk.js"></script>
@@ -114,7 +114,7 @@
  const ASSISTENT_GELUIDEN = '<?php echo static::e(lid_instelling('layout', 'assistentGeluiden')); ?>';
 	</script>
 	<script type="text/javascript" src="/dist/js/vendors~app~extern-defer~fxclippy~fxminion~jquery~ledenmemory.3a15356ef84dc9b24924.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/fxclippy.de26942ef5d7419d6fb9.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/fxclippy.80a4ace3dc9679daba4c.bundle.js"></script>
 
 <?php endif; ?>
 </body>

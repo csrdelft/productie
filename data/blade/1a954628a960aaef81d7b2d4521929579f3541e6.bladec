@@ -34,11 +34,11 @@
 </script>
 <?php echo $this->yieldPushContent('styles'); ?>
 <script type="text/javascript" src="/dist/js/sentry.eaa90e36ea7eda8774da.bundle.js"></script>
-<script type="text/javascript" src="/dist/js/vendors~sentry.a8e6cad8c9d1a8d470d6.chunk.js"></script>
+<script type="text/javascript" src="/dist/js/vendors~sentry.c65c76fea5350fd8bf2d.chunk.js"></script>
 
 <script type="text/javascript" src="/dist/js/vendors~app~extern-defer~fxclippy~fxminion~jquery~ledenmemory.3a15356ef84dc9b24924.chunk.js"></script>
 <script type="text/javascript" src="/dist/js/vendors~app~datatable-api~formulier~grafiek~knop.898402753826677e3e62.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/app.ce0db5e058f85dcc7de7.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/app.11ea38d3626df971d2ed.bundle.js"></script>
 
 <?php echo $this->yieldPushContent('scripts'); ?>
 <!-- Google Analytics -->
