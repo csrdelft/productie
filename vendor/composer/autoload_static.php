@@ -782,7 +782,6 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\controller\\LedenLijstController' => __DIR__ . '/../..' . '/lib/controller/LedenLijstController.php',
         'CsrDelft\\controller\\LedenMemoryController' => __DIR__ . '/../..' . '/lib/controller/LedenMemoryController.php',
         'CsrDelft\\controller\\LidInstellingenController' => __DIR__ . '/../..' . '/lib/controller/LidInstellingenController.php',
-        'CsrDelft\\controller\\LoggerController' => __DIR__ . '/../..' . '/lib/controller/LoggerController.php',
         'CsrDelft\\controller\\LoginController' => __DIR__ . '/../..' . '/lib/controller/LoginController.php',
         'CsrDelft\\controller\\MenuBeheerController' => __DIR__ . '/../..' . '/lib/controller/MenuBeheerController.php',
         'CsrDelft\\controller\\PasfotoController' => __DIR__ . '/../..' . '/lib/controller/PasfotoController.php',
