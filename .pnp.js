@@ -322,16 +322,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "npm:2.0.8"
       ],
       [
+        "hoverintent",
+        "npm:2.2.1"
+      ],
+      [
         "jgallery",
         "https://github.com/jakubkowalczyk-pl/jgallery.git#commit:7f517e2ae765f6423c4d6b2337a83a7da6f9c22d"
       ],
       [
         "jquery",
         "npm:3.5.1"
-      ],
-      [
-        "jquery-hoverintent",
-        "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.10.1"
       ],
       [
         "jquery-ui",
@@ -562,9 +562,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["flatpickr", "npm:4.6.6"],
             ["google-palette", "npm:1.1.0"],
             ["hammerjs", "npm:2.0.8"],
+            ["hoverintent", "npm:2.2.1"],
             ["jgallery", "https://github.com/jakubkowalczyk-pl/jgallery.git#commit:7f517e2ae765f6423c4d6b2337a83a7da6f9c22d"],
             ["jquery", "npm:3.5.1"],
-            ["jquery-hoverintent", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.10.1"],
             ["jquery-ui", "npm:1.12.1"],
             ["jquery.maskedinput", "npm:1.4.1"],
             ["jquery.scrollto", "npm:2.1.2"],
@@ -6312,6 +6312,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["hoverintent", [
+        ["npm:2.2.1", {
+          "packageLocation": "./.yarn/cache/hoverintent-npm-2.2.1-3558b88d2d-3fd5548a14.zip/node_modules/hoverintent/",
+          "packageDependencies": [
+            ["hoverintent", "npm:2.2.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["hsl-regex", [
         ["npm:1.0.0", {
           "packageLocation": "./.yarn/cache/hsl-regex-npm-1.0.0-49e975d55c-b04a50c6c7.zip/node_modules/hsl-regex/",
@@ -6955,19 +6964,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/jquery-npm-3.5.1-965b25dbd8-c50818c848.zip/node_modules/jquery/",
           "packageDependencies": [
             ["jquery", "npm:3.5.1"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["jquery-hoverintent", [
-        ["virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.10.1", {
-          "packageLocation": "./.yarn/$$virtual/jquery-hoverintent-virtual-a23b050180/0/cache/jquery-hoverintent-npm-1.10.1-867c8804bb-bc5c3b9f06.zip/node_modules/jquery-hoverintent/",
-          "packageDependencies": [
-            ["jquery-hoverintent", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.10.1"],
-            ["jquery", "npm:3.5.1"]
-          ],
-          "packagePeers": [
-            "jquery"
           ],
           "linkType": "HARD",
         }]
@@ -9692,9 +9688,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["flatpickr", "npm:4.6.6"],
             ["google-palette", "npm:1.1.0"],
             ["hammerjs", "npm:2.0.8"],
+            ["hoverintent", "npm:2.2.1"],
             ["jgallery", "https://github.com/jakubkowalczyk-pl/jgallery.git#commit:7f517e2ae765f6423c4d6b2337a83a7da6f9c22d"],
             ["jquery", "npm:3.5.1"],
-            ["jquery-hoverintent", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:1.10.1"],
             ["jquery-ui", "npm:1.12.1"],
             ["jquery.maskedinput", "npm:1.4.1"],
             ["jquery.scrollto", "npm:2.1.2"],
