@@ -33,12 +33,12 @@
 	USER="<?php echo static::e(\CsrDelft\service\security\LoginService::getUid()); ?>";
 </script>
 <?php echo $this->yieldPushContent('styles'); ?>
-<script type="text/javascript" src="/dist/js/sentry.eaa90e36ea7eda8774da.bundle.js"></script>
-<script type="text/javascript" src="/dist/js/vendors~sentry.c65c76fea5350fd8bf2d.chunk.js"></script>
+<script type="text/javascript" src="/dist/js/sentry.29bd4fe84fe612abf83d.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/vendors~sentry.b066e89c4b4e0b47c9a5.chunk.js"></script>
 
 <script type="text/javascript" src="/dist/js/vendors~app~extern-defer~fxclippy~fxminion~jquery~ledenmemory.3a15356ef84dc9b24924.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/vendors~app~datatable-api~formulier~grafiek~knop.898402753826677e3e62.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/app.2ea493db0165385f6ad2.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/vendors~app~datatable-api~formulier~grafiek~knop.89f3de9ba53a11ce564f.chunk.js"></script>
+<script type="text/javascript" src="/dist/js/app.9512b1a90caeb6e7ec1e.bundle.js"></script>
 
 <?php echo $this->yieldPushContent('scripts'); ?>
 <!-- Google Analytics -->
