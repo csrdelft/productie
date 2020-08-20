@@ -38,7 +38,7 @@
 
 <script type="text/javascript" src="/dist/js/vendors~app~extern-defer~fxclippy~fxminion~jquery~ledenmemory.3a15356ef84dc9b24924.chunk.js"></script>
 <script type="text/javascript" src="/dist/js/vendors~app~datatable-api~formulier~grafiek~knop.268d8c9ea3edb6e74bc9.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/app.46493bb332e335f5ace8.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/app.bbd0381da3c06ad97caa.bundle.js"></script>
 
 <?php echo $this->yieldPushContent('scripts'); ?>
 <!-- Google Analytics -->
