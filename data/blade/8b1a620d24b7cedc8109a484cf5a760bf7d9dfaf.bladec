@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="/dist/css/extern-owee.7a32829263fd2a970218.css" type="text/css"/>
 
 	<script type="text/javascript" src="/dist/js/vendors~extern~extern-owee.610338c33eb806bcae70.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/extern-owee.b27cf88586b4859650f5.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/extern-owee.f0454a796f32e8530cf8.bundle.js"></script>
 
 <?php $this->stopSection(); ?>
 

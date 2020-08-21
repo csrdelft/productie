@@ -166,10 +166,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "npm:9.8.4"
       ],
       [
-        "autosize",
-        "npm:1.18.13"
-      ],
-      [
         "axios",
         "npm:0.18.1"
       ],
@@ -523,7 +519,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/eslint-plugin", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:3.9.1"],
             ["@typescript-eslint/parser", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:3.9.1"],
             ["autoprefixer", "npm:9.8.4"],
-            ["autosize", "npm:1.18.13"],
             ["axios", "npm:0.18.1"],
             ["babel-eslint", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:10.1.0"],
             ["babel-loader", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:8.1.0"],
@@ -3121,16 +3116,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["num2fraction", "npm:1.2.2"],
             ["postcss", "npm:7.0.32"],
             ["postcss-value-parser", "npm:4.1.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["autosize", [
-        ["npm:1.18.13", {
-          "packageLocation": "./.yarn/cache/autosize-npm-1.18.13-1128d6d7b5-528be9d90e.zip/node_modules/autosize/",
-          "packageDependencies": [
-            ["autosize", "npm:1.18.13"],
-            ["jquery", "npm:3.5.1"]
           ],
           "linkType": "HARD",
         }]
@@ -9649,7 +9634,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/eslint-plugin", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:3.9.1"],
             ["@typescript-eslint/parser", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:3.9.1"],
             ["autoprefixer", "npm:9.8.4"],
-            ["autosize", "npm:1.18.13"],
             ["axios", "npm:0.18.1"],
             ["babel-eslint", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:10.1.0"],
             ["babel-loader", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:8.1.0"],
