@@ -288,6 +288,7 @@ return array(
     'CsrDelft\\entity\\maalcie\\MaaltijdAbonnement' => $baseDir . '/lib/entity/maalcie/MaaltijdAbonnement.php',
     'CsrDelft\\entity\\maalcie\\MaaltijdBeoordeling' => $baseDir . '/lib/entity/maalcie/MaaltijdBeoordeling.php',
     'CsrDelft\\entity\\maalcie\\MaaltijdRepetitie' => $baseDir . '/lib/entity/maalcie/MaaltijdRepetitie.php',
+    'CsrDelft\\entity\\maalcie\\RepetitieMaaltijdMaken' => $baseDir . '/lib/entity/maalcie/RepetitieMaaltijdMaken.php',
     'CsrDelft\\entity\\peilingen\\Peiling' => $baseDir . '/lib/entity/peilingen/Peiling.php',
     'CsrDelft\\entity\\peilingen\\PeilingOptie' => $baseDir . '/lib/entity/peilingen/PeilingOptie.php',
     'CsrDelft\\entity\\peilingen\\PeilingStem' => $baseDir . '/lib/entity/peilingen/PeilingStem.php',

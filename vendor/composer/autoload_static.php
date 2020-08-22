@@ -948,6 +948,7 @@ class ComposerStaticInit8c10b55fbc17d969f9127301e7f8e7f6
         'CsrDelft\\entity\\maalcie\\MaaltijdAbonnement' => __DIR__ . '/../..' . '/lib/entity/maalcie/MaaltijdAbonnement.php',
         'CsrDelft\\entity\\maalcie\\MaaltijdBeoordeling' => __DIR__ . '/../..' . '/lib/entity/maalcie/MaaltijdBeoordeling.php',
         'CsrDelft\\entity\\maalcie\\MaaltijdRepetitie' => __DIR__ . '/../..' . '/lib/entity/maalcie/MaaltijdRepetitie.php',
+        'CsrDelft\\entity\\maalcie\\RepetitieMaaltijdMaken' => __DIR__ . '/../..' . '/lib/entity/maalcie/RepetitieMaaltijdMaken.php',
         'CsrDelft\\entity\\peilingen\\Peiling' => __DIR__ . '/../..' . '/lib/entity/peilingen/Peiling.php',
         'CsrDelft\\entity\\peilingen\\PeilingOptie' => __DIR__ . '/../..' . '/lib/entity/peilingen/PeilingOptie.php',
         'CsrDelft\\entity\\peilingen\\PeilingStem' => __DIR__ . '/../..' . '/lib/entity/peilingen/PeilingStem.php',
