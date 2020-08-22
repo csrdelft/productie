@@ -27,6 +27,10 @@
 	<?php echo css_asset($sheet); ?>
 
 <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+<?php if(lid_instelling('layout', 'automatischDonker') == 'ja'): ?>
+	<?php echo css_asset('thema-donker', 'screen and (prefers-color-scheme: dark'); ?>
+
+<?php endif; ?>
 <script>
 	APP_ENV="<?php echo static::e($_ENV['APP_ENV']); ?>";
 	SENTRY_DSN_JS="<?php echo static::e($_ENV['SENTRY_DSN_JS']); ?>";
