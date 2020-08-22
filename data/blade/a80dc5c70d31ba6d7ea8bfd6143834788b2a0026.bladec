@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="/dist/css/fxminion.516f277dacd471f9ee5a.css" type="text/css"/>
 
 <script type="text/javascript" src="/dist/js/vendors~app~extern-defer~fxclippy~fxminion~jquery~ledenmemory.3a15356ef84dc9b24924.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/fxminion.76f7de25d6507e244679.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/fxminion.0798824bf4431c3e73db.bundle.js"></script>
 
 <?php ($minioncoords = \CsrDelft\service\DragObjectService::getCoords('minion', 40, 40)); ?>
 <div id="minion" class="dragobject savepos" style="top: <?php echo static::e($minioncoords["top"]); ?>px; left: <?php echo static::e($minioncoords["left"]); ?>px;">
