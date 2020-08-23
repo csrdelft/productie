@@ -1,6 +1,7 @@
 <?php
 /**
  * @var \CsrDelft\entity\maalcie\Maaltijd $maaltijd
+ * @var \CsrDelft\entity\maalcie\MaaltijdAanmelding $aanmelding
  */
 ?><div class="media pt-3 maaltijdketzer-<?php echo static::e($maaltijd->maaltijd_id); ?>" data-maaltijdnaam="<?php echo static::e($maaltijd->titel); ?>">
 	<div class="media-body pb-3 mb-0 lh-125 <?php if(isset($border) && $border): ?> border-bottom border-gray <?php endif; ?> ">
@@ -65,7 +66,7 @@
  <?php else: ?>
  <?php if(isset($aanmelding)): ?>
  <?php if($maaltijd->getEindMoment() > time()): ?>
- <div class="btn btn-success disabled">Aangemeld <?php if($aanmelding->door_abonnement): ?> (abo) <?php endif; ?></div>
+ <div class="btn btn-success disabled">Aangemeld <?php if($aanmelding->abonnementRepetitie): ?> (abo) <?php endif; ?></div>
  <?php else: ?>
  <span class="beoordeling-label bg-white">Kwaliteit:</span>
  <?php echo $kwaliteit; ?>
