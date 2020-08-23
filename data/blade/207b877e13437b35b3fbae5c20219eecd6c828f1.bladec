@@ -87,7 +87,7 @@
 
 <?php elseif(lid_instelling('layout', 'fx') == 'sneeuw'): ?>
 	<script type="text/javascript" src="/dist/js/vendors~fxclouds~fxsneeuw~fxspace.704fd071f7f178a35f64.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/fxsneeuw.e825e554ef2a7a7ca2e4.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/fxsneeuw.538d4f56c56ffdc5f02e.bundle.js"></script>
 
 <?php elseif(lid_instelling('layout', 'fx') == 'space'): ?>
 	<script type="text/javascript" src="/dist/js/vendors~fxclouds~fxsneeuw~fxspace.704fd071f7f178a35f64.chunk.js"></script>
