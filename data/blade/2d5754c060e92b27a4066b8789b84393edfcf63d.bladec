@@ -17,6 +17,7 @@
  <th scope="col">Mobiel</th>
  <th scope="col">Studie</th>
  <th scope="col">Nanoviet</th>
+ <th scope="col">Matrixplek</th>
  </tr>
  <?php $__currentLoopData = $novieten; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $noviet): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <tr>
@@ -27,6 +28,7 @@
  <td><?php echo static::e($noviet->mobiel); ?></td>
  <td><?php echo static::e($noviet->studie); ?></td>
  <td><?php if($noviet->novietSoort == '1'): ?> <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['tick']); ?> <?php else: ?> <?php echo call_user_func_array(['CsrDelft\view\Icon', 'getTag'], ['cross']); ?> <?php endif; ?> </td>
+ <td><?php if($noviet->matrixPlek !== null): ?> <?php echo static::e(['Voor', 'Midden', 'Achter'][$noviet->matrixPlek]); ?> <?php endif; ?></td>
  </tr>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
 	</table>
