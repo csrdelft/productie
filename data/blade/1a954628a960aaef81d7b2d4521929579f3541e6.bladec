@@ -37,12 +37,12 @@
 	USER="<?php echo static::e(\CsrDelft\service\security\LoginService::getUid()); ?>";
 </script>
 <?php echo $this->yieldPushContent('styles'); ?>
-<script type="text/javascript" src="/dist/js/sentry.41c996b07841a9b15ea4.bundle.js"></script>
-<script type="text/javascript" src="/dist/js/vendors~sentry.c8c8d7aa32fe93e95be7.chunk.js"></script>
+<script type="text/javascript" src="/dist/js/sentry.71caeb5b2efc30126143.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/vendors~sentry.6c534231ed7a5bd99e63.chunk.js"></script>
 
 <script type="text/javascript" src="/dist/js/vendors~app~extern-defer~fxclippy~fxminion~jquery~ledenmemory.3a15356ef84dc9b24924.chunk.js"></script>
 <script type="text/javascript" src="/dist/js/vendors~app~datatable-api~formulier~grafiek~knop.2a59c112f03331c1d26f.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/app.90e95ee0f0cc102d85c3.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/app.74ee51056cf7dc0267ba.bundle.js"></script>
 
 <?php echo $this->yieldPushContent('scripts'); ?>
 <!-- Google Analytics -->

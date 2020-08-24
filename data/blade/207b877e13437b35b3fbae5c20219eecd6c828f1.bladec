@@ -83,15 +83,15 @@
 	<?php echo $this->runChild('effect.civisaldo'); ?>
 <?php elseif(lid_instelling('layout', 'fx') == 'wolken'): ?>
 	<script type="text/javascript" src="/dist/js/vendors~fxclouds~fxsneeuw~fxspace.704fd071f7f178a35f64.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/fxclouds.b6f3e9ee0a31bce381ed.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/fxclouds.a43e58657a48ddb3b479.bundle.js"></script>
 
 <?php elseif(lid_instelling('layout', 'fx') == 'sneeuw'): ?>
 	<script type="text/javascript" src="/dist/js/vendors~fxclouds~fxsneeuw~fxspace.704fd071f7f178a35f64.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/fxsneeuw.538d4f56c56ffdc5f02e.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/fxsneeuw.521ac61dd6957343e000.bundle.js"></script>
 
 <?php elseif(lid_instelling('layout', 'fx') == 'space'): ?>
 	<script type="text/javascript" src="/dist/js/vendors~fxclouds~fxsneeuw~fxspace.704fd071f7f178a35f64.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/fxspace.cea16d4fda0435397b6c.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/fxspace.f68ede2769f00a276c2f.bundle.js"></script>
 
 <?php endif; ?>
 <?php if(lid_instelling('layout', 'trein') !== 'nee'): ?>
@@ -107,7 +107,7 @@
  const ASSISTENT_GELUIDEN = '<?php echo static::e(lid_instelling('layout', 'assistentGeluiden')); ?>';
 	</script>
 	<script type="text/javascript" src="/dist/js/vendors~app~extern-defer~fxclippy~fxminion~jquery~ledenmemory.3a15356ef84dc9b24924.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/fxclippy.6b870de26dcc414b6d53.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/fxclippy.8c22ade0835d7e581d41.bundle.js"></script>
 
 <?php endif; ?>
 </body>
