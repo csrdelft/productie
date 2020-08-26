@@ -115,13 +115,13 @@ class Google_Service_Firestore extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'pageSize' => array(
                   'location' => 'query',
                   'type' => 'integer',
+                ),
+                'pageToken' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
                 'filter' => array(
                   'location' => 'query',
@@ -191,11 +191,11 @@ class Google_Service_Firestore extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'filter' => array(
+                'pageToken' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'pageToken' => array(
+                'filter' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -305,16 +305,16 @@ class Google_Service_Firestore extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
+                'transaction' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
                 'mask.fieldPaths' => array(
                   'location' => 'query',
                   'type' => 'string',
                   'repeated' => true,
                 ),
                 'readTime' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'transaction' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -333,24 +333,11 @@ class Google_Service_Firestore extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'showMissing' => array(
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ),
-                'mask.fieldPaths' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                  'repeated' => true,
-                ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'pageSize' => array(
                   'location' => 'query',
                   'type' => 'integer',
                 ),
-                'transaction' => array(
+                'pageToken' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -358,9 +345,22 @@ class Google_Service_Firestore extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
+                'transaction' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'mask.fieldPaths' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
+                ),
                 'readTime' => array(
                   'location' => 'query',
                   'type' => 'string',
+                ),
+                'showMissing' => array(
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ),
               ),
             ),'listCollectionIds' => array(
@@ -402,19 +402,19 @@ class Google_Service_Firestore extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'updateMask.fieldPaths' => array(
+                'currentDocument.updateTime' => array(
                   'location' => 'query',
                   'type' => 'string',
-                  'repeated' => true,
                 ),
                 'mask.fieldPaths' => array(
                   'location' => 'query',
                   'type' => 'string',
                   'repeated' => true,
                 ),
-                'currentDocument.updateTime' => array(
+                'updateMask.fieldPaths' => array(
                   'location' => 'query',
                   'type' => 'string',
+                  'repeated' => true,
                 ),
                 'currentDocument.exists' => array(
                   'location' => 'query',
@@ -504,13 +504,13 @@ class Google_Service_Firestore extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'pageSize' => array(
                   'location' => 'query',
                   'type' => 'integer',
+                ),
+                'pageToken' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
               ),
             ),

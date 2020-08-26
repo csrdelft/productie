@@ -19,7 +19,7 @@
  * Service definition for Gmail (v1).
  *
  * <p>
- * The Gmail API lets you view and manage Gmail mailbox data like     threads,
+ * The Gmail API lets you view and manage Gmail mailbox data like threads,
  * messages, and labels.</p>
  *
  * <p>
@@ -97,9 +97,9 @@ class Google_Service_Gmail extends Google_Service
   public function __construct(Google_Client $client, $rootUrl = null)
   {
     parent::__construct($client);
-    $this->rootUrl = $rootUrl ?: 'https://www.googleapis.com/';
+    $this->rootUrl = $rootUrl ?: 'https://gmail.googleapis.com/';
     $this->servicePath = '';
-    $this->batchPath = 'batch/gmail/v1';
+    $this->batchPath = 'batch';
     $this->version = 'v1';
     $this->serviceName = 'gmail';
 
@@ -272,6 +272,10 @@ class Google_Service_Gmail extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
+                'maxResults' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
+                ),
                 'labelId' => array(
                   'location' => 'query',
                   'type' => 'string',
@@ -279,10 +283,6 @@ class Google_Service_Gmail extends Google_Service
                 'pageToken' => array(
                   'location' => 'query',
                   'type' => 'string',
-                ),
-                'maxResults' => array(
-                  'location' => 'query',
-                  'type' => 'integer',
                 ),
               ),
             ),
@@ -461,13 +461,13 @@ class Google_Service_Gmail extends Google_Service
                   'location' => 'query',
                   'type' => 'boolean',
                 ),
-                'internalDateSource' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'neverMarkSpam' => array(
                   'location' => 'query',
                   'type' => 'boolean',
+                ),
+                'internalDateSource' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
               ),
             ),'insert' => array(
@@ -479,13 +479,13 @@ class Google_Service_Gmail extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'internalDateSource' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'deleted' => array(
                   'location' => 'query',
                   'type' => 'boolean',
+                ),
+                'internalDateSource' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
               ),
             ),'list' => array(
@@ -497,14 +497,14 @@ class Google_Service_Gmail extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
+                'includeSpamTrash' => array(
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ),
                 'labelIds' => array(
                   'location' => 'query',
                   'type' => 'string',
                   'repeated' => true,
-                ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
                 ),
                 'q' => array(
                   'location' => 'query',
@@ -514,9 +514,9 @@ class Google_Service_Gmail extends Google_Service
                   'location' => 'query',
                   'type' => 'integer',
                 ),
-                'includeSpamTrash' => array(
+                'pageToken' => array(
                   'location' => 'query',
-                  'type' => 'boolean',
+                  'type' => 'string',
                 ),
               ),
             ),'modify' => array(
@@ -1161,6 +1161,11 @@ class Google_Service_Gmail extends Google_Service
                   'location' => 'query',
                   'type' => 'integer',
                 ),
+                'labelIds' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
+                ),
                 'includeSpamTrash' => array(
                   'location' => 'query',
                   'type' => 'boolean',
@@ -1172,11 +1177,6 @@ class Google_Service_Gmail extends Google_Service
                 'pageToken' => array(
                   'location' => 'query',
                   'type' => 'string',
-                ),
-                'labelIds' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                  'repeated' => true,
                 ),
               ),
             ),'modify' => array(

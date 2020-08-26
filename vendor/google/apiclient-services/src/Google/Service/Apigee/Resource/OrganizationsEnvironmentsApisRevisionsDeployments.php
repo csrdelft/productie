@@ -27,14 +27,12 @@ class Google_Service_Apigee_Resource_OrganizationsEnvironmentsApisRevisionsDeplo
 {
   /**
    * Generates a report for a dry run analysis of a DeployApiProxy request without
-   * committing the deployment.
-   *
-   * In addition to the standard validations performed when adding deployments,
-   * additional analysis will be done to detect possible traffic routing changes
-   * that would result from this deployment being created. Any potential routing
-   * conflicts or unsafe changes will be reported in the response. This routing
-   * analysis is not performed for a non-dry-run DeployApiProxy request.
-   * (deployments.generateDeployChangeReport)
+   * committing the deployment. In addition to the standard validations performed
+   * when adding deployments, additional analysis will be done to detect possible
+   * traffic routing changes that would result from this deployment being created.
+   * Any potential routing conflicts or unsafe changes will be reported in the
+   * response. This routing analysis is not performed for a non-dry-run
+   * DeployApiProxy request. (deployments.generateDeployChangeReport)
    *
    * @param string $name Name of the API proxy revision deployment in the
    * following format:
@@ -56,13 +54,12 @@ class Google_Service_Apigee_Resource_OrganizationsEnvironmentsApisRevisionsDeplo
   }
   /**
    * Generates a report for a dry run analysis of an UndeployApiProxy request
-   * without committing the undeploy.
-   *
-   * In addition to the standard validations performed when removing deployments,
-   * additional analysis will be done to detect possible traffic routing changes
-   * that would result from this deployment being removed. Any potential routing
-   * conflicts or unsafe changes will be reported in the response. This routing
-   * analysis is not performed for a non-dry-run UndeployApiProxy request.
+   * without committing the undeploy. In addition to the standard validations
+   * performed when removing deployments, additional analysis will be done to
+   * detect possible traffic routing changes that would result from this
+   * deployment being removed. Any potential routing conflicts or unsafe changes
+   * will be reported in the response. This routing analysis is not performed for
+   * a non-dry-run UndeployApiProxy request.
    * (deployments.generateUndeployChangeReport)
    *
    * @param string $name Name of the API proxy revision deployment in the

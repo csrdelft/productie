@@ -92,7 +92,7 @@ class Google_Service_CloudIdentity extends Google_Service
               'path' => 'v1/groups',
               'httpMethod' => 'GET',
               'parameters' => array(
-                'pageToken' => array(
+                'parent' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -100,7 +100,7 @@ class Google_Service_CloudIdentity extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'parent' => array(
+                'pageToken' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -113,11 +113,11 @@ class Google_Service_CloudIdentity extends Google_Service
               'path' => 'v1/groups:lookup',
               'httpMethod' => 'GET',
               'parameters' => array(
-                'groupKey.id' => array(
+                'groupKey.namespace' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'groupKey.namespace' => array(
+                'groupKey.id' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -140,15 +140,15 @@ class Google_Service_CloudIdentity extends Google_Service
               'path' => 'v1/groups:search',
               'httpMethod' => 'GET',
               'parameters' => array(
+                'view' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
                 'pageToken' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
                 'query' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'view' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -228,11 +228,11 @@ class Google_Service_CloudIdentity extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'memberKey.id' => array(
+                'memberKey.namespace' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'memberKey.namespace' => array(
+                'memberKey.id' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
