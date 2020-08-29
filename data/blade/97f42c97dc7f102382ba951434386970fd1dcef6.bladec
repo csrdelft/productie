@@ -1,7 +1,0 @@
-<ul class="submenu">
-	<li class="rotate"><a href="/vereniging/geloof" <?php if(startsWith(REQUEST_URI, '/vereniging/geloof')): ?> class="is-active" <?php endif; ?>>Geloof</a></li>
-	<li class="rotate"><a href="/vereniging/vorming" <?php if(startsWith(REQUEST_URI, '/vereniging/vorming')): ?> class="is-active" <?php endif; ?>>Vorming</a></li>
-	<li class="rotate"><a href="/vereniging/gezelligheid" <?php if(startsWith(REQUEST_URI, '/vereniging/gezelligheid')): ?> class="is-active" <?php endif; ?>>Gezelligheid</a></li>
-	<li class="rotate"><a href="/vereniging/onderverenigingen" <?php if(startsWith(REQUEST_URI, '/vereniging/onderverenigingen')): ?> class="is-active" <?php endif; ?>>Onderverenigingen</a></li>
-	<li class="rotate"><a href="/vereniging/ontspanning" <?php if(startsWith(REQUEST_URI, '/vereniging/ontspanning')): ?> class="is-active" <?php endif; ?>>Ontspanning</a></li>
-</ul>
