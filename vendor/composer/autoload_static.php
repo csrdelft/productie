@@ -683,6 +683,7 @@ class ComposerStaticInitc1a45df51d40ef6a20d0c3023303e75c
         'CsrDelft\\Twig\\AutoEscapeService' => __DIR__ . '/../..' . '/lib/Twig/AutoEscapeService.php',
         'CsrDelft\\Twig\\Configurator' => __DIR__ . '/../..' . '/lib/Twig/Configurator.php',
         'CsrDelft\\Twig\\CsrTwigExtension' => __DIR__ . '/../..' . '/lib/Twig/CsrTwigExtension.php',
+        'CsrDelft\\Twig\\ForumTwigExtension' => __DIR__ . '/../..' . '/lib/Twig/ForumTwigExtension.php',
         'CsrDelft\\bb\\BbEnv' => __DIR__ . '/..' . '/csrdelft/bb/src/BbEnv.php',
         'CsrDelft\\bb\\BbException' => __DIR__ . '/..' . '/csrdelft/bb/src/BbException.php',
         'CsrDelft\\bb\\BbTag' => __DIR__ . '/..' . '/csrdelft/bb/src/BbTag.php',

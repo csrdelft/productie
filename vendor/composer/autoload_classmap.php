@@ -23,6 +23,7 @@ return array(
     'CsrDelft\\Twig\\AutoEscapeService' => $baseDir . '/lib/Twig/AutoEscapeService.php',
     'CsrDelft\\Twig\\Configurator' => $baseDir . '/lib/Twig/Configurator.php',
     'CsrDelft\\Twig\\CsrTwigExtension' => $baseDir . '/lib/Twig/CsrTwigExtension.php',
+    'CsrDelft\\Twig\\ForumTwigExtension' => $baseDir . '/lib/Twig/ForumTwigExtension.php',
     'CsrDelft\\bb\\BbEnv' => $vendorDir . '/csrdelft/bb/src/BbEnv.php',
     'CsrDelft\\bb\\BbException' => $vendorDir . '/csrdelft/bb/src/BbException.php',
     'CsrDelft\\bb\\BbTag' => $vendorDir . '/csrdelft/bb/src/BbTag.php',
