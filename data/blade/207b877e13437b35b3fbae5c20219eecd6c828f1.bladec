@@ -15,7 +15,7 @@
  <nav id="zijbalk">
  <?php ($zijbalk = \CsrDelft\view\Zijbalk::addStandaardZijbalk(isset($zijbalk) ? $zijbalk : [])); ?>
  <?php $__currentLoopData = $zijbalk; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $block): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <div class="blok"><?php ($block->view()); ?></div>
+ <div class="blok"><?php echo $block; ?></div>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  <?php if(!DEBUG): ?> <?php if (call_user_func($this->authCallBack,P_ADMIN)): ?>
  <div class="commit-hash">
