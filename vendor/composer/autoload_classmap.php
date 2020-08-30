@@ -20,6 +20,7 @@ return array(
     'CsrDelft\\DataFixtures\\ProfielFixture' => $baseDir . '/lib/DataFixtures/ProfielFixture.php',
     'CsrDelft\\DataFixtures\\VerticalenFixtures' => $baseDir . '/lib/DataFixtures/VerticalenFixtures.php',
     'CsrDelft\\Kernel' => $baseDir . '/lib/Kernel.php',
+    'CsrDelft\\Twig\\AccountTwigExtension' => $baseDir . '/lib/Twig/AccountTwigExtension.php',
     'CsrDelft\\Twig\\AutoEscapeService' => $baseDir . '/lib/Twig/AutoEscapeService.php',
     'CsrDelft\\Twig\\Configurator' => $baseDir . '/lib/Twig/Configurator.php',
     'CsrDelft\\Twig\\CsrTwigExtension' => $baseDir . '/lib/Twig/CsrTwigExtension.php',

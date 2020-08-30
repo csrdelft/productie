@@ -680,6 +680,7 @@ class ComposerStaticInitdaa3151f85aec0c445e10c121eedb0cf
         'CsrDelft\\DataFixtures\\ProfielFixture' => __DIR__ . '/../..' . '/lib/DataFixtures/ProfielFixture.php',
         'CsrDelft\\DataFixtures\\VerticalenFixtures' => __DIR__ . '/../..' . '/lib/DataFixtures/VerticalenFixtures.php',
         'CsrDelft\\Kernel' => __DIR__ . '/../..' . '/lib/Kernel.php',
+        'CsrDelft\\Twig\\AccountTwigExtension' => __DIR__ . '/../..' . '/lib/Twig/AccountTwigExtension.php',
         'CsrDelft\\Twig\\AutoEscapeService' => __DIR__ . '/../..' . '/lib/Twig/AutoEscapeService.php',
         'CsrDelft\\Twig\\Configurator' => __DIR__ . '/../..' . '/lib/Twig/Configurator.php',
         'CsrDelft\\Twig\\CsrTwigExtension' => __DIR__ . '/../..' . '/lib/Twig/CsrTwigExtension.php',
