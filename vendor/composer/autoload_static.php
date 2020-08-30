@@ -1189,7 +1189,6 @@ class ComposerStaticInitdaa3151f85aec0c445e10c121eedb0cf
         'CsrDelft\\view\\commissievoorkeuren\\CommissieVoorkeurPraesesOpmerkingForm' => __DIR__ . '/../..' . '/lib/view/commissievoorkeuren/CommissieVoorkeurPraesesOpmerkingForm.php',
         'CsrDelft\\view\\commissievoorkeuren\\CommissieVoorkeurenForm' => __DIR__ . '/../..' . '/lib/view/commissievoorkeuren/CommissieVoorkeurenForm.php',
         'CsrDelft\\view\\courant\\CourantBerichtFormulier' => __DIR__ . '/../..' . '/lib/view/courant/CourantBerichtFormulier.php',
-        'CsrDelft\\view\\courant\\CourantView' => __DIR__ . '/../..' . '/lib/view/courant/CourantView.php',
         'CsrDelft\\view\\datatable\\CellRender' => __DIR__ . '/../..' . '/lib/view/datatable/CellRender.php',
         'CsrDelft\\view\\datatable\\CellType' => __DIR__ . '/../..' . '/lib/view/datatable/CellType.php',
         'CsrDelft\\view\\datatable\\DataTable' => __DIR__ . '/../..' . '/lib/view/datatable/DataTable.php',

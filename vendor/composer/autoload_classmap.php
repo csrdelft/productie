@@ -529,7 +529,6 @@ return array(
     'CsrDelft\\view\\commissievoorkeuren\\CommissieVoorkeurPraesesOpmerkingForm' => $baseDir . '/lib/view/commissievoorkeuren/CommissieVoorkeurPraesesOpmerkingForm.php',
     'CsrDelft\\view\\commissievoorkeuren\\CommissieVoorkeurenForm' => $baseDir . '/lib/view/commissievoorkeuren/CommissieVoorkeurenForm.php',
     'CsrDelft\\view\\courant\\CourantBerichtFormulier' => $baseDir . '/lib/view/courant/CourantBerichtFormulier.php',
-    'CsrDelft\\view\\courant\\CourantView' => $baseDir . '/lib/view/courant/CourantView.php',
     'CsrDelft\\view\\datatable\\CellRender' => $baseDir . '/lib/view/datatable/CellRender.php',
     'CsrDelft\\view\\datatable\\CellType' => $baseDir . '/lib/view/datatable/CellType.php',
     'CsrDelft\\view\\datatable\\DataTable' => $baseDir . '/lib/view/datatable/DataTable.php',
