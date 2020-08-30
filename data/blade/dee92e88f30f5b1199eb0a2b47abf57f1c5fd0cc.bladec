@@ -1,5 +1,0 @@
-<?php $_shouldextend[1]=1; ?>
-
-<?php $this->startSection('titel', 'Eetplan'); ?>
-
-<?php if (@$_shouldextend[1]) { echo $this->runChild('layout'); } ?>
