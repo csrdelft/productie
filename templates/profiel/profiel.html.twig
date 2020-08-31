@@ -303,7 +303,7 @@
 					<dd>
 						<ul class="list-unstyled">
 							{% for bestuur in besturen %}
-								<li><a href="{{ bestuur.url }}">{{ bestuur.naam }}</a></li>
+								<li><a href="{{ bestuur.url }}">{{ bestuur.naam | raw }}</a></li>
 							{% endfor %}
 						</ul>
 					</dd>
@@ -313,7 +313,7 @@
 					<dd>
 						<ul class="list-unstyled">
 							{% for commissie in commissies %}
-								<li><a href="{{ commissie.url }}">{{ commissie.naam }}</a></li>
+								<li><a href="{{ commissie.url }}">{{ commissie.naam | raw }}</a></li>
 							{% endfor %}
 						</ul>
 					</dd>
@@ -333,7 +333,7 @@
 					<dd>
 						<ul class="list-unstyled">
 							{% for groep in groepen %}
-								<li><a href="{{ groep.url }}">{{ groep.naam }}</a></li>
+								<li><a href="{{ groep.url }}">{{ groep.naam | raw }}</a></li>
 							{% endfor %}
 						</ul>
 					</dd>
@@ -345,7 +345,7 @@
 					<dd>
 						<ul class="list-unstyled">
 							{% for werkgroep in werkgroepen %}
-								<li><a href="{{ werkgroep.url }}">{{ werkgroep.naam }}</a></li>
+								<li><a href="{{ werkgroep.url }}">{{ werkgroep.naam | raw }}</a></li>
 							{% endfor %}
 						</ul>
 					</dd>
@@ -364,7 +364,7 @@
 						<dd>
 							<ul class="list-unstyled">
 								{% for ketzer in ketzers %}
-									<li><a href="{{ ketzer.url }}">{{ ketzer.naam }}</a></li>
+									<li><a href="{{ ketzer.url }}">{{ ketzer.naam | raw }}</a></li>
 								{% endfor %}
 							</ul>
 						</dd>
@@ -376,7 +376,7 @@
 						<dd>
 							<ul class="list-unstyled">
 								{% for activiteit in activiteiten %}
-									<li><a href="{{ activiteit.url }}">{{ activiteit.naam }}</a></li>
+									<li><a href="{{ activiteit.url }}">{{ activiteit.naam | raw }}</a></li>
 								{% endfor %}
 							</ul>
 						</dd>
@@ -387,41 +387,43 @@
 
 		{% if (profiel.lid or (mag('P_LEDEN_MOD') and profiel.civiSaldo)) and profiel.bankrekening %}
 			<dl>
-			{% if profiel.bankrekening and profiel|is_zichtbaar('bankrekening', 'profiel_lid') %}
-				<dt>Bankrekening</dt>
-				<dd>
-					{{ profiel.bankrekening }}
-					{% if mag('P_MAAL_MOD') %}
-						<span class="lichtgrijs">({% if not profiel.machtiging %}geen{% endif %} machtiging getekend)</span>
-					{% endif %}
-				</dd>
-			{% endif %}
+				{% if profiel.bankrekening and profiel|is_zichtbaar('bankrekening', 'profiel_lid') %}
+					<dt>Bankrekening</dt>
+					<dd>
+						{{ profiel.bankrekening }}
+						{% if mag('P_MAAL_MOD') %}
+							<span class="lichtgrijs">({% if not profiel.machtiging %}geen{% endif %} machtiging getekend)</span>
+						{% endif %}
+					</dd>
+				{% endif %}
+			</dl>
 			{% if mag('P_FISCAAT_MOD') or app.user.uid == profiel.uid %}
-				<a id="CiviSaldo"></a>
-				<dt>Saldohistorie</dt>
-				<dd>
-					<a class="btn btn-primary" href="#" onclick="$('#saldoTabel').show();$(this).hide();return false;">Toon
-						recente bestellingen</a>
-					<div id="saldoTabel" style="display: none;">
-						<table class="table table-sm table-striped">
-							{% for bestelling in bestellinglog %}
-								<tr>
-									<td>
-										{{ bestelling.inhoudTekst }}
-										{% if bestelling.comment %}
-											<br><i>{{ bestelling.comment }}</i>
-										{% endif %}
-									</td>
-									<td>{{ bestelling.totaal | format_bedrag }}</td>
-									<td>({{ bestelling.moment | datetime_format }})</td>
-								</tr>
-							{% endfor %}
-						</table>
-						<div class="text-right">
-							<a href="{{ bestellingenlink }}">Meer &#187;</a>
+				<dl>
+					<a id="CiviSaldo"></a>
+					<dt>Saldohistorie</dt>
+					<dd>
+						<a class="btn btn-primary" href="#" onclick="$('#saldoTabel').show();$(this).hide();return false;">Toon
+							recente bestellingen</a>
+						<div id="saldoTabel" style="display: none;">
+							<table class="table table-sm table-striped">
+								{% for bestelling in bestellinglog %}
+									<tr>
+										<td>
+											{{ bestelling.inhoudTekst }}
+											{% if bestelling.comment %}
+												<br><i>{{ bestelling.comment }}</i>
+											{% endif %}
+										</td>
+										<td>{{ bestelling.totaal | format_bedrag }}</td>
+										<td>({{ bestelling.moment | datetime_format }})</td>
+									</tr>
+								{% endfor %}
+							</table>
+							<div class="text-right">
+								<a href="{{ bestellingenlink }}">Meer &#187;</a>
+							</div>
 						</div>
-					</div>
-				</dd>
+					</dd>
 				</dl>
 			{% endif %}
 			{% if mag('P_FISCAAT_MOD') or app.user.uid == profiel.uid %}
