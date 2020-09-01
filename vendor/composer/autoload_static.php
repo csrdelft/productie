@@ -715,6 +715,7 @@ class ComposerStaticInitdaa3151f85aec0c445e10c121eedb0cf
         'CsrDelft\\bb\\tag\\BbTableHeader' => __DIR__ . '/..' . '/csrdelft/bb/src/tag/BbTableHeader.php',
         'CsrDelft\\bb\\tag\\BbTableRow' => __DIR__ . '/..' . '/csrdelft/bb/src/tag/BbTableRow.php',
         'CsrDelft\\bb\\tag\\BbUnderline' => __DIR__ . '/..' . '/csrdelft/bb/src/tag/BbUnderline.php',
+        'CsrDelft\\command\\CsrCronCommand' => __DIR__ . '/../..' . '/lib/command/CsrCronCommand.php',
         'CsrDelft\\command\\FlushMemcacheCommand' => __DIR__ . '/../..' . '/lib/command/FlushMemcacheCommand.php',
         'CsrDelft\\command\\MaaltijdVerwerkingTerugdraaienCommand' => __DIR__ . '/../..' . '/lib/command/MaaltijdVerwerkingTerugdraaienCommand.php',
         'CsrDelft\\command\\PinTransactiesDownloadenCommand' => __DIR__ . '/../..' . '/lib/command/PinTransactiesDownloadenCommand.php',

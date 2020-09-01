@@ -55,6 +55,7 @@ return array(
     'CsrDelft\\bb\\tag\\BbTableHeader' => $vendorDir . '/csrdelft/bb/src/tag/BbTableHeader.php',
     'CsrDelft\\bb\\tag\\BbTableRow' => $vendorDir . '/csrdelft/bb/src/tag/BbTableRow.php',
     'CsrDelft\\bb\\tag\\BbUnderline' => $vendorDir . '/csrdelft/bb/src/tag/BbUnderline.php',
+    'CsrDelft\\command\\CsrCronCommand' => $baseDir . '/lib/command/CsrCronCommand.php',
     'CsrDelft\\command\\FlushMemcacheCommand' => $baseDir . '/lib/command/FlushMemcacheCommand.php',
     'CsrDelft\\command\\MaaltijdVerwerkingTerugdraaienCommand' => $baseDir . '/lib/command/MaaltijdVerwerkingTerugdraaienCommand.php',
     'CsrDelft\\command\\PinTransactiesDownloadenCommand' => $baseDir . '/lib/command/PinTransactiesDownloadenCommand.php',
