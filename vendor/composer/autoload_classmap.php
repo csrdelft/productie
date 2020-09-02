@@ -62,6 +62,7 @@ return array(
     'CsrDelft\\command\\PinTransactiesDownloadenCommand' => $baseDir . '/lib/command/PinTransactiesDownloadenCommand.php',
     'CsrDelft\\command\\SponsorAffiliateDownloadCommand' => $baseDir . '/lib/command/SponsorAffiliateDownloadCommand.php',
     'CsrDelft\\command\\StudieOpDatumCommand' => $baseDir . '/lib/command/StudieOpDatumCommand.php',
+    'CsrDelft\\command\\WelkomCommand' => $baseDir . '/lib/command/WelkomCommand.php',
     'CsrDelft\\common\\Annotation\\Auth' => $baseDir . '/lib/common/Annotation/Auth.php',
     'CsrDelft\\common\\Annotation\\CsrfUnsafe' => $baseDir . '/lib/common/Annotation/CsrfUnsafe.php',
     'CsrDelft\\common\\ContainerFacade' => $baseDir . '/lib/common/ContainerFacade.php',

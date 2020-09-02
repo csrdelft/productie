@@ -722,6 +722,7 @@ class ComposerStaticInitdaa3151f85aec0c445e10c121eedb0cf
         'CsrDelft\\command\\PinTransactiesDownloadenCommand' => __DIR__ . '/../..' . '/lib/command/PinTransactiesDownloadenCommand.php',
         'CsrDelft\\command\\SponsorAffiliateDownloadCommand' => __DIR__ . '/../..' . '/lib/command/SponsorAffiliateDownloadCommand.php',
         'CsrDelft\\command\\StudieOpDatumCommand' => __DIR__ . '/../..' . '/lib/command/StudieOpDatumCommand.php',
+        'CsrDelft\\command\\WelkomCommand' => __DIR__ . '/../..' . '/lib/command/WelkomCommand.php',
         'CsrDelft\\common\\Annotation\\Auth' => __DIR__ . '/../..' . '/lib/common/Annotation/Auth.php',
         'CsrDelft\\common\\Annotation\\CsrfUnsafe' => __DIR__ . '/../..' . '/lib/common/Annotation/CsrfUnsafe.php',
         'CsrDelft\\common\\ContainerFacade' => __DIR__ . '/../..' . '/lib/common/ContainerFacade.php',
