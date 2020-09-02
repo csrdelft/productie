@@ -106,15 +106,15 @@ final class Versions
   'symfony/deprecation-contracts' => 'v2.1.3@5e20b83385a77593259c9f8beb2c43cd03b2ac14',
   'symfony/doctrine-bridge' => 'v5.1.3@e88743167c3edc667f809f9b3558954bde1fbd89',
   'symfony/dotenv' => 'v5.1.3@42d2a18597f4c7cafc0e25b1ad6a1cbb4f2caf05',
-  'symfony/error-handler' => 'v5.1.3@4a0d1673a4731c3cb2dea3580c73a676ecb9ed4b',
-  'symfony/event-dispatcher' => 'v5.1.3@7827d55911f91c070fc293ea51a06eec80797d76',
+  'symfony/error-handler' => 'v5.1.5@525636d4b84e06c6ca72d96b6856b5b169416e6a',
+  'symfony/event-dispatcher' => 'v5.1.5@94871fc0a69c3c5da57764187724cdce0755899c',
   'symfony/event-dispatcher-contracts' => 'v2.1.3@f6f613d74cfc5a623fc36294d3451eb7fa5a042b',
   'symfony/filesystem' => 'v5.1.3@6e4320f06d5f2cce0d96530162491f4465179157',
   'symfony/finder' => 'v5.1.3@4298870062bfc667cb78d2b379be4bf5dec5f187',
   'symfony/flex' => 'v1.9.2@08882d1d639c4e58a6e4cd48411ed8a622dd206e',
   'symfony/framework-bundle' => 'v5.1.3@f9be9af9092f165b9b809d870289b57330301dc6',
   'symfony/http-foundation' => 'v5.1.3@1f0d6627e680591c61e9176f04a0dc887b4e6702',
-  'symfony/http-kernel' => 'v5.1.3@d6dd8f6420e377970ddad0d6317d4ce4186fc6b3',
+  'symfony/http-kernel' => 'v5.1.5@3e32676e6cb5d2081c91a56783471ff8a7f7110b',
   'symfony/mime' => 'v5.1.3@149fb0ad35aae3c7637b496b38478797fa6a7ea6',
   'symfony/monolog-bridge' => 'v5.1.3@81e8c7692b78161a06f779c741ef21d80f217175',
   'symfony/monolog-bundle' => 'v3.5.0@dd80460fcfe1fa2050a7103ad818e9d0686ce6fd',
@@ -188,7 +188,7 @@ final class Versions
   'symfony/profiler-pack' => 'v1.0.5@29ec66471082b4eb068db11eb4f0a48c277653f7',
   'symfony/web-profiler-bundle' => 'v5.1.3@6d32d311d9d599830f57a2fe6bb6e38970150acd',
   'theseer/tokenizer' => '1.2.0@75a63c33a8577608444246075ea0af0d052e452a',
-  'csr/csrdelft.nl' => 'dev-9f4a35f96e509158762900ade6251bba6956d3a5@9f4a35f96e509158762900ade6251bba6956d3a5',
+  'csr/csrdelft.nl' => 'dev-f51ff11f72569a4ab5f317b8f4a73030d15d0dc3@f51ff11f72569a4ab5f317b8f4a73030d15d0dc3',
 );
 
     private function __construct()
