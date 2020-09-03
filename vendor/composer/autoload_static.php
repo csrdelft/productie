@@ -969,6 +969,7 @@ class ComposerStaticInitdaa3151f85aec0c445e10c121eedb0cf
         'CsrDelft\\entity\\pin\\PinTransactieMatch' => __DIR__ . '/../..' . '/lib/entity/pin/PinTransactieMatch.php',
         'CsrDelft\\entity\\pin\\PinTransactieMatchStatusEnum' => __DIR__ . '/../..' . '/lib/entity/pin/PinTransactieMatchStatusEnum.php',
         'CsrDelft\\entity\\profiel\\Profiel' => __DIR__ . '/../..' . '/lib/entity/profiel/Profiel.php',
+        'CsrDelft\\entity\\profiel\\ProfielToestemmingProxy' => __DIR__ . '/../..' . '/lib/entity/profiel/ProfielToestemmingProxy.php',
         'CsrDelft\\entity\\security\\AccessControl' => __DIR__ . '/../..' . '/lib/entity/security/AccessControl.php',
         'CsrDelft\\entity\\security\\Account' => __DIR__ . '/../..' . '/lib/entity/security/Account.php',
         'CsrDelft\\entity\\security\\LoginSession' => __DIR__ . '/../..' . '/lib/entity/security/LoginSession.php',

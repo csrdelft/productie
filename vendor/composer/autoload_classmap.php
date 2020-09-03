@@ -309,6 +309,7 @@ return array(
     'CsrDelft\\entity\\pin\\PinTransactieMatch' => $baseDir . '/lib/entity/pin/PinTransactieMatch.php',
     'CsrDelft\\entity\\pin\\PinTransactieMatchStatusEnum' => $baseDir . '/lib/entity/pin/PinTransactieMatchStatusEnum.php',
     'CsrDelft\\entity\\profiel\\Profiel' => $baseDir . '/lib/entity/profiel/Profiel.php',
+    'CsrDelft\\entity\\profiel\\ProfielToestemmingProxy' => $baseDir . '/lib/entity/profiel/ProfielToestemmingProxy.php',
     'CsrDelft\\entity\\security\\AccessControl' => $baseDir . '/lib/entity/security/AccessControl.php',
     'CsrDelft\\entity\\security\\Account' => $baseDir . '/lib/entity/security/Account.php',
     'CsrDelft\\entity\\security\\LoginSession' => $baseDir . '/lib/entity/security/LoginSession.php',
