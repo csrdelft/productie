@@ -42,7 +42,7 @@
 
 <script type="text/javascript" src="/dist/js/vendors~app~extern-defer~fxclippy~fxminion~jquery~ledenmemory.3a15356ef84dc9b24924.chunk.js"></script>
 <script type="text/javascript" src="/dist/js/vendors~app~datatable-api~formulier~grafiek~knop.2a59c112f03331c1d26f.chunk.js"></script>
-<script type="text/javascript" src="/dist/js/app.46a29cc74f99d56ae8c1.bundle.js"></script>
+<script type="text/javascript" src="/dist/js/app.8f36e9b5e843476b3b57.bundle.js"></script>
 
 <?php echo $this->yieldPushContent('scripts'); ?>
 <!-- Google Analytics -->
