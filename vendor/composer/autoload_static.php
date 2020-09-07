@@ -958,6 +958,7 @@ class ComposerStaticInitdaa3151f85aec0c445e10c121eedb0cf
         'CsrDelft\\entity\\maalcie\\ArchiefMaaltijd' => __DIR__ . '/../..' . '/lib/entity/maalcie/ArchiefMaaltijd.php',
         'CsrDelft\\entity\\maalcie\\Maaltijd' => __DIR__ . '/../..' . '/lib/entity/maalcie/Maaltijd.php',
         'CsrDelft\\entity\\maalcie\\MaaltijdAanmelding' => __DIR__ . '/../..' . '/lib/entity/maalcie/MaaltijdAanmelding.php',
+        'CsrDelft\\entity\\maalcie\\MaaltijdAanmeldingDTO' => __DIR__ . '/../..' . '/lib/entity/maalcie/MaaltijdAanmeldingDTO.php',
         'CsrDelft\\entity\\maalcie\\MaaltijdAbonnement' => __DIR__ . '/../..' . '/lib/entity/maalcie/MaaltijdAbonnement.php',
         'CsrDelft\\entity\\maalcie\\MaaltijdBeoordeling' => __DIR__ . '/../..' . '/lib/entity/maalcie/MaaltijdBeoordeling.php',
         'CsrDelft\\entity\\maalcie\\MaaltijdRepetitie' => __DIR__ . '/../..' . '/lib/entity/maalcie/MaaltijdRepetitie.php',
