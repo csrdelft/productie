@@ -323,6 +323,8 @@ namespace CsrDelft\Twig {
 				return CsrBB::parseHtml($string);
 			} else if ($mode == 'mail') {
 				return CsrBB::parseMail($string);
+			} else if ($mode == 'plain') {
+				return CsrBB::parsePlain($string);
 			} else {
 				return CsrBB::parse($string);
 			}

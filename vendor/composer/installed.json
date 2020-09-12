@@ -182,17 +182,17 @@
     },
     {
         "name": "csrdelft/bb",
-        "version": "v1.1.9",
-        "version_normalized": "1.1.9.0",
+        "version": "v1.2.0",
+        "version_normalized": "1.2.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/csrdelft/bb.git",
-            "reference": "fea37a4c6cc65e721a27f014ecbb8e3e1460e090"
+            "reference": "707ae71489f2b8007b5bc160fa2e4985c6afe771"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/csrdelft/bb/zipball/fea37a4c6cc65e721a27f014ecbb8e3e1460e090",
-            "reference": "fea37a4c6cc65e721a27f014ecbb8e3e1460e090",
+            "url": "https://api.github.com/repos/csrdelft/bb/zipball/707ae71489f2b8007b5bc160fa2e4985c6afe771",
+            "reference": "707ae71489f2b8007b5bc160fa2e4985c6afe771",
             "shasum": ""
         },
         "require": {
@@ -202,7 +202,7 @@
             "phpunit/phpunit": "^8.3",
             "spatie/phpunit-snapshot-assertions": "^2.1"
         },
-        "time": "2020-05-21T08:17:18+00:00",
+        "time": "2020-09-12T15:18:49+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
