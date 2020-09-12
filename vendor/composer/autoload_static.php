@@ -899,6 +899,7 @@ class ComposerStaticInitdaa3151f85aec0c445e10c121eedb0cf
         'CsrDelft\\entity\\fiscaat\\CiviPrijs' => __DIR__ . '/../..' . '/lib/entity/fiscaat/CiviPrijs.php',
         'CsrDelft\\entity\\fiscaat\\CiviProduct' => __DIR__ . '/../..' . '/lib/entity/fiscaat/CiviProduct.php',
         'CsrDelft\\entity\\fiscaat\\CiviSaldo' => __DIR__ . '/../..' . '/lib/entity/fiscaat/CiviSaldo.php',
+        'CsrDelft\\entity\\fiscaat\\CiviSaldoAfschrijvenDTO' => __DIR__ . '/../..' . '/lib/entity/fiscaat/CiviSaldoAfschrijvenDTO.php',
         'CsrDelft\\entity\\fiscaat\\CiviSaldoLog' => __DIR__ . '/../..' . '/lib/entity/fiscaat/CiviSaldoLog.php',
         'CsrDelft\\entity\\fiscaat\\enum\\CiviProductTypeEnum' => __DIR__ . '/../..' . '/lib/entity/fiscaat/enum/CiviProductTypeEnum.php',
         'CsrDelft\\entity\\fiscaat\\enum\\CiviSaldoCommissieEnum' => __DIR__ . '/../..' . '/lib/entity/fiscaat/enum/CiviSaldoCommissieEnum.php',

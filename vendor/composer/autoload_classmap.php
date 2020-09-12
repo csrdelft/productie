@@ -239,6 +239,7 @@ return array(
     'CsrDelft\\entity\\fiscaat\\CiviPrijs' => $baseDir . '/lib/entity/fiscaat/CiviPrijs.php',
     'CsrDelft\\entity\\fiscaat\\CiviProduct' => $baseDir . '/lib/entity/fiscaat/CiviProduct.php',
     'CsrDelft\\entity\\fiscaat\\CiviSaldo' => $baseDir . '/lib/entity/fiscaat/CiviSaldo.php',
+    'CsrDelft\\entity\\fiscaat\\CiviSaldoAfschrijvenDTO' => $baseDir . '/lib/entity/fiscaat/CiviSaldoAfschrijvenDTO.php',
     'CsrDelft\\entity\\fiscaat\\CiviSaldoLog' => $baseDir . '/lib/entity/fiscaat/CiviSaldoLog.php',
     'CsrDelft\\entity\\fiscaat\\enum\\CiviProductTypeEnum' => $baseDir . '/lib/entity/fiscaat/enum/CiviProductTypeEnum.php',
     'CsrDelft\\entity\\fiscaat\\enum\\CiviSaldoCommissieEnum' => $baseDir . '/lib/entity/fiscaat/enum/CiviSaldoCommissieEnum.php',
