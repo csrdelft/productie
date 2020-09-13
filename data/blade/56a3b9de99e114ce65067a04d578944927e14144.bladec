@@ -1,2 +1,0 @@
-<td id="maalcie-melding-veld"></td>
-<?php echo $this->runChild('maaltijden.abonnement.mijn_abonnement_veld', ['uid' => $uid, 'mrid' => $mrid]); ?>
