@@ -13,7 +13,7 @@
 <main class="container my-3 py-3 flex-shrink-0">
 	<?php if(lid_instelling('zijbalk', 'breedte') != 'zijbalk_verborgen'): ?>
  <nav id="zijbalk">
- <?php ($zijbalk = \CsrDelft\view\Zijbalk::addStandaardZijbalk(isset($zijbalk) ? $zijbalk : [])); ?>
+ <?php ($zijbalk = \CsrDelft\common\ContainerFacade::getContainer()->get(\CsrDelft\view\Zijbalk::class)->getZijbalk()); ?>
  <?php $__currentLoopData = $zijbalk; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $block): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <div class="blok"><?php echo $block; ?></div>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>

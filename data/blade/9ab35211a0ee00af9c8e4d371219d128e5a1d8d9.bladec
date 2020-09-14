@@ -21,7 +21,7 @@
  <tbody>
  <?php $__currentLoopData = $saldi; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $saldo): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <tr>
- <td><?php echo $saldo->profiel ? $saldo->profiel->getLink() : ""; ?></td>
+ <td><?php echo $saldo->uid ? \CsrDelft\repository\ProfielRepository::getLink($saldo->uid) : ""; ?></td>
  <td><?php echo static::e($saldo->uid); ?></td>
  <td><?php echo static::e(format_bedrag($saldo->saldo)); ?></td>
  </tr>
