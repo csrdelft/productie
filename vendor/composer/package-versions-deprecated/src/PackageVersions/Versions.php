@@ -183,12 +183,15 @@ final class Versions
   'sebastian/type' => '1.1.3@3aaaa15fa71d27650d62a948be022fe3b48541a3',
   'sebastian/version' => '2.0.1@99732be0ddb3361e16ad77b68ba41efc8e979019',
   'spatie/phpunit-snapshot-assertions' => '3.0.0@04b53728875a94e9ff8bbccd3b06b21ef4ad3118',
+  'symfony/browser-kit' => 'v5.1.5@b9545e08790be2d3d7d92306e339bbcd79f461e4',
+  'symfony/css-selector' => 'v5.1.5@e544e24472d4c97b2d11ade7caacd446727c6bf9',
+  'symfony/dom-crawler' => 'v5.1.5@3ac31ffbc596e41ca081037b7d78fc7a853c0315',
   'symfony/maker-bundle' => 'v1.21.0@1a3202324f264b96f6aebd5967ee2d708e6abf06',
   'symfony/phpunit-bridge' => 'v5.1.3@964bd57046dfa48687e1412fe5f8006adfcb9675',
   'symfony/profiler-pack' => 'v1.0.5@29ec66471082b4eb068db11eb4f0a48c277653f7',
   'symfony/web-profiler-bundle' => 'v5.1.3@6d32d311d9d599830f57a2fe6bb6e38970150acd',
   'theseer/tokenizer' => '1.2.0@75a63c33a8577608444246075ea0af0d052e452a',
-  'csr/csrdelft.nl' => 'dev-e12cbffebed5bed9a35d9af36edfc2ce0e99c160@e12cbffebed5bed9a35d9af36edfc2ce0e99c160',
+  'csr/csrdelft.nl' => 'dev-aaa5915136949dcc37671a90025c30de49441cac@aaa5915136949dcc37671a90025c30de49441cac',
 );
 
     private function __construct()
