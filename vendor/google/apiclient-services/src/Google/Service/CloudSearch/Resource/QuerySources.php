@@ -35,6 +35,9 @@ class Google_Service_CloudSearch_Resource_QuerySources extends Google_Service_Re
    *
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string requestOptions.searchApplicationId The ID generated when
+   * you create a search application using the [admin
+   * console](https://support.google.com/a/answer/9043922).
    * @opt_param bool requestOptions.debugOptions.enableDebugging If you are asked
    * by Google to help with debugging, set this field. Otherwise, ignore this
    * field.
@@ -46,9 +49,6 @@ class Google_Service_CloudSearch_Resource_QuerySources extends Google_Service_Re
    * g/repos/cldr/trunk/common/bcp47/timezone.xml). This field is used to
    * correctly interpret date and time queries. If this field is not specified,
    * the default time zone (UTC) is used.
-   * @opt_param string requestOptions.searchApplicationId The ID generated when
-   * you create a search application using the [admin
-   * console](https://support.google.com/a/answer/9043922).
    * @opt_param string requestOptions.languageCode The BCP-47 language code, such
    * as "en-US" or "sr-Latn". For more information, see
    * http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. For

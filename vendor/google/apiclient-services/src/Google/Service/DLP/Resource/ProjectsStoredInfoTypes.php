@@ -112,9 +112,9 @@ class Google_Service_DLP_Resource_ProjectsStoredInfoTypes extends Google_Service
    * was created. - `state`: corresponds to the state of the resource. - `name`:
    * corresponds to resource name. - `display_name`: corresponds to info type's
    * display name.
-   * @opt_param string locationId Deprecated. This field has no effect.
    * @opt_param string pageToken Page token to continue retrieval. Comes from
    * previous call to `ListStoredInfoTypes`.
+   * @opt_param string locationId Deprecated. This field has no effect.
    * @opt_param int pageSize Size of the page, can be limited by server. If zero
    * server returns a page of max size 100.
    * @return Google_Service_DLP_GooglePrivacyDlpV2ListStoredInfoTypesResponse
