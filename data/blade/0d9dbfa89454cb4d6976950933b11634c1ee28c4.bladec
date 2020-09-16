@@ -1,2 +1,0 @@
-<tr id="maalcie-melding"><td><?php echo getMelding(); ?></td></tr>
-<?php echo $this->runChild('maaltijden.corveerepetitie.beheer_corvee_repetitie_lijst', ['repetitie' => $repetitie]); ?>
