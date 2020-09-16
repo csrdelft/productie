@@ -121,12 +121,17 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
    * @param array $optParams Optional parameters.
    *
    * @opt_param int options.requestedPolicyVersion Optional. The policy format
-   * version to be returned. Valid values are 0, 1, and 3. Requests specifying an
-   * invalid value will be rejected. Requests for policies with any conditional
-   * bindings must specify version 3. Policies without any conditional bindings
-   * may specify any valid value or leave the field unset. To learn which
-   * resources support conditions in their IAM policies, see the [IAM
-   * documentation](https://cloud.google.com/iam/help/conditions/resource-
+   * version to be returned.
+   *
+   * Valid values are 0, 1, and 3. Requests specifying an invalid value will be
+   * rejected.
+   *
+   * Requests for policies with any conditional bindings must specify version 3.
+   * Policies without any conditional bindings may specify any valid value or
+   * leave the field unset.
+   *
+   * To learn which resources support conditions in their IAM policies, see the
+   * [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Google_Service_CloudHealthcare_Policy
    */
@@ -164,12 +169,12 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
    *
    * @opt_param string pageToken The next_page_token value returned from the
    * previous List request, if any.
-   * @opt_param int pageSize Limit on the number of DICOM stores to return in a
-   * single response. If zero the default page size of 100 is used.
    * @opt_param string filter Restricts stores returned to those matching a
    * filter. Syntax:
    * https://cloud.google.com/appengine/docs/standard/python/search/query_strings
    * Only filtering on labels is supported. For example, `labels.key=value`.
+   * @opt_param int pageSize Limit on the number of DICOM stores to return in a
+   * single response. If zero the default page size of 100 is used.
    * @return Google_Service_CloudHealthcare_ListDicomStoresResponse
    */
   public function listProjectsLocationsDatasetsDicomStores($parent, $optParams = array())
@@ -201,13 +206,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
   /**
    * SearchForInstances returns a list of matching instances. See [Search
    * Transaction] (http://dicom.nema.org/medical/dicom/current/output/html/part18.
-   * html#sect_10.6). For details on the implementation of SearchForInstances, see
-   * [Search transaction](https://cloud.google.com/healthcare/docs/dicom#search_tr
-   * ansaction) in the Cloud Healthcare API conformance statement. For samples
-   * that show how to call SearchForInstances, see [Searching for studies, series,
-   * instances, and frames](https://cloud.google.com/healthcare/docs/how-
-   * tos/dicomweb#searching_for_studies_series_instances_and_frames).
-   * (dicomStores.searchForInstances)
+   * html#sect_10.6). (dicomStores.searchForInstances)
    *
    * @param string $parent The name of the DICOM store that is being accessed. For
    * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
@@ -227,13 +226,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
   /**
    * SearchForSeries returns a list of matching series. See [Search Transaction] (
    * http://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.6
-   * ). For details on the implementation of SearchForSeries, see [Search transact
-   * ion](https://cloud.google.com/healthcare/docs/dicom#search_transaction) in
-   * the Cloud Healthcare API conformance statement. For samples that show how to
-   * call SearchForSeries, see [Searching for studies, series, instances, and
-   * frames](https://cloud.google.com/healthcare/docs/how-
-   * tos/dicomweb#searching_for_studies_series_instances_and_frames).
-   * (dicomStores.searchForSeries)
+   * ). (dicomStores.searchForSeries)
    *
    * @param string $parent The name of the DICOM store that is being accessed. For
    * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
@@ -252,13 +245,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
   /**
    * SearchForStudies returns a list of matching studies. See [Search Transaction]
    * (http://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.
-   * 6). For details on the implementation of SearchForStudies, see [Search transa
-   * ction](https://cloud.google.com/healthcare/docs/dicom#search_transaction) in
-   * the Cloud Healthcare API conformance statement. For samples that show how to
-   * call SearchForStudies, see [Searching for studies, series, instances, and
-   * frames](https://cloud.google.com/healthcare/docs/how-
-   * tos/dicomweb#searching_for_studies_series_instances_and_frames).
-   * (dicomStores.searchForStudies)
+   * 6). (dicomStores.searchForStudies)
    *
    * @param string $parent The name of the DICOM store that is being accessed. For
    * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
@@ -276,8 +263,10 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
   }
   /**
    * Sets the access control policy on the specified resource. Replaces any
-   * existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and
-   * `PERMISSION_DENIED` errors. (dicomStores.setIamPolicy)
+   * existing policy.
+   *
+   * Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors.
+   * (dicomStores.setIamPolicy)
    *
    * @param string $resource REQUIRED: The resource for which the policy is being
    * specified. See the operation documentation for the appropriate value for this
@@ -295,12 +284,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
   /**
    * StoreInstances stores DICOM instances associated with study instance unique
    * identifiers (SUID). See [Store Transaction] (http://dicom.nema.org/medical/di
-   * com/current/output/html/part18.html#sect_10.5). For details on the
-   * implementation of StoreInstances, see [Store transaction](https://cloud.googl
-   * e.com/healthcare/docs/dicom#store_transaction) in the Cloud Healthcare API
-   * conformance statement. For samples that show how to call StoreInstances, see
-   * [Storing DICOM data](https://cloud.google.com/healthcare/docs/how-
-   * tos/dicomweb#storing_dicom_data). (dicomStores.storeInstances)
+   * com/current/output/html/part18.html#sect_10.5). (dicomStores.storeInstances)
    *
    * @param string $parent The name of the DICOM store that is being accessed. For
    * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
@@ -320,10 +304,11 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
   /**
    * Returns permissions that a caller has on the specified resource. If the
    * resource does not exist, this will return an empty set of permissions, not a
-   * `NOT_FOUND` error. Note: This operation is designed to be used for building
-   * permission-aware UIs and command-line tools, not for authorization checking.
-   * This operation may "fail open" without warning.
-   * (dicomStores.testIamPermissions)
+   * `NOT_FOUND` error.
+   *
+   * Note: This operation is designed to be used for building permission-aware UIs
+   * and command-line tools, not for authorization checking. This operation may
+   * "fail open" without warning. (dicomStores.testIamPermissions)
    *
    * @param string $resource REQUIRED: The resource for which the policy detail is
    * being requested. See the operation documentation for the appropriate value

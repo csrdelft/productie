@@ -944,7 +944,7 @@ class Google_Service_AndroidEnterprise extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'query' => array(
+                'language' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -952,7 +952,7 @@ class Google_Service_AndroidEnterprise extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'language' => array(
+                'query' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),

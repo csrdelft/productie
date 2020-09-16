@@ -100,11 +100,11 @@ class Google_Service_ServiceUsage extends Google_Service
               'path' => 'v1/operations',
               'httpMethod' => 'GET',
               'parameters' => array(
-                'filter' => array(
+                'pageSize' => array(
                   'location' => 'query',
-                  'type' => 'string',
+                  'type' => 'integer',
                 ),
-                'pageToken' => array(
+                'filter' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -112,9 +112,9 @@ class Google_Service_ServiceUsage extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'pageSize' => array(
+                'pageToken' => array(
                   'location' => 'query',
-                  'type' => 'integer',
+                  'type' => 'string',
                 ),
               ),
             ),

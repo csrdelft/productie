@@ -4,7 +4,6 @@ namespace Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\DBALException;
 use Throwable;
-
 use function get_class;
 use function gettype;
 use function implode;
@@ -27,7 +26,7 @@ class ConversionException extends DBALException
      * @param string $value
      * @param string $toType
      *
-     * @return ConversionException
+     * @return \Doctrine\DBAL\Types\ConversionException
      */
     public static function conversionFailed($value, $toType, ?Throwable $previous = null)
     {
@@ -44,7 +43,7 @@ class ConversionException extends DBALException
      * @param string $toType
      * @param string $expectedFormat
      *
-     * @return ConversionException
+     * @return \Doctrine\DBAL\Types\ConversionException
      */
     public static function conversionFailedFormat($value, $toType, $expectedFormat, ?Throwable $previous = null)
     {
@@ -65,7 +64,7 @@ class ConversionException extends DBALException
      * @param string   $toType
      * @param string[] $possibleTypes
      *
-     * @return ConversionException
+     * @return \Doctrine\DBAL\Types\ConversionException
      */
     public static function conversionFailedInvalidType(
         $value,
@@ -112,7 +111,7 @@ class ConversionException extends DBALException
         ));
     }
 
-    public static function conversionFailedUnserialization(string $format, string $error): self
+    public static function conversionFailedUnserialization(string $format, string $error) : self
     {
         return new self(sprintf(
             "Could not convert database value to '%s' as an error was triggered by the unserialization: '%s'",

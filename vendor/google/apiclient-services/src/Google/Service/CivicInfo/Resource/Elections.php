@@ -44,6 +44,8 @@ class Google_Service_CivicInfo_Resource_Elections extends Google_Service_Resourc
    * @param string $address The registered address of the voter to look up.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool officialOnly If set to true, only data from official state
+   * sources will be returned.
    * @opt_param bool returnAllAvailableData If set to true, the query will return
    * the success code and include any partial information when it is unable to
    * determine a matching address or unable to determine the election for
@@ -54,8 +56,6 @@ class Google_Service_CivicInfo_Resource_Elections extends Google_Service_Resourc
    * is specified in the query and there is more than one election with data for
    * the given voter, the additional elections are provided in the otherElections
    * response field.
-   * @opt_param bool officialOnly If set to true, only data from official state
-   * sources will be returned.
    * @return Google_Service_CivicInfo_VoterInfoResponse
    */
   public function voterInfoQuery($address, $optParams = array())

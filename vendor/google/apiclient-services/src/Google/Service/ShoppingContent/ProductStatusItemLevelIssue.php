@@ -17,8 +17,8 @@
 
 class Google_Service_ShoppingContent_ProductStatusItemLevelIssue extends Google_Collection
 {
-  protected $collection_key = 'applicableCountries';
-  public $applicableCountries;
+  protected $collection_key = 'applicableCountrys';
+  public $applicableCountrys;
   public $attributeName;
   public $code;
   public $description;
@@ -28,13 +28,13 @@ class Google_Service_ShoppingContent_ProductStatusItemLevelIssue extends Google_
   public $resolution;
   public $servability;
 
-  public function setApplicableCountries($applicableCountries)
+  public function setApplicableCountrys($applicableCountrys)
   {
-    $this->applicableCountries = $applicableCountries;
+    $this->applicableCountrys = $applicableCountrys;
   }
-  public function getApplicableCountries()
+  public function getApplicableCountrys()
   {
-    return $this->applicableCountries;
+    return $this->applicableCountrys;
   }
   public function setAttributeName($attributeName)
   {

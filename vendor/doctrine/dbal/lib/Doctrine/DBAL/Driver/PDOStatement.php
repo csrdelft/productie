@@ -5,15 +5,13 @@ namespace Doctrine\DBAL\Driver;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use PDO;
-
+use const E_USER_DEPRECATED;
 use function array_slice;
 use function assert;
 use function func_get_args;
 use function is_array;
 use function sprintf;
 use function trigger_error;
-
-use const E_USER_DEPRECATED;
 
 /**
  * The PDO implementation of the Statement interface.
@@ -87,7 +85,7 @@ class PDOStatement extends \PDOStatement implements Statement
     }
 
     /**
-     * @param mixed    $param
+     * @param mixed    $column
      * @param mixed    $variable
      * @param int      $type
      * @param int|null $length
@@ -95,12 +93,12 @@ class PDOStatement extends \PDOStatement implements Statement
      *
      * @return bool
      */
-    public function bindParam($param, &$variable, $type = ParameterType::STRING, $length = null, $driverOptions = null)
+    public function bindParam($column, &$variable, $type = ParameterType::STRING, $length = null, $driverOptions = null)
     {
         $type = $this->convertParamType($type);
 
         try {
-            return parent::bindParam($param, $variable, $type, ...array_slice(func_get_args(), 3));
+            return parent::bindParam($column, $variable, $type, ...array_slice(func_get_args(), 3));
         } catch (\PDOException $exception) {
             throw new PDOException($exception);
         }
@@ -198,7 +196,7 @@ class PDOStatement extends \PDOStatement implements Statement
      *
      * @param int $type Parameter type
      */
-    private function convertParamType(int $type): int
+    private function convertParamType(int $type) : int
     {
         if (! isset(self::PARAM_TYPE_MAP[$type])) {
             // TODO: next major: throw an exception
@@ -218,7 +216,7 @@ class PDOStatement extends \PDOStatement implements Statement
      *
      * @param int $fetchMode Fetch mode
      */
-    private function convertFetchMode(int $fetchMode): int
+    private function convertFetchMode(int $fetchMode) : int
     {
         if (! isset(self::FETCH_MODE_MAP[$fetchMode])) {
             // TODO: next major: throw an exception

@@ -24,7 +24,6 @@ class Google_Service_DataFusion_Instance extends Google_Collection
   protected $availableVersionType = 'Google_Service_DataFusion_Version';
   protected $availableVersionDataType = 'array';
   public $createTime;
-  public $dataprocServiceAccount;
   public $description;
   public $displayName;
   public $enableStackdriverLogging;
@@ -90,14 +89,6 @@ class Google_Service_DataFusion_Instance extends Google_Collection
   public function getCreateTime()
   {
     return $this->createTime;
-  }
-  public function setDataprocServiceAccount($dataprocServiceAccount)
-  {
-    $this->dataprocServiceAccount = $dataprocServiceAccount;
-  }
-  public function getDataprocServiceAccount()
-  {
-    return $this->dataprocServiceAccount;
   }
   public function setDescription($description)
   {

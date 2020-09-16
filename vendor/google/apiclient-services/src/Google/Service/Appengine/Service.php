@@ -19,8 +19,6 @@ class Google_Service_Appengine_Service extends Google_Model
 {
   public $id;
   public $name;
-  protected $networkSettingsType = 'Google_Service_Appengine_NetworkSettings';
-  protected $networkSettingsDataType = '';
   protected $splitType = 'Google_Service_Appengine_TrafficSplit';
   protected $splitDataType = '';
 
@@ -39,20 +37,6 @@ class Google_Service_Appengine_Service extends Google_Model
   public function getName()
   {
     return $this->name;
-  }
-  /**
-   * @param Google_Service_Appengine_NetworkSettings
-   */
-  public function setNetworkSettings(Google_Service_Appengine_NetworkSettings $networkSettings)
-  {
-    $this->networkSettings = $networkSettings;
-  }
-  /**
-   * @return Google_Service_Appengine_NetworkSettings
-   */
-  public function getNetworkSettings()
-  {
-    return $this->networkSettings;
   }
   /**
    * @param Google_Service_Appengine_TrafficSplit

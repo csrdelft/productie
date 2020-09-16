@@ -5,7 +5,7 @@ namespace Doctrine\DBAL\Driver\SQLSrv;
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\DBAL\Driver\ServerInfoAwareConnection;
 use Doctrine\DBAL\ParameterType;
-
+use const SQLSRV_ERR_ERRORS;
 use function func_get_args;
 use function is_float;
 use function is_int;
@@ -20,8 +20,6 @@ use function sqlsrv_rollback;
 use function sqlsrv_rows_affected;
 use function sqlsrv_server_info;
 use function str_replace;
-
-use const SQLSRV_ERR_ERRORS;
 
 /**
  * SQL Server implementation for the Connection interface.
@@ -114,9 +112,9 @@ class SQLSrvConnection implements Connection, ServerInfoAwareConnection
     /**
      * {@inheritDoc}
      */
-    public function exec($sql)
+    public function exec($statement)
     {
-        $stmt = sqlsrv_query($this->conn, $sql);
+        $stmt = sqlsrv_query($this->conn, $statement);
 
         if ($stmt === false) {
             throw SQLSrvException::fromSqlSrvErrors();
@@ -192,7 +190,7 @@ class SQLSrvConnection implements Connection, ServerInfoAwareConnection
             return $errors[0]['code'];
         }
 
-        return null;
+        return false;
     }
 
     /**

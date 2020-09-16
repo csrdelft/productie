@@ -17,20 +17,20 @@
 
 class Google_Service_ShoppingContent_ProductStatusDestinationStatus extends Google_Collection
 {
-  protected $collection_key = 'pendingCountries';
-  public $approvedCountries;
+  protected $collection_key = 'pendingCountrys';
+  public $approvedCountrys;
   public $destination;
-  public $disapprovedCountries;
-  public $pendingCountries;
+  public $disapprovedCountrys;
+  public $pendingCountrys;
   public $status;
 
-  public function setApprovedCountries($approvedCountries)
+  public function setApprovedCountrys($approvedCountrys)
   {
-    $this->approvedCountries = $approvedCountries;
+    $this->approvedCountrys = $approvedCountrys;
   }
-  public function getApprovedCountries()
+  public function getApprovedCountrys()
   {
-    return $this->approvedCountries;
+    return $this->approvedCountrys;
   }
   public function setDestination($destination)
   {
@@ -40,21 +40,21 @@ class Google_Service_ShoppingContent_ProductStatusDestinationStatus extends Goog
   {
     return $this->destination;
   }
-  public function setDisapprovedCountries($disapprovedCountries)
+  public function setDisapprovedCountrys($disapprovedCountrys)
   {
-    $this->disapprovedCountries = $disapprovedCountries;
+    $this->disapprovedCountrys = $disapprovedCountrys;
   }
-  public function getDisapprovedCountries()
+  public function getDisapprovedCountrys()
   {
-    return $this->disapprovedCountries;
+    return $this->disapprovedCountrys;
   }
-  public function setPendingCountries($pendingCountries)
+  public function setPendingCountrys($pendingCountrys)
   {
-    $this->pendingCountries = $pendingCountries;
+    $this->pendingCountrys = $pendingCountrys;
   }
-  public function getPendingCountries()
+  public function getPendingCountrys()
   {
-    return $this->pendingCountries;
+    return $this->pendingCountrys;
   }
   public function setStatus($status)
   {

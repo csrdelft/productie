@@ -26,14 +26,13 @@ use GuzzleHttp\ClientInterface;
  * CredentialsLoader contains the behaviour used to locate and find default
  * credentials files on the file system.
  */
-abstract class CredentialsLoader implements
-    FetchAuthTokenInterface,
-    UpdateMetadataInterface
+abstract class CredentialsLoader implements FetchAuthTokenInterface
 {
     const TOKEN_CREDENTIAL_URI = 'https://oauth2.googleapis.com/token';
     const ENV_VAR = 'GOOGLE_APPLICATION_CREDENTIALS';
     const WELL_KNOWN_PATH = 'gcloud/application_default_credentials.json';
     const NON_WINDOWS_WELL_KNOWN_PATH_BASE = '.config';
+    const AUTH_METADATA_KEY = 'authorization';
 
     /**
      * @param string $cause
@@ -205,7 +204,6 @@ abstract class CredentialsLoader implements
      * export a callback function which updates runtime metadata.
      *
      * @return array updateMetadata function
-     * @deprecated
      */
     public function getUpdateMetadataFunc()
     {
@@ -225,10 +223,6 @@ abstract class CredentialsLoader implements
         $authUri = null,
         callable $httpHandler = null
     ) {
-        if (isset($metadata[self::AUTH_METADATA_KEY])) {
-            // Auth metadata has already been set
-            return $metdadata;
-        }
         $result = $this->fetchAuthToken($httpHandler);
         if (!isset($result['access_token'])) {
             return $metadata;

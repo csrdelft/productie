@@ -18,7 +18,6 @@
 class Google_Service_ToolResults_FailureDetail extends Google_Model
 {
   public $crashed;
-  public $deviceOutOfMemory;
   public $failedRoboscript;
   public $notInstalled;
   public $otherNativeCrash;
@@ -32,14 +31,6 @@ class Google_Service_ToolResults_FailureDetail extends Google_Model
   public function getCrashed()
   {
     return $this->crashed;
-  }
-  public function setDeviceOutOfMemory($deviceOutOfMemory)
-  {
-    $this->deviceOutOfMemory = $deviceOutOfMemory;
-  }
-  public function getDeviceOutOfMemory()
-  {
-    return $this->deviceOutOfMemory;
   }
   public function setFailedRoboscript($failedRoboscript)
   {

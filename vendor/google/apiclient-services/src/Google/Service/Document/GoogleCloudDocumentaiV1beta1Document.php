@@ -28,13 +28,9 @@ class Google_Service_Document_GoogleCloudDocumentaiV1beta1Document extends Googl
   public $mimeType;
   protected $pagesType = 'Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentPage';
   protected $pagesDataType = 'array';
-  protected $revisionsType = 'Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentRevision';
-  protected $revisionsDataType = 'array';
   protected $shardInfoType = 'Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentShardInfo';
   protected $shardInfoDataType = '';
   public $text;
-  protected $textChangesType = 'Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentTextChange';
-  protected $textChangesDataType = 'array';
   protected $textStylesType = 'Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentStyle';
   protected $textStylesDataType = 'array';
   protected $translationsType = 'Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentTranslation';
@@ -114,20 +110,6 @@ class Google_Service_Document_GoogleCloudDocumentaiV1beta1Document extends Googl
     return $this->pages;
   }
   /**
-   * @param Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentRevision
-   */
-  public function setRevisions($revisions)
-  {
-    $this->revisions = $revisions;
-  }
-  /**
-   * @return Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentRevision
-   */
-  public function getRevisions()
-  {
-    return $this->revisions;
-  }
-  /**
    * @param Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentShardInfo
    */
   public function setShardInfo(Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentShardInfo $shardInfo)
@@ -148,20 +130,6 @@ class Google_Service_Document_GoogleCloudDocumentaiV1beta1Document extends Googl
   public function getText()
   {
     return $this->text;
-  }
-  /**
-   * @param Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentTextChange
-   */
-  public function setTextChanges($textChanges)
-  {
-    $this->textChanges = $textChanges;
-  }
-  /**
-   * @return Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentTextChange
-   */
-  public function getTextChanges()
-  {
-    return $this->textChanges;
   }
   /**
    * @param Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentStyle

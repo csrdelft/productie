@@ -15,27 +15,10 @@
  * the License.
  */
 
-class Google_Service_Testing_IosTestSetup extends Google_Collection
+class Google_Service_Testing_IosTestSetup extends Google_Model
 {
-  protected $collection_key = 'additionalIpas';
-  protected $additionalIpasType = 'Google_Service_Testing_FileReference';
-  protected $additionalIpasDataType = 'array';
   public $networkProfile;
 
-  /**
-   * @param Google_Service_Testing_FileReference
-   */
-  public function setAdditionalIpas($additionalIpas)
-  {
-    $this->additionalIpas = $additionalIpas;
-  }
-  /**
-   * @return Google_Service_Testing_FileReference
-   */
-  public function getAdditionalIpas()
-  {
-    return $this->additionalIpas;
-  }
   public function setNetworkProfile($networkProfile)
   {
     $this->networkProfile = $networkProfile;

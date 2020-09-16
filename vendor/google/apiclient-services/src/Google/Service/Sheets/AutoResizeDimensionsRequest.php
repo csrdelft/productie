@@ -17,25 +17,9 @@
 
 class Google_Service_Sheets_AutoResizeDimensionsRequest extends Google_Model
 {
-  protected $dataSourceSheetDimensionsType = 'Google_Service_Sheets_DataSourceSheetDimensionRange';
-  protected $dataSourceSheetDimensionsDataType = '';
   protected $dimensionsType = 'Google_Service_Sheets_DimensionRange';
   protected $dimensionsDataType = '';
 
-  /**
-   * @param Google_Service_Sheets_DataSourceSheetDimensionRange
-   */
-  public function setDataSourceSheetDimensions(Google_Service_Sheets_DataSourceSheetDimensionRange $dataSourceSheetDimensions)
-  {
-    $this->dataSourceSheetDimensions = $dataSourceSheetDimensions;
-  }
-  /**
-   * @return Google_Service_Sheets_DataSourceSheetDimensionRange
-   */
-  public function getDataSourceSheetDimensions()
-  {
-    return $this->dataSourceSheetDimensions;
-  }
   /**
    * @param Google_Service_Sheets_DimensionRange
    */

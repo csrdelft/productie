@@ -24,7 +24,6 @@ class Google_Service_CloudIdentity_Membership extends Google_Collection
   protected $preferredMemberKeyDataType = '';
   protected $rolesType = 'Google_Service_CloudIdentity_MembershipRole';
   protected $rolesDataType = 'array';
-  public $type;
   public $updateTime;
 
   public function setCreateTime($createTime)
@@ -70,14 +69,6 @@ class Google_Service_CloudIdentity_Membership extends Google_Collection
   public function getRoles()
   {
     return $this->roles;
-  }
-  public function setType($type)
-  {
-    $this->type = $type;
-  }
-  public function getType()
-  {
-    return $this->type;
   }
   public function setUpdateTime($updateTime)
   {

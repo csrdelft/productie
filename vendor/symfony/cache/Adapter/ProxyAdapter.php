@@ -25,8 +25,8 @@ use Symfony\Contracts\Cache\CacheInterface;
  */
 class ProxyAdapter implements AdapterInterface, CacheInterface, PruneableInterface, ResettableInterface
 {
-    use ContractsTrait;
     use ProxyTrait;
+    use ContractsTrait;
 
     private $namespace;
     private $namespaceLen;

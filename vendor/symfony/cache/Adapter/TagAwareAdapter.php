@@ -27,8 +27,8 @@ class TagAwareAdapter implements TagAwareAdapterInterface, TagAwareCacheInterfac
 {
     const TAGS_PREFIX = "\0tags\0";
 
-    use ContractsTrait;
     use ProxyTrait;
+    use ContractsTrait;
 
     private $deferred = [];
     private $createCacheItem;

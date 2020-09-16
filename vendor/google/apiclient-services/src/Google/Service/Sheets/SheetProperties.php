@@ -17,8 +17,6 @@
 
 class Google_Service_Sheets_SheetProperties extends Google_Model
 {
-  protected $dataSourceSheetPropertiesType = 'Google_Service_Sheets_DataSourceSheetProperties';
-  protected $dataSourceSheetPropertiesDataType = '';
   protected $gridPropertiesType = 'Google_Service_Sheets_GridProperties';
   protected $gridPropertiesDataType = '';
   public $hidden;
@@ -32,20 +30,6 @@ class Google_Service_Sheets_SheetProperties extends Google_Model
   protected $tabColorStyleDataType = '';
   public $title;
 
-  /**
-   * @param Google_Service_Sheets_DataSourceSheetProperties
-   */
-  public function setDataSourceSheetProperties(Google_Service_Sheets_DataSourceSheetProperties $dataSourceSheetProperties)
-  {
-    $this->dataSourceSheetProperties = $dataSourceSheetProperties;
-  }
-  /**
-   * @return Google_Service_Sheets_DataSourceSheetProperties
-   */
-  public function getDataSourceSheetProperties()
-  {
-    return $this->dataSourceSheetProperties;
-  }
   /**
    * @param Google_Service_Sheets_GridProperties
    */

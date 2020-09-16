@@ -22,8 +22,6 @@ class Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentPageParagraph 
   protected $detectedLanguagesDataType = 'array';
   protected $layoutType = 'Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentPageLayout';
   protected $layoutDataType = '';
-  protected $provenanceType = 'Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentProvenance';
-  protected $provenanceDataType = '';
 
   /**
    * @param Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentPageDetectedLanguage
@@ -52,19 +50,5 @@ class Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentPageParagraph 
   public function getLayout()
   {
     return $this->layout;
-  }
-  /**
-   * @param Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentProvenance
-   */
-  public function setProvenance(Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentProvenance $provenance)
-  {
-    $this->provenance = $provenance;
-  }
-  /**
-   * @return Google_Service_Document_GoogleCloudDocumentaiV1beta1DocumentProvenance
-   */
-  public function getProvenance()
-  {
-    return $this->provenance;
   }
 }

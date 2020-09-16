@@ -49,9 +49,6 @@ class Google_Service_CloudBuild_Resource_ProjectsBuilds extends Google_Service_R
    * @param string $projectId Required. ID of the project.
    * @param Google_Service_CloudBuild_Build $postBody
    * @param array $optParams Optional parameters.
-   *
-   * @opt_param string parent The parent resource where this build will be
-   * created. Format: `projects/{project}/locations/{location}`
    * @return Google_Service_CloudBuild_Operation
    */
   public function create($projectId, Google_Service_CloudBuild_Build $postBody, $optParams = array())
@@ -68,9 +65,6 @@ class Google_Service_CloudBuild_Resource_ProjectsBuilds extends Google_Service_R
    * @param string $projectId Required. ID of the project.
    * @param string $id Required. ID of the build.
    * @param array $optParams Optional parameters.
-   *
-   * @opt_param string name The name of the `Build` to retrieve. Format:
-   * `projects/{project}/locations/{location}/builds/{build}`
    * @return Google_Service_CloudBuild_Build
    */
   public function get($projectId, $id, $optParams = array())
@@ -87,8 +81,6 @@ class Google_Service_CloudBuild_Resource_ProjectsBuilds extends Google_Service_R
    * @param string $projectId Required. ID of the project.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string parent The parent of the collection of `Builds`. Format:
-   * `projects/{project}/locations/location`
    * @opt_param string pageToken Token to provide to skip to a particular spot in
    * the list.
    * @opt_param int pageSize Number of results to return in the list.

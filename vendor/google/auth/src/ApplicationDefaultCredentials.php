@@ -108,8 +108,6 @@ class ApplicationDefaultCredentials
      * @param array $cacheConfig configuration for the cache when it's present
      * @param CacheItemPoolInterface $cache A cache implementation, may be
      *        provided if you have one already available for use.
-     * @param string $quotaProject specifies a project to bill for access
-     *   charges associated with the request.
      * @return AuthTokenMiddleware
      * @throws DomainException if no implementation can be obtained.
      */
@@ -117,10 +115,9 @@ class ApplicationDefaultCredentials
         $scope = null,
         callable $httpHandler = null,
         array $cacheConfig = null,
-        CacheItemPoolInterface $cache = null,
-        $quotaProject = null
+        CacheItemPoolInterface $cache = null
     ) {
-        $creds = self::getCredentials($scope, $httpHandler, $cacheConfig, $cache, $quotaProject);
+        $creds = self::getCredentials($scope, $httpHandler, $cacheConfig, $cache);
 
         return new AuthTokenMiddleware($creds, $httpHandler);
     }
@@ -166,13 +163,11 @@ class ApplicationDefaultCredentials
         }
 
         if (!is_null($jsonKey)) {
-            if ($quotaProject) {
-                $jsonKey['quota_project_id'] = $quotaProject;
-            }
+            $jsonKey['quota_project'] = $quotaProject;
             $creds = CredentialsLoader::makeCredentials($scope, $jsonKey);
         } elseif (AppIdentityCredentials::onAppEngine() && !GCECredentials::onAppEngineFlexible()) {
             $creds = new AppIdentityCredentials($scope);
-        } elseif (self::onGce($httpHandler, $cacheConfig, $cache)) {
+        } elseif (GCECredentials::onGce($httpHandler)) {
             $creds = new GCECredentials(null, $scope, null, $quotaProject);
         }
 
@@ -259,7 +254,7 @@ class ApplicationDefaultCredentials
             }
 
             $creds = new ServiceAccountCredentials(null, $jsonKey, null, $targetAudience);
-        } elseif (self::onGce($httpHandler, $cacheConfig, $cache)) {
+        } elseif (GCECredentials::onGce($httpHandler)) {
             $creds = new GCECredentials(null, null, $targetAudience);
         }
 
@@ -280,20 +275,5 @@ class ApplicationDefaultCredentials
         $msg .= ' for more information';
 
         return $msg;
-    }
-
-    private static function onGce(
-        callable $httpHandler = null,
-        array $cacheConfig = null,
-        CacheItemPoolInterface $cache = null
-    ) {
-        $gceCacheConfig = [];
-        foreach (['lifetime', 'prefix'] as $key) {
-            if (isset($cacheConfig['gce_' . $key])) {
-                $gceCacheConfig[$key] = $cacheConfig['gce_' . $key];
-            }
-        }
-
-        return (new GCECache($gceCacheConfig, $cache))->onGce($httpHandler);
     }
 }

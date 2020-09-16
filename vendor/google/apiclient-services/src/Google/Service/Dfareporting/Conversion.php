@@ -21,7 +21,6 @@ class Google_Service_Dfareporting_Conversion extends Google_Collection
   public $childDirectedTreatment;
   protected $customVariablesType = 'Google_Service_Dfareporting_CustomFloodlightVariable';
   protected $customVariablesDataType = 'array';
-  public $dclid;
   public $encryptedUserId;
   public $encryptedUserIdCandidates;
   public $floodlightActivityId;
@@ -59,14 +58,6 @@ class Google_Service_Dfareporting_Conversion extends Google_Collection
   public function getCustomVariables()
   {
     return $this->customVariables;
-  }
-  public function setDclid($dclid)
-  {
-    $this->dclid = $dclid;
-  }
-  public function getDclid()
-  {
-    return $this->dclid;
   }
   public function setEncryptedUserId($encryptedUserId)
   {

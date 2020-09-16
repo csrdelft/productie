@@ -30,9 +30,7 @@
  */
 class Google_Service_HomeGraphService extends Google_Service
 {
-  /** New Service: https://www.googleapis.com/auth/homegraph. */
-  const HOMEGRAPH =
-      "https://www.googleapis.com/auth/homegraph";
+
 
   public $agentUsers;
   public $devices;

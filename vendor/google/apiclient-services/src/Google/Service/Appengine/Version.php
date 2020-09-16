@@ -25,7 +25,6 @@ class Google_Service_Appengine_Version extends Google_Collection
   protected $basicScalingType = 'Google_Service_Appengine_BasicScaling';
   protected $basicScalingDataType = '';
   public $betaSettings;
-  public $buildEnvVariables;
   public $createTime;
   public $createdBy;
   public $defaultExpiration;
@@ -122,14 +121,6 @@ class Google_Service_Appengine_Version extends Google_Collection
   public function getBetaSettings()
   {
     return $this->betaSettings;
-  }
-  public function setBuildEnvVariables($buildEnvVariables)
-  {
-    $this->buildEnvVariables = $buildEnvVariables;
-  }
-  public function getBuildEnvVariables()
-  {
-    return $this->buildEnvVariables;
   }
   public function setCreateTime($createTime)
   {

@@ -22,11 +22,6 @@ class Google_Service_Sheets_PivotTable extends Google_Collection
   protected $columnsDataType = 'array';
   protected $criteriaType = 'Google_Service_Sheets_PivotFilterCriteria';
   protected $criteriaDataType = 'map';
-  protected $dataExecutionStatusType = 'Google_Service_Sheets_DataExecutionStatus';
-  protected $dataExecutionStatusDataType = '';
-  public $dataSourceId;
-  protected $filterSpecsType = 'Google_Service_Sheets_PivotFilterSpec';
-  protected $filterSpecsDataType = 'array';
   protected $rowsType = 'Google_Service_Sheets_PivotGroup';
   protected $rowsDataType = 'array';
   protected $sourceType = 'Google_Service_Sheets_GridRange';
@@ -62,42 +57,6 @@ class Google_Service_Sheets_PivotTable extends Google_Collection
   public function getCriteria()
   {
     return $this->criteria;
-  }
-  /**
-   * @param Google_Service_Sheets_DataExecutionStatus
-   */
-  public function setDataExecutionStatus(Google_Service_Sheets_DataExecutionStatus $dataExecutionStatus)
-  {
-    $this->dataExecutionStatus = $dataExecutionStatus;
-  }
-  /**
-   * @return Google_Service_Sheets_DataExecutionStatus
-   */
-  public function getDataExecutionStatus()
-  {
-    return $this->dataExecutionStatus;
-  }
-  public function setDataSourceId($dataSourceId)
-  {
-    $this->dataSourceId = $dataSourceId;
-  }
-  public function getDataSourceId()
-  {
-    return $this->dataSourceId;
-  }
-  /**
-   * @param Google_Service_Sheets_PivotFilterSpec
-   */
-  public function setFilterSpecs($filterSpecs)
-  {
-    $this->filterSpecs = $filterSpecs;
-  }
-  /**
-   * @return Google_Service_Sheets_PivotFilterSpec
-   */
-  public function getFilterSpecs()
-  {
-    return $this->filterSpecs;
   }
   /**
    * @param Google_Service_Sheets_PivotGroup

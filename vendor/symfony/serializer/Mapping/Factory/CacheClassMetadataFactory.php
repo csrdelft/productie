@@ -51,7 +51,8 @@ class CacheClassMetadataFactory implements ClassMetadataFactoryInterface
             return $this->loadedClasses[$class];
         }
 
-        $key = rawurlencode(strtr($class, '\\', '_'));
+        // Key cannot contain backslashes according to PSR-6
+        $key = strtr($class, '\\', '_');
 
         $item = $this->cacheItemPool->getItem($key);
         if ($item->isHit()) {

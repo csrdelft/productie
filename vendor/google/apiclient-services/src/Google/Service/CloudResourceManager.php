@@ -109,17 +109,17 @@ class Google_Service_CloudResourceManager extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'showDeleted' => array(
+                'pageToken' => array(
                   'location' => 'query',
-                  'type' => 'boolean',
+                  'type' => 'string',
                 ),
                 'pageSize' => array(
                   'location' => 'query',
                   'type' => 'integer',
                 ),
-                'pageToken' => array(
+                'showDeleted' => array(
                   'location' => 'query',
-                  'type' => 'string',
+                  'type' => 'boolean',
                 ),
               ),
             ),'move' => array(

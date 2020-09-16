@@ -28,8 +28,6 @@ class Google_Service_Apigee_GoogleCloudApigeeV1ApiProduct extends Google_Collect
   public $environments;
   public $lastModifiedAt;
   public $name;
-  protected $operationGroupType = 'Google_Service_Apigee_GoogleCloudApigeeV1OperationGroup';
-  protected $operationGroupDataType = '';
   public $proxies;
   public $quota;
   public $quotaInterval;
@@ -113,20 +111,6 @@ class Google_Service_Apigee_GoogleCloudApigeeV1ApiProduct extends Google_Collect
   public function getName()
   {
     return $this->name;
-  }
-  /**
-   * @param Google_Service_Apigee_GoogleCloudApigeeV1OperationGroup
-   */
-  public function setOperationGroup(Google_Service_Apigee_GoogleCloudApigeeV1OperationGroup $operationGroup)
-  {
-    $this->operationGroup = $operationGroup;
-  }
-  /**
-   * @return Google_Service_Apigee_GoogleCloudApigeeV1OperationGroup
-   */
-  public function getOperationGroup()
-  {
-    return $this->operationGroup;
   }
   public function setProxies($proxies)
   {
