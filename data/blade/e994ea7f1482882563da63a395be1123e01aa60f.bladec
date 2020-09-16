@@ -1,6 +1,0 @@
-<tr id="maalcie-melding">
-	<td id="maalcie-melding-veld"><?php echo getMelding(); ?></td>
-</tr>
-<?php $__currentLoopData = $matrix; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $vanuid => $abonnementen): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
-	<?php echo $this->runChild('maaltijden.abonnement.beheer_abonnement_lijst', ['vanuid' => $vanuid, 'abonnementen' => $abonnementen]); ?>
-<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>

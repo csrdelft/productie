@@ -1,7 +1,0 @@
-<?php $_shouldextend[1]=1; ?>
-
-<?php $this->startSection('content'); ?>
-	<?php echo $this->runChild('maaltijden.menu_pagina'); ?>
-<?php $this->stopSection(); ?>
-
-<?php if (@$_shouldextend[1]) { echo $this->runChild('layout'); } ?>
