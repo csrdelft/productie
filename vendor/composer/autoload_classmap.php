@@ -526,7 +526,7 @@ return array(
     'CsrDelft\\view\\bibliotheek\\BibliotheekCatalogusDatatableResponse' => $baseDir . '/lib/view/bibliotheek/BibliotheekCatalogusDatatableResponse.php',
     'CsrDelft\\view\\bibliotheek\\BoekExemplaarFormulier' => $baseDir . '/lib/view/bibliotheek/BoekExemplaarFormulier.php',
     'CsrDelft\\view\\bibliotheek\\BoekFormulier' => $baseDir . '/lib/view/bibliotheek/BoekFormulier.php',
-    'CsrDelft\\view\\bibliotheek\\RecensieFormulier' => $baseDir . '/lib/view/bibliotheek/RecensieFormulier.php',
+    'CsrDelft\\view\\bibliotheek\\BoekRecensieFormulier' => $baseDir . '/lib/view/bibliotheek/BoekRecensieFormulier.php',
     'CsrDelft\\view\\cms\\CmsPaginaForm' => $baseDir . '/lib/view/cms/CmsPaginaForm.php',
     'CsrDelft\\view\\cms\\CmsPaginaView' => $baseDir . '/lib/view/cms/CmsPaginaView.php',
     'CsrDelft\\view\\cms\\CmsPaginaZijbalkView' => $baseDir . '/lib/view/cms/CmsPaginaZijbalkView.php',

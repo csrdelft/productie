@@ -1186,7 +1186,7 @@ class ComposerStaticInitdaa3151f85aec0c445e10c121eedb0cf
         'CsrDelft\\view\\bibliotheek\\BibliotheekCatalogusDatatableResponse' => __DIR__ . '/../..' . '/lib/view/bibliotheek/BibliotheekCatalogusDatatableResponse.php',
         'CsrDelft\\view\\bibliotheek\\BoekExemplaarFormulier' => __DIR__ . '/../..' . '/lib/view/bibliotheek/BoekExemplaarFormulier.php',
         'CsrDelft\\view\\bibliotheek\\BoekFormulier' => __DIR__ . '/../..' . '/lib/view/bibliotheek/BoekFormulier.php',
-        'CsrDelft\\view\\bibliotheek\\RecensieFormulier' => __DIR__ . '/../..' . '/lib/view/bibliotheek/RecensieFormulier.php',
+        'CsrDelft\\view\\bibliotheek\\BoekRecensieFormulier' => __DIR__ . '/../..' . '/lib/view/bibliotheek/BoekRecensieFormulier.php',
         'CsrDelft\\view\\cms\\CmsPaginaForm' => __DIR__ . '/../..' . '/lib/view/cms/CmsPaginaForm.php',
         'CsrDelft\\view\\cms\\CmsPaginaView' => __DIR__ . '/../..' . '/lib/view/cms/CmsPaginaView.php',
         'CsrDelft\\view\\cms\\CmsPaginaZijbalkView' => __DIR__ . '/../..' . '/lib/view/cms/CmsPaginaZijbalkView.php',
