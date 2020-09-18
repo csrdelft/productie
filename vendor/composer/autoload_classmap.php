@@ -464,7 +464,6 @@ return array(
     'CsrDelft\\view\\ChartTimeSeries' => $baseDir . '/lib/view/ChartTimeSeries.php',
     'CsrDelft\\view\\CompressedLayout' => $baseDir . '/lib/view/CompressedLayout.php',
     'CsrDelft\\view\\GenericSuggestiesResponse' => $baseDir . '/lib/view/GenericSuggestiesResponse.php',
-    'CsrDelft\\view\\HtmlPage' => $baseDir . '/lib/view/HtmlPage.php',
     'CsrDelft\\view\\Icon' => $baseDir . '/lib/view/Icon.php',
     'CsrDelft\\view\\IsHetAlView' => $baseDir . '/lib/view/IsHetAlView.php',
     'CsrDelft\\view\\JsonLijstResponse' => $baseDir . '/lib/view/JsonLijstResponse.php',
