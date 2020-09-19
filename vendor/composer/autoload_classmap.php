@@ -13,6 +13,7 @@ return array(
     'CsrDelft\\Component\\Formulier\\FormulierFactory' => $baseDir . '/lib/Component/Formulier/FormulierFactory.php',
     'CsrDelft\\Component\\Formulier\\FormulierInstance' => $baseDir . '/lib/Component/Formulier/FormulierInstance.php',
     'CsrDelft\\Component\\Formulier\\FormulierTypeInterface' => $baseDir . '/lib/Component/Formulier/FormulierTypeInterface.php',
+    'CsrDelft\\Component\\Formulier\\FormulierView' => $baseDir . '/lib/Component/Formulier/FormulierView.php',
     'CsrDelft\\DataFixtures\\AccountFixtures' => $baseDir . '/lib/DataFixtures/AccountFixtures.php',
     'CsrDelft\\DataFixtures\\CmsPaginaFixtures' => $baseDir . '/lib/DataFixtures/CmsPaginaFixtures.php',
     'CsrDelft\\DataFixtures\\ExternMenuFixtures' => $baseDir . '/lib/DataFixtures/ExternMenuFixtures.php',

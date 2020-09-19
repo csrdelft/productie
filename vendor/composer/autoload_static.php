@@ -673,6 +673,7 @@ class ComposerStaticInitdaa3151f85aec0c445e10c121eedb0cf
         'CsrDelft\\Component\\Formulier\\FormulierFactory' => __DIR__ . '/../..' . '/lib/Component/Formulier/FormulierFactory.php',
         'CsrDelft\\Component\\Formulier\\FormulierInstance' => __DIR__ . '/../..' . '/lib/Component/Formulier/FormulierInstance.php',
         'CsrDelft\\Component\\Formulier\\FormulierTypeInterface' => __DIR__ . '/../..' . '/lib/Component/Formulier/FormulierTypeInterface.php',
+        'CsrDelft\\Component\\Formulier\\FormulierView' => __DIR__ . '/../..' . '/lib/Component/Formulier/FormulierView.php',
         'CsrDelft\\DataFixtures\\AccountFixtures' => __DIR__ . '/../..' . '/lib/DataFixtures/AccountFixtures.php',
         'CsrDelft\\DataFixtures\\CmsPaginaFixtures' => __DIR__ . '/../..' . '/lib/DataFixtures/CmsPaginaFixtures.php',
         'CsrDelft\\DataFixtures\\ExternMenuFixtures' => __DIR__ . '/../..' . '/lib/DataFixtures/ExternMenuFixtures.php',
