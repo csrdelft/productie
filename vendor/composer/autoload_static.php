@@ -1361,7 +1361,6 @@ class ComposerStaticInitdaa3151f85aec0c445e10c121eedb0cf
         'CsrDelft\\view\\fotoalbum\\FotoAlbumBBView' => __DIR__ . '/../..' . '/lib/view/fotoalbum/FotoAlbumBBView.php',
         'CsrDelft\\view\\fotoalbum\\FotoAlbumBreadcrumbs' => __DIR__ . '/../..' . '/lib/view/fotoalbum/FotoAlbumBreadcrumbs.php',
         'CsrDelft\\view\\fotoalbum\\FotoAlbumToevoegenForm' => __DIR__ . '/../..' . '/lib/view/fotoalbum/FotoAlbumToevoegenForm.php',
-        'CsrDelft\\view\\fotoalbum\\FotoAlbumZijbalkView' => __DIR__ . '/../..' . '/lib/view/fotoalbum/FotoAlbumZijbalkView.php',
         'CsrDelft\\view\\fotoalbum\\FotoBBView' => __DIR__ . '/../..' . '/lib/view/fotoalbum/FotoBBView.php',
         'CsrDelft\\view\\fotoalbum\\FotoTagToevoegenForm' => __DIR__ . '/../..' . '/lib/view/fotoalbum/FotoTagToevoegenForm.php',
         'CsrDelft\\view\\fotoalbum\\FotosDropzone' => __DIR__ . '/../..' . '/lib/view/fotoalbum/FotosDropzone.php',

@@ -701,7 +701,6 @@ return array(
     'CsrDelft\\view\\fotoalbum\\FotoAlbumBBView' => $baseDir . '/lib/view/fotoalbum/FotoAlbumBBView.php',
     'CsrDelft\\view\\fotoalbum\\FotoAlbumBreadcrumbs' => $baseDir . '/lib/view/fotoalbum/FotoAlbumBreadcrumbs.php',
     'CsrDelft\\view\\fotoalbum\\FotoAlbumToevoegenForm' => $baseDir . '/lib/view/fotoalbum/FotoAlbumToevoegenForm.php',
-    'CsrDelft\\view\\fotoalbum\\FotoAlbumZijbalkView' => $baseDir . '/lib/view/fotoalbum/FotoAlbumZijbalkView.php',
     'CsrDelft\\view\\fotoalbum\\FotoBBView' => $baseDir . '/lib/view/fotoalbum/FotoBBView.php',
     'CsrDelft\\view\\fotoalbum\\FotoTagToevoegenForm' => $baseDir . '/lib/view/fotoalbum/FotoTagToevoegenForm.php',
     'CsrDelft\\view\\fotoalbum\\FotosDropzone' => $baseDir . '/lib/view/fotoalbum/FotosDropzone.php',
