@@ -1,11 +1,9 @@
-<?php $this->startSection('titel', $titel); ?>
-
 <!DOCTYPE html>
 <html lang="nl">
 <head>
 	<?php echo $this->runChild('head'); ?>
 </head>
-<body>
+<body class="zijbalk_verborgen">
 
 <div class="container">
 	<nav

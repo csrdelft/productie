@@ -1,0 +1,177 @@
+<?php
+/**
+ * @var $streeplijstoverzicht CsrDelft\entity\Streeplijst[]
+ */
+?>
+
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('titel', 'Streeplijstgenerator'); ?>
+
+<?php $this->startSection('content'); ?>
+	<h2>Streeplijstgenerator</h2>
+
+	<table class="table table-striped">
+ <thead>
+ <tr>
+ <th scope="col">Aanmaakdatum</th>
+ <th scope="col">Streeplijst</th>
+ <th scope="col">Leden van de streeplijst</th>
+ <th scope="col">Inhoud van de streeplijst</th>
+ <th scope="col"></th>
+ </tr>
+ </thead>
+ <tbody>
+ <?php $__empty_1 = true; foreach($streeplijstoverzicht as $streeplijst): $__empty_1 = false; ?>
+ <tr>
+ <td><?php echo static::e(date_format_intl($streeplijst->aanmaakdatum, DATE_FORMAT)); ?></td>
+ <td style="font-weight:bold"><?php echo static::e($streeplijst-> naam_streeplijst); ?></td>
+ <td><?php echo static::e(truncate($streeplijst-> leden_streeplijst,318, '...')); ?></td>
+ <td><?php echo static::e($streeplijst-> inhoud_streeplijst); ?></td>
+ <td>
+ <div class="btn-group" role="group" aria-label="Basic example">
+ <a href="/streeplijst/genereren/<?php echo static::e($streeplijst->id); ?>">
+ <span type="button"
+ class="btn btn-success btn-sm">Genereer</span></a>
+ <a href="/streeplijst/bewerken/<?php echo static::e($streeplijst->id); ?>">
+ <span type="button"
+ class="btn btn-warning btn-sm">Bewerk</span></a>
+ <a href="/streeplijst/verwijderen/<?php echo static::e($streeplijst->id); ?>">
+ <span type="button"
+ class="btn btn-danger btn-sm">Verwijder</span> </a>
+ </div>
+ </td>
+ </tr>
+ <?php endforeach; if ($__empty_1): ?>
+ <tr>
+ <td colspan="5">Er zijn geen streeplijsten.</td>
+ </tr>
+ <?php endif; ?>
+ </tbody>
+	</table>
+
+	<h4>Maak of bewerk een lijst</h4>
+	<p>Een streeplijst heeft dat wat gestreept moet worden in de titelrij en heeft de leden op wie gestreept wordt in de
+ eerste kolomrij.</p>
+	<h4>Streeplijstselectie</h4>
+	<form action="/streeplijst/selectie" method="post">
+ <?php echo static::e(printCsrfField()); ?>
+
+
+ <h5> Leden op de streeplijst</h5>
+
+ <div>
+ <em>Verticale:</em>
+ <input type="radio" name="verticale" id="alleverticale" value="alle" checked>
+ <label for="alleverticale"> Alle </label>
+ <?php $__currentLoopData = $verticalen; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $verticale): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php if($verticale->letter): ?>
+ <input type="radio" name="verticale" id="verticale_<?php echo static::e($verticale->letter); ?>" value="<?php echo static::e($verticale->letter); ?>">
+ <label for="verticale_<?php echo static::e($verticale->letter); ?>"> <?php echo static::e($verticale->naam); ?></label>
+ <?php endif; ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </div>
+
+ <div>
+ <em>Lichting:</em>
+ <div class="form-check form-check-inline">
+ <input class="form-check-inline" type="radio" name="lichting" id="alle" value="alle" checked>
+ <label class="form-check-label" for="alle">Alle</label>
+ </div>
+ <?php $__currentLoopData = range($jongstelidjaar-8, $jongstelidjaar); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $lichting): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <div class="form-check form-check-inline">
+ <input class="form-check-input" type="radio" name="lichting" id="lichting_<?php echo static::e($lichting); ?>" value="<?php echo static::e($lichting); ?>">
+ <label class="form-check-label" for="lichting_<?php echo static::e($lichting); ?>"><?php echo static::e($lichting); ?></label>
+ </div>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </div>
+
+ <div>
+ <em>Type leden:</em>
+ <?php $__currentLoopData = CsrDelft\model\entity\LidStatus::getLidLike(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $lidstatus): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <input type="checkbox" id="<?php echo static::e($lidstatus); ?>" name="ledentype[]" value="<?php echo static::e($lidstatus); ?>" checked>
+ <label for="<?php echo static::e($lidstatus); ?>"><?php echo static::e(CsrDelft\model\entity\LidStatus::from($lidstatus)->getDescription()); ?></label>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+
+ <?php $__currentLoopData = CsrDelft\model\entity\LidStatus::getOudLidLike(); $this->addLoop($__currentLoopData); foreach($__currentLoopData as $lidstatus): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <input type="checkbox" id="<?php echo static::e($lidstatus); ?>" name="ledentype[]" value="<?php echo static::e($lidstatus); ?>">
+ <label for="<?php echo static::e($lidstatus); ?>"><?php echo static::e(CsrDelft\model\entity\LidStatus::from($lidstatus)->getDescription()); ?></label>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </div>
+
+ <h5>Streepbare eenheden op de streeplijst</h5>
+ <div><em>Drankassortiment:</em>
+ <input type="checkbox" id="Gulpener" name="streepbareUnits[]" value="Gulpener">
+ <label for="Gulpener">Gulpener</label>
+ <input type="checkbox" id="Fris" name="streepbareUnits[]" value="Fris">
+ <label for="Fris">Fris</label>
+ </div>
+
+ <div>
+ <em>HV-aanwezigheid:</em>
+ <input type="checkbox" id=Aanwezig name="streepbareUnits[]" value="Aanwezig">
+ <label for="Aanwezig">Aanwezig</label>
+ <input type="checkbox" id="Dispensatie" name="streepbareUnits[]" value="Dispensatie">
+ <label for="Dispensatie">Dispensatie</label>
+ <input type="checkbox" id="Afwezig" name="streepbareUnits[]" value="Afwezig">
+ <label for="Afwezig">Afwezig</label>
+ </div>
+
+ <h5>Opmaak</h5>
+ <div>
+ <em>Alfabetisch sorteren: </em>
+ <input type="checkbox" id="Namen van leden" name="opmaakabc" value="Namen van leden">
+ <label for="Namen van leden">Namen van leden </label>
+ <input type="checkbox" id="Inhoud van lijst" name="opmaakInhoud" value="Inhoud van lijst">
+ <label for="Inhoud van lijst">Inhoud van lijst</label>
+ </div>
+
+ <div>
+ <em>Stijl van naamweergave: </em>
+ <input type="radio" name="naamopmaak" id="VoorEnAchternaam" value="volledig" checked>
+ <label for="VoorEnAchternaam">Voor- en achternaam</label>
+ <input type="radio" name="naamopmaak" id="Achternaam" value="streeplijst">
+ <label for="Achternaam">Achternaam, voornaam </label>
+ <input type="radio" name="naamopmaak" id="Civitas" value="civitas">
+ <label for="Civitas">Civitas</label>
+ </div>
+
+ <input type="submit" class="btn btn-info btn-xs"
+  name="selecteer" value="Selecteer"/>
+	</form>
+
+	<h5>Maak je eigen lijst</h5>
+	<form action="/streeplijst/genererenZonderId" method="get" id="streeplijstform">
+
+ <div class="form-group">
+ <label for="naam_streeplijst">Naam van de streeplijst:</label>
+ <input placeholder="Naam van streeplijst" name="naam_streeplijst" id="naam_streeplijst" type="text"
+  value="<?php echo static::e($huidigestreeplijst->naam_streeplijst); ?>"
+  class="form-control" aria-describedby="naam_streeplijst">
+ <label for="leden_streeplijst">Leden van streeplijst:</label>
+ <textarea class="form-control"
+ placeholder="Voer hier je streepbare leden in. Scheid namen met een puntkomma. Bijv.: Pietje; Jantje; Puk"
+ id="leden_streeplijst" name="leden_streeplijst" rows="3"
+ cols="50"><?php echo static::e($huidigestreeplijst->leden_streeplijst); ?></textarea>
+ <label for="inhoud_streeplijst">Inhoud van streeplijst:</label>
+ <textarea class="form-control"
+ placeholder="Voer hier je zelfgekozen streepbare goederen/dingen/eenheden in. Scheid dingen met een puntkomma. Bijv.: bier;wijn;wodka"
+ id="inhoud_streeplijst" name="inhoud_streeplijst" rows="3"
+ cols="50"><?php echo static::e($huidigestreeplijst->inhoud_streeplijst); ?></textarea>
+ </div>
+
+
+ <div>
+ <input type="button" onclick="this.form.action='/streeplijst/aanmaken'; this.form.submit()"
+  class="btn btn-info btn-xs"
+  name="opslaan" value="Sla lijst op"/>
+ <input type="button" onclick="this.form.action='/streeplijst/genererenZonderId'; this.form.submit()"
+  class="btn btn-success btn-xs"
+  name="genereer" value="Genereer lijst"/>
+ </div>
+	</form>
+
+<?php $this->stopSection(); ?>
+
+
+<?php if (@$_shouldextend[1]) { echo $this->runChild('layout'); } ?>
