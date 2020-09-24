@@ -41,11 +41,6 @@ class ComposerStaticInitdaa3151f85aec0c445e10c121eedb0cf
             'phpseclib\\' => 10,
             'phpDocumentor\\Reflection\\' => 25,
         ),
-        'e' => 
-        array (
-            'eftec\\tests\\' => 12,
-            'eftec\\bladeone\\' => 15,
-        ),
         'Z' => 
         array (
             'Zumba\\JsonSerializer\\Test\\' => 26,
@@ -199,14 +194,6 @@ class ComposerStaticInitdaa3151f85aec0c445e10c121eedb0cf
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-        ),
-        'eftec\\tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/eftec/bladeone/tests',
-        ),
-        'eftec\\bladeone\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/eftec/bladeone/lib',
         ),
         'Zumba\\JsonSerializer\\Test\\' => 
         array (
@@ -1447,10 +1434,6 @@ class ComposerStaticInitdaa3151f85aec0c445e10c121eedb0cf
         'CsrDelft\\view\\profiel\\ExternProfielForm' => __DIR__ . '/../..' . '/lib/view/profiel/ExternProfielForm.php',
         'CsrDelft\\view\\profiel\\InschrijfLinkForm' => __DIR__ . '/../..' . '/lib/view/profiel/InschrijfLinkForm.php',
         'CsrDelft\\view\\profiel\\ProfielForm' => __DIR__ . '/../..' . '/lib/view/profiel/ProfielForm.php',
-        'CsrDelft\\view\\renderer\\BladeRenderer' => __DIR__ . '/../..' . '/lib/view/renderer/BladeRenderer.php',
-        'CsrDelft\\view\\renderer\\CustomBladeOne' => __DIR__ . '/../..' . '/lib/view/renderer/CustomBladeOne.php',
-        'CsrDelft\\view\\renderer\\Renderer' => __DIR__ . '/../..' . '/lib/view/renderer/Renderer.php',
-        'CsrDelft\\view\\renderer\\TemplateView' => __DIR__ . '/../..' . '/lib/view/renderer/TemplateView.php',
         'CsrDelft\\view\\response\\IcalResponse' => __DIR__ . '/../..' . '/lib/view/response/IcalResponse.php',
         'CsrDelft\\view\\response\\VcardResponse' => __DIR__ . '/../..' . '/lib/view/response/VcardResponse.php',
         'CsrDelft\\view\\roodschopper\\RoodschopperForm' => __DIR__ . '/../..' . '/lib/view/roodschopper/RoodschopperForm.php',
@@ -17408,13 +17391,6 @@ class ComposerStaticInitdaa3151f85aec0c445e10c121eedb0cf
         'Zumba\\JsonSerializer\\Test\\SupportClasses\\MagicClass' => __DIR__ . '/..' . '/zumba/json-serializer/tests/SupportClasses/MagicClass.php',
         'Zumba\\JsonSerializer\\Test\\SupportClasses\\MyType' => __DIR__ . '/..' . '/zumba/json-serializer/tests/SupportClasses/MyType.php',
         'Zumba\\JsonSerializer\\Test\\SupportClasses\\MyTypeSerializer' => __DIR__ . '/..' . '/zumba/json-serializer/tests/SupportClasses/MyTypeSerializer.php',
-        'eftec\\bladeone\\BladeOne' => __DIR__ . '/..' . '/eftec/bladeone/lib/BladeOne.php',
-        'eftec\\bladeone\\BladeOneCache' => __DIR__ . '/..' . '/eftec/bladeone/lib/BladeOneCache.php',
-        'eftec\\bladeone\\BladeOneCacheRedis' => __DIR__ . '/..' . '/eftec/bladeone/lib/BladeOneCacheRedis.php',
-        'eftec\\bladeone\\BladeOneCustom' => __DIR__ . '/..' . '/eftec/bladeone/lib/BladeOneCustom.php',
-        'eftec\\bladeone\\BladeOneHtml' => __DIR__ . '/..' . '/eftec/bladeone/lib/BladeOneHtml.php',
-        'eftec\\bladeone\\BladeOneHtmlBootstrap' => __DIR__ . '/..' . '/eftec/bladeone/lib/BladeOneHtmlBootstrap.php',
-        'eftec\\bladeone\\BladeOneLang' => __DIR__ . '/..' . '/eftec/bladeone/lib/BladeOneLang.php',
         'phpDocumentor\\Reflection\\DocBlock' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlock.php',
         'phpDocumentor\\Reflection\\DocBlockFactory' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactory.php',
         'phpDocumentor\\Reflection\\DocBlockFactoryInterface' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactoryInterface.php',

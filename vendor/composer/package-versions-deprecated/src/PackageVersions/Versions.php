@@ -54,7 +54,6 @@ final class Versions
   'doctrine/reflection' => '1.2.1@55e71912dfcd824b2fdd16f2d9afe15684cfce79',
   'doctrine/sql-formatter' => '1.1.1@56070bebac6e77230ed7d306ad13528e60732871',
   'easyrdf/easyrdf' => '0.9.1@acd09dfe0555fbcfa254291e433c45fdd4652566',
-  'eftec/bladeone' => '3.21@684d4613ff7ff17eec02c7b3661b5f6489c16e65',
   'firebase/php-jwt' => 'v5.2.0@feb0e820b8436873675fd3aca04f3728eb2185cb',
   'globalcitizen/php-iban' => 'v2.7.5@4c0fc54877948ac667c0ab29c2d1afbe47705599',
   'google/apiclient' => 'v2.7.0@48ec94577b51bde415270116118b07a294e07c43',
@@ -191,7 +190,7 @@ final class Versions
   'symfony/profiler-pack' => 'v1.0.5@29ec66471082b4eb068db11eb4f0a48c277653f7',
   'symfony/web-profiler-bundle' => 'v5.1.3@6d32d311d9d599830f57a2fe6bb6e38970150acd',
   'theseer/tokenizer' => '1.2.0@75a63c33a8577608444246075ea0af0d052e452a',
-  'csr/csrdelft.nl' => 'dev-3898851795202bcef6e7d0c2113d7f79a464d7bd@3898851795202bcef6e7d0c2113d7f79a464d7bd',
+  'csr/csrdelft.nl' => 'dev-e1c089df7c36bdbc4313f4c5d6236580d6a9a861@e1c089df7c36bdbc4313f4c5d6236580d6a9a861',
 );
 
     private function __construct()

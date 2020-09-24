@@ -8,8 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     'phpseclib\\' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
     'phpDocumentor\\Reflection\\' => array($vendorDir . '/phpdocumentor/reflection-common/src', $vendorDir . '/phpdocumentor/reflection-docblock/src', $vendorDir . '/phpdocumentor/type-resolver/src'),
-    'eftec\\tests\\' => array($vendorDir . '/eftec/bladeone/tests'),
-    'eftec\\bladeone\\' => array($vendorDir . '/eftec/bladeone/lib'),
     'Zumba\\JsonSerializer\\Test\\' => array($vendorDir . '/zumba/json-serializer/tests'),
     'Zumba\\' => array($vendorDir . '/zumba/json-serializer/src'),
     'Zend\\EventManager\\' => array($vendorDir . '/zendframework/zend-eventmanager/src'),
