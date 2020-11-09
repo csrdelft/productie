@@ -28,7 +28,6 @@ extension_loaded('pdo_mysql') || $missingExtensions[] = 'pdo_mysql';
 extension_loaded('simplexml') || $missingExtensions[] = 'simplexml';
 extension_loaded('tokenizer') || $missingExtensions[] = 'tokenizer';
 extension_loaded('xml') || $missingExtensions[] = 'xml';
-extension_loaded('zip') || $missingExtensions[] = 'zip';
 
 if ($missingExtensions) {
     $issues[] = 'Your Composer dependencies require the following PHP extensions to be installed: ' . implode(', ', $missingExtensions);
