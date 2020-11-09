@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '7fba05142fe18f906f45988e8ba2c6c57b70bcfe',
+    'reference' => 'a43c25c4d95b967f88ffad5346a9d19eb5dd8b67',
     'name' => 'csr/csrdelft.nl',
   ),
   'versions' => 
@@ -45,7 +45,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '7fba05142fe18f906f45988e8ba2c6c57b70bcfe',
+      'reference' => 'a43c25c4d95b967f88ffad5346a9d19eb5dd8b67',
     ),
     'csrdelft/bb' => 
     array (
@@ -636,8 +636,8 @@
     array (
       'provided' => 
       array (
-        0 => '1.0',
-        1 => '1.0.0',
+        0 => '1.0.0',
+        1 => '1.0',
       ),
     ),
     'psr/simple-cache-implementation' => 
@@ -843,12 +843,12 @@
     ),
     'symfony/flex' => 
     array (
-      'pretty_version' => 'v1.9.4',
-      'version' => '1.9.4.0',
+      'pretty_version' => 'v1.10.0',
+      'version' => '1.10.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '115e67f76ba95d70946a6e0b15d4578bf04927c3',
+      'reference' => 'e38520236bdc911c2f219634b485bc328746e980',
     ),
     'symfony/framework-bundle' => 
     array (
