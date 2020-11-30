@@ -1518,6 +1518,7 @@
                 "reflection",
                 "static"
             ],
+            "abandoned": "roave/better-reflection",
             "install-path": "../doctrine/reflection"
         },
         {
