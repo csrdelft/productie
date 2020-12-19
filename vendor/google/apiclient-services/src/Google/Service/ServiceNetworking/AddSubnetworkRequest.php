@@ -22,9 +22,10 @@ class Google_Service_ServiceNetworking_AddSubnetworkRequest extends Google_Colle
   public $consumerNetwork;
   public $description;
   public $ipPrefixLength;
-  public $privateIpv6GoogleAccess;
   public $region;
   public $requestedAddress;
+  protected $secondaryIpRangeSpecsType = 'Google_Service_ServiceNetworking_SecondaryIpRangeSpec';
+  protected $secondaryIpRangeSpecsDataType = 'array';
   public $subnetwork;
   public $subnetworkUsers;
 
@@ -60,14 +61,6 @@ class Google_Service_ServiceNetworking_AddSubnetworkRequest extends Google_Colle
   {
     return $this->ipPrefixLength;
   }
-  public function setPrivateIpv6GoogleAccess($privateIpv6GoogleAccess)
-  {
-    $this->privateIpv6GoogleAccess = $privateIpv6GoogleAccess;
-  }
-  public function getPrivateIpv6GoogleAccess()
-  {
-    return $this->privateIpv6GoogleAccess;
-  }
   public function setRegion($region)
   {
     $this->region = $region;
@@ -83,6 +76,20 @@ class Google_Service_ServiceNetworking_AddSubnetworkRequest extends Google_Colle
   public function getRequestedAddress()
   {
     return $this->requestedAddress;
+  }
+  /**
+   * @param Google_Service_ServiceNetworking_SecondaryIpRangeSpec[]
+   */
+  public function setSecondaryIpRangeSpecs($secondaryIpRangeSpecs)
+  {
+    $this->secondaryIpRangeSpecs = $secondaryIpRangeSpecs;
+  }
+  /**
+   * @return Google_Service_ServiceNetworking_SecondaryIpRangeSpec[]
+   */
+  public function getSecondaryIpRangeSpecs()
+  {
+    return $this->secondaryIpRangeSpecs;
   }
   public function setSubnetwork($subnetwork)
   {

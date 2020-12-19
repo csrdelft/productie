@@ -91,7 +91,7 @@ class Google_Service_CloudRedis_Resource_ProjectsLocationsInstances extends Goog
     return $this->call('export', array($params), "Google_Service_CloudRedis_Operation");
   }
   /**
-   * Initiates a failover of the master node to current replica node for a
+   * Initiates a failover of the primary node to current replica node for a
    * specific STANDARD tier Cloud Memorystore for Redis instance.
    * (instances.failover)
    *
@@ -122,6 +122,23 @@ class Google_Service_CloudRedis_Resource_ProjectsLocationsInstances extends Goog
     $params = array('name' => $name);
     $params = array_merge($params, $optParams);
     return $this->call('get', array($params), "Google_Service_CloudRedis_Instance");
+  }
+  /**
+   * Gets the AUTH string for a Redis instance. If AUTH is not enabled for the
+   * instance the response will be empty. This information is not included in the
+   * details returned to GetInstance. (instances.getAuthString)
+   *
+   * @param string $name Required. Redis instance resource name using the form:
+   * `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where
+   * `location_id` refers to a GCP region.
+   * @param array $optParams Optional parameters.
+   * @return Google_Service_CloudRedis_InstanceAuthString
+   */
+  public function getAuthString($name, $optParams = array())
+  {
+    $params = array('name' => $name);
+    $params = array_merge($params, $optParams);
+    return $this->call('getAuthString', array($params), "Google_Service_CloudRedis_InstanceAuthString");
   }
   /**
    * Import a Redis RDB snapshot file from Cloud Storage into a Redis instance.
@@ -156,13 +173,13 @@ class Google_Service_CloudRedis_Resource_ProjectsLocationsInstances extends Goog
    * `location_id` refers to a GCP region.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string pageToken The `next_page_token` value returned from a
-   * previous ListInstances request, if any.
    * @opt_param int pageSize The maximum number of items to return. If not
    * specified, a default value of 1000 will be used by the service. Regardless of
    * the page_size value, the response may include a partial list and a caller
    * should only rely on response's `next_page_token` to determine if there are
    * more instances left to be queried.
+   * @opt_param string pageToken The `next_page_token` value returned from a
+   * previous ListInstances request, if any.
    * @return Google_Service_CloudRedis_ListInstancesResponse
    */
   public function listProjectsLocationsInstances($parent, $optParams = array())

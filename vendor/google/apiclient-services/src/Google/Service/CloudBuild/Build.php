@@ -27,6 +27,7 @@ class Google_Service_CloudBuild_Build extends Google_Collection
   public $images;
   public $logUrl;
   public $logsBucket;
+  public $name;
   protected $optionsType = 'Google_Service_CloudBuild_BuildOptions';
   protected $optionsDataType = '';
   public $projectId;
@@ -121,6 +122,14 @@ class Google_Service_CloudBuild_Build extends Google_Collection
   {
     return $this->logsBucket;
   }
+  public function setName($name)
+  {
+    $this->name = $name;
+  }
+  public function getName()
+  {
+    return $this->name;
+  }
   /**
    * @param Google_Service_CloudBuild_BuildOptions
    */
@@ -166,14 +175,14 @@ class Google_Service_CloudBuild_Build extends Google_Collection
     return $this->results;
   }
   /**
-   * @param Google_Service_CloudBuild_Secret
+   * @param Google_Service_CloudBuild_Secret[]
    */
   public function setSecrets($secrets)
   {
     $this->secrets = $secrets;
   }
   /**
-   * @return Google_Service_CloudBuild_Secret
+   * @return Google_Service_CloudBuild_Secret[]
    */
   public function getSecrets()
   {
@@ -240,14 +249,14 @@ class Google_Service_CloudBuild_Build extends Google_Collection
     return $this->statusDetail;
   }
   /**
-   * @param Google_Service_CloudBuild_BuildStep
+   * @param Google_Service_CloudBuild_BuildStep[]
    */
   public function setSteps($steps)
   {
     $this->steps = $steps;
   }
   /**
-   * @return Google_Service_CloudBuild_BuildStep
+   * @return Google_Service_CloudBuild_BuildStep[]
    */
   public function getSteps()
   {
@@ -278,14 +287,14 @@ class Google_Service_CloudBuild_Build extends Google_Collection
     return $this->timeout;
   }
   /**
-   * @param Google_Service_CloudBuild_TimeSpan
+   * @param Google_Service_CloudBuild_TimeSpan[]
    */
   public function setTiming($timing)
   {
     $this->timing = $timing;
   }
   /**
-   * @return Google_Service_CloudBuild_TimeSpan
+   * @return Google_Service_CloudBuild_TimeSpan[]
    */
   public function getTiming()
   {

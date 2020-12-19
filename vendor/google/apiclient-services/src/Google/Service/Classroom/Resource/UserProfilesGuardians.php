@@ -103,6 +103,9 @@ class Google_Service_Classroom_Resource_UserProfilesGuardians extends Google_Ser
    * access to view.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string invitedEmailAddress Filter results by the email address
+   * that the original invitation was sent to, resulting in this guardian link.
+   * This filter can only be used by domain administrators.
    * @opt_param int pageSize Maximum number of items to return. Zero or
    * unspecified indicates that the server may assign a maximum. The server may
    * return fewer than the specified number of results.
@@ -110,9 +113,6 @@ class Google_Service_Classroom_Resource_UserProfilesGuardians extends Google_Ser
    * call, indicating that the subsequent page of results should be returned. The
    * list request must be otherwise identical to the one that resulted in this
    * token.
-   * @opt_param string invitedEmailAddress Filter results by the email address
-   * that the original invitation was sent to, resulting in this guardian link.
-   * This filter can only be used by domain administrators.
    * @return Google_Service_Classroom_ListGuardiansResponse
    */
   public function listUserProfilesGuardians($studentId, $optParams = array())

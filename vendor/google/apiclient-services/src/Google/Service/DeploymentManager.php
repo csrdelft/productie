@@ -19,11 +19,13 @@
  * Service definition for DeploymentManager (v2).
  *
  * <p>
- * Declares, configures, and deploys complex solutions on Google Cloud Platform.</p>
+ * The Google Cloud Deployment Manager v2 API provides services for configuring,
+ * deploying, and viewing Google Cloud services and APIs via templates which
+ * specify deployments of Cloud resources.</p>
  *
  * <p>
  * For more information about this service, see the API
- * <a href="https://cloud.google.com/deployment-manager/" target="_blank">Documentation</a>
+ * <a href="https://cloud.google.com/deployment-manager" target="_blank">Documentation</a>
  * </p>
  *
  * @author Google, Inc.
@@ -48,7 +50,7 @@ class Google_Service_DeploymentManager extends Google_Service
   public $operations;
   public $resources;
   public $types;
-  
+
   /**
    * Constructs the internal representation of the DeploymentManager service.
    *
@@ -58,9 +60,9 @@ class Google_Service_DeploymentManager extends Google_Service
   public function __construct(Google_Client $client, $rootUrl = null)
   {
     parent::__construct($client);
-    $this->rootUrl = $rootUrl ?: 'https://www.googleapis.com/';
-    $this->servicePath = 'deploymentmanager/v2/projects/';
-    $this->batchPath = 'batch/deploymentmanager/v2';
+    $this->rootUrl = $rootUrl ?: 'https://deploymentmanager.googleapis.com/';
+    $this->servicePath = '';
+    $this->batchPath = 'batch';
     $this->version = 'v2';
     $this->serviceName = 'deploymentmanager';
 
@@ -71,7 +73,7 @@ class Google_Service_DeploymentManager extends Google_Service
         array(
           'methods' => array(
             'cancelPreview' => array(
-              'path' => '{project}/global/deployments/{deployment}/cancelPreview',
+              'path' => 'deploymentmanager/v2/projects/{project}/global/deployments/{deployment}/cancelPreview',
               'httpMethod' => 'POST',
               'parameters' => array(
                 'project' => array(
@@ -86,7 +88,7 @@ class Google_Service_DeploymentManager extends Google_Service
                 ),
               ),
             ),'delete' => array(
-              'path' => '{project}/global/deployments/{deployment}',
+              'path' => 'deploymentmanager/v2/projects/{project}/global/deployments/{deployment}',
               'httpMethod' => 'DELETE',
               'parameters' => array(
                 'project' => array(
@@ -105,7 +107,7 @@ class Google_Service_DeploymentManager extends Google_Service
                 ),
               ),
             ),'get' => array(
-              'path' => '{project}/global/deployments/{deployment}',
+              'path' => 'deploymentmanager/v2/projects/{project}/global/deployments/{deployment}',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'project' => array(
@@ -120,7 +122,7 @@ class Google_Service_DeploymentManager extends Google_Service
                 ),
               ),
             ),'getIamPolicy' => array(
-              'path' => '{project}/global/deployments/{resource}/getIamPolicy',
+              'path' => 'deploymentmanager/v2/projects/{project}/global/deployments/{resource}/getIamPolicy',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'project' => array(
@@ -133,9 +135,13 @@ class Google_Service_DeploymentManager extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
+                'optionsRequestedPolicyVersion' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
+                ),
               ),
             ),'insert' => array(
-              'path' => '{project}/global/deployments',
+              'path' => 'deploymentmanager/v2/projects/{project}/global/deployments',
               'httpMethod' => 'POST',
               'parameters' => array(
                 'project' => array(
@@ -143,17 +149,17 @@ class Google_Service_DeploymentManager extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'preview' => array(
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ),
                 'createPolicy' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
+                'preview' => array(
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ),
               ),
             ),'list' => array(
-              'path' => '{project}/global/deployments',
+              'path' => 'deploymentmanager/v2/projects/{project}/global/deployments',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'project' => array(
@@ -161,7 +167,7 @@ class Google_Service_DeploymentManager extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'pageToken' => array(
+                'filter' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -173,13 +179,17 @@ class Google_Service_DeploymentManager extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'filter' => array(
+                'pageToken' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
+                'returnPartialSuccess' => array(
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ),
               ),
             ),'patch' => array(
-              'path' => '{project}/global/deployments/{deployment}',
+              'path' => 'deploymentmanager/v2/projects/{project}/global/deployments/{deployment}',
               'httpMethod' => 'PATCH',
               'parameters' => array(
                 'project' => array(
@@ -192,10 +202,6 @@ class Google_Service_DeploymentManager extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'preview' => array(
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ),
                 'createPolicy' => array(
                   'location' => 'query',
                   'type' => 'string',
@@ -204,9 +210,13 @@ class Google_Service_DeploymentManager extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
+                'preview' => array(
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ),
               ),
             ),'setIamPolicy' => array(
-              'path' => '{project}/global/deployments/{resource}/setIamPolicy',
+              'path' => 'deploymentmanager/v2/projects/{project}/global/deployments/{resource}/setIamPolicy',
               'httpMethod' => 'POST',
               'parameters' => array(
                 'project' => array(
@@ -221,7 +231,7 @@ class Google_Service_DeploymentManager extends Google_Service
                 ),
               ),
             ),'stop' => array(
-              'path' => '{project}/global/deployments/{deployment}/stop',
+              'path' => 'deploymentmanager/v2/projects/{project}/global/deployments/{deployment}/stop',
               'httpMethod' => 'POST',
               'parameters' => array(
                 'project' => array(
@@ -236,7 +246,7 @@ class Google_Service_DeploymentManager extends Google_Service
                 ),
               ),
             ),'testIamPermissions' => array(
-              'path' => '{project}/global/deployments/{resource}/testIamPermissions',
+              'path' => 'deploymentmanager/v2/projects/{project}/global/deployments/{resource}/testIamPermissions',
               'httpMethod' => 'POST',
               'parameters' => array(
                 'project' => array(
@@ -251,7 +261,7 @@ class Google_Service_DeploymentManager extends Google_Service
                 ),
               ),
             ),'update' => array(
-              'path' => '{project}/global/deployments/{deployment}',
+              'path' => 'deploymentmanager/v2/projects/{project}/global/deployments/{deployment}',
               'httpMethod' => 'PUT',
               'parameters' => array(
                 'project' => array(
@@ -264,11 +274,11 @@ class Google_Service_DeploymentManager extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'deletePolicy' => array(
+                'createPolicy' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'createPolicy' => array(
+                'deletePolicy' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -288,7 +298,7 @@ class Google_Service_DeploymentManager extends Google_Service
         array(
           'methods' => array(
             'get' => array(
-              'path' => '{project}/global/deployments/{deployment}/manifests/{manifest}',
+              'path' => 'deploymentmanager/v2/projects/{project}/global/deployments/{deployment}/manifests/{manifest}',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'project' => array(
@@ -308,7 +318,7 @@ class Google_Service_DeploymentManager extends Google_Service
                 ),
               ),
             ),'list' => array(
-              'path' => '{project}/global/deployments/{deployment}/manifests',
+              'path' => 'deploymentmanager/v2/projects/{project}/global/deployments/{deployment}/manifests',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'project' => array(
@@ -321,7 +331,7 @@ class Google_Service_DeploymentManager extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'pageToken' => array(
+                'filter' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -329,13 +339,17 @@ class Google_Service_DeploymentManager extends Google_Service
                   'location' => 'query',
                   'type' => 'integer',
                 ),
-                'filter' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'orderBy' => array(
                   'location' => 'query',
                   'type' => 'string',
+                ),
+                'pageToken' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'returnPartialSuccess' => array(
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ),
               ),
             ),
@@ -349,7 +363,7 @@ class Google_Service_DeploymentManager extends Google_Service
         array(
           'methods' => array(
             'get' => array(
-              'path' => '{project}/global/operations/{operation}',
+              'path' => 'deploymentmanager/v2/projects/{project}/global/operations/{operation}',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'project' => array(
@@ -364,13 +378,21 @@ class Google_Service_DeploymentManager extends Google_Service
                 ),
               ),
             ),'list' => array(
-              'path' => '{project}/global/operations',
+              'path' => 'deploymentmanager/v2/projects/{project}/global/operations',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'project' => array(
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ),
+                'filter' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'maxResults' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
                 ),
                 'orderBy' => array(
                   'location' => 'query',
@@ -380,13 +402,9 @@ class Google_Service_DeploymentManager extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'filter' => array(
+                'returnPartialSuccess' => array(
                   'location' => 'query',
-                  'type' => 'string',
-                ),
-                'maxResults' => array(
-                  'location' => 'query',
-                  'type' => 'integer',
+                  'type' => 'boolean',
                 ),
               ),
             ),
@@ -400,7 +418,7 @@ class Google_Service_DeploymentManager extends Google_Service
         array(
           'methods' => array(
             'get' => array(
-              'path' => '{project}/global/deployments/{deployment}/resources/{resource}',
+              'path' => 'deploymentmanager/v2/projects/{project}/global/deployments/{deployment}/resources/{resource}',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'project' => array(
@@ -420,7 +438,7 @@ class Google_Service_DeploymentManager extends Google_Service
                 ),
               ),
             ),'list' => array(
-              'path' => '{project}/global/deployments/{deployment}/resources',
+              'path' => 'deploymentmanager/v2/projects/{project}/global/deployments/{deployment}/resources',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'project' => array(
@@ -449,6 +467,10 @@ class Google_Service_DeploymentManager extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
+                'returnPartialSuccess' => array(
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ),
               ),
             ),
           )
@@ -461,7 +483,7 @@ class Google_Service_DeploymentManager extends Google_Service
         array(
           'methods' => array(
             'list' => array(
-              'path' => '{project}/global/types',
+              'path' => 'deploymentmanager/v2/projects/{project}/global/types',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'project' => array(
@@ -469,11 +491,15 @@ class Google_Service_DeploymentManager extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'orderBy' => array(
+                'filter' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'filter' => array(
+                'maxResults' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
+                ),
+                'orderBy' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -481,9 +507,9 @@ class Google_Service_DeploymentManager extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'maxResults' => array(
+                'returnPartialSuccess' => array(
                   'location' => 'query',
-                  'type' => 'integer',
+                  'type' => 'boolean',
                 ),
               ),
             ),

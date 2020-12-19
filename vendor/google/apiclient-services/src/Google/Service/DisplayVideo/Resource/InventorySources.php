@@ -52,6 +52,17 @@ class Google_Service_DisplayVideo_Resource_InventorySources extends Google_Servi
    *
    * @opt_param string advertiserId The ID of the advertiser that has access to
    * the inventory source.
+   * @opt_param string filter Allows filtering by inventory source properties.
+   * Supported syntax: * Filter expressions are made up of one or more
+   * restrictions. * Restrictions can be combined by `AND` or `OR` logical
+   * operators. A sequence of restrictions implicitly uses `AND`. * A restriction
+   * has the form of `{field} {operator} {value}`. * The operator must be `EQUALS
+   * (=)`. * Supported fields: - `status.entityStatus` - `commitment` -
+   * `deliveryMethod` - `rateDetails.rateType` - `exchange` Examples: * All active
+   * inventory sources: `status.entityStatus="ENTITY_STATUS_ACTIVE"` * Inventory
+   * sources belonging to Google Ad Manager or Rubicon exchanges:
+   * `exchange="EXCHANGE_GOOGLE_AD_MANAGER" OR exchange="EXCHANGE_RUBICON"` The
+   * length of this field should be no more than 500 characters.
    * @opt_param string orderBy Field by which to sort the list. Acceptable values
    * are: * `displayName` (default) The default sorting order is ascending. To
    * specify descending order for a field, a suffix "desc" should be added to the
@@ -64,17 +75,6 @@ class Google_Service_DisplayVideo_Resource_InventorySources extends Google_Servi
    * first page of results will be returned.
    * @opt_param string partnerId The ID of the partner that has access to the
    * inventory source.
-   * @opt_param string filter Allows filtering by inventory source properties.
-   * Supported syntax: * Filter expressions are made up of one or more
-   * restrictions. * Restrictions can be combined by `AND` or `OR` logical
-   * operators. A sequence of restrictions implicitly uses `AND`. * A restriction
-   * has the form of `{field} {operator} {value}`. * The operator must be `EQUALS
-   * (=)`. * Supported fields: - `status.entityStatus` - `commitment` -
-   * `deliveryMethod` - `rateDetails.rateType` - `exchange` Examples: * All active
-   * inventory sources: `status.entityStatus="ENTITY_STATUS_ACTIVE"` * Inventory
-   * sources belonging to Google Ad Manager or Rubicon exchanges:
-   * `exchange="EXCHANGE_GOOGLE_AD_MANAGER" OR exchange="EXCHANGE_RUBICON"` The
-   * length of this field should be no more than 500 characters.
    * @return Google_Service_DisplayVideo_ListInventorySourcesResponse
    */
   public function listInventorySources($optParams = array())

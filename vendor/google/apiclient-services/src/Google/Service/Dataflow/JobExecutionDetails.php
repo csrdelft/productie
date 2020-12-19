@@ -18,18 +18,27 @@
 class Google_Service_Dataflow_JobExecutionDetails extends Google_Collection
 {
   protected $collection_key = 'stages';
+  public $nextPageToken;
   protected $stagesType = 'Google_Service_Dataflow_StageSummary';
   protected $stagesDataType = 'array';
 
+  public function setNextPageToken($nextPageToken)
+  {
+    $this->nextPageToken = $nextPageToken;
+  }
+  public function getNextPageToken()
+  {
+    return $this->nextPageToken;
+  }
   /**
-   * @param Google_Service_Dataflow_StageSummary
+   * @param Google_Service_Dataflow_StageSummary[]
    */
   public function setStages($stages)
   {
     $this->stages = $stages;
   }
   /**
-   * @return Google_Service_Dataflow_StageSummary
+   * @return Google_Service_Dataflow_StageSummary[]
    */
   public function getStages()
   {

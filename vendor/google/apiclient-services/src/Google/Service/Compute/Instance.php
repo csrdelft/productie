@@ -19,6 +19,8 @@ class Google_Service_Compute_Instance extends Google_Collection
 {
   protected $collection_key = 'serviceAccounts';
   public $canIpForward;
+  protected $confidentialInstanceConfigType = 'Google_Service_Compute_ConfidentialInstanceConfig';
+  protected $confidentialInstanceConfigDataType = '';
   public $cpuPlatform;
   public $creationTimestamp;
   public $deletionProtection;
@@ -35,6 +37,9 @@ class Google_Service_Compute_Instance extends Google_Collection
   public $kind;
   public $labelFingerprint;
   public $labels;
+  public $lastStartTimestamp;
+  public $lastStopTimestamp;
+  public $lastSuspendedTimestamp;
   public $machineType;
   protected $metadataType = 'Google_Service_Compute_Metadata';
   protected $metadataDataType = '';
@@ -70,6 +75,20 @@ class Google_Service_Compute_Instance extends Google_Collection
   {
     return $this->canIpForward;
   }
+  /**
+   * @param Google_Service_Compute_ConfidentialInstanceConfig
+   */
+  public function setConfidentialInstanceConfig(Google_Service_Compute_ConfidentialInstanceConfig $confidentialInstanceConfig)
+  {
+    $this->confidentialInstanceConfig = $confidentialInstanceConfig;
+  }
+  /**
+   * @return Google_Service_Compute_ConfidentialInstanceConfig
+   */
+  public function getConfidentialInstanceConfig()
+  {
+    return $this->confidentialInstanceConfig;
+  }
   public function setCpuPlatform($cpuPlatform)
   {
     $this->cpuPlatform = $cpuPlatform;
@@ -103,14 +122,14 @@ class Google_Service_Compute_Instance extends Google_Collection
     return $this->description;
   }
   /**
-   * @param Google_Service_Compute_AttachedDisk
+   * @param Google_Service_Compute_AttachedDisk[]
    */
   public function setDisks($disks)
   {
     $this->disks = $disks;
   }
   /**
-   * @return Google_Service_Compute_AttachedDisk
+   * @return Google_Service_Compute_AttachedDisk[]
    */
   public function getDisks()
   {
@@ -139,14 +158,14 @@ class Google_Service_Compute_Instance extends Google_Collection
     return $this->fingerprint;
   }
   /**
-   * @param Google_Service_Compute_AcceleratorConfig
+   * @param Google_Service_Compute_AcceleratorConfig[]
    */
   public function setGuestAccelerators($guestAccelerators)
   {
     $this->guestAccelerators = $guestAccelerators;
   }
   /**
-   * @return Google_Service_Compute_AcceleratorConfig
+   * @return Google_Service_Compute_AcceleratorConfig[]
    */
   public function getGuestAccelerators()
   {
@@ -192,6 +211,30 @@ class Google_Service_Compute_Instance extends Google_Collection
   {
     return $this->labels;
   }
+  public function setLastStartTimestamp($lastStartTimestamp)
+  {
+    $this->lastStartTimestamp = $lastStartTimestamp;
+  }
+  public function getLastStartTimestamp()
+  {
+    return $this->lastStartTimestamp;
+  }
+  public function setLastStopTimestamp($lastStopTimestamp)
+  {
+    $this->lastStopTimestamp = $lastStopTimestamp;
+  }
+  public function getLastStopTimestamp()
+  {
+    return $this->lastStopTimestamp;
+  }
+  public function setLastSuspendedTimestamp($lastSuspendedTimestamp)
+  {
+    $this->lastSuspendedTimestamp = $lastSuspendedTimestamp;
+  }
+  public function getLastSuspendedTimestamp()
+  {
+    return $this->lastSuspendedTimestamp;
+  }
   public function setMachineType($machineType)
   {
     $this->machineType = $machineType;
@@ -231,14 +274,14 @@ class Google_Service_Compute_Instance extends Google_Collection
     return $this->name;
   }
   /**
-   * @param Google_Service_Compute_NetworkInterface
+   * @param Google_Service_Compute_NetworkInterface[]
    */
   public function setNetworkInterfaces($networkInterfaces)
   {
     $this->networkInterfaces = $networkInterfaces;
   }
   /**
-   * @return Google_Service_Compute_NetworkInterface
+   * @return Google_Service_Compute_NetworkInterface[]
    */
   public function getNetworkInterfaces()
   {
@@ -297,14 +340,14 @@ class Google_Service_Compute_Instance extends Google_Collection
     return $this->selfLink;
   }
   /**
-   * @param Google_Service_Compute_ServiceAccount
+   * @param Google_Service_Compute_ServiceAccount[]
    */
   public function setServiceAccounts($serviceAccounts)
   {
     $this->serviceAccounts = $serviceAccounts;
   }
   /**
-   * @return Google_Service_Compute_ServiceAccount
+   * @return Google_Service_Compute_ServiceAccount[]
    */
   public function getServiceAccounts()
   {

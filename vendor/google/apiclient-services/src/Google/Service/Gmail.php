@@ -87,7 +87,7 @@ class Google_Service_Gmail extends Google_Service
   public $users_settings_sendAs;
   public $users_settings_sendAs_smimeInfo;
   public $users_threads;
-  
+
   /**
    * Constructs the internal representation of the Gmail service.
    *
@@ -202,21 +202,21 @@ class Google_Service_Gmail extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'pageToken' => array(
+                'includeSpamTrash' => array(
                   'location' => 'query',
-                  'type' => 'string',
+                  'type' => 'boolean',
                 ),
                 'maxResults' => array(
                   'location' => 'query',
                   'type' => 'integer',
                 ),
-                'q' => array(
+                'pageToken' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'includeSpamTrash' => array(
+                'q' => array(
                   'location' => 'query',
-                  'type' => 'boolean',
+                  'type' => 'string',
                 ),
               ),
             ),'send' => array(
@@ -268,7 +268,7 @@ class Google_Service_Gmail extends Google_Service
                   'type' => 'string',
                   'repeated' => true,
                 ),
-                'startHistoryId' => array(
+                'labelId' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -276,11 +276,11 @@ class Google_Service_Gmail extends Google_Service
                   'location' => 'query',
                   'type' => 'integer',
                 ),
-                'labelId' => array(
+                'pageToken' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'pageToken' => array(
+                'startHistoryId' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -453,21 +453,21 @@ class Google_Service_Gmail extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'processForCalendar' => array(
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ),
                 'deleted' => array(
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ),
-                'neverMarkSpam' => array(
                   'location' => 'query',
                   'type' => 'boolean',
                 ),
                 'internalDateSource' => array(
                   'location' => 'query',
                   'type' => 'string',
+                ),
+                'neverMarkSpam' => array(
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ),
+                'processForCalendar' => array(
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ),
               ),
             ),'insert' => array(
@@ -506,15 +506,15 @@ class Google_Service_Gmail extends Google_Service
                   'type' => 'string',
                   'repeated' => true,
                 ),
-                'q' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'maxResults' => array(
                   'location' => 'query',
                   'type' => 'integer',
                 ),
                 'pageToken' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'q' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -1157,24 +1157,24 @@ class Google_Service_Gmail extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'maxResults' => array(
+                'includeSpamTrash' => array(
                   'location' => 'query',
-                  'type' => 'integer',
+                  'type' => 'boolean',
                 ),
                 'labelIds' => array(
                   'location' => 'query',
                   'type' => 'string',
                   'repeated' => true,
                 ),
-                'includeSpamTrash' => array(
+                'maxResults' => array(
                   'location' => 'query',
-                  'type' => 'boolean',
+                  'type' => 'integer',
                 ),
-                'q' => array(
+                'pageToken' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'pageToken' => array(
+                'q' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),

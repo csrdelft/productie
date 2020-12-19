@@ -48,8 +48,9 @@ class Google_Service_Games extends Google_Service
   public $revisions;
   public $scores;
   public $snapshots;
+  public $snapshotsExtended;
   public $stats;
-  
+
   /**
    * Constructs the internal representation of the Games service.
    *
@@ -75,10 +76,6 @@ class Google_Service_Games extends Google_Service
               'path' => 'games/v1/achievements',
               'httpMethod' => 'GET',
               'parameters' => array(
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'language' => array(
                   'location' => 'query',
                   'type' => 'string',
@@ -86,6 +83,10 @@ class Google_Service_Games extends Google_Service
                 'maxResults' => array(
                   'location' => 'query',
                   'type' => 'integer',
+                ),
+                'pageToken' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
               ),
             ),
@@ -126,10 +127,6 @@ class Google_Service_Games extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'language' => array(
                   'location' => 'query',
                   'type' => 'string',
@@ -137,6 +134,10 @@ class Google_Service_Games extends Google_Service
                 'maxResults' => array(
                   'location' => 'query',
                   'type' => 'integer',
+                ),
+                'pageToken' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
                 'state' => array(
                   'location' => 'query',
@@ -238,15 +239,15 @@ class Google_Service_Games extends Google_Service
               'path' => 'games/v1/events',
               'httpMethod' => 'GET',
               'parameters' => array(
+                'language' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
                 'maxResults' => array(
                   'location' => 'query',
                   'type' => 'integer',
                 ),
                 'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'language' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -255,15 +256,15 @@ class Google_Service_Games extends Google_Service
               'path' => 'games/v1/eventDefinitions',
               'httpMethod' => 'GET',
               'parameters' => array(
+                'language' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
                 'maxResults' => array(
                   'location' => 'query',
                   'type' => 'integer',
                 ),
                 'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'language' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -305,7 +306,7 @@ class Google_Service_Games extends Google_Service
               'path' => 'games/v1/leaderboards',
               'httpMethod' => 'GET',
               'parameters' => array(
-                'pageToken' => array(
+                'language' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -313,7 +314,7 @@ class Google_Service_Games extends Google_Service
                   'location' => 'query',
                   'type' => 'integer',
                 ),
-                'language' => array(
+                'pageToken' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -346,15 +347,15 @@ class Google_Service_Games extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
+                'language' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
                 'maxResults' => array(
                   'location' => 'query',
                   'type' => 'integer',
                 ),
                 'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'language' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -392,10 +393,6 @@ class Google_Service_Games extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'language' => array(
                   'location' => 'query',
                   'type' => 'string',
@@ -403,6 +400,10 @@ class Google_Service_Games extends Google_Service
                 'maxResults' => array(
                   'location' => 'query',
                   'type' => 'integer',
+                ),
+                'pageToken' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
               ),
             ),
@@ -454,11 +455,11 @@ class Google_Service_Games extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'language' => array(
+                'includeRankType' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'pageToken' => array(
+                'language' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -466,7 +467,7 @@ class Google_Service_Games extends Google_Service
                   'location' => 'query',
                   'type' => 'integer',
                 ),
-                'includeRankType' => array(
+                'pageToken' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -494,13 +495,13 @@ class Google_Service_Games extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'maxResults' => array(
                   'location' => 'query',
                   'type' => 'integer',
+                ),
+                'pageToken' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
               ),
             ),'listWindow' => array(
@@ -522,13 +523,13 @@ class Google_Service_Games extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
+                'language' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
                 'maxResults' => array(
                   'location' => 'query',
                   'type' => 'integer',
-                ),
-                'returnTopIfAbsent' => array(
-                  'location' => 'query',
-                  'type' => 'boolean',
                 ),
                 'pageToken' => array(
                   'location' => 'query',
@@ -538,9 +539,9 @@ class Google_Service_Games extends Google_Service
                   'location' => 'query',
                   'type' => 'integer',
                 ),
-                'language' => array(
+                'returnTopIfAbsent' => array(
                   'location' => 'query',
-                  'type' => 'string',
+                  'type' => 'boolean',
                 ),
               ),
             ),'submit' => array(
@@ -608,10 +609,6 @@ class Google_Service_Games extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'language' => array(
                   'location' => 'query',
                   'type' => 'string',
@@ -619,6 +616,30 @@ class Google_Service_Games extends Google_Service
                 'maxResults' => array(
                   'location' => 'query',
                   'type' => 'integer',
+                ),
+                'pageToken' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+              ),
+            ),
+          )
+        )
+    );
+    $this->snapshotsExtended = new Google_Service_Games_Resource_SnapshotsExtended(
+        $this,
+        $this->serviceName,
+        'snapshotsExtended',
+        array(
+          'methods' => array(
+            'resolveSnapshotHead' => array(
+              'path' => 'games/v1/snapshotsExtended/{snapshotName}:resolveHead',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'snapshotName' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ),
               ),
             ),

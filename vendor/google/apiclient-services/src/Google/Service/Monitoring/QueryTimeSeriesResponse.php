@@ -17,7 +17,7 @@
 
 class Google_Service_Monitoring_QueryTimeSeriesResponse extends Google_Collection
 {
-  protected $collection_key = 'warnings';
+  protected $collection_key = 'timeSeriesData';
   public $nextPageToken;
   protected $partialErrorsType = 'Google_Service_Monitoring_Status';
   protected $partialErrorsDataType = 'array';
@@ -25,8 +25,6 @@ class Google_Service_Monitoring_QueryTimeSeriesResponse extends Google_Collectio
   protected $timeSeriesDataDataType = 'array';
   protected $timeSeriesDescriptorType = 'Google_Service_Monitoring_TimeSeriesDescriptor';
   protected $timeSeriesDescriptorDataType = '';
-  protected $warningsType = 'Google_Service_Monitoring_QueryError';
-  protected $warningsDataType = 'array';
 
   public function setNextPageToken($nextPageToken)
   {
@@ -37,28 +35,28 @@ class Google_Service_Monitoring_QueryTimeSeriesResponse extends Google_Collectio
     return $this->nextPageToken;
   }
   /**
-   * @param Google_Service_Monitoring_Status
+   * @param Google_Service_Monitoring_Status[]
    */
   public function setPartialErrors($partialErrors)
   {
     $this->partialErrors = $partialErrors;
   }
   /**
-   * @return Google_Service_Monitoring_Status
+   * @return Google_Service_Monitoring_Status[]
    */
   public function getPartialErrors()
   {
     return $this->partialErrors;
   }
   /**
-   * @param Google_Service_Monitoring_TimeSeriesData
+   * @param Google_Service_Monitoring_TimeSeriesData[]
    */
   public function setTimeSeriesData($timeSeriesData)
   {
     $this->timeSeriesData = $timeSeriesData;
   }
   /**
-   * @return Google_Service_Monitoring_TimeSeriesData
+   * @return Google_Service_Monitoring_TimeSeriesData[]
    */
   public function getTimeSeriesData()
   {
@@ -77,19 +75,5 @@ class Google_Service_Monitoring_QueryTimeSeriesResponse extends Google_Collectio
   public function getTimeSeriesDescriptor()
   {
     return $this->timeSeriesDescriptor;
-  }
-  /**
-   * @param Google_Service_Monitoring_QueryError
-   */
-  public function setWarnings($warnings)
-  {
-    $this->warnings = $warnings;
-  }
-  /**
-   * @return Google_Service_Monitoring_QueryError
-   */
-  public function getWarnings()
-  {
-    return $this->warnings;
   }
 }

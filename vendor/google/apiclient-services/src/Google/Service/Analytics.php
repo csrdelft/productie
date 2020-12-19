@@ -78,7 +78,7 @@ class Google_Service_Analytics extends Google_Service
   public $metadata_columns;
   public $provisioning;
   public $userDeletion_userDeletionRequest;
-  
+
   /**
    * Constructs the internal representation of the Analytics service.
    *

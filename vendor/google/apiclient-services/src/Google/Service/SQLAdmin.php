@@ -46,7 +46,7 @@ class Google_Service_SQLAdmin extends Google_Service
   public $sslCerts;
   public $tiers;
   public $users;
-  
+
   /**
    * Constructs the internal representation of the SQLAdmin service.
    *
@@ -60,7 +60,7 @@ class Google_Service_SQLAdmin extends Google_Service
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1beta4';
-    $this->serviceName = 'sql';
+    $this->serviceName = 'sqladmin';
 
     $this->backupRuns = new Google_Service_SQLAdmin_Resource_BackupRuns(
         $this,
@@ -434,10 +434,6 @@ class Google_Service_SQLAdmin extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'filter' => array(
                   'location' => 'query',
                   'type' => 'string',
@@ -445,6 +441,10 @@ class Google_Service_SQLAdmin extends Google_Service
                 'maxResults' => array(
                   'location' => 'query',
                   'type' => 'integer',
+                ),
+                'pageToken' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
               ),
             ),'listServerCas' => array(
@@ -646,13 +646,13 @@ class Google_Service_SQLAdmin extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'maxResults' => array(
-                  'location' => 'query',
-                  'type' => 'integer',
-                ),
                 'instance' => array(
                   'location' => 'query',
                   'type' => 'string',
+                ),
+                'maxResults' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
                 ),
                 'pageToken' => array(
                   'location' => 'query',

@@ -41,7 +41,7 @@ class Google_Service_Reseller extends Google_Service
   public $customers;
   public $resellernotify;
   public $subscriptions;
-  
+
   /**
    * Constructs the internal representation of the Reseller service.
    *
@@ -261,7 +261,7 @@ class Google_Service_Reseller extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'pageToken' => array(
+                'customerId' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -269,13 +269,13 @@ class Google_Service_Reseller extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'customerId' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'maxResults' => array(
                   'location' => 'query',
                   'type' => 'integer',
+                ),
+                'pageToken' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
               ),
             ),'startPaidService' => array(

@@ -48,13 +48,17 @@ class Google_Service_SecurityCommandCenter_Resource_OrganizationsSourcesFindings
   /**
    * Filters an organization or source's findings and groups them by their
    * specified properties. To group across all sources provide a `-` as the source
-   * id. Example: /v1/organizations/{organization_id}/sources/-/findings
-   * (findings.group)
+   * id. Example: /v1/organizations/{organization_id}/sources/-/findings,
+   * /v1/folders/{folder_id}/sources/-/findings,
+   * /v1/projects/{project_id}/sources/-/findings (findings.group)
    *
    * @param string $parent Required. Name of the source to groupBy. Its format is
-   * "organizations/[organization_id]/sources/[source_id]". To groupBy across all
-   * sources provide a source_id of `-`. For example:
-   * organizations/{organization_id}/sources/-
+   * "organizations/[organization_id]/sources/[source_id]",
+   * folders/[folder_id]/sources/[source_id], or
+   * projects/[project_id]/sources/[source_id]. To groupBy across all sources
+   * provide a source_id of `-`. For example:
+   * organizations/{organization_id}/sources/-, folders/{folder_id}/sources/-, or
+   * projects/{project_id}/sources/-
    * @param Google_Service_SecurityCommandCenter_GroupFindingsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_SecurityCommandCenter_GroupFindingsResponse
@@ -72,9 +76,12 @@ class Google_Service_SecurityCommandCenter_Resource_OrganizationsSourcesFindings
    * (findings.listOrganizationsSourcesFindings)
    *
    * @param string $parent Required. Name of the source the findings belong to.
-   * Its format is "organizations/[organization_id]/sources/[source_id]". To list
-   * across all sources provide a source_id of `-`. For example:
-   * organizations/{organization_id}/sources/-
+   * Its format is "organizations/[organization_id]/sources/[source_id],
+   * folders/[folder_id]/sources/[source_id], or
+   * projects/[project_id]/sources/[source_id]". To list across all sources
+   * provide a source_id of `-`. For example:
+   * organizations/{organization_id}/sources/-, folders/{folder_id}/sources/- or
+   * projects/{projects_id}/sources/-
    * @param array $optParams Optional parameters.
    *
    * @opt_param string compareDuration When compare_duration is set, the
@@ -100,11 +107,6 @@ class Google_Service_SecurityCommandCenter_Resource_OrganizationsSourcesFindings
    * present at read_time.
    * @opt_param string fieldMask A field mask to specify the Finding fields to be
    * listed in the response. An empty field mask will list all fields.
-   * @opt_param string pageToken The value returned by the last
-   * `ListFindingsResponse`; indicates that this is a continuation of a prior
-   * `ListFindings` call, and that the system should return the next page of data.
-   * @opt_param int pageSize The maximum number of results to return in a single
-   * response. Default is 10, minimum is 1, maximum is 1000.
    * @opt_param string filter Expression that defines the filter to apply across
    * findings. The expression is a list of one or more restrictions combined via
    * logical operators `AND` and `OR`. Parentheses are supported, and `OR` has
@@ -126,10 +128,6 @@ class Google_Service_SecurityCommandCenter_Resource_OrganizationsSourcesFindings
    * existing: `source_properties.my_property : ""` Use a negated partial match on
    * the empty string to filter based on a property not existing:
    * `-source_properties.my_property : ""`
-   * @opt_param string readTime Time used as a reference point when filtering
-   * findings. The filter is limited to findings existing at the supplied time and
-   * their values are those at that specific time. Absence of this field will
-   * default to the API's version of NOW.
    * @opt_param string orderBy Expression that defines what fields and order to
    * use for sorting. The string value should follow SQL syntax: comma separated
    * list of fields. For example: "name,resource_properties.a_property". The
@@ -140,6 +138,15 @@ class Google_Service_SecurityCommandCenter_Resource_OrganizationsSourcesFindings
    * source_properties.a_property " are equivalent. The following fields are
    * supported: name parent state category resource_name event_time
    * source_properties security_marks.marks
+   * @opt_param int pageSize The maximum number of results to return in a single
+   * response. Default is 10, minimum is 1, maximum is 1000.
+   * @opt_param string pageToken The value returned by the last
+   * `ListFindingsResponse`; indicates that this is a continuation of a prior
+   * `ListFindings` call, and that the system should return the next page of data.
+   * @opt_param string readTime Time used as a reference point when filtering
+   * findings. The filter is limited to findings existing at the supplied time and
+   * their values are those at that specific time. Absence of this field will
+   * default to the API's version of NOW.
    * @return Google_Service_SecurityCommandCenter_ListFindingsResponse
    */
   public function listOrganizationsSourcesFindings($parent, $optParams = array())
