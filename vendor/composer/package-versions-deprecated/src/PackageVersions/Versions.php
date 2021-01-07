@@ -155,7 +155,7 @@ final class Versions
   'zendframework/zend-code' => '3.4.1@268040548f92c2bfcba164421c1add2ba43abaaa',
   'zendframework/zend-eventmanager' => '3.2.1@a5e2583a211f73604691586b8406ff7296a946dd',
   'zumba/json-serializer' => '3.0.0@4387bfaa6948d219e947ee77d975ec4f41fefd2b',
-  'csr/csrdelft.nl' => 'dev-master@91113207b1a9a197f5597666a56c6415b1ee0b42',
+  'csr/csrdelft.nl' => 'dev-master@12332e4b28cce378d777b5616b08096a48d45af2',
 );
 
     private function __construct()
