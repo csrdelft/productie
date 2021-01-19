@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '12332e4b28cce378d777b5616b08096a48d45af2',
+    'reference' => '1ffba53c494c39b3a108dabb76d82ed0d55f5884',
     'name' => 'csr/csrdelft.nl',
   ),
   'versions' => 
@@ -45,7 +45,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '12332e4b28cce378d777b5616b08096a48d45af2',
+      'reference' => '1ffba53c494c39b3a108dabb76d82ed0d55f5884',
     ),
     'csrdelft/bb' => 
     array (
@@ -598,8 +598,8 @@
     array (
       'provided' => 
       array (
-        0 => '1.0',
-        1 => '1.0.0',
+        0 => '1.0.0',
+        1 => '1.0',
       ),
     ),
     'psr/simple-cache-implementation' => 
@@ -1132,6 +1132,15 @@
       ),
       'reference' => '42fb44375553828eee4fa12bd255579b9ccfc871',
     ),
+    'symfony/translation' => 
+    array (
+      'pretty_version' => 'v5.2.1',
+      'version' => '5.2.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'a04209ba0d1391c828e5b2373181dac63c52ee70',
+    ),
     'symfony/translation-contracts' => 
     array (
       'pretty_version' => 'v2.3.0',
@@ -1140,6 +1149,13 @@
       array (
       ),
       'reference' => 'e2eaa60b558f26a4b0354e1bbb25636efaaad105',
+    ),
+    'symfony/translation-implementation' => 
+    array (
+      'provided' => 
+      array (
+        0 => '2.0',
+      ),
     ),
     'symfony/twig-bridge' => 
     array (
@@ -1186,14 +1202,32 @@
       ),
       'reference' => '290ea5e03b8cf9b42c783163123f54441fb06939',
     ),
-    'twig/twig' => 
+    'twig/extra-bundle' => 
     array (
-      'pretty_version' => 'v3.1.1',
-      'version' => '3.1.1.0',
+      'pretty_version' => 'v3.2.1',
+      'version' => '3.2.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'b02fa41f3783a2616eccef7b92fbc2343ffed737',
+      'reference' => '07c94c7dcfe7e49abd45d4083ca5544a34969714',
+    ),
+    'twig/intl-extra' => 
+    array (
+      'pretty_version' => 'v3.2.1',
+      'version' => '3.2.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '919e8f945c30bd3efeb6a4d79722cda538116658',
+    ),
+    'twig/twig' => 
+    array (
+      'pretty_version' => 'v3.2.1',
+      'version' => '3.2.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'f795ca686d38530045859b0350b5352f7d63447d',
     ),
     'webmozart/assert' => 
     array (
