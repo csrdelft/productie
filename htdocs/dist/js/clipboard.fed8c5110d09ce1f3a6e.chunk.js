@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[13],{174:function(e,o,t){"use strict";async function n(e){navigator.clipboard?await navigator.clipboard.writeText(e):function(e){const o=document.createElement("textarea");o.value=e,o.style.top="0",o.style.left="0",o.style.position="fixed",document.body.appendChild(o),o.focus(),o.select(),document.execCommand("copy"),document.body.removeChild(o)}(e)}t.r(o),t.d(o,"copyTextToClipboard",(function(){return n}))}}]);
-//# sourceMappingURL=clipboard.fed8c5110d09ce1f3a6e.chunk.js.map
