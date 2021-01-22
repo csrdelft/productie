@@ -112,6 +112,7 @@ return array(
     'Doctrine\\Bundle\\MigrationsBundle\\' => array($vendorDir . '/doctrine/doctrine-migrations-bundle'),
     'Doctrine\\Bundle\\DoctrineBundle\\' => array($vendorDir . '/doctrine/doctrine-bundle'),
     'DoctrineExtensions\\' => array($vendorDir . '/beberlei/doctrineextensions/src'),
+    'CsrDelft\\bb\\test\\' => array($vendorDir . '/csrdelft/bb/tests/lib'),
     'CsrDelft\\bb\\' => array($vendorDir . '/csrdelft/bb/src'),
     'CsrDelft\\' => array($baseDir . '/lib'),
     'Clue\\StreamFilter\\' => array($vendorDir . '/clue/stream-filter/src'),

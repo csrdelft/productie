@@ -196,17 +196,17 @@
         },
         {
             "name": "csrdelft/bb",
-            "version": "v1.2.0",
-            "version_normalized": "1.2.0.0",
+            "version": "v1.3.0",
+            "version_normalized": "1.3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/csrdelft/bb.git",
-                "reference": "707ae71489f2b8007b5bc160fa2e4985c6afe771"
+                "reference": "19e69d44112f9b1f6bd7bb684654624dc518f460"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/csrdelft/bb/zipball/707ae71489f2b8007b5bc160fa2e4985c6afe771",
-                "reference": "707ae71489f2b8007b5bc160fa2e4985c6afe771",
+                "url": "https://api.github.com/repos/csrdelft/bb/zipball/19e69d44112f9b1f6bd7bb684654624dc518f460",
+                "reference": "19e69d44112f9b1f6bd7bb684654624dc518f460",
                 "shasum": ""
             },
             "require": {
@@ -216,12 +216,13 @@
                 "phpunit/phpunit": "^8.3",
                 "spatie/phpunit-snapshot-assertions": "^2.1"
             },
-            "time": "2020-09-12T15:18:49+00:00",
+            "time": "2021-01-21T16:29:51+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "CsrDelft\\bb\\": "src/"
+                    "CsrDelft\\bb\\": "src/",
+                    "CsrDelft\\bb\\test\\": "tests/lib/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -236,6 +237,10 @@
             ],
             "description": "C.S.R. BB Parser",
             "homepage": "https://csrdelft.github.io/bb",
+            "support": {
+                "issues": "https://github.com/csrdelft/bb/issues",
+                "source": "https://github.com/csrdelft/bb/tree/v1.3.0"
+            },
             "install-path": "../csrdelft/bb"
         },
         {

@@ -185,6 +185,7 @@ class ComposerStaticInit239c8c7db85acec7f0e47ff3c2f2b3ca
         ),
         'C' => 
         array (
+            'CsrDelft\\bb\\test\\' => 17,
             'CsrDelft\\bb\\' => 12,
             'CsrDelft\\' => 9,
             'Clue\\StreamFilter\\' => 18,
@@ -622,6 +623,10 @@ class ComposerStaticInit239c8c7db85acec7f0e47ff3c2f2b3ca
         array (
             0 => __DIR__ . '/..' . '/beberlei/doctrineextensions/src',
         ),
+        'CsrDelft\\bb\\test\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/csrdelft/bb/tests/lib',
+        ),
         'CsrDelft\\bb\\' => 
         array (
             0 => __DIR__ . '/..' . '/csrdelft/bb/src',
@@ -707,6 +712,8 @@ class ComposerStaticInit239c8c7db85acec7f0e47ff3c2f2b3ca
         'CsrDelft\\bb\\BbTag' => __DIR__ . '/..' . '/csrdelft/bb/src/BbTag.php',
         'CsrDelft\\bb\\DefaultParser' => __DIR__ . '/..' . '/csrdelft/bb/src/DefaultParser.php',
         'CsrDelft\\bb\\Parser' => __DIR__ . '/..' . '/csrdelft/bb/src/Parser.php',
+        'CsrDelft\\bb\\internal\\BbError' => __DIR__ . '/..' . '/csrdelft/bb/src/internal/BbError.php',
+        'CsrDelft\\bb\\internal\\BbString' => __DIR__ . '/..' . '/csrdelft/bb/src/internal/BbString.php',
         'CsrDelft\\bb\\tag\\BbBold' => __DIR__ . '/..' . '/csrdelft/bb/src/tag/BbBold.php',
         'CsrDelft\\bb\\tag\\BbClear' => __DIR__ . '/..' . '/csrdelft/bb/src/tag/BbClear.php',
         'CsrDelft\\bb\\tag\\BbCode' => __DIR__ . '/..' . '/csrdelft/bb/src/tag/BbCode.php',
@@ -723,6 +730,7 @@ class ComposerStaticInit239c8c7db85acec7f0e47ff3c2f2b3ca
         'CsrDelft\\bb\\tag\\BbMe' => __DIR__ . '/..' . '/csrdelft/bb/src/tag/BbMe.php',
         'CsrDelft\\bb\\tag\\BbNewline' => __DIR__ . '/..' . '/csrdelft/bb/src/tag/BbNewline.php',
         'CsrDelft\\bb\\tag\\BbNobold' => __DIR__ . '/..' . '/csrdelft/bb/src/tag/BbNobold.php',
+        'CsrDelft\\bb\\tag\\BbNode' => __DIR__ . '/..' . '/csrdelft/bb/src/tag/BbNode.php',
         'CsrDelft\\bb\\tag\\BbQuote' => __DIR__ . '/..' . '/csrdelft/bb/src/tag/BbQuote.php',
         'CsrDelft\\bb\\tag\\BbStrikethrough' => __DIR__ . '/..' . '/csrdelft/bb/src/tag/BbStrikethrough.php',
         'CsrDelft\\bb\\tag\\BbSubscript' => __DIR__ . '/..' . '/csrdelft/bb/src/tag/BbSubscript.php',
@@ -732,6 +740,7 @@ class ComposerStaticInit239c8c7db85acec7f0e47ff3c2f2b3ca
         'CsrDelft\\bb\\tag\\BbTableHeader' => __DIR__ . '/..' . '/csrdelft/bb/src/tag/BbTableHeader.php',
         'CsrDelft\\bb\\tag\\BbTableRow' => __DIR__ . '/..' . '/csrdelft/bb/src/tag/BbTableRow.php',
         'CsrDelft\\bb\\tag\\BbUnderline' => __DIR__ . '/..' . '/csrdelft/bb/src/tag/BbUnderline.php',
+        'CsrDelft\\bb\\test\\VarDriverPlatformIndependent' => __DIR__ . '/..' . '/csrdelft/bb/tests/lib/VarDriverPlatformIndependent.php',
         'CsrDelft\\command\\CronCommand' => __DIR__ . '/../..' . '/lib/command/CronCommand.php',
         'CsrDelft\\command\\CronMonthlyCommand' => __DIR__ . '/../..' . '/lib/command/CronMonthlyCommand.php',
         'CsrDelft\\command\\FlushMemcacheCommand' => __DIR__ . '/../..' . '/lib/command/FlushMemcacheCommand.php',
@@ -1185,6 +1194,7 @@ class ComposerStaticInit239c8c7db85acec7f0e47ff3c2f2b3ca
         'CsrDelft\\view\\bbcode\\tag\\BbUbboff' => __DIR__ . '/../..' . '/lib/view/bbcode/tag/BbUbboff.php',
         'CsrDelft\\view\\bbcode\\tag\\BbUrl' => __DIR__ . '/../..' . '/lib/view/bbcode/tag/BbUrl.php',
         'CsrDelft\\view\\bbcode\\tag\\BbVerklapper' => __DIR__ . '/../..' . '/lib/view/bbcode/tag/BbVerklapper.php',
+        'CsrDelft\\view\\bbcode\\tag\\embed\\BbAudio' => __DIR__ . '/../..' . '/lib/view/bbcode/tag/embed/BbAudio.php',
         'CsrDelft\\view\\bbcode\\tag\\embed\\BbLocatie' => __DIR__ . '/../..' . '/lib/view/bbcode/tag/embed/BbLocatie.php',
         'CsrDelft\\view\\bbcode\\tag\\embed\\BbSpotify' => __DIR__ . '/../..' . '/lib/view/bbcode/tag/embed/BbSpotify.php',
         'CsrDelft\\view\\bbcode\\tag\\embed\\BbTwitter' => __DIR__ . '/../..' . '/lib/view/bbcode/tag/embed/BbTwitter.php',
