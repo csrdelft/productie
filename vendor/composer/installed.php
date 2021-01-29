@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'd94e75fb6f35d79271da862528f7cf8378acf625',
+    'reference' => '5a4883cef15ead63ab371bae3395a674a93803aa',
     'name' => 'csr/csrdelft.nl',
   ),
   'versions' => 
@@ -45,7 +45,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'd94e75fb6f35d79271da862528f7cf8378acf625',
+      'reference' => '5a4883cef15ead63ab371bae3395a674a93803aa',
     ),
     'csrdelft/bb' => 
     array (
@@ -290,16 +290,6 @@
       ),
       'reference' => '34861658efb9899a6618cef03de46e2a52c80fc0',
     ),
-    'jacwright/restserver' => 
-    array (
-      'pretty_version' => 'dev-master',
-      'version' => 'dev-master',
-      'aliases' => 
-      array (
-        0 => '9999999-dev',
-      ),
-      'reference' => 'e7d839c44728716947cb5140a144bbe91fb63960',
-    ),
     'jakeasmith/http_build_url' => 
     array (
       'pretty_version' => '1.0.1',
@@ -354,24 +344,6 @@
       ),
       'reference' => '7f21fefc70c76b304adc1b3a780c8740dfcfb595',
     ),
-    'ml/iri' => 
-    array (
-      'pretty_version' => '1.1.4',
-      'version' => '1.1.4.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'cbd44fa913e00ea624241b38cefaa99da8d71341',
-    ),
-    'ml/json-ld' => 
-    array (
-      'pretty_version' => '1.2.0',
-      'version' => '1.2.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'c74a1aed5979ed1cfb1be35a55a305fd30e30b93',
-    ),
     'monolog/monolog' => 
     array (
       'pretty_version' => '2.2.0',
@@ -421,15 +393,6 @@
       array (
       ),
       'reference' => '947b1c0866cc0a8162692d42c814a6ce07caf319',
-    ),
-    'php-di/invoker' => 
-    array (
-      'pretty_version' => '2.3.0',
-      'version' => '2.3.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '992fec6c56f2d1ad1ad5fee28267867c85bfb8f9',
     ),
     'php-http/async-client-implementation' => 
     array (
