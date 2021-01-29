@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '0e74e3ce439d930dafa38f9c71b705dd9ec1f1d3',
+    'reference' => '518b785ca4e058c8f4aac14d809ca54eee90aba5',
     'name' => 'csr/csrdelft.nl',
   ),
   'versions' => 
@@ -45,16 +45,16 @@
       'aliases' => 
       array (
       ),
-      'reference' => '0e74e3ce439d930dafa38f9c71b705dd9ec1f1d3',
+      'reference' => '518b785ca4e058c8f4aac14d809ca54eee90aba5',
     ),
     'csrdelft/bb' => 
     array (
-      'pretty_version' => 'v1.3.0',
-      'version' => '1.3.0.0',
+      'pretty_version' => 'v1.3.1',
+      'version' => '1.3.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '19e69d44112f9b1f6bd7bb684654624dc518f460',
+      'reference' => '7d1bf03aedf7b1ac2c7cc412644ba065309ee4ba',
     ),
     'doctrine/annotations' => 
     array (

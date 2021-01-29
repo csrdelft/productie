@@ -632,6 +632,7 @@ return array(
     'CsrDelft\\view\\formulier\\invoervelden\\LidObjectField' => $baseDir . '/lib/view/formulier/invoervelden/LidObjectField.php',
     'CsrDelft\\view\\formulier\\invoervelden\\ProfielEntityField' => $baseDir . '/lib/view/formulier/invoervelden/ProfielEntityField.php',
     'CsrDelft\\view\\formulier\\invoervelden\\RechtenField' => $baseDir . '/lib/view/formulier/invoervelden/RechtenField.php',
+    'CsrDelft\\view\\formulier\\invoervelden\\SafeJsonField' => $baseDir . '/lib/view/formulier/invoervelden/SafeJsonField.php',
     'CsrDelft\\view\\formulier\\invoervelden\\StudieField' => $baseDir . '/lib/view/formulier/invoervelden/StudieField.php',
     'CsrDelft\\view\\formulier\\invoervelden\\TextField' => $baseDir . '/lib/view/formulier/invoervelden/TextField.php',
     'CsrDelft\\view\\formulier\\invoervelden\\TextareaField' => $baseDir . '/lib/view/formulier/invoervelden/TextareaField.php',

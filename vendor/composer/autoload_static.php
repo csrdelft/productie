@@ -1306,6 +1306,7 @@ class ComposerStaticInit239c8c7db85acec7f0e47ff3c2f2b3ca
         'CsrDelft\\view\\formulier\\invoervelden\\LidObjectField' => __DIR__ . '/../..' . '/lib/view/formulier/invoervelden/LidObjectField.php',
         'CsrDelft\\view\\formulier\\invoervelden\\ProfielEntityField' => __DIR__ . '/../..' . '/lib/view/formulier/invoervelden/ProfielEntityField.php',
         'CsrDelft\\view\\formulier\\invoervelden\\RechtenField' => __DIR__ . '/../..' . '/lib/view/formulier/invoervelden/RechtenField.php',
+        'CsrDelft\\view\\formulier\\invoervelden\\SafeJsonField' => __DIR__ . '/../..' . '/lib/view/formulier/invoervelden/SafeJsonField.php',
         'CsrDelft\\view\\formulier\\invoervelden\\StudieField' => __DIR__ . '/../..' . '/lib/view/formulier/invoervelden/StudieField.php',
         'CsrDelft\\view\\formulier\\invoervelden\\TextField' => __DIR__ . '/../..' . '/lib/view/formulier/invoervelden/TextField.php',
         'CsrDelft\\view\\formulier\\invoervelden\\TextareaField' => __DIR__ . '/../..' . '/lib/view/formulier/invoervelden/TextareaField.php',
