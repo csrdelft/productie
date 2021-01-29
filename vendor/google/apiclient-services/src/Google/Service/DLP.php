@@ -38,12 +38,8 @@ class Google_Service_DLP extends Google_Service
 
   public $infoTypes;
   public $locations_infoTypes;
-  public $organizations_deidentifyTemplates;
-  public $organizations_inspectTemplates;
-  public $organizations_locations_deidentifyTemplates;
-  public $organizations_locations_inspectTemplates;
-  public $organizations_locations_storedInfoTypes;
-  public $organizations_storedInfoTypes;
+  public $organizations_locations_dlpJobs;
+  public $organizations_locations_jobTriggers;
   public $projects_content;
   public $projects_deidentifyTemplates;
   public $projects_dlpJobs;
@@ -137,50 +133,24 @@ class Google_Service_DLP extends Google_Service
           )
         )
     );
-    $this->organizations_deidentifyTemplates = new Google_Service_DLP_Resource_OrganizationsDeidentifyTemplates(
+    $this->organizations_locations_dlpJobs = new Google_Service_DLP_Resource_OrganizationsLocationsDlpJobs(
         $this,
         $this->serviceName,
-        'deidentifyTemplates',
+        'dlpJobs',
         array(
           'methods' => array(
-            'create' => array(
-              'path' => 'v2/{+parent}/deidentifyTemplates',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'delete' => array(
-              'path' => 'v2/{+name}',
-              'httpMethod' => 'DELETE',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'get' => array(
-              'path' => 'v2/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'list' => array(
-              'path' => 'v2/{+parent}/deidentifyTemplates',
+            'list' => array(
+              'path' => 'v2/{+parent}/dlpJobs',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'parent' => array(
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ),
+                'filter' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
                 'locationId' => array(
                   'location' => 'query',
@@ -198,29 +168,23 @@ class Google_Service_DLP extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-              ),
-            ),'patch' => array(
-              'path' => 'v2/{+name}',
-              'httpMethod' => 'PATCH',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
+                'type' => array(
+                  'location' => 'query',
                   'type' => 'string',
-                  'required' => true,
                 ),
               ),
             ),
           )
         )
     );
-    $this->organizations_inspectTemplates = new Google_Service_DLP_Resource_OrganizationsInspectTemplates(
+    $this->organizations_locations_jobTriggers = new Google_Service_DLP_Resource_OrganizationsLocationsJobTriggers(
         $this,
         $this->serviceName,
-        'inspectTemplates',
+        'jobTriggers',
         array(
           'methods' => array(
             'create' => array(
-              'path' => 'v2/{+parent}/inspectTemplates',
+              'path' => 'v2/{+parent}/jobTriggers',
               'httpMethod' => 'POST',
               'parameters' => array(
                 'parent' => array(
@@ -250,7 +214,7 @@ class Google_Service_DLP extends Google_Service
                 ),
               ),
             ),'list' => array(
-              'path' => 'v2/{+parent}/inspectTemplates',
+              'path' => 'v2/{+parent}/jobTriggers',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'parent' => array(
@@ -258,309 +222,9 @@ class Google_Service_DLP extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'locationId' => array(
+                'filter' => array(
                   'location' => 'query',
                   'type' => 'string',
-                ),
-                'orderBy' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'pageSize' => array(
-                  'location' => 'query',
-                  'type' => 'integer',
-                ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-              ),
-            ),'patch' => array(
-              'path' => 'v2/{+name}',
-              'httpMethod' => 'PATCH',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),
-          )
-        )
-    );
-    $this->organizations_locations_deidentifyTemplates = new Google_Service_DLP_Resource_OrganizationsLocationsDeidentifyTemplates(
-        $this,
-        $this->serviceName,
-        'deidentifyTemplates',
-        array(
-          'methods' => array(
-            'create' => array(
-              'path' => 'v2/{+parent}/deidentifyTemplates',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'delete' => array(
-              'path' => 'v2/{+name}',
-              'httpMethod' => 'DELETE',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'get' => array(
-              'path' => 'v2/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'list' => array(
-              'path' => 'v2/{+parent}/deidentifyTemplates',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'locationId' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'orderBy' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'pageSize' => array(
-                  'location' => 'query',
-                  'type' => 'integer',
-                ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-              ),
-            ),'patch' => array(
-              'path' => 'v2/{+name}',
-              'httpMethod' => 'PATCH',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),
-          )
-        )
-    );
-    $this->organizations_locations_inspectTemplates = new Google_Service_DLP_Resource_OrganizationsLocationsInspectTemplates(
-        $this,
-        $this->serviceName,
-        'inspectTemplates',
-        array(
-          'methods' => array(
-            'create' => array(
-              'path' => 'v2/{+parent}/inspectTemplates',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'delete' => array(
-              'path' => 'v2/{+name}',
-              'httpMethod' => 'DELETE',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'get' => array(
-              'path' => 'v2/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'list' => array(
-              'path' => 'v2/{+parent}/inspectTemplates',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'locationId' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'orderBy' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'pageSize' => array(
-                  'location' => 'query',
-                  'type' => 'integer',
-                ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-              ),
-            ),'patch' => array(
-              'path' => 'v2/{+name}',
-              'httpMethod' => 'PATCH',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),
-          )
-        )
-    );
-    $this->organizations_locations_storedInfoTypes = new Google_Service_DLP_Resource_OrganizationsLocationsStoredInfoTypes(
-        $this,
-        $this->serviceName,
-        'storedInfoTypes',
-        array(
-          'methods' => array(
-            'create' => array(
-              'path' => 'v2/{+parent}/storedInfoTypes',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'delete' => array(
-              'path' => 'v2/{+name}',
-              'httpMethod' => 'DELETE',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'get' => array(
-              'path' => 'v2/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'list' => array(
-              'path' => 'v2/{+parent}/storedInfoTypes',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'locationId' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'orderBy' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'pageSize' => array(
-                  'location' => 'query',
-                  'type' => 'integer',
-                ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-              ),
-            ),'patch' => array(
-              'path' => 'v2/{+name}',
-              'httpMethod' => 'PATCH',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),
-          )
-        )
-    );
-    $this->organizations_storedInfoTypes = new Google_Service_DLP_Resource_OrganizationsStoredInfoTypes(
-        $this,
-        $this->serviceName,
-        'storedInfoTypes',
-        array(
-          'methods' => array(
-            'create' => array(
-              'path' => 'v2/{+parent}/storedInfoTypes',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'delete' => array(
-              'path' => 'v2/{+name}',
-              'httpMethod' => 'DELETE',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'get' => array(
-              'path' => 'v2/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'list' => array(
-              'path' => 'v2/{+parent}/storedInfoTypes',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
                 ),
                 'locationId' => array(
                   'location' => 'query',
