@@ -36,7 +36,7 @@ final class Versions
   'beberlei/doctrineextensions' => 'v1.3.0@008f162f191584a6c37c03a803f718802ba9dd9a',
   'clue/stream-filter' => 'v1.5.0@aeb7d8ea49c7963d3b581378955dbf5bc49aa320',
   'composer/package-versions-deprecated' => '1.11.99.1@7413f0b55a051e89485c5cb9f765fe24bb02a7b6',
-  'csrdelft/bb' => 'v1.3.1@7d1bf03aedf7b1ac2c7cc412644ba065309ee4ba',
+  'csrdelft/bb' => 'v1.3.2@7231293be832160a63f0b56082bd9b3b8a6df786',
   'doctrine/annotations' => '1.11.1@ce77a7ba1770462cd705a91a151b6c3746f9c6ad',
   'doctrine/cache' => '1.10.2@13e3381b25847283a91948d04640543941309727',
   'doctrine/collections' => '1.6.7@55f8b799269a1a472457bd1a41b4f379d4cfba4a',
@@ -158,7 +158,7 @@ final class Versions
   'twig/twig' => 'v3.2.1@f795ca686d38530045859b0350b5352f7d63447d',
   'webmozart/assert' => '1.9.1@bafc69caeb4d49c39fd0779086c03a3738cbb389',
   'zumba/json-serializer' => '3.0.0@4387bfaa6948d219e947ee77d975ec4f41fefd2b',
-  'csr/csrdelft.nl' => 'dev-master@5a4883cef15ead63ab371bae3395a674a93803aa',
+  'csr/csrdelft.nl' => 'dev-master@27a307d0593aac29eadbe30e4565e860bb3526bd',
 );
 
     private function __construct()
