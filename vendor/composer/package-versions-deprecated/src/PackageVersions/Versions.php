@@ -99,6 +99,7 @@ final class Versions
   'symfony/cache-contracts' => 'v2.2.0@8034ca0b61d4dd967f3698aaa1da2507b631d0cb',
   'symfony/config' => 'v5.2.2@50e0e1314a3b2609d32b6a5a0d0fb5342494c4ab',
   'symfony/console' => 'v5.2.2@d62ec79478b55036f65e2602e282822b8eaaff0a',
+  'symfony/css-selector' => 'v5.2.2@f65f217b3314504a1ec99c2d6ef69016bb13490f',
   'symfony/dependency-injection' => 'v5.2.2@62f72187be689540385dce6c68a5d4c16f034139',
   'symfony/deprecation-contracts' => 'v2.2.0@5fa56b4074d1ae755beb55617ddafe6f5d78f665',
   'symfony/doctrine-bridge' => 'v5.2.2@793cfa617c55c68c492712b773e5e5262d1e97e0',
@@ -153,12 +154,14 @@ final class Versions
   'symfony/var-dumper' => 'v5.2.2@72ca213014a92223a5d18651ce79ef441c12b694',
   'symfony/var-exporter' => 'v5.2.2@5aed4875ab514c8cb9b6ff4772baa25fa4c10307',
   'symfony/yaml' => 'v5.2.2@6bb8b36c6dea8100268512bf46e858c8eb5c545e',
+  'tijsverkoyen/css-to-inline-styles' => '2.2.3@b43b05cf43c1b6d849478965062b6ef73e223bb5',
+  'twig/cssinliner-extra' => 'v3.3.0@89a7b0f64c1296068864d540567428210c9de340',
   'twig/extra-bundle' => 'v3.2.1@07c94c7dcfe7e49abd45d4083ca5544a34969714',
   'twig/intl-extra' => 'v3.2.1@919e8f945c30bd3efeb6a4d79722cda538116658',
   'twig/twig' => 'v3.2.1@f795ca686d38530045859b0350b5352f7d63447d',
   'webmozart/assert' => '1.9.1@bafc69caeb4d49c39fd0779086c03a3738cbb389',
   'zumba/json-serializer' => '3.0.0@4387bfaa6948d219e947ee77d975ec4f41fefd2b',
-  'csr/csrdelft.nl' => 'dev-master@27a307d0593aac29eadbe30e4565e860bb3526bd',
+  'csr/csrdelft.nl' => 'dev-master@2ad6e3c456ca89eeee2c3af37cbb68542393f408',
 );
 
     private function __construct()
