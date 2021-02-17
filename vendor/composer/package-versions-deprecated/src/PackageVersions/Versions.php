@@ -161,7 +161,7 @@ final class Versions
   'twig/twig' => 'v3.2.1@f795ca686d38530045859b0350b5352f7d63447d',
   'webmozart/assert' => '1.9.1@bafc69caeb4d49c39fd0779086c03a3738cbb389',
   'zumba/json-serializer' => '3.0.0@4387bfaa6948d219e947ee77d975ec4f41fefd2b',
-  'csr/csrdelft.nl' => 'dev-master@2ad6e3c456ca89eeee2c3af37cbb68542393f408',
+  'csr/csrdelft.nl' => 'dev-master@b9278b69fc35213430365ddad23db617f6d0cbb9',
 );
 
     private function __construct()

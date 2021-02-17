@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '2ad6e3c456ca89eeee2c3af37cbb68542393f408',
+    'reference' => 'b9278b69fc35213430365ddad23db617f6d0cbb9',
     'name' => 'csr/csrdelft.nl',
   ),
   'versions' => 
@@ -69,7 +69,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '2ad6e3c456ca89eeee2c3af37cbb68542393f408',
+      'reference' => 'b9278b69fc35213430365ddad23db617f6d0cbb9',
     ),
     'csrdelft/bb' => 
     array (
@@ -638,8 +638,8 @@ private static $installed = array (
     array (
       'provided' => 
       array (
-        0 => '1.0.0',
-        1 => '1.0',
+        0 => '1.0',
+        1 => '1.0.0',
       ),
     ),
     'psr/simple-cache-implementation' => 
