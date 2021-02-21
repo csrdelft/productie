@@ -1,0 +1,6 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[8],{238:function(t,e,i){"use strict";i.r(e),i.d(e,"loadBbImage",(function(){return n}));var r=i(4);const n=t=>{const e=r.j`<img
+													class="bb-img"
+													alt="${t.getAttribute("title")}"
+													style="${t.getAttribute("style")}"
+													src="${t.getAttribute("src")}"/>`;e.onerror=()=>{t.setAttribute("title","Afbeelding bestaat niet of is niet toegankelijk!"),t.setAttribute("src","/plaetjes/famfamafm/picture_error.png"),t.style.width="16px",t.style.height="16px",t.classList.replace("bb-img-loading","bb-img")};const i=t.getAttribute("src");if(!i)throw new Error("Bb image heeft geen src");Object(r.s)(i,()=>{var n,s;const l=i.indexOf("/plaetjes/fotoalbum/")>=0,a=null===(s=null===(n=t.parentElement)||void 0===n?void 0:n.parentElement)||void 0===s?void 0:s.classList.contains("bb-video-preview"),o=0!==$(t).closest("a").length,b=t.parentElement;if(!b)throw new Error("BBimage heeft geen parent.");if(l||a||o)b.replaceChild(e,t);else{const i=null==t.getAttribute("bb-href")?t.getAttribute("src"):t.getAttribute("bb-href"),n=r.j`<a class="lightbox-link" href="${i}" data-lightbox="page-lightbox"></a>`;n.appendChild(e),b.replaceChild(n,t)}})}}}]);
+//# sourceMappingURL=bbcode.76acba035ce5ab357d50.chunk.js.map
