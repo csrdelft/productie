@@ -36,7 +36,7 @@ final class Versions
   'beberlei/doctrineextensions' => 'v1.3.0@008f162f191584a6c37c03a803f718802ba9dd9a',
   'clue/stream-filter' => 'v1.5.0@aeb7d8ea49c7963d3b581378955dbf5bc49aa320',
   'composer/package-versions-deprecated' => '1.11.99.1@7413f0b55a051e89485c5cb9f765fe24bb02a7b6',
-  'csrdelft/bb' => 'v1.3.2@7231293be832160a63f0b56082bd9b3b8a6df786',
+  'csrdelft/bb' => 'v1.3.3@865227da268879edef24d3821cc7ab4f83502e6b',
   'doctrine/annotations' => '1.11.1@ce77a7ba1770462cd705a91a151b6c3746f9c6ad',
   'doctrine/cache' => '1.10.2@13e3381b25847283a91948d04640543941309727',
   'doctrine/collections' => '1.6.7@55f8b799269a1a472457bd1a41b4f379d4cfba4a',
@@ -99,7 +99,6 @@ final class Versions
   'symfony/cache-contracts' => 'v2.2.0@8034ca0b61d4dd967f3698aaa1da2507b631d0cb',
   'symfony/config' => 'v5.2.2@50e0e1314a3b2609d32b6a5a0d0fb5342494c4ab',
   'symfony/console' => 'v5.2.2@d62ec79478b55036f65e2602e282822b8eaaff0a',
-  'symfony/css-selector' => 'v5.2.2@f65f217b3314504a1ec99c2d6ef69016bb13490f',
   'symfony/dependency-injection' => 'v5.2.2@62f72187be689540385dce6c68a5d4c16f034139',
   'symfony/deprecation-contracts' => 'v2.2.0@5fa56b4074d1ae755beb55617ddafe6f5d78f665',
   'symfony/doctrine-bridge' => 'v5.2.2@793cfa617c55c68c492712b773e5e5262d1e97e0',
@@ -154,14 +153,12 @@ final class Versions
   'symfony/var-dumper' => 'v5.2.2@72ca213014a92223a5d18651ce79ef441c12b694',
   'symfony/var-exporter' => 'v5.2.2@5aed4875ab514c8cb9b6ff4772baa25fa4c10307',
   'symfony/yaml' => 'v5.2.2@6bb8b36c6dea8100268512bf46e858c8eb5c545e',
-  'tijsverkoyen/css-to-inline-styles' => '2.2.3@b43b05cf43c1b6d849478965062b6ef73e223bb5',
-  'twig/cssinliner-extra' => 'v3.3.0@89a7b0f64c1296068864d540567428210c9de340',
   'twig/extra-bundle' => 'v3.2.1@07c94c7dcfe7e49abd45d4083ca5544a34969714',
   'twig/intl-extra' => 'v3.2.1@919e8f945c30bd3efeb6a4d79722cda538116658',
   'twig/twig' => 'v3.2.1@f795ca686d38530045859b0350b5352f7d63447d',
   'webmozart/assert' => '1.9.1@bafc69caeb4d49c39fd0779086c03a3738cbb389',
   'zumba/json-serializer' => '3.0.0@4387bfaa6948d219e947ee77d975ec4f41fefd2b',
-  'csr/csrdelft.nl' => 'dev-master@b9278b69fc35213430365ddad23db617f6d0cbb9',
+  'csr/csrdelft.nl' => 'dev-master@dd124e81e23a65a1ff2ec9b1e8524091252c21fb',
 );
 
     private function __construct()

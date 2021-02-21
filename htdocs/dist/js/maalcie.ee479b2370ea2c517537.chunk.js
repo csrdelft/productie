@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[45],{316:function(n,o,i){"use strict";i.r(o);var s=i(0),e=i.n(s),r=i(33);e()(()=>{e()("a.ruilen").each((function(){e()(this).removeClass("ruilen"),e()(this).on("dragover",r.b),e()(this).on("drop",r.c)}))})}}]);
-//# sourceMappingURL=maalcie.ee479b2370ea2c517537.chunk.js.map

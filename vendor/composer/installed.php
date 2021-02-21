@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'b9278b69fc35213430365ddad23db617f6d0cbb9',
+    'reference' => 'dd124e81e23a65a1ff2ec9b1e8524091252c21fb',
     'name' => 'csr/csrdelft.nl',
   ),
   'versions' => 
@@ -45,16 +45,16 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'b9278b69fc35213430365ddad23db617f6d0cbb9',
+      'reference' => 'dd124e81e23a65a1ff2ec9b1e8524091252c21fb',
     ),
     'csrdelft/bb' => 
     array (
-      'pretty_version' => 'v1.3.2',
-      'version' => '1.3.2.0',
+      'pretty_version' => 'v1.3.3',
+      'version' => '1.3.3.0',
       'aliases' => 
       array (
       ),
-      'reference' => '7231293be832160a63f0b56082bd9b3b8a6df786',
+      'reference' => '865227da268879edef24d3821cc7ab4f83502e6b',
     ),
     'doctrine/annotations' => 
     array (
@@ -614,8 +614,8 @@
     array (
       'provided' => 
       array (
-        0 => '1.0',
-        1 => '1.0.0',
+        0 => '1.0.0',
+        1 => '1.0',
       ),
     ),
     'psr/simple-cache-implementation' => 
@@ -712,15 +712,6 @@
       array (
       ),
       'reference' => 'd62ec79478b55036f65e2602e282822b8eaaff0a',
-    ),
-    'symfony/css-selector' => 
-    array (
-      'pretty_version' => 'v5.2.2',
-      'version' => '5.2.2.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'f65f217b3314504a1ec99c2d6ef69016bb13490f',
     ),
     'symfony/dependency-injection' => 
     array (
@@ -1235,24 +1226,6 @@
       array (
       ),
       'reference' => '6bb8b36c6dea8100268512bf46e858c8eb5c545e',
-    ),
-    'tijsverkoyen/css-to-inline-styles' => 
-    array (
-      'pretty_version' => '2.2.3',
-      'version' => '2.2.3.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'b43b05cf43c1b6d849478965062b6ef73e223bb5',
-    ),
-    'twig/cssinliner-extra' => 
-    array (
-      'pretty_version' => 'v3.3.0',
-      'version' => '3.3.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '89a7b0f64c1296068864d540567428210c9de340',
     ),
     'twig/extra-bundle' => 
     array (
