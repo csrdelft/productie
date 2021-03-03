@@ -1,5 +1,0 @@
-/*! ChildRow 1.0.0
- */
-
-/*! ColumnGroup 1.0.0
- */
