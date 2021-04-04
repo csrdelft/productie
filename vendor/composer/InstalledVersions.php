@@ -30,11 +30,20 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '122186f5746f59473a378e0fbf11e9ae24cd5396',
+    'reference' => 'e59927f63acec1aa991cd700f888f02d01953de7',
     'name' => 'csr/csrdelft.nl',
   ),
   'versions' => 
   array (
+    'ajgarlag/psr-http-message-bundle' => 
+    array (
+      'pretty_version' => '1.2.0',
+      'version' => '1.2.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '2228f4bcab8d87c83aa6018cbc2c1cca89bbd146',
+    ),
     'beberlei/doctrineextensions' => 
     array (
       'pretty_version' => 'v1.3.0',
@@ -69,7 +78,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '122186f5746f59473a378e0fbf11e9ae24cd5396',
+      'reference' => 'e59927f63acec1aa991cd700f888f02d01953de7',
     ),
     'csrdelft/bb' => 
     array (
@@ -79,6 +88,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '865227da268879edef24d3821cc7ab4f83502e6b',
+    ),
+    'defuse/php-encryption' => 
+    array (
+      'pretty_version' => 'v2.2.1',
+      'version' => '2.2.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '0f407c43b953d571421e0020ba92082ed5fb7620',
     ),
     'doctrine/annotations' => 
     array (
@@ -359,6 +377,47 @@ private static $installed = array (
       ),
       'reference' => '6ede70583e101030bcace4dcddd648f760ddf642',
     ),
+    'lcobucci/jwt' => 
+    array (
+      'pretty_version' => '3.4.5',
+      'version' => '3.4.5.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '511629a54465e89a31d3d7e4cf0935feab8b14c1',
+    ),
+    'league/event' => 
+    array (
+      'pretty_version' => '2.2.0',
+      'version' => '2.2.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'd2cc124cf9a3fab2bb4ff963307f60361ce4d119',
+    ),
+    'league/oauth2-server' => 
+    array (
+      'pretty_version' => '8.2.4',
+      'version' => '8.2.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '622eaa1f28eb4a2dea0cfc7e4f5280fac794e83c',
+    ),
+    'league/oauth2server' => 
+    array (
+      'replaced' => 
+      array (
+        0 => '*',
+      ),
+    ),
+    'lncd/oauth2' => 
+    array (
+      'replaced' => 
+      array (
+        0 => '*',
+      ),
+    ),
     'maknz/slack' => 
     array (
       'pretty_version' => '1.7.0',
@@ -376,6 +435,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '1cb1cde8e8dd0f70cc0fe51354a59acad9302084',
+    ),
+    'nyholm/psr7' => 
+    array (
+      'pretty_version' => '1.4.0',
+      'version' => '1.4.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '23ae1f00fbc6a886cbe3062ca682391b9cc7c37b',
     ),
     'ocramius/package-versions' => 
     array (
@@ -607,6 +675,7 @@ private static $installed = array (
       'provided' => 
       array (
         0 => '^1.0',
+        1 => '1.0',
       ),
     ),
     'psr/http-message' => 
@@ -1075,6 +1144,15 @@ private static $installed = array (
       ),
       'reference' => 'fd6bb40190b1719abbe831be09adf38e0744d5f5',
     ),
+    'symfony/psr-http-message-bridge' => 
+    array (
+      'pretty_version' => 'v2.1.0',
+      'version' => '2.1.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '81db2d4ae86e9f0049828d9343a72b9523884e5d',
+    ),
     'symfony/routing' => 
     array (
       'pretty_version' => 'v5.2.2',
@@ -1233,6 +1311,15 @@ private static $installed = array (
       ),
       'reference' => '5ebbb5f0e8bfaa0b4b37cb25ff97f83b18caf221',
     ),
+    'symfony/uid' => 
+    array (
+      'pretty_version' => 'v5.2.6',
+      'version' => '5.2.6.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '47d4347b762f0bab9b4ec02112ddfaaa6d79481b',
+    ),
     'symfony/var-dumper' => 
     array (
       'pretty_version' => 'v5.2.2',
@@ -1268,6 +1355,16 @@ private static $installed = array (
       array (
       ),
       'reference' => 'b43b05cf43c1b6d849478965062b6ef73e223bb5',
+    ),
+    'trikoder/oauth2-bundle' => 
+    array (
+      'pretty_version' => 'v3.x-dev',
+      'version' => '3.9999999.9999999.9999999-dev',
+      'aliases' => 
+      array (
+        0 => '9999999-dev',
+      ),
+      'reference' => 'f970a9c6f4275960d77f24b851563ce99e70ba8d',
     ),
     'twig/cssinliner-extra' => 
     array (
@@ -1560,7 +1657,6 @@ self::$canGetVendors = method_exists('Composer\Autoload\ClassLoader', 'getRegist
 $installed = array();
 
 if (self::$canGetVendors) {
-
 foreach (ClassLoader::getRegisteredLoaders() as $vendorDir => $loader) {
 if (isset(self::$installedByVendor[$vendorDir])) {
 $installed[] = self::$installedByVendor[$vendorDir];
