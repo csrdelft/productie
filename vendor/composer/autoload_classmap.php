@@ -536,6 +536,7 @@ return array(
     'CsrDelft\\view\\bbcode\\prosemirror\\NodeImage' => $baseDir . '/lib/view/bbcode/prosemirror/NodeImage.php',
     'CsrDelft\\view\\bbcode\\prosemirror\\NodeLid' => $baseDir . '/lib/view/bbcode/prosemirror/NodeLid.php',
     'CsrDelft\\view\\bbcode\\prosemirror\\NodeListItem' => $baseDir . '/lib/view/bbcode/prosemirror/NodeListItem.php',
+    'CsrDelft\\view\\bbcode\\prosemirror\\NodeMaaltijd' => $baseDir . '/lib/view/bbcode/prosemirror/NodeMaaltijd.php',
     'CsrDelft\\view\\bbcode\\prosemirror\\NodeNewLine' => $baseDir . '/lib/view/bbcode/prosemirror/NodeNewLine.php',
     'CsrDelft\\view\\bbcode\\prosemirror\\NodeOrderedList' => $baseDir . '/lib/view/bbcode/prosemirror/NodeOrderedList.php',
     'CsrDelft\\view\\bbcode\\prosemirror\\NodeParagraph' => $baseDir . '/lib/view/bbcode/prosemirror/NodeParagraph.php',
