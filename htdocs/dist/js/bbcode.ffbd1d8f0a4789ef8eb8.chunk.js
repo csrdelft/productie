@@ -1,6 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[8],{239:function(e,t,a){"use strict";a.r(t),a.d(t,"loadBbImage",(function(){return r}));var i=a(4);const r=async e=>{var t,a;const r=i.k`<img
-													class="bb-img"
-													alt="${e.getAttribute("title")}"
-													style="${e.getAttribute("style")}"
-													src="${e.getAttribute("src")}"/>`,l=e.getAttribute("src");if(!l)throw new Error("Bb image heeft geen src");try{await Object(i.t)(l);const n=l.indexOf("/plaetjes/fotoalbum/")>=0,s=null===(a=null===(t=e.parentElement)||void 0===t?void 0:t.parentElement)||void 0===a?void 0:a.classList.contains("bb-video-preview"),o=0!==$(e).closest("a").length,c=e.parentElement;if(!c)throw new Error("BBimage heeft geen parent.");if(n||s||o)c.replaceChild(r,e);else{const t=null==e.getAttribute("bb-href")?e.getAttribute("src"):e.getAttribute("bb-href"),a=i.k`<a class="lightbox-link" href="${t}" data-lightbox="page-lightbox"></a>`;a.appendChild(r),c.replaceChild(a,e)}}catch(t){e.replaceWith(i.k`<div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle"></i> Afbeelding kan niet geladen worden.</div>`)}}}}]);
-//# sourceMappingURL=bbcode.ffbd1d8f0a4789ef8eb8.chunk.js.map
