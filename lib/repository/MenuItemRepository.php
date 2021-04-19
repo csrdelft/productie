@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Cache\CacheInterface;
 
 /**
@@ -28,10 +29,44 @@ class MenuItemRepository extends AbstractRepository {
 	 * @var CacheInterface
 	 */
 	private $cache;
+	/**
+	 * @var Security
+	 */
+	private $security;
 
-	public function __construct(ManagerRegistry $registry, CacheInterface $cache) {
+	public function __construct(ManagerRegistry $registry, CacheInterface $cache, Security $security) {
 		parent::__construct($registry, MenuItem::class);
 		$this->cache = $cache;
+		$this->security = $security;
+	}
+
+	/**
+	 * Haal menu op voor beheer, checkt geen rechten.
+	 * @param $naam
+	 */
+	public function getMenuBeheer($naam) {
+		if (empty($naam)) {
+			return null;
+		}
+
+		return $this->cache->get($this->createCacheKey($naam), function () use ($naam) {
+			try {
+				$root = $this->getMenuRoot($naam);
+
+				if ($root == null) {
+					return null;
+				}
+
+				$this->getExtendedTree($root, false);
+
+				// Voorkom dat extendedTree updates doorvoert
+				$this->_em->clear(MenuItem::class);
+
+				return $root;
+			} catch (EntityNotFoundException $ex) {
+				return null;
+			}
+		});
 	}
 
 	/**
@@ -54,7 +89,7 @@ class MenuItemRepository extends AbstractRepository {
 					return null;
 				}
 
-				$this->getExtendedTree($root);
+				$this->getExtendedTree($root, true);
 
 				// Voorkom dat extendedTree updates doorvoert
 				$this->_em->clear(MenuItem::class);
@@ -67,7 +102,8 @@ class MenuItemRepository extends AbstractRepository {
 	}
 
 	private function createCacheKey($naam) {
-		return 'stek.menu.' . urlencode($naam);
+		$user = $this->security->getUser();
+		return 'stek.menu.' . urlencode($naam) . '.' . ($user ? $user->getUsername() : 'x999');
 	}
 
 	/**
@@ -86,10 +122,10 @@ class MenuItemRepository extends AbstractRepository {
 	 * @param MenuItem $parent
 	 * @return MenuItem
 	 */
-	private function getExtendedTree(MenuItem $parent) {
+	private function getExtendedTree(MenuItem $parent, $checkRechten) {
 		if ($parent->children)
 			foreach ($parent->children as $child) {
-				$this->getExtendedTree($child);
+				$this->getExtendedTree($child, $checkRechten);
 			}
 		// append additional children
 		switch ($parent->tekst) {
@@ -102,18 +138,24 @@ class MenuItemRepository extends AbstractRepository {
 					$item->rechten_bekijken = $categorie->rechten_lezen;
 					$item->link = '/forum#' . $categorie->categorie_id;
 					$item->tekst = $categorie->titel;
-					$parent->children[] = $item;
+					if (!$checkRechten || $item->magBekijken()) {
+						$parent->children[] = $item;
+					}
 
 					foreach ($categorie->forum_delen as $deel) {
 						$subitem = $this->nieuw($item);
 						$subitem->rechten_bekijken = $deel->rechten_lezen;
 						$subitem->link = '/forum/deel/' . $deel->forum_id;
 						$subitem->tekst = $deel->titel;
-						$item->children[] = $subitem;
+						if (!$checkRechten || $subitem->magBekijken()) {
+							$item->children[] = $subitem;
+						}
 					}
 				}
 				foreach ($this->getMenu('remotefora')->children as $remotecat) {
-					$parent->children[] = $remotecat;
+					if (!$checkRechten || $remotecat->magBekijken()) {
+						$parent->children[] = $remotecat;
+					}
 				}
 				break;
 
@@ -127,13 +169,15 @@ class MenuItemRepository extends AbstractRepository {
 					$item->rechten_bekijken = $categorie->leesrechten;
 					$item->link = '/documenten/categorie/' . $categorie->id;
 					$item->tekst = $categorie->naam;
-					if (!$overig AND $item->tekst == 'Overig') {
+					if (!$overig && $item->tekst == 'Overig') {
 						$overig = $item;
 					} else {
-						$parent->children[] = $item;
+						if (!$checkRechten || $item->magBekijken()) {
+							$parent->children[] = $item;
+						}
 					}
 				}
-				if ($overig) {
+				if ($overig && (!$checkRechten || $overig->magBekijken())) {
 					$parent->children[] = $overig;
 				}
 				break;
@@ -163,21 +207,22 @@ class MenuItemRepository extends AbstractRepository {
 	 */
 	public function flattenMenu(MenuItem $root) {
 		return $this->cache->get($this->createFlatCacheKey($root->tekst), function () use ($root) {
-			return $this->_flattenMenu($root);
+			return $this->flattenMenuInternal($root);
 		});
 	}
 
 	private function createFlatCacheKey($naam) {
-		return 'stek.menu-flat.' . urlencode($naam);
+		$user = $this->security->getUser();
+		return 'stek.menu-flat.' . urlencode($naam) . '.' . ($user ? $user->getUsername() : '');
 	}
 
-	private function _flattenMenu(MenuItem $root) {
+	private function flattenMenuInternal(MenuItem $root) {
 		$list = [$root];
 
 		if ($root->children) {
 			foreach ($root->children as $child) {
 				$list[] = $child;
-				foreach ($this->_flattenMenu($child) as $subChild) {
+				foreach ($this->flattenMenuInternal($child) as $subChild) {
 					$list[] = $subChild;
 				}
 			}
