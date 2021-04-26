@@ -24,8 +24,10 @@ class Google_Service_AIPlatformNotebooks_ExecutionTemplate extends Google_Model
   public $labels;
   public $masterType;
   public $outputNotebookFolder;
+  public $parameters;
   public $paramsYamlFile;
   public $scaleTier;
+  public $serviceAccount;
 
   /**
    * @param Google_Service_AIPlatformNotebooks_SchedulerAcceleratorConfig
@@ -81,6 +83,14 @@ class Google_Service_AIPlatformNotebooks_ExecutionTemplate extends Google_Model
   {
     return $this->outputNotebookFolder;
   }
+  public function setParameters($parameters)
+  {
+    $this->parameters = $parameters;
+  }
+  public function getParameters()
+  {
+    return $this->parameters;
+  }
   public function setParamsYamlFile($paramsYamlFile)
   {
     $this->paramsYamlFile = $paramsYamlFile;
@@ -96,5 +106,13 @@ class Google_Service_AIPlatformNotebooks_ExecutionTemplate extends Google_Model
   public function getScaleTier()
   {
     return $this->scaleTier;
+  }
+  public function setServiceAccount($serviceAccount)
+  {
+    $this->serviceAccount = $serviceAccount;
+  }
+  public function getServiceAccount()
+  {
+    return $this->serviceAccount;
   }
 }

@@ -31,7 +31,7 @@
  */
 class Google_Service_Dialogflow extends Google_Service
 {
-  /** View and manage your data across Google Cloud Platform services. */
+  /** See, edit, configure, and delete your Google Cloud Platform data. */
   const CLOUD_PLATFORM =
       "https://www.googleapis.com/auth/cloud-platform";
   /** View, manage and query your Dialogflow agents. */
@@ -41,6 +41,7 @@ class Google_Service_Dialogflow extends Google_Service
   public $projects_locations_agents;
   public $projects_locations_agents_entityTypes;
   public $projects_locations_agents_environments;
+  public $projects_locations_agents_environments_experiments;
   public $projects_locations_agents_environments_sessions;
   public $projects_locations_agents_environments_sessions_entityTypes;
   public $projects_locations_agents_flows;
@@ -364,6 +365,98 @@ class Google_Service_Dialogflow extends Google_Service
                 'updateMask' => array(
                   'location' => 'query',
                   'type' => 'string',
+                ),
+              ),
+            ),
+          )
+        )
+    );
+    $this->projects_locations_agents_environments_experiments = new Google_Service_Dialogflow_Resource_ProjectsLocationsAgentsEnvironmentsExperiments(
+        $this,
+        $this->serviceName,
+        'experiments',
+        array(
+          'methods' => array(
+            'create' => array(
+              'path' => 'v3/{+parent}/experiments',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'parent' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'delete' => array(
+              'path' => 'v3/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => array(
+                'name' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'get' => array(
+              'path' => 'v3/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => array(
+                'name' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'list' => array(
+              'path' => 'v3/{+parent}/experiments',
+              'httpMethod' => 'GET',
+              'parameters' => array(
+                'parent' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'pageSize' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
+                ),
+                'pageToken' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+              ),
+            ),'patch' => array(
+              'path' => 'v3/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => array(
+                'name' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'updateMask' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+              ),
+            ),'start' => array(
+              'path' => 'v3/{+name}:start',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'name' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'stop' => array(
+              'path' => 'v3/{+name}:stop',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'name' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ),
               ),
             ),
@@ -1195,20 +1288,10 @@ class Google_Service_Dialogflow extends Google_Service
                 ),
               ),
             ),'run' => array(
-              'path' => 'v3/projects/{projectsId}/locations/{locationsId}/agents/{agentsId}/testCases:run',
+              'path' => 'v3/{+name}:run',
               'httpMethod' => 'POST',
               'parameters' => array(
-                'projectsId' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'locationsId' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'agentsId' => array(
+                'name' => array(
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
@@ -1224,7 +1307,17 @@ class Google_Service_Dialogflow extends Google_Service
         'results',
         array(
           'methods' => array(
-            'list' => array(
+            'get' => array(
+              'path' => 'v3/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => array(
+                'name' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'list' => array(
               'path' => 'v3/{+parent}/results',
               'httpMethod' => 'GET',
               'parameters' => array(

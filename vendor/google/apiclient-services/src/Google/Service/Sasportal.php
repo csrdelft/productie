@@ -30,7 +30,7 @@
  */
 class Google_Service_Sasportal extends Google_Service
 {
-  /** View your email address. */
+  /** See your primary Google Account email address. */
   const USERINFO_EMAIL =
       "https://www.googleapis.com/auth/userinfo.email";
 
@@ -161,6 +161,10 @@ class Google_Service_Sasportal extends Google_Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ),
+                'filter' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
                 'pageSize' => array(
                   'location' => 'query',
@@ -412,6 +416,10 @@ class Google_Service_Sasportal extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
+                'filter' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
                 'pageSize' => array(
                   'location' => 'query',
                   'type' => 'integer',
@@ -473,6 +481,10 @@ class Google_Service_Sasportal extends Google_Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ),
+                'filter' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
                 'pageSize' => array(
                   'location' => 'query',
@@ -563,6 +575,10 @@ class Google_Service_Sasportal extends Google_Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ),
+                'filter' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
                 'pageSize' => array(
                   'location' => 'query',
@@ -743,6 +759,10 @@ class Google_Service_Sasportal extends Google_Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ),
+                'filter' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
                 'pageSize' => array(
                   'location' => 'query',
@@ -994,6 +1014,10 @@ class Google_Service_Sasportal extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
+                'filter' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
                 'pageSize' => array(
                   'location' => 'query',
                   'type' => 'integer',
@@ -1055,6 +1079,10 @@ class Google_Service_Sasportal extends Google_Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ),
+                'filter' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
                 'pageSize' => array(
                   'location' => 'query',
@@ -1145,6 +1173,10 @@ class Google_Service_Sasportal extends Google_Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ),
+                'filter' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
                 'pageSize' => array(
                   'location' => 'query',

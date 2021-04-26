@@ -163,6 +163,16 @@ class Google_Service_GoogleAnalyticsAdmin extends Google_Service
               'path' => 'v1alpha/accounts:provisionAccountTicket',
               'httpMethod' => 'POST',
               'parameters' => array(),
+            ),'searchChangeHistoryEvents' => array(
+              'path' => 'v1alpha/{+account}:searchChangeHistoryEvents',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'account' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
             ),
           )
         )
@@ -369,17 +379,7 @@ class Google_Service_GoogleAnalyticsAdmin extends Google_Service
         'androidAppDataStreams',
         array(
           'methods' => array(
-            'create' => array(
-              'path' => 'v1alpha/{+parent}/androidAppDataStreams',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'delete' => array(
+            'delete' => array(
               'path' => 'v1alpha/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => array(
@@ -565,17 +565,7 @@ class Google_Service_GoogleAnalyticsAdmin extends Google_Service
         'iosAppDataStreams',
         array(
           'methods' => array(
-            'create' => array(
-              'path' => 'v1alpha/{+parent}/iosAppDataStreams',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'delete' => array(
+            'delete' => array(
               'path' => 'v1alpha/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => array(
