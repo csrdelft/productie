@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '3e683f7044c5aaea68df5460534825c7dcb38f5f',
+    'reference' => '4123bb99a40a27a9432d9608327cae57636d85b9',
     'name' => 'csr/csrdelft.nl',
   ),
   'versions' => 
@@ -114,16 +114,16 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '3e683f7044c5aaea68df5460534825c7dcb38f5f',
+      'reference' => '4123bb99a40a27a9432d9608327cae57636d85b9',
     ),
     'csrdelft/bb' => 
     array (
-      'pretty_version' => 'v1.3.3',
-      'version' => '1.3.3.0',
+      'pretty_version' => 'v1.3.4',
+      'version' => '1.3.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => '865227da268879edef24d3821cc7ab4f83502e6b',
+      'reference' => '10767a6353c0604c8a73d48c0cf5c53433668fdf',
     ),
     'defuse/php-encryption' => 
     array (

@@ -635,8 +635,8 @@ class ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358
         ),
         'Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/php-http/message-factory/src',
-            1 => __DIR__ . '/..' . '/php-http/message/src',
+            0 => __DIR__ . '/..' . '/php-http/message/src',
+            1 => __DIR__ . '/..' . '/php-http/message-factory/src',
         ),
         'Http\\Factory\\Guzzle\\' => 
         array (
@@ -728,9 +728,9 @@ class ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358
         ),
         'Doctrine\\Common\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/event-manager/lib/Doctrine/Common',
-            1 => __DIR__ . '/..' . '/doctrine/persistence/lib/Doctrine/Common',
-            2 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
+            0 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
+            1 => __DIR__ . '/..' . '/doctrine/event-manager/lib/Doctrine/Common',
+            2 => __DIR__ . '/..' . '/doctrine/persistence/lib/Doctrine/Common',
         ),
         'Doctrine\\Bundle\\MigrationsBundle\\' => 
         array (
@@ -1382,6 +1382,7 @@ class ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358
         'CsrDelft\\service\\EetplanFactory' => __DIR__ . '/../..' . '/lib/service/EetplanFactory.php',
         'CsrDelft\\service\\GoogleSync' => __DIR__ . '/../..' . '/lib/service/GoogleSync.php',
         'CsrDelft\\service\\LidZoekerService' => __DIR__ . '/../..' . '/lib/service/LidZoekerService.php',
+        'CsrDelft\\service\\MailService' => __DIR__ . '/../..' . '/lib/service/MailService.php',
         'CsrDelft\\service\\PeilingenService' => __DIR__ . '/../..' . '/lib/service/PeilingenService.php',
         'CsrDelft\\service\\ProfielService' => __DIR__ . '/../..' . '/lib/service/ProfielService.php',
         'CsrDelft\\service\\Roodschopper' => __DIR__ . '/../..' . '/lib/service/Roodschopper.php',

@@ -562,6 +562,7 @@ return array(
     'CsrDelft\\service\\EetplanFactory' => $baseDir . '/lib/service/EetplanFactory.php',
     'CsrDelft\\service\\GoogleSync' => $baseDir . '/lib/service/GoogleSync.php',
     'CsrDelft\\service\\LidZoekerService' => $baseDir . '/lib/service/LidZoekerService.php',
+    'CsrDelft\\service\\MailService' => $baseDir . '/lib/service/MailService.php',
     'CsrDelft\\service\\PeilingenService' => $baseDir . '/lib/service/PeilingenService.php',
     'CsrDelft\\service\\ProfielService' => $baseDir . '/lib/service/ProfielService.php',
     'CsrDelft\\service\\Roodschopper' => $baseDir . '/lib/service/Roodschopper.php',
