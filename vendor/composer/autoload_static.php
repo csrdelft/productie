@@ -4,15 +4,15 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358
+class ComposerStaticInit93582780547a917727b78a56f25a8875
 {
     public static $files = array (
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         'e8aa6e4b5a1db2f56ae794f1505391a8' => __DIR__ . '/..' . '/amphp/amp/lib/functions.php',
         '76cd0796156622033397994f25b0d8fc' => __DIR__ . '/..' . '/amphp/amp/lib/Internal/functions.php',
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         '6cd5651c4fef5ed6b63e8d8b8ffbf3cc' => __DIR__ . '/..' . '/amphp/byte-stream/lib/functions.php',
         'dc51568953534d6c54b08731e61104e2' => __DIR__ . '/..' . '/vimeo/psalm/src/functions.php',
@@ -20,7 +20,6 @@ class ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358
         '6a47392539ca2329373e0d33e1dba053' => __DIR__ . '/..' . '/symfony/polyfill-intl-icu/bootstrap.php',
         '09f6b20656683369174dd6fa83b7e5fb' => __DIR__ . '/..' . '/symfony/polyfill-uuid/bootstrap.php',
         'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
-        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
@@ -28,6 +27,7 @@ class ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
         '7e9bd612cc444b3eed788ebbe46263a0' => __DIR__ . '/..' . '/laminas/laminas-zendframework-bridge/src/autoload.php',
+        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '9c67151ae59aff4788964ce8eb2a0f43' => __DIR__ . '/..' . '/clue/stream-filter/src/functions_include.php',
@@ -245,8 +245,8 @@ class ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
         ),
         'Zumba\\JsonSerializer\\Test\\' => 
         array (
@@ -542,8 +542,8 @@ class ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -635,8 +635,8 @@ class ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358
         ),
         'Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/php-http/message/src',
-            1 => __DIR__ . '/..' . '/php-http/message-factory/src',
+            0 => __DIR__ . '/..' . '/php-http/message-factory/src',
+            1 => __DIR__ . '/..' . '/php-http/message/src',
         ),
         'Http\\Factory\\Guzzle\\' => 
         array (
@@ -728,9 +728,9 @@ class ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358
         ),
         'Doctrine\\Common\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
-            1 => __DIR__ . '/..' . '/doctrine/event-manager/lib/Doctrine/Common',
-            2 => __DIR__ . '/..' . '/doctrine/persistence/lib/Doctrine/Common',
+            0 => __DIR__ . '/..' . '/doctrine/event-manager/lib/Doctrine/Common',
+            1 => __DIR__ . '/..' . '/doctrine/persistence/lib/Doctrine/Common',
+            2 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
         ),
         'Doctrine\\Bundle\\MigrationsBundle\\' => 
         array (
@@ -1038,7 +1038,6 @@ class ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358
         'CsrDelft\\common\\Serializer\\Normalizer\\RemoveDataTableEntryNormalizer' => __DIR__ . '/../..' . '/lib/common/Serializer/Normalizer/RemoveDataTableEntryNormalizer.php',
         'CsrDelft\\common\\ShutdownHandler' => __DIR__ . '/../..' . '/lib/common/ShutdownHandler.php',
         'CsrDelft\\common\\SimpleSpamFilter' => __DIR__ . '/../..' . '/lib/common/SimpleSpamFilter.php',
-        'CsrDelft\\common\\cache\\MemcacheCache' => __DIR__ . '/../..' . '/lib/common/cache/MemcacheCache.php',
         'CsrDelft\\common\\datatable\\CustomDataTableEntry' => __DIR__ . '/../..' . '/lib/common/datatable/CustomDataTableEntry.php',
         'CsrDelft\\common\\datatable\\DataTableEntry' => __DIR__ . '/../..' . '/lib/common/datatable/DataTableEntry.php',
         'CsrDelft\\common\\datatable\\RemoveDataTableEntry' => __DIR__ . '/../..' . '/lib/common/datatable/RemoveDataTableEntry.php',
@@ -1046,6 +1045,8 @@ class ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358
         'CsrDelft\\common\\instellingen\\InstellingType' => __DIR__ . '/../..' . '/lib/common/instellingen/InstellingType.php',
         'CsrDelft\\common\\yaml\\YamlFileLoader' => __DIR__ . '/../..' . '/lib/common/yaml/YamlFileLoader.php',
         'CsrDelft\\common\\yaml\\YamlInstellingen' => __DIR__ . '/../..' . '/lib/common/yaml/YamlInstellingen.php',
+        'CsrDelft\\controller\\AanmelderBeheerController' => __DIR__ . '/../..' . '/lib/controller/AanmelderBeheerController.php',
+        'CsrDelft\\controller\\AanmelderController' => __DIR__ . '/../..' . '/lib/controller/AanmelderController.php',
         'CsrDelft\\controller\\AbstractController' => __DIR__ . '/../..' . '/lib/controller/AbstractController.php',
         'CsrDelft\\controller\\AccountController' => __DIR__ . '/../..' . '/lib/controller/AccountController.php',
         'CsrDelft\\controller\\AftelController' => __DIR__ . '/../..' . '/lib/controller/AftelController.php',
@@ -1139,6 +1140,10 @@ class ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358
         'CsrDelft\\entity\\SavedQuery' => __DIR__ . '/../..' . '/lib/entity/SavedQuery.php',
         'CsrDelft\\entity\\SavedQueryResult' => __DIR__ . '/../..' . '/lib/entity/SavedQueryResult.php',
         'CsrDelft\\entity\\Streeplijst' => __DIR__ . '/../..' . '/lib/entity/Streeplijst.php',
+        'CsrDelft\\entity\\aanmelder\\AanmeldActiviteit' => __DIR__ . '/../..' . '/lib/entity/aanmelder/AanmeldActiviteit.php',
+        'CsrDelft\\entity\\aanmelder\\ActiviteitEigenschappen' => __DIR__ . '/../..' . '/lib/entity/aanmelder/ActiviteitEigenschappen.php',
+        'CsrDelft\\entity\\aanmelder\\Deelnemer' => __DIR__ . '/../..' . '/lib/entity/aanmelder/Deelnemer.php',
+        'CsrDelft\\entity\\aanmelder\\Reeks' => __DIR__ . '/../..' . '/lib/entity/aanmelder/Reeks.php',
         'CsrDelft\\entity\\agenda\\AgendaItem' => __DIR__ . '/../..' . '/lib/entity/agenda/AgendaItem.php',
         'CsrDelft\\entity\\agenda\\AgendaVerbergen' => __DIR__ . '/../..' . '/lib/entity/agenda/AgendaVerbergen.php',
         'CsrDelft\\entity\\agenda\\Agendeerbaar' => __DIR__ . '/../..' . '/lib/entity/agenda/Agendeerbaar.php',
@@ -1292,6 +1297,9 @@ class ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358
         'CsrDelft\\repository\\ProfielRepository' => __DIR__ . '/../..' . '/lib/repository/ProfielRepository.php',
         'CsrDelft\\repository\\SavedQueryRepository' => __DIR__ . '/../..' . '/lib/repository/SavedQueryRepository.php',
         'CsrDelft\\repository\\StreeplijstRepository' => __DIR__ . '/../..' . '/lib/repository/StreeplijstRepository.php',
+        'CsrDelft\\repository\\aanmelder\\AanmeldActiviteitRepository' => __DIR__ . '/../..' . '/lib/repository/aanmelder/AanmeldActiviteitRepository.php',
+        'CsrDelft\\repository\\aanmelder\\DeelnemerRepository' => __DIR__ . '/../..' . '/lib/repository/aanmelder/DeelnemerRepository.php',
+        'CsrDelft\\repository\\aanmelder\\ReeksRepository' => __DIR__ . '/../..' . '/lib/repository/aanmelder/ReeksRepository.php',
         'CsrDelft\\repository\\agenda\\AgendaRepository' => __DIR__ . '/../..' . '/lib/repository/agenda/AgendaRepository.php',
         'CsrDelft\\repository\\agenda\\AgendaVerbergenRepository' => __DIR__ . '/../..' . '/lib/repository/agenda/AgendaVerbergenRepository.php',
         'CsrDelft\\repository\\bibliotheek\\BiebAuteurRepository' => __DIR__ . '/../..' . '/lib/repository/bibliotheek/BiebAuteurRepository.php',
@@ -1401,6 +1409,11 @@ class ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358
         'CsrDelft\\view\\Validator' => __DIR__ . '/../..' . '/lib/view/Validator.php',
         'CsrDelft\\view\\View' => __DIR__ . '/../..' . '/lib/view/View.php',
         'CsrDelft\\view\\Zijbalk' => __DIR__ . '/../..' . '/lib/view/Zijbalk.php',
+        'CsrDelft\\view\\aanmelder\\AanmeldActiviteitAanmeldForm' => __DIR__ . '/../..' . '/lib/view/aanmelder/AanmeldActiviteitAanmeldForm.php',
+        'CsrDelft\\view\\aanmelder\\AanmeldActiviteitForm' => __DIR__ . '/../..' . '/lib/view/aanmelder/AanmeldActiviteitForm.php',
+        'CsrDelft\\view\\aanmelder\\AanmeldActiviteitTabel' => __DIR__ . '/../..' . '/lib/view/aanmelder/AanmeldActiviteitTabel.php',
+        'CsrDelft\\view\\aanmelder\\ReeksForm' => __DIR__ . '/../..' . '/lib/view/aanmelder/ReeksForm.php',
+        'CsrDelft\\view\\aanmelder\\ReeksTabel' => __DIR__ . '/../..' . '/lib/view/aanmelder/ReeksTabel.php',
         'CsrDelft\\view\\agenda\\AgendaItemForm' => __DIR__ . '/../..' . '/lib/view/agenda/AgendaItemForm.php',
         'CsrDelft\\view\\bbcode\\BbHelper' => __DIR__ . '/../..' . '/lib/view/bbcode/BbHelper.php',
         'CsrDelft\\view\\bbcode\\BbToProsemirror' => __DIR__ . '/../..' . '/lib/view/bbcode/BbToProsemirror.php',
@@ -1451,6 +1464,7 @@ class ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358
         'CsrDelft\\view\\bbcode\\prosemirror\\groep\\NodeVerticale' => __DIR__ . '/../..' . '/lib/view/bbcode/prosemirror/groep/NodeVerticale.php',
         'CsrDelft\\view\\bbcode\\prosemirror\\groep\\NodeWerkgroep' => __DIR__ . '/../..' . '/lib/view/bbcode/prosemirror/groep/NodeWerkgroep.php',
         'CsrDelft\\view\\bbcode\\prosemirror\\groep\\NodeWoonoord' => __DIR__ . '/../..' . '/lib/view/bbcode/prosemirror/groep/NodeWoonoord.php',
+        'CsrDelft\\view\\bbcode\\tag\\BbAanmelder' => __DIR__ . '/../..' . '/lib/view/bbcode/tag/BbAanmelder.php',
         'CsrDelft\\view\\bbcode\\tag\\BbAftel' => __DIR__ . '/../..' . '/lib/view/bbcode/tag/BbAftel.php',
         'CsrDelft\\view\\bbcode\\tag\\BbBb' => __DIR__ . '/../..' . '/lib/view/bbcode/tag/BbBb.php',
         'CsrDelft\\view\\bbcode\\tag\\BbBijbel' => __DIR__ . '/../..' . '/lib/view/bbcode/tag/BbBijbel.php',
@@ -1643,6 +1657,7 @@ class ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358
         'CsrDelft\\view\\formulier\\keuzevelden\\required\\RequiredDateField' => __DIR__ . '/../..' . '/lib/view/formulier/keuzevelden/required/RequiredDateField.php',
         'CsrDelft\\view\\formulier\\keuzevelden\\required\\RequiredDateObjectField' => __DIR__ . '/../..' . '/lib/view/formulier/keuzevelden/required/RequiredDateObjectField.php',
         'CsrDelft\\view\\formulier\\keuzevelden\\required\\RequiredDateTimeField' => __DIR__ . '/../..' . '/lib/view/formulier/keuzevelden/required/RequiredDateTimeField.php',
+        'CsrDelft\\view\\formulier\\keuzevelden\\required\\RequiredDateTimeObjectField' => __DIR__ . '/../..' . '/lib/view/formulier/keuzevelden/required/RequiredDateTimeObjectField.php',
         'CsrDelft\\view\\formulier\\keuzevelden\\required\\RequiredEnumSelectField' => __DIR__ . '/../..' . '/lib/view/formulier/keuzevelden/required/RequiredEnumSelectField.php',
         'CsrDelft\\view\\formulier\\keuzevelden\\required\\RequiredJaNeeField' => __DIR__ . '/../..' . '/lib/view/formulier/keuzevelden/required/RequiredJaNeeField.php',
         'CsrDelft\\view\\formulier\\keuzevelden\\required\\RequiredKerkField' => __DIR__ . '/../..' . '/lib/view/formulier/keuzevelden/required/RequiredKerkField.php',
@@ -23140,10 +23155,10 @@ class ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit3f0ed9a82e5cb59e4190c314f3082358::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit93582780547a917727b78a56f25a8875::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit93582780547a917727b78a56f25a8875::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit93582780547a917727b78a56f25a8875::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit93582780547a917727b78a56f25a8875::$classMap;
 
         }, null, ClassLoader::class);
     }

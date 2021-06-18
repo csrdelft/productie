@@ -10874,7 +10874,7 @@
                     "dev-master": "3.x-dev"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Trikoder\\Bundle\\OAuth2Bundle\\": ""
