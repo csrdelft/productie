@@ -392,8 +392,8 @@
         ],
         "css": [
           {
-            "src": "css/extern-owee.e0429eacb9454c8913a2.css",
-            "integrity": "sha256-19C5qihlcQw8ts2Ta+kXcY/8rhbV3cjd9PGhxsjvmT4= sha384-KQWMB29p8n3K8ueKZ5ETbKTLKMujpveKWUKSWR9eg4VXNiBQMZiz+70wiVz7VlQl sha512-e+TTfugHaD+jjjxgA6BD2fRnHaqk5htsVjxHr5rlbwAvEEo/zK89okpCWQ5HGVXuX8NehaZVcSI/d3vHlqyX4g=="
+            "src": "css/extern-owee.f34acd3edacf1ff5450c.css",
+            "integrity": "sha256-C30WUr9w2TcEvCxjD9rxHtxTfoHjLOmX7X2SztKQbAE= sha384-kYcmZ3pKTphe94xM5/U4kKiHudDI4Hl7N3dlswCDjw5YZw4R+GUNHCqzTO/kPYfQ sha512-rSOMS/aaS7nYO04CNem0qIQNW0rUTlErbd9mWwOpazvu6OADziHyGGGTc5iNhvAh6Zt0FHDW7kpxQ2tJf2rR+A=="
           }
         ]
       }
@@ -558,8 +558,8 @@
     "integrity": "sha256-gmyaNTS+jxi/CmRRZnkcD41qndXFYhnN2JGrSJMuXOo= sha384-qT6HBr/J66FH1G2T5ipjs3DAf+/76DIwH4pj+ohAbfMFrtrn6f9143n4uT4rJS99 sha512-jezeaKXnbN+ajboIuvTOBajKF+22wC2jcgOFBEA+VDELBncvFvHl4RCxu3aNnMAEX3Yg7UBN2D1OuXj0ZTddag=="
   },
   "extern-owee.css": {
-    "src": "css/extern-owee.e0429eacb9454c8913a2.css",
-    "integrity": "sha256-19C5qihlcQw8ts2Ta+kXcY/8rhbV3cjd9PGhxsjvmT4= sha384-KQWMB29p8n3K8ueKZ5ETbKTLKMujpveKWUKSWR9eg4VXNiBQMZiz+70wiVz7VlQl sha512-e+TTfugHaD+jjjxgA6BD2fRnHaqk5htsVjxHr5rlbwAvEEo/zK89okpCWQ5HGVXuX8NehaZVcSI/d3vHlqyX4g=="
+    "src": "css/extern-owee.f34acd3edacf1ff5450c.css",
+    "integrity": "sha256-C30WUr9w2TcEvCxjD9rxHtxTfoHjLOmX7X2SztKQbAE= sha384-kYcmZ3pKTphe94xM5/U4kKiHudDI4Hl7N3dlswCDjw5YZw4R+GUNHCqzTO/kPYfQ sha512-rSOMS/aaS7nYO04CNem0qIQNW0rUTlErbd9mWwOpazvu6OADziHyGGGTc5iNhvAh6Zt0FHDW7kpxQ2tJf2rR+A=="
   },
   "extern-owee.js": {
     "src": "js/extern-owee.d5300a8e4319fd05c970.bundle.js",
@@ -648,10 +648,6 @@
   "fonts/Ubuntu-Medium.ttf": {
     "src": "fonts/119e6d4dd93b6f802f3f.ttf",
     "integrity": "sha256-rlwI52k9LW95JdXSVxB8TOiVVpeU4QW/6NEg6AUn/1E= sha384-PXOWfjX7KNywEJOhHBaVisqxH2YKy05K0zRe4LUUFty5yb5DaXx68n4Hru2e7DCI sha512-5kuK+7X2sXeNNz9uyc8qUKlTE21JCIGeilqQ30SvUn6DPJwcNrXGyy5P8rpy3U5/bRZSOl0T0GKv0Q1KfvPP5g=="
-  },
-  "fonts/adam.cg_pro-webfont.woff": {
-    "src": "fonts/291bf4e0ea7dfc1216ba.woff",
-    "integrity": "sha256-tOQFQMhrrgXJYVMEX8Z5XKEl2IZHklfZ6YIrcaOKQIM= sha384-rDlhI2hgXw3DrKm3MDFlhZpJCS1Bqs/QZah6djOpDlZU51LEjaT6dTNlW8Dq8hpJ sha512-pmy8hihSO8LRwQO6hD0Zyo7zi+oCDau+o8OjEQNrkkZNbsAIbFzNwJ1T59abCNunLaOX9K2pM07cSkIS6BFO6A=="
   },
   "fonts/caricature.woff": {
     "src": "fonts/1b9e35791253708d57a3.woff",
@@ -969,10 +965,6 @@
     "src": "images/77886d212f2c5cff6876.png",
     "integrity": "sha256-lhXilVFr6wxtJEV5kzqOlvsKo+mlJCqckatyFEWog40= sha384-RUkdRmGL27ZbXotCKcf5MF5A4+QszH99OOpba55mYE3fRZ0BVeNbBFvc9L5544+J sha512-IMYmI+nEZOu8hi5EQZADTmOz2FwP92lPSXH9yKgpH2jXwRi0F/jlN5eGjlCK2Vxmv9gB5VVXC4GYACmc1rmecw=="
   },
-  "images/owee2020-achtergrond.jpg": {
-    "src": "images/f2fe252972d3acd24f5a.jpg",
-    "integrity": "sha256-X51Fbhf7QTYU/vzBWO/RsqlEYvmSNBOgH/3kzMW617g= sha384-bjuFSPsU5wOjiWuNo2lRZgrU65NnGlFwIKUosbH8iqcQspylixon+aXhxIy/9b8Q sha512-UkhEh18K3mzQ2udbh4PAbPyeL17VnEv3RhnJy+y9osFmQUeCPV6IZEiT+xvFgRAXzH+jhlV6fN90VzpcMr0j1g=="
-  },
   "images/owee2020-achtergrond.png": {
     "src": "images/5c84c47d79b5f3c79c2f.png",
     "integrity": "sha256-9zFZhanjgOlritN4NH5vDoDA6hySQzvj5RXKW+8Wc7g= sha384-5Xj8Z2E/XmxpKrbLGBp0xPQeZarhcyUlISHb2LuMzjBe5s5HNkWCUCbrHTieqaC0 sha512-NnYVg9cPDs/YwHrf9X4pMjUcROZx0PPp855U/F4rNuwCJtKm10a3enMSO2hdiFstZGdCSrbydqzh+rAQ+Z7RCA=="
@@ -980,6 +972,10 @@
   "images/owee2021.svg": {
     "src": "images/3f0a3c4e487b57b1891c.svg",
     "integrity": "sha256-h23ULwcHKqoHpJhmKIeQM4LhdhUUHqlMPJtSClFHjS0= sha384-1u1jOYpr5aU6fL3VOws2rHZ94b/QJ3eTK+BWJfF20H+e3pdbLBUSJY6nau4QJRxy sha512-Odyo6mw7T2kRhSGPDAmNc5FLtdMP2L3Y9+YefUSinaMaYhEFE4vLWERwuesYw0wWVrBWKJfAUOrYf/d4jpm2rw=="
+  },
+  "images/owee2021bg.png": {
+    "src": "images/1451e78fc8101a32439c.png",
+    "integrity": "sha256-jzvlBlj6EYqEWft8p6ulfQotfRUlHFGFAH/6DEZa6T0= sha384-EYaUCRR/k/PzmlH6oyfuwrpXL7n6+abfcuvLsVK06hiON4RugiJiWzSLwgJH7Aam sha512-EmhIau5LxiDQZxusMB5JquG2QkL9eiVWzfy+MEjbSWRtfJJ9Vj/SC2ZdxvpwiNFOxm4jrFvbKIW1Hlktdh175w=="
   },
   "images/portal-break.png": {
     "src": "images/942eb606ecf64087b2db.png",
