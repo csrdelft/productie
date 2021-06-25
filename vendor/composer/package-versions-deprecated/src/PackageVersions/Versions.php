@@ -186,7 +186,7 @@ final class Versions
   'webmozart/assert' => '1.10.0@6964c76c7804814a842473e0c8fd15bab0f18e25',
   'webmozart/path-util' => '2.3.0@d939f7edc24c9a1bb9c0dee5cb05d8e859490725',
   'zumba/json-serializer' => '3.0.0@4387bfaa6948d219e947ee77d975ec4f41fefd2b',
-  'csr/csrdelft.nl' => 'dev-master@1bafe8bf3e7f39b28520fa27683f432478fb3712',
+  'csr/csrdelft.nl' => 'dev-master@59e709e11562688b1c65e8a82ab73db2fceb2558',
 );
 
     private function __construct()
