@@ -9725,17 +9725,17 @@
         },
         {
             "name": "symfony/security-http",
-            "version": "v5.3.2",
-            "version_normalized": "5.3.2.0",
+            "version": "5.3.x-dev",
+            "version_normalized": "5.3.9999999.9999999-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-http.git",
-                "reference": "6bf4c31219773a558b019ee12e54572174ff8129"
+                "reference": "81c183fd1527a2d09bd3b5c69bca3fc24ce18527"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-http/zipball/6bf4c31219773a558b019ee12e54572174ff8129",
-                "reference": "6bf4c31219773a558b019ee12e54572174ff8129",
+                "url": "https://api.github.com/repos/symfony/security-http/zipball/81c183fd1527a2d09bd3b5c69bca3fc24ce18527",
+                "reference": "81c183fd1527a2d09bd3b5c69bca3fc24ce18527",
                 "shasum": ""
             },
             "require": {
@@ -9765,7 +9765,8 @@
                 "symfony/routing": "For using the HttpUtils class to create sub-requests, redirect the user, and match URLs",
                 "symfony/security-csrf": "For using tokens to protect authentication/logout attempts"
             },
-            "time": "2021-06-17T13:35:32+00:00",
+            "time": "2021-06-23T09:36:00+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -9793,7 +9794,7 @@
             "description": "Symfony Security Component - HTTP Integration",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/security-http/tree/v5.3.2"
+                "source": "https://github.com/symfony/security-http/tree/5.3"
             },
             "funding": [
                 {
