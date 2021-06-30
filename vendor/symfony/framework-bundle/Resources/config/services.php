@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Symfony\Bundle\FrameworkBundle\CacheWarmer\ConfigBuilderCacheWarmer;
 use Symfony\Bundle\FrameworkBundle\HttpCache\HttpCache;
 use Symfony\Component\Config\Resource\SelfCheckingResourceChecker;
 use Symfony\Component\Config\ResourceCheckerConfigCacheFactory;
@@ -39,9 +38,6 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpKernel\UriSigner;
-use Symfony\Component\Runtime\Runner\Symfony\HttpKernelRunner;
-use Symfony\Component\Runtime\Runner\Symfony\ResponseRunner;
-use Symfony\Component\Runtime\SymfonyRuntime;
 use Symfony\Component\String\LazyString;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -69,7 +65,6 @@ return static function (ContainerConfigurator $container) {
         ->set('event_dispatcher', EventDispatcher::class)
             ->public()
             ->tag('container.hot_path')
-            ->tag('event_dispatcher.dispatcher', ['name' => 'event_dispatcher'])
         ->alias(EventDispatcherInterfaceComponentAlias::class, 'event_dispatcher')
         ->alias(EventDispatcherInterface::class, 'event_dispatcher')
 
@@ -82,9 +77,6 @@ return static function (ContainerConfigurator $container) {
                 service('argument_resolver'),
             ])
             ->tag('container.hot_path')
-            ->tag('container.preload', ['class' => HttpKernelRunner::class])
-            ->tag('container.preload', ['class' => ResponseRunner::class])
-            ->tag('container.preload', ['class' => SymfonyRuntime::class])
         ->alias(HttpKernelInterface::class, 'http_kernel')
 
         ->set('request_stack', RequestStack::class)
@@ -209,8 +201,5 @@ return static function (ContainerConfigurator $container) {
             ->args([
                 service('container.getenv'),
             ])
-        ->set('config_builder.warmer', ConfigBuilderCacheWarmer::class)
-            ->args([service(KernelInterface::class), service('logger')->nullOnInvalid()])
-            ->tag('kernel.cache_warmer')
     ;
 };

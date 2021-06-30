@@ -56,7 +56,7 @@ final class WebLinkExtension extends AbstractExtension
      */
     public function link(string $uri, string $rel, array $attributes = []): string
     {
-        if (!$request = $this->requestStack->getMainRequest()) {
+        if (!$request = $this->requestStack->getMasterRequest()) {
             return $uri;
         }
 

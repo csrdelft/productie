@@ -34,21 +34,20 @@ class TagAwareAdapter implements TagAwareAdapterInterface, TagAwareCacheInterfac
     use ProxyTrait;
 
     private $deferred = [];
+    private $createCacheItem;
+    private $setCacheItemTags;
+    private $getTagsByKey;
+    private $invalidateTags;
     private $tags;
     private $knownTagVersions = [];
     private $knownTagVersionsTtl;
-
-    private static $createCacheItem;
-    private static $setCacheItemTags;
-    private static $getTagsByKey;
-    private static $invalidateTags;
 
     public function __construct(AdapterInterface $itemsPool, AdapterInterface $tagsPool = null, float $knownTagVersionsTtl = 0.15)
     {
         $this->pool = $itemsPool;
         $this->tags = $tagsPool ?: $itemsPool;
         $this->knownTagVersionsTtl = $knownTagVersionsTtl;
-        self::$createCacheItem ?? self::$createCacheItem = \Closure::bind(
+        $this->createCacheItem = \Closure::bind(
             static function ($key, $value, CacheItem $protoItem) {
                 $item = new CacheItem();
                 $item->key = $key;
@@ -61,7 +60,7 @@ class TagAwareAdapter implements TagAwareAdapterInterface, TagAwareCacheInterfac
             null,
             CacheItem::class
         );
-        self::$setCacheItemTags ?? self::$setCacheItemTags = \Closure::bind(
+        $this->setCacheItemTags = \Closure::bind(
             static function (CacheItem $item, $key, array &$itemTags) {
                 $item->isTaggable = true;
                 if (!$item->isHit) {
@@ -82,7 +81,7 @@ class TagAwareAdapter implements TagAwareAdapterInterface, TagAwareCacheInterfac
             null,
             CacheItem::class
         );
-        self::$getTagsByKey ?? self::$getTagsByKey = \Closure::bind(
+        $this->getTagsByKey = \Closure::bind(
             static function ($deferred) {
                 $tagsByKey = [];
                 foreach ($deferred as $key => $item) {
@@ -95,7 +94,7 @@ class TagAwareAdapter implements TagAwareAdapterInterface, TagAwareCacheInterfac
             null,
             CacheItem::class
         );
-        self::$invalidateTags ?? self::$invalidateTags = \Closure::bind(
+        $this->invalidateTags = \Closure::bind(
             static function (AdapterInterface $tagsAdapter, array $tags) {
                 foreach ($tags as $v) {
                     $v->expiry = 0;
@@ -118,7 +117,7 @@ class TagAwareAdapter implements TagAwareAdapterInterface, TagAwareCacheInterfac
         $tagsByKey = [];
         $invalidatedTags = [];
         foreach ($tags as $tag) {
-            \assert('' !== CacheItem::validateKey($tag));
+            CacheItem::validateKey($tag);
             $invalidatedTags[$tag] = 0;
         }
 
@@ -131,12 +130,13 @@ class TagAwareAdapter implements TagAwareAdapterInterface, TagAwareCacheInterfac
                 }
             }
 
-            $tagsByKey = (self::$getTagsByKey)($items);
+            $f = $this->getTagsByKey;
+            $tagsByKey = $f($items);
             $this->deferred = [];
         }
 
         $tagVersions = $this->getTagVersions($tagsByKey, $invalidatedTags);
-        $f = self::$createCacheItem;
+        $f = $this->createCacheItem;
 
         foreach ($tagsByKey as $key => $tags) {
             $this->pool->saveDeferred($f(static::TAGS_PREFIX.$key, array_intersect_key($tagVersions, $tags), $items[$key]));
@@ -144,7 +144,8 @@ class TagAwareAdapter implements TagAwareAdapterInterface, TagAwareCacheInterfac
         $ok = $this->pool->commit() && $ok;
 
         if ($invalidatedTags) {
-            $ok = (self::$invalidateTags)($this->tags, $invalidatedTags) && $ok;
+            $f = $this->invalidateTags;
+            $ok = $f($this->tags, $invalidatedTags) && $ok;
         }
 
         return $ok;
@@ -331,7 +332,7 @@ class TagAwareAdapter implements TagAwareAdapterInterface, TagAwareCacheInterfac
     private function generateItems(iterable $items, array $tagKeys)
     {
         $bufferedItems = $itemTags = [];
-        $f = self::$setCacheItemTags;
+        $f = $this->setCacheItemTags;
 
         foreach ($items as $key => $item) {
             if (!$tagKeys) {

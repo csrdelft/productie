@@ -39,11 +39,10 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
     protected function __construct(string $namespace = '', int $defaultLifetime = 0)
     {
         $this->namespace = '' === $namespace ? '' : CacheItem::validateKey($namespace).static::NS_SEPARATOR;
-        $this->defaultLifetime = $defaultLifetime;
         if (null !== $this->maxIdLength && \strlen($namespace) > $this->maxIdLength - 24) {
             throw new InvalidArgumentException(sprintf('Namespace must be %d chars max, %d given ("%s").', $this->maxIdLength - 24, \strlen($namespace), $namespace));
         }
-        self::$createCacheItem ?? self::$createCacheItem = \Closure::bind(
+        $this->createCacheItem = \Closure::bind(
             static function ($key, $value, $isHit) {
                 $item = new CacheItem();
                 $item->key = $key;
@@ -64,8 +63,9 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
             null,
             CacheItem::class
         );
-        self::$mergeByLifetime ?? self::$mergeByLifetime = \Closure::bind(
-            static function ($deferred, $namespace, &$expiredIds, $getId, $defaultLifetime) {
+        $getId = \Closure::fromCallable([$this, 'getId']);
+        $this->mergeByLifetime = \Closure::bind(
+            static function ($deferred, $namespace, &$expiredIds) use ($getId, $defaultLifetime) {
                 $byLifetime = [];
                 $now = microtime(true);
                 $expiredIds = [];
@@ -147,7 +147,8 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
     public function commit()
     {
         $ok = true;
-        $byLifetime = (self::$mergeByLifetime)($this->deferred, $this->namespace, $expiredIds, \Closure::fromCallable([$this, 'getId']), $this->defaultLifetime);
+        $byLifetime = $this->mergeByLifetime;
+        $byLifetime = $byLifetime($this->deferred, $this->namespace, $expiredIds);
         $retry = $this->deferred = [];
 
         if ($expiredIds) {

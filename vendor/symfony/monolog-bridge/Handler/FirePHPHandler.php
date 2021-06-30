@@ -36,7 +36,7 @@ class FirePHPHandler extends BaseFirePHPHandler
      */
     public function onKernelResponse(ResponseEvent $event)
     {
-        if (!$event->isMainRequest()) {
+        if (!$event->isMasterRequest()) {
             return;
         }
 

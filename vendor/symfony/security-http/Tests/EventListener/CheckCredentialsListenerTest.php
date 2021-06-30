@@ -12,8 +12,10 @@
 namespace Symfony\Component\Security\Http\Tests\EventListener;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
-use Symfony\Component\Security\Core\User\InMemoryUser;
+use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\PasswordUpgradeBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
@@ -23,20 +25,18 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\Event\CheckPassportEvent;
 use Symfony\Component\Security\Http\EventListener\CheckCredentialsListener;
-use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 class CheckCredentialsListenerTest extends TestCase
 {
-    private $hasherFactory;
+    private $encoderFactory;
     private $listener;
     private $user;
 
     protected function setUp(): void
     {
-        $this->hasherFactory = $this->createMock(PasswordHasherFactoryInterface::class);
-        $this->listener = new CheckCredentialsListener($this->hasherFactory);
-        $this->user = new InMemoryUser('wouter', 'password-hash');
+        $this->encoderFactory = $this->createMock(EncoderFactoryInterface::class);
+        $this->listener = new CheckCredentialsListener($this->encoderFactory);
+        $this->user = new User('wouter', 'encoded-password');
     }
 
     /**
@@ -44,10 +44,10 @@ class CheckCredentialsListenerTest extends TestCase
      */
     public function testPasswordAuthenticated($password, $passwordValid, $result)
     {
-        $hasher = $this->createMock(PasswordHasherInterface::class);
-        $hasher->expects($this->any())->method('verify')->with('password-hash', $password)->willReturn($passwordValid);
+        $encoder = $this->createMock(PasswordEncoderInterface::class);
+        $encoder->expects($this->any())->method('isPasswordValid')->with('encoded-password', $password)->willReturn($passwordValid);
 
-        $this->hasherFactory->expects($this->any())->method('getPasswordHasher')->with($this->identicalTo($this->user))->willReturn($hasher);
+        $this->encoderFactory->expects($this->any())->method('getEncoder')->with($this->identicalTo($this->user))->willReturn($encoder);
 
         if (false === $result) {
             $this->expectException(BadCredentialsException::class);
@@ -73,7 +73,7 @@ class CheckCredentialsListenerTest extends TestCase
         $this->expectException(BadCredentialsException::class);
         $this->expectExceptionMessage('The presented password cannot be empty.');
 
-        $this->hasherFactory->expects($this->never())->method('getPasswordHasher');
+        $this->encoderFactory->expects($this->never())->method('getEncoder');
 
         $event = $this->createEvent(new Passport(new UserBadge('wouter', function () { return $this->user; }), new PasswordCredentials('')));
         $this->listener->checkPassport($event);
@@ -84,7 +84,7 @@ class CheckCredentialsListenerTest extends TestCase
      */
     public function testCustomAuthenticated($result)
     {
-        $this->hasherFactory->expects($this->never())->method('getPasswordHasher');
+        $this->encoderFactory->expects($this->never())->method('getEncoder');
 
         if (false === $result) {
             $this->expectException(BadCredentialsException::class);
@@ -108,7 +108,7 @@ class CheckCredentialsListenerTest extends TestCase
 
     public function testNoCredentialsBadgeProvided()
     {
-        $this->hasherFactory->expects($this->never())->method('getPasswordHasher');
+        $this->encoderFactory->expects($this->never())->method('getEncoder');
 
         $event = $this->createEvent(new SelfValidatingPassport(new UserBadge('wouter', function () { return $this->user; })));
         $this->listener->checkPassport($event);
@@ -116,10 +116,10 @@ class CheckCredentialsListenerTest extends TestCase
 
     public function testAddsPasswordUpgradeBadge()
     {
-        $hasher = $this->createMock(PasswordHasherInterface::class);
-        $hasher->expects($this->any())->method('verify')->with('password-hash', 'ThePa$$word')->willReturn(true);
+        $encoder = $this->createMock(PasswordEncoderInterface::class);
+        $encoder->expects($this->any())->method('isPasswordValid')->with('encoded-password', 'ThePa$$word')->willReturn(true);
 
-        $this->hasherFactory->expects($this->any())->method('getPasswordHasher')->with($this->identicalTo($this->user))->willReturn($hasher);
+        $this->encoderFactory->expects($this->any())->method('getEncoder')->with($this->identicalTo($this->user))->willReturn($encoder);
 
         $passport = new Passport(new UserBadge('wouter', function () { return $this->user; }), new PasswordCredentials('ThePa$$word'));
         $this->listener->checkPassport($this->createEvent($passport));
@@ -130,10 +130,10 @@ class CheckCredentialsListenerTest extends TestCase
 
     public function testAddsNoPasswordUpgradeBadgeIfItAlreadyExists()
     {
-        $hasher = $this->createMock(PasswordHasherInterface::class);
-        $hasher->expects($this->any())->method('verify')->with('password-hash', 'ThePa$$word')->willReturn(true);
+        $encoder = $this->createMock(PasswordEncoderInterface::class);
+        $encoder->expects($this->any())->method('isPasswordValid')->with('encoded-password', 'ThePa$$word')->willReturn(true);
 
-        $this->hasherFactory->expects($this->any())->method('getPasswordHasher')->with($this->identicalTo($this->user))->willReturn($hasher);
+        $this->encoderFactory->expects($this->any())->method('getEncoder')->with($this->identicalTo($this->user))->willReturn($encoder);
 
         $passport = $this->getMockBuilder(Passport::class)
             ->setMethods(['addBadge'])
@@ -147,10 +147,10 @@ class CheckCredentialsListenerTest extends TestCase
 
     public function testAddsNoPasswordUpgradeBadgeIfPasswordIsInvalid()
     {
-        $hasher = $this->createMock(PasswordHasherInterface::class);
-        $hasher->expects($this->any())->method('verify')->with('password-hash', 'ThePa$$word')->willReturn(false);
+        $encoder = $this->createMock(PasswordEncoderInterface::class);
+        $encoder->expects($this->any())->method('isPasswordValid')->with('encoded-password', 'ThePa$$word')->willReturn(false);
 
-        $this->hasherFactory->expects($this->any())->method('getPasswordHasher')->with($this->identicalTo($this->user))->willReturn($hasher);
+        $this->encoderFactory->expects($this->any())->method('getEncoder')->with($this->identicalTo($this->user))->willReturn($encoder);
 
         $passport = $this->getMockBuilder(Passport::class)
             ->setMethods(['addBadge'])

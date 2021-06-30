@@ -12,7 +12,6 @@
 namespace Symfony\Bundle\SecurityBundle\LoginLink;
 
 use Psr\Container\ContainerInterface;
-use Symfony\Bundle\SecurityBundle\Security\FirewallAwareTrait;
 use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -27,24 +26,43 @@ use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
  */
 class FirewallAwareLoginLinkHandler implements LoginLinkHandlerInterface
 {
-    use FirewallAwareTrait;
-
-    private const FIREWALL_OPTION = 'login_link';
+    private $firewallMap;
+    private $loginLinkHandlerLocator;
+    private $requestStack;
 
     public function __construct(FirewallMap $firewallMap, ContainerInterface $loginLinkHandlerLocator, RequestStack $requestStack)
     {
         $this->firewallMap = $firewallMap;
-        $this->locator = $loginLinkHandlerLocator;
+        $this->loginLinkHandlerLocator = $loginLinkHandlerLocator;
         $this->requestStack = $requestStack;
     }
 
-    public function createLoginLink(UserInterface $user, Request $request = null): LoginLinkDetails
+    public function createLoginLink(UserInterface $user): LoginLinkDetails
     {
-        return $this->getForFirewall()->createLoginLink($user, $request);
+        return $this->getLoginLinkHandler()->createLoginLink($user);
     }
 
     public function consumeLoginLink(Request $request): UserInterface
     {
-        return $this->getForFirewall()->consumeLoginLink($request);
+        return $this->getLoginLinkHandler()->consumeLoginLink($request);
+    }
+
+    private function getLoginLinkHandler(): LoginLinkHandlerInterface
+    {
+        if (null === $request = $this->requestStack->getCurrentRequest()) {
+            throw new \LogicException('Cannot determine the correct LoginLinkHandler to use: there is no active Request and so, the firewall cannot be determined. Try using the specific login link handler service.');
+        }
+
+        $firewall = $this->firewallMap->getFirewallConfig($request);
+        if (!$firewall) {
+            throw new \LogicException('No login link handler found as the current route is not covered by a firewall.');
+        }
+
+        $firewallName = $firewall->getName();
+        if (!$this->loginLinkHandlerLocator->has($firewallName)) {
+            throw new \LogicException(sprintf('No login link handler found. Did you add a login_link key under your "%s" firewall?', $firewallName));
+        }
+
+        return $this->loginLinkHandlerLocator->get($firewallName);
     }
 }

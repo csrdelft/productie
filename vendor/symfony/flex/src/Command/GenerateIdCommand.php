@@ -14,26 +14,29 @@ namespace Symfony\Flex\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 class GenerateIdCommand extends Command
 {
-    public function __construct()
+    private $flex;
+
+    public function __construct(/* cannot be type-hinted */ $flex)
     {
-        // No-op to support downgrading to v1.12.x
+        $this->flex = $flex;
+
         parent::__construct();
     }
 
     protected function configure()
     {
-        $this->setName('symfony:generate-id');
+        $this->setName('symfony:generate-id')
+            ->setDescription('Generates a unique ID for this project.')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $ui = new SymfonyStyle($input, $output);
-        $ui->error('This command is a noop and should not be used anymore.');
+        $this->flex->generateFlexId();
 
-        return 1;
+        return 0;
     }
 }

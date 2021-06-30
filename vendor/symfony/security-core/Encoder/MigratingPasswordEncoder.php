@@ -11,10 +11,6 @@
 
 namespace Symfony\Component\Security\Core\Encoder;
 
-use Symfony\Component\PasswordHasher\Hasher\MigratingPasswordHasher;
-
-trigger_deprecation('symfony/security-core', '5.3', 'The "%s" class is deprecated, use "%s" instead.', MigratingPasswordEncoder::class, MigratingPasswordHasher::class);
-
 /**
  * Hashes passwords using the best available encoder.
  * Validates them using a chain of encoders.
@@ -23,8 +19,6 @@ trigger_deprecation('symfony/security-core', '5.3', 'The "%s" class is deprecate
  * could be used to authenticate successfully without knowing the cleartext password.
  *
  * @author Nicolas Grekas <p@tchwork.com>
- *
- * @deprecated since Symfony 5.3, use {@link MigratingPasswordHasher} instead
  */
 final class MigratingPasswordEncoder extends BasePasswordEncoder implements SelfSaltingEncoderInterface
 {

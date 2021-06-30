@@ -18,19 +18,14 @@ use Symfony\Component\Security\Core\Exception\AccountStatusException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\AuthenticationServiceException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
-use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
-use Symfony\Component\Security\Core\Exception\UserNotFoundException;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-
-trigger_deprecation('symfony/security-core', '5.3', 'The "%s" class is deprecated, use the new authenticator system instead.', UserAuthenticationProvider::class);
 
 /**
  * UserProviderInterface retrieves users for UsernamePasswordToken tokens.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @deprecated since Symfony 5.3, use the new authenticator system instead
  */
 abstract class UserAuthenticationProvider implements AuthenticationProviderInterface
 {
@@ -61,18 +56,18 @@ abstract class UserAuthenticationProvider implements AuthenticationProviderInter
             throw new AuthenticationException('The token is not supported by this authentication provider.');
         }
 
-        $username = method_exists($token, 'getUserIdentifier') ? $token->getUserIdentifier() : $token->getUsername();
+        $username = $token->getUsername();
         if ('' === $username || null === $username) {
             $username = AuthenticationProviderInterface::USERNAME_NONE_PROVIDED;
         }
 
         try {
             $user = $this->retrieveUser($username, $token);
-        } catch (UserNotFoundException $e) {
+        } catch (UsernameNotFoundException $e) {
             if ($this->hideUserNotFoundExceptions) {
                 throw new BadCredentialsException('Bad credentials.', 0, $e);
             }
-            $e->setUserIdentifier($username);
+            $e->setUsername($username);
 
             throw $e;
         }
@@ -85,8 +80,8 @@ abstract class UserAuthenticationProvider implements AuthenticationProviderInter
             $this->userChecker->checkPreAuth($user);
             $this->checkAuthentication($user, $token);
             $this->userChecker->checkPostAuth($user);
-        } catch (AccountStatusException | BadCredentialsException $e) {
-            if ($this->hideUserNotFoundExceptions && !$e instanceof CustomUserMessageAccountStatusException) {
+        } catch (AccountStatusException $e) {
+            if ($this->hideUserNotFoundExceptions) {
                 throw new BadCredentialsException('Bad credentials.', 0, $e);
             }
 

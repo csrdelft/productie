@@ -11,14 +11,10 @@
 
 namespace Symfony\Bundle\TwigBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\Asset\Packages;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\ExpressionLanguage\Expression;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Workflow\Workflow;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
@@ -27,19 +23,19 @@ class ExtensionPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container::willBeAvailable('symfony/asset', Packages::class, ['symfony/twig-bundle'])) {
+        if (!class_exists(\Symfony\Component\Asset\Packages::class)) {
             $container->removeDefinition('twig.extension.assets');
         }
 
-        if (!$container::willBeAvailable('symfony/expression-language', Expression::class, ['symfony/twig-bundle'])) {
+        if (!class_exists(\Symfony\Component\ExpressionLanguage\Expression::class)) {
             $container->removeDefinition('twig.extension.expression');
         }
 
-        if (!$container::willBeAvailable('symfony/routing', UrlGeneratorInterface::class, ['symfony/twig-bundle'])) {
+        if (!interface_exists(\Symfony\Component\Routing\Generator\UrlGeneratorInterface::class)) {
             $container->removeDefinition('twig.extension.routing');
         }
 
-        if (!$container::willBeAvailable('symfony/yaml', Yaml::class, ['symfony/twig-bundle'])) {
+        if (!class_exists(\Symfony\Component\Yaml\Yaml::class)) {
             $container->removeDefinition('twig.extension.yaml');
         }
 
@@ -115,15 +111,10 @@ class ExtensionPass implements CompilerPassInterface
             $container->getDefinition('twig.extension.expression')->addTag('twig.extension');
         }
 
-        if (!$container::willBeAvailable('symfony/workflow', Workflow::class, ['symfony/twig-bundle']) || !$container->has('workflow.registry')) {
+        if (!class_exists(Workflow::class) || !$container->has('workflow.registry')) {
             $container->removeDefinition('workflow.twig_extension');
         } else {
             $container->getDefinition('workflow.twig_extension')->addTag('twig.extension');
-        }
-
-        if ($container->has('serializer')) {
-            $container->getDefinition('twig.runtime.serializer')->addTag('twig.runtime');
-            $container->getDefinition('twig.extension.serializer')->addTag('twig.extension');
         }
     }
 }

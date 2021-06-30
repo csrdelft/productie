@@ -17,10 +17,8 @@ namespace Symfony\Component\Security\Core\User;
  * This should not be used for anything else.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @deprecated since Symfony 5.3, use {@link InMemoryUser} instead
  */
-class User implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface
+final class User implements UserInterface, EquatableInterface
 {
     private $username;
     private $password;
@@ -33,10 +31,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
     public function __construct(?string $username, ?string $password, array $roles = [], bool $enabled = true, bool $userNonExpired = true, bool $credentialsNonExpired = true, bool $userNonLocked = true, array $extraFields = [])
     {
-        if (InMemoryUser::class !== static::class) {
-            trigger_deprecation('symfony/security-core', '5.3', 'The "%s" class is deprecated, use "%s" instead.', self::class, InMemoryUser::class);
-        }
-
         if ('' === $username || null === $username) {
             throw new \InvalidArgumentException('The username cannot be empty.');
         }
@@ -53,7 +47,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
     public function __toString(): string
     {
-        return $this->getUserIdentifier();
+        return $this->getUsername();
     }
 
     /**
@@ -84,16 +78,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
      * {@inheritdoc}
      */
     public function getUsername(): string
-    {
-        trigger_deprecation('symfony/security-core', '5.3', 'Method "%s()" is deprecated, use getUserIdentifier() instead.', __METHOD__);
-
-        return $this->username;
-    }
-
-    /**
-     * Returns the identifier for this user (e.g. its username or e-mailaddress).
-     */
-    public function getUserIdentifier(): string
     {
         return $this->username;
     }
@@ -194,22 +178,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
             return false;
         }
 
-        if ($this->getUserIdentifier() !== $user->getUserIdentifier()) {
+        if ($this->getUsername() !== $user->getUsername()) {
             return false;
         }
 
-        if (self::class === static::class) {
-            if ($this->isAccountNonExpired() !== $user->isAccountNonExpired()) {
-                return false;
-            }
+        if ($this->isAccountNonExpired() !== $user->isAccountNonExpired()) {
+            return false;
+        }
 
-            if ($this->isAccountNonLocked() !== $user->isAccountNonLocked()) {
-                return false;
-            }
+        if ($this->isAccountNonLocked() !== $user->isAccountNonLocked()) {
+            return false;
+        }
 
-            if ($this->isCredentialsNonExpired() !== $user->isCredentialsNonExpired()) {
-                return false;
-            }
+        if ($this->isCredentialsNonExpired() !== $user->isCredentialsNonExpired()) {
+            return false;
         }
 
         if ($this->isEnabled() !== $user->isEnabled()) {

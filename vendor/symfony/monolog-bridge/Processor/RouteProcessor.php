@@ -51,7 +51,7 @@ class RouteProcessor implements EventSubscriberInterface, ResetInterface
 
     public function addRouteData(RequestEvent $event)
     {
-        if ($event->isMainRequest()) {
+        if ($event->isMasterRequest()) {
             $this->reset();
         }
 

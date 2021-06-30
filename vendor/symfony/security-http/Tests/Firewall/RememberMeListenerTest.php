@@ -29,9 +29,6 @@ use Symfony\Component\Security\Http\SecurityEvents;
 use Symfony\Component\Security\Http\Session\SessionAuthenticationStrategyInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-/**
- * @group legacy
- */
 class RememberMeListenerTest extends TestCase
 {
     public function testOnCoreSecurityDoesNotTryToPopulateNonEmptyTokenStorage()
@@ -355,7 +352,7 @@ class RememberMeListenerTest extends TestCase
         $request = $request ?? new Request();
 
         $event = $this->getMockBuilder(RequestEvent::class)
-            ->setConstructorArgs([$this->createMock(HttpKernelInterface::class), $request, HttpKernelInterface::MAIN_REQUEST])
+            ->setConstructorArgs([$this->createMock(HttpKernelInterface::class), $request, HttpKernelInterface::MASTER_REQUEST])
             ->getMock();
         $event
             ->expects($this->any())

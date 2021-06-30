@@ -14,7 +14,6 @@ namespace Symfony\Component\Serializer\Normalizer;
 use Symfony\Component\Serializer\Exception\BadMethodCallException;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerAwareInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -25,19 +24,24 @@ use Symfony\Component\Serializer\SerializerInterface;
  *
  * @final
  */
-class ArrayDenormalizer implements ContextAwareDenormalizerInterface, DenormalizerAwareInterface, SerializerAwareInterface, CacheableSupportsMethodInterface
+class ArrayDenormalizer implements ContextAwareDenormalizerInterface, SerializerAwareInterface, CacheableSupportsMethodInterface
 {
-    use DenormalizerAwareTrait;
+    /**
+     * @var SerializerInterface|DenormalizerInterface
+     */
+    private $serializer;
 
     /**
      * {@inheritdoc}
      *
      * @throws NotNormalizableValueException
+     *
+     * @return array
      */
-    public function denormalize($data, string $type, string $format = null, array $context = []): array
+    public function denormalize($data, string $type, string $format = null, array $context = [])
     {
-        if (null === $this->denormalizer) {
-            throw new BadMethodCallException('Please set a denormalizer before calling denormalize()!');
+        if (null === $this->serializer) {
+            throw new BadMethodCallException('Please set a serializer before calling denormalize()!');
         }
         if (!\is_array($data)) {
             throw new InvalidArgumentException('Data expected to be an array, '.get_debug_type($data).' given.');
@@ -46,6 +50,7 @@ class ArrayDenormalizer implements ContextAwareDenormalizerInterface, Denormaliz
             throw new InvalidArgumentException('Unsupported class: '.$type);
         }
 
+        $serializer = $this->serializer;
         $type = substr($type, 0, -2);
 
         $builtinType = isset($context['key_type']) ? $context['key_type']->getBuiltinType() : null;
@@ -54,7 +59,7 @@ class ArrayDenormalizer implements ContextAwareDenormalizerInterface, Denormaliz
                 throw new NotNormalizableValueException(sprintf('The type of the key "%s" must be "%s" ("%s" given).', $key, $builtinType, get_debug_type($key)));
             }
 
-            $data[$key] = $this->denormalizer->denormalize($value, $type, $format, $context);
+            $data[$key] = $serializer->denormalize($value, $type, $format, $context);
         }
 
         return $data;
@@ -65,18 +70,16 @@ class ArrayDenormalizer implements ContextAwareDenormalizerInterface, Denormaliz
      */
     public function supportsDenormalization($data, string $type, string $format = null, array $context = []): bool
     {
-        if (null === $this->denormalizer) {
-            throw new BadMethodCallException(sprintf('The nested denormalizer needs to be set to allow "%s()" to be used.', __METHOD__));
+        if (null === $this->serializer) {
+            throw new BadMethodCallException(sprintf('The serializer needs to be set to allow "%s()" to be used.', __METHOD__));
         }
 
         return '[]' === substr($type, -2)
-            && $this->denormalizer->supportsDenormalization($data, substr($type, 0, -2), $format, $context);
+            && $this->serializer->supportsDenormalization($data, substr($type, 0, -2), $format, $context);
     }
 
     /**
      * {@inheritdoc}
-     *
-     * @deprecated call setDenormalizer() instead
      */
     public function setSerializer(SerializerInterface $serializer)
     {
@@ -84,11 +87,7 @@ class ArrayDenormalizer implements ContextAwareDenormalizerInterface, Denormaliz
             throw new InvalidArgumentException('Expected a serializer that also implements DenormalizerInterface.');
         }
 
-        if (Serializer::class !== debug_backtrace()[1]['class'] ?? null) {
-            trigger_deprecation('symfony/serializer', '5.3', 'Calling "%s" is deprecated. Please call setDenormalizer() instead.');
-        }
-
-        $this->setDenormalizer($serializer);
+        $this->serializer = $serializer;
     }
 
     /**
@@ -96,6 +95,6 @@ class ArrayDenormalizer implements ContextAwareDenormalizerInterface, Denormaliz
      */
     public function hasCacheableSupportsMethod(): bool
     {
-        return $this->denormalizer instanceof CacheableSupportsMethodInterface && $this->denormalizer->hasCacheableSupportsMethod();
+        return $this->serializer instanceof CacheableSupportsMethodInterface && $this->serializer->hasCacheableSupportsMethod();
     }
 }

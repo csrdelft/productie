@@ -43,7 +43,7 @@ class FirewallTest extends TestCase
             ->willReturn([[], $listener, null])
         ;
 
-        $event = new RequestEvent($this->createMock(HttpKernelInterface::class), $request, HttpKernelInterface::MAIN_REQUEST);
+        $event = new RequestEvent($this->createMock(HttpKernelInterface::class), $request, HttpKernelInterface::MASTER_REQUEST);
 
         $firewall = new Firewall($map, $dispatcher);
         $firewall->onKernelRequest($event);
@@ -73,7 +73,7 @@ class FirewallTest extends TestCase
             ->setConstructorArgs([
                 $this->createMock(HttpKernelInterface::class),
                 $this->createMock(Request::class),
-                HttpKernelInterface::MAIN_REQUEST,
+                HttpKernelInterface::MASTER_REQUEST,
             ])
             ->getMock()
         ;

@@ -16,25 +16,19 @@ namespace Symfony\Component\Uid;
  *
  * @see https://github.com/ulid/spec
  *
+ * @experimental in 5.2
+ *
  * @author Nicolas Grekas <p@tchwork.com>
  */
 class Ulid extends AbstractUid
 {
-    private const NIL = '00000000000000000000000000';
-
     private static $time = '';
     private static $rand = [];
 
     public function __construct(string $ulid = null)
     {
         if (null === $ulid) {
-            $this->uid = static::generate();
-
-            return;
-        }
-
-        if (self::NIL === $ulid) {
-            $this->uid = $ulid;
+            $this->uid = self::generate();
 
             return;
         }
@@ -43,7 +37,7 @@ class Ulid extends AbstractUid
             throw new \InvalidArgumentException(sprintf('Invalid ULID: "%s".', $ulid));
         }
 
-        $this->uid = strtoupper($ulid);
+        $this->uid = strtr($ulid, 'abcdefghjkmnpqrstvwxyz', 'ABCDEFGHJKMNPQRSTVWXYZ');
     }
 
     public static function isValid(string $ulid): bool
@@ -67,7 +61,7 @@ class Ulid extends AbstractUid
         if (36 === \strlen($ulid) && Uuid::isValid($ulid)) {
             $ulid = (new Uuid($ulid))->toBinary();
         } elseif (22 === \strlen($ulid) && 22 === strspn($ulid, BinaryUtil::BASE58[''])) {
-            $ulid = str_pad(BinaryUtil::fromBase($ulid, BinaryUtil::BASE58), 16, "\0", \STR_PAD_LEFT);
+            $ulid = BinaryUtil::fromBase($ulid, BinaryUtil::BASE58);
         }
 
         if (16 !== \strlen($ulid)) {
@@ -85,10 +79,7 @@ class Ulid extends AbstractUid
             base_convert(substr($ulid, 27, 5), 16, 32)
         );
 
-        $u = new static(self::NIL);
-        $u->uid = strtr($ulid, 'abcdefghijklmnopqrstuv', 'ABCDEFGHJKMNPQRSTVWXYZ');
-
-        return $u;
+        return new static(strtr($ulid, 'abcdefghijklmnopqrstuv', 'ABCDEFGHJKMNPQRSTVWXYZ'));
     }
 
     public function toBinary(): string
@@ -113,47 +104,30 @@ class Ulid extends AbstractUid
         return $this->uid;
     }
 
-    public function getDateTime(): \DateTimeImmutable
+    /**
+     * @return float Seconds since the Unix epoch 1970-01-01 00:00:00
+     */
+    public function getTime(): float
     {
         $time = strtr(substr($this->uid, 0, 10), 'ABCDEFGHJKMNPQRSTVWXYZ', 'abcdefghijklmnopqrstuv');
 
         if (\PHP_INT_SIZE >= 8) {
-            $time = (string) hexdec(base_convert($time, 32, 16));
-        } else {
-            $time = sprintf('%02s%05s%05s',
-                base_convert(substr($time, 0, 2), 32, 16),
-                base_convert(substr($time, 2, 4), 32, 16),
-                base_convert(substr($time, 6, 4), 32, 16)
-            );
-            $time = BinaryUtil::toBase(hex2bin($time), BinaryUtil::BASE10);
+            return hexdec(base_convert($time, 32, 16)) / 1000;
         }
 
-        if (4 > \strlen($time)) {
-            $time = str_pad($time, 4, '0', \STR_PAD_LEFT);
-        }
+        $time = sprintf('%02s%05s%05s',
+            base_convert(substr($time, 0, 2), 32, 16),
+            base_convert(substr($time, 2, 4), 32, 16),
+            base_convert(substr($time, 6, 4), 32, 16)
+        );
 
-        return \DateTimeImmutable::createFromFormat('U.u', substr_replace($time, '.', -3, 0));
+        return BinaryUtil::toBase(hex2bin($time), BinaryUtil::BASE10) / 1000;
     }
 
-    public static function generate(\DateTimeInterface $time = null): string
+    private static function generate(): string
     {
-        if (null === $time) {
-            return self::doGenerate();
-        }
-
-        if (0 > $time = substr($time->format('Uu'), 0, -3)) {
-            throw new \InvalidArgumentException('The timestamp must be positive.');
-        }
-
-        return self::doGenerate($time);
-    }
-
-    private static function doGenerate(string $mtime = null): string
-    {
-        if (null === $time = $mtime) {
-            $time = microtime(false);
-            $time = substr($time, 11).substr($time, 2, 3);
-        }
+        $time = microtime(false);
+        $time = substr($time, 11).substr($time, 2, 3);
 
         if ($time !== self::$time) {
             $r = unpack('nr1/nr2/nr3/nr4/nr', random_bytes(10));
@@ -165,13 +139,9 @@ class Ulid extends AbstractUid
             self::$rand = array_values($r);
             self::$time = $time;
         } elseif ([0xFFFFF, 0xFFFFF, 0xFFFFF, 0xFFFFF] === self::$rand) {
-            if (null === $mtime) {
-                usleep(100);
-            } else {
-                self::$rand = [0, 0, 0, 0];
-            }
+            usleep(100);
 
-            return self::doGenerate($mtime);
+            return self::generate();
         } else {
             for ($i = 3; $i >= 0 && 0xFFFFF === self::$rand[$i]; --$i) {
                 self::$rand[$i] = 0;

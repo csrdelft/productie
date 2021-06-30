@@ -33,7 +33,6 @@ use Twig\Loader\FilesystemLoader;
 class DebugCommand extends Command
 {
     protected static $defaultName = 'debug:twig';
-    protected static $defaultDescription = 'Show a list of twig functions, filters, globals and tests';
 
     private $twig;
     private $projectDir;
@@ -61,7 +60,7 @@ class DebugCommand extends Command
                 new InputOption('filter', null, InputOption::VALUE_REQUIRED, 'Show details for all entries matching this filter'),
                 new InputOption('format', null, InputOption::VALUE_REQUIRED, 'The output format (text or json)', 'text'),
             ])
-            ->setDescription(self::$defaultDescription)
+            ->setDescription('Show a list of twig functions, filters, globals and tests')
             ->setHelp(<<<'EOF'
 The <info>%command.name%</info> command outputs a list of twig functions,
 filters, globals and tests.

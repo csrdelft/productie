@@ -73,12 +73,11 @@ class ScopingHttpClient implements HttpClientInterface, ResetInterface, LoggerAw
                 throw $e;
             }
 
-            $defaultOptions = $this->defaultOptionsByRegexp[$this->defaultRegexp];
-            $options = self::mergeDefaultOptions($options, $defaultOptions, true);
+            $options = self::mergeDefaultOptions($options, $this->defaultOptionsByRegexp[$this->defaultRegexp], true);
             if (\is_string($options['base_uri'] ?? null)) {
                 $options['base_uri'] = self::parseUrl($options['base_uri']);
             }
-            $url = implode('', self::resolveUrl($url, $options['base_uri'] ?? null, $defaultOptions['query'] ?? []));
+            $url = implode('', self::resolveUrl($url, $options['base_uri'] ?? null));
         }
 
         foreach ($this->defaultOptionsByRegexp as $regexp => $defaultOptions) {
@@ -116,16 +115,5 @@ class ScopingHttpClient implements HttpClientInterface, ResetInterface, LoggerAw
         if ($this->client instanceof LoggerAwareInterface) {
             $this->client->setLogger($logger);
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function withOptions(array $options): self
-    {
-        $clone = clone $this;
-        $clone->client = $this->client->withOptions($options);
-
-        return $clone;
     }
 }

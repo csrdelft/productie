@@ -1,11 +1,6 @@
 CHANGELOG
 =========
 
-5.3.0
------
-
- * Add support for generating `ConfigBuilder` for extensions
-
 5.1.0
 -----
 

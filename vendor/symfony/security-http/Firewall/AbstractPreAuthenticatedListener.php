@@ -25,8 +25,6 @@ use Symfony\Component\Security\Http\SecurityEvents;
 use Symfony\Component\Security\Http\Session\SessionAuthenticationStrategyInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-trigger_deprecation('symfony/security-http', '5.3', 'The "%s" class is deprecated, use the new authenticator system instead.', AbstractPreAuthenticatedListener::class);
-
 /**
  * AbstractPreAuthenticatedListener is the base class for all listener that
  * authenticates users based on a pre-authenticated request (like a certificate
@@ -35,8 +33,6 @@ trigger_deprecation('symfony/security-http', '5.3', 'The "%s" class is deprecate
  * @author Fabien Potencier <fabien@symfony.com>
  *
  * @internal
- *
- * @deprecated since Symfony 5.3, use the new authenticator system instead
  */
 abstract class AbstractPreAuthenticatedListener extends AbstractListener
 {
@@ -87,8 +83,7 @@ abstract class AbstractPreAuthenticatedListener extends AbstractListener
         }
 
         if (null !== $token = $this->tokenStorage->getToken()) {
-            // @deprecated since 5.3, change to $token->getUserIdentifier() in 6.0
-            if ($token instanceof PreAuthenticatedToken && $this->providerKey == $token->getFirewallName() && $token->isAuthenticated() && (method_exists($token, 'getUserIdentifier') ? $token->getUserIdentifier() : $token->getUsername()) === $user) {
+            if ($token instanceof PreAuthenticatedToken && $this->providerKey == $token->getFirewallName() && $token->isAuthenticated() && $token->getUsername() === $user) {
                 return;
             }
         }

@@ -13,7 +13,6 @@ namespace Symfony\Bridge\Twig\Extension;
 
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
-use Symfony\Component\HttpKernel\Fragment\FragmentUriGeneratorInterface;
 
 /**
  * Provides integration with the HttpKernel component.
@@ -23,12 +22,10 @@ use Symfony\Component\HttpKernel\Fragment\FragmentUriGeneratorInterface;
 final class HttpKernelRuntime
 {
     private $handler;
-    private $fragmentUriGenerator;
 
-    public function __construct(FragmentHandler $handler, FragmentUriGeneratorInterface $fragmentUriGenerator = null)
+    public function __construct(FragmentHandler $handler)
     {
         $this->handler = $handler;
-        $this->fragmentUriGenerator = $fragmentUriGenerator;
     }
 
     /**
@@ -56,14 +53,5 @@ final class HttpKernelRuntime
     public function renderFragmentStrategy(string $strategy, $uri, array $options = []): string
     {
         return $this->handler->render($uri, $strategy, $options);
-    }
-
-    public function generateFragmentUri(ControllerReference $controller, bool $absolute = false, bool $strict = true, bool $sign = true): string
-    {
-        if (null === $this->fragmentUriGenerator) {
-            throw new \LogicException(sprintf('An instance of "%s" must be provided to use "%s()".', FragmentUriGeneratorInterface::class, __METHOD__));
-        }
-
-        return $this->fragmentUriGenerator->generate($controller, null, $absolute, $strict, $sign);
     }
 }

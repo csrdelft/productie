@@ -27,11 +27,10 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authentication\Token\SwitchUserToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\Exception\UserNotFoundException;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Event\DeauthenticatedEvent;
-use Symfony\Component\Security\Http\Event\TokenDeauthenticatedEvent;
 use Symfony\Component\Security\Http\RememberMe\RememberMeServicesInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -87,15 +86,13 @@ class ContextListener extends AbstractListener
      */
     public function authenticate(RequestEvent $event)
     {
-        if (!$this->registered && null !== $this->dispatcher && $event->isMainRequest()) {
+        if (!$this->registered && null !== $this->dispatcher && $event->isMasterRequest()) {
             $this->dispatcher->addListener(KernelEvents::RESPONSE, [$this, 'onKernelResponse']);
             $this->registered = true;
         }
 
         $request = $event->getRequest();
         $session = $request->hasPreviousSession() && $request->hasSession() ? $request->getSession() : null;
-
-        $request->attributes->set('_security_firewall_run', $this->sessionKey);
 
         if (null !== $session) {
             $usageIndexValue = $session instanceof Session ? $usageIndexReference = &$session->getUsageIndex() : 0;
@@ -131,17 +128,10 @@ class ContextListener extends AbstractListener
         }
 
         if ($token instanceof TokenInterface) {
-            $originalToken = $token;
             $token = $this->refreshUser($token);
 
-            if (!$token) {
-                if ($this->dispatcher) {
-                    $this->dispatcher->dispatch(new TokenDeauthenticatedEvent($originalToken, $request));
-                }
-
-                if ($this->rememberMeServices) {
-                    $this->rememberMeServices->loginFail($request);
-                }
+            if (!$token && $this->rememberMeServices) {
+                $this->rememberMeServices->loginFail($request);
             }
         } elseif (null !== $token) {
             if (null !== $this->logger) {
@@ -163,19 +153,17 @@ class ContextListener extends AbstractListener
      */
     public function onKernelResponse(ResponseEvent $event)
     {
-        if (!$event->isMainRequest()) {
+        if (!$event->isMasterRequest()) {
             return;
         }
 
         $request = $event->getRequest();
 
-        if (!$request->hasSession() || $request->attributes->get('_security_firewall_run') !== $this->sessionKey) {
+        if (!$request->hasSession()) {
             return;
         }
 
-        if ($this->dispatcher) {
-            $this->dispatcher->removeListener(KernelEvents::RESPONSE, [$this, 'onKernelResponse']);
-        }
+        $this->dispatcher->removeListener(KernelEvents::RESPONSE, [$this, 'onKernelResponse']);
         $this->registered = false;
         $session = $request->getSession();
         $sessionId = $session->getId();
@@ -234,8 +222,7 @@ class ContextListener extends AbstractListener
                     $userDeauthenticated = true;
 
                     if (null !== $this->logger) {
-                        // @deprecated since 5.3, change to $refreshedUser->getUserIdentifier() in 6.0
-                        $this->logger->debug('Cannot refresh token because user has changed.', ['username' => method_exists($refreshedUser, 'getUserIdentifier') ? $refreshedUser->getUserIdentifier() : $refreshedUser->getUsername(), 'provider' => \get_class($provider)]);
+                        $this->logger->debug('Cannot refresh token because user has changed.', ['username' => $refreshedUser->getUsername(), 'provider' => \get_class($provider)]);
                     }
 
                     continue;
@@ -244,12 +231,10 @@ class ContextListener extends AbstractListener
                 $token->setUser($refreshedUser);
 
                 if (null !== $this->logger) {
-                    // @deprecated since 5.3, change to $refreshedUser->getUserIdentifier() in 6.0
-                    $context = ['provider' => \get_class($provider), 'username' => method_exists($refreshedUser, 'getUserIdentifier') ? $refreshedUser->getUserIdentifier() : $refreshedUser->getUsername()];
+                    $context = ['provider' => \get_class($provider), 'username' => $refreshedUser->getUsername()];
 
                     if ($token instanceof SwitchUserToken) {
-                        // @deprecated since 5.3, change to $token->getUserIdentifier() in 6.0
-                        $context['impersonator_username'] = method_exists($token, 'getUserIdentifier') ? $token->getUserIdentifier() : $token->getOriginalToken()->getUsername();
+                        $context['impersonator_username'] = $token->getOriginalToken()->getUsername();
                     }
 
                     $this->logger->debug('User was reloaded from a user provider.', $context);
@@ -258,9 +243,9 @@ class ContextListener extends AbstractListener
                 return $token;
             } catch (UnsupportedUserException $e) {
                 // let's try the next user provider
-            } catch (UserNotFoundException $e) {
+            } catch (UsernameNotFoundException $e) {
                 if (null !== $this->logger) {
-                    $this->logger->warning('Username could not be found in the selected user provider.', ['username' => method_exists($e, 'getUserIdentifier') ? $e->getUserIdentifier() : $e->getUsername(), 'provider' => \get_class($provider)]);
+                    $this->logger->warning('Username could not be found in the selected user provider.', ['username' => $e->getUsername(), 'provider' => \get_class($provider)]);
                 }
 
                 $userNotFoundByProvider = true;
@@ -272,7 +257,7 @@ class ContextListener extends AbstractListener
                 $this->logger->debug('Token was deauthenticated after trying to refresh it.');
             }
 
-            if ($this->dispatcher) {
+            if (null !== $this->dispatcher) {
                 $this->dispatcher->dispatch(new DeauthenticatedEvent($token, $newToken), DeauthenticatedEvent::class);
             }
 

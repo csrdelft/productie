@@ -17,7 +17,6 @@ use Symfony\Component\Serializer\Exception\InvalidArgumentException;
  * Annotation class for @DiscriminatorMap().
  *
  * @Annotation
- * @NamedArgumentConstructor
  * @Target({"CLASS"})
  *
  * @author Samuel Roze <samuel.roze@gmail.com>
@@ -36,15 +35,13 @@ class DiscriminatorMap
     private $mapping;
 
     /**
-     * @param string $typeProperty
+     * @param string|array $typeProperty
      *
      * @throws InvalidArgumentException
      */
     public function __construct($typeProperty, array $mapping = null)
     {
         if (\is_array($typeProperty)) {
-            trigger_deprecation('symfony/serializer', '5.3', 'Passing an array as first argument to "%s" is deprecated. Use named arguments instead.', __METHOD__);
-
             $mapping = $typeProperty['mapping'] ?? null;
             $typeProperty = $typeProperty['typeProperty'] ?? null;
         } elseif (!\is_string($typeProperty)) {

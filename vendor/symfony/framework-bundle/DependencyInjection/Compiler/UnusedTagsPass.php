@@ -23,7 +23,6 @@ class UnusedTagsPass implements CompilerPassInterface
 {
     private $knownTags = [
         'annotations.cached_reader',
-        'assets.package',
         'auto_alias',
         'cache.pool',
         'cache.pool.clearer',
@@ -44,7 +43,6 @@ class UnusedTagsPass implements CompilerPassInterface
         'controller.argument_value_resolver',
         'controller.service_arguments',
         'data_collector',
-        'event_dispatcher.dispatcher',
         'form.type',
         'form.type_extension',
         'form.type_guesser',
@@ -76,7 +74,6 @@ class UnusedTagsPass implements CompilerPassInterface
         'routing.route_loader',
         'security.expression_language_provider',
         'security.remember_me_aware',
-        'security.remember_me_handler',
         'security.authenticator.login_linker',
         'security.voter',
         'serializer.encoder',
@@ -85,7 +82,6 @@ class UnusedTagsPass implements CompilerPassInterface
         'translation.dumper',
         'translation.extractor',
         'translation.loader',
-        'translation.provider_factory',
         'twig.extension',
         'twig.loader',
         'twig.runtime',

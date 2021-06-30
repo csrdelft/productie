@@ -44,9 +44,8 @@ class SecurityDataCollector extends DataCollector implements LateDataCollectorIn
     private $firewallMap;
     private $firewall;
     private $hasVarDumper;
-    private $authenticatorManagerEnabled;
 
-    public function __construct(TokenStorageInterface $tokenStorage = null, RoleHierarchyInterface $roleHierarchy = null, LogoutUrlGenerator $logoutUrlGenerator = null, AccessDecisionManagerInterface $accessDecisionManager = null, FirewallMapInterface $firewallMap = null, TraceableFirewallListener $firewall = null, bool $authenticatorManagerEnabled = false)
+    public function __construct(TokenStorageInterface $tokenStorage = null, RoleHierarchyInterface $roleHierarchy = null, LogoutUrlGenerator $logoutUrlGenerator = null, AccessDecisionManagerInterface $accessDecisionManager = null, FirewallMapInterface $firewallMap = null, TraceableFirewallListener $firewall = null)
     {
         $this->tokenStorage = $tokenStorage;
         $this->roleHierarchy = $roleHierarchy;
@@ -55,7 +54,6 @@ class SecurityDataCollector extends DataCollector implements LateDataCollectorIn
         $this->firewallMap = $firewallMap;
         $this->firewall = $firewall;
         $this->hasVarDumper = class_exists(ClassStub::class);
-        $this->authenticatorManagerEnabled = $authenticatorManagerEnabled;
     }
 
     /**
@@ -99,9 +97,7 @@ class SecurityDataCollector extends DataCollector implements LateDataCollectorIn
 
             $impersonatorUser = null;
             if ($token instanceof SwitchUserToken) {
-                $originalToken = $token->getOriginalToken();
-                // @deprecated since 5.3, change to $originalToken->getUserIdentifier() in 6.0
-                $impersonatorUser = method_exists($originalToken, 'getUserIdentifier') ? $originalToken->getUserIdentifier() : $originalToken->getUsername();
+                $impersonatorUser = $token->getOriginalToken()->getUsername();
             }
 
             if (null !== $this->roleHierarchy) {
@@ -130,8 +126,7 @@ class SecurityDataCollector extends DataCollector implements LateDataCollectorIn
                 'token' => $token,
                 'token_class' => $this->hasVarDumper ? new ClassStub(\get_class($token)) : \get_class($token),
                 'logout_url' => $logoutUrl,
-                // @deprecated since 5.3, change to $token->getUserIdentifier() in 6.0
-                'user' => method_exists($token, 'getUserIdentifier') ? $token->getUserIdentifier() : $token->getUsername(),
+                'user' => $token->getUsername(),
                 'roles' => $assignedRoles,
                 'inherited_roles' => array_unique($inheritedRoles),
                 'supports_role_hierarchy' => null !== $this->roleHierarchy,
@@ -209,8 +204,6 @@ class SecurityDataCollector extends DataCollector implements LateDataCollectorIn
         if ($this->firewall) {
             $this->data['listeners'] = $this->firewall->getWrappedListeners();
         }
-
-        $this->data['authenticator_manager_enabled'] = $this->authenticatorManagerEnabled;
     }
 
     /**
@@ -395,10 +388,5 @@ class SecurityDataCollector extends DataCollector implements LateDataCollectorIn
     public function getName()
     {
         return 'security';
-    }
-
-    public function isAuthenticatorManagerEnabled(): bool
-    {
-        return $this->data['authenticator_manager_enabled'];
     }
 }

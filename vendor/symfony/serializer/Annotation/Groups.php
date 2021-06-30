@@ -17,7 +17,6 @@ use Symfony\Component\Serializer\Exception\InvalidArgumentException;
  * Annotation class for @Groups().
  *
  * @Annotation
- * @NamedArgumentConstructor
  * @Target({"PROPERTY", "METHOD"})
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
@@ -31,19 +30,11 @@ class Groups
     private $groups;
 
     /**
-     * @param string|string[] $groups
-     *
      * @throws InvalidArgumentException
      */
-    public function __construct($groups)
+    public function __construct(array $groups)
     {
-        if (\is_string($groups)) {
-            $groups = (array) $groups;
-        } elseif (!\is_array($groups)) {
-            throw new \TypeError(sprintf('"%s": Parameter $groups is expected to be a string or an array of strings, got "%s".', __METHOD__, get_debug_type($groups)));
-        } elseif (isset($groups['value'])) {
-            trigger_deprecation('symfony/serializer', '5.3', 'Passing an array of properties as first argument to "%s" is deprecated. Use named arguments instead.', __METHOD__);
-
+        if (isset($groups['value'])) {
             $groups = (array) $groups['value'];
         }
         if (empty($groups)) {

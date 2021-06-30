@@ -18,8 +18,6 @@ use Symfony\Bundle\SecurityBundle\Security\FirewallContext;
 use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
 use Symfony\Bundle\SecurityBundle\Security\LazyFirewallContext;
 use Symfony\Component\Ldap\Security\LdapUserProvider;
-use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -41,9 +39,9 @@ use Symfony\Component\Security\Core\Role\RoleHierarchy;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\ChainUserProvider;
-use Symfony\Component\Security\Core\User\InMemoryUserChecker;
 use Symfony\Component\Security\Core\User\InMemoryUserProvider;
 use Symfony\Component\Security\Core\User\MissingUserProvider;
+use Symfony\Component\Security\Core\User\UserChecker;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPasswordValidator;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Controller\UserValueResolver;
@@ -68,7 +66,6 @@ return static function (ContainerConfigurator $container) {
                 service('security.access.decision_manager'),
                 param('security.access.always_authenticate_before_granting'),
             ])
-            ->tag('container.private', ['package' => 'symfony/security-bundle', 'version' => '5.3'])
         ->alias(AuthorizationCheckerInterface::class, 'security.authorization_checker')
 
         ->set('security.token_storage', UsageTrackingTokenStorage::class)
@@ -76,12 +73,11 @@ return static function (ContainerConfigurator $container) {
             ->args([
                 service('security.untracked_token_storage'),
                 service_locator([
-                    'request_stack' => service('request_stack'),
+                    'session' => service('session'),
                 ]),
             ])
             ->tag('kernel.reset', ['method' => 'disableUsageTracking'])
             ->tag('kernel.reset', ['method' => 'setToken'])
-            ->tag('container.private', ['package' => 'symfony/security-bundle', 'version' => '5.3'])
         ->alias(TokenStorageInterface::class, 'security.token_storage')
 
         ->set('security.untracked_token_storage', TokenStorage::class)
@@ -113,22 +109,15 @@ return static function (ContainerConfigurator $container) {
             ->args([
                 [],
             ])
-            ->deprecate('symfony/security-bundle', '5.3', 'The "%service_id%" service is deprecated, use "security.password_hasher_factory" instead.')
         ->alias('security.encoder_factory', 'security.encoder_factory.generic')
-            ->deprecate('symfony/security-bundle', '5.3', 'The "%alias_id%" service is deprecated, use "security.password_hasher_factory" instead.')
         ->alias(EncoderFactoryInterface::class, 'security.encoder_factory')
-            ->deprecate('symfony/security-bundle', '5.3', 'The "%alias_id%" service is deprecated, use "'.PasswordHasherFactoryInterface::class.'" instead.')
 
         ->set('security.user_password_encoder.generic', UserPasswordEncoder::class)
             ->args([service('security.encoder_factory')])
-            ->deprecate('symfony/security-bundle', '5.3', 'The "%service_id%" service is deprecated, use "security.user_password_hasher" instead.')
-        ->alias('security.password_encoder', 'security.user_password_encoder.generic')
-            ->public()
-            ->deprecate('symfony/security-bundle', '5.3', 'The "%alias_id%" service is deprecated, use "security.password_hasher"" instead.')
+        ->alias('security.password_encoder', 'security.user_password_encoder.generic')->public()
         ->alias(UserPasswordEncoderInterface::class, 'security.password_encoder')
-            ->deprecate('symfony/security-bundle', '5.3', 'The "%alias_id%" service is deprecated, use "'.UserPasswordHasherInterface::class.'" instead.')
 
-        ->set('security.user_checker', InMemoryUserChecker::class)
+        ->set('security.user_checker', UserChecker::class)
 
         ->set('security.expression_language', ExpressionLanguage::class)
             ->args([service('cache.security_expression_language')->nullOnInvalid()])
@@ -271,7 +260,7 @@ return static function (ContainerConfigurator $container) {
         ->set('security.validator.user_password', UserPasswordValidator::class)
             ->args([
                 service('security.token_storage'),
-                service('security.password_hasher_factory'),
+                service('security.encoder_factory'),
             ])
             ->tag('validator.constraint_validator', ['alias' => 'security.validator.user_password'])
 

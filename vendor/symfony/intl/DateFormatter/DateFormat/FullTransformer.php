@@ -20,8 +20,6 @@ use Symfony\Component\Intl\Globals\IntlGlobals;
  * @author Igor Wiedler <igor@wiedler.ch>
  *
  * @internal
- *
- * @deprecated since Symfony 5.3, use symfony/polyfill-intl-icu ^1.21 instead
  */
 class FullTransformer
 {

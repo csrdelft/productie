@@ -33,7 +33,6 @@ use Symfony\Component\Yaml\Yaml;
 class ConfigDebugCommand extends AbstractConfigCommand
 {
     protected static $defaultName = 'debug:config';
-    protected static $defaultDescription = 'Dump the current configuration for an extension';
 
     /**
      * {@inheritdoc}
@@ -45,7 +44,7 @@ class ConfigDebugCommand extends AbstractConfigCommand
                 new InputArgument('name', InputArgument::OPTIONAL, 'The bundle name or the extension alias'),
                 new InputArgument('path', InputArgument::OPTIONAL, 'The configuration option path'),
             ])
-            ->setDescription(self::$defaultDescription)
+            ->setDescription('Dump the current configuration for an extension')
             ->setHelp(<<<'EOF'
 The <info>%command.name%</info> command dumps the current configuration for an
 extension/bundle.

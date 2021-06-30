@@ -31,10 +31,9 @@ abstract class FileLoader extends Loader
 
     private $currentDir;
 
-    public function __construct(FileLocatorInterface $locator, string $env = null)
+    public function __construct(FileLocatorInterface $locator)
     {
         $this->locator = $locator;
-        parent::__construct($env);
     }
 
     /**

@@ -16,72 +16,77 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\User\InMemoryUser;
+use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+use Symfony\Component\Security\Http\Event\LoginFailureEvent;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 use Symfony\Component\Security\Http\EventListener\RememberMeListener;
-use Symfony\Component\Security\Http\RememberMe\RememberMeHandlerInterface;
+use Symfony\Component\Security\Http\RememberMe\RememberMeServicesInterface;
 
 class RememberMeListenerTest extends TestCase
 {
-    private $rememberMeHandler;
+    private $rememberMeServices;
     private $listener;
     private $request;
     private $response;
+    private $token;
 
     protected function setUp(): void
     {
-        $this->rememberMeHandler = $this->createMock(RememberMeHandlerInterface::class);
-        $this->listener = new RememberMeListener($this->rememberMeHandler);
-        $this->request = Request::create('/login');
-        $this->request->request->set('_remember_me', true);
-        $this->response = new Response();
+        $this->rememberMeServices = $this->createMock(RememberMeServicesInterface::class);
+        $this->listener = new RememberMeListener($this->rememberMeServices);
+        $this->request = $this->createMock(Request::class);
+        $this->response = $this->createMock(Response::class);
+        $this->token = $this->createMock(TokenInterface::class);
     }
 
     public function testSuccessfulLoginWithoutSupportingAuthenticator()
     {
-        $this->rememberMeHandler->expects($this->never())->method('createRememberMeCookie');
+        $this->rememberMeServices->expects($this->never())->method('loginSuccess');
 
-        $event = $this->createLoginSuccessfulEvent($this->createPassport([]));
+        $event = $this->createLoginSuccessfulEvent('main_firewall', $this->response, new SelfValidatingPassport(new UserBadge('wouter', function ($username) { return new User($username, null); })));
         $this->listener->onSuccessfulLogin($event);
     }
 
-    public function testSuccessfulLoginWithRememberMeDisabled()
+    public function testSuccessfulLoginWithoutSuccessResponse()
     {
-        $this->rememberMeHandler->expects($this->never())->method('createRememberMeCookie');
+        $this->rememberMeServices->expects($this->never())->method('loginSuccess');
 
-        $event = $this->createLoginSuccessfulEvent($this->createPassport([new RememberMeBadge()]));
+        $event = $this->createLoginSuccessfulEvent('main_firewall', null);
+        $this->listener->onSuccessfulLogin($event);
+    }
+
+    public function testSuccessfulLogin()
+    {
+        $this->rememberMeServices->expects($this->once())->method('loginSuccess')->with($this->request, $this->response, $this->token);
+
+        $event = $this->createLoginSuccessfulEvent('main_firewall', $this->response);
         $this->listener->onSuccessfulLogin($event);
     }
 
     public function testCredentialsInvalid()
     {
-        $this->rememberMeHandler->expects($this->once())->method('clearRememberMeCookie');
+        $this->rememberMeServices->expects($this->once())->method('loginFail')->with($this->request, $this->isInstanceOf(AuthenticationException::class));
 
-        $this->listener->clearCookie();
+        $event = $this->createLoginFailureEvent('main_firewall');
+        $this->listener->onFailedLogin($event);
     }
 
-    private function createLoginSuccessfulEvent(PassportInterface $passport = null)
+    private function createLoginSuccessfulEvent($firewallName, $response, PassportInterface $passport = null)
     {
         if (null === $passport) {
-            $passport = $this->createPassport();
+            $passport = new SelfValidatingPassport(new UserBadge('test', function ($username) { return new User($username, null); }), [new RememberMeBadge()]);
         }
 
-        return new LoginSuccessEvent($this->createMock(AuthenticatorInterface::class), $passport, $this->createMock(TokenInterface::class), $this->request, $this->response, 'main_firewall');
+        return new LoginSuccessEvent($this->createMock(AuthenticatorInterface::class), $passport, $this->token, $this->request, $response, $firewallName);
     }
 
-    private function createPassport(array $badges = null)
+    private function createLoginFailureEvent($firewallName)
     {
-        if (null === $badges) {
-            $badge = new RememberMeBadge();
-            $badge->enable();
-            $badges = [$badge];
-        }
-
-        return new SelfValidatingPassport(new UserBadge('test', function ($username) { return new InMemoryUser($username, null); }), $badges);
+        return new LoginFailureEvent(new AuthenticationException(), $this->createMock(AuthenticatorInterface::class), $this->request, null, $firewallName, null);
     }
 }

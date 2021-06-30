@@ -18,9 +18,11 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\AuthenticationServiceException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
@@ -39,6 +41,7 @@ use Symfony\Component\Security\Http\ParameterBagUtils;
  * @author Fabien Potencier <fabien@symfony.com>
  *
  * @final
+ * @experimental in 5.2
  */
 class FormLoginAuthenticator extends AbstractLoginFormAuthenticator
 {
@@ -81,19 +84,14 @@ class FormLoginAuthenticator extends AbstractLoginFormAuthenticator
     {
         $credentials = $this->getCredentials($request);
 
-        // @deprecated since 5.3, change to $this->userProvider->loadUserByIdentifier() in 6.0
-        $method = 'loadUserByIdentifier';
-        if (!method_exists($this->userProvider, 'loadUserByIdentifier')) {
-            trigger_deprecation('symfony/security-core', '5.3', 'Not implementing method "loadUserByIdentifier()" in user provider "%s" is deprecated. This method will replace "loadUserByUsername()" in Symfony 6.0.', get_debug_type($this->userProvider));
+        $passport = new Passport(new UserBadge($credentials['username'], function ($username) {
+            $user = $this->userProvider->loadUserByUsername($username);
+            if (!$user instanceof UserInterface) {
+                throw new AuthenticationServiceException('The user provider must return a UserInterface object.');
+            }
 
-            $method = 'loadUserByUsername';
-        }
-
-        $passport = new Passport(
-            new UserBadge($credentials['username'], [$this->userProvider, $method]),
-            new PasswordCredentials($credentials['password']),
-            [new RememberMeBadge()]
-        );
+            return $user;
+        }), new PasswordCredentials($credentials['password']), [new RememberMeBadge()]);
         if ($this->options['enable_csrf']) {
             $passport->addBadge(new CsrfTokenBadge($this->options['csrf_token_id'], $credentials['csrf_token']));
         }

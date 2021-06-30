@@ -145,18 +145,16 @@ class PropertyAccessDecorator implements ChoiceListFactoryInterface
     /**
      * {@inheritdoc}
      *
-     * @param array|callable|string|PropertyPath|null $preferredChoices           The preferred choices
-     * @param callable|string|PropertyPath|null       $label                      The callable or path generating the choice labels
-     * @param callable|string|PropertyPath|null       $index                      The callable or path generating the view indices
-     * @param callable|string|PropertyPath|null       $groupBy                    The callable or path generating the group names
-     * @param array|callable|string|PropertyPath|null $attr                       The callable or path generating the HTML attributes
-     * @param array|callable|string|PropertyPath      $labelTranslationParameters The callable or path generating the parameters used to translate the choice labels
+     * @param array|callable|string|PropertyPath|null $preferredChoices The preferred choices
+     * @param callable|string|PropertyPath|null       $label            The callable or path generating the choice labels
+     * @param callable|string|PropertyPath|null       $index            The callable or path generating the view indices
+     * @param callable|string|PropertyPath|null       $groupBy          The callable or path generating the group names
+     * @param array|callable|string|PropertyPath|null $attr             The callable or path generating the HTML attributes
      *
      * @return ChoiceListView The choice list view
      */
-    public function createView(ChoiceListInterface $list, $preferredChoices = null, $label = null, $index = null, $groupBy = null, $attr = null/*, $labelTranslationParameters = []*/)
+    public function createView(ChoiceListInterface $list, $preferredChoices = null, $label = null, $index = null, $groupBy = null, $attr = null)
     {
-        $labelTranslationParameters = \func_num_args() > 6 ? func_get_arg(6) : [];
         $accessor = $this->propertyAccessor;
 
         if (\is_string($label)) {
@@ -219,24 +217,6 @@ class PropertyAccessDecorator implements ChoiceListFactoryInterface
             };
         }
 
-        if (\is_string($labelTranslationParameters)) {
-            $labelTranslationParameters = new PropertyPath($labelTranslationParameters);
-        }
-
-        if ($labelTranslationParameters instanceof PropertyPath) {
-            $labelTranslationParameters = static function ($choice) use ($accessor, $labelTranslationParameters) {
-                return $accessor->getValue($choice, $labelTranslationParameters);
-            };
-        }
-
-        return $this->decoratedFactory->createView(
-            $list,
-            $preferredChoices,
-            $label,
-            $index,
-            $groupBy,
-            $attr,
-            $labelTranslationParameters
-        );
+        return $this->decoratedFactory->createView($list, $preferredChoices, $label, $index, $groupBy, $attr);
     }
 }
