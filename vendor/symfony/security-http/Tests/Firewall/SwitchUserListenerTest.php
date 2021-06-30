@@ -314,7 +314,7 @@ class SwitchUserListenerTest extends TestCase
             ->expects($this->once())
             ->method('dispatch')
             ->with(
-                $this->callback(function (SwitchUserEvent $event) use ($replacedToken) {
+                $this->callback(function (SwitchUserEvent $event) use ($replacedToken, $user) {
                     if ('kuba' !== $event->getTargetUser()->getUserIdentifier()) {
                         return false;
                     }

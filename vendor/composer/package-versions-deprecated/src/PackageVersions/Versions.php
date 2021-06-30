@@ -161,7 +161,7 @@ final class Versions
   'symfony/security-core' => 'v5.3.3@480963371d271b0a1f3a7094c619a2a52120342c',
   'symfony/security-csrf' => 'v5.3.3@20259eb80a981e0db134e51c18f558a9510c1c84',
   'symfony/security-guard' => 'v5.3.0@07b97d3c8fa9b761ad3a52d659a47661b458c51b',
-  'symfony/security-http' => 'v5.3.3@5.3',
+  'symfony/security-http' => 'v5.3.3@81c183fd1527a2d09bd3b5c69bca3fc24ce18527',
   'symfony/serializer' => 'v5.3.2@96f6ff6582d1bf1bf08281b563a6c7c917efe6c1',
   'symfony/serializer-pack' => 'v1.0.4@61173947057d5e1bf1c79e2a6ab6a8430be0602e',
   'symfony/service-contracts' => 'v2.4.0@f040a30e04b57fbcc9c6cbcf4dbaa96bd318b9bb',
@@ -186,7 +186,7 @@ final class Versions
   'webmozart/assert' => '1.10.0@6964c76c7804814a842473e0c8fd15bab0f18e25',
   'webmozart/path-util' => '2.3.0@d939f7edc24c9a1bb9c0dee5cb05d8e859490725',
   'zumba/json-serializer' => '3.0.0@4387bfaa6948d219e947ee77d975ec4f41fefd2b',
-  'csr/csrdelft.nl' => 'dev-master@83236e3354fd96bbd1e9387745726ff6e6be6fa1',
+  'csr/csrdelft.nl' => 'dev-master@3d5ede38791661ec13c220ea9c200ba678b70366',
 );
 
     private function __construct()

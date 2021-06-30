@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '83236e3354fd96bbd1e9387745726ff6e6be6fa1',
+        'reference' => '3d5ede38791661ec13c220ea9c200ba678b70366',
         'name' => 'csr/csrdelft.nl',
         'dev' => false,
     ),
@@ -88,7 +88,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '83236e3354fd96bbd1e9387745726ff6e6be6fa1',
+            'reference' => '3d5ede38791661ec13c220ea9c200ba678b70366',
             'dev_requirement' => false,
         ),
         'csrdelft/bb' => array(
@@ -1293,7 +1293,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/security-http',
             'aliases' => array(),
-            'reference' => '5.3',
+            'reference' => '81c183fd1527a2d09bd3b5c69bca3fc24ce18527',
             'dev_requirement' => false,
         ),
         'symfony/serializer' => array(
