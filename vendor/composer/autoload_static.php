@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit93582780547a917727b78a56f25a8875
+class ComposerStaticInit299c8028efca424b64ea0b62a4b0e6be
 {
     public static $files = array (
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
@@ -1134,7 +1134,6 @@ class ComposerStaticInit93582780547a917727b78a56f25a8875
         'CsrDelft\\entity\\Instelling' => __DIR__ . '/../..' . '/lib/entity/Instelling.php',
         'CsrDelft\\entity\\LedenMemoryScore' => __DIR__ . '/../..' . '/lib/entity/LedenMemoryScore.php',
         'CsrDelft\\entity\\LidToestemming' => __DIR__ . '/../..' . '/lib/entity/LidToestemming.php',
-        'CsrDelft\\entity\\LogEntry' => __DIR__ . '/../..' . '/lib/entity/LogEntry.php',
         'CsrDelft\\entity\\MenuItem' => __DIR__ . '/../..' . '/lib/entity/MenuItem.php',
         'CsrDelft\\entity\\OntvangtContactueel' => __DIR__ . '/../..' . '/lib/entity/OntvangtContactueel.php',
         'CsrDelft\\entity\\SavedQuery' => __DIR__ . '/../..' . '/lib/entity/SavedQuery.php',
@@ -1291,7 +1290,6 @@ class ComposerStaticInit93582780547a917727b78a56f25a8875
         'CsrDelft\\repository\\GroepLidRepository' => __DIR__ . '/../..' . '/lib/repository/GroepLidRepository.php',
         'CsrDelft\\repository\\GroepRepository' => __DIR__ . '/../..' . '/lib/repository/GroepRepository.php',
         'CsrDelft\\repository\\LedenMemoryScoresRepository' => __DIR__ . '/../..' . '/lib/repository/LedenMemoryScoresRepository.php',
-        'CsrDelft\\repository\\LogRepository' => __DIR__ . '/../..' . '/lib/repository/LogRepository.php',
         'CsrDelft\\repository\\MenuItemRepository' => __DIR__ . '/../..' . '/lib/repository/MenuItemRepository.php',
         'CsrDelft\\repository\\Paging' => __DIR__ . '/../..' . '/lib/repository/Paging.php',
         'CsrDelft\\repository\\ProfielRepository' => __DIR__ . '/../..' . '/lib/repository/ProfielRepository.php',
@@ -23155,10 +23153,10 @@ class ComposerStaticInit93582780547a917727b78a56f25a8875
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit93582780547a917727b78a56f25a8875::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit93582780547a917727b78a56f25a8875::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit93582780547a917727b78a56f25a8875::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit93582780547a917727b78a56f25a8875::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit299c8028efca424b64ea0b62a4b0e6be::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit299c8028efca424b64ea0b62a4b0e6be::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit299c8028efca424b64ea0b62a4b0e6be::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit299c8028efca424b64ea0b62a4b0e6be::$classMap;
 
         }, null, ClassLoader::class);
     }
