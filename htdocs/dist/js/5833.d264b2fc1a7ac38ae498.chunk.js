@@ -1,0 +1,6 @@
+(self.webpackChunk=self.webpackChunk||[]).push([[5833],{5833:(e,t,a)=>{"use strict";a.r(t),a.d(t,{loadBbImage:()=>r});var l=a(3548);const r=async e=>{var t,a;const r=l.dy`<img
+													class="bb-img"
+													alt="${e.getAttribute("title")}"
+													style="${e.getAttribute("style")}"
+													src="${e.getAttribute("src")}"/>`,i=e.getAttribute("src");if(!i)throw new Error("Bb image heeft geen src");try{await(0,l.pt)(i);const n=i.indexOf("/plaetjes/fotoalbum/")>=0,s=null===(a=null===(t=e.parentElement)||void 0===t?void 0:t.parentElement)||void 0===a?void 0:a.classList.contains("bb-video-preview"),c=0!==$(e).closest("a").length,b=e.parentElement;if(!b)throw new Error("BBimage heeft geen parent.");if(n||s||c)b.replaceChild(r,e);else{const t=null==e.getAttribute("bb-href")?e.getAttribute("src"):e.getAttribute("bb-href"),a=l.dy`<a class="lightbox-link" href="${t}" data-lightbox="page-lightbox"></a>`;a.appendChild(r),b.replaceChild(a,e)}}catch(t){e.replaceWith(l.dy`<div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle"></i> Afbeelding kan niet geladen worden.</div>`)}}}}]);
+//# sourceMappingURL=5833.d264b2fc1a7ac38ae498.chunk.js.map
