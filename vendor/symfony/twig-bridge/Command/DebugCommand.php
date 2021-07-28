@@ -33,7 +33,6 @@ use Twig\Loader\FilesystemLoader;
 class DebugCommand extends Command
 {
     protected static $defaultName = 'debug:twig';
-    protected static $defaultDescription = 'Show a list of twig functions, filters, globals and tests';
 
     private $twig;
     private $projectDir;
@@ -61,7 +60,7 @@ class DebugCommand extends Command
                 new InputOption('filter', null, InputOption::VALUE_REQUIRED, 'Show details for all entries matching this filter'),
                 new InputOption('format', null, InputOption::VALUE_REQUIRED, 'The output format (text or json)', 'text'),
             ])
-            ->setDescription(self::$defaultDescription)
+            ->setDescription('Show a list of twig functions, filters, globals and tests')
             ->setHelp(<<<'EOF'
 The <info>%command.name%</info> command outputs a list of twig functions,
 filters, globals and tests.
@@ -212,7 +211,7 @@ EOF
         foreach ($types as $index => $type) {
             $items = [];
             foreach ($this->twig->{'get'.ucfirst($type)}() as $name => $entity) {
-                if (!$filter || str_contains($name, $filter)) {
+                if (!$filter || false !== strpos($name, $filter)) {
                     $items[$name] = $name.$this->getPrettyMetadata($type, $entity, $decorated);
                 }
             }
@@ -246,7 +245,7 @@ EOF
         $data = [];
         foreach ($types as $type) {
             foreach ($this->twig->{'get'.ucfirst($type)}() as $name => $entity) {
-                if (!$filter || str_contains($name, $filter)) {
+                if (!$filter || false !== strpos($name, $filter)) {
                     $data[$type][$name] = $this->getMetadata($type, $entity);
                 }
             }
@@ -396,7 +395,7 @@ EOF
             $folders = glob($this->twigDefaultPath.'/bundles/*', \GLOB_ONLYDIR);
             $relativePath = ltrim(substr($this->twigDefaultPath.'/bundles/', \strlen($this->projectDir)), \DIRECTORY_SEPARATOR);
             $bundleNames = array_reduce($folders, function ($carry, $absolutePath) use ($relativePath) {
-                if (str_starts_with($absolutePath, $this->projectDir)) {
+                if (0 === strpos($absolutePath, $this->projectDir)) {
                     $name = basename($absolutePath);
                     $path = ltrim($relativePath.$name, \DIRECTORY_SEPARATOR);
                     $carry[$name] = $path;
@@ -526,7 +525,7 @@ EOF
         $alternatives = [];
         foreach ($collection as $item) {
             $lev = levenshtein($name, $item);
-            if ($lev <= \strlen($name) / 3 || str_contains($item, $name)) {
+            if ($lev <= \strlen($name) / 3 || false !== strpos($item, $name)) {
                 $alternatives[$item] = isset($alternatives[$item]) ? $alternatives[$item] - $lev : $lev;
             }
         }
@@ -540,7 +539,7 @@ EOF
 
     private function getRelativePath(string $path): string
     {
-        if (null !== $this->projectDir && str_starts_with($path, $this->projectDir)) {
+        if (null !== $this->projectDir && 0 === strpos($path, $this->projectDir)) {
             return ltrim(substr($path, \strlen($this->projectDir)), \DIRECTORY_SEPARATOR);
         }
 

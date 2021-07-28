@@ -22,7 +22,6 @@ use Symfony\Component\Form\Exception\OutOfBoundsException;
 use Symfony\Component\Form\Exception\RuntimeException;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Util\FormUtil;
 use Symfony\Component\Form\Util\InheritDataAwareIterator;
 use Symfony\Component\Form\Util\OrderedHashMap;
@@ -80,14 +79,12 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
     private $parent;
 
     /**
-     * A map of FormInterface instances.
-     *
-     * @var FormInterface[]|OrderedHashMap
+     * @var FormInterface[]|OrderedHashMap A map of FormInterface instances
      */
     private $children;
 
     /**
-     * @var FormError[]
+     * @var FormError[] An array of FormError instances
      */
     private $errors = [];
 
@@ -97,9 +94,7 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
     private $submitted = false;
 
     /**
-     * The button that was used to submit the form.
-     *
-     * @var FormInterface|ClickableInterface|null
+     * @var FormInterface|ClickableInterface|null The button that was used to submit the form
      */
     private $clickedButton;
 
@@ -119,16 +114,12 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
     private $viewData;
 
     /**
-     * The submitted values that don't belong to any children.
-     *
-     * @var array
+     * @var array The submitted values that don't belong to any children
      */
     private $extraData = [];
 
     /**
-     * The transformation failure generated during submission, if any.
-     *
-     * @var TransformationFailedException|null
+     * @var TransformationFailedException|null The transformation failure generated during submission, if any
      */
     private $transformationFailure;
 
@@ -159,9 +150,7 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
     private $name = '';
 
     /**
-     * Whether the form inherits its underlying data from its parent.
-     *
-     * @var bool
+     * @var bool Whether the form inherits its underlying data from its parent
      */
     private $inheritData;
 
@@ -875,7 +864,7 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
             $options['auto_initialize'] = false;
 
             if (null === $type && null === $this->config->getDataClass()) {
-                $type = TextType::class;
+                $type = 'Symfony\Component\Form\Extension\Core\Type\TextType';
             }
 
             if (null === $type) {
@@ -990,8 +979,6 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
      * @param string        $name  Ignored. The name of the child is used
      * @param FormInterface $child The child to be added
      *
-     * @return void
-     *
      * @throws AlreadySubmittedException if the form has already been submitted
      * @throws LogicException            when trying to add a child to a non-compound form
      *
@@ -1007,8 +994,6 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
      *
      * @param string $name The name of the child to remove
      *
-     * @return void
-     *
      * @throws AlreadySubmittedException if the form has already been submitted
      */
     public function offsetUnset($name)
@@ -1019,7 +1004,7 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
     /**
      * Returns the iterator for this group.
      *
-     * @return \Traversable<FormInterface>
+     * @return \Traversable|FormInterface[]
      */
     public function getIterator()
     {
@@ -1059,36 +1044,9 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
             $view->children[$name] = $child->createView($view);
         }
 
-        $this->sort($view->children);
-
         $type->finishView($view, $this, $options);
 
         return $view;
-    }
-
-    /**
-     * Sorts view fields based on their priority value.
-     */
-    private function sort(array &$children): void
-    {
-        $c = [];
-        $i = 0;
-        $needsSorting = false;
-        foreach ($children as $name => $child) {
-            $c[$name] = ['p' => $child->vars['priority'] ?? 0, 'i' => $i++];
-
-            if (0 !== $c[$name]['p']) {
-                $needsSorting = true;
-            }
-        }
-
-        if (!$needsSorting) {
-            return;
-        }
-
-        uksort($children, static function ($a, $b) use ($c): int {
-            return [$c[$b]['p'], $c[$a]['i']] <=> [$c[$a]['p'], $c[$b]['i']];
-        });
     }
 
     /**

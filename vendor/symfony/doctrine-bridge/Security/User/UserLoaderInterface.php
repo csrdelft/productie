@@ -22,17 +22,16 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @see UserInterface
  *
- * @method UserInterface|null loadUserByIdentifier(string $identifier) loads the user for the given user identifier (e.g. username or email).
- *                                                                     This method must return null if the user is not found.
- *
  * @author Michal Trojanowski <michal@kmt-studio.pl>
  */
 interface UserLoaderInterface
 {
     /**
-     * @return UserInterface|null
+     * Loads the user for the given username.
      *
-     * @deprecated since Symfony 5.3, use loadUserByIdentifier() instead
+     * This method must return null if the user is not found.
+     *
+     * @return UserInterface|null
      */
     public function loadUserByUsername(string $username);
 }

@@ -16,30 +16,29 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
 use Symfony\Component\Security\Http\Event\LoginFailureEvent;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
-use Symfony\Component\Security\Http\Event\LogoutEvent;
-use Symfony\Component\Security\Http\Event\TokenDeauthenticatedEvent;
-use Symfony\Component\Security\Http\RememberMe\RememberMeHandlerInterface;
+use Symfony\Component\Security\Http\RememberMe\RememberMeServicesInterface;
 
 /**
- * The RememberMe *listener* creates and deletes remember-me cookies.
+ * The RememberMe *listener* creates and deletes remember me cookies.
  *
  * Upon login success or failure and support for remember me
  * in the firewall and authenticator, this listener will create
- * a remember-me cookie.
- * Upon login failure, all remember-me cookies are removed.
+ * a remember me cookie.
+ * Upon login failure, all remember me cookies are removed.
  *
  * @author Wouter de Jong <wouter@wouterj.nl>
  *
  * @final
+ * @experimental in 5.2
  */
 class RememberMeListener implements EventSubscriberInterface
 {
-    private $rememberMeHandler;
+    private $rememberMeServices;
     private $logger;
 
-    public function __construct(RememberMeHandlerInterface $rememberMeHandler, LoggerInterface $logger = null)
+    public function __construct(RememberMeServicesInterface $rememberMeServices, ?LoggerInterface $logger = null)
     {
-        $this->rememberMeHandler = $rememberMeHandler;
+        $this->rememberMeServices = $rememberMeServices;
         $this->logger = $logger;
     }
 
@@ -54,38 +53,27 @@ class RememberMeListener implements EventSubscriberInterface
             return;
         }
 
-        // Make sure any old remember-me cookies are cancelled
-        $this->rememberMeHandler->clearRememberMeCookie();
-
-        /** @var RememberMeBadge $badge */
-        $badge = $passport->getBadge(RememberMeBadge::class);
-        if (!$badge->isEnabled()) {
+        if (null === $event->getResponse()) {
             if (null !== $this->logger) {
-                $this->logger->debug('Remember me skipped: the RememberMeBadge is not enabled.');
+                $this->logger->debug('Remember me skipped: the authenticator did not set a success response.', ['authenticator' => \get_class($event->getAuthenticator())]);
             }
 
             return;
         }
 
-        if (null !== $this->logger) {
-            $this->logger->debug('Remember-me was requested; setting cookie.');
-        }
-
-        $this->rememberMeHandler->createRememberMeCookie($event->getUser());
+        $this->rememberMeServices->loginSuccess($event->getRequest(), $event->getResponse(), $event->getAuthenticatedToken());
     }
 
-    public function clearCookie(): void
+    public function onFailedLogin(LoginFailureEvent $event): void
     {
-        $this->rememberMeHandler->clearRememberMeCookie();
+        $this->rememberMeServices->loginFail($event->getRequest(), $event->getException());
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
-            LoginSuccessEvent::class => ['onSuccessfulLogin', -64],
-            LoginFailureEvent::class => 'clearCookie',
-            LogoutEvent::class => 'clearCookie',
-            TokenDeauthenticatedEvent::class => 'clearCookie',
+            LoginSuccessEvent::class => 'onSuccessfulLogin',
+            LoginFailureEvent::class => 'onFailedLogin',
         ];
     }
 }

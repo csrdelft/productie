@@ -120,9 +120,6 @@ class ErrorChunk implements ChunkInterface
         return $this->didThrow;
     }
 
-    /**
-     * @return array
-     */
     public function __sleep()
     {
         throw new \BadMethodCallException('Cannot serialize '.__CLASS__);

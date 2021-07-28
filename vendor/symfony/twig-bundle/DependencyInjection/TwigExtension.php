@@ -17,7 +17,6 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Translation\Translator;
@@ -38,19 +37,19 @@ class TwigExtension extends Extension
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('twig.php');
 
-        if ($container::willBeAvailable('symfony/form', Form::class, ['symfony/twig-bundle'])) {
+        if (class_exists(\Symfony\Component\Form\Form::class)) {
             $loader->load('form.php');
         }
 
-        if ($container::willBeAvailable('symfony/console', Application::class, ['symfony/twig-bundle'])) {
+        if (class_exists(Application::class)) {
             $loader->load('console.php');
         }
 
-        if ($container::willBeAvailable('symfony/mailer', Mailer::class, ['symfony/twig-bundle'])) {
+        if (class_exists(Mailer::class)) {
             $loader->load('mailer.php');
         }
 
-        if (!$container::willBeAvailable('symfony/translation', Translator::class, ['symfony/twig-bundle'])) {
+        if (!class_exists(Translator::class)) {
             $container->removeDefinition('twig.translation.extractor');
         }
 
@@ -173,7 +172,7 @@ class TwigExtension extends Extension
 
     private function normalizeBundleName(string $name): string
     {
-        if (str_ends_with($name, 'Bundle')) {
+        if ('Bundle' === substr($name, -6)) {
             $name = substr($name, 0, -6);
         }
 

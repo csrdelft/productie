@@ -73,8 +73,6 @@ class CopyFromPackageConfigurator extends AbstractConfigurator
 
     private function copyDir(string $source, string $target, array $options)
     {
-        $overwrite = $options['force'] ?? false;
-
         if (!is_dir($target)) {
             mkdir($target, 0777, true);
         }
@@ -87,7 +85,7 @@ class CopyFromPackageConfigurator extends AbstractConfigurator
                     mkdir($targetPath);
                     $this->write(sprintf('  Created <fg=green>"%s"</>', $this->path->relativize($targetPath)));
                 }
-            } elseif ($overwrite || !file_exists($targetPath)) {
+            } elseif (!file_exists($targetPath)) {
                 $this->copyFile($item, $targetPath, $options);
             }
         }

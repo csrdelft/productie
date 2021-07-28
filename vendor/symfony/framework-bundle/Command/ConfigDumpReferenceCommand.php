@@ -36,7 +36,6 @@ use Symfony\Component\Yaml\Yaml;
 class ConfigDumpReferenceCommand extends AbstractConfigCommand
 {
     protected static $defaultName = 'config:dump-reference';
-    protected static $defaultDescription = 'Dump the default configuration for an extension';
 
     /**
      * {@inheritdoc}
@@ -49,7 +48,7 @@ class ConfigDumpReferenceCommand extends AbstractConfigCommand
                 new InputArgument('path', InputArgument::OPTIONAL, 'The configuration option path'),
                 new InputOption('format', null, InputOption::VALUE_REQUIRED, 'The output format (yaml or xml)', 'yaml'),
             ])
-            ->setDescription(self::$defaultDescription)
+            ->setDescription('Dump the default configuration for an extension')
             ->setHelp(<<<'EOF'
 The <info>%command.name%</info> command dumps the default configuration for an
 extension/bundle.
@@ -108,7 +107,7 @@ EOF
         if ($extension instanceof ConfigurationInterface) {
             $configuration = $extension;
         } else {
-            $configuration = $extension->getConfiguration([], $this->getContainerBuilder($this->getApplication()->getKernel()));
+            $configuration = $extension->getConfiguration([], $this->getContainerBuilder());
         }
 
         $this->validateConfiguration($extension, $configuration);

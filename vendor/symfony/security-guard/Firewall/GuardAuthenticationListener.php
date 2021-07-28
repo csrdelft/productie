@@ -28,8 +28,6 @@ use Symfony\Component\Security\Guard\Token\PreAuthenticationGuardToken;
 use Symfony\Component\Security\Http\Firewall\AbstractListener;
 use Symfony\Component\Security\Http\RememberMe\RememberMeServicesInterface;
 
-trigger_deprecation('symfony/security-guard', '5.3', 'The "%s" class is deprecated, use the new authenticator system instead.', GuardAuthenticationListener::class);
-
 /**
  * Authentication listener for the "guard" system.
  *
@@ -37,8 +35,6 @@ trigger_deprecation('symfony/security-guard', '5.3', 'The "%s" class is deprecat
  * @author Amaury Leroux de Lens <amaury@lerouxdelens.com>
  *
  * @final
- *
- * @deprecated since Symfony 5.3, use the new authenticator system instead
  */
 class GuardAuthenticationListener extends AbstractListener
 {

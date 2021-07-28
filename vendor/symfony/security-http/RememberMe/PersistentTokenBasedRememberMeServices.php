@@ -93,24 +93,7 @@ class PersistentTokenBasedRememberMeServices extends AbstractRememberMeServices
             )
         );
 
-        $userProvider = $this->getUserProvider($persistentToken->getClass());
-        // @deprecated since 5.3, change to $persistentToken->getUserIdentifier() in 6.0
-        if (method_exists($persistentToken, 'getUserIdentifier')) {
-            $userIdentifier = $persistentToken->getUserIdentifier();
-        } else {
-            trigger_deprecation('symfony/security-core', '5.3', 'Not implementing method "getUserIdentifier()" in persistent token "%s" is deprecated. This method will replace "loadUserByUsername()" in Symfony 6.0.', get_debug_type($persistentToken));
-
-            $userIdentifier = $persistentToken->getUsername();
-        }
-
-        // @deprecated since 5.3, change to $userProvider->loadUserByIdentifier() in 6.0
-        if (method_exists($userProvider, 'loadUserByIdentifier')) {
-            return $userProvider->loadUserByIdentifier($userIdentifier);
-        } else {
-            trigger_deprecation('symfony/security-core', '5.3', 'Not implementing method "loadUserByIdentifier()" in user provider "%s" is deprecated. This method will replace "loadUserByUsername()" in Symfony 6.0.', get_debug_type($userProvider));
-
-            return $userProvider->loadUserByUsername($userIdentifier);
-        }
+        return $this->getUserProvider($persistentToken->getClass())->loadUserByUsername($persistentToken->getUsername());
     }
 
     /**
@@ -124,8 +107,7 @@ class PersistentTokenBasedRememberMeServices extends AbstractRememberMeServices
         $this->tokenProvider->createNewToken(
             new PersistentToken(
                 \get_class($user = $token->getUser()),
-                // @deprecated since 5.3, change to $user->getUserIdentifier() in 6.0
-                method_exists($user, 'getUserIdentifier') ? $user->getUserIdentifier() : $user->getUsername(),
+                $user->getUsername(),
                 $series,
                 $this->generateHash($tokenValue),
                 new \DateTime()

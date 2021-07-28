@@ -41,6 +41,9 @@ class FileResource implements SelfCheckingResourceInterface
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function __toString(): string
     {
         return $this->resource;

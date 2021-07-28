@@ -45,9 +45,4 @@ class RedisClusterNodeProxy
     {
         return $this->redis->scan($iIterator, $this->host, $strPattern, $iCount);
     }
-
-    public function getOption($name)
-    {
-        return $this->redis->getOption($name);
-    }
 }

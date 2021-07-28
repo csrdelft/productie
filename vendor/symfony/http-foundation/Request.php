@@ -13,7 +13,6 @@ namespace Symfony\Component\HttpFoundation;
 
 use Symfony\Component\HttpFoundation\Exception\ConflictingHeadersException;
 use Symfony\Component\HttpFoundation\Exception\JsonException;
-use Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
 use Symfony\Component\HttpFoundation\Exception\SuspiciousOperationException;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -91,7 +90,7 @@ class Request
     /**
      * Request body parameters ($_POST).
      *
-     * @var InputBag
+     * @var InputBag|ParameterBag
      */
     public $request;
 
@@ -275,7 +274,7 @@ class Request
      */
     public function initialize(array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null)
     {
-        $this->request = new InputBag($request);
+        $this->request = new ParameterBag($request);
         $this->query = new InputBag($query);
         $this->attributes = new ParameterBag($attributes);
         $this->cookies = new InputBag($cookies);
@@ -305,7 +304,9 @@ class Request
     {
         $request = self::createRequestFromFactory($_GET, $_POST, [], $_COOKIE, $_FILES, $_SERVER);
 
-        if (str_starts_with($request->headers->get('CONTENT_TYPE', ''), 'application/x-www-form-urlencoded')
+        if ($_POST) {
+            $request->request = new InputBag($_POST);
+        } elseif (0 === strpos($request->headers->get('CONTENT_TYPE', ''), 'application/x-www-form-urlencoded')
             && \in_array(strtoupper($request->server->get('REQUEST_METHOD', 'GET')), ['PUT', 'DELETE', 'PATCH'])
         ) {
             parse_str($request->getContent(), $data);
@@ -455,7 +456,7 @@ class Request
             $dup->query = new InputBag($query);
         }
         if (null !== $request) {
-            $dup->request = new InputBag($request);
+            $dup->request = new ParameterBag($request);
         }
         if (null !== $attributes) {
             $dup->attributes = new ParameterBag($attributes);
@@ -734,7 +735,7 @@ class Request
         }
 
         if (null === $session) {
-            throw new SessionNotFoundException('Session has not been set.');
+            throw new \BadMethodCallException('Session has not been set.');
         }
 
         return $session;
@@ -1386,7 +1387,7 @@ class Request
             $this->format = $this->attributes->get('_format');
         }
 
-        return $this->format ?? $default;
+        return null === $this->format ? $default : $this->format;
     }
 
     /**
@@ -1682,7 +1683,7 @@ class Request
         $languages = AcceptHeader::fromString($this->headers->get('Accept-Language'))->all();
         $this->languages = [];
         foreach ($languages as $lang => $acceptHeaderItem) {
-            if (str_contains($lang, '-')) {
+            if (false !== strpos($lang, '-')) {
                 $codes = explode('-', $lang);
                 if ('i' === $codes[0]) {
                     // Language not listed in ISO 639 that are not variants
@@ -2007,7 +2008,7 @@ class Request
      */
     private function getUrlencodedPrefix(string $string, string $prefix): ?string
     {
-        if (!str_starts_with(rawurldecode($string), $prefix)) {
+        if (0 !== strpos(rawurldecode($string), $prefix)) {
             return null;
         }
 
@@ -2069,7 +2070,7 @@ class Request
                     continue;
                 }
                 if (self::HEADER_X_FORWARDED_PORT === $type) {
-                    if (str_ends_with($v, ']') || false === $v = strrchr($v, ':')) {
+                    if (']' === substr($v, -1) || false === $v = strrchr($v, ':')) {
                         $v = $this->isSecure() ? ':443' : ':80';
                     }
                     $v = '0.0.0.0'.$v;
@@ -2115,7 +2116,7 @@ class Request
                 if ($i) {
                     $clientIps[$key] = $clientIp = substr($clientIp, 0, $i);
                 }
-            } elseif (str_starts_with($clientIp, '[')) {
+            } elseif (0 === strpos($clientIp, '[')) {
                 // Strip brackets and :port from IPv6 addresses.
                 $i = strpos($clientIp, ']', 1);
                 $clientIps[$key] = $clientIp = substr($clientIp, 1, $i - 1);

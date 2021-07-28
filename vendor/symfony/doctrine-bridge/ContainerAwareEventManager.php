@@ -13,7 +13,6 @@ namespace Symfony\Bridge\Doctrine;
 
 use Doctrine\Common\EventArgs;
 use Doctrine\Common\EventManager;
-use Doctrine\Common\EventSubscriber;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -35,9 +34,6 @@ class ContainerAwareEventManager extends EventManager
     private $methods = [];
     private $container;
 
-    /**
-     * @param list<string|EventSubscriber|array{string[], string|object}> $subscriberIds List of subscribers, subscriber ids, or [events, listener] tuples
-     */
     public function __construct(ContainerInterface $container, array $subscriberIds = [])
     {
         $this->container = $container;
@@ -58,7 +54,7 @@ class ContainerAwareEventManager extends EventManager
             return;
         }
 
-        $eventArgs = $eventArgs ?? EventArgs::getEmptyInstance();
+        $eventArgs = null === $eventArgs ? EventArgs::getEmptyInstance() : $eventArgs;
 
         if (!isset($this->initialized[$eventName])) {
             $this->initializeListeners($eventName);
@@ -117,10 +113,6 @@ class ContainerAwareEventManager extends EventManager
      */
     public function addEventListener($events, $listener)
     {
-        if (!$this->initializedSubscribers) {
-            $this->initializeSubscribers();
-        }
-
         $hash = $this->getHash($listener);
 
         foreach ((array) $events as $event) {
@@ -143,10 +135,6 @@ class ContainerAwareEventManager extends EventManager
      */
     public function removeEventListener($events, $listener)
     {
-        if (!$this->initializedSubscribers) {
-            $this->initializeSubscribers();
-        }
-
         $hash = $this->getHash($listener);
 
         foreach ((array) $events as $event) {
@@ -159,24 +147,6 @@ class ContainerAwareEventManager extends EventManager
                 unset($this->methods[$event][$hash]);
             }
         }
-    }
-
-    public function addEventSubscriber(EventSubscriber $subscriber): void
-    {
-        if (!$this->initializedSubscribers) {
-            $this->initializeSubscribers();
-        }
-
-        parent::addEventSubscriber($subscriber);
-    }
-
-    public function removeEventSubscriber(EventSubscriber $subscriber): void
-    {
-        if (!$this->initializedSubscribers) {
-            $this->initializeSubscribers();
-        }
-
-        parent::removeEventSubscriber($subscriber);
     }
 
     private function initializeListeners(string $eventName)
@@ -194,15 +164,21 @@ class ContainerAwareEventManager extends EventManager
     private function initializeSubscribers()
     {
         $this->initializedSubscribers = true;
-        foreach ($this->subscribers as $subscriber) {
-            if (\is_array($subscriber)) {
-                $this->addEventListener(...$subscriber);
-                continue;
-            }
+
+        $eventListeners = $this->listeners;
+        // reset eventListener to respect priority: EventSubscribers have a higher priority
+        $this->listeners = [];
+        foreach ($this->subscribers as $id => $subscriber) {
             if (\is_string($subscriber)) {
-                $subscriber = $this->container->get($subscriber);
+                parent::addEventSubscriber($this->subscribers[$id] = $this->container->get($subscriber));
             }
-            parent::addEventSubscriber($subscriber);
+        }
+        foreach ($eventListeners as $event => $listeners) {
+            if (!isset($this->listeners[$event])) {
+                $this->listeners[$event] = [];
+            }
+            unset($this->initialized[$event]);
+            $this->listeners[$event] += $listeners;
         }
         $this->subscribers = [];
     }
@@ -219,7 +195,10 @@ class ContainerAwareEventManager extends EventManager
         return spl_object_hash($listener);
     }
 
-    private function getMethod(object $listener, string $event): string
+    /**
+     * @param object $listener
+     */
+    private function getMethod($listener, string $event): string
     {
         if (!method_exists($listener, $event) && method_exists($listener, '__invoke')) {
             return '__invoke';

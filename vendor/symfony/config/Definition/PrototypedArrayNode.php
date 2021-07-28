@@ -163,7 +163,14 @@ class PrototypedArrayNode extends ArrayNode
     }
 
     /**
-     * {@inheritdoc}
+     * Finalizes the value of this node.
+     *
+     * @param mixed $value
+     *
+     * @return mixed The finalized value
+     *
+     * @throws UnsetKeyException
+     * @throws InvalidConfigurationException if the node doesn't have enough children
      */
     protected function finalizeValue($value)
     {
@@ -191,8 +198,13 @@ class PrototypedArrayNode extends ArrayNode
     }
 
     /**
-     * {@inheritdoc}
+     * Normalizes the value.
      *
+     * @param mixed $value The value to normalize
+     *
+     * @return mixed The normalized value
+     *
+     * @throws InvalidConfigurationException
      * @throws DuplicateKeyException
      */
     protected function normalizeValue($value)
@@ -203,11 +215,11 @@ class PrototypedArrayNode extends ArrayNode
 
         $value = $this->remapXml($value);
 
-        $isList = array_is_list($value);
+        $isAssoc = array_keys($value) !== range(0, \count($value) - 1);
         $normalized = [];
         foreach ($value as $k => $v) {
             if (null !== $this->keyAttribute && \is_array($v)) {
-                if (!isset($v[$this->keyAttribute]) && \is_int($k) && $isList) {
+                if (!isset($v[$this->keyAttribute]) && \is_int($k) && !$isAssoc) {
                     $ex = new InvalidConfigurationException(sprintf('The attribute "%s" must be set for path "%s".', $this->keyAttribute, $this->getPath()));
                     $ex->setPath($this->getPath());
 
@@ -249,7 +261,7 @@ class PrototypedArrayNode extends ArrayNode
             }
 
             $prototype = $this->getPrototypeForChild($k);
-            if (null !== $this->keyAttribute || !$isList) {
+            if (null !== $this->keyAttribute || $isAssoc) {
                 $normalized[$k] = $prototype->normalize($v);
             } else {
                 $normalized[] = $prototype->normalize($v);
@@ -260,7 +272,15 @@ class PrototypedArrayNode extends ArrayNode
     }
 
     /**
-     * {@inheritdoc}
+     * Merges values together.
+     *
+     * @param mixed $leftSide  The left side to merge
+     * @param mixed $rightSide The right side to merge
+     *
+     * @return mixed The merged values
+     *
+     * @throws InvalidConfigurationException
+     * @throws \RuntimeException
      */
     protected function mergeValues($leftSide, $rightSide)
     {
@@ -274,10 +294,9 @@ class PrototypedArrayNode extends ArrayNode
             return $rightSide;
         }
 
-        $isList = array_is_list($rightSide);
         foreach ($rightSide as $k => $v) {
-            // prototype, and key is irrelevant there are no named keys, append the element
-            if (null === $this->keyAttribute && $isList) {
+            // prototype, and key is irrelevant, append the element
+            if (null === $this->keyAttribute) {
                 $leftSide[] = $v;
                 continue;
             }

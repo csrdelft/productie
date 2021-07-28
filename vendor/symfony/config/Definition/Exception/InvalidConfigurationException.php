@@ -22,7 +22,7 @@ class InvalidConfigurationException extends Exception
     private $path;
     private $containsHints = false;
 
-    public function setPath(string $path)
+    public function setPath($path)
     {
         $this->path = $path;
     }

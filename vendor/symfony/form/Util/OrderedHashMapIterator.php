@@ -76,9 +76,6 @@ class OrderedHashMapIterator implements \Iterator
         $this->managedCursors[$this->cursorId] = &$this->cursor;
     }
 
-    /**
-     * @return array
-     */
     public function __sleep()
     {
         throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
@@ -102,8 +99,6 @@ class OrderedHashMapIterator implements \Iterator
 
     /**
      * {@inheritdoc}
-     *
-     * @return mixed
      */
     public function current()
     {
@@ -112,8 +107,6 @@ class OrderedHashMapIterator implements \Iterator
 
     /**
      * {@inheritdoc}
-     *
-     * @return void
      */
     public function next()
     {
@@ -130,8 +123,6 @@ class OrderedHashMapIterator implements \Iterator
 
     /**
      * {@inheritdoc}
-     *
-     * @return mixed
      */
     public function key()
     {
@@ -154,8 +145,6 @@ class OrderedHashMapIterator implements \Iterator
 
     /**
      * {@inheritdoc}
-     *
-     * @return void
      */
     public function rewind()
     {

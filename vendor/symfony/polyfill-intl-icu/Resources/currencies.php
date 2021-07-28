@@ -887,7 +887,7 @@ return array (
   ),
   'PHP' => 
   array (
-    0 => '₱',
+    0 => 'PHP',
   ),
   'PKR' => 
   array (
@@ -1223,7 +1223,7 @@ return array (
   ),
   'XOF' => 
   array (
-    0 => 'F CFA',
+    0 => 'CFA',
     1 => 0,
     2 => 0,
   ),

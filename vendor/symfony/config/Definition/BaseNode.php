@@ -47,7 +47,7 @@ abstract class BaseNode implements NodeInterface
      */
     public function __construct(?string $name, NodeInterface $parent = null, string $pathSeparator = self::DEFAULT_PATH_SEPARATOR)
     {
-        if (str_contains($name = (string) $name, $pathSeparator)) {
+        if (false !== strpos($name = (string) $name, $pathSeparator)) {
             throw new \InvalidArgumentException('The name must not contain ".'.$pathSeparator.'".');
         }
 
@@ -187,6 +187,8 @@ abstract class BaseNode implements NodeInterface
 
     /**
      * Set this node as required.
+     *
+     * @param bool $boolean Required node
      */
     public function setRequired(bool $boolean)
     {
@@ -542,7 +544,7 @@ abstract class BaseNode implements NodeInterface
             }
 
             foreach (self::$placeholderUniquePrefixes as $placeholderUniquePrefix) {
-                if (str_starts_with($value, $placeholderUniquePrefix)) {
+                if (0 === strpos($value, $placeholderUniquePrefix)) {
                     return [];
                 }
             }

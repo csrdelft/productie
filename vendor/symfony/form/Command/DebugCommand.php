@@ -32,7 +32,6 @@ use Symfony\Component\HttpKernel\Debug\FileLinkFormatter;
 class DebugCommand extends Command
 {
     protected static $defaultName = 'debug:form';
-    protected static $defaultDescription = 'Display form type information';
 
     private $formRegistry;
     private $namespaces;
@@ -65,7 +64,7 @@ class DebugCommand extends Command
                 new InputOption('show-deprecated', null, InputOption::VALUE_NONE, 'Display deprecated options in form types'),
                 new InputOption('format', null, InputOption::VALUE_REQUIRED, 'The output format (txt or json)', 'txt'),
             ])
-            ->setDescription(self::$defaultDescription)
+            ->setDescription('Display form type information')
             ->setHelp(<<<'EOF'
 The <info>%command.name%</info> command displays information about form types.
 
@@ -168,7 +167,7 @@ EOF
                 $classes[] = $fqcn;
             } elseif (class_exists($fqcn = $namespace.'\\'.ucfirst($shortClassName).'Type')) {
                 $classes[] = $fqcn;
-            } elseif (str_ends_with($shortClassName, 'type') && class_exists($fqcn = $namespace.'\\'.ucfirst(substr($shortClassName, 0, -4).'Type'))) {
+            } elseif ('type' === substr($shortClassName, -4) && class_exists($fqcn = $namespace.'\\'.ucfirst(substr($shortClassName, 0, -4).'Type'))) {
                 $classes[] = $fqcn;
             }
         }
@@ -231,7 +230,7 @@ EOF
         $alternatives = [];
         foreach ($collection as $item) {
             $lev = levenshtein($name, $item);
-            if ($lev <= \strlen($name) / 3 || str_contains($item, $name)) {
+            if ($lev <= \strlen($name) / 3 || false !== strpos($item, $name)) {
                 $alternatives[$item] = isset($alternatives[$item]) ? $alternatives[$item] - $lev : $lev;
             }
         }

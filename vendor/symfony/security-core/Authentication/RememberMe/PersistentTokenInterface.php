@@ -15,8 +15,6 @@ namespace Symfony\Component\Security\Core\Authentication\RememberMe;
  * Interface to be implemented by persistent token classes (such as
  * Doctrine entities representing a remember-me token).
  *
- * @method string getUserIdentifier() returns the identifier used to authenticate (e.g. their e-mailaddress or username)
- *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
 interface PersistentTokenInterface
@@ -27,6 +25,13 @@ interface PersistentTokenInterface
      * @return string
      */
     public function getClass();
+
+    /**
+     * Returns the username.
+     *
+     * @return string
+     */
+    public function getUsername();
 
     /**
      * Returns the series.
@@ -48,11 +53,4 @@ interface PersistentTokenInterface
      * @return \DateTime
      */
     public function getLastUsed();
-
-    /**
-     * @return string
-     *
-     * @deprecated since Symfony 5.3, use getUserIdentifier() instead
-     */
-    public function getUsername();
 }

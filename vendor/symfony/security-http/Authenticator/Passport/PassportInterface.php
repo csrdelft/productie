@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Security\Http\Authenticator\Passport;
 
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\BadgeInterface;
 
 /**
@@ -21,6 +22,8 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\BadgeInterface;
  * passport.
  *
  * @author Wouter de Jong <wouter@wouterj.nl>
+ *
+ * @experimental in 5.2
  */
 interface PassportInterface
 {
@@ -40,7 +43,9 @@ interface PassportInterface
     public function getBadge(string $badgeFqcn): ?BadgeInterface;
 
     /**
-     * @return array<class-string<BadgeInterface>, BadgeInterface> An array of badge instances indexed by class name
+     * Checks if all badges are marked as resolved.
+     *
+     * @throws BadCredentialsException when a badge is not marked as resolved
      */
-    public function getBadges(): array;
+    public function checkIfCompletelyResolved(): void;
 }

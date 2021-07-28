@@ -12,6 +12,7 @@
 namespace Symfony\Component\Intl\Data\Bundle\Reader;
 
 use Symfony\Component\Intl\Exception\ResourceBundleNotFoundException;
+use Symfony\Component\Intl\Exception\RuntimeException;
 
 /**
  * Reads .php resource bundles.
@@ -34,8 +35,12 @@ class PhpBundleReader implements BundleReaderInterface
             throw new ResourceBundleNotFoundException(sprintf('The resource bundle "%s" does not exist.', $fileName));
         }
 
+        if (!file_exists($fileName)) {
+            throw new ResourceBundleNotFoundException(sprintf('The resource bundle "%s/%s.php" does not exist.', $path, $locale));
+        }
+
         if (!is_file($fileName)) {
-            throw new ResourceBundleNotFoundException(sprintf('The resource bundle "%s" does not exist.', $fileName));
+            throw new RuntimeException(sprintf('The resource bundle "%s/%s.php" is not a file.', $path, $locale));
         }
 
         return include $fileName;

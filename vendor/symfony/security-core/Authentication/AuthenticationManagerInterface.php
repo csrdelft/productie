@@ -19,8 +19,6 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
  * which process Token authentication.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @internal since Symfony 5.3
  */
 interface AuthenticationManagerInterface
 {

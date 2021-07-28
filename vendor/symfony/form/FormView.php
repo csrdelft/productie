@@ -34,7 +34,7 @@ class FormView implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * The child views.
      *
-     * @var array<string, FormView>
+     * @var FormView[]
      */
     public $children = [];
 
@@ -128,8 +128,6 @@ class FormView implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * Implements \ArrayAccess.
      *
-     * @return void
-     *
      * @throws BadMethodCallException always as setting a child by name is not allowed
      */
     public function offsetSet($name, $value)
@@ -141,8 +139,6 @@ class FormView implements \ArrayAccess, \IteratorAggregate, \Countable
      * Removes a child (implements \ArrayAccess).
      *
      * @param string $name The child name
-     *
-     * @return void
      */
     public function offsetUnset($name)
     {

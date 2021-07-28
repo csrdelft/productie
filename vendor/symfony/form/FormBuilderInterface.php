@@ -13,8 +13,6 @@ namespace Symfony\Component\Form;
 
 /**
  * @author Bernhard Schussek <bschussek@gmail.com>
- *
- * @extends \Traversable<string, self>
  */
 interface FormBuilderInterface extends \Traversable, \Countable, FormConfigBuilderInterface
 {
@@ -26,7 +24,6 @@ interface FormBuilderInterface extends \Traversable, \Countable, FormConfigBuild
      * object hierarchy.
      *
      * @param string|FormBuilderInterface $child
-     * @param array<string, mixed>        $options
      *
      * @return self
      */
@@ -35,9 +32,8 @@ interface FormBuilderInterface extends \Traversable, \Countable, FormConfigBuild
     /**
      * Creates a form builder.
      *
-     * @param string               $name    The name of the form or the name of the property
-     * @param string|null          $type    The type of the form or null if name is a property
-     * @param array<string, mixed> $options
+     * @param string      $name The name of the form or the name of the property
+     * @param string|null $type The type of the form or null if name is a property
      *
      * @return self
      */
@@ -69,7 +65,7 @@ interface FormBuilderInterface extends \Traversable, \Countable, FormConfigBuild
     /**
      * Returns the children.
      *
-     * @return array<string, self>
+     * @return array
      */
     public function all();
 

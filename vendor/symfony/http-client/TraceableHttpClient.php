@@ -105,15 +105,4 @@ final class TraceableHttpClient implements HttpClientInterface, ResetInterface, 
             $this->client->setLogger($logger);
         }
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function withOptions(array $options): self
-    {
-        $clone = clone $this;
-        $clone->client = $this->client->withOptions($options);
-
-        return $clone;
-    }
 }

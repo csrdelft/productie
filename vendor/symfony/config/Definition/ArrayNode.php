@@ -32,9 +32,9 @@ class ArrayNode extends BaseNode implements PrototypeNodeInterface
     protected $removeExtraKeys = true;
     protected $normalizeKeys = true;
 
-    public function setNormalizeKeys(bool $normalizeKeys)
+    public function setNormalizeKeys($normalizeKeys)
     {
-        $this->normalizeKeys = $normalizeKeys;
+        $this->normalizeKeys = (bool) $normalizeKeys;
     }
 
     /**
@@ -55,7 +55,7 @@ class ArrayNode extends BaseNode implements PrototypeNodeInterface
         $normalized = [];
 
         foreach ($value as $k => $v) {
-            if (str_contains($k, '-') && !str_contains($k, '_') && !\array_key_exists($normalizedKey = str_replace('-', '_', $k), $value)) {
+            if (false !== strpos($k, '-') && false === strpos($k, '_') && !\array_key_exists($normalizedKey = str_replace('-', '_', $k), $value)) {
                 $normalized[$normalizedKey] = $v;
             } else {
                 $normalized[$k] = $v;
@@ -184,7 +184,7 @@ class ArrayNode extends BaseNode implements PrototypeNodeInterface
     public function addChild(NodeInterface $node)
     {
         $name = $node->getName();
-        if ('' === $name) {
+        if (!\strlen($name)) {
             throw new \InvalidArgumentException('Child nodes must be named.');
         }
         if (isset($this->children[$name])) {
@@ -195,7 +195,11 @@ class ArrayNode extends BaseNode implements PrototypeNodeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Finalizes the value of this node.
+     *
+     * @param mixed $value
+     *
+     * @return mixed The finalised value
      *
      * @throws UnsetKeyException
      * @throws InvalidConfigurationException if the node doesn't have enough children
@@ -244,7 +248,11 @@ class ArrayNode extends BaseNode implements PrototypeNodeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Validates the type of the value.
+     *
+     * @param mixed $value
+     *
+     * @throws InvalidTypeException
      */
     protected function validateType($value)
     {
@@ -260,7 +268,11 @@ class ArrayNode extends BaseNode implements PrototypeNodeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Normalizes the value.
+     *
+     * @param mixed $value The value to normalize
+     *
+     * @return mixed The normalized value
      *
      * @throws InvalidConfigurationException
      */
@@ -340,7 +352,12 @@ class ArrayNode extends BaseNode implements PrototypeNodeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Merges values together.
+     *
+     * @param mixed $leftSide  The left side to merge
+     * @param mixed $rightSide The right side to merge
+     *
+     * @return mixed The merged values
      *
      * @throws InvalidConfigurationException
      * @throws \RuntimeException

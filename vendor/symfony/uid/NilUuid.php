@@ -12,6 +12,8 @@
 namespace Symfony\Component\Uid;
 
 /**
+ * @experimental in 5.2
+ *
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
  */
 class NilUuid extends Uuid
@@ -20,6 +22,6 @@ class NilUuid extends Uuid
 
     public function __construct()
     {
-        $this->uid = parent::NIL;
+        $this->uid = '00000000-0000-0000-0000-000000000000';
     }
 }

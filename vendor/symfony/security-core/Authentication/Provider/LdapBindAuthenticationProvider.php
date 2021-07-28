@@ -16,12 +16,10 @@ use Symfony\Component\Ldap\LdapInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Exception\LogicException;
-use Symfony\Component\Security\Core\Exception\UserNotFoundException;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-
-trigger_deprecation('symfony/security-core', '5.3', 'The "%s" class is deprecated, use the new authenticator system instead.', LdapBindAuthenticationProvider::class);
 
 /**
  * LdapBindAuthenticationProvider authenticates a user against an LDAP server.
@@ -30,8 +28,6 @@ trigger_deprecation('symfony/security-core', '5.3', 'The "%s" class is deprecate
  * credentials to the ldap.
  *
  * @author Charles Sarrazin <charles@sarraz.in>
- *
- * @deprecated since Symfony 5.3, use the new authenticator system instead
  */
 class LdapBindAuthenticationProvider extends UserAuthenticationProvider
 {
@@ -42,7 +38,7 @@ class LdapBindAuthenticationProvider extends UserAuthenticationProvider
     private $searchDn;
     private $searchPassword;
 
-    public function __construct(UserProviderInterface $userProvider, UserCheckerInterface $userChecker, string $providerKey, LdapInterface $ldap, string $dnString = '{user_identifier}', bool $hideUserNotFoundExceptions = true, string $searchDn = '', string $searchPassword = '')
+    public function __construct(UserProviderInterface $userProvider, UserCheckerInterface $userChecker, string $providerKey, LdapInterface $ldap, string $dnString = '{username}', bool $hideUserNotFoundExceptions = true, string $searchDn = '', string $searchPassword = '')
     {
         parent::__construct($userChecker, $providerKey, $hideUserNotFoundExceptions);
 
@@ -54,7 +50,7 @@ class LdapBindAuthenticationProvider extends UserAuthenticationProvider
     }
 
     /**
-     * Set a query string to use in order to find a DN for the user identifier.
+     * Set a query string to use in order to find a DN for the username.
      */
     public function setQueryString(string $queryString)
     {
@@ -64,20 +60,13 @@ class LdapBindAuthenticationProvider extends UserAuthenticationProvider
     /**
      * {@inheritdoc}
      */
-    protected function retrieveUser(string $userIdentifier, UsernamePasswordToken $token)
+    protected function retrieveUser(string $username, UsernamePasswordToken $token)
     {
-        if (AuthenticationProviderInterface::USERNAME_NONE_PROVIDED === $userIdentifier) {
-            throw new UserNotFoundException('User identifier can not be null.');
+        if (AuthenticationProviderInterface::USERNAME_NONE_PROVIDED === $username) {
+            throw new UsernameNotFoundException('Username can not be null.');
         }
 
-        // @deprecated since 5.3, change to $this->userProvider->loadUserByIdentifier() in 6.0
-        if (method_exists($this->userProvider, 'loadUserByIdentifier')) {
-            return $this->userProvider->loadUserByIdentifier($userIdentifier);
-        } else {
-            trigger_deprecation('symfony/security-core', '5.3', 'Not implementing method "loadUserByIdentifier()" in user provider "%s" is deprecated. This method will replace "loadUserByUsername()" in Symfony 6.0.', get_debug_type($this->userProvider));
-
-            return $this->userProvider->loadUserByUsername($userIdentifier);
-        }
+        return $this->userProvider->loadUserByUsername($username);
     }
 
     /**
@@ -85,8 +74,7 @@ class LdapBindAuthenticationProvider extends UserAuthenticationProvider
      */
     protected function checkAuthentication(UserInterface $user, UsernamePasswordToken $token)
     {
-        // @deprecated since 5.3, change to $token->getUserIdentifier() in 6.0
-        $userIdentifier = method_exists($token, 'getUserIdentifier') ? $token->getUserIdentifier() : $token->getUsername();
+        $username = $token->getUsername();
         $password = $token->getCredentials();
 
         if ('' === (string) $password) {
@@ -100,8 +88,8 @@ class LdapBindAuthenticationProvider extends UserAuthenticationProvider
                 } else {
                     throw new LogicException('Using the "query_string" config without using a "search_dn" and a "search_password" is not supported.');
                 }
-                $userIdentifier = $this->ldap->escape($userIdentifier, '', LdapInterface::ESCAPE_FILTER);
-                $query = str_replace(['{username}', '{user_identifier}'], $userIdentifier, $this->queryString);
+                $username = $this->ldap->escape($username, '', LdapInterface::ESCAPE_FILTER);
+                $query = str_replace('{username}', $username, $this->queryString);
                 $result = $this->ldap->query($this->dnString, $query)->execute();
                 if (1 !== $result->count()) {
                     throw new BadCredentialsException('The presented username is invalid.');
@@ -109,8 +97,8 @@ class LdapBindAuthenticationProvider extends UserAuthenticationProvider
 
                 $dn = $result[0]->getDn();
             } else {
-                $userIdentifier = $this->ldap->escape($userIdentifier, '', LdapInterface::ESCAPE_DN);
-                $dn = str_replace(['{username}', '{user_identifier}'], $userIdentifier, $this->dnString);
+                $username = $this->ldap->escape($username, '', LdapInterface::ESCAPE_DN);
+                $dn = str_replace('{username}', $username, $this->dnString);
             }
 
             $this->ldap->bind($dn, $password);

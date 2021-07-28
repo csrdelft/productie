@@ -12,29 +12,23 @@
 namespace Symfony\Component\Uid;
 
 /**
- * @author Grégoire Pineau <lyrixx@lyrixx.info>
+ * @experimental in 5.2
  *
- * @see https://tools.ietf.org/html/rfc4122#appendix-C for details about namespaces
+ * @author Grégoire Pineau <lyrixx@lyrixx.info>
  */
 class Uuid extends AbstractUid
 {
-    public const NAMESPACE_DNS = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
-    public const NAMESPACE_URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
-    public const NAMESPACE_OID = '6ba7b812-9dad-11d1-80b4-00c04fd430c8';
-    public const NAMESPACE_X500 = '6ba7b814-9dad-11d1-80b4-00c04fd430c8';
-
     protected const TYPE = 0;
-    protected const NIL = '00000000-0000-0000-0000-000000000000';
 
     public function __construct(string $uuid)
     {
-        $type = preg_match('{^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$}Di', $uuid) ? (int) $uuid[14] : false;
+        $type = uuid_is_valid($uuid) ? uuid_type($uuid) : false;
 
-        if (false === $type || (static::TYPE ?: $type) !== $type) {
+        if (false === $type || \UUID_TYPE_INVALID === $type || (static::TYPE ?: $type) !== $type) {
             throw new \InvalidArgumentException(sprintf('Invalid UUID%s: "%s".', static::TYPE ? 'v'.static::TYPE : '', $uuid));
         }
 
-        $this->uid = strtolower($uuid);
+        $this->uid = strtr($uuid, 'ABCDEF', 'abcdef');
     }
 
     /**
@@ -43,7 +37,7 @@ class Uuid extends AbstractUid
     public static function fromString(string $uuid): parent
     {
         if (22 === \strlen($uuid) && 22 === strspn($uuid, BinaryUtil::BASE58[''])) {
-            $uuid = str_pad(BinaryUtil::fromBase($uuid, BinaryUtil::BASE58), 16, "\0", \STR_PAD_LEFT);
+            $uuid = BinaryUtil::fromBase($uuid, BinaryUtil::BASE58);
         }
 
         if (16 === \strlen($uuid)) {
@@ -54,25 +48,24 @@ class Uuid extends AbstractUid
             $uuid = substr_replace($uuid, '-', 18, 0);
             $uuid = substr_replace($uuid, '-', 23, 0);
         } elseif (26 === \strlen($uuid) && Ulid::isValid($uuid)) {
-            $ulid = new Ulid('00000000000000000000000000');
-            $ulid->uid = strtoupper($uuid);
-            $uuid = $ulid->toRfc4122();
+            $uuid = (new Ulid($uuid))->toRfc4122();
         }
 
         if (__CLASS__ !== static::class || 36 !== \strlen($uuid)) {
             return new static($uuid);
         }
 
-        if (self::NIL === $uuid) {
-            return new NilUuid();
+        if (!uuid_is_valid($uuid)) {
+            throw new \InvalidArgumentException(sprintf('Invalid UUID%s: "%s".', static::TYPE ? 'v'.static::TYPE : '', $uuid));
         }
 
-        switch ($uuid[14]) {
+        switch (uuid_type($uuid)) {
             case UuidV1::TYPE: return new UuidV1($uuid);
             case UuidV3::TYPE: return new UuidV3($uuid);
             case UuidV4::TYPE: return new UuidV4($uuid);
             case UuidV5::TYPE: return new UuidV5($uuid);
             case UuidV6::TYPE: return new UuidV6($uuid);
+            case NilUuid::TYPE: return new NilUuid();
         }
 
         return new self($uuid);
@@ -111,11 +104,11 @@ class Uuid extends AbstractUid
 
     public static function isValid(string $uuid): bool
     {
-        if (!preg_match('{^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$}Di', $uuid)) {
-            return false;
+        if (__CLASS__ === static::class) {
+            return uuid_is_valid($uuid);
         }
 
-        return __CLASS__ === static::class || static::TYPE === (int) $uuid[14];
+        return uuid_is_valid($uuid) && static::TYPE === uuid_type($uuid);
     }
 
     public function toBinary(): string

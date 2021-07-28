@@ -18,19 +18,15 @@ use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-trigger_deprecation('symfony/security-core', '5.3', 'The "%s" class is deprecated, use the new authenticator system instead.', PreAuthenticatedAuthenticationProvider::class);
-
 /**
  * Processes a pre-authenticated authentication request.
  *
  * This authentication provider will not perform any checks on authentication
  * requests, as they should already be pre-authenticated. However, the
  * UserProviderInterface implementation may still throw a
- * UserNotFoundException, for example.
+ * UsernameNotFoundException, for example.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @deprecated since Symfony 5.3, use the new authenticator system instead
  */
 class PreAuthenticatedAuthenticationProvider implements AuthenticationProviderInterface
 {
@@ -58,15 +54,7 @@ class PreAuthenticatedAuthenticationProvider implements AuthenticationProviderIn
             throw new BadCredentialsException('No pre-authenticated principal found in request.');
         }
 
-        $userIdentifier = method_exists($token, 'getUserIdentifier') ? $token->getUserIdentifier() : $token->getUsername();
-        // @deprecated since 5.3, change to $this->userProvider->loadUserByIdentifier() in 6.0
-        if (method_exists($this->userProvider, 'loadUserByIdentifier')) {
-            $user = $this->userProvider->loadUserByIdentifier($userIdentifier);
-        } else {
-            trigger_deprecation('symfony/security-core', '5.3', 'Not implementing method "loadUserByIdentifier()" in user provider "%s" is deprecated. This method will replace "loadUserByUsername()" in Symfony 6.0.', get_debug_type($this->userProvider));
-
-            $user = $this->userProvider->loadUserByUsername($userIdentifier);
-        }
+        $user = $this->userProvider->loadUserByUsername($user);
 
         $this->userChecker->checkPostAuth($user);
 

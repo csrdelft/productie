@@ -49,9 +49,7 @@ class KernelBrowser extends HttpKernelBrowser
      */
     public function getContainer()
     {
-        $container = $this->kernel->getContainer();
-
-        return $container->has('test.service_container') ? $container->get('test.service_container') : $container;
+        return $this->kernel->getContainer();
     }
 
     /**
@@ -71,11 +69,11 @@ class KernelBrowser extends HttpKernelBrowser
      */
     public function getProfile()
     {
-        if (null === $this->response || !$this->getContainer()->has('profiler')) {
+        if (null === $this->response || !$this->kernel->getContainer()->has('profiler')) {
             return false;
         }
 
-        return $this->getContainer()->get('profiler')->loadProfileFromResponse($this->response);
+        return $this->kernel->getContainer()->get('profiler')->loadProfileFromResponse($this->response);
     }
 
     /**
@@ -85,7 +83,7 @@ class KernelBrowser extends HttpKernelBrowser
      */
     public function enableProfiler()
     {
-        if ($this->getContainer()->has('profiler')) {
+        if ($this->kernel->getContainer()->has('profiler')) {
             $this->profiler = true;
         }
     }
@@ -112,7 +110,7 @@ class KernelBrowser extends HttpKernelBrowser
     /**
      * @param UserInterface $user
      */
-    public function loginUser(object $user, string $firewallContext = 'main'): self
+    public function loginUser($user, string $firewallContext = 'main'): self
     {
         if (!interface_exists(UserInterface::class)) {
             throw new \LogicException(sprintf('"%s" requires symfony/security-core to be installed.', __METHOD__));
@@ -124,15 +122,7 @@ class KernelBrowser extends HttpKernelBrowser
 
         $token = new TestBrowserToken($user->getRoles(), $user, $firewallContext);
         $token->setAuthenticated(true);
-
-        $container = $this->getContainer();
-        $container->get('security.untracked_token_storage')->setToken($token);
-
-        if (!$container->has('session') && !$container->has('session_factory')) {
-            return $this;
-        }
-
-        $session = $container->get($container->has('session') ? 'session' : 'session_factory');
+        $session = $this->getContainer()->get('session');
         $session->set('_security_'.$firewallContext, serialize($token));
         $session->save();
 
@@ -145,9 +135,9 @@ class KernelBrowser extends HttpKernelBrowser
     /**
      * {@inheritdoc}
      *
-     * @param Request $request
+     * @param Request $request A Request instance
      *
-     * @return Response
+     * @return Response A Response instance
      */
     protected function doRequest($request)
     {
@@ -163,7 +153,7 @@ class KernelBrowser extends HttpKernelBrowser
             $this->profiler = false;
 
             $this->kernel->boot();
-            $this->getContainer()->get('profiler')->enable();
+            $this->kernel->getContainer()->get('profiler')->enable();
         }
 
         return parent::doRequest($request);
@@ -172,9 +162,9 @@ class KernelBrowser extends HttpKernelBrowser
     /**
      * {@inheritdoc}
      *
-     * @param Request $request
+     * @param Request $request A Request instance
      *
-     * @return Response
+     * @return Response A Response instance
      */
     protected function doRequestInProcess($request)
     {
@@ -193,9 +183,9 @@ class KernelBrowser extends HttpKernelBrowser
      * Symfony Standard Edition). If this is not your case, create your own
      * client and override this method.
      *
-     * @param Request $request
+     * @param Request $request A Request instance
      *
-     * @return string
+     * @return string The script content
      */
     protected function getScript($request)
     {
@@ -222,11 +212,7 @@ class KernelBrowser extends HttpKernelBrowser
 
         $profilerCode = '';
         if ($this->profiler) {
-            $profilerCode = <<<'EOF'
-$container = $kernel->getContainer();
-$container = $container->has('test.service_container') ? $container->get('test.service_container') : $container;
-$container->get('profiler')->enable();
-EOF;
+            $profilerCode = '$kernel->getContainer()->get(\'profiler\')->enable();';
         }
 
         $code = <<<EOF

@@ -68,16 +68,20 @@ class Gitignore
             $isAbsolute = false;
         }
 
-        $regex = preg_quote(str_replace('\\', '', $gitignoreLine), '~');
-        $regex = preg_replace_callback('~\\\\\[((?:\\\\!)?)([^\[\]]*)\\\\\]~', function (array $matches): string {
-            return '['.('' !== $matches[1] ? '^' : '').str_replace('\\-', '-', $matches[2]).']';
-        }, $regex);
-        $regex = preg_replace('~(?:(?:\\\\\*){2,}(/?))+~', '(?:(?:(?!//).(?<!//))+$1)?', $regex);
-        $regex = preg_replace('~\\\\\*~', '[^/]*', $regex);
-        $regex = preg_replace('~\\\\\?~', '[^/]', $regex);
+        $parts = array_map(function (string $v): string {
+            $v = preg_quote(str_replace('\\', '', $v), '~');
+            $v = preg_replace_callback('~\\\\\[([^\[\]]*)\\\\\]~', function (array $matches): string {
+                return '['.str_replace('\\-', '-', $matches[1]).']';
+            }, $v);
+            $v = preg_replace('~\\\\\*\\\\\*~', '[^/]+(?:/[^/]+)*', $v);
+            $v = preg_replace('~\\\\\*~', '[^/]*', $v);
+            $v = preg_replace('~\\\\\?~', '[^/]', $v);
+
+            return $v;
+        }, explode('/', $gitignoreLine));
 
         return ($isAbsolute ? '' : '(?:[^/]+/)*')
-            .$regex
-            .(!str_ends_with($gitignoreLine, '/') ? '(?:$|/)' : '');
+            .implode('/', $parts)
+            .('' !== end($parts) ? '(?:$|/)' : '');
     }
 }

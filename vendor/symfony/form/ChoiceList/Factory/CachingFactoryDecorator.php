@@ -84,8 +84,10 @@ class CachingFactoryDecorator implements ChoiceListFactoryInterface, ResetInterf
     /**
      * {@inheritdoc}
      *
-     * @param mixed $value
-     * @param mixed $filter
+     * @param callable|Cache\ChoiceValue|null  $value  The callable or static option for
+     *                                                 generating the choice values
+     * @param callable|Cache\ChoiceFilter|null $filter The callable or static option for
+     *                                                 filtering the choices
      */
     public function createListFromChoices(iterable $choices, $value = null/*, $filter = null*/)
     {
@@ -125,8 +127,12 @@ class CachingFactoryDecorator implements ChoiceListFactoryInterface, ResetInterf
     /**
      * {@inheritdoc}
      *
-     * @param mixed $value
-     * @param mixed $filter
+     * @param ChoiceLoaderInterface|Cache\ChoiceLoader $loader The loader or static loader to load
+     *                                                         the choices lazily
+     * @param callable|Cache\ChoiceValue|null          $value  The callable or static option for
+     *                                                         generating the choice values
+     * @param callable|Cache\ChoiceFilter|null         $filter The callable or static option for
+     *                                                         filtering the choices
      */
     public function createListFromLoader(ChoiceLoaderInterface $loader, $value = null/*, $filter = null*/)
     {
@@ -168,16 +174,14 @@ class CachingFactoryDecorator implements ChoiceListFactoryInterface, ResetInterf
     /**
      * {@inheritdoc}
      *
-     * @param mixed $preferredChoices
-     * @param mixed $label
-     * @param mixed $index
-     * @param mixed $groupBy
-     * @param mixed $attr
-     * @param mixed $labelTranslationParameters
+     * @param array|callable|Cache\PreferredChoice|null $preferredChoices The preferred choices
+     * @param callable|false|Cache\ChoiceLabel|null     $label            The option or static option generating the choice labels
+     * @param callable|Cache\ChoiceFieldName|null       $index            The option or static option generating the view indices
+     * @param callable|Cache\GroupBy|null               $groupBy          The option or static option generating the group names
+     * @param array|callable|Cache\ChoiceAttr|null      $attr             The option or static option generating the HTML attributes
      */
-    public function createView(ChoiceListInterface $list, $preferredChoices = null, $label = null, $index = null, $groupBy = null, $attr = null/*, $labelTranslationParameters = []*/)
+    public function createView(ChoiceListInterface $list, $preferredChoices = null, $label = null, $index = null, $groupBy = null, $attr = null)
     {
-        $labelTranslationParameters = \func_num_args() > 6 ? func_get_arg(6) : [];
         $cache = true;
 
         if ($preferredChoices instanceof Cache\PreferredChoice) {
@@ -210,25 +214,11 @@ class CachingFactoryDecorator implements ChoiceListFactoryInterface, ResetInterf
             $cache = false;
         }
 
-        if ($labelTranslationParameters instanceof Cache\ChoiceTranslationParameters) {
-            $labelTranslationParameters = $labelTranslationParameters->getOption();
-        } elseif ([] !== $labelTranslationParameters) {
-            $cache = false;
-        }
-
         if (!$cache) {
-            return $this->decoratedFactory->createView(
-                $list,
-                $preferredChoices,
-                $label,
-                $index,
-                $groupBy,
-                $attr,
-                $labelTranslationParameters
-            );
+            return $this->decoratedFactory->createView($list, $preferredChoices, $label, $index, $groupBy, $attr);
         }
 
-        $hash = self::generateHash([$list, $preferredChoices, $label, $index, $groupBy, $attr, $labelTranslationParameters]);
+        $hash = self::generateHash([$list, $preferredChoices, $label, $index, $groupBy, $attr]);
 
         if (!isset($this->views[$hash])) {
             $this->views[$hash] = $this->decoratedFactory->createView(
@@ -237,8 +227,7 @@ class CachingFactoryDecorator implements ChoiceListFactoryInterface, ResetInterf
                 $label,
                 $index,
                 $groupBy,
-                $attr,
-                $labelTranslationParameters
+                $attr
             );
         }
 

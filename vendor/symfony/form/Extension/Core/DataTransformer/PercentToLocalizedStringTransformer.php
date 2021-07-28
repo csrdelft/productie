@@ -39,13 +39,19 @@ class PercentToLocalizedStringTransformer implements DataTransformerInterface
     /**
      * @see self::$types for a list of supported types
      *
+     * @param int      $scale        The scale
+     * @param string   $type         One of the supported types
      * @param int|null $roundingMode A value from \NumberFormatter, such as \NumberFormatter::ROUND_HALFUP
      * @param bool     $html5Format  Use an HTML5 specific format, see https://www.w3.org/TR/html51/sec-forms.html#date-time-and-number-formats
      *
      * @throws UnexpectedTypeException if the given value of type is unknown
      */
-    public function __construct(int $scale = null, string $type = null, int $roundingMode = null, bool $html5Format = false)
+    public function __construct(int $scale = null, string $type = null, ?int $roundingMode = null, bool $html5Format = false)
     {
+        if (null === $scale) {
+            $scale = 0;
+        }
+
         if (null === $type) {
             $type = self::FRACTIONAL;
         }
@@ -59,7 +65,7 @@ class PercentToLocalizedStringTransformer implements DataTransformerInterface
         }
 
         $this->type = $type;
-        $this->scale = $scale ?? 0;
+        $this->scale = $scale;
         $this->roundingMode = $roundingMode;
         $this->html5Format = $html5Format;
     }
@@ -133,7 +139,7 @@ class PercentToLocalizedStringTransformer implements DataTransformerInterface
             $value = str_replace(',', $decSep, $value);
         }
 
-        if (str_contains($value, $decSep)) {
+        if (false !== strpos($value, $decSep)) {
             $type = \NumberFormatter::TYPE_DOUBLE;
         } else {
             $type = \PHP_INT_SIZE === 8 ? \NumberFormatter::TYPE_INT64 : \NumberFormatter::TYPE_INT32;

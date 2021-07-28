@@ -20,8 +20,6 @@ use Symfony\Component\Intl\Globals\IntlGlobals;
  * @author Igor Wiedler <igor@wiedler.ch>
  *
  * @internal
- *
- * @deprecated since Symfony 5.3, use symfony/polyfill-intl-icu ^1.21 instead
  */
 class FullTransformer
 {
@@ -105,7 +103,7 @@ class FullTransformer
         }
 
         // handle unimplemented characters
-        if (str_contains($this->notImplementedChars, $dateChars[0])) {
+        if (false !== strpos($this->notImplementedChars, $dateChars[0])) {
             throw new NotImplementedException(sprintf('Unimplemented date character "%s" in format "%s".', $dateChars[0], $this->pattern));
         }
 

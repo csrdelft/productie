@@ -51,42 +51,23 @@ class XmlFileLoader extends FileLoader
 
         $this->container->fileExists($path);
 
-        $this->loadXml($xml, $path);
-
-        if ($this->env) {
-            $xpath = new \DOMXPath($xml);
-            $xpath->registerNamespace('container', self::NS);
-            foreach ($xpath->query(sprintf('//container:when[@env="%s"]', $this->env)) ?: [] as $root) {
-                $env = $this->env;
-                $this->env = null;
-                try {
-                    $this->loadXml($xml, $path, $root);
-                } finally {
-                    $this->env = $env;
-                }
-            }
-        }
-    }
-
-    private function loadXml(\DOMDocument $xml, string $path, \DOMNode $root = null): void
-    {
-        $defaults = $this->getServiceDefaults($xml, $path, $root);
+        $defaults = $this->getServiceDefaults($xml, $path);
 
         // anonymous services
-        $this->processAnonymousServices($xml, $path, $root);
+        $this->processAnonymousServices($xml, $path);
 
         // imports
-        $this->parseImports($xml, $path, $root);
+        $this->parseImports($xml, $path);
 
         // parameters
-        $this->parseParameters($xml, $path, $root);
+        $this->parseParameters($xml, $path);
 
         // extensions
-        $this->loadFromExtensions($xml, $root);
+        $this->loadFromExtensions($xml);
 
         // services
         try {
-            $this->parseDefinitions($xml, $path, $defaults, $root);
+            $this->parseDefinitions($xml, $path, $defaults);
         } finally {
             $this->instanceof = [];
             $this->registerAliasesForSinglyImplementedInterfaces();
@@ -109,19 +90,19 @@ class XmlFileLoader extends FileLoader
         return 'xml' === $type;
     }
 
-    private function parseParameters(\DOMDocument $xml, string $file, \DOMNode $root = null)
+    private function parseParameters(\DOMDocument $xml, string $file)
     {
-        if ($parameters = $this->getChildren($root ?? $xml->documentElement, 'parameters')) {
+        if ($parameters = $this->getChildren($xml->documentElement, 'parameters')) {
             $this->container->getParameterBag()->add($this->getArgumentsAsPhp($parameters[0], 'parameter', $file));
         }
     }
 
-    private function parseImports(\DOMDocument $xml, string $file, \DOMNode $root = null)
+    private function parseImports(\DOMDocument $xml, string $file)
     {
         $xpath = new \DOMXPath($xml);
         $xpath->registerNamespace('container', self::NS);
 
-        if (false === $imports = $xpath->query('.//container:imports/container:import', $root)) {
+        if (false === $imports = $xpath->query('//container:imports/container:import')) {
             return;
         }
 
@@ -132,19 +113,19 @@ class XmlFileLoader extends FileLoader
         }
     }
 
-    private function parseDefinitions(\DOMDocument $xml, string $file, Definition $defaults, \DOMNode $root = null)
+    private function parseDefinitions(\DOMDocument $xml, string $file, Definition $defaults)
     {
         $xpath = new \DOMXPath($xml);
         $xpath->registerNamespace('container', self::NS);
 
-        if (false === $services = $xpath->query('.//container:services/container:service|.//container:services/container:prototype|.//container:services/container:stack', $root)) {
+        if (false === $services = $xpath->query('//container:services/container:service|//container:services/container:prototype|//container:services/container:stack')) {
             return;
         }
         $this->setCurrentDir(\dirname($file));
 
         $this->instanceof = [];
         $this->isLoadingInstanceof = true;
-        $instanceof = $xpath->query('.//container:services/container:instanceof', $root);
+        $instanceof = $xpath->query('//container:services/container:instanceof');
         foreach ($instanceof as $service) {
             $this->setDefinition((string) $service->getAttribute('id'), $this->parseDefinition($service, $file, new Definition()));
         }
@@ -190,12 +171,12 @@ class XmlFileLoader extends FileLoader
         }
     }
 
-    private function getServiceDefaults(\DOMDocument $xml, string $file, \DOMNode $root = null): Definition
+    private function getServiceDefaults(\DOMDocument $xml, string $file): Definition
     {
         $xpath = new \DOMXPath($xml);
         $xpath->registerNamespace('container', self::NS);
 
-        if (null === $defaultsNode = $xpath->query('.//container:services/container:defaults', $root)->item(0)) {
+        if (null === $defaultsNode = $xpath->query('//container:services/container:defaults')->item(0)) {
             return new Definition();
         }
 
@@ -342,7 +323,7 @@ class XmlFileLoader extends FileLoader
                     continue;
                 }
 
-                if (str_contains($name, '-') && !str_contains($name, '_') && !\array_key_exists($normalizedName = str_replace('-', '_', $name), $parameters)) {
+                if (false !== strpos($name, '-') && false === strpos($name, '_') && !\array_key_exists($normalizedName = str_replace('-', '_', $name), $parameters)) {
                     $parameters[$normalizedName] = XmlUtils::phpize($node->nodeValue);
                 }
                 // keep not normalized key
@@ -413,7 +394,7 @@ class XmlFileLoader extends FileLoader
     /**
      * Processes anonymous services.
      */
-    private function processAnonymousServices(\DOMDocument $xml, string $file, \DOMNode $root = null)
+    private function processAnonymousServices(\DOMDocument $xml, string $file)
     {
         $definitions = [];
         $count = 0;
@@ -423,7 +404,7 @@ class XmlFileLoader extends FileLoader
         $xpath->registerNamespace('container', self::NS);
 
         // anonymous services as arguments/properties
-        if (false !== $nodes = $xpath->query('.//container:argument[@type="service"][not(@id)]|.//container:property[@type="service"][not(@id)]|.//container:bind[not(@id)]|.//container:factory[not(@service)]|.//container:configurator[not(@service)]', $root)) {
+        if (false !== $nodes = $xpath->query('//container:argument[@type="service"][not(@id)]|//container:property[@type="service"][not(@id)]|//container:bind[not(@id)]|//container:factory[not(@service)]|//container:configurator[not(@service)]')) {
             foreach ($nodes as $node) {
                 if ($services = $this->getChildren($node, 'service')) {
                     // give it a unique name
@@ -442,7 +423,7 @@ class XmlFileLoader extends FileLoader
         }
 
         // anonymous services "in the wild"
-        if (false !== $nodes = $xpath->query('.//container:services/container:service[not(@id)]', $root)) {
+        if (false !== $nodes = $xpath->query('//container:services/container:service[not(@id)]')) {
             foreach ($nodes as $node) {
                 throw new InvalidArgumentException(sprintf('Top-level services must have "id" attribute, none found in "%s" at line %d.', $file, $node->getLineNo()));
             }
@@ -631,7 +612,7 @@ class XmlFileLoader extends FileLoader
                     array_shift($parts);
                     $locationstart = 'phar:///';
                 }
-            } elseif ('\\' === \DIRECTORY_SEPARATOR && str_starts_with($location, '\\\\')) {
+            } elseif ('\\' === \DIRECTORY_SEPARATOR && 0 === strpos($location, '\\\\')) {
                 $locationstart = '';
             }
             $drive = '\\' === \DIRECTORY_SEPARATOR ? array_shift($parts).'/' : '';

@@ -29,7 +29,6 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerAggregate;
 class CacheWarmupCommand extends Command
 {
     protected static $defaultName = 'cache:warmup';
-    protected static $defaultDescription = 'Warm up an empty cache';
 
     private $cacheWarmer;
 
@@ -49,7 +48,7 @@ class CacheWarmupCommand extends Command
             ->setDefinition([
                 new InputOption('no-optional-warmers', '', InputOption::VALUE_NONE, 'Skip optional cache warmers (faster)'),
             ])
-            ->setDescription(self::$defaultDescription)
+            ->setDescription('Warm up an empty cache')
             ->setHelp(<<<'EOF'
 The <info>%command.name%</info> command warms up the cache.
 

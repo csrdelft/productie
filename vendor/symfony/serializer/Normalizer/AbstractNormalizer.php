@@ -237,7 +237,8 @@ abstract class AbstractNormalizer implements NormalizerInterface, DenormalizerIn
             return false;
         }
 
-        $groups = $this->getGroups($context);
+        $tmpGroups = $context[self::GROUPS] ?? $this->defaultContext[self::GROUPS] ?? null;
+        $groups = (\is_array($tmpGroups) || is_scalar($tmpGroups)) ? (array) $tmpGroups : false;
 
         $allowedAttributes = [];
         $ignoreUsed = false;
@@ -249,26 +250,19 @@ abstract class AbstractNormalizer implements NormalizerInterface, DenormalizerIn
             // If you update this check, update accordingly the one in Symfony\Component\PropertyInfo\Extractor\SerializerExtractor::getProperties()
             if (
                 !$ignore &&
-                ([] === $groups || array_intersect(array_merge($attributeMetadata->getGroups(), ['*']), $groups)) &&
+                (false === $groups || array_intersect(array_merge($attributeMetadata->getGroups(), ['*']), $groups)) &&
                 $this->isAllowedAttribute($classOrObject, $name = $attributeMetadata->getName(), null, $context)
             ) {
                 $allowedAttributes[] = $attributesAsString ? $name : $attributeMetadata;
             }
         }
 
-        if (!$ignoreUsed && [] === $groups && $allowExtraAttributes) {
+        if (!$ignoreUsed && false === $groups && $allowExtraAttributes) {
             // Backward Compatibility with the code using this method written before the introduction of @Ignore
             return false;
         }
 
         return $allowedAttributes;
-    }
-
-    protected function getGroups(array $context): array
-    {
-        $groups = $context[self::GROUPS] ?? $this->defaultContext[self::GROUPS] ?? [];
-
-        return is_scalar($groups) ? (array) $groups : $groups;
     }
 
     /**

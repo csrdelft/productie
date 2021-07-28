@@ -175,10 +175,9 @@ abstract class AbstractObjectNormalizer extends AbstractNormalizer
                 continue;
             }
 
-            $attributeContext = $this->getAttributeNormalizationContext($object, $attribute, $context);
-            $attributeValue = $this->getAttributeValue($object, $attribute, $format, $attributeContext);
+            $attributeValue = $this->getAttributeValue($object, $attribute, $format, $context);
             if ($maxDepthReached) {
-                $attributeValue = $maxDepthHandler($attributeValue, $object, $attribute, $format, $attributeContext);
+                $attributeValue = $maxDepthHandler($attributeValue, $object, $attribute, $format, $context);
             }
 
             /**
@@ -186,14 +185,14 @@ abstract class AbstractObjectNormalizer extends AbstractNormalizer
              */
             $callback = $context[self::CALLBACKS][$attribute] ?? $this->defaultContext[self::CALLBACKS][$attribute] ?? null;
             if ($callback) {
-                $attributeValue = $callback($attributeValue, $object, $attribute, $format, $attributeContext);
+                $attributeValue = $callback($attributeValue, $object, $attribute, $format, $context);
             }
 
             if (null !== $attributeValue && !is_scalar($attributeValue)) {
                 $stack[$attribute] = $attributeValue;
             }
 
-            $data = $this->updateData($data, $attribute, $attributeValue, $class, $format, $attributeContext);
+            $data = $this->updateData($data, $attribute, $attributeValue, $class, $format, $context);
         }
 
         foreach ($stack as $attribute => $attributeValue) {
@@ -201,10 +200,7 @@ abstract class AbstractObjectNormalizer extends AbstractNormalizer
                 throw new LogicException(sprintf('Cannot normalize attribute "%s" because the injected serializer is not a normalizer.', $attribute));
             }
 
-            $attributeContext = $this->getAttributeNormalizationContext($object, $attribute, $context);
-            $childContext = $this->createChildContext($attributeContext, $attribute, $format);
-
-            $data = $this->updateData($data, $attribute, $this->serializer->normalize($attributeValue, $format, $childContext), $class, $format, $attributeContext);
+            $data = $this->updateData($data, $attribute, $this->serializer->normalize($attributeValue, $format, $this->createChildContext($context, $attribute, $format)), $class, $format, $context);
         }
 
         if (isset($context[self::PRESERVE_EMPTY_OBJECTS]) && !\count($data)) {
@@ -212,39 +208,6 @@ abstract class AbstractObjectNormalizer extends AbstractNormalizer
         }
 
         return $data;
-    }
-
-    /**
-     * Computes the normalization context merged with current one. Metadata always wins over global context, as more specific.
-     */
-    private function getAttributeNormalizationContext(object $object, string $attribute, array $context): array
-    {
-        if (null === $metadata = $this->getAttributeMetadata($object, $attribute)) {
-            return $context;
-        }
-
-        return array_merge($context, $metadata->getNormalizationContextForGroups($this->getGroups($context)));
-    }
-
-    /**
-     * Computes the denormalization context merged with current one. Metadata always wins over global context, as more specific.
-     */
-    private function getAttributeDenormalizationContext(string $class, string $attribute, array $context): array
-    {
-        if (null === $metadata = $this->getAttributeMetadata($class, $attribute)) {
-            return $context;
-        }
-
-        return array_merge($context, $metadata->getDenormalizationContextForGroups($this->getGroups($context)));
-    }
-
-    private function getAttributeMetadata($objectOrClass, string $attribute): ?AttributeMetadataInterface
-    {
-        if (!$this->classMetadataFactory) {
-            return null;
-        }
-
-        return $this->classMetadataFactory->getMetadataFor($objectOrClass)->getAttributesMetadata()[$attribute] ?? null;
     }
 
     /**
@@ -273,9 +236,11 @@ abstract class AbstractObjectNormalizer extends AbstractNormalizer
     /**
      * Gets and caches attributes for the given object, format and context.
      *
+     * @param object $object
+     *
      * @return string[]
      */
-    protected function getAttributes(object $object, ?string $format, array $context)
+    protected function getAttributes($object, ?string $format, array $context)
     {
         $class = $this->objectClassResolver ? ($this->objectClassResolver)($object) : \get_class($object);
         $key = $class.'-'.$context['cache_key'];
@@ -347,10 +312,8 @@ abstract class AbstractObjectNormalizer extends AbstractNormalizer
         $resolvedClass = $this->objectClassResolver ? ($this->objectClassResolver)($object) : \get_class($object);
 
         foreach ($normalizedData as $attribute => $value) {
-            $attributeContext = $this->getAttributeDenormalizationContext($resolvedClass, $attribute, $context);
-
             if ($this->nameConverter) {
-                $attribute = $this->nameConverter->denormalize($attribute, $resolvedClass, $format, $attributeContext);
+                $attribute = $this->nameConverter->denormalize($attribute, $resolvedClass, $format, $context);
             }
 
             if ((false !== $allowedAttributes && !\in_array($attribute, $allowedAttributes)) || !$this->isAllowedAttribute($resolvedClass, $attribute, $format, $context)) {
@@ -361,16 +324,16 @@ abstract class AbstractObjectNormalizer extends AbstractNormalizer
                 continue;
             }
 
-            if ($attributeContext[self::DEEP_OBJECT_TO_POPULATE] ?? $this->defaultContext[self::DEEP_OBJECT_TO_POPULATE] ?? false) {
+            if ($context[self::DEEP_OBJECT_TO_POPULATE] ?? $this->defaultContext[self::DEEP_OBJECT_TO_POPULATE] ?? false) {
                 try {
-                    $attributeContext[self::OBJECT_TO_POPULATE] = $this->getAttributeValue($object, $attribute, $format, $attributeContext);
+                    $context[self::OBJECT_TO_POPULATE] = $this->getAttributeValue($object, $attribute, $format, $context);
                 } catch (NoSuchPropertyException $e) {
                 }
             }
 
-            $value = $this->validateAndDenormalize($resolvedClass, $attribute, $value, $format, $attributeContext);
+            $value = $this->validateAndDenormalize($resolvedClass, $attribute, $value, $format, $context);
             try {
-                $this->setAttributeValue($object, $attribute, $value, $format, $attributeContext);
+                $this->setAttributeValue($object, $attribute, $value, $format, $context);
             } catch (InvalidArgumentException $e) {
                 throw new NotNormalizableValueException(sprintf('Failed to denormalize attribute "%s" value for class "%s": '.$e->getMessage(), $attribute, $type), $e->getCode(), $e);
             }
@@ -410,7 +373,7 @@ abstract class AbstractObjectNormalizer extends AbstractNormalizer
                 return null;
             }
 
-            $collectionValueType = $type->isCollection() ? $type->getCollectionValueTypes()[0] ?? null : null;
+            $collectionValueType = $type->isCollection() ? $type->getCollectionValueType() : null;
 
             // Fix a collection that contains the only one element
             // This is special to xml format only
@@ -468,18 +431,18 @@ abstract class AbstractObjectNormalizer extends AbstractNormalizer
                 $builtinType = Type::BUILTIN_TYPE_OBJECT;
                 $class = $collectionValueType->getClassName().'[]';
 
-                if (\count($collectionKeyType = $type->getCollectionKeyTypes()) > 0) {
-                    [$context['key_type']] = $collectionKeyType;
+                if (null !== $collectionKeyType = $type->getCollectionKeyType()) {
+                    $context['key_type'] = $collectionKeyType;
                 }
-            } elseif ($type->isCollection() && \count($collectionValueType = $type->getCollectionValueTypes()) > 0 && Type::BUILTIN_TYPE_ARRAY === $collectionValueType[0]->getBuiltinType()) {
+            } elseif ($type->isCollection() && null !== ($collectionValueType = $type->getCollectionValueType()) && Type::BUILTIN_TYPE_ARRAY === $collectionValueType->getBuiltinType()) {
                 // get inner type for any nested array
-                [$innerType] = $collectionValueType;
+                $innerType = $collectionValueType;
 
                 // note that it will break for any other builtinType
                 $dimensions = '[]';
-                while (\count($innerType->getCollectionValueTypes()) > 0 && Type::BUILTIN_TYPE_ARRAY === $innerType->getBuiltinType()) {
+                while (null !== $innerType->getCollectionValueType() && Type::BUILTIN_TYPE_ARRAY === $innerType->getBuiltinType()) {
                     $dimensions .= '[]';
-                    [$innerType] = $innerType->getCollectionValueTypes();
+                    $innerType = $innerType->getCollectionValueType();
                 }
 
                 if (null !== $innerType->getClassName()) {
@@ -515,7 +478,7 @@ abstract class AbstractObjectNormalizer extends AbstractNormalizer
             // PHP's json_decode automatically converts Numbers without a decimal part to integers.
             // To circumvent this behavior, integers are converted to floats when denormalizing JSON based formats and when
             // a float is expected.
-            if (Type::BUILTIN_TYPE_FLOAT === $builtinType && \is_int($data) && str_contains($format, JsonEncoder::FORMAT)) {
+            if (Type::BUILTIN_TYPE_FLOAT === $builtinType && \is_int($data) && false !== strpos($format, JsonEncoder::FORMAT)) {
                 return (float) $data;
             }
 

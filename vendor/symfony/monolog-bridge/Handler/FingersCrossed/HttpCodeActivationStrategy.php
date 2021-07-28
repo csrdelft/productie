@@ -65,7 +65,7 @@ class HttpCodeActivationStrategy extends ErrorLevelActivationStrategy implements
             $isActivated
             && isset($record['context']['exception'])
             && $record['context']['exception'] instanceof HttpException
-            && ($request = $this->requestStack->getMainRequest())
+            && ($request = $this->requestStack->getMasterRequest())
         ) {
             foreach ($this->exclusions as $exclusion) {
                 if ($record['context']['exception']->getStatusCode() !== $exclusion['code']) {

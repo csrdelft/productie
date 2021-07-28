@@ -48,8 +48,6 @@ class DoctrineProvider extends CacheProvider implements PruneableInterface, Rese
 
     /**
      * {@inheritdoc}
-     *
-     * @return mixed
      */
     protected function doFetch($id)
     {

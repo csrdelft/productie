@@ -274,7 +274,7 @@ class TraceableAdapter implements AdapterInterface, CacheInterface, PruneableInt
         $this->calls = [];
     }
 
-    protected function start(string $name)
+    protected function start($name)
     {
         $this->calls[] = $event = new TraceableAdapterEvent();
         $event->name = $name;

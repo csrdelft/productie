@@ -20,7 +20,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CookieTheftException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\Exception\UserNotFoundException;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Logout\LogoutHandlerInterface;
@@ -40,8 +40,6 @@ abstract class AbstractRememberMeServices implements RememberMeServicesInterface
         'secure' => false,
         'httponly' => true,
         'samesite' => null,
-        'path' => null,
-        'domain' => null,
     ];
     private $firewallName;
     private $secret;
@@ -130,7 +128,7 @@ abstract class AbstractRememberMeServices implements RememberMeServicesInterface
             $this->loginFail($request, $e);
 
             throw $e;
-        } catch (UserNotFoundException $e) {
+        } catch (UsernameNotFoundException $e) {
             if (null !== $this->logger) {
                 $this->logger->info('User for remember-me cookie not found.', ['exception' => $e]);
             }
@@ -263,7 +261,7 @@ abstract class AbstractRememberMeServices implements RememberMeServicesInterface
     protected function encodeCookie(array $cookieParts)
     {
         foreach ($cookieParts as $cookiePart) {
-            if (str_contains($cookiePart, self::COOKIE_DELIMITER)) {
+            if (false !== strpos($cookiePart, self::COOKIE_DELIMITER)) {
                 throw new \InvalidArgumentException(sprintf('$cookieParts should not contain the cookie delimiter "%s".', self::COOKIE_DELIMITER));
             }
         }

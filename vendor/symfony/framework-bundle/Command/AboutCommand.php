@@ -30,7 +30,6 @@ use Symfony\Component\HttpKernel\KernelInterface;
 class AboutCommand extends Command
 {
     protected static $defaultName = 'about';
-    protected static $defaultDescription = 'Display information about the current project';
 
     /**
      * {@inheritdoc}
@@ -38,7 +37,7 @@ class AboutCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription(self::$defaultDescription)
+            ->setDescription('Display information about the current project')
             ->setHelp(<<<'EOT'
 The <info>%command.name%</info> command displays information about the current Symfony project.
 

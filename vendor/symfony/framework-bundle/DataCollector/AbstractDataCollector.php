@@ -11,13 +11,16 @@
 
 namespace Symfony\Bundle\FrameworkBundle\DataCollector;
 
-use Symfony\Component\HttpKernel\DataCollector\DataCollector;
-
 /**
  * @author Laurent VOULLEMIER <laurent.voullemier@gmail.com>
  */
-abstract class AbstractDataCollector extends DataCollector implements TemplateAwareDataCollectorInterface
+abstract class AbstractDataCollector implements TemplateAwareDataCollectorInterface
 {
+    /**
+     * @var array
+     */
+    protected $data = [];
+
     public function getName(): string
     {
         return static::class;

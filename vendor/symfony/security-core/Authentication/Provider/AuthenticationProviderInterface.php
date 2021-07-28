@@ -14,8 +14,6 @@ namespace Symfony\Component\Security\Core\Authentication\Provider;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-trigger_deprecation('symfony/security-core', '5.3', 'The "%s" interface is deprecated, use the new authenticator system instead.', AuthenticationProviderInterface::class);
-
 /**
  * AuthenticationProviderInterface is the interface for all authentication
  * providers.
@@ -23,8 +21,6 @@ trigger_deprecation('symfony/security-core', '5.3', 'The "%s" interface is depre
  * Concrete implementations processes specific Token instances.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @deprecated since Symfony 5.3, use the new authenticator system instead
  */
 interface AuthenticationProviderInterface extends AuthenticationManagerInterface
 {

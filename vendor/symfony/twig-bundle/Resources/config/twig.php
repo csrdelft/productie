@@ -23,8 +23,6 @@ use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
 use Symfony\Bridge\Twig\Extension\HttpKernelRuntime;
 use Symfony\Bridge\Twig\Extension\ProfilerExtension;
 use Symfony\Bridge\Twig\Extension\RoutingExtension;
-use Symfony\Bridge\Twig\Extension\SerializerExtension;
-use Symfony\Bridge\Twig\Extension\SerializerRuntime;
 use Symfony\Bridge\Twig\Extension\StopwatchExtension;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Symfony\Bridge\Twig\Extension\WebLinkExtension;
@@ -123,7 +121,7 @@ return static function (ContainerConfigurator $container) {
         ->set('twig.extension.httpkernel', HttpKernelExtension::class)
 
         ->set('twig.runtime.httpkernel', HttpKernelRuntime::class)
-            ->args([service('fragment.handler'), service('fragment.uri_generator')->ignoreOnInvalid()])
+            ->args([service('fragment.handler')])
 
         ->set('twig.extension.httpfoundation', HttpFoundationExtension::class)
             ->args([service('url_helper')])
@@ -158,14 +156,9 @@ return static function (ContainerConfigurator $container) {
             ->args([
                 service('twig'),
                 service('twig.error_renderer.html.inner'),
-                inline_service('bool')
+                inline_service(TwigErrorRenderer::class)
                     ->factory([TwigErrorRenderer::class, 'isDebug'])
                     ->args([service('request_stack'), param('kernel.debug')]),
             ])
-
-        ->set('twig.runtime.serializer', SerializerRuntime::class)
-            ->args([service('serializer')])
-
-        ->set('twig.extension.serializer', SerializerExtension::class)
     ;
 };

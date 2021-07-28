@@ -29,7 +29,6 @@ return static function (ContainerConfigurator $container) {
             ])
             ->abstract()
             ->public()
-            ->tag('container.private', ['package' => 'symfony/framework-bundle', 'version' => '5.3'])
         ->set('state_machine.abstract', StateMachine::class)
             ->args([
                 abstract_arg('workflow definition'),
@@ -40,7 +39,6 @@ return static function (ContainerConfigurator $container) {
             ])
             ->abstract()
             ->public()
-            ->tag('container.private', ['package' => 'symfony/framework-bundle', 'version' => '5.3'])
         ->set('workflow.marking_store.method', MethodMarkingStore::class)
             ->abstract()
         ->set('workflow.registry', Registry::class)

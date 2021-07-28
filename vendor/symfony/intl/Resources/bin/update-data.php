@@ -11,7 +11,7 @@
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Intl\Data\Bundle\Compiler\GenrbCompiler;
-use Symfony\Component\Intl\Data\Bundle\Writer\PhpBundleWriter;
+use Symfony\Component\Intl\Data\Bundle\Writer\JsonBundleWriter;
 use Symfony\Component\Intl\Data\Generator\CurrencyDataGenerator;
 use Symfony\Component\Intl\Data\Generator\GeneratorConfig;
 use Symfony\Component\Intl\Data\Generator\LanguageDataGenerator;
@@ -166,9 +166,9 @@ echo "Preparing resource bundle compilation (version $icuVersionInDownload)...\n
 
 $compiler = new GenrbCompiler($genrb, $genrbEnv);
 $config = new GeneratorConfig($sourceDir.'/data', $icuVersionInDownload);
-$dataDir = dirname(__DIR__).'/data';
+$jsonDir = dirname(__DIR__).'/data';
 
-$config->addBundleWriter($dataDir, new PhpBundleWriter());
+$config->addBundleWriter($jsonDir, new JsonBundleWriter());
 
 echo "Starting resource bundle compilation. This may take a while...\n";
 
@@ -218,13 +218,13 @@ Date: {$git->getLastAuthoredDate()->format('c')}
 
 GIT_INFO;
 
-$gitInfoFile = $dataDir.'/git-info.txt';
+$gitInfoFile = $jsonDir.'/git-info.txt';
 
 file_put_contents($gitInfoFile, $gitInfo);
 
 echo "Wrote $gitInfoFile.\n";
 
-$versionFile = $dataDir.'/version.txt';
+$versionFile = $jsonDir.'/version.txt';
 
 file_put_contents($versionFile, "$icuVersionInDownload\n");
 

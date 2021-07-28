@@ -37,8 +37,8 @@ class PhpArrayAdapter implements AdapterInterface, CacheInterface, PruneableInte
     private $file;
     private $keys;
     private $values;
+    private $createCacheItem;
 
-    private static $createCacheItem;
     private static $valuesCache = [];
 
     /**
@@ -49,7 +49,7 @@ class PhpArrayAdapter implements AdapterInterface, CacheInterface, PruneableInte
     {
         $this->file = $file;
         $this->pool = $fallbackPool;
-        self::$createCacheItem ?? self::$createCacheItem = \Closure::bind(
+        $this->createCacheItem = \Closure::bind(
             static function ($key, $value, $isHit) {
                 $item = new CacheItem();
                 $item->key = $key;
@@ -142,7 +142,9 @@ class PhpArrayAdapter implements AdapterInterface, CacheInterface, PruneableInte
             }
         }
 
-        return (self::$createCacheItem)($key, $value, $isHit);
+        $f = $this->createCacheItem;
+
+        return $f($key, $value, $isHit);
     }
 
     /**
@@ -405,7 +407,7 @@ EOF;
 
     private function generateItems(array $keys): \Generator
     {
-        $f = self::$createCacheItem;
+        $f = $this->createCacheItem;
         $fallbackKeys = [];
 
         foreach ($keys as $key) {

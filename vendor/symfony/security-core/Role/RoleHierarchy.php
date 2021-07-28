@@ -48,7 +48,7 @@ class RoleHierarchy implements RoleHierarchyInterface
             }
         }
 
-        return array_values(array_unique($reachableRoles));
+        return $reachableRoles;
     }
 
     protected function buildRoleMap()

@@ -182,7 +182,7 @@ class CouchbaseBucketAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    protected function doHave(string $id): bool
+    protected function doHave($id): bool
     {
         return false !== $this->bucket->get($id);
     }
@@ -190,7 +190,7 @@ class CouchbaseBucketAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    protected function doClear(string $namespace): bool
+    protected function doClear($namespace): bool
     {
         if ('' === $namespace) {
             $this->bucket->manager()->flush();
@@ -221,7 +221,7 @@ class CouchbaseBucketAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    protected function doSave(array $values, int $lifetime)
+    protected function doSave(array $values, $lifetime)
     {
         if (!$values = $this->marshaller->marshall($values, $failed)) {
             return $failed;

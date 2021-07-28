@@ -18,10 +18,8 @@ use Doctrine\Persistence\ObjectRepository;
 
 /**
  * @author Andreas Braun <alcaeus@alcaeus.org>
- *
- * @deprecated in 5.3, will be removed in 6.0.
  */
-class TestRepositoryFactory implements RepositoryFactory
+final class TestRepositoryFactory implements RepositoryFactory
 {
     /**
      * @var ObjectRepository[]
@@ -35,10 +33,6 @@ class TestRepositoryFactory implements RepositoryFactory
      */
     public function getRepository(EntityManagerInterface $entityManager, $entityName)
     {
-        if (__CLASS__ === static::class) {
-            trigger_deprecation('symfony/doctrine-bridge', '5.3', '"%s" is deprecated and will be removed in 6.0.', __CLASS__);
-        }
-
         $repositoryHash = $this->getRepositoryHash($entityManager, $entityName);
 
         if (isset($this->repositoryList[$repositoryHash])) {
@@ -50,10 +44,6 @@ class TestRepositoryFactory implements RepositoryFactory
 
     public function setRepository(EntityManagerInterface $entityManager, string $entityName, ObjectRepository $repository)
     {
-        if (__CLASS__ === static::class) {
-            trigger_deprecation('symfony/doctrine-bridge', '5.3', '"%s" is deprecated and will be removed in 6.0.', __CLASS__);
-        }
-
         $repositoryHash = $this->getRepositoryHash($entityManager, $entityName);
 
         $this->repositoryList[$repositoryHash] = $repository;

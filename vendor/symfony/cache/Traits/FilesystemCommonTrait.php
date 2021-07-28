@@ -58,7 +58,7 @@ trait FilesystemCommonTrait
         $ok = true;
 
         foreach ($this->scanHashDir($this->directory) as $file) {
-            if ('' !== $namespace && !str_starts_with($this->getFileKey($file), $namespace)) {
+            if ('' !== $namespace && 0 !== strpos($this->getFileKey($file), $namespace)) {
                 continue;
             }
 
@@ -83,7 +83,7 @@ trait FilesystemCommonTrait
         return $ok;
     }
 
-    protected function doUnlink(string $file)
+    protected function doUnlink($file)
     {
         return @unlink($file);
     }
@@ -98,7 +98,7 @@ trait FilesystemCommonTrait
             try {
                 $h = fopen($this->tmp, 'x');
             } catch (\ErrorException $e) {
-                if (!str_contains($e->getMessage(), 'File exists')) {
+                if (false === strpos($e->getMessage(), 'File exists')) {
                     throw $e;
                 }
 
@@ -166,7 +166,7 @@ trait FilesystemCommonTrait
     /**
      * @internal
      */
-    public static function throwError(int $type, string $message, string $file, int $line)
+    public static function throwError($type, $message, $file, $line)
     {
         throw new \ErrorException($message, 0, $type, $file, $line);
     }

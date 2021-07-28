@@ -22,16 +22,12 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 use Symfony\Component\Security\Http\Session\SessionAuthenticationStrategyInterface;
 
-trigger_deprecation('symfony/security-http', '5.3', 'The "%s" class is deprecated, use the new authenticator system instead.', AnonymousAuthenticationListener::class);
-
 /**
  * BasicAuthenticationListener implements Basic HTTP authentication.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  *
  * @final
- *
- * @deprecated since Symfony 5.3, use the new authenticator system instead
  */
 class BasicAuthenticationListener extends AbstractListener
 {
@@ -77,8 +73,7 @@ class BasicAuthenticationListener extends AbstractListener
         }
 
         if (null !== $token = $this->tokenStorage->getToken()) {
-            // @deprecated since 5.3, change to $token->getUserIdentifier() in 6.0
-            if ($token instanceof UsernamePasswordToken && $token->isAuthenticated() && (method_exists($token, 'getUserIdentifier') ? $token->getUserIdentifier() : $token->getUsername()) === $username) {
+            if ($token instanceof UsernamePasswordToken && $token->isAuthenticated() && $token->getUsername() === $username) {
                 return;
             }
         }

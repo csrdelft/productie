@@ -24,7 +24,6 @@ return static function (ContainerConfigurator $container) {
             ->args([
                 abstract_arg('config'),
                 abstract_arg('storage'),
-                null,
             ])
     ;
 };

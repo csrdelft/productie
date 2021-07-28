@@ -22,7 +22,7 @@ use Symfony\Component\Form\Exception\BadMethodCallException;
 class Button implements \IteratorAggregate, FormInterface
 {
     /**
-     * @var FormInterface|null
+     * @var FormInterface
      */
     private $parent;
 
@@ -63,8 +63,6 @@ class Button implements \IteratorAggregate, FormInterface
      *
      * @param mixed $offset
      *
-     * @return mixed
-     *
      * @throws BadMethodCallException
      */
     public function offsetGet($offset)
@@ -80,8 +78,6 @@ class Button implements \IteratorAggregate, FormInterface
      * @param mixed $offset
      * @param mixed $value
      *
-     * @return void
-     *
      * @throws BadMethodCallException
      */
     public function offsetSet($offset, $value)
@@ -95,8 +91,6 @@ class Button implements \IteratorAggregate, FormInterface
      * This method should not be invoked.
      *
      * @param mixed $offset
-     *
-     * @return void
      *
      * @throws BadMethodCallException
      */
@@ -371,8 +365,8 @@ class Button implements \IteratorAggregate, FormInterface
     /**
      * Submits data to the button.
      *
-     * @param array|string|null $submittedData Not used
-     * @param bool              $clearMissing  Not used
+     * @param string|null $submittedData Not used
+     * @param bool        $clearMissing  Not used
      *
      * @return $this
      *

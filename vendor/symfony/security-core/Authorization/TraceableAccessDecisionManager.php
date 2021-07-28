@@ -107,6 +107,4 @@ class TraceableAccessDecisionManager implements AccessDecisionManagerInterface
     }
 }
 
-if (!class_exists(DebugAccessDecisionManager::class, false)) {
-    class_alias(TraceableAccessDecisionManager::class, DebugAccessDecisionManager::class);
-}
+class_alias(TraceableAccessDecisionManager::class, DebugAccessDecisionManager::class);

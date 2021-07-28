@@ -36,7 +36,7 @@ class ChromePhpHandler extends BaseChromePhpHandler
      */
     public function onKernelResponse(ResponseEvent $event)
     {
-        if (!$event->isMainRequest()) {
+        if (!$event->isMasterRequest()) {
             return;
         }
 

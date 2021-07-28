@@ -12,8 +12,6 @@
 namespace Symfony\Component\Security\Http\EventListener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\PasswordUpgradeBadge;
@@ -25,21 +23,15 @@ use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
  * @author Wouter de Jong <wouter@wouterj.nl>
  *
  * @final
+ * @experimental in 5.2
  */
 class PasswordMigratingListener implements EventSubscriberInterface
 {
-    private $hasherFactory;
+    private $encoderFactory;
 
-    /**
-     * @param PasswordHasherFactoryInterface $hasherFactory
-     */
-    public function __construct($hasherFactory)
+    public function __construct(EncoderFactoryInterface $encoderFactory)
     {
-        if ($hasherFactory instanceof EncoderFactoryInterface) {
-            trigger_deprecation('symfony/security-core', '5.3', 'Passing a "%s" instance to the "%s" constructor is deprecated, use "%s" instead.', EncoderFactoryInterface::class, __CLASS__, PasswordHasherFactoryInterface::class);
-        }
-
-        $this->hasherFactory = $hasherFactory;
+        $this->encoderFactory = $encoderFactory;
     }
 
     public function onLoginSuccess(LoginSuccessEvent $event): void
@@ -62,8 +54,8 @@ class PasswordMigratingListener implements EventSubscriberInterface
             return;
         }
 
-        $passwordHasher = $this->hasherFactory instanceof EncoderFactoryInterface ? $this->hasherFactory->getEncoder($user) : $this->hasherFactory->getPasswordHasher($user);
-        if (!$passwordHasher->needsRehash($user->getPassword())) {
+        $passwordEncoder = $this->encoderFactory->getEncoder($user);
+        if (!$passwordEncoder->needsRehash($user->getPassword())) {
             return;
         }
 
@@ -84,7 +76,7 @@ class PasswordMigratingListener implements EventSubscriberInterface
             }
         }
 
-        $passwordUpgrader->upgradePassword($user, $passwordHasher instanceof PasswordHasherInterface ? $passwordHasher->hash($plaintextPassword, $user->getSalt()) : $passwordHasher->encodePassword($plaintextPassword, $user->getSalt()));
+        $passwordUpgrader->upgradePassword($user, $passwordEncoder->encodePassword($plaintextPassword, $user->getSalt()));
     }
 
     public static function getSubscribedEvents(): array

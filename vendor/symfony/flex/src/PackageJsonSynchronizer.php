@@ -13,9 +13,6 @@ namespace Symfony\Flex;
 
 use Composer\Json\JsonFile;
 use Composer\Json\JsonManipulator;
-use Composer\Semver\Constraint\ConstraintInterface;
-use Composer\Semver\Intervals;
-use Composer\Semver\VersionParser;
 
 /**
  * Synchronize package.json files detected in installed PHP packages with
@@ -24,12 +21,10 @@ use Composer\Semver\VersionParser;
 class PackageJsonSynchronizer
 {
     private $rootDir;
-    private $vendorDir;
 
-    public function __construct(string $rootDir, string $vendorDir = 'vendor')
+    public function __construct(?string $rootDir)
     {
         $this->rootDir = $rootDir;
-        $this->vendorDir = $vendorDir;
     }
 
     public function shouldSynchronize(): bool
@@ -37,33 +32,21 @@ class PackageJsonSynchronizer
         return $this->rootDir && file_exists($this->rootDir.'/package.json');
     }
 
-    public function synchronize(array $phpPackages): bool
+    public function synchronize(array $packagesNames)
     {
         // Remove all links and add again only the existing packages
-        $didAddLink = $this->removePackageJsonLinks((new JsonFile($this->rootDir.'/package.json'))->read());
+        $this->removePackageJsonLinks((new JsonFile($this->rootDir.'/package.json'))->read());
 
-        foreach ($phpPackages as $k => $phpPackage) {
-            if (\is_string($phpPackage)) {
-                // support for smooth upgrades from older flex versions
-                $phpPackages[$k] = $phpPackage = [
-                    'name' => $phpPackage,
-                    'keywords' => ['symfony-ux'],
-                ];
-            }
-            $didAddLink = $this->addPackageJsonLink($phpPackage) || $didAddLink;
+        foreach ($packagesNames as $packageName) {
+            $this->addPackageJsonLink($packageName);
         }
 
-        $this->registerPeerDependencies($phpPackages);
-
         // Register controllers and entrypoints in controllers.json
-        $this->registerWebpackResources($phpPackages);
-
-        return $didAddLink;
+        $this->registerWebpackResources($packagesNames);
     }
 
-    private function removePackageJsonLinks(array $packageJson): bool
+    private function removePackageJsonLinks(array $packageJson)
     {
-        $didRemoveLink = false;
         $jsDependencies = $packageJson['dependencies'] ?? [];
         $jsDevDependencies = $packageJson['devDependencies'] ?? [];
 
@@ -76,31 +59,26 @@ class PackageJsonSynchronizer
                 $manipulator = new JsonManipulator(file_get_contents($this->rootDir.'/package.json'));
                 $manipulator->removeSubNode('devDependencies', $name);
                 file_put_contents($this->rootDir.'/package.json', $manipulator->getContents());
-                $didRemoveLink = true;
             }
         }
-
-        return $didRemoveLink;
     }
 
-    private function addPackageJsonLink(array $phpPackage): bool
+    private function addPackageJsonLink(string $phpPackage)
     {
-        if (!$packageJson = $this->resolvePackageJson($phpPackage)) {
-            return false;
+        if (!$assetsDir = $this->resolveAssetsDir($phpPackage)) {
+            return;
         }
 
         $manipulator = new JsonManipulator(file_get_contents($this->rootDir.'/package.json'));
-        $manipulator->addSubNode('devDependencies', '@'.$phpPackage['name'], 'file:'.substr($packageJson->getPath(), 1 + \strlen($this->rootDir), -13));
+        $manipulator->addSubNode('devDependencies', '@'.$phpPackage, 'file:vendor/'.$phpPackage.$assetsDir);
 
         $content = json_decode($manipulator->getContents(), true);
 
         $devDependencies = $content['devDependencies'];
         uksort($devDependencies, 'strnatcmp');
-        $manipulator->addMainKey('devDependencies', $devDependencies);
+        $content['devDependencies'] = $devDependencies;
 
-        file_put_contents($this->rootDir.'/package.json', $manipulator->getContents());
-
-        return true;
+        file_put_contents($this->rootDir.'/package.json', $manipulator->format($content, -1));
     }
 
     private function registerWebpackResources(array $phpPackages)
@@ -116,14 +94,20 @@ class PackageJsonSynchronizer
         ];
 
         foreach ($phpPackages as $phpPackage) {
-            if (!$packageJson = $this->resolvePackageJson($phpPackage)) {
+            if (!$assetsDir = $this->resolveAssetsDir($phpPackage)) {
                 continue;
             }
-            $name = '@'.$phpPackage['name'];
 
-            foreach ($packageJson->read()['symfony']['controllers'] ?? [] as $controllerName => $defaultConfig) {
+            if (!file_exists($packageJsonPath = $this->rootDir.'/vendor/'.$phpPackage.$assetsDir.'/package.json')) {
+                continue;
+            }
+
+            // Register in config
+            $packageJson = (new JsonFile($packageJsonPath))->read();
+
+            foreach ($packageJson['symfony']['controllers'] ?? [] as $controllerName => $defaultConfig) {
                 // If the package has just been added (no config), add the default config provided by the package
-                if (!isset($previousControllersJson['controllers'][$name][$controllerName])) {
+                if (!isset($previousControllersJson['controllers']['@'.$phpPackage][$controllerName])) {
                     $config = [];
                     $config['enabled'] = $defaultConfig['enabled'];
                     $config['fetch'] = $defaultConfig['fetch'] ?? 'eager';
@@ -132,13 +116,13 @@ class PackageJsonSynchronizer
                         $config['autoimport'] = $defaultConfig['autoimport'];
                     }
 
-                    $newControllersJson['controllers'][$name][$controllerName] = $config;
+                    $newControllersJson['controllers']['@'.$phpPackage][$controllerName] = $config;
 
                     continue;
                 }
 
                 // Otherwise, the package exists: merge new config with uer config
-                $previousConfig = $previousControllersJson['controllers'][$name][$controllerName];
+                $previousConfig = $previousControllersJson['controllers']['@'.$phpPackage][$controllerName];
 
                 $config = [];
                 $config['enabled'] = $previousConfig['enabled'];
@@ -153,10 +137,10 @@ class PackageJsonSynchronizer
                     }
                 }
 
-                $newControllersJson['controllers'][$name][$controllerName] = $config;
+                $newControllersJson['controllers']['@'.$phpPackage][$controllerName] = $config;
             }
 
-            foreach ($packageJson->read()['symfony']['entrypoints'] ?? [] as $entrypoint => $filename) {
+            foreach ($packageJson['symfony']['entrypoints'] ?? [] as $entrypoint => $filename) {
                 if (!isset($newControllersJson['entrypoints'][$entrypoint])) {
                     $newControllersJson['entrypoints'][$entrypoint] = $filename;
                 }
@@ -166,81 +150,14 @@ class PackageJsonSynchronizer
         file_put_contents($controllersJsonPath, json_encode($newControllersJson, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES)."\n");
     }
 
-    public function registerPeerDependencies(array $phpPackages)
+    private function resolveAssetsDir(string $phpPackage)
     {
-        $peerDependencies = [];
-
-        foreach ($phpPackages as $phpPackage) {
-            if (!$packageJson = $this->resolvePackageJson($phpPackage)) {
-                continue;
-            }
-
-            $versionParser = new VersionParser();
-
-            foreach ($packageJson->read()['peerDependencies'] ?? [] as $peerDependency => $constraint) {
-                $peerDependencies[$peerDependency][$constraint] = $versionParser->parseConstraints($constraint);
-            }
-        }
-
-        if (!$peerDependencies) {
-            return;
-        }
-
-        $manipulator = new JsonManipulator(file_get_contents($this->rootDir.'/package.json'));
-        $content = json_decode($manipulator->getContents(), true);
-        $devDependencies = $content['devDependencies'] ?? [];
-
-        foreach ($peerDependencies as $peerDependency => $constraints) {
-            $devDependencies[$peerDependency] = $this->compactConstraints($constraints);
-        }
-        uksort($devDependencies, 'strnatcmp');
-        $manipulator->addMainKey('devDependencies', $devDependencies);
-
-        file_put_contents($this->rootDir.'/package.json', $manipulator->getContents());
-    }
-
-    private function resolvePackageJson(array $phpPackage): ?JsonFile
-    {
-        $packageDir = $this->rootDir.'/'.$this->vendorDir.'/'.$phpPackage['name'];
-
-        if (!\in_array('symfony-ux', $phpPackage['keywords'] ?? [], true)) {
-            return null;
-        }
-
         foreach (['/assets', '/Resources/assets'] as $subdir) {
-            $packageJsonPath = $packageDir.$subdir.'/package.json';
-
-            if (!file_exists($packageJsonPath)) {
-                continue;
+            if (file_exists($this->rootDir.'/vendor/'.$phpPackage.$subdir.'/package.json')) {
+                return $subdir;
             }
-
-            return new JsonFile($packageJsonPath);
         }
 
         return null;
-    }
-
-    /**
-     * @param ConstraintInterface[] $constraints
-     */
-    private function compactConstraints(array $constraints): string
-    {
-        if (method_exists(Intervals::class, 'isSubsetOf')) {
-            foreach ($constraints as $k1 => $constraint1) {
-                foreach ($constraints as $k2 => $constraint2) {
-                    if ($k1 !== $k2 && Intervals::isSubsetOf($constraint1, $constraint2)) {
-                        unset($constraints[$k2]);
-                    }
-                }
-            }
-        }
-
-        uksort($constraints, 'strnatcmp');
-
-        foreach ($constraints as $k => $constraint) {
-            $constraints[$k] = \count($constraints) > 1 && false !== strpos($k, '|') ? '('.$k.')' : $k;
-        }
-
-        return implode(',', $constraints);
     }
 }

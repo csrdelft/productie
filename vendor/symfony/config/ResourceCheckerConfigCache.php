@@ -181,7 +181,7 @@ class ResourceCheckerConfigCache implements ConfigCacheInterface
     /**
      * @internal
      */
-    public static function handleUnserializeCallback(string $class)
+    public static function handleUnserializeCallback($class)
     {
         trigger_error('Class not found: '.$class);
     }

@@ -24,7 +24,6 @@ use Symfony\Component\Yaml\Command\LintCommand as BaseLintCommand;
 class YamlLintCommand extends BaseLintCommand
 {
     protected static $defaultName = 'lint:yaml';
-    protected static $defaultDescription = 'Lint a YAML file and outputs encountered errors';
 
     public function __construct()
     {
@@ -37,7 +36,7 @@ class YamlLintCommand extends BaseLintCommand
         };
 
         $isReadableProvider = function ($fileOrDirectory, $default) {
-            return str_starts_with($fileOrDirectory, '@') || $default($fileOrDirectory);
+            return 0 === strpos($fileOrDirectory, '@') || $default($fileOrDirectory);
         };
 
         parent::__construct(null, $directoryIteratorProvider, $isReadableProvider);
