@@ -1,7 +1,7 @@
 <?php
 
-if (\PHP_VERSION_ID < 70300) {
-    echo sprintf("Fatal Error: composer.lock was created for PHP version 7.3.14 or higher but the current PHP version is %d.%d.%d.\n", PHP_MAJOR_VERSION, PHP_MINOR_VERSION, PHP_RELEASE_VERSION);
+if (PHP_VERSION_ID < 70300) {
+    echo sprintf("Fatal Error: composer.lock was created for PHP version 7.3.14 or higher but the current PHP version is %d.%d.%s.\n", PHP_MAJOR_VERSION, PHP_MINOR_VERSION, PHP_RELEASE_VERSION);
     exit(1);
 }
 
@@ -9,4 +9,4 @@ if (\PHP_VERSION_ID < 70300) {
 
 require_once __DIR__ . '/composer/autoload_real.php';
 
-return ComposerAutoloaderInit299c8028efca424b64ea0b62a4b0e6be::getLoader();
+return ComposerAutoloaderInitd2538e7604f38f58992270b63f3fd686::getLoader();
