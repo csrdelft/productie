@@ -95,6 +95,7 @@ return array(
     'ParagonIE\\ConstantTime\\' => array($vendorDir . '/paragonie/constant_time_encoding/src'),
     'PackageVersions\\' => array($vendorDir . '/composer/package-versions-deprecated/src/PackageVersions'),
     'Nyholm\\Psr7\\' => array($vendorDir . '/nyholm/psr7/src'),
+    'Nelmio\\CorsBundle\\' => array($vendorDir . '/nelmio/cors-bundle'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Maknz\\Slack\\' => array($vendorDir . '/maknz/slack/src'),
     'League\\OAuth2\\Server\\' => array($vendorDir . '/league/oauth2-server/src'),

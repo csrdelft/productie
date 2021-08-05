@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'cfdc7debcca6d851d81eaa3d2ebb937e3950a4c9',
+        'reference' => 'cc3e78de24f846877a245f6f32fa0efb43da73d4',
         'name' => 'csr/csrdelft.nl',
         'dev' => false,
     ),
@@ -88,7 +88,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'cfdc7debcca6d851d81eaa3d2ebb937e3950a4c9',
+            'reference' => 'cc3e78de24f846877a245f6f32fa0efb43da73d4',
             'dev_requirement' => false,
         ),
         'csrdelft/bb' => array(
@@ -479,6 +479,15 @@
             'install_path' => __DIR__ . '/../monolog/monolog',
             'aliases' => array(),
             'reference' => '1cb1cde8e8dd0f70cc0fe51354a59acad9302084',
+            'dev_requirement' => false,
+        ),
+        'nelmio/cors-bundle' => array(
+            'pretty_version' => '2.1.1',
+            'version' => '2.1.1.0',
+            'type' => 'symfony-bundle',
+            'install_path' => __DIR__ . '/../nelmio/cors-bundle',
+            'aliases' => array(),
+            'reference' => '0b964b665016dfb61dd0fd2bb8c24afb1ae45a93',
             'dev_requirement' => false,
         ),
         'netresearch/jsonmapper' => array(

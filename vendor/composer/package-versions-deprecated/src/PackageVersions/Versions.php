@@ -83,6 +83,7 @@ final class Versions
   'league/oauth2-server' => '8.2.4@622eaa1f28eb4a2dea0cfc7e4f5280fac794e83c',
   'maknz/slack' => '1.7.0@7f21fefc70c76b304adc1b3a780c8740dfcfb595',
   'monolog/monolog' => '2.2.0@1cb1cde8e8dd0f70cc0fe51354a59acad9302084',
+  'nelmio/cors-bundle' => '2.1.1@0b964b665016dfb61dd0fd2bb8c24afb1ae45a93',
   'netresearch/jsonmapper' => 'v2.1.0@e0f1e33a71587aca81be5cffbb9746510e1fe04e',
   'nikic/php-parser' => 'v4.10.4@c6d052fc58cb876152f89f532b95a8d7907e7f0e',
   'nyholm/psr7' => '1.4.0@23ae1f00fbc6a886cbe3062ca682391b9cc7c37b',
@@ -186,7 +187,7 @@ final class Versions
   'webmozart/assert' => '1.10.0@6964c76c7804814a842473e0c8fd15bab0f18e25',
   'webmozart/path-util' => '2.3.0@d939f7edc24c9a1bb9c0dee5cb05d8e859490725',
   'zumba/json-serializer' => '3.0.0@4387bfaa6948d219e947ee77d975ec4f41fefd2b',
-  'csr/csrdelft.nl' => 'dev-master@cfdc7debcca6d851d81eaa3d2ebb937e3950a4c9',
+  'csr/csrdelft.nl' => 'dev-master@cc3e78de24f846877a245f6f32fa0efb43da73d4',
 );
 
     private function __construct()

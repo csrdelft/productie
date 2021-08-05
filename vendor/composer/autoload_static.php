@@ -161,6 +161,7 @@ class ComposerStaticInitd2538e7604f38f58992270b63f3fd686
         'N' => 
         array (
             'Nyholm\\Psr7\\' => 12,
+            'Nelmio\\CorsBundle\\' => 18,
         ),
         'M' => 
         array (
@@ -600,6 +601,10 @@ class ComposerStaticInitd2538e7604f38f58992270b63f3fd686
         'Nyholm\\Psr7\\' => 
         array (
             0 => __DIR__ . '/..' . '/nyholm/psr7/src',
+        ),
+        'Nelmio\\CorsBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nelmio/cors-bundle',
         ),
         'Monolog\\' => 
         array (
@@ -1100,6 +1105,8 @@ class ComposerStaticInitd2538e7604f38f58992270b63f3fd686
         'CsrDelft\\controller\\api\\ApiMaaltijdenController' => __DIR__ . '/../..' . '/lib/controller/api/ApiMaaltijdenController.php',
         'CsrDelft\\controller\\api\\ApiSponsorlinksController' => __DIR__ . '/../..' . '/lib/controller/api/ApiSponsorlinksController.php',
         'CsrDelft\\controller\\api\\v3\\ApiInfoController' => __DIR__ . '/../..' . '/lib/controller/api/v3/ApiInfoController.php',
+        'CsrDelft\\controller\\api\\v3\\BarSysteemBeheerController' => __DIR__ . '/../..' . '/lib/controller/api/v3/BarSysteemBeheerController.php',
+        'CsrDelft\\controller\\api\\v3\\BarSysteemController' => __DIR__ . '/../..' . '/lib/controller/api/v3/BarSysteemController.php',
         'CsrDelft\\controller\\fiscaat\\BeheerCiviBestellingController' => __DIR__ . '/../..' . '/lib/controller/fiscaat/BeheerCiviBestellingController.php',
         'CsrDelft\\controller\\fiscaat\\BeheerCiviCategorienController' => __DIR__ . '/../..' . '/lib/controller/fiscaat/BeheerCiviCategorienController.php',
         'CsrDelft\\controller\\fiscaat\\BeheerCiviProductenController' => __DIR__ . '/../..' . '/lib/controller/fiscaat/BeheerCiviProductenController.php',
@@ -1158,6 +1165,7 @@ class ComposerStaticInitd2538e7604f38f58992270b63f3fd686
         'CsrDelft\\entity\\agenda\\AgendaItem' => __DIR__ . '/../..' . '/lib/entity/agenda/AgendaItem.php',
         'CsrDelft\\entity\\agenda\\AgendaVerbergen' => __DIR__ . '/../..' . '/lib/entity/agenda/AgendaVerbergen.php',
         'CsrDelft\\entity\\agenda\\Agendeerbaar' => __DIR__ . '/../..' . '/lib/entity/agenda/Agendeerbaar.php',
+        'CsrDelft\\entity\\bar\\BarLocatie' => __DIR__ . '/../..' . '/lib/entity/bar/BarLocatie.php',
         'CsrDelft\\entity\\bibliotheek\\BiebAuteur' => __DIR__ . '/../..' . '/lib/entity/bibliotheek/BiebAuteur.php',
         'CsrDelft\\entity\\bibliotheek\\BiebRubriek' => __DIR__ . '/../..' . '/lib/entity/bibliotheek/BiebRubriek.php',
         'CsrDelft\\entity\\bibliotheek\\Boek' => __DIR__ . '/../..' . '/lib/entity/bibliotheek/Boek.php',
@@ -1265,11 +1273,12 @@ class ComposerStaticInitd2538e7604f38f58992270b63f3fd686
         'CsrDelft\\entity\\security\\enum\\AuthenticationMethod' => __DIR__ . '/../..' . '/lib/entity/security/enum/AuthenticationMethod.php',
         'CsrDelft\\events\\AccessControlEventListener' => __DIR__ . '/../..' . '/lib/events/AccessControlEventListener.php',
         'CsrDelft\\events\\ApiTrustedHostsEventListener' => __DIR__ . '/../..' . '/lib/events/ApiTrustedHostsEventListener.php',
+        'CsrDelft\\events\\BarTokenSubscriber' => __DIR__ . '/../..' . '/lib/events/BarTokenSubscriber.php',
         'CsrDelft\\events\\CacheControlEventListener' => __DIR__ . '/../..' . '/lib/events/CacheControlEventListener.php',
         'CsrDelft\\events\\CheckMigrationsListener' => __DIR__ . '/../..' . '/lib/events/CheckMigrationsListener.php',
         'CsrDelft\\events\\JsonBodyEventListener' => __DIR__ . '/../..' . '/lib/events/JsonBodyEventListener.php',
         'CsrDelft\\events\\LogEventListener' => __DIR__ . '/../..' . '/lib/events/LogEventListener.php',
-        'CsrDelft\\events\\OAuth2AuthorizeListener' => __DIR__ . '/../..' . '/lib/events/OAuth2AuthorizeListener.php',
+        'CsrDelft\\events\\OAuth2Subscriber' => __DIR__ . '/../..' . '/lib/events/OAuth2Subscriber.php',
         'CsrDelft\\events\\UserResolveListener' => __DIR__ . '/../..' . '/lib/events/UserResolveListener.php',
         'CsrDelft\\events\\ViewEventListener' => __DIR__ . '/../..' . '/lib/events/ViewEventListener.php',
         'CsrDelft\\model\\entity\\Afbeelding' => __DIR__ . '/../..' . '/lib/model/entity/Afbeelding.php',
@@ -1380,6 +1389,7 @@ class ComposerStaticInitd2538e7604f38f58992270b63f3fd686
         'CsrDelft\\repository\\security\\OneTimeTokensRepository' => __DIR__ . '/../..' . '/lib/repository/security/OneTimeTokensRepository.php',
         'CsrDelft\\repository\\security\\RememberLoginRepository' => __DIR__ . '/../..' . '/lib/repository/security/RememberLoginRepository.php',
         'CsrDelft\\service\\AccessService' => __DIR__ . '/../..' . '/lib/service/AccessService.php',
+        'CsrDelft\\service\\BarSysteemService' => __DIR__ . '/../..' . '/lib/service/BarSysteemService.php',
         'CsrDelft\\service\\BoekImporter' => __DIR__ . '/../..' . '/lib/service/BoekImporter.php',
         'CsrDelft\\service\\CsrfService' => __DIR__ . '/../..' . '/lib/service/CsrfService.php',
         'CsrDelft\\service\\DragObjectService' => __DIR__ . '/../..' . '/lib/service/DragObjectService.php',
@@ -18684,6 +18694,16 @@ class ComposerStaticInitd2538e7604f38f58992270b63f3fd686
         'Monolog\\SignalHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/SignalHandler.php',
         'Monolog\\Test\\TestCase' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Test/TestCase.php',
         'Monolog\\Utils' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Utils.php',
+        'Nelmio\\CorsBundle\\DependencyInjection\\Compiler\\CorsConfigurationProviderPass' => __DIR__ . '/..' . '/nelmio/cors-bundle/DependencyInjection/Compiler/CorsConfigurationProviderPass.php',
+        'Nelmio\\CorsBundle\\DependencyInjection\\Configuration' => __DIR__ . '/..' . '/nelmio/cors-bundle/DependencyInjection/Configuration.php',
+        'Nelmio\\CorsBundle\\DependencyInjection\\NelmioCorsExtension' => __DIR__ . '/..' . '/nelmio/cors-bundle/DependencyInjection/NelmioCorsExtension.php',
+        'Nelmio\\CorsBundle\\EventListener\\CacheableResponseVaryListener' => __DIR__ . '/..' . '/nelmio/cors-bundle/EventListener/CacheableResponseVaryListener.php',
+        'Nelmio\\CorsBundle\\EventListener\\CorsListener' => __DIR__ . '/..' . '/nelmio/cors-bundle/EventListener/CorsListener.php',
+        'Nelmio\\CorsBundle\\NelmioCorsBundle' => __DIR__ . '/..' . '/nelmio/cors-bundle/NelmioCorsBundle.php',
+        'Nelmio\\CorsBundle\\Options\\ConfigProvider' => __DIR__ . '/..' . '/nelmio/cors-bundle/Options/ConfigProvider.php',
+        'Nelmio\\CorsBundle\\Options\\ProviderInterface' => __DIR__ . '/..' . '/nelmio/cors-bundle/Options/ProviderInterface.php',
+        'Nelmio\\CorsBundle\\Options\\Resolver' => __DIR__ . '/..' . '/nelmio/cors-bundle/Options/Resolver.php',
+        'Nelmio\\CorsBundle\\Options\\ResolverInterface' => __DIR__ . '/..' . '/nelmio/cors-bundle/Options/ResolverInterface.php',
         'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
         'NumberFormatter' => __DIR__ . '/..' . '/symfony/intl/Resources/stubs/NumberFormatter.php',
         'Nyholm\\Psr7\\Factory\\HttplugFactory' => __DIR__ . '/..' . '/nyholm/psr7/src/Factory/HttplugFactory.php',
