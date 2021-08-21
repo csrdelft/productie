@@ -41,7 +41,7 @@ final class Versions
   'composer/package-versions-deprecated' => '1.11.99.1@7413f0b55a051e89485c5cb9f765fe24bb02a7b6',
   'composer/semver' => '3.2.4@a02fdf930a3c1c3ed3a49b5f63859c0c20e10464',
   'composer/xdebug-handler' => '2.0.0@31d57697eb1971712a08031cfaff5a846d10bdf5',
-  'csrdelft/bb' => 'v1.3.4@10767a6353c0604c8a73d48c0cf5c53433668fdf',
+  'csrdelft/bb' => 'v1.3.5@87d66406e30d8c38bdf5b143655cd1c19a5667ef',
   'defuse/php-encryption' => 'v2.3.1@77880488b9954b7884c25555c2a0ea9e7053f9d2',
   'dnoegel/php-xdg-base-dir' => 'v0.1.1@8f8a6e48c5ecb0f991c2fdcf5f154a47d85f9ffd',
   'doctrine/annotations' => '1.12.1@b17c5014ef81d212ac539f07a1001832df1b6d3b',
@@ -187,7 +187,7 @@ final class Versions
   'webmozart/assert' => '1.10.0@6964c76c7804814a842473e0c8fd15bab0f18e25',
   'webmozart/path-util' => '2.3.0@d939f7edc24c9a1bb9c0dee5cb05d8e859490725',
   'zumba/json-serializer' => '3.0.0@4387bfaa6948d219e947ee77d975ec4f41fefd2b',
-  'csr/csrdelft.nl' => 'dev-master@cc3e78de24f846877a245f6f32fa0efb43da73d4',
+  'csr/csrdelft.nl' => 'dev-master@e772a9df1f20532eb15eb3f77c9529fa156efbcf',
 );
 
     private function __construct()
