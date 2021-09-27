@@ -504,8 +504,8 @@
       "assets": {
         "css": [
           {
-            "src": "css/lustrum.f4bea13b34db7b5083a0.css",
-            "integrity": "sha256-IwIknWBfYxCBglSH+9rH9aftX15AXI6Ul3I3pvK27OU= sha384-/Hk1mRL/7uOf5EI2pI7fbQWMyLMnm0GOMcaSfCXEV3dWRSLbC29flcQ0ECVNksr9 sha512-5wRbtNOrBJSdhsXdUHllLiThdZy5K8jjtmbkhGH9zmqkq2s+jcdQIjcU+WyUhiZMIHdSISIoq8rVsuHc8Q5mCQ=="
+            "src": "css/lustrum.a29a8283d0211277dbb6.css",
+            "integrity": "sha256-9QAx+w/c5S0sCnbRtNWrzpp6NymaoNILBdxsn4UEX/Q= sha384-al0jJPAF3uMNnOAbLUZMT5VXfYuJxHrKnlFmPHTGq1w0V6la8qJGTzcAfoUV47IW sha512-AYwhWoQPDcATZJGtR8GqA+p66I1I3fuT/LhoCTPLYcbee6SfdNd5oWcCm3v+9j9aYTZWk05FtLvpuuwxuZIMAA=="
           }
         ]
       }
@@ -514,8 +514,8 @@
       "assets": {
         "css": [
           {
-            "src": "css/lustrumthema.b557c3d2f11133885855.css",
-            "integrity": "sha256-Ie0NQLjdAry2IKEQloN6J7gep8VJr7wDus96XHbtkmI= sha384-Eg2sO8X7BmVgcfTKXZXds6mu23SX95UZ68rhN0l1FMEpeZEiytZZNvW4g/aW7T44 sha512-ldAZwm+JM/oaT/jWGeWU/gf1Nzjq39tV8uhGVgJsVDdOh3rvtA9Pb2S0OA7mCDlE7ZHL1Uh1u9HPU59p3jtNxw=="
+            "src": "css/lustrumthema.9fde1a36ce42578b5f60.css",
+            "integrity": "sha256-aAumam1h/B1jyDnAKGoEy5aMvVzRmNYU/9Vkz3KEQng= sha384-rBMVeFA8cQlOR6YxF7KvWjKLmFv3oS7kZk0gHq4odLRGOJUiL9pQfngI1MSpIHKQ sha512-JVKehI/l/8w7gZWEiK5+YbvjMF4Zo5GLkvjZYRgEy7d2IuuH+g2Rev7iTl2/ZtAKT0F7J75fFf8t7HGmzRFJgQ=="
           }
         ]
       }
@@ -524,8 +524,8 @@
       "assets": {
         "css": [
           {
-            "src": "css/lustrumweek.aa5e79b1098365fb1324.css",
-            "integrity": "sha256-Od2rRTACkeySaqDvPLK5Ki/P0chV4Gd6ouaafNQZWgk= sha384-KOzXH4L++7785a0ngaxqzON33kKGGlzyYXrsmiOwEy/kirdZ5DE6SilPN/FtTLsF sha512-bfn0vLzg5Ywjz4/Q6Ef9PeiTZKm9p53OvipK1/uri1St/kNh38ZjGY3HbBzBSKfQxya/tmOjCuEJR25nS4zomA=="
+            "src": "css/lustrumweek.27151123d1c9c76be13a.css",
+            "integrity": "sha256-tU7np9kJYa6mp8y3bclRhMwOkIveqp6GA1u/6LhP0eo= sha384-izhWsJMXGDrH1pSM3UesHlSNllS3d/BtPpAZG0hEQIyj0DpWcrQymodlpHxTIErA sha512-GTJeLJZa4hvbPnENYaexH5zWbaKSEc5KcAZipdxQY+fwRtisbzLjNMXFD0wwgsxtXC1awmaYKUlSFZ5y4I5MEw=="
           }
         ]
       }
@@ -1544,16 +1544,16 @@
     "integrity": "sha256-WMyegCsXi5ctL/4M1ad1LdADmlllmshIK4Er9S6KTfo= sha384-8aypkG85bqd6Z8VJjigOwPtM+sf59/kePDOi49UGIcJ0tyOVuFkiHCq1LwSo8svf sha512-jjV/hwDSo4S6O8AyWeGmKTxZz020Vu9P+bAf3WYIG7EPkWmJI9cR77gGWm5IUyX/GTJg6JOowJoGVZ7ufgd7Wg=="
   },
   "lustrum.css": {
-    "src": "css/lustrum.f4bea13b34db7b5083a0.css",
-    "integrity": "sha256-IwIknWBfYxCBglSH+9rH9aftX15AXI6Ul3I3pvK27OU= sha384-/Hk1mRL/7uOf5EI2pI7fbQWMyLMnm0GOMcaSfCXEV3dWRSLbC29flcQ0ECVNksr9 sha512-5wRbtNOrBJSdhsXdUHllLiThdZy5K8jjtmbkhGH9zmqkq2s+jcdQIjcU+WyUhiZMIHdSISIoq8rVsuHc8Q5mCQ=="
+    "src": "css/lustrum.a29a8283d0211277dbb6.css",
+    "integrity": "sha256-9QAx+w/c5S0sCnbRtNWrzpp6NymaoNILBdxsn4UEX/Q= sha384-al0jJPAF3uMNnOAbLUZMT5VXfYuJxHrKnlFmPHTGq1w0V6la8qJGTzcAfoUV47IW sha512-AYwhWoQPDcATZJGtR8GqA+p66I1I3fuT/LhoCTPLYcbee6SfdNd5oWcCm3v+9j9aYTZWk05FtLvpuuwxuZIMAA=="
   },
   "lustrumthema.css": {
-    "src": "css/lustrumthema.b557c3d2f11133885855.css",
-    "integrity": "sha256-Ie0NQLjdAry2IKEQloN6J7gep8VJr7wDus96XHbtkmI= sha384-Eg2sO8X7BmVgcfTKXZXds6mu23SX95UZ68rhN0l1FMEpeZEiytZZNvW4g/aW7T44 sha512-ldAZwm+JM/oaT/jWGeWU/gf1Nzjq39tV8uhGVgJsVDdOh3rvtA9Pb2S0OA7mCDlE7ZHL1Uh1u9HPU59p3jtNxw=="
+    "src": "css/lustrumthema.9fde1a36ce42578b5f60.css",
+    "integrity": "sha256-aAumam1h/B1jyDnAKGoEy5aMvVzRmNYU/9Vkz3KEQng= sha384-rBMVeFA8cQlOR6YxF7KvWjKLmFv3oS7kZk0gHq4odLRGOJUiL9pQfngI1MSpIHKQ sha512-JVKehI/l/8w7gZWEiK5+YbvjMF4Zo5GLkvjZYRgEy7d2IuuH+g2Rev7iTl2/ZtAKT0F7J75fFf8t7HGmzRFJgQ=="
   },
   "lustrumweek.css": {
-    "src": "css/lustrumweek.aa5e79b1098365fb1324.css",
-    "integrity": "sha256-Od2rRTACkeySaqDvPLK5Ki/P0chV4Gd6ouaafNQZWgk= sha384-KOzXH4L++7785a0ngaxqzON33kKGGlzyYXrsmiOwEy/kirdZ5DE6SilPN/FtTLsF sha512-bfn0vLzg5Ywjz4/Q6Ef9PeiTZKm9p53OvipK1/uri1St/kNh38ZjGY3HbBzBSKfQxya/tmOjCuEJR25nS4zomA=="
+    "src": "css/lustrumweek.27151123d1c9c76be13a.css",
+    "integrity": "sha256-tU7np9kJYa6mp8y3bclRhMwOkIveqp6GA1u/6LhP0eo= sha384-izhWsJMXGDrH1pSM3UesHlSNllS3d/BtPpAZG0hEQIyj0DpWcrQymodlpHxTIErA sha512-GTJeLJZa4hvbPnENYaexH5zWbaKSEc5KcAZipdxQY+fwRtisbzLjNMXFD0wwgsxtXC1awmaYKUlSFZ5y4I5MEw=="
   },
   "maaltijdlijst.css": {
     "src": "css/maaltijdlijst.c6ac13783cca74df9795.css",
