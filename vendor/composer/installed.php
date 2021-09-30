@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'e772a9df1f20532eb15eb3f77c9529fa156efbcf',
+        'reference' => 'e1f42f384c2d460c620506888daf90783474a7bd',
         'name' => 'csr/csrdelft.nl',
         'dev' => false,
     ),
@@ -88,7 +88,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'e772a9df1f20532eb15eb3f77c9529fa156efbcf',
+            'reference' => 'e1f42f384c2d460c620506888daf90783474a7bd',
             'dev_requirement' => false,
         ),
         'csrdelft/bb' => array(
@@ -425,12 +425,12 @@
             'dev_requirement' => false,
         ),
         'lcobucci/jwt' => array(
-            'pretty_version' => '3.4.5',
-            'version' => '3.4.5.0',
+            'pretty_version' => '3.4.6',
+            'version' => '3.4.6.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../lcobucci/jwt',
             'aliases' => array(),
-            'reference' => '511629a54465e89a31d3d7e4cf0935feab8b14c1',
+            'reference' => '3ef8657a78278dfeae7707d51747251db4176240',
             'dev_requirement' => false,
         ),
         'league/event' => array(

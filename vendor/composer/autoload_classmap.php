@@ -248,6 +248,7 @@ return array(
     'CsrDelft\\controller\\LedenMemoryController' => $baseDir . '/lib/controller/LedenMemoryController.php',
     'CsrDelft\\controller\\LidInstellingenController' => $baseDir . '/lib/controller/LidInstellingenController.php',
     'CsrDelft\\controller\\LoginController' => $baseDir . '/lib/controller/LoginController.php',
+    'CsrDelft\\controller\\Lustrum12Controller' => $baseDir . '/lib/controller/Lustrum12Controller.php',
     'CsrDelft\\controller\\MenuBeheerController' => $baseDir . '/lib/controller/MenuBeheerController.php',
     'CsrDelft\\controller\\PasfotoController' => $baseDir . '/lib/controller/PasfotoController.php',
     'CsrDelft\\controller\\PeilingOptiesController' => $baseDir . '/lib/controller/PeilingOptiesController.php',

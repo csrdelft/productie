@@ -78,7 +78,7 @@ final class Versions
   'laminas/laminas-code' => '3.4.1@1cb8f203389ab1482bf89c0e70a04849bacd7766',
   'laminas/laminas-eventmanager' => '3.3.1@966c859b67867b179fde1eff0cd38df51472ce4a',
   'laminas/laminas-zendframework-bridge' => '1.2.0@6cccbddfcfc742eb02158d6137ca5687d92cee32',
-  'lcobucci/jwt' => '3.4.5@511629a54465e89a31d3d7e4cf0935feab8b14c1',
+  'lcobucci/jwt' => '3.4.6@3ef8657a78278dfeae7707d51747251db4176240',
   'league/event' => '2.2.0@d2cc124cf9a3fab2bb4ff963307f60361ce4d119',
   'league/oauth2-server' => '8.2.4@622eaa1f28eb4a2dea0cfc7e4f5280fac794e83c',
   'maknz/slack' => '1.7.0@7f21fefc70c76b304adc1b3a780c8740dfcfb595',
@@ -187,7 +187,7 @@ final class Versions
   'webmozart/assert' => '1.10.0@6964c76c7804814a842473e0c8fd15bab0f18e25',
   'webmozart/path-util' => '2.3.0@d939f7edc24c9a1bb9c0dee5cb05d8e859490725',
   'zumba/json-serializer' => '3.0.0@4387bfaa6948d219e947ee77d975ec4f41fefd2b',
-  'csr/csrdelft.nl' => 'dev-master@e772a9df1f20532eb15eb3f77c9529fa156efbcf',
+  'csr/csrdelft.nl' => 'dev-master@e1f42f384c2d460c620506888daf90783474a7bd',
 );
 
     private function __construct()
