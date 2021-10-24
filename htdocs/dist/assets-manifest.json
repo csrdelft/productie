@@ -529,6 +529,16 @@
           }
         ]
       }
+    },
+    "lustrumweek2": {
+      "assets": {
+        "css": [
+          {
+            "src": "css/lustrumweek2.a384545a45277ba731a0.css",
+            "integrity": "sha256-s/ZXh2Ref09sPrLs1Aje08u/1Y7otLOKiCBp9ISnR9k= sha384-L83tlAyXdVR1suBDlWwwO7IfMlH3Jl/Lp24/eNWnCSnZAQIJ+9PEPWM4QU3IND53 sha512-+6b5fWpDWKwjbzs6P1bEg+OXQGaBDf56pOTKsdLGNxREq0Utyl3PDNyXWZ+hsL/P/OublXsZbByblhL93ErNhA=="
+          }
+        ]
+      }
     }
   },
   "extern-forum.css": {
@@ -558,6 +568,10 @@
   "fonts/Algol.woff": {
     "src": "fonts/89fa60fc801c3545521b.woff",
     "integrity": "sha256-op98rnQ7YpTh4Gwud8YmyaDGoCEy+4xckFWHUjX8v3g= sha384-uOc1mSHzmx4+FqZFebbo+wg/Lz9mOvSNXoMVOq6ksVh/rgyMaA78RaBZGFi/qA8M sha512-3hsmXxq2sIoB18l0jJ38p+o/S7WU/5QN/XsThmdO3n+8BAd2/FOGePXD0U/clwsKjZjgr4f/u7RJk0hec+Xjrw=="
+  },
+  "fonts/BTTF.ttf": {
+    "src": "fonts/ff42b9b2bc7de9713723.ttf",
+    "integrity": "sha256-UymwmB7ICeNvkN4qFuJ5Wo9YhoH66vzxFw1mPUYLWBc= sha384-2RYHmBugTV00UiRFyCdVLGJ5r50U5HczFLQ5PEN8zbWyWFY3jPtFy8zbXh8ubv/2 sha512-RO8/KbeFDNL7eIdfhGa5TirzvI+gQXTPv8QUz75DFPvK7EdEgV6/SmXYFSvFKlNl1FiZ/PA1ZeB4wPmho3/r2w=="
   },
   "fonts/BossaNovaMVB.otf": {
     "src": "fonts/0b92d15a171e416a97fc.otf",
@@ -1554,6 +1568,10 @@
   "lustrumweek.css": {
     "src": "css/lustrumweek.26c2ad20811b5b1c9779.css",
     "integrity": "sha256-GSuoWxvo47Rcb1rRotQH5PN64bTMpn7IY4yA2snK1dU= sha384-CVqCkt80jZNKVDmrRkIXhr9Dhl7Jc+4H/VnJwVbApfwQvf5REPcdyFeKC9egGtQ9 sha512-jCig053xRAILObfknP2sitk/EGIGxE8t2TP68mfwKJu5vytjCxbwsFDkHN/9GLXBckVTfTMgNXqvOEhkotMjbw=="
+  },
+  "lustrumweek2.css": {
+    "src": "css/lustrumweek2.a384545a45277ba731a0.css",
+    "integrity": "sha256-s/ZXh2Ref09sPrLs1Aje08u/1Y7otLOKiCBp9ISnR9k= sha384-L83tlAyXdVR1suBDlWwwO7IfMlH3Jl/Lp24/eNWnCSnZAQIJ+9PEPWM4QU3IND53 sha512-+6b5fWpDWKwjbzs6P1bEg+OXQGaBDf56pOTKsdLGNxREq0Utyl3PDNyXWZ+hsL/P/OublXsZbByblhL93ErNhA=="
   },
   "maaltijdlijst.css": {
     "src": "css/maaltijdlijst.c6ac13783cca74df9795.css",
