@@ -231,6 +231,7 @@ return array(
     'CsrDelft\\controller\\AccountController' => $baseDir . '/lib/controller/AccountController.php',
     'CsrDelft\\controller\\AftelController' => $baseDir . '/lib/controller/AftelController.php',
     'CsrDelft\\controller\\AgendaController' => $baseDir . '/lib/controller/AgendaController.php',
+    'CsrDelft\\controller\\ArroController' => $baseDir . '/lib/controller/ArroController.php',
     'CsrDelft\\controller\\BibliotheekController' => $baseDir . '/lib/controller/BibliotheekController.php',
     'CsrDelft\\controller\\CmsPaginaController' => $baseDir . '/lib/controller/CmsPaginaController.php',
     'CsrDelft\\controller\\CommissieVoorkeurenController' => $baseDir . '/lib/controller/CommissieVoorkeurenController.php',
