@@ -559,6 +559,16 @@
           }
         ]
       }
+    },
+    "lustrumdies": {
+      "assets": {
+        "css": [
+          {
+            "src": "css/lustrumdies.e6127c2961235d581739.css",
+            "integrity": "sha256-vFjqBVJuKG4MLlNYxz2CU3mLL1bgGqexI98EP15z2nQ= sha384-8JZqGOmErHCVwBYkKpVtsclAE5LRRFV7dvAU83eKj9D/jSLrEEfu7Kq/D24r1zBd sha512-Tk0FAlOzABB2UXG2DH2Yj4YC9jKisLPcaa2Lc5NfOX8bz9uoA9GrVvtj5qGilBuf7rvihI0hOjEjx4vkF8TQtw=="
+          }
+        ]
+      }
     }
   },
   "extern-forum.css": {
@@ -1580,6 +1590,10 @@
   "lustrum.css": {
     "src": "css/lustrum.01aa19641109c6dccc50.css",
     "integrity": "sha256-ClbO1TG4aYVs3eaFjxErDrBQKIZZCseRorey4akUxZs= sha384-pfN4okHdIyCC9KrRAcMARpJ/q41RiHn21sb+9sbLFVkZIUtsDrOoaHv1vTYa4N5s sha512-MObXk6dpBbnOxTTngcNO7IlzXgSutAhgKhvRlRLuNra40zeVziZvtRynGeqcYi5lxrR2CPCorMF8KdH6pDPKvg=="
+  },
+  "lustrumdies.css": {
+    "src": "css/lustrumdies.e6127c2961235d581739.css",
+    "integrity": "sha256-vFjqBVJuKG4MLlNYxz2CU3mLL1bgGqexI98EP15z2nQ= sha384-8JZqGOmErHCVwBYkKpVtsclAE5LRRFV7dvAU83eKj9D/jSLrEEfu7Kq/D24r1zBd sha512-Tk0FAlOzABB2UXG2DH2Yj4YC9jKisLPcaa2Lc5NfOX8bz9uoA9GrVvtj5qGilBuf7rvihI0hOjEjx4vkF8TQtw=="
   },
   "lustrumdiesthema.css": {
     "src": "css/lustrumdiesthema.e6127c2961235d581739.css",
