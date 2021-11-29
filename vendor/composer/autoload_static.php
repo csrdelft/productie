@@ -8,8 +8,8 @@ class ComposerStaticInitabaa427e39fd8a36e762252940689f16
 {
     public static $files = array (
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
-        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         'e8aa6e4b5a1db2f56ae794f1505391a8' => __DIR__ . '/..' . '/amphp/amp/lib/functions.php',
         '76cd0796156622033397994f25b0d8fc' => __DIR__ . '/..' . '/amphp/amp/lib/Internal/functions.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -22094,6 +22094,7 @@ class ComposerStaticInitabaa427e39fd8a36e762252940689f16
         'Symfony\\Component\\Security\\Http\\Controller\\UserValueResolver' => __DIR__ . '/..' . '/symfony/security-http/Controller/UserValueResolver.php',
         'Symfony\\Component\\Security\\Http\\EntryPoint\\AuthenticationEntryPointInterface' => __DIR__ . '/..' . '/symfony/security-http/EntryPoint/AuthenticationEntryPointInterface.php',
         'Symfony\\Component\\Security\\Http\\EntryPoint\\BasicAuthenticationEntryPoint' => __DIR__ . '/..' . '/symfony/security-http/EntryPoint/BasicAuthenticationEntryPoint.php',
+        'Symfony\\Component\\Security\\Http\\EntryPoint\\Exception\\NotAnEntryPointException' => __DIR__ . '/..' . '/symfony/security-http/EntryPoint/Exception/NotAnEntryPointException.php',
         'Symfony\\Component\\Security\\Http\\EntryPoint\\FormAuthenticationEntryPoint' => __DIR__ . '/..' . '/symfony/security-http/EntryPoint/FormAuthenticationEntryPoint.php',
         'Symfony\\Component\\Security\\Http\\EntryPoint\\RetryAuthenticationEntryPoint' => __DIR__ . '/..' . '/symfony/security-http/EntryPoint/RetryAuthenticationEntryPoint.php',
         'Symfony\\Component\\Security\\Http\\EventListener\\CheckCredentialsListener' => __DIR__ . '/..' . '/symfony/security-http/EventListener/CheckCredentialsListener.php',
@@ -22515,6 +22516,7 @@ class ComposerStaticInitabaa427e39fd8a36e762252940689f16
         'Symfony\\Contracts\\HttpClient\\Test\\HttpClientTestCase' => __DIR__ . '/..' . '/symfony/http-client-contracts/Test/HttpClientTestCase.php',
         'Symfony\\Contracts\\HttpClient\\Test\\TestHttpServer' => __DIR__ . '/..' . '/symfony/http-client-contracts/Test/TestHttpServer.php',
         'Symfony\\Contracts\\Service\\Attribute\\Required' => __DIR__ . '/..' . '/symfony/service-contracts/Attribute/Required.php',
+        'Symfony\\Contracts\\Service\\Attribute\\SubscribedService' => __DIR__ . '/..' . '/symfony/service-contracts/Attribute/SubscribedService.php',
         'Symfony\\Contracts\\Service\\ResetInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ResetInterface.php',
         'Symfony\\Contracts\\Service\\ServiceLocatorTrait' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceLocatorTrait.php',
         'Symfony\\Contracts\\Service\\ServiceProviderInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceProviderInterface.php',

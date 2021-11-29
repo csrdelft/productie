@@ -552,9 +552,9 @@ class ReflectionExtractor implements PropertyListExtractorInterface, PropertyTyp
         $types = [];
         $nullable = $reflectionType->allowsNull();
 
-        foreach ($reflectionType instanceof \ReflectionUnionType ? $reflectionType->getTypes() : [$reflectionType] as $type) {
-            $phpTypeOrClass = $reflectionType instanceof \ReflectionNamedType ? $reflectionType->getName() : (string) $type;
-            if ('null' === $phpTypeOrClass || 'mixed' === $phpTypeOrClass) {
+        foreach (($reflectionType instanceof \ReflectionUnionType || $reflectionType instanceof \ReflectionIntersectionType) ? $reflectionType->getTypes() : [$reflectionType] as $type) {
+            $phpTypeOrClass = $type->getName();
+            if ('null' === $phpTypeOrClass || 'mixed' === $phpTypeOrClass || 'never' === $phpTypeOrClass) {
                 continue;
             }
 

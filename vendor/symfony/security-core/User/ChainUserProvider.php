@@ -60,7 +60,7 @@ class ChainUserProvider implements UserProviderInterface, PasswordUpgraderInterf
     {
         foreach ($this->providers as $provider) {
             try {
-                // @deprecated since 5.3, change to $provider->loadUserByIdentifier() in 6.0
+                // @deprecated since Symfony 5.3, change to $provider->loadUserByIdentifier() in 6.0
                 if (!method_exists($provider, 'loadUserByIdentifier')) {
                     trigger_deprecation('symfony/security-core', '5.3', 'Not implementing method "loadUserByIdentifier()" in user provider "%s" is deprecated. This method will replace "loadUserByUsername()" in Symfony 6.0.', get_debug_type($provider));
 
@@ -101,7 +101,7 @@ class ChainUserProvider implements UserProviderInterface, PasswordUpgraderInterf
         }
 
         if ($supportedUserFound) {
-            // @deprecated since 5.3, change to $user->getUserIdentifier() in 6.0
+            // @deprecated since Symfony 5.3, change to $user->getUserIdentifier() in 6.0
             $username = method_exists($user, 'getUserIdentifier') ? $user->getUserIdentifier() : $user->getUsername();
             $e = new UserNotFoundException(sprintf('There is no user with name "%s".', $username));
             $e->setUserIdentifier($username);
@@ -136,7 +136,7 @@ class ChainUserProvider implements UserProviderInterface, PasswordUpgraderInterf
             trigger_deprecation('symfony/security-core', '5.3', 'The "%s::upgradePassword()" method expects an instance of "%s" as first argument, the "%s" class should implement it.', PasswordUpgraderInterface::class, PasswordAuthenticatedUserInterface::class, get_debug_type($user));
 
             if (!$user instanceof UserInterface) {
-                throw new \TypeError(sprintf('The "%s::upgradePassword()" method expects an instance of "%s" as first argument, "%s" given.', PasswordAuthenticatedUserInterface::class, get_debug_type($user)));
+                throw new \TypeError(sprintf('The "%s::upgradePassword()" method expects an instance of "%s" as first argument, "%s" given.', static::class, PasswordAuthenticatedUserInterface::class, get_debug_type($user)));
             }
         }
 
