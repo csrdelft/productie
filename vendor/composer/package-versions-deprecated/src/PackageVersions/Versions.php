@@ -120,7 +120,7 @@ final class Versions
   'symfony/console' => 'v5.3.4@ebd610dacd40d75b6a12bf64b5ccd494fc7d6ab1',
   'symfony/css-selector' => 'v5.3.4@7fb120adc7f600a59027775b224c13a33530dd90',
   'symfony/dependency-injection' => 'v5.3.4@5a825e4b386066167a8b55487091cb62beec74c2',
-  'symfony/deprecation-contracts' => 'v2.4.0@5f38c8804a9e97d23e0c8d63341088cd8a22d627',
+  'symfony/deprecation-contracts' => 'v2.5.0@6f981ee24cf69ee7ce9736146d1c57c2780598a8',
   'symfony/doctrine-bridge' => 'v5.3.4@70bffec510b08e4830d851ad485a996b130fcd7c',
   'symfony/dotenv' => 'v5.3.4@f0fcb3406dafc7730e3df7add94ca287d682b46b',
   'symfony/error-handler' => 'v5.3.4@281f6c4660bcf5844bb0346fe3a4664722fe4c73',
@@ -150,7 +150,7 @@ final class Versions
   'symfony/polyfill-mbstring' => 'v1.23.0@2df51500adbaebdc4c38dea4c89a2e131c45c8a1',
   'symfony/polyfill-php72' => 'v1.23.0@9a142215a36a3888e30d0a9eeea9766764e96976',
   'symfony/polyfill-php73' => 'v1.23.0@fba8933c384d6476ab14fb7b8526e5287ca7e010',
-  'symfony/polyfill-php80' => 'v1.23.0@eca0bf41ed421bed1b57c4958bab16aa86b757d0',
+  'symfony/polyfill-php80' => 'v1.23.1@1100343ed1a92e3a38f9ae122fc0eb21602547be',
   'symfony/polyfill-php81' => 'v1.23.0@e66119f3de95efc359483f810c4c3e6436279436',
   'symfony/polyfill-uuid' => 'v1.23.0@9165effa2eb8a31bb3fa608df9d529920d21ddd9',
   'symfony/property-access' => 'v5.3.4@098681253076af7070df7d9debe5f75733eea189',
@@ -163,7 +163,7 @@ final class Versions
   'symfony/security-csrf' => 'v5.3.4@94b533195cf7fb21f3fae8ce349861c6401d969e',
   'symfony/security-guard' => 'v5.3.4@4e43b41c3809fdaea72ade100dae8c07045a2fa9',
   'symfony/security-http' => 'v5.3.4@c9f193567e3403beb2f560353fe87950680051c4',
-  'symfony/serializer' => 'v5.3.4@f04e368e3cb35948550c7e95cc8918cb7e761c0c',
+  'symfony/serializer' => 'v5.3.12@bf570839e289e0bdde69c9fa867d3a42f5e8fde1',
   'symfony/serializer-pack' => 'v1.0.4@61173947057d5e1bf1c79e2a6ab6a8430be0602e',
   'symfony/service-contracts' => 'v2.4.0@f040a30e04b57fbcc9c6cbcf4dbaa96bd318b9bb',
   'symfony/stopwatch' => 'v5.3.4@b24c6a92c6db316fee69e38c80591e080e41536c',
@@ -187,7 +187,7 @@ final class Versions
   'webmozart/assert' => '1.10.0@6964c76c7804814a842473e0c8fd15bab0f18e25',
   'webmozart/path-util' => '2.3.0@d939f7edc24c9a1bb9c0dee5cb05d8e859490725',
   'zumba/json-serializer' => '3.0.0@4387bfaa6948d219e947ee77d975ec4f41fefd2b',
-  'csr/csrdelft.nl' => 'dev-master@532c021eae228be3ea4c1bc00664e19cc607a62e',
+  'csr/csrdelft.nl' => 'dev-master@95bc835d7dbc5bde795f7b84f851c15289729ecb',
 );
 
     private function __construct()
