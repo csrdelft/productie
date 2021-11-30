@@ -36,8 +36,6 @@ final class NativeResponse implements ResponseInterface, StreamableInterface
     private $remaining;
     private $buffer;
     private $multi;
-    private $debugBuffer;
-    private $shouldBuffer;
     private $pauseExpiry = 0;
 
     /**
@@ -366,7 +364,7 @@ final class NativeResponse implements ResponseInterface, StreamableInterface
         }
 
         if (!$handles) {
-            usleep(1E6 * $timeout);
+            usleep((int) (1E6 * $timeout));
 
             return 0;
         }

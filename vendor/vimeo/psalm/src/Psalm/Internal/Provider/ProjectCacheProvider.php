@@ -1,11 +1,13 @@
 <?php
 namespace Psalm\Internal\Provider;
 
-use const DIRECTORY_SEPARATOR;
+use Psalm\Config;
+
 use function file_exists;
 use function file_get_contents;
 use function file_put_contents;
-use Psalm\Config;
+
+use const DIRECTORY_SEPARATOR;
 
 /**
  * Used to determine which files reference other files, necessary for using the --diff
@@ -19,12 +21,12 @@ class ProjectCacheProvider
     /**
      * @var int|null
      */
-    private $last_run = null;
+    private $last_run;
 
     /**
      * @var string|null
      */
-    private $composer_lock_hash = null;
+    private $composer_lock_hash;
 
     private $composer_lock_location;
 

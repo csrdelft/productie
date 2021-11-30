@@ -2,21 +2,23 @@
 namespace Psalm\Internal\Analyzer\Statements\Block;
 
 use PhpParser;
+use Psalm\Context;
+use Psalm\Internal\Algebra;
 use Psalm\Internal\Algebra\FormulaGenerator;
 use Psalm\Internal\Analyzer\ScopeAnalyzer;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
 use Psalm\Internal\Clause;
-use Psalm\Context;
 use Psalm\Internal\Scope\LoopScope;
 use Psalm\Type;
-use Psalm\Internal\Algebra;
-use function in_array;
-use function array_values;
+
 use function array_filter;
+use function array_intersect_key;
 use function array_keys;
+use function array_merge;
+use function array_values;
+use function in_array;
 use function preg_match;
 use function preg_quote;
-use function array_merge;
 
 /**
  * @internal
@@ -27,9 +29,10 @@ class DoAnalyzer
         StatementsAnalyzer $statements_analyzer,
         PhpParser\Node\Stmt\Do_ $stmt,
         Context $context
-    ): void {
+    ): ?bool {
         $do_context = clone $context;
         $do_context->break_types[] = 'loop';
+        $do_context->inside_loop = true;
 
         $codebase = $statements_analyzer->getCodebase();
 
@@ -86,20 +89,22 @@ class DoAnalyzer
             $while_clauses = [new Clause([], $cond_id, $cond_id, true)];
         }
 
-        LoopAnalyzer::analyze(
+        if (LoopAnalyzer::analyze(
             $statements_analyzer,
             $stmt->stmts,
-            [$stmt->cond],
+            WhileAnalyzer::getAndExpressions($stmt->cond),
             [],
             $loop_scope,
             $inner_loop_context,
             true,
             true
-        );
+        ) === false) {
+            return false;
+        }
 
         // because it's a do {} while, inner loop vars belong to the main context
         if (!$inner_loop_context) {
-            throw new \UnexpectedValueException('Should never be null');
+            throw new \UnexpectedValueException('There should be an inner loop context');
         }
 
         $negated_while_clauses = Algebra::negateFormula($while_clauses);
@@ -109,8 +114,6 @@ class DoAnalyzer
                 array_merge($context->clauses, $negated_while_clauses)
             )
         );
-
-        //var_dump($do_context->vars_in_scope);
 
         if ($negated_while_types) {
             $changed_var_ids = [];
@@ -152,14 +155,16 @@ class DoAnalyzer
             $do_context->vars_possibly_in_scope
         );
 
-        $context->referenced_var_ids = array_merge(
-            $context->referenced_var_ids,
-            $do_context->referenced_var_ids
+        $context->referenced_var_ids = array_intersect_key(
+            $do_context->referenced_var_ids,
+            $context->referenced_var_ids
         );
 
         if ($context->collect_exceptions) {
             $context->mergeExceptions($inner_loop_context);
         }
+
+        return null;
     }
 
     private static function analyzeDoNaively(

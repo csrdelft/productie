@@ -2,19 +2,20 @@
 namespace Psalm\Internal\Analyzer\Statements;
 
 use PhpParser;
-use Psalm\Internal\PhpVisitor\CheckTrivialExprVisitor;
-use Psalm\Codebase;
 use Psalm\CodeLocation;
+use Psalm\Codebase;
 use Psalm\FileManipulation;
 use Psalm\Internal\FileManipulation\FileManipulationBuffer;
+use Psalm\Internal\PhpVisitor\CheckTrivialExprVisitor;
+
+use function array_key_exists;
+use function array_slice;
+use function count;
+use function is_array;
 use function is_string;
 use function strlen;
 use function substr;
-use function array_key_exists;
-use function count;
 use function token_get_all;
-use function array_slice;
-use function is_array;
 use function trim;
 
 class UnusedAssignmentRemover
@@ -41,7 +42,7 @@ class UnusedAssignmentRemover
         $chain_assignment = false;
 
         if ($assign_stmt !== null && $assign_exp !== null) {
-            // Check if we have to remove assignment statemnt as expression (i.e. just "$var = ")
+            // Check if we have to remove assignment statement as expression (i.e. just "$var = ")
 
             // Consider chain of assignments
             $rhs_exp = $assign_exp->expr;
@@ -131,7 +132,7 @@ class UnusedAssignmentRemover
         $iter = 1;
 
         // Check if second token is just whitespace
-        if (is_array($token_list[$iter]) && strlen(trim($token_list[$iter][1])) === 0) {
+        if (is_array($token_list[$iter]) && trim($token_list[$iter][1]) === '') {
             $offset_count += strlen($token_list[1][1]);
             $iter++;
         }
@@ -145,7 +146,7 @@ class UnusedAssignmentRemover
         $iter++;
 
         // Remove any whitespace following assignment operator token (e.g "=", "+=")
-        if (is_array($token_list[$iter]) && strlen(trim($token_list[$iter][1])) === 0) {
+        if (is_array($token_list[$iter]) && trim($token_list[$iter][1]) === '') {
             $offset_count += strlen($token_list[$iter][1]);
             $iter++;
         }
@@ -155,7 +156,7 @@ class UnusedAssignmentRemover
             $offset_count += 1;
             $iter++;
             // Handle any whitespace after "&"
-            if (is_array($token_list[$iter]) && strlen(trim($token_list[$iter][1])) === 0) {
+            if (is_array($token_list[$iter]) && trim($token_list[$iter][1]) === '') {
                 $offset_count += strlen($token_list[$iter][1]);
             }
         }
@@ -214,14 +215,13 @@ class UnusedAssignmentRemover
                     || $rhs_exp instanceof PhpParser\Node\Expr\AssignOp
                     || $rhs_exp instanceof PhpParser\Node\Expr\AssignRef
                 ) {
-                    $rhs_removable = $this->checkRemovableChainAssignment($rhs_exp, $var_loc_map);
-                    return $rhs_removable;
+                    return $this->checkRemovableChainAssignment($rhs_exp, $var_loc_map);
                 }
             }
             return $curr_removable;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -328,7 +328,7 @@ class UnusedAssignmentRemover
         int $search_level = 1
     ): array {
         if ($current_node instanceof PhpParser\Node\Expr\Assign
-            || $current_node instanceof PhpPArser\Node\Expr\AssignOp
+            || $current_node instanceof PhpParser\Node\Expr\AssignOp
             || $current_node instanceof PhpParser\Node\Expr\AssignRef
         ) {
             $var = $current_node->var;
@@ -343,9 +343,9 @@ class UnusedAssignmentRemover
             $rhs_exp = $current_node->expr;
             $rhs_search_result = $this->findAssignExp($rhs_exp, $var_id, $var_start_loc, $search_level + 1);
             return [$rhs_search_result[0], $rhs_search_result[1]];
-        } else {
-            return [null, $search_level];
         }
+
+        return [null, $search_level];
     }
 
     public function checkIfVarRemoved(string $var_id, CodeLocation $var_loc): bool

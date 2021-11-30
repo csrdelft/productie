@@ -4,25 +4,27 @@ namespace Psalm\Internal\Analyzer;
 use PhpParser;
 use PhpParser\Node\Stmt\Class_;
 use Psalm\Aliases;
+use Psalm\CodeLocation;
+use Psalm\Codebase;
+use Psalm\Config;
+use Psalm\Context;
 use Psalm\DocComment;
 use Psalm\Exception\DocblockParseException;
 use Psalm\Internal\Analyzer\Statements\Expression\Call\ClassTemplateParamCollector;
 use Psalm\Internal\Analyzer\Statements\Expression\Fetch\AtomicPropertyFetchAnalyzer;
 use Psalm\Internal\FileManipulation\PropertyDocblockManipulator;
-use Psalm\Internal\Type\TemplateStandinTypeReplacer;
 use Psalm\Internal\Type\Comparator\UnionTypeComparator;
-use Psalm\Codebase;
-use Psalm\CodeLocation;
-use Psalm\Config;
-use Psalm\Context;
 use Psalm\Internal\Type\TemplateInferredTypeReplacer;
+use Psalm\Internal\Type\TemplateStandinTypeReplacer;
 use Psalm\Issue\DeprecatedClass;
 use Psalm\Issue\DeprecatedInterface;
 use Psalm\Issue\DeprecatedTrait;
+use Psalm\Issue\DuplicateEnumCaseValue;
 use Psalm\Issue\ExtensionRequirementViolation;
 use Psalm\Issue\ImplementationRequirementViolation;
 use Psalm\Issue\InaccessibleMethod;
 use Psalm\Issue\InternalClass;
+use Psalm\Issue\InvalidEnumCaseValue;
 use Psalm\Issue\InvalidExtendClass;
 use Psalm\Issue\InvalidTemplateParam;
 use Psalm\Issue\InvalidTraversableImplementation;
@@ -33,6 +35,7 @@ use Psalm\Issue\MissingImmutableAnnotation;
 use Psalm\Issue\MissingPropertyType;
 use Psalm\Issue\MissingTemplateParam;
 use Psalm\Issue\MutableDependency;
+use Psalm\Issue\NoEnumProperties;
 use Psalm\Issue\NonInvariantDocblockPropertyType;
 use Psalm\Issue\NonInvariantPropertyType;
 use Psalm\Issue\OverriddenPropertyAccess;
@@ -52,28 +55,30 @@ use Psalm\Node\Stmt\VirtualClassMethod;
 use Psalm\Node\Stmt\VirtualExpression;
 use Psalm\Node\VirtualArg;
 use Psalm\Node\VirtualIdentifier;
-use Psalm\Node\VirtualParam;
 use Psalm\Plugin\EventHandler\Event\AfterClassLikeAnalysisEvent;
 use Psalm\StatementsSource;
 use Psalm\Storage\ClassLikeStorage;
 use Psalm\Storage\FunctionLikeParameter;
 use Psalm\Type;
-use function preg_replace;
-use function preg_match;
-use function explode;
-use function array_pop;
-use function strtolower;
-use function implode;
-use function substr;
-use function array_map;
-use function str_replace;
-use function count;
-use function array_search;
-use function array_keys;
-use function array_merge;
+
 use function array_filter;
-use function in_array;
+use function array_keys;
+use function array_map;
+use function array_merge;
+use function array_pop;
+use function array_search;
 use function assert;
+use function count;
+use function explode;
+use function implode;
+use function in_array;
+use function is_int;
+use function is_string;
+use function preg_match;
+use function preg_replace;
+use function str_replace;
+use function strtolower;
+use function substr;
 
 /**
  * @internal
@@ -85,19 +90,22 @@ class ClassAnalyzer extends ClassLikeAnalyzer
      */
     public $inferred_property_types = [];
 
-    public function __construct(PhpParser\Node\Stmt\Class_ $class, SourceAnalyzer $source, ?string $fq_class_name)
+    /**
+     * @param PhpParser\Node\Stmt\Class_|PhpParser\Node\Stmt\Enum_ $class
+     */
+    public function __construct(PhpParser\Node\Stmt $class, SourceAnalyzer $source, ?string $fq_class_name)
     {
         if (!$fq_class_name) {
+            if (!$class instanceof PhpParser\Node\Stmt\Class_) {
+                throw new \UnexpectedValueException('Anonymous enums are not allowed');
+            }
+
             $fq_class_name = self::getAnonymousClassName($class, $source->getFilePath());
         }
 
         parent::__construct($class, $source, $fq_class_name);
 
-        if (!$this->class instanceof PhpParser\Node\Stmt\Class_) {
-            throw new \InvalidArgumentException('Bad');
-        }
-
-        if ($this->class->extends) {
+        if ($this->class instanceof PhpParser\Node\Stmt\Class_ && $this->class->extends) {
             $this->parent_fq_class_name = self::getFQCLNFromNameObject(
                 $this->class->extends,
                 $this->source->getAliases()
@@ -112,15 +120,15 @@ class ClassAnalyzer extends ClassLikeAnalyzer
     }
 
     /**
-     * @return null|false
+     * @return void
      */
     public function analyze(
         ?Context $class_context = null,
         ?Context $global_context = null
-    ): ?bool {
+    ): void {
         $class = $this->class;
 
-        if (!$class instanceof PhpParser\Node\Stmt\Class_) {
+        if (!$class instanceof PhpParser\Node\Stmt\Class_ && !$class instanceof PhpParser\Node\Stmt\Enum_) {
             throw new \LogicException('Something went badly wrong');
         }
 
@@ -129,7 +137,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
         $storage = $this->storage;
 
         if ($storage->has_visitor_issues) {
-            return null;
+            return;
         }
 
         if ($class->name
@@ -157,7 +165,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                 // fall through
             }
 
-            return null;
+            return;
         }
 
         $project_analyzer = $this->file_analyzer->project_analyzer;
@@ -233,7 +241,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
 
         $parent_fq_class_name = $this->parent_fq_class_name;
 
-        if ($class->extends && $parent_fq_class_name) {
+        if ($class instanceof PhpParser\Node\Stmt\Class_ && $class->extends && $parent_fq_class_name) {
             $this->checkParentClass(
                 $class,
                 $class->extends,
@@ -244,6 +252,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                 $class_context
             );
         }
+
 
         if ($storage->template_types) {
             foreach ($storage->template_types as $param_name => $_) {
@@ -329,11 +338,11 @@ class ClassAnalyzer extends ClassLikeAnalyzer
             $fq_class_name,
             $storage
         ) === false) {
-            return false;
+            return;
         }
 
         if ($storage->invalid_dependencies) {
-            return null;
+            return;
         }
 
         if ($this->leftover_stmts) {
@@ -360,14 +369,14 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                             $this->fq_class_name . ', defined abstract in ' . $declaring_class_name,
                             new CodeLocation(
                                 $this,
-                                $class->name ? $class->name : $class,
+                                $class->name ?? $class,
                                 $class_context->include_location,
                                 true
                             )
                         ),
                         $storage->suppressed_issues + $this->getSuppressedIssues()
                     )) {
-                        return false;
+                        return;
                     }
                 }
             }
@@ -418,10 +427,20 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                     $global_context,
                     $constructor_analyzer
                 ) === false) {
-                    return false;
+                    return;
                 }
             } elseif ($stmt instanceof PhpParser\Node\Stmt\Property) {
                 foreach ($stmt->props as $prop) {
+                    if ($storage->is_enum) {
+                        if (IssueBuffer::accepts(new NoEnumProperties(
+                            'Enums cannot have properties',
+                            new CodeLocation($this, $prop),
+                            $fq_class_name
+                        ))) {
+                            // fall through
+                        }
+                        continue;
+                    }
                     if ($prop->default) {
                         $member_stmts[] = $stmt;
                     }
@@ -501,17 +520,23 @@ class ClassAnalyzer extends ClassLikeAnalyzer
 
         $config = Config::getInstance();
 
-        $this->checkPropertyInitialization(
-            $codebase,
-            $config,
-            $storage,
-            $class_context,
-            $global_context,
-            $constructor_analyzer
-        );
+        if ($class instanceof PhpParser\Node\Stmt\Class_) {
+            $this->checkPropertyInitialization(
+                $codebase,
+                $config,
+                $storage,
+                $class_context,
+                $global_context,
+                $constructor_analyzer
+            );
+        }
+
+        if ($class instanceof PhpParser\Node\Stmt\Enum_) {
+            $this->checkEnum();
+        }
 
         foreach ($class->stmts as $stmt) {
-            if ($stmt instanceof PhpParser\Node\Stmt\Property && !isset($stmt->type)) {
+            if ($stmt instanceof PhpParser\Node\Stmt\Property && !$storage->is_enum && !isset($stmt->type)) {
                 $this->checkForMissingPropertyType($this, $stmt, $class_context);
             } elseif ($stmt instanceof PhpParser\Node\Stmt\TraitUse) {
                 foreach ($stmt->traits as $trait) {
@@ -615,7 +640,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
         );
 
         if ($codebase->config->eventDispatcher->dispatchAfterClassLikeAnalysis($event) === false) {
-            return false;
+            return;
         }
         $file_manipulations = $event->getFileReplacements();
         if ($file_manipulations) {
@@ -624,8 +649,6 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                 $file_manipulations
             );
         }
-
-        return null;
     }
 
     public static function addContextProperties(
@@ -673,12 +696,9 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                         }
                     }
 
-                    if ((($property_storage->signature_type
-                                && !$guide_property_storage->signature_type)
-                            || (!$property_storage->signature_type
-                                && $guide_property_storage->signature_type)
+                    if ((($property_storage->signature_type && !$guide_property_storage->signature_type)
+                            || (!$property_storage->signature_type && $guide_property_storage->signature_type)
                             || ($property_storage->signature_type
-                                && $guide_property_storage->signature_type
                                 && !$property_storage->signature_type->equals(
                                     $guide_property_storage->signature_type
                                 )))
@@ -718,18 +738,18 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                         : clone $guide_property_storage->type;
 
                     // Set upper bounds for all templates
-                    $upper_bounds = [];
+                    $lower_bounds = [];
                     $extended_templates = $storage->template_extended_params ?? [];
                     foreach ($extended_templates as $et_name => $et_array) {
                         foreach ($et_array as $et_class_name => $extended_template) {
-                            if (!isset($upper_bounds[$et_class_name][$et_name])) {
-                                $upper_bounds[$et_class_name][$et_name] = $extended_template;
+                            if (!isset($lower_bounds[$et_class_name][$et_name])) {
+                                $lower_bounds[$et_class_name][$et_name] = $extended_template;
                             }
                         }
                     }
 
                     // Get actual types used for templates (to support @template-covariant)
-                    $template_standins = new \Psalm\Internal\Type\TemplateResult($upper_bounds, []);
+                    $template_standins = new \Psalm\Internal\Type\TemplateResult($lower_bounds, []);
                     TemplateStandinTypeReplacer::replace(
                         $guide_property_type,
                         $template_standins,
@@ -749,16 +769,19 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                                 // If template_covariants is set template_types should also be set
                                 assert($parent_storage->template_types !== null);
                                 $pt_name = array_keys($parent_storage->template_types)[$pt_offset];
-                                if (isset($template_standins->upper_bounds[$pt_name][$parent_class])) {
-                                    $upper_bounds[$pt_name][$parent_class] =
-                                        $template_standins->upper_bounds[$pt_name][$parent_class]->type;
+                                if (isset($template_standins->lower_bounds[$pt_name][$parent_class])) {
+                                    $lower_bounds[$pt_name][$parent_class] =
+                                        TemplateStandinTypeReplacer::getMostSpecificTypeFromBounds(
+                                            $template_standins->lower_bounds[$pt_name][$parent_class],
+                                            $codebase
+                                        );
                                 }
                             }
                         }
                         $parent_class = $parent_storage->parent_class;
                     }
 
-                    $template_result = new \Psalm\Internal\Type\TemplateResult([], $upper_bounds);
+                    $template_result = new \Psalm\Internal\Type\TemplateResult([], $lower_bounds);
 
                     TemplateInferredTypeReplacer::replace(
                         $guide_property_type,
@@ -772,7 +795,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                     );
 
                     if ($property_storage->location
-                        && !$property_type->equals($guide_property_type)
+                        && !$property_type->equals($guide_property_type, false)
                         && $guide_class_storage->user_defined
                     ) {
                         if (IssueBuffer::accepts(
@@ -969,7 +992,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
             return;
         }
 
-        $fq_class_name = $class_context->self ? $class_context->self : $this->fq_class_name;
+        $fq_class_name = $class_context->self ?: $this->fq_class_name;
         $fq_class_name_lc = strtolower($fq_class_name);
 
         $included_file_path = $this->getFilePath();
@@ -1021,7 +1044,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                 continue;
             }
 
-            if ($property->type && $property->type->isNullable() && $property->type->from_docblock) {
+            if ($property->type && $property->type->from_docblock && $property->type->isNullable()) {
                 continue;
             }
 
@@ -1260,7 +1283,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                             new PropertyNotSetInConstructor(
                                 'Property ' . $class_storage->name . '::$' . $property_name
                                     . ' is not defined in constructor of '
-                                    . $this->fq_class_name . ' and in any ' . $expected_visibility
+                                    . $this->fq_class_name . ' or in any ' . $expected_visibility
                                     . 'methods called in the constructor',
                                 $error_location,
                                 $property_id
@@ -1336,7 +1359,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                 if (IssueBuffer::accepts(
                     new UndefinedTrait(
                         'Trait ' . $fq_trait_name . ' does not exist',
-                        new CodeLocation($previous_trait_analyzer ?: $this, $trait_name)
+                        new CodeLocation($previous_trait_analyzer ?? $this, $trait_name)
                     ),
                     $storage->suppressed_issues + $this->getSuppressedIssues()
                 )) {
@@ -1344,131 +1367,131 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                 }
 
                 return false;
-            } else {
-                if (!$codebase->traitHasCorrectCase($fq_trait_name)) {
+            }
+
+            if (!$codebase->traitHasCorrectCase($fq_trait_name)) {
+                if (IssueBuffer::accepts(
+                    new UndefinedTrait(
+                        'Trait ' . $fq_trait_name . ' has wrong casing',
+                        new CodeLocation($previous_trait_analyzer ?? $this, $trait_name)
+                    ),
+                    $storage->suppressed_issues + $this->getSuppressedIssues()
+                )) {
+                    return false;
+                }
+
+                continue;
+            }
+
+            $fq_trait_name_resolved = $codebase->classlikes->getUnAliasedName($fq_trait_name);
+            $trait_storage = $codebase->classlike_storage_provider->get($fq_trait_name_resolved);
+
+            if ($trait_storage->deprecated) {
+                if (IssueBuffer::accepts(
+                    new DeprecatedTrait(
+                        'Trait ' . $fq_trait_name . ' is deprecated',
+                        new CodeLocation($previous_trait_analyzer ?? $this, $trait_name)
+                    ),
+                    $storage->suppressed_issues + $this->getSuppressedIssues()
+                )) {
+                    // fall through
+                }
+            }
+
+            if ($trait_storage->extension_requirement !== null) {
+                $extension_requirement = $codebase->classlikes->getUnAliasedName(
+                    $trait_storage->extension_requirement
+                );
+                $extensionRequirementMet = in_array($extension_requirement, $storage->parent_classes);
+
+                if (!$extensionRequirementMet) {
                     if (IssueBuffer::accepts(
-                        new UndefinedTrait(
-                            'Trait ' . $fq_trait_name . ' has wrong casing',
-                            new CodeLocation($previous_trait_analyzer ?: $this, $trait_name)
+                        new ExtensionRequirementViolation(
+                            $fq_trait_name . ' requires using class to extend ' . $extension_requirement
+                                . ', but ' . $storage->name . ' does not',
+                            new CodeLocation($previous_trait_analyzer ?? $this, $trait_name)
                         ),
                         $storage->suppressed_issues + $this->getSuppressedIssues()
                     )) {
+                        // fall through
+                    }
+                }
+            }
+
+            foreach ($trait_storage->implementation_requirements as $implementation_requirement) {
+                $implementation_requirement = $codebase->classlikes->getUnAliasedName($implementation_requirement);
+                $implementationRequirementMet = in_array($implementation_requirement, $storage->class_implements);
+
+                if (!$implementationRequirementMet) {
+                    if (IssueBuffer::accepts(
+                        new ImplementationRequirementViolation(
+                            $fq_trait_name . ' requires using class to implement '
+                                . $implementation_requirement . ', but ' . $storage->name . ' does not',
+                            new CodeLocation($previous_trait_analyzer ?? $this, $trait_name)
+                        ),
+                        $storage->suppressed_issues + $this->getSuppressedIssues()
+                    )) {
+                        // fall through
+                    }
+                }
+            }
+
+            if ($storage->mutation_free && !$trait_storage->mutation_free) {
+                if (IssueBuffer::accepts(
+                    new MutableDependency(
+                        $storage->name . ' is marked @psalm-immutable but ' . $fq_trait_name . ' is not',
+                        new CodeLocation($previous_trait_analyzer ?? $this, $trait_name)
+                    ),
+                    $storage->suppressed_issues + $this->getSuppressedIssues()
+                )) {
+                    // fall through
+                }
+            }
+
+            $trait_file_analyzer = $project_analyzer->getFileAnalyzerForClassLike($fq_trait_name_resolved);
+            $trait_node = $codebase->classlikes->getTraitNode($fq_trait_name_resolved);
+            $trait_aliases = $trait_storage->aliases;
+            if ($trait_aliases === null) {
+                continue;
+            }
+
+            $trait_analyzer = new TraitAnalyzer(
+                $trait_node,
+                $trait_file_analyzer,
+                $fq_trait_name_resolved,
+                $trait_aliases
+            );
+
+            foreach ($trait_node->stmts as $trait_stmt) {
+                if ($trait_stmt instanceof PhpParser\Node\Stmt\ClassMethod) {
+                    $trait_method_analyzer = $this->analyzeClassMethod(
+                        $trait_stmt,
+                        $storage,
+                        $trait_analyzer,
+                        $class_context,
+                        $global_context
+                    );
+
+                    if ($trait_stmt->name->name === '__construct') {
+                        $constructor_analyzer = $trait_method_analyzer;
+                    }
+                } elseif ($trait_stmt instanceof PhpParser\Node\Stmt\TraitUse) {
+                    if ($this->analyzeTraitUse(
+                        $trait_aliases,
+                        $trait_stmt,
+                        $project_analyzer,
+                        $storage,
+                        $class_context,
+                        $global_context,
+                        $constructor_analyzer,
+                        $trait_analyzer
+                    ) === false) {
                         return false;
                     }
-
-                    continue;
                 }
-
-                $fq_trait_name_resolved = $codebase->classlikes->getUnAliasedName($fq_trait_name);
-                $trait_storage = $codebase->classlike_storage_provider->get($fq_trait_name_resolved);
-
-                if ($trait_storage->deprecated) {
-                    if (IssueBuffer::accepts(
-                        new DeprecatedTrait(
-                            'Trait ' . $fq_trait_name . ' is deprecated',
-                            new CodeLocation($previous_trait_analyzer ?: $this, $trait_name)
-                        ),
-                        $storage->suppressed_issues + $this->getSuppressedIssues()
-                    )) {
-                        // fall through
-                    }
-                }
-
-                if ($trait_storage->extension_requirement !== null) {
-                    $extension_requirement = $codebase->classlikes->getUnAliasedName(
-                        $trait_storage->extension_requirement
-                    );
-                    $extensionRequirementMet = in_array($extension_requirement, $storage->parent_classes);
-
-                    if (!$extensionRequirementMet) {
-                        if (IssueBuffer::accepts(
-                            new ExtensionRequirementViolation(
-                                $fq_trait_name . ' requires using class to extend ' . $extension_requirement
-                                    . ', but ' . $storage->name . ' does not',
-                                new CodeLocation($previous_trait_analyzer ?: $this, $trait_name)
-                            ),
-                            $storage->suppressed_issues + $this->getSuppressedIssues()
-                        )) {
-                            // fall through
-                        }
-                    }
-                }
-
-                foreach ($trait_storage->implementation_requirements as $implementation_requirement) {
-                    $implementation_requirement = $codebase->classlikes->getUnAliasedName($implementation_requirement);
-                    $implementationRequirementMet = in_array($implementation_requirement, $storage->class_implements);
-
-                    if (!$implementationRequirementMet) {
-                        if (IssueBuffer::accepts(
-                            new ImplementationRequirementViolation(
-                                $fq_trait_name . ' requires using class to implement '
-                                    . $implementation_requirement . ', but ' . $storage->name . ' does not',
-                                new CodeLocation($previous_trait_analyzer ?: $this, $trait_name)
-                            ),
-                            $storage->suppressed_issues + $this->getSuppressedIssues()
-                        )) {
-                            // fall through
-                        }
-                    }
-                }
-
-                if ($storage->mutation_free && !$trait_storage->mutation_free) {
-                    if (IssueBuffer::accepts(
-                        new MutableDependency(
-                            $storage->name . ' is marked @psalm-immutable but ' . $fq_trait_name . ' is not',
-                            new CodeLocation($previous_trait_analyzer ?: $this, $trait_name)
-                        ),
-                        $storage->suppressed_issues + $this->getSuppressedIssues()
-                    )) {
-                        // fall through
-                    }
-                }
-
-                $trait_file_analyzer = $project_analyzer->getFileAnalyzerForClassLike($fq_trait_name_resolved);
-                $trait_node = $codebase->classlikes->getTraitNode($fq_trait_name_resolved);
-                $trait_aliases = $trait_storage->aliases;
-                if ($trait_aliases === null) {
-                    continue;
-                }
-
-                $trait_analyzer = new TraitAnalyzer(
-                    $trait_node,
-                    $trait_file_analyzer,
-                    $fq_trait_name_resolved,
-                    $trait_aliases
-                );
-
-                foreach ($trait_node->stmts as $trait_stmt) {
-                    if ($trait_stmt instanceof PhpParser\Node\Stmt\ClassMethod) {
-                        $trait_method_analyzer = $this->analyzeClassMethod(
-                            $trait_stmt,
-                            $storage,
-                            $trait_analyzer,
-                            $class_context,
-                            $global_context
-                        );
-
-                        if ($trait_stmt->name->name === '__construct') {
-                            $constructor_analyzer = $trait_method_analyzer;
-                        }
-                    } elseif ($trait_stmt instanceof PhpParser\Node\Stmt\TraitUse) {
-                        if ($this->analyzeTraitUse(
-                            $trait_aliases,
-                            $trait_stmt,
-                            $project_analyzer,
-                            $storage,
-                            $class_context,
-                            $global_context,
-                            $constructor_analyzer,
-                            $trait_analyzer
-                        ) === false) {
-                            return false;
-                        }
-                    }
-                }
-
-                $trait_file_analyzer->clearSourceBeforeDestruction();
             }
+
+            $trait_file_analyzer->clearSourceBeforeDestruction();
         }
 
         $class_context->include_location = $previous_context_include_location;
@@ -1524,13 +1547,11 @@ class ClassAnalyzer extends ClassLikeAnalyzer
         $suggested_type = $property_storage->suggested_type;
 
         if (isset($this->inferred_property_types[$property_name])) {
-            $suggested_type = $suggested_type
-                ? Type::combineUnionTypes(
-                    $suggested_type,
-                    $this->inferred_property_types[$property_name],
-                    $codebase
-                )
-                : $this->inferred_property_types[$property_name];
+            $suggested_type = Type::combineUnionTypes(
+                $suggested_type,
+                $this->inferred_property_types[$property_name] ?? null,
+                $codebase
+            );
         }
 
         if ($suggested_type && !$property_storage->has_default && $property_storage->is_static) {
@@ -1900,9 +1921,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
             );
         }
 
-        $overridden_method_ids = isset($class_storage->overridden_method_ids[strtolower($stmt->name->name)])
-            ? $class_storage->overridden_method_ids[strtolower($stmt->name->name)]
-            : [];
+        $overridden_method_ids = $class_storage->overridden_method_ids[strtolower($stmt->name->name)] ?? [];
 
         if (!$return_type
             && !$class_storage->is_interface
@@ -2153,9 +2172,12 @@ class ClassAnalyzer extends ClassLikeAnalyzer
         }
     }
 
+    /**
+     * @param PhpParser\Node\Stmt\Class_|PhpParser\Node\Stmt\Enum_ $class
+     */
     private function checkImplementedInterfaces(
         Context $class_context,
-        Class_ $class,
+        PhpParser\Node\Stmt $class,
         Codebase $codebase,
         string $fq_class_name,
         ClassLikeStorage $storage
@@ -2190,8 +2212,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                 $interface_location,
                 null,
                 null,
-                $this->getSuppressedIssues(),
-                false
+                $this->getSuppressedIssues()
             ) === false) {
                 return false;
             }
@@ -2261,7 +2282,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
 
             $code_location = new CodeLocation(
                 $this,
-                $class->name ? $class->name : $class,
+                $class->name ?? $class,
                 $class_context->include_location,
                 true
             );
@@ -2336,6 +2357,10 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                         );
                     }
 
+                    if ($storage->is_enum && $interface_method_name_lc === 'cases') {
+                        continue;
+                    }
+
                     if (!$implementer_method_storage) {
                         IssueBuffer::accepts(
                             new UnimplementedInterfaceMethod(
@@ -2408,7 +2433,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                     MethodComparator::compare(
                         $codebase,
                         null,
-                        $implementer_classlike_storage ?: $storage,
+                        $implementer_classlike_storage ?? $storage,
                         $interface_storage,
                         $implementer_method_storage,
                         $interface_method_storage,
@@ -2448,8 +2473,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
             $parent_reference_location,
             null,
             null,
-            $storage->suppressed_issues + $this->getSuppressedIssues(),
-            false
+            $storage->suppressed_issues + $this->getSuppressedIssues()
         ) === false) {
             return;
         }
@@ -2470,7 +2494,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
             $code_location = new CodeLocation(
                 $this,
                 $extended_class,
-                $class_context ? $class_context->include_location : null,
+                $class_context->include_location ?? null,
                 true
             );
 
@@ -2574,7 +2598,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                 $code_location = new CodeLocation(
                     $this,
                     $class->name ?: $class,
-                    $class_context ? $class_context->include_location : null,
+                    $class_context->include_location ?? null,
                     true
                 );
 
@@ -2588,6 +2612,62 @@ class ClassAnalyzer extends ClassLikeAnalyzer
             }
         } catch (\InvalidArgumentException $e) {
             // do nothing
+        }
+    }
+
+    private function checkEnum(): void
+    {
+        $storage = $this->storage;
+
+        $seen_values = [];
+        foreach ($storage->enum_cases as $case_storage) {
+            if ($case_storage->value !== null && $storage->enum_type === null) {
+                if (IssueBuffer::accepts(
+                    new InvalidEnumCaseValue(
+                        'Case of a non-backed enum should not have a value',
+                        $case_storage->stmt_location,
+                        $storage->name
+                    )
+                )) {
+                }
+            } elseif ($case_storage->value === null && $storage->enum_type !== null) {
+                if (IssueBuffer::accepts(
+                    new InvalidEnumCaseValue(
+                        'Case of a backed enum should have a value',
+                        $case_storage->stmt_location,
+                        $storage->name
+                    )
+                )) {
+                }
+            } elseif ($case_storage->value !== null && $storage->enum_type !== null) {
+                if ((is_int($case_storage->value) && $storage->enum_type === 'string')
+                    || (is_string($case_storage->value) && $storage->enum_type === 'int')
+                ) {
+                    if (IssueBuffer::accepts(
+                        new InvalidEnumCaseValue(
+                            'Enum case value type should be ' . $storage->enum_type,
+                            $case_storage->stmt_location,
+                            $storage->name
+                        )
+                    )) {
+                    }
+                }
+            }
+
+            if ($case_storage->value !== null) {
+                if (in_array($case_storage->value, $seen_values, true)) {
+                    if (IssueBuffer::accepts(
+                        new DuplicateEnumCaseValue(
+                            'Enum case values should be unique',
+                            $case_storage->stmt_location,
+                            $storage->name
+                        )
+                    )) {
+                    }
+                } else {
+                    $seen_values[] = $case_storage->value;
+                }
+            }
         }
     }
 }

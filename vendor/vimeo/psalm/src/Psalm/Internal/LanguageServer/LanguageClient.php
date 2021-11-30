@@ -2,7 +2,6 @@
 declare(strict_types = 1);
 namespace Psalm\Internal\LanguageServer;
 
-use Amp\Promise;
 use JsonMapper;
 
 /**
@@ -42,10 +41,8 @@ class LanguageClient
      *  - 2 = Warning
      *  - 3 = Info
      *  - 4 = Log
-     *
-     * @return Promise<void>
      */
-    public function logMessage(string $message, int $type = 4, string $method = 'window/logMessage'): Promise
+    public function logMessage(string $message, int $type = 4, string $method = 'window/logMessage'): void
     {
         // https://microsoft.github.io/language-server-protocol/specifications/specification-current/#window_logMessage
 
@@ -53,7 +50,7 @@ class LanguageClient
             $type = 4;
         }
 
-        return $this->handler->notify(
+        $this->handler->notify(
             $method,
             [
                 'type' => $type,

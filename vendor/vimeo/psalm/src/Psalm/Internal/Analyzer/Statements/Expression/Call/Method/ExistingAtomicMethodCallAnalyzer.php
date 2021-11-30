@@ -2,20 +2,20 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression\Call\Method;
 
 use PhpParser;
+use Psalm\CodeLocation;
+use Psalm\Codebase;
+use Psalm\Context;
 use Psalm\Internal\Analyzer\FunctionLikeAnalyzer;
-use Psalm\Internal\Analyzer\Statements\Expression\CallAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Expression\Call\ArgumentMapPopulator;
 use Psalm\Internal\Analyzer\Statements\Expression\Call\ClassTemplateParamCollector;
 use Psalm\Internal\Analyzer\Statements\Expression\Call\FunctionCallAnalyzer;
+use Psalm\Internal\Analyzer\Statements\Expression\CallAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Expression\ExpressionIdentifier;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Internal\Type\Comparator\UnionTypeComparator;
 use Psalm\Internal\Codebase\InternalCallMapHandler;
-use Psalm\Codebase;
-use Psalm\CodeLocation;
-use Psalm\Context;
-use Psalm\Internal\MethodIdentifier;
 use Psalm\Internal\FileManipulation\FileManipulationBuffer;
+use Psalm\Internal\MethodIdentifier;
+use Psalm\Internal\Type\Comparator\UnionTypeComparator;
 use Psalm\Issue\InvalidPropertyAssignmentValue;
 use Psalm\Issue\MixedPropertyTypeCoercion;
 use Psalm\Issue\PossiblyInvalidPropertyAssignmentValue;
@@ -27,11 +27,12 @@ use Psalm\Node\Expr\VirtualFuncCall;
 use Psalm\Plugin\EventHandler\Event\AfterMethodCallAnalysisEvent;
 use Psalm\Storage\Assertion;
 use Psalm\Type;
-use function strtolower;
+
 use function array_map;
+use function count;
 use function explode;
 use function in_array;
-use function count;
+use function strtolower;
 
 class ExistingAtomicMethodCallAnalyzer extends CallAnalyzer
 {
@@ -70,7 +71,8 @@ class ExistingAtomicMethodCallAnalyzer extends CallAnalyzer
             [$calling_method_class] = explode('::', $context->calling_method_id);
             $codebase->file_reference_provider->addMethodReferenceToClassMember(
                 $calling_method_class . '::__construct',
-                strtolower((string) $method_id)
+                strtolower((string) $method_id),
+                false
             );
         }
 
@@ -101,9 +103,7 @@ class ExistingAtomicMethodCallAnalyzer extends CallAnalyzer
                 $context
             );
 
-            $function_return = $statements_analyzer->node_data->getType($fake_function_call) ?: Type::getMixed();
-
-            return $function_return;
+            return $statements_analyzer->node_data->getType($fake_function_call) ?? Type::getMixed();
         }
 
         $source = $statements_analyzer->getSource();
@@ -123,7 +123,8 @@ class ExistingAtomicMethodCallAnalyzer extends CallAnalyzer
             [$calling_method_class] = explode('::', $context->calling_method_id);
             $codebase->file_reference_provider->addMethodReferenceToClassMember(
                 $calling_method_class . '::__construct',
-                strtolower((string) $method_id)
+                strtolower((string) $method_id),
+                false
             );
         }
 
@@ -218,7 +219,7 @@ class ExistingAtomicMethodCallAnalyzer extends CallAnalyzer
             $template_result
         );
 
-        $in_call_map = InternalCallMapHandler::inCallMap((string) ($declaring_method_id ?: $method_id));
+        $in_call_map = InternalCallMapHandler::inCallMap((string) ($declaring_method_id ?? $method_id));
 
         if (!$in_call_map) {
             $name_code_location = new CodeLocation($statements_analyzer, $stmt_name);
@@ -246,12 +247,54 @@ class ExistingAtomicMethodCallAnalyzer extends CallAnalyzer
         }
 
         try {
-            $method_storage = $codebase->methods->getStorage($declaring_method_id ?: $method_id);
+            $method_storage = $codebase->methods->getStorage($declaring_method_id ?? $method_id);
         } catch (\UnexpectedValueException $e) {
             $method_storage = null;
         }
 
         if ($method_storage) {
+            if ($method_storage->self_out_type && $lhs_var_id) {
+                $self_out_candidate = clone $method_storage->self_out_type;
+
+                if ($template_result->lower_bounds) {
+                    $self_out_candidate = \Psalm\Internal\Type\TypeExpander::expandUnion(
+                        $codebase,
+                        $self_out_candidate,
+                        $fq_class_name,
+                        null,
+                        $class_storage->parent_class,
+                        true,
+                        false,
+                        $static_type instanceof Type\Atomic\TNamedObject
+                            && $codebase->classlike_storage_provider->get($static_type->value)->final,
+                        true
+                    );
+                }
+
+                $self_out_candidate = MethodCallReturnTypeFetcher::replaceTemplateTypes(
+                    $self_out_candidate,
+                    $template_result,
+                    $method_id,
+                    \count($args),
+                    $codebase
+                );
+
+                $self_out_candidate = \Psalm\Internal\Type\TypeExpander::expandUnion(
+                    $codebase,
+                    $self_out_candidate,
+                    $fq_class_name,
+                    $static_type,
+                    $class_storage->parent_class,
+                    true,
+                    false,
+                    $static_type instanceof Type\Atomic\TNamedObject
+                        && $codebase->classlike_storage_provider->get($static_type->value)->final,
+                    true
+                );
+
+                $context->vars_in_scope[$lhs_var_id] = $self_out_candidate;
+            }
+    
             if (!$context->collect_mutations && !$context->collect_initializations) {
                 MethodCallPurityAnalyzer::analyze(
                     $statements_analyzer,
@@ -288,18 +331,18 @@ class ExistingAtomicMethodCallAnalyzer extends CallAnalyzer
                         && !$in_call_map
                     ) {
                         $result->too_few_arguments = true;
-                        $result->too_few_arguments_method_ids[] = $declaring_method_id ?: $method_id;
+                        $result->too_few_arguments_method_ids[] = $declaring_method_id ?? $method_id;
                     }
                 }
 
                 if ($has_variadic_param || count($method_storage->params) >= count($args) || $in_call_map) {
                     $result->too_many_arguments = false;
                 } else {
-                    $result->too_many_arguments_method_ids[] = $declaring_method_id ?: $method_id;
+                    $result->too_many_arguments_method_ids[] = $declaring_method_id ?? $method_id;
                 }
             }
 
-            $class_template_params = $template_result->upper_bounds;
+            $class_template_params = $template_result->lower_bounds;
 
             if ($method_storage->assertions) {
                 self::applyAssertionsToContext(
@@ -319,11 +362,13 @@ class ExistingAtomicMethodCallAnalyzer extends CallAnalyzer
                     array_map(
                         function (Assertion $assertion) use (
                             $class_template_params,
-                            $lhs_var_id
+                            $lhs_var_id,
+                            $codebase
                         ) : Assertion {
                             return $assertion->getUntemplatedCopy(
                                 $class_template_params ?: [],
-                                $lhs_var_id
+                                $lhs_var_id,
+                                $codebase
                             );
                         },
                         $method_storage->if_true_assertions
@@ -337,11 +382,13 @@ class ExistingAtomicMethodCallAnalyzer extends CallAnalyzer
                     array_map(
                         function (Assertion $assertion) use (
                             $class_template_params,
-                            $lhs_var_id
+                            $lhs_var_id,
+                            $codebase
                         ) : Assertion {
                             return $assertion->getUntemplatedCopy(
                                 $class_template_params ?: [],
-                                $lhs_var_id
+                                $lhs_var_id,
+                                $codebase
                             );
                         },
                         $method_storage->if_false_assertions
@@ -400,7 +447,7 @@ class ExistingAtomicMethodCallAnalyzer extends CallAnalyzer
             }
         }
 
-        return $return_type_candidate ?: Type::getMixed();
+        return $return_type_candidate ?? Type::getMixed();
     }
 
     /**
@@ -423,7 +470,7 @@ class ExistingAtomicMethodCallAnalyzer extends CallAnalyzer
 
         $codebase = $statements_analyzer->getCodebase();
 
-        $first_arg_value = $stmt->args[0]->value ?? null;
+        $first_arg_value = $stmt->getArgs()[0]->value ?? null;
 
         if (!$first_arg_value instanceof PhpParser\Node\Scalar\String_) {
             return null;
@@ -462,8 +509,8 @@ class ExistingAtomicMethodCallAnalyzer extends CallAnalyzer
 
                 // If a `@property` annotation is set, the type of the value passed to the
                 // magic setter must match the annotation.
-                $second_arg_type = isset($stmt->args[1])
-                    ? $statements_analyzer->node_data->getType($stmt->args[1]->value)
+                $second_arg_type = isset($stmt->getArgs()[1])
+                    ? $statements_analyzer->node_data->getType($stmt->getArgs()[1]->value)
                     : null;
 
                 if (isset($class_storage->pseudo_property_set_types['$' . $prop_name]) && $second_arg_type) {

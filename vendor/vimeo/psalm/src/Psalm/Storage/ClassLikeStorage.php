@@ -42,12 +42,6 @@ class ClassLikeStorage
     public $internal = '';
 
     /**
-     * @var null|Type\Atomic\TTemplateParam|Type\Atomic\TNamedObject
-     * @deprecated
-     */
-    public $mixin = null;
-
-    /**
      * @var Type\Atomic\TTemplateParam[]
      */
     public $templatedMixins = [];
@@ -60,7 +54,7 @@ class ClassLikeStorage
     /**
      * @var ?string
      */
-    public $mixin_declaring_fqcln = null;
+    public $mixin_declaring_fqcln;
 
     /**
      * @var bool
@@ -200,6 +194,11 @@ class ClassLikeStorage
      * @var bool
      */
     public $is_interface = false;
+
+    /**
+     * @var bool
+     */
+    public $is_enum = false;
 
     /**
      * @var bool
@@ -426,6 +425,16 @@ class ClassLikeStorage
      * @var list<AttributeStorage>
      */
     public $attributes = [];
+
+    /**
+     * @var array<string, EnumCaseStorage>
+     */
+    public $enum_cases = [];
+
+    /**
+     * @var 'int'|'string'|null
+     */
+    public $enum_type;
 
     /**
      * @var ?string

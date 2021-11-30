@@ -1,13 +1,15 @@
 <?php
 namespace Psalm\Type\Atomic;
 
-use function implode;
 use Psalm\Codebase;
 use Psalm\Internal\Type\TemplateResult;
 use Psalm\Type;
 use Psalm\Type\Atomic;
-use function substr;
+
 use function array_map;
+use function implode;
+use function strrpos;
+use function substr;
 
 /**
  * Denotes an object type where the type of the object is known e.g. `Exception`, `Throwable`, `Foo\Bar`
@@ -27,9 +29,15 @@ class TNamedObject extends Atomic
     public $was_static = false;
 
     /**
+     * Whether or not this type can represent a child of the class named in $value
+     * @var bool
+     */
+    public $definite_class = false;
+
+    /**
      * @param string $value the name of the object
      */
-    public function __construct(string $value, bool $was_static = false)
+    public function __construct(string $value, bool $was_static = false, bool $definite_class = false)
     {
         if ($value[0] === '\\') {
             $value = substr($value, 1);
@@ -37,6 +45,7 @@ class TNamedObject extends Atomic
 
         $this->value = $value;
         $this->was_static = $was_static;
+        $this->definite_class = $definite_class;
     }
 
     public function __toString(): string
@@ -115,11 +124,20 @@ class TNamedObject extends Atomic
             return $php_major_version >= 8 ? 'static' : null;
         }
 
-        if ($this->was_static) {
+        if ($this->was_static && $this->value === $this_class) {
             return $php_major_version >= 8 ? 'static' : 'self';
         }
 
-        return $this->toNamespacedString($namespace, $aliased_classes, $this_class, false);
+        $result = $this->toNamespacedString($namespace, $aliased_classes, $this_class, false);
+        $intersection = strrpos($result, '&');
+        if ($intersection === false || (
+                ($php_major_version === 8 && $php_minor_version >= 1) ||
+                ($php_major_version >= 9)
+            )
+        ) {
+            return $result;
+        }
+        return substr($result, $intersection+1);
     }
 
     public function canBeFullyExpressedInPhp(int $php_major_version, int $php_minor_version): bool
@@ -136,6 +154,6 @@ class TNamedObject extends Atomic
 
     public function getChildNodes() : array
     {
-        return $this->extra_types !== null ? $this->extra_types : [];
+        return $this->extra_types ?? [];
     }
 }

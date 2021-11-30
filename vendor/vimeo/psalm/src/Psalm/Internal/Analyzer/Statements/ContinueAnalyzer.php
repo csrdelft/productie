@@ -2,28 +2,22 @@
 namespace Psalm\Internal\Analyzer\Statements;
 
 use PhpParser;
-use Psalm\Internal\Analyzer\ScopeAnalyzer;
-use Psalm\Internal\Analyzer\StatementsAnalyzer;
 use Psalm\CodeLocation;
 use Psalm\Context;
+use Psalm\Internal\Analyzer\ScopeAnalyzer;
+use Psalm\Internal\Analyzer\StatementsAnalyzer;
 use Psalm\Issue\ContinueOutsideLoop;
 use Psalm\IssueBuffer;
 use Psalm\Type;
 
 class ContinueAnalyzer
 {
-    /**
-     * @return false|null
-     */
     public static function analyze(
         StatementsAnalyzer $statements_analyzer,
         PhpParser\Node\Stmt\Continue_ $stmt,
         Context $context
-    ): ?bool {
-        $count = $stmt->num
-            && $stmt->num instanceof PhpParser\Node\Scalar\LNumber
-            ? $stmt->num->value
-            : 1;
+    ): void {
+        $count = $stmt->num instanceof PhpParser\Node\Scalar\LNumber? $stmt->num->value : 1;
 
         $loop_scope = $context->loop_scope;
 
@@ -44,7 +38,7 @@ class ContinueAnalyzer
                     ),
                     $statements_analyzer->getSource()->getSuppressedIssues()
                 )) {
-                    return false;
+                    return;
                 }
             }
         } else {
@@ -75,32 +69,20 @@ class ContinueAnalyzer
             }
 
             foreach ($redefined_vars as $var => $type) {
-                if ($type->hasMixed()) {
-                    if (isset($loop_scope->possibly_redefined_loop_vars[$var])) {
-                        $type->parent_nodes += $loop_scope->possibly_redefined_loop_vars[$var]->parent_nodes;
-                    }
-
-                    $loop_scope->possibly_redefined_loop_vars[$var] = $type;
-                } elseif (isset($loop_scope->possibly_redefined_loop_vars[$var])) {
-                    $loop_scope->possibly_redefined_loop_vars[$var] = Type::combineUnionTypes(
-                        $type,
-                        $loop_scope->possibly_redefined_loop_vars[$var]
-                    );
-                } else {
-                    $loop_scope->possibly_redefined_loop_vars[$var] = $type;
-                }
+                $loop_scope->possibly_redefined_loop_vars[$var] = Type::combineUnionTypes(
+                    $type,
+                    $loop_scope->possibly_redefined_loop_vars[$var] ?? null
+                );
             }
 
             if ($context->finally_scope) {
                 foreach ($context->vars_in_scope as $var_id => $type) {
                     if (isset($context->finally_scope->vars_in_scope[$var_id])) {
-                        if ($context->finally_scope->vars_in_scope[$var_id] !== $type) {
-                            $context->finally_scope->vars_in_scope[$var_id] = Type::combineUnionTypes(
-                                $context->finally_scope->vars_in_scope[$var_id],
-                                $type,
-                                $statements_analyzer->getCodebase()
-                            );
-                        }
+                        $context->finally_scope->vars_in_scope[$var_id] = Type::combineUnionTypes(
+                            $context->finally_scope->vars_in_scope[$var_id],
+                            $type,
+                            $statements_analyzer->getCodebase()
+                        );
                     } else {
                         $context->finally_scope->vars_in_scope[$var_id] = $type;
                         $type->possibly_undefined = true;
@@ -111,7 +93,5 @@ class ContinueAnalyzer
         }
 
         $context->has_returned = true;
-
-        return null;
     }
 }

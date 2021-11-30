@@ -6,6 +6,7 @@ use Psalm\Config;
 use Psalm\Context;
 use Psalm\Exception\UnsupportedIssueToFixException;
 use Psalm\FileManipulation;
+use Psalm\Internal\Codebase\TaintFlowGraph;
 use Psalm\Internal\LanguageServer\LanguageServer;
 use Psalm\Internal\LanguageServer\ProtocolStreamReader;
 use Psalm\Internal\LanguageServer\ProtocolStreamWriter;
@@ -15,6 +16,7 @@ use Psalm\Internal\Provider\FileReferenceProvider;
 use Psalm\Internal\Provider\ParserCacheProvider;
 use Psalm\Internal\Provider\ProjectCacheProvider;
 use Psalm\Internal\Provider\Providers;
+use Psalm\Issue\CodeIssue;
 use Psalm\Issue\InvalidFalsableReturnType;
 use Psalm\Issue\InvalidNullableReturnType;
 use Psalm\Issue\InvalidReturnType;
@@ -30,6 +32,8 @@ use Psalm\Issue\PossiblyUndefinedGlobalVariable;
 use Psalm\Issue\PossiblyUndefinedVariable;
 use Psalm\Issue\PossiblyUnusedMethod;
 use Psalm\Issue\PossiblyUnusedProperty;
+use Psalm\Issue\RedundantCast;
+use Psalm\Issue\RedundantCastGivenDocblockType;
 use Psalm\Issue\UnnecessaryVarAnnotation;
 use Psalm\Issue\UnusedMethod;
 use Psalm\Issue\UnusedProperty;
@@ -40,56 +44,56 @@ use Psalm\Progress\VoidProgress;
 use Psalm\Report;
 use Psalm\Report\ReportOptions;
 use Psalm\Type;
-use Psalm\Issue\CodeIssue;
-use function substr;
-use function strlen;
-use function cli_set_process_title;
-use function stream_socket_client;
-use function fwrite;
-use const STDERR;
-use function stream_set_blocking;
-use function stream_socket_server;
-use const STDOUT;
-use function extension_loaded;
-use function stream_socket_accept;
-use function pcntl_fork;
-use const STDIN;
-use function microtime;
-use function array_merge;
-use function count;
-use function implode;
+
+use function array_combine;
 use function array_diff;
-use function strpos;
-use function explode;
-use function strtolower;
-use function usort;
-use function file_exists;
+use function array_fill_keys;
+use function array_keys;
+use function array_map;
+use function array_merge;
+use function array_shift;
+use function cli_set_process_title;
+use function count;
+use function defined;
 use function dirname;
-use function mkdir;
-use function rename;
+use function end;
+use function explode;
+use function extension_loaded;
+use function file_exists;
+use function file_get_contents;
+use function filter_var;
+use function fwrite;
+use function implode;
+use function in_array;
+use function ini_get;
 use function is_dir;
 use function is_file;
-use const PHP_EOL;
-use function array_shift;
-use function array_combine;
-use function preg_match;
-use function array_keys;
-use function array_fill_keys;
-use function defined;
-use function trim;
-use function shell_exec;
-use function is_string;
-use function filter_var;
-use const FILTER_VALIDATE_INT;
 use function is_int;
 use function is_readable;
-use function file_get_contents;
+use function is_string;
+use function microtime;
+use function mkdir;
+use function pcntl_fork;
+use function preg_match;
+use function rename;
+use function shell_exec;
+use function stream_set_blocking;
+use function stream_socket_accept;
+use function stream_socket_client;
+use function stream_socket_server;
+use function strlen;
+use function strpos;
+use function strtolower;
+use function substr;
 use function substr_count;
-use function array_map;
-use function end;
-use Psalm\Internal\Codebase\TaintFlowGraph;
-use function ini_get;
-use function in_array;
+use function trim;
+use function usort;
+
+use const FILTER_VALIDATE_INT;
+use const PHP_EOL;
+use const STDERR;
+use const STDIN;
+use const STDOUT;
 
 /**
  * @internal
@@ -227,6 +231,8 @@ class ProjectAnalyzer
         PossiblyUndefinedVariable::class,
         PossiblyUnusedMethod::class,
         PossiblyUnusedProperty::class,
+        RedundantCast::class,
+        RedundantCastGivenDocblockType::class,
         UnusedMethod::class,
         UnusedProperty::class,
         UnusedVariable::class,
@@ -576,6 +582,7 @@ class ProjectAnalyzer
             || $deleted_files === null
             || count($diff_files) > 200
         ) {
+            $this->config->visitPreloadedStubFiles($this->codebase, $this->progress);
             $this->visitAutoloadFiles();
 
             $this->codebase->scanner->addFilesToShallowScan($this->extra_files);
@@ -583,8 +590,6 @@ class ProjectAnalyzer
             $this->codebase->analyzer->addFilesToAnalyze($this->project_files);
 
             $this->config->initializePlugins($this);
-
-            $this->config->visitPreloadedStubFiles($this->codebase, $this->progress);
 
             $this->codebase->scanFiles($this->threads);
 
@@ -602,13 +607,12 @@ class ProjectAnalyzer
                 $file_list = array_diff($file_list, $deleted_files);
 
                 if ($file_list) {
+                    $this->config->visitPreloadedStubFiles($this->codebase, $this->progress);
                     $this->visitAutoloadFiles();
 
                     $this->checkDiffFilesWithConfig($this->config, $file_list);
 
                     $this->config->initializePlugins($this);
-
-                    $this->config->visitPreloadedStubFiles($this->codebase, $this->progress);
 
                     $this->codebase->scanFiles($this->threads);
                 } else {
@@ -656,7 +660,7 @@ class ProjectAnalyzer
         $this->codebase->classlikes->consolidateAnalyzedData(
             $this->codebase->methods,
             $this->progress,
-            !!$this->codebase->find_unused_code
+            (bool)$this->codebase->find_unused_code
         );
     }
 
@@ -684,7 +688,7 @@ class ProjectAnalyzer
                 && $destination_pos === (strlen($destination) - 1)
             ) {
                 foreach ($this->codebase->classlike_storage_provider->getAll() as $class_storage) {
-                    if (substr($class_storage->name, 0, $source_pos) === substr($source, 0, -1)) {
+                    if (strpos($source, substr($class_storage->name, 0, $source_pos)) === 0) {
                         $this->to_refactor[$class_storage->name]
                             = substr($destination, 0, -1) . substr($class_storage->name, $source_pos);
                     }
@@ -759,6 +763,7 @@ class ProjectAnalyzer
                     );
                 }
 
+                $source_lc = strtolower($source);
                 if (strtolower($source_parts[0]) !== strtolower($destination_parts[0])) {
                     $source_method_storage = $this->codebase->methods->getStorage($source_method_id);
                     $destination_class_storage
@@ -775,12 +780,12 @@ class ProjectAnalyzer
                         );
                     }
 
-                    $this->codebase->methods_to_move[strtolower($source)]= $destination;
+                    $this->codebase->methods_to_move[$source_lc]= $destination;
                 } else {
-                    $this->codebase->methods_to_rename[strtolower($source)] = $destination_parts[1];
+                    $this->codebase->methods_to_rename[$source_lc] = $destination_parts[1];
                 }
 
-                $this->codebase->call_transforms[strtolower($source) . '\((.*\))'] = $destination . '($1)';
+                $this->codebase->call_transforms[$source_lc . '\((.*\))'] = $destination . '($1)';
                 continue;
             }
 
@@ -983,13 +988,13 @@ class ProjectAnalyzer
     {
         $this->file_reference_provider->loadReferenceCache();
 
+        $this->config->visitPreloadedStubFiles($this->codebase, $this->progress);
+
         $this->checkDirWithConfig($dir_name, $this->config, true);
 
         $this->progress->startScanningFiles();
 
         $this->config->initializePlugins($this);
-
-        $this->config->visitPreloadedStubFiles($this->codebase, $this->progress);
 
         $this->codebase->scanFiles($this->threads);
 
@@ -1110,6 +1115,8 @@ class ProjectAnalyzer
     {
         $this->progress->debug('Checking ' . $file_path . "\n");
 
+        $this->config->visitPreloadedStubFiles($this->codebase, $this->progress);
+
         $this->config->hide_external_errors = $this->config->isInProjectDirs($file_path);
 
         $this->codebase->addFilesToAnalyze([$file_path => $file_path]);
@@ -1119,8 +1126,6 @@ class ProjectAnalyzer
         $this->progress->startScanningFiles();
 
         $this->config->initializePlugins($this);
-
-        $this->config->visitPreloadedStubFiles($this->codebase, $this->progress);
 
         $this->codebase->scanFiles($this->threads);
 
@@ -1141,6 +1146,7 @@ class ProjectAnalyzer
      */
     public function checkPaths(array $paths_to_check): void
     {
+        $this->config->visitPreloadedStubFiles($this->codebase, $this->progress);
         $this->visitAutoloadFiles();
 
         $this->codebase->scanner->addFilesToShallowScan($this->extra_files);
@@ -1162,7 +1168,6 @@ class ProjectAnalyzer
 
         $this->config->initializePlugins($this);
 
-        $this->config->visitPreloadedStubFiles($this->codebase, $this->progress);
 
         $this->codebase->scanFiles($this->threads);
 
@@ -1259,7 +1264,7 @@ class ProjectAnalyzer
 
     public function setPhpVersion(string $version): void
     {
-        if (!preg_match('/^(5\.[456]|7\.[01234]|8\.[0])(\..*)?$/', $version)) {
+        if (!preg_match('/^(5\.[456]|7\.[01234]|8\.[01])(\..*)?$/', $version)) {
             throw new \UnexpectedValueException('Expecting a version number in the format x.y');
         }
 
@@ -1330,13 +1335,11 @@ class ProjectAnalyzer
 
         $file_path = $this->codebase->scanner->getClassLikeFilePath($fq_class_name_lc);
 
-        $file_analyzer = new FileAnalyzer(
+        return new FileAnalyzer(
             $this,
             $file_path,
             $this->config->shortenFileName($file_path)
         );
-
-        return $file_analyzer;
     }
 
     public function getMethodMutations(
@@ -1441,7 +1444,7 @@ class ProjectAnalyzer
             return 1;
         }
 
-        if (!extension_loaded('pcntl')) {
+        if (!extension_loaded('pcntl') || !\function_exists('shell_exec')) {
             return 1;
         }
 

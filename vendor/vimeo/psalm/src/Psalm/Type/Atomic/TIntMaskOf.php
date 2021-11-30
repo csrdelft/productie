@@ -4,15 +4,15 @@ namespace Psalm\Type\Atomic;
 /**
  * Represents the type that is the result of a bitmask combination of its parameters.
  * This is the same concept as TIntMask but TIntMaskOf is used with with a reference to constants in code
- * `int-mask<MyClass::CLASS_CONSTANT_*>` will corresponds to `1|2|3|4|5|6|7` if there are three constant 1, 2 and 4
+ * `int-mask<MyClass::CLASS_CONSTANT_*>` will corresponds to `0|1|2|3|4|5|6|7` if there are three constant 1, 2 and 4
  */
 class TIntMaskOf extends TInt
 {
-    /** @var TScalarClassConstant|TKeyOfClassConstant|TValueOfClassConstant */
+    /** @var TClassConstant|TKeyOfClassConstant|TValueOfClassConstant */
     public $value;
 
     /**
-     * @param TScalarClassConstant|TKeyOfClassConstant|TValueOfClassConstant $value
+     * @param TClassConstant|TKeyOfClassConstant|TValueOfClassConstant $value
      */
     public function __construct(\Psalm\Type\Atomic $value)
     {
@@ -27,19 +27,6 @@ class TIntMaskOf extends TInt
     public function getId(bool $nested = false): string
     {
         return $this->getKey();
-    }
-
-    /**
-     * @param  array<lowercase-string, string> $aliased_classes
-     */
-    public function toPhpString(
-        ?string $namespace,
-        array $aliased_classes,
-        ?string $this_class,
-        int $php_major_version,
-        int $php_minor_version
-    ): ?string {
-        return $php_major_version >= 7 ? 'int' : null;
     }
 
     /**

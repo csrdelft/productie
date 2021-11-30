@@ -1,10 +1,11 @@
 <?php
 namespace Psalm\Internal\FileManipulation;
 
-use function array_merge;
 use Psalm\CodeLocation;
 use Psalm\FileManipulation;
 use Psalm\Internal\Provider\FileProvider;
+
+use function array_merge;
 use function preg_match;
 use function strlen;
 use function strrpos;
@@ -168,11 +169,7 @@ class FileManipulationBuffer
      */
     public static function getManipulationsForFile(string $file_path): array
     {
-        if (!isset(self::$file_manipulations[$file_path])) {
-            return [];
-        }
-
-        return self::$file_manipulations[$file_path];
+        return self::$file_manipulations[$file_path] ?? [];
     }
 
     /**

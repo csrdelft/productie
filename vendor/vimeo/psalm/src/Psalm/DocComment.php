@@ -1,6 +1,9 @@
 <?php
 namespace Psalm;
 
+use Psalm\Exception\DocblockParseException;
+use Psalm\Internal\Scanner\ParsedDocblock;
+
 use function array_filter;
 use function explode;
 use function implode;
@@ -9,16 +12,16 @@ use function min;
 use function preg_match;
 use function preg_match_all;
 use function preg_replace;
-use const PREG_SET_ORDER;
-use Psalm\Internal\Scanner\ParsedDocblock;
-use Psalm\Exception\DocblockParseException;
 use function rtrim;
 use function str_repeat;
 use function str_replace;
 use function strlen;
+use function strpos;
+use function strspn;
 use function substr;
 use function trim;
-use function strspn;
+
+use const PREG_SET_ORDER;
 
 class DocComment
 {
@@ -36,7 +39,7 @@ class DocComment
         'yield', 'trace', 'import-type', 'flow', 'taint-specialize', 'taint-escape',
         'taint-unescape', 'self-out', 'consistent-constructor', 'stub-override',
         'require-extends', 'require-implements', 'param-out', 'ignore-var',
-        'consistent-templates',
+        'consistent-templates', 'if-this-is', 'this-out'
     ];
 
     /**
@@ -50,7 +53,7 @@ class DocComment
      * @psalm-return array{description:string, specials:array<string, array<int, string>>}
      * @psalm-suppress PossiblyUnusedMethod
      *
-     * @deprecated use parsePreservingLength instead
+     * @deprecated use parsePreservingLength instead, going to be removed in Psalm 5
      *
      * @psalm-pure
      */
@@ -154,7 +157,7 @@ class DocComment
         $docblock = preg_replace('/^\s*\n/', '', $docblock);
 
         foreach ($special as $special_key => $_) {
-            if (substr($special_key, 0, 6) === 'psalm-') {
+            if (strpos($special_key, 'psalm-') === 0) {
                 $special_key = substr($special_key, 6);
 
                 if (!in_array(
@@ -178,10 +181,13 @@ class DocComment
      */
     public static function parsePreservingLength(\PhpParser\Comment\Doc $docblock) : ParsedDocblock
     {
-        $parsed_docblock = \Psalm\Internal\Scanner\DocblockParser::parse($docblock->getText());
+        $parsed_docblock = \Psalm\Internal\Scanner\DocblockParser::parse(
+            $docblock->getText(),
+            $docblock->getStartFilePos()
+        );
 
         foreach ($parsed_docblock->tags as $special_key => $_) {
-            if (substr($special_key, 0, 6) === 'psalm-') {
+            if (strpos($special_key, 'psalm-') === 0) {
                 $special_key = substr($special_key, 6);
 
                 if (!in_array(

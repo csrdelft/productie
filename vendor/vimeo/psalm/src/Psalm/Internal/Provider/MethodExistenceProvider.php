@@ -3,11 +3,12 @@ namespace Psalm\Internal\Provider;
 
 use Psalm\CodeLocation;
 use Psalm\Plugin\EventHandler\Event\MethodExistenceProviderEvent;
-use Psalm\Plugin\Hook\MethodExistenceProviderInterface as LegacyMethodExistenceProviderInterface;
 use Psalm\Plugin\EventHandler\MethodExistenceProviderInterface;
+use Psalm\Plugin\Hook\MethodExistenceProviderInterface as LegacyMethodExistenceProviderInterface;
 use Psalm\StatementsSource;
-use function strtolower;
+
 use function is_subclass_of;
+use function strtolower;
 
 class MethodExistenceProvider
 {
@@ -91,6 +92,19 @@ class MethodExistenceProvider
         ?StatementsSource $source = null,
         ?CodeLocation $code_location = null
     ): ?bool {
+        foreach (self::$legacy_handlers[strtolower($fq_classlike_name)] ?? [] as $method_handler) {
+            $method_exists = $method_handler(
+                $fq_classlike_name,
+                $method_name_lowercase,
+                $source,
+                $code_location
+            );
+
+            if ($method_exists !== null) {
+                return $method_exists;
+            }
+        }
+
         foreach (self::$handlers[strtolower($fq_classlike_name)] ?? [] as $method_handler) {
             $event = new MethodExistenceProviderEvent(
                 $fq_classlike_name,
@@ -99,19 +113,6 @@ class MethodExistenceProvider
                 $code_location
             );
             $method_exists = $method_handler($event);
-
-            if ($method_exists !== null) {
-                return $method_exists;
-            }
-        }
-
-        foreach (self::$legacy_handlers[strtolower($fq_classlike_name)] ?? [] as $method_handler) {
-            $method_exists = $method_handler(
-                $fq_classlike_name,
-                $method_name_lowercase,
-                $source,
-                $code_location
-            );
 
             if ($method_exists !== null) {
                 return $method_exists;

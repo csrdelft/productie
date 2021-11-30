@@ -2,9 +2,9 @@
 namespace Psalm\Internal\Provider\ReturnTypeProvider;
 
 use Psalm\Plugin\EventHandler\Event\FunctionReturnTypeProviderEvent;
-use function in_array;
-use PhpParser;
 use Psalm\Type;
+
+use function in_array;
 
 class StrReplaceReturnTypeProvider implements \Psalm\Plugin\EventHandler\FunctionReturnTypeProviderInterface
 {

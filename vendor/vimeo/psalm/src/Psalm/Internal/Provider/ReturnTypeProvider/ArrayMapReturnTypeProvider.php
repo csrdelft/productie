@@ -1,6 +1,11 @@
 <?php
 namespace Psalm\Internal\Provider\ReturnTypeProvider;
 
+use PhpParser;
+use Psalm\Context;
+use Psalm\Internal\Analyzer\Statements\Expression\AssertionFinder;
+use Psalm\Internal\Analyzer\Statements\Expression\CallAnalyzer;
+use Psalm\Internal\Type\ArrayType;
 use Psalm\Node\Expr\VirtualArrayDimFetch;
 use Psalm\Node\Expr\VirtualFuncCall;
 use Psalm\Node\Expr\VirtualMethodCall;
@@ -10,17 +15,13 @@ use Psalm\Node\Name\VirtualFullyQualified;
 use Psalm\Node\VirtualArg;
 use Psalm\Node\VirtualIdentifier;
 use Psalm\Plugin\EventHandler\Event\FunctionReturnTypeProviderEvent;
+use Psalm\Type;
+
 use function array_map;
 use function count;
 use function explode;
 use function in_array;
-use PhpParser;
-use Psalm\Context;
-use Psalm\Internal\Analyzer\Statements\Expression\CallAnalyzer;
-use Psalm\Internal\Type\ArrayType;
-use Psalm\Type;
 use function strpos;
-use Psalm\Internal\Analyzer\Statements\Expression\AssertionFinder;
 
 class ArrayMapReturnTypeProvider implements \Psalm\Plugin\EventHandler\FunctionReturnTypeProviderInterface
 {
@@ -186,6 +187,8 @@ class ArrayMapReturnTypeProvider implements \Psalm\Plugin\EventHandler\FunctionR
                 );
                 $atomic_type->is_list = $array_arg_atomic_type->is_list;
                 $atomic_type->sealed = $array_arg_atomic_type->sealed;
+                $atomic_type->previous_key_type = $array_arg_atomic_type->previous_key_type;
+                $atomic_type->previous_value_type = $mapping_return_type;
 
                 return new Type\Union([$atomic_type]);
             }
@@ -307,7 +310,7 @@ class ArrayMapReturnTypeProvider implements \Psalm\Plugin\EventHandler\FunctionR
             $statements_analyzer->removeSuppressedIssues(['MixedArrayOffset']);
         }
 
-        $return_type = $statements_analyzer->node_data->getType($fake_call) ?: null;
+        $return_type = $statements_analyzer->node_data->getType($fake_call) ?? null;
 
         $statements_analyzer->node_data = $old_data_provider;
 
@@ -434,7 +437,7 @@ class ArrayMapReturnTypeProvider implements \Psalm\Plugin\EventHandler\FunctionR
                         unset($context->vars_in_scope['$__fake_offset_var__']);
                     }
 
-                    $function_id_return_type = $fake_method_return_type ?: Type::getMixed();
+                    $function_id_return_type = $fake_method_return_type ?? Type::getMixed();
                 } else {
                     $fake_function_call = new VirtualFuncCall(
                         new VirtualFullyQualified(
@@ -456,19 +459,15 @@ class ArrayMapReturnTypeProvider implements \Psalm\Plugin\EventHandler\FunctionR
 
                     unset($context->vars_in_scope['$__fake_offset_var__']);
 
-                    $function_id_return_type = $fake_function_return_type ?: Type::getMixed();
+                    $function_id_return_type = $fake_function_return_type ?? Type::getMixed();
                 }
             }
 
-            if (!$mapping_return_type) {
-                $mapping_return_type = $function_id_return_type;
-            } else {
-                $mapping_return_type = Type::combineUnionTypes(
-                    $function_id_return_type,
-                    $mapping_return_type,
-                    $codebase
-                );
-            }
+            $mapping_return_type = Type::combineUnionTypes(
+                $function_id_return_type,
+                $mapping_return_type,
+                $codebase
+            );
         }
 
         return $mapping_return_type;

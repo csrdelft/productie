@@ -2,34 +2,35 @@
 namespace Psalm\Internal\Analyzer\Statements\Block\IfElse;
 
 use PhpParser;
+use Psalm\CodeLocation;
 use Psalm\Codebase;
+use Psalm\Context;
+use Psalm\Internal\Algebra;
 use Psalm\Internal\Algebra\FormulaGenerator;
 use Psalm\Internal\Analyzer\AlgebraAnalyzer;
 use Psalm\Internal\Analyzer\ScopeAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Block\IfConditionalAnalyzer;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Internal\Type\Comparator\UnionTypeComparator;
 use Psalm\Internal\Clause;
-use Psalm\CodeLocation;
-use Psalm\Context;
+use Psalm\Internal\Scope\IfScope;
+use Psalm\Internal\Type\Comparator\UnionTypeComparator;
 use Psalm\Issue\ConflictingReferenceConstraint;
 use Psalm\IssueBuffer;
-use Psalm\Internal\Scope\IfScope;
-use Psalm\Internal\Algebra;
 use Psalm\Type\Reconciler;
-use function array_merge;
-use function array_map;
+
+use function array_combine;
 use function array_diff_key;
 use function array_filter;
-use function array_values;
 use function array_keys;
+use function array_map;
+use function array_merge;
 use function array_reduce;
-use function array_combine;
-use function preg_match;
-use function preg_quote;
 use function array_unique;
+use function array_values;
 use function count;
 use function in_array;
+use function preg_match;
+use function preg_quote;
 
 class ElseIfAnalyzer
 {
@@ -43,7 +44,7 @@ class ElseIfAnalyzer
         Context $else_context,
         Context $outer_context,
         Codebase $codebase,
-        ?int $branch_point
+        int $branch_point
     ): ?bool {
         $pre_conditional_context = clone $else_context;
 
@@ -158,7 +159,7 @@ class ElseIfAnalyzer
             if (array_filter(
                 $entry_clauses,
                 function ($clause): bool {
-                    return !!$clause->possibilities;
+                    return (bool)$clause->possibilities;
                 }
             )) {
                 $omit_keys = array_reduce(
@@ -308,7 +309,7 @@ class ElseIfAnalyzer
             $elseif->stmts,
             $statements_analyzer->node_data,
             $codebase->config->exit_functions,
-            $outer_context->break_types
+            []
         );
         // has a return/throw at end
         $has_ending_statements = $final_actions === [ScopeAnalyzer::ACTION_END];
@@ -366,12 +367,14 @@ class ElseIfAnalyzer
                 $implied_outer_context = clone $elseif_context;
                 $implied_outer_context->vars_in_scope = $leaving_vars_reconciled;
 
+                $updated_vars = [];
+
                 $outer_context->update(
                     $elseif_context,
                     $implied_outer_context,
                     false,
                     array_keys($negated_elseif_types),
-                    $if_scope->updated_vars
+                    $updated_vars
                 );
             }
         }

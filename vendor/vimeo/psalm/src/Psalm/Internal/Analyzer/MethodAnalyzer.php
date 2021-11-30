@@ -2,9 +2,8 @@
 namespace Psalm\Internal\Analyzer;
 
 use PhpParser;
-use PhpParser\Node\Expr\ArrowFunction;
-use Psalm\Codebase;
 use Psalm\CodeLocation;
+use Psalm\Codebase;
 use Psalm\Context;
 use Psalm\Issue\InvalidStaticInvocation;
 use Psalm\Issue\MethodSignatureMustOmitReturnType;
@@ -14,8 +13,8 @@ use Psalm\IssueBuffer;
 use Psalm\StatementsSource;
 use Psalm\Storage\MethodStorage;
 
-use function strtolower;
 use function in_array;
+use function strtolower;
 
 /**
  * @internal
@@ -88,6 +87,10 @@ class MethodAnalyzer extends FunctionLikeAnalyzer
         $method_id = $codebase_methods->getDeclaringMethodId($method_id);
 
         if (!$method_id) {
+            if (\Psalm\Internal\Codebase\InternalCallMapHandler::inCallMap((string) $original_method_id)) {
+                return true;
+            }
+
             throw new \LogicException('Declaring method for ' . $original_method_id . ' should not be null');
         }
 
@@ -248,19 +251,18 @@ class MethodAnalyzer extends FunctionLikeAnalyzer
     /**
      * Check that __clone, __construct, and __destruct do not have a return type
      * hint in their signature.
-     *
-     * @return false|null
      */
     public static function checkMethodSignatureMustOmitReturnType(
         MethodStorage $method_storage,
         CodeLocation $code_location
-    ): ?bool {
+    ): void {
         if ($method_storage->signature_return_type === null) {
-            return null;
+            return;
         }
 
         $cased_method_name = $method_storage->cased_name;
         $methodsOfInterest = ['__clone', '__construct', '__destruct'];
+
         if (in_array($cased_method_name, $methodsOfInterest)) {
             if (IssueBuffer::accepts(
                 new MethodSignatureMustOmitReturnType(
@@ -268,11 +270,9 @@ class MethodAnalyzer extends FunctionLikeAnalyzer
                     $code_location
                 )
             )) {
-                return false;
+                // fall through
             }
         }
-
-        return null;
     }
 
     public function getMethodId(?string $context_self = null): \Psalm\Internal\MethodIdentifier

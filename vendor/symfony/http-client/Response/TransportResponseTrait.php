@@ -138,13 +138,15 @@ trait TransportResponseTrait
         $this->shouldBuffer = true;
 
         if ($this->initializer && null === $this->info['error']) {
-            self::initialize($this);
+            self::initialize($this, -0.0);
             $this->checkStatusCode();
         }
     }
 
     /**
      * Implements an event loop based on a buffer activity queue.
+     *
+     * @param iterable<array-key, self> $responses
      *
      * @internal
      */
@@ -159,6 +161,12 @@ trait TransportResponseTrait
         $lastActivity = microtime(true);
         $elapsedTimeout = 0;
 
+        if ($fromLastTimeout = 0.0 === $timeout && '-0' === (string) $timeout) {
+            $timeout = null;
+        } elseif ($fromLastTimeout = 0 > $timeout) {
+            $timeout = -$timeout;
+        }
+
         while (true) {
             $hasActivity = false;
             $timeoutMax = 0;
@@ -172,15 +180,21 @@ trait TransportResponseTrait
                 foreach ($responses as $j => $response) {
                     $timeoutMax = $timeout ?? max($timeoutMax, $response->timeout);
                     $timeoutMin = min($timeoutMin, $response->timeout, 1);
+
+                    if ($fromLastTimeout && null !== $multi->lastTimeout) {
+                        $elapsedTimeout = microtime(true) - $multi->lastTimeout;
+                    }
+
                     $chunk = false;
 
                     if (isset($multi->handlesActivity[$j])) {
-                        // no-op
+                        $multi->lastTimeout = null;
                     } elseif (!isset($multi->openHandles[$j])) {
                         unset($responses[$j]);
                         continue;
                     } elseif ($elapsedTimeout >= $timeoutMax) {
                         $multi->handlesActivity[$j] = [new ErrorChunk($response->offset, sprintf('Idle timeout reached for "%s".', $response->getInfo('url')))];
+                        $multi->lastTimeout ?? $multi->lastTimeout = $lastActivity;
                     } else {
                         continue;
                     }

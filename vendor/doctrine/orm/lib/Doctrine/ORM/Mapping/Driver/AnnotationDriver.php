@@ -1,26 +1,14 @@
 <?php
 
-/*
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
- * <http://www.doctrine-project.org>.
- */
+declare(strict_types=1);
 
 namespace Doctrine\ORM\Mapping\Driver;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\Reader;
+use Doctrine\DBAL\Types\Type;
+use Doctrine\ORM\Annotation;
+use Doctrine\ORM\Cache\Exception\CacheException;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Id\TableGenerator;
 use Doctrine\ORM\Mapping;
@@ -35,6 +23,7 @@ use UnexpectedValueException;
 
 use function class_exists;
 use function constant;
+use function count;
 use function defined;
 use function get_class;
 use function is_array;
@@ -110,7 +99,28 @@ class AnnotationDriver extends AbstractAnnotationDriver
 
             if ($tableAnnot->indexes !== null) {
                 foreach ($tableAnnot->indexes as $indexAnnot) {
-                    $index = ['columns' => $indexAnnot->columns];
+                    $index = [];
+
+                    if (! empty($indexAnnot->columns)) {
+                        $index['columns'] = $indexAnnot->columns;
+                    }
+
+                    if (! empty($indexAnnot->fields)) {
+                        $index['fields'] = $indexAnnot->fields;
+                    }
+
+                    if (
+                        isset($index['columns'], $index['fields'])
+                        || (
+                            ! isset($index['columns'])
+                            && ! isset($index['fields'])
+                        )
+                    ) {
+                        throw MappingException::invalidIndexConfiguration(
+                            $className,
+                            (string) ($indexAnnot->name ?? count($primaryTable['indexes']))
+                        );
+                    }
 
                     if (! empty($indexAnnot->flags)) {
                         $index['flags'] = $indexAnnot->flags;
@@ -130,7 +140,28 @@ class AnnotationDriver extends AbstractAnnotationDriver
 
             if ($tableAnnot->uniqueConstraints !== null) {
                 foreach ($tableAnnot->uniqueConstraints as $uniqueConstraintAnnot) {
-                    $uniqueConstraint = ['columns' => $uniqueConstraintAnnot->columns];
+                    $uniqueConstraint = [];
+
+                    if (! empty($uniqueConstraintAnnot->columns)) {
+                        $uniqueConstraint['columns'] = $uniqueConstraintAnnot->columns;
+                    }
+
+                    if (! empty($uniqueConstraintAnnot->fields)) {
+                        $uniqueConstraint['fields'] = $uniqueConstraintAnnot->fields;
+                    }
+
+                    if (
+                        isset($uniqueConstraint['columns'], $uniqueConstraint['fields'])
+                        || (
+                            ! isset($uniqueConstraint['columns'])
+                            && ! isset($uniqueConstraint['fields'])
+                        )
+                    ) {
+                        throw MappingException::invalidUniqueConstraintConfiguration(
+                            $className,
+                            (string) ($uniqueConstraintAnnot->name ?? count($primaryTable['uniqueConstraints']))
+                        );
+                    }
 
                     if (! empty($uniqueConstraintAnnot->options)) {
                         $uniqueConstraint['options'] = $uniqueConstraintAnnot->options;
@@ -156,7 +187,7 @@ class AnnotationDriver extends AbstractAnnotationDriver
             $cacheAnnot = $classAnnotations[Mapping\Cache::class];
             $cacheMap   = [
                 'region' => $cacheAnnot->region,
-                'usage'  => constant('Doctrine\ORM\Mapping\ClassMetadata::CACHE_USAGE_' . $cacheAnnot->usage),
+                'usage'  => (int) constant('Doctrine\ORM\Mapping\ClassMetadata::CACHE_USAGE_' . $cacheAnnot->usage),
             ];
 
             $metadata->enableCache($cacheMap);
@@ -302,7 +333,7 @@ class AnnotationDriver extends AbstractAnnotationDriver
                 $mapping['cache'] = $metadata->getAssociationCacheDefaults(
                     $mapping['fieldName'],
                     [
-                        'usage'  => constant('Doctrine\ORM\Mapping\ClassMetadata::CACHE_USAGE_' . $cacheAnnot->usage),
+                        'usage'  => (int) constant('Doctrine\ORM\Mapping\ClassMetadata::CACHE_USAGE_' . $cacheAnnot->usage),
                         'region' => $cacheAnnot->region,
                     ]
                 );
@@ -327,10 +358,6 @@ class AnnotationDriver extends AbstractAnnotationDriver
             // @Column, @OneToOne, @OneToMany, @ManyToOne, @ManyToMany
             $columnAnnot = $this->reader->getPropertyAnnotation($property, Mapping\Column::class);
             if ($columnAnnot) {
-                if ($columnAnnot->type === null) {
-                    throw MappingException::propertyTypeIsRequired($className, $property->getName());
-                }
-
                 $mapping = $this->columnToArray($property->getName(), $columnAnnot);
 
                 $idAnnot = $this->reader->getPropertyAnnotation($property, Mapping\Id::class);
@@ -359,8 +386,6 @@ class AnnotationDriver extends AbstractAnnotationDriver
                             'initialValue' => $seqGeneratorAnnot->initialValue,
                         ]
                     );
-                } elseif ($this->reader->getPropertyAnnotation($property, TableGenerator::class)) {
-                    throw MappingException::tableIdGeneratorNotImplemented($className);
                 } else {
                     $customGeneratorAnnot = $this->reader->getPropertyAnnotation($property, Mapping\CustomIdGenerator::class);
                     if ($customGeneratorAnnot) {
@@ -488,7 +513,6 @@ class AnnotationDriver extends AbstractAnnotationDriver
 
     /**
      * @param mixed[] $joinColumns
-     *
      * @psalm-param array<string, mixed> $mapping
      */
     private function loadRelationShipMapping(
@@ -598,14 +622,11 @@ class AnnotationDriver extends AbstractAnnotationDriver
     /**
      * Attempts to resolve the fetch mode.
      *
-     * @param string $className The class name.
-     * @param string $fetchMode The fetch mode.
-     *
-     * @return int The fetch mode as defined in ClassMetadata.
+     * @psalm-return \Doctrine\ORM\Mapping\ClassMetadata::FETCH_* The fetch mode as defined in ClassMetadata.
      *
      * @throws MappingException If the fetch mode is not valid.
      */
-    private function getFetchMode($className, $fetchMode)
+    private function getFetchMode(string $className, string $fetchMode): int
     {
         if (! defined('Doctrine\ORM\Mapping\ClassMetadata::FETCH_' . $fetchMode)) {
             throw MappingException::invalidFetchMode($className, $fetchMode);
@@ -618,8 +639,9 @@ class AnnotationDriver extends AbstractAnnotationDriver
      * Parses the given method.
      *
      * @return callable[]
+     * @psalm-return list<callable-array>
      */
-    private function getMethodCallbacks(ReflectionMethod $method)
+    private function getMethodCallbacks(ReflectionMethod $method): array
     {
         $callbacks   = [];
         $annotations = $this->reader->getMethodAnnotations($method);
@@ -665,17 +687,16 @@ class AnnotationDriver extends AbstractAnnotationDriver
      * Parse the given JoinColumn as array
      *
      * @return mixed[]
-     *
      * @psalm-return array{
-     *                   name: string,
+     *                   name: string|null,
      *                   unique: bool,
      *                   nullable: bool,
      *                   onDelete: mixed,
-     *                   columnDefinition: string,
+     *                   columnDefinition: string|null,
      *                   referencedColumnName: string
      *               }
      */
-    private function joinColumnToArray(Mapping\JoinColumn $joinColumn)
+    private function joinColumnToArray(Mapping\JoinColumn $joinColumn): array
     {
         return [
             'name' => $joinColumn->name,
@@ -690,10 +711,7 @@ class AnnotationDriver extends AbstractAnnotationDriver
     /**
      * Parse the given Column as array
      *
-     * @param string $fieldName
-     *
      * @return mixed[]
-     *
      * @psalm-return array{
      *                   fieldName: string,
      *                   type: mixed,
@@ -707,7 +725,7 @@ class AnnotationDriver extends AbstractAnnotationDriver
      *                   columnDefinition?: string
      *               }
      */
-    private function columnToArray($fieldName, Mapping\Column $column)
+    private function columnToArray(string $fieldName, Mapping\Column $column): array
     {
         $mapping = [
             'fieldName' => $fieldName,

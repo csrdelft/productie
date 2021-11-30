@@ -1,20 +1,20 @@
 <?php
 namespace Psalm\Internal\PhpVisitor\Reflector;
 
-use function array_pop;
-use function count;
-use function explode;
-use function implode;
-use function is_string;
 use PhpParser;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
+use PhpParser\Node\NullableType;
+use PhpParser\Node\UnionType;
 use Psalm\Aliases;
-use Psalm\Codebase;
 use Psalm\CodeLocation;
+use Psalm\Codebase;
 use Psalm\Config;
 use Psalm\Exception\DocblockParseException;
 use Psalm\Exception\IncorrectDocblockException;
 use Psalm\Internal\Algebra\FormulaGenerator;
 use Psalm\Internal\Analyzer\ClassLikeAnalyzer;
+use Psalm\Internal\Analyzer\CommentAnalyzer;
 use Psalm\Internal\Analyzer\NamespaceAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Expression\SimpleTypeInferer;
 use Psalm\Internal\Scanner\FileScanner;
@@ -33,9 +33,17 @@ use Psalm\Storage\FunctionStorage;
 use Psalm\Storage\MethodStorage;
 use Psalm\Storage\PropertyStorage;
 use Psalm\Type;
+use UnexpectedValueException;
+
+use function array_pop;
+use function count;
+use function explode;
+use function implode;
+use function in_array;
+use function is_string;
+use function strlen;
 use function strpos;
 use function strtolower;
-use function strlen;
 
 class FunctionLikeNodeScanner
 {
@@ -168,7 +176,7 @@ class FunctionLikeNodeScanner
         $has_optional_param = false;
 
         $existing_params = [];
-        $storage->params = [];
+        $storage->setParams([]);
 
         foreach ($stmt->getParams() as $param) {
             if ($param->var instanceof PhpParser\Node\Expr\Error) {
@@ -198,9 +206,7 @@ class FunctionLikeNodeScanner
             }
 
             if ($param_storage->name === 'haystack'
-                && (strpos($this->file_path, 'CoreGenericFunctions.phpstub')
-                    || strpos($this->file_path, 'CoreGenericClasses.phpstub')
-                    || strpos($this->file_path, 'CoreGenericIterators.phpstub'))
+                && in_array($this->file_path, $this->codebase->config->internal_stubs)
             ) {
                 $param_storage->expect_variable = true;
             }
@@ -217,8 +223,7 @@ class FunctionLikeNodeScanner
             }
 
             $existing_params['$' . $param_storage->name] = $i;
-            $storage->param_lookup[$param_storage->name] = !!$param->type;
-            $storage->params[] = $param_storage;
+            $storage->addParam($param_storage, (bool)$param->type);
 
             if (!$param_storage->is_optional && !$param_storage->is_variadic) {
                 $required_param_count = $i + 1;
@@ -292,7 +297,7 @@ class FunctionLikeNodeScanner
                             $cond_id,
                             $cond_id,
                             $function_stmt->cond,
-                            $this->classlike_storage ? $this->classlike_storage->name : null,
+                            $this->classlike_storage->name ?? null,
                             $this->file_scanner,
                             null
                         );
@@ -340,6 +345,20 @@ class FunctionLikeNodeScanner
 
                 $storage->assertions = $var_assertions;
             }
+
+            if ($stmt instanceof PhpParser\Node\Stmt\ClassMethod
+                && $stmt->stmts
+                && $storage instanceof MethodStorage
+            ) {
+                $last_stmt = \end($stmt->stmts);
+
+                if ($last_stmt instanceof PhpParser\Node\Stmt\Return_
+                    && $last_stmt->expr instanceof PhpParser\Node\Expr\Variable
+                    && $last_stmt->expr->name === 'this'
+                ) {
+                    $storage->probably_fluent = true;
+                }
+            }
         }
 
         if (!$this->file_scanner->will_analyze
@@ -385,9 +404,13 @@ class FunctionLikeNodeScanner
 
         if ($parser_return_type) {
             $original_type = $parser_return_type;
+            if ($original_type instanceof PhpParser\Node\IntersectionType) {
+                throw new UnexpectedValueException('Intersection types not yet supported');
+            }
+            /** @var Identifier|Name|NullableType|UnionType $original_type */
 
             $storage->return_type = TypeHintResolver::resolve(
-                $parser_return_type,
+                $original_type,
                 $this->codebase->scanner,
                 $this->file_storage,
                 $this->classlike_storage,
@@ -553,7 +576,7 @@ class FunctionLikeNodeScanner
                 if (isset($classlike_storage->properties[$param_storage->name]) && $param_storage->location) {
                     IssueBuffer::add(
                         new \Psalm\Issue\ParseError(
-                            'Promoted propertty ' . $param_storage->name . ' clashes with an existing property',
+                            'Promoted property ' . $param_storage->name . ' clashes with an existing property',
                             $param_storage->location
                         )
                     );
@@ -561,6 +584,42 @@ class FunctionLikeNodeScanner
                     $storage->has_visitor_issues = true;
                     $this->file_storage->has_visitor_issues = true;
                     continue;
+                }
+
+                $doc_comment = $param->getDocComment();
+                $var_comment_type = null;
+                if ($doc_comment) {
+                    $var_comments = CommentAnalyzer::getTypeFromComment(
+                        $doc_comment,
+                        $this->file_scanner,
+                        $this->aliases,
+                        $this->existing_function_template_types ?: [],
+                        $this->type_aliases
+                    );
+
+                    $var_comment = array_pop($var_comments);
+
+                    if ($var_comment !== null) {
+                        $var_comment_type = $var_comment->type;
+                    }
+                }
+
+                //both way to document type were used
+                if ($param_storage->type && $param_storage->type->from_docblock && $var_comment_type) {
+                    if (IssueBuffer::accepts(
+                        new InvalidDocblock(
+                            'Param ' . $param_storage->name . ' of ' . $cased_function_id .
+                            ' should be documented as a param or a property, not both',
+                            new CodeLocation($this->file_scanner, $param, null, true)
+                        )
+                    )) {
+                        return false;
+                    }
+                }
+
+                //no docblock type was provided for param but we have one for property
+                if ($param_storage->type === null && $var_comment_type) {
+                    $param_storage->type = $var_comment_type;
                 }
 
                 $property_storage = $classlike_storage->properties[$param_storage->name] = new PropertyStorage();
@@ -571,13 +630,14 @@ class FunctionLikeNodeScanner
                 $property_storage->type_location = $param_storage->type_location;
                 $property_storage->location = $param_storage->location;
                 $property_storage->stmt_location = new CodeLocation($this->file_scanner, $param);
-                $property_storage->has_default = $param->default ? true : false;
+                $property_storage->has_default = (bool)$param->default;
+                $property_storage->readonly = (bool)($param->flags & PhpParser\Node\Stmt\Class_::MODIFIER_READONLY);
                 $param_storage->promoted_property = true;
                 $property_storage->is_promoted = true;
 
                 $property_id = $fq_classlike_name . '::$' . $param_storage->name;
 
-                switch ($param->flags) {
+                switch ($param->flags & \PhpParser\Node\Stmt\Class_::VISIBILITY_MODIFIER_MASK) {
                     case \PhpParser\Node\Stmt\Class_::MODIFIER_PUBLIC:
                         $property_storage->visibility = ClassLikeAnalyzer::VISIBILITY_PUBLIC;
                         $classlike_storage->inheritable_property_ids[$param_storage->name] = $property_id;
@@ -601,16 +661,14 @@ class FunctionLikeNodeScanner
                 $classlike_storage->appearing_property_ids[$param_storage->name] = $property_id;
                 $classlike_storage->initialized_properties[$param_storage->name] = true;
             }
-        }
 
-        if ($stmt instanceof PhpParser\Node\Stmt\ClassMethod
-            && $stmt->name->name === '__construct'
-            && $classlike_storage
-            && $storage instanceof MethodStorage
-            && $storage->params
-            && $this->config->infer_property_types_from_constructor
-        ) {
-            $this->inferPropertyTypeFromConstructor($stmt, $storage, $classlike_storage);
+            if ($stmt instanceof PhpParser\Node\Stmt\ClassMethod
+                && $storage instanceof MethodStorage
+                && $storage->params
+                && $this->config->infer_property_types_from_constructor
+            ) {
+                $this->inferPropertyTypeFromConstructor($stmt, $storage, $classlike_storage);
+            }
         }
 
         foreach ($stmt->getAttrGroups() as $attr_group) {
@@ -741,6 +799,11 @@ class FunctionLikeNodeScanner
         $param_typehint = $param->type;
 
         if ($param_typehint) {
+            if ($param_typehint instanceof PhpParser\Node\IntersectionType) {
+                throw new UnexpectedValueException('Intersection types not yet supported');
+            }
+            /** @var Identifier|Name|NullableType|UnionType $param_typehint */
+
             $param_type = TypeHintResolver::resolve(
                 $param_typehint,
                 $this->codebase->scanner,
@@ -761,7 +824,7 @@ class FunctionLikeNodeScanner
         $is_optional = $param->default !== null;
 
         if ($param->var instanceof PhpParser\Node\Expr\Error || !is_string($param->var->name)) {
-            throw new \UnexpectedValueException('Not expecting param name to be non-string');
+            throw new UnexpectedValueException('Not expecting param name to be non-string');
         }
 
         $default_type = null;
@@ -955,26 +1018,26 @@ class FunctionLikeNodeScanner
                     $duplicate_method_storage->has_visitor_issues = true;
 
                     return false;
-                } else {
-                    // skip methods based on @since docblock tag
-                    $doc_comment = $stmt->getDocComment();
+                }
 
-                    if ($doc_comment) {
-                        $docblock_info = null;
-                        try {
-                            $docblock_info = FunctionLikeDocblockParser::parse($doc_comment);
-                        } catch (IncorrectDocblockException|DocblockParseException $e) {
-                        }
-                        if ($docblock_info) {
-                            if ($docblock_info->since_php_major_version && !$this->aliases->namespace) {
-                                if ($docblock_info->since_php_major_version > $this->codebase->php_major_version) {
-                                    return false;
-                                }
-                                if ($docblock_info->since_php_major_version === $this->codebase->php_major_version
-                                    && $docblock_info->since_php_minor_version > $this->codebase->php_minor_version
-                                ) {
-                                    return false;
-                                }
+                // skip methods based on @since docblock tag
+                $doc_comment = $stmt->getDocComment();
+
+                if ($doc_comment) {
+                    $docblock_info = null;
+                    try {
+                        $docblock_info = FunctionLikeDocblockParser::parse($doc_comment);
+                    } catch (IncorrectDocblockException|DocblockParseException $e) {
+                    }
+                    if ($docblock_info) {
+                        if ($docblock_info->since_php_major_version && !$this->aliases->namespace) {
+                            if ($docblock_info->since_php_major_version > $this->codebase->php_major_version) {
+                                return false;
+                            }
+                            if ($docblock_info->since_php_major_version === $this->codebase->php_major_version
+                                && $docblock_info->since_php_minor_version > $this->codebase->php_minor_version
+                            ) {
+                                return false;
                             }
                         }
                     }
@@ -1049,7 +1112,7 @@ class FunctionLikeNodeScanner
                 }
             }
         } else {
-            throw new \UnexpectedValueException('Unrecognized functionlike');
+            throw new UnexpectedValueException('Unrecognized functionlike');
         }
 
         return [

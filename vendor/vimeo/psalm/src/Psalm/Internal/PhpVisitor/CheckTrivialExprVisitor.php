@@ -38,19 +38,19 @@ class CheckTrivialExprVisitor extends PhpParser\NodeVisitorAbstract
             if (($node instanceof PhpParser\Node\Expr\FuncCall
                     || $node instanceof PhpParser\Node\Expr\MethodCall
                     || $node instanceof PhpParser\Node\Expr\StaticCall)
-                && isset($node->pure)
+                && $node->getAttribute('pure', false)
             ) {
                 return false;
             }
 
-            if ($node instanceof PhpParser\Node\Expr\New_ && isset($node->external_mutation_free)) {
+            if ($node instanceof PhpParser\Node\Expr\New_ && $node->getAttribute('external_mutation_free', false)) {
                 return false;
             }
 
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public function enterNode(PhpParser\Node $node): ?int
@@ -60,12 +60,13 @@ class CheckTrivialExprVisitor extends PhpParser\NodeVisitorAbstract
             if ($this->checkNonTrivialExpr($node)) {
                 $this->non_trivial_expr[] = $node;
                 return PhpParser\NodeTraverser::STOP_TRAVERSAL;
-            } elseif ($node instanceof PhpParser\Node\Expr\ClassConstFetch
+            }
+
+            if ($node instanceof PhpParser\Node\Expr\ClassConstFetch
                 || $node instanceof PhpParser\Node\Expr\ConstFetch
                 || $node instanceof PhpParser\Node\Expr\Error
                 || $node instanceof PhpParser\Node\Expr\PropertyFetch
-                || $node instanceof PhpParser\Node\Expr\StaticPropertyFetch
-            ) {
+                || $node instanceof PhpParser\Node\Expr\StaticPropertyFetch) {
                 return PhpParser\NodeTraverser::STOP_TRAVERSAL;
             }
         }

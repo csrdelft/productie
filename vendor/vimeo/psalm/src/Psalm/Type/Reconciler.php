@@ -1,16 +1,8 @@
 <?php
 namespace Psalm\Type;
 
-use Psalm\Type\Atomic\TInt;
-use Psalm\Type\Atomic\TScalar;
-use function array_pop;
-use function array_shift;
-use function count;
-use function explode;
-use function implode;
-use function ksort;
-use Psalm\Codebase;
 use Psalm\CodeLocation;
+use Psalm\Codebase;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
 use Psalm\Internal\Type\AssertionReconciler;
 use Psalm\Issue\DocblockTypeContradiction;
@@ -23,23 +15,36 @@ use Psalm\Issue\TypeDoesNotContainType;
 use Psalm\IssueBuffer;
 use Psalm\Type;
 use Psalm\Type\Atomic\TEmpty;
+use Psalm\Type\Atomic\TInt;
 use Psalm\Type\Atomic\TMixed;
 use Psalm\Type\Atomic\TNamedObject;
 use Psalm\Type\Atomic\TNull;
 use Psalm\Type\Atomic\TObject;
+use Psalm\Type\Atomic\TScalar;
 use Psalm\Type\Atomic\TString;
 use Psalm\Type\Atomic\TTemplateParam;
+
+use function array_merge;
+use function array_pop;
+use function array_shift;
+use function count;
+use function explode;
+use function implode;
+use function ksort;
+use function preg_match;
+use function preg_quote;
 use function str_replace;
 use function str_split;
 use function strpos;
 use function strtolower;
 use function substr;
-use function preg_match;
-use function preg_quote;
-use function array_merge;
 
 class Reconciler
 {
+    public const RECONCILIATION_OK = 0;
+    public const RECONCILIATION_REDUNDANT = 1;
+    public const RECONCILIATION_EMPTY = 2;
+
     /** @var array<string, non-empty-list<string>> */
     private static $broken_paths = [];
 
@@ -96,14 +101,13 @@ class Reconciler
             $has_falsyish = false;
             $has_empty = false;
             $has_count_check = false;
-            $is_equality = ($old_new_types[$key] ?? null) === $new_type_parts;
+            $is_real = ($old_new_types[$key] ?? null) === $new_type_parts;
+            $is_equality = $is_real;
 
             foreach ($new_type_parts as $new_type_part_parts) {
                 foreach ($new_type_part_parts as $new_type_part_part) {
-                    switch ($new_type_part_part[0]) {
-                        case '!':
-                            $has_negation = true;
-                            break;
+                    if ($new_type_part_part[0] === '!') {
+                        $has_negation = true;
                     }
 
                     $has_isset = $has_isset
@@ -154,15 +158,26 @@ class Reconciler
 
             $before_adjustment = $result_type ? clone $result_type : null;
 
-            $failed_reconciliation = 0;
+            $failed_reconciliation = self::RECONCILIATION_OK;
 
             foreach ($new_type_parts as $offset => $new_type_part_parts) {
                 $orred_type = null;
 
                 foreach ($new_type_part_parts as $new_type_part_part) {
-                    if ($new_type_part_part[0] === '>') {
-                        /** @var array<string, array<int, array<int, string>>> */
-                        $data = \json_decode(substr($new_type_part_part, 1), true);
+                    if ($new_type_part_part[0] === '@'
+                        || ($new_type_part_part[0] === '!'
+                            && $new_type_part_part[1] === '@')
+                    ) {
+                        if ($new_type_part_part[0] === '!') {
+                            $nested_negated = !$negated;
+
+                            /** @var array<string, array<int, array<int, string>>> */
+                            $data = \json_decode(substr($new_type_part_part, 2), true);
+                        } else {
+                            $nested_negated = $negated;
+                            /** @var array<string, array<int, array<int, string>>> */
+                            $data = \json_decode(substr($new_type_part_part, 1), true);
+                        }
 
                         $existing_types = self::reconcileKeyedTypes(
                             $data,
@@ -174,10 +189,10 @@ class Reconciler
                             $template_type_map,
                             $inside_loop,
                             $code_location,
-                            $negated
+                            $nested_negated
                         );
 
-                        $new_type_part_part = '!falsy';
+                        $new_type_part_part = ($nested_negated ? '' : '!') . 'falsy';
                     }
 
                     $result_type_candidate = AssertionReconciler::reconcile(
@@ -197,17 +212,16 @@ class Reconciler
                         $negated
                     );
 
+                    /** @psalm-suppress TypeDoesNotContainType can be empty after removing above */
                     if (!$result_type_candidate->getAtomicTypes()) {
                         $result_type_candidate->addType(new TEmpty);
                     }
 
-                    $orred_type = $orred_type
-                        ? Type::combineUnionTypes(
-                            $result_type_candidate,
-                            $orred_type,
-                            $codebase
-                        )
-                        : $result_type_candidate;
+                    $orred_type = Type::combineUnionTypes(
+                        $result_type_candidate,
+                        $orred_type,
+                        $codebase
+                    );
                 }
 
                 $result_type = $orred_type;
@@ -222,8 +236,8 @@ class Reconciler
             }
 
             if (($statements_analyzer->data_flow_graph instanceof \Psalm\Internal\Codebase\TaintFlowGraph
-                    && (!$result_type->hasScalarType())
-                        || ($result_type->hasString() && !$result_type->hasLiteralString()))
+                    && (!$result_type->hasScalarType()
+                        || ($result_type->hasString() && !$result_type->hasLiteralString())))
                 || $statements_analyzer->data_flow_graph instanceof \Psalm\Internal\Codebase\VariableUseGraph
             ) {
                 if ($before_adjustment && $before_adjustment->parent_nodes) {
@@ -260,6 +274,7 @@ class Reconciler
 
                         if (!isset($new_types[$new_key])
                             && preg_match('/' . preg_quote($key, '/') . '[\]\[\-]/', $new_key)
+                            && $is_real
                         ) {
                             unset($existing_types[$new_key]);
                         }
@@ -269,7 +284,7 @@ class Reconciler
                 $changed_var_ids[$key] = true;
             }
 
-            if ($failed_reconciliation === 2) {
+            if ($failed_reconciliation === self::RECONCILIATION_EMPTY) {
                 $result_type->failed_reconciliation = true;
             }
 
@@ -309,7 +324,7 @@ class Reconciler
                     || $type[0][0] === 'isset'
                     || $type[0][0] === '!empty'
                 ) {
-                    $key_parts = Reconciler::breakUpPathIntoParts($nk);
+                    $key_parts = self::breakUpPathIntoParts($nk);
 
                     $base_key = array_shift($key_parts);
 
@@ -374,7 +389,7 @@ class Reconciler
                 }
 
                 if ($type[0][0] === 'array-key-exists') {
-                    $key_parts = Reconciler::breakUpPathIntoParts($nk);
+                    $key_parts = self::breakUpPathIntoParts($nk);
 
                     if (count($key_parts) === 4
                         && $key_parts[1] === '['
@@ -533,10 +548,6 @@ class Reconciler
 
         $base_key = array_shift($key_parts);
 
-        if ($base_key === 'C::A' && isset($existing_keys[$base_key]) && $existing_keys[$base_key]->isMixed()) {
-            throw new \Exception("Error Processing Request", 1);
-        }
-
         if ($base_key[0] !== '$' && count($key_parts) > 2 && $key_parts[0] === '::$') {
             $base_key .= array_shift($key_parts);
             $base_key .= array_shift($key_parts);
@@ -671,15 +682,11 @@ class Reconciler
                             }
                         }
 
-                        if (!$new_base_type) {
-                            $new_base_type = $new_base_type_candidate;
-                        } else {
-                            $new_base_type = Type::combineUnionTypes(
-                                $new_base_type,
-                                $new_base_type_candidate,
-                                $codebase
-                            );
-                        }
+                        $new_base_type = Type::combineUnionTypes(
+                            $new_base_type,
+                            $new_base_type_candidate,
+                            $codebase
+                        );
 
                         $existing_keys[$new_base_key] = $new_base_type;
                     }
@@ -770,15 +777,11 @@ class Reconciler
                             $class_property_type = Type::getMixed();
                         }
 
-                        if ($new_base_type instanceof Type\Union) {
-                            $new_base_type = Type::combineUnionTypes(
-                                $new_base_type,
-                                $class_property_type,
-                                $codebase
-                            );
-                        } else {
-                            $new_base_type = $class_property_type;
-                        }
+                        $new_base_type = Type::combineUnionTypes(
+                            $new_base_type,
+                            $class_property_type,
+                            $codebase
+                        );
 
                         $existing_keys[$new_base_key] = $new_base_type;
                     }
@@ -1094,6 +1097,7 @@ class Reconciler
             }
         }
 
+        /** @psalm-suppress TypeDoesNotContainType can be empty after removing above */
         if (!$key_type->getAtomicTypes()) {
             // this should ideally prompt some sort of error
             $key_type->addType(new Type\Atomic\TArrayKey());
