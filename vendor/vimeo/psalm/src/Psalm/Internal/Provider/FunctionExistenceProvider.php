@@ -2,12 +2,11 @@
 namespace Psalm\Internal\Provider;
 
 use Psalm\Plugin\EventHandler\Event\FunctionExistenceProviderEvent;
-use Psalm\Plugin\EventHandler\FunctionExistenceProviderInterface;
 use Psalm\Plugin\Hook\FunctionExistenceProviderInterface as LegacyFunctionExistenceProviderInterface;
+use Psalm\Plugin\EventHandler\FunctionExistenceProviderInterface;
 use Psalm\StatementsSource;
-
-use function is_subclass_of;
 use function strtolower;
+use function is_subclass_of;
 
 class FunctionExistenceProvider
 {
@@ -87,23 +86,23 @@ class FunctionExistenceProvider
         StatementsSource $statements_source,
         string $function_id
     ): ?bool {
-        foreach (self::$legacy_handlers[strtolower($function_id)] ?? [] as $function_handler) {
-            $function_exists = $function_handler(
-                $statements_source,
-                $function_id
-            );
-
-            if ($function_exists !== null) {
-                return $function_exists;
-            }
-        }
-
         foreach (self::$handlers[strtolower($function_id)] ?? [] as $function_handler) {
             $event = new FunctionExistenceProviderEvent(
                 $statements_source,
                 $function_id
             );
             $function_exists = $function_handler($event);
+
+            if ($function_exists !== null) {
+                return $function_exists;
+            }
+        }
+
+        foreach (self::$legacy_handlers[strtolower($function_id)] ?? [] as $function_handler) {
+            $function_exists = $function_handler(
+                $statements_source,
+                $function_id
+            );
 
             if ($function_exists !== null) {
                 return $function_exists;

@@ -2,16 +2,15 @@
 namespace Psalm\Internal\PhpVisitor\Reflector;
 
 use PhpParser;
-use Psalm\Aliases;
-use Psalm\CodeLocation;
 use Psalm\Codebase;
+use Psalm\CodeLocation;
+use Psalm\Aliases;
 use Psalm\Internal\Analyzer\ClassLikeAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Expression\SimpleTypeInferer;
 use Psalm\Internal\Scanner\FileScanner;
 use Psalm\Storage\AttributeStorage;
 use Psalm\Storage\FileStorage;
 use Psalm\Type;
-
 use function strtolower;
 
 class AttributeResolver
@@ -26,17 +25,24 @@ class AttributeResolver
     ) : AttributeStorage {
         if ($stmt->name instanceof PhpParser\Node\Name\FullyQualified) {
             $fq_type_string = (string)$stmt->name;
+
+            $codebase->scanner->queueClassLikeForScanning($fq_type_string);
+            $file_storage->referenced_classlikes[strtolower($fq_type_string)] = $fq_type_string;
         } else {
             $fq_type_string = ClassLikeAnalyzer::getFQCLNFromNameObject($stmt->name, $aliases);
-        }
 
-        $codebase->scanner->queueClassLikeForScanning($fq_type_string);
-        $file_storage->referenced_classlikes[strtolower($fq_type_string)] = $fq_type_string;
+            $codebase->scanner->queueClassLikeForScanning($fq_type_string);
+            $file_storage->referenced_classlikes[strtolower($fq_type_string)] = $fq_type_string;
+        }
 
         $args = [];
 
         foreach ($stmt->args as $arg_node) {
-            $key = $arg_node->name->name ?? null;
+            $key = null;
+
+            if ($arg_node->name) {
+                $key = $arg_node->name->name;
+            }
 
             $const_type = SimpleTypeInferer::infer(
                 $codebase,

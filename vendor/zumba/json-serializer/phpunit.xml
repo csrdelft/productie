@@ -6,9 +6,11 @@
 		 convertWarningsToExceptions="true"
 		 processIsolation="false"
 		 stopOnFailure="false"
+		 syntaxCheck="true"
+		 strict="true"
 		 colors="true">
 	<testsuites>
-		<testsuite name="JsonSerializerTests">
+		<testsuite>
 			<directory>./tests</directory>
 		</testsuite>
 	</testsuites>

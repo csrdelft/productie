@@ -10,7 +10,6 @@ use Psalm\Internal\Clause;
 use Psalm\Node\Expr\BinaryOp\VirtualBooleanAnd;
 use Psalm\Node\Expr\BinaryOp\VirtualBooleanOr;
 use Psalm\Node\Expr\VirtualBooleanNot;
-
 use function array_merge;
 use function count;
 use function strlen;

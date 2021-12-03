@@ -19,9 +19,9 @@ class FunctionReturnTypeProviderEvent
      */
     private $function_id;
     /**
-     * @var PhpParser\Node\Expr\FuncCall
+     * @var list<PhpParser\Node\Arg>
      */
-    private $stmt;
+    private $call_args;
     /**
      * @var Context
      */
@@ -36,18 +36,19 @@ class FunctionReturnTypeProviderEvent
      * return but another plugin may be able to determine the type, return null. Otherwise return a mixed union type
      * if something should be returned, but can't be more specific.
      *
+     * @param list<PhpParser\Node\Arg>    $call_args
      * @param non-empty-string $function_id
      */
     public function __construct(
         StatementsSource $statements_source,
         string $function_id,
-        PhpParser\Node\Expr\FuncCall $stmt,
+        array $call_args,
         Context $context,
         CodeLocation $code_location
     ) {
         $this->statements_source = $statements_source;
         $this->function_id = $function_id;
-        $this->stmt = $stmt;
+        $this->call_args = $call_args;
         $this->context = $context;
         $this->code_location = $code_location;
     }
@@ -70,7 +71,7 @@ class FunctionReturnTypeProviderEvent
      */
     public function getCallArgs(): array
     {
-        return $this->stmt->getArgs();
+        return $this->call_args;
     }
 
     public function getContext(): Context
@@ -81,10 +82,5 @@ class FunctionReturnTypeProviderEvent
     public function getCodeLocation(): CodeLocation
     {
         return $this->code_location;
-    }
-
-    public function getStmt(): PhpParser\Node\Expr\FuncCall
-    {
-        return $this->stmt;
     }
 }

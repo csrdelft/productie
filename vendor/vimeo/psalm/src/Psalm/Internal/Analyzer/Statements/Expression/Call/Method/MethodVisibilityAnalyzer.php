@@ -1,14 +1,13 @@
 <?php
 namespace Psalm\Internal\Analyzer\Statements\Expression\Call\Method;
 
-use Psalm\CodeLocation;
-use Psalm\Context;
 use Psalm\Internal\Analyzer\ClassLikeAnalyzer;
 use Psalm\Internal\Analyzer\TraitAnalyzer;
+use Psalm\CodeLocation;
+use Psalm\Context;
 use Psalm\Issue\InaccessibleMethod;
 use Psalm\IssueBuffer;
 use Psalm\StatementsSource;
-
 use function array_pop;
 use function end;
 use function strtolower;
@@ -70,10 +69,6 @@ class MethodVisibilityAnalyzer
                 return null;
             }
 
-            if (\Psalm\Internal\Codebase\InternalCallMapHandler::inCallMap((string) $method_id)) {
-                return null;
-            }
-
             throw new \UnexpectedValueException('$declaring_method_id not expected to be null here');
         }
 
@@ -127,7 +122,10 @@ class MethodVisibilityAnalyzer
             // Oldest ancestor is at end of array
             $oldest_ancestor_declaring_method_id = array_pop($overridden_method_ids);
         }
-        $oldest_ancestor_declaring_method_class = $oldest_ancestor_declaring_method_id->fq_class_name ?? null;
+        $oldest_ancestor_declaring_method_class = null;
+        if ($oldest_ancestor_declaring_method_id) {
+            $oldest_ancestor_declaring_method_class = $oldest_ancestor_declaring_method_id->fq_class_name;
+        }
 
         switch ($visibility) {
             case ClassLikeAnalyzer::VISIBILITY_PUBLIC:

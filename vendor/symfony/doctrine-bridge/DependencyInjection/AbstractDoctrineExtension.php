@@ -73,11 +73,9 @@ abstract class AbstractDoctrineExtension extends Extension
 
             if ($mappingConfig['is_bundle']) {
                 $bundle = null;
-                $bundleMetadata = null;
                 foreach ($container->getParameter('kernel.bundles') as $name => $class) {
                     if ($mappingName === $name) {
                         $bundle = new \ReflectionClass($class);
-                        $bundleMetadata = $container->getParameter('kernel.bundles_metadata')[$name];
 
                         break;
                     }
@@ -87,12 +85,29 @@ abstract class AbstractDoctrineExtension extends Extension
                     throw new \InvalidArgumentException(sprintf('Bundle "%s" does not exist or it is not enabled.', $mappingName));
                 }
 
-                $mappingConfig = $this->getMappingDriverBundleConfigDefaults($mappingConfig, $bundle, $container, $bundleMetadata['path']);
+                $mappingConfig = $this->getMappingDriverBundleConfigDefaults($mappingConfig, $bundle, $container);
                 if (!$mappingConfig) {
                     continue;
                 }
+            } elseif (!$mappingConfig['type'] && \PHP_VERSION_ID < 80000) {
+                $mappingConfig['type'] = 'annotation';
             } elseif (!$mappingConfig['type']) {
-                $mappingConfig['type'] = $this->detectMappingType($mappingConfig['dir'], $container);
+                $mappingConfig['type'] = 'attribute';
+
+                $glob = new GlobResource($mappingConfig['dir'], '*', true);
+                $container->addResource($glob);
+
+                foreach ($glob as $file) {
+                    $content = file_get_contents($file);
+
+                    if (preg_match('/^#\[.*Entity\b/m', $content)) {
+                        break;
+                    }
+                    if (preg_match('/^ \* @.*Entity\b/m', $content)) {
+                        $mappingConfig['type'] = 'annotation';
+                        break;
+                    }
+                }
             }
 
             $this->assertValidMappingConfiguration($mappingConfig, $objectManager['name']);
@@ -135,20 +150,11 @@ abstract class AbstractDoctrineExtension extends Extension
      *
      * Returns false when autodetection failed, an array of the completed information otherwise.
      *
-     * @param string|null $bundleDir The bundle directory path
-     *
      * @return array|false
      */
-    protected function getMappingDriverBundleConfigDefaults(array $bundleConfig, \ReflectionClass $bundle, ContainerBuilder $container/*, string $bundleDir = null*/)
+    protected function getMappingDriverBundleConfigDefaults(array $bundleConfig, \ReflectionClass $bundle, ContainerBuilder $container)
     {
-        if (\func_num_args() < 4 && __CLASS__ !== static::class && __CLASS__ !== (new \ReflectionMethod($this, __FUNCTION__))->getDeclaringClass()->getName() && !$this instanceof \PHPUnit\Framework\MockObject\MockObject && !$this instanceof \Prophecy\Prophecy\ProphecySubjectInterface && !$this instanceof \Mockery\MockInterface) {
-            trigger_deprecation('symfony/doctrine-bridge', '5.4', 'The "%s()" method will have a new "string $bundleDir = null" argument in version 6.0, not defining it is deprecated.', __METHOD__);
-            $bundleDir = null;
-        } else {
-            $bundleDir = func_get_arg(3);
-        }
-
-        $bundleDir ?? $bundleDir = \dirname($bundle->getFileName());
+        $bundleDir = \dirname($bundle->getFileName());
 
         if (!$bundleConfig['type']) {
             $bundleConfig['type'] = $this->detectMetadataDriver($bundleDir, $container);
@@ -163,7 +169,7 @@ abstract class AbstractDoctrineExtension extends Extension
             if (\in_array($bundleConfig['type'], ['annotation', 'staticphp', 'attribute'])) {
                 $bundleConfig['dir'] = $bundleDir.'/'.$this->getMappingObjectDefaultName();
             } else {
-                $bundleConfig['dir'] = $bundleDir.'/'.$this->getMappingResourceConfigDirectory($bundleDir);
+                $bundleConfig['dir'] = $bundleDir.'/'.$this->getMappingResourceConfigDirectory();
             }
         } else {
             $bundleConfig['dir'] = $bundleDir.'/'.$bundleConfig['dir'];
@@ -257,7 +263,7 @@ abstract class AbstractDoctrineExtension extends Extension
      */
     protected function detectMetadataDriver(string $dir, ContainerBuilder $container)
     {
-        $configPath = $this->getMappingResourceConfigDirectory($dir);
+        $configPath = $this->getMappingResourceConfigDirectory();
         $extension = $this->getMappingResourceExtension();
 
         if (glob($dir.'/'.$configPath.'/*.'.$extension.'.xml', \GLOB_NOSORT)) {
@@ -274,48 +280,11 @@ abstract class AbstractDoctrineExtension extends Extension
             }
             $container->fileExists($resource, false);
 
-            if ($container->fileExists($dir.'/'.$this->getMappingObjectDefaultName(), false)) {
-                return $this->detectMappingType($dir, $container);
-            }
-
-            return null;
+            return $container->fileExists($dir.'/'.$this->getMappingObjectDefaultName(), false) ? 'annotation' : null;
         }
         $container->fileExists($dir.'/'.$configPath, false);
 
         return $driver;
-    }
-
-    /**
-     * Detects what mapping type to use for the supplied directory.
-     *
-     * @return string A mapping type 'attribute' or 'annotation'
-     */
-    private function detectMappingType(string $directory, ContainerBuilder $container): string
-    {
-        if (\PHP_VERSION_ID < 80000) {
-            return 'annotation';
-        }
-
-        $type = 'attribute';
-
-        $glob = new GlobResource($directory, '*', true);
-        $container->addResource($glob);
-
-        $quotedMappingObjectName = preg_quote($this->getMappingObjectDefaultName(), '/');
-
-        foreach ($glob as $file) {
-            $content = file_get_contents($file);
-
-            if (preg_match('/^#\[.*'.$quotedMappingObjectName.'\b/m', $content)) {
-                break;
-            }
-            if (preg_match('/^ \* @.*'.$quotedMappingObjectName.'\b/m', $content)) {
-                $type = 'annotation';
-                break;
-            }
-        }
-
-        return $type;
     }
 
     /**
@@ -410,7 +379,7 @@ abstract class AbstractDoctrineExtension extends Extension
      *
      * The manager called $autoMappedManager will map all bundles that are not mapped by other managers.
      *
-     * @return array
+     * @return array The modified version of $managerConfigs
      */
     protected function fixManagersAutoMappings(array $managerConfigs, array $bundles)
     {
@@ -453,11 +422,9 @@ abstract class AbstractDoctrineExtension extends Extension
     /**
      * Relative path from the bundle root to the directory where mapping files reside.
      *
-     * @param string|null $bundleDir The bundle directory path
-     *
      * @return string
      */
-    abstract protected function getMappingResourceConfigDirectory(/*string $bundleDir = null*/);
+    abstract protected function getMappingResourceConfigDirectory();
 
     /**
      * Extension used by the mapping files.

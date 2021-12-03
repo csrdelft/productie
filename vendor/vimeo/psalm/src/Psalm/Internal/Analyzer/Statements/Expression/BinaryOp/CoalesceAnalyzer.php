@@ -2,14 +2,13 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression\BinaryOp;
 
 use PhpParser;
-use Psalm\Context;
 use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
+use Psalm\Context;
 use Psalm\Node\Expr\VirtualIsset;
 use Psalm\Node\Expr\VirtualTernary;
 use Psalm\Node\Expr\VirtualVariable;
 use Psalm\Type;
-
 use function substr;
 
 /**
@@ -38,7 +37,6 @@ class CoalesceAnalyzer
             || $root_expr instanceof PhpParser\Node\Expr\Cast
             || $root_expr instanceof PhpParser\Node\Expr\NullsafePropertyFetch
             || $root_expr instanceof PhpParser\Node\Expr\NullsafeMethodCall
-            || $root_expr instanceof PhpParser\Node\Expr\Ternary
         ) {
             $left_var_id = '$<tmp coalesce var>' . (int) $left_expr->getAttribute('startFilePos');
 
@@ -47,7 +45,7 @@ class CoalesceAnalyzer
 
             ExpressionAnalyzer::analyze($statements_analyzer, $left_expr, $cloned);
 
-            $condition_type = $statements_analyzer->node_data->getType($left_expr) ?? Type::getMixed();
+            $condition_type = $statements_analyzer->node_data->getType($left_expr) ?: Type::getMixed();
 
             if ($root_expr !== $left_expr) {
                 $condition_type->possibly_undefined = true;
@@ -77,7 +75,7 @@ class CoalesceAnalyzer
 
         ExpressionAnalyzer::analyze($statements_analyzer, $ternary, $context);
 
-        $ternary_type = $statements_analyzer->node_data->getType($ternary) ?? Type::getMixed();
+        $ternary_type = $statements_analyzer->node_data->getType($ternary) ?: Type::getMixed();
 
         $statements_analyzer->node_data = $old_node_data;
 

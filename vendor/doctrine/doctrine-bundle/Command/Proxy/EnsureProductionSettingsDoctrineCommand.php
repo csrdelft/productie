@@ -20,13 +20,8 @@ class EnsureProductionSettingsDoctrineCommand extends EnsureProductionSettingsCo
         parent::configure();
 
         $this
-            ->setName('doctrine:ensure-production-settings');
-
-        if ($this->getDefinition()->hasOption('em')) {
-            return;
-        }
-
-        $this->addOption('em', null, InputOption::VALUE_OPTIONAL, 'The entity manager to use for this command');
+            ->setName('doctrine:ensure-production-settings')
+            ->addOption('em', null, InputOption::VALUE_OPTIONAL, 'The entity manager to use for this command');
     }
 
     /**

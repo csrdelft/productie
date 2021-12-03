@@ -11,10 +11,11 @@ class NodeCounterVisitor extends PhpParser\NodeVisitorAbstract
     /** @var int */
     public $count = 0;
 
-    public function enterNode(PhpParser\Node $node): ?int
+    /**
+     * @return null|int
+     */
+    public function enterNode(PhpParser\Node $node)
     {
         $this->count++;
-
-        return null;
     }
 }

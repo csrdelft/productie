@@ -25,9 +25,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class HttpBasicFactory implements SecurityFactoryInterface, AuthenticatorFactoryInterface
 {
-    public const PRIORITY = -50;
-
-    public function create(ContainerBuilder $container, string $id, array $config, string $userProvider, ?string $defaultEntryPoint): array
+    public function create(ContainerBuilder $container, string $id, array $config, string $userProvider, ?string $defaultEntryPoint)
     {
         $provider = 'security.authentication.provider.dao.'.$id;
         $container
@@ -68,17 +66,12 @@ class HttpBasicFactory implements SecurityFactoryInterface, AuthenticatorFactory
         return $authenticatorId;
     }
 
-    public function getPriority(): int
-    {
-        return self::PRIORITY;
-    }
-
-    public function getPosition(): string
+    public function getPosition()
     {
         return 'http';
     }
 
-    public function getKey(): string
+    public function getKey()
     {
         return 'http-basic';
     }

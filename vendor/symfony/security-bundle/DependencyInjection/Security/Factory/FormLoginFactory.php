@@ -27,8 +27,6 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class FormLoginFactory extends AbstractFactory implements AuthenticatorFactoryInterface
 {
-    public const PRIORITY = -30;
-
     public function __construct()
     {
         $this->addOption('username_parameter', '_username');
@@ -37,20 +35,14 @@ class FormLoginFactory extends AbstractFactory implements AuthenticatorFactoryIn
         $this->addOption('csrf_token_id', 'authenticate');
         $this->addOption('enable_csrf', false);
         $this->addOption('post_only', true);
-        $this->addOption('form_only', false);
     }
 
-    public function getPriority(): int
-    {
-        return self::PRIORITY;
-    }
-
-    public function getPosition(): string
+    public function getPosition()
     {
         return 'form';
     }
 
-    public function getKey(): string
+    public function getKey()
     {
         return 'form-login';
     }
@@ -66,12 +58,12 @@ class FormLoginFactory extends AbstractFactory implements AuthenticatorFactoryIn
         ;
     }
 
-    protected function getListenerId(): string
+    protected function getListenerId()
     {
         return 'security.authentication.listener.form';
     }
 
-    protected function createAuthProvider(ContainerBuilder $container, string $id, array $config, string $userProviderId): string
+    protected function createAuthProvider(ContainerBuilder $container, string $id, array $config, string $userProviderId)
     {
         if ($config['enable_csrf'] ?? false) {
             throw new InvalidConfigurationException('The "enable_csrf" option of "form_login" is only available when "security.enable_authenticator_manager" is set to "true", use "csrf_token_generator" instead.');
@@ -100,7 +92,7 @@ class FormLoginFactory extends AbstractFactory implements AuthenticatorFactoryIn
         return $listenerId;
     }
 
-    protected function createEntryPoint(ContainerBuilder $container, string $id, array $config, ?string $defaultEntryPointId): ?string
+    protected function createEntryPoint(ContainerBuilder $container, string $id, array $config, ?string $defaultEntryPointId)
     {
         $entryPointId = 'security.authentication.form_entry_point.'.$id;
         $container

@@ -41,9 +41,6 @@ final class Configuration
     /** @var bool */
     private $allOrNothing = false;
 
-    /** @var bool */
-    private $transactional = true;
-
     /** @var string|null */
     private $connectionName;
 
@@ -194,17 +191,6 @@ final class Configuration
     public function isAllOrNothing(): bool
     {
         return $this->allOrNothing;
-    }
-
-    public function setTransactional(bool $transactional): void
-    {
-        $this->assertNotFrozen();
-        $this->transactional = $transactional;
-    }
-
-    public function isTransactional(): bool
-    {
-        return $this->transactional;
     }
 
     public function setCheckDatabasePlatform(bool $checkDbPlatform): void

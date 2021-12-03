@@ -28,7 +28,7 @@ final class RememberMeTokenProviderDoctrineSchemaSubscriber implements EventSubs
     private $rememberMeHandlers;
 
     /**
-     * @param iterable<mixed, RememberMeHandlerInterface> $rememberMeHandlers
+     * @param iterable|RememberMeHandlerInterface[] $rememberMeHandlers
      */
     public function __construct(iterable $rememberMeHandlers)
     {

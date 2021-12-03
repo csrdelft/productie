@@ -60,7 +60,6 @@ class FormLoginAuthenticator extends AbstractLoginFormAuthenticator
             'password_parameter' => '_password',
             'check_path' => '/login_check',
             'post_only' => true,
-            'form_only' => false,
             'enable_csrf' => false,
             'csrf_parameter' => '_csrf_token',
             'csrf_token_id' => 'authenticate',
@@ -75,11 +74,10 @@ class FormLoginAuthenticator extends AbstractLoginFormAuthenticator
     public function supports(Request $request): bool
     {
         return ($this->options['post_only'] ? $request->isMethod('POST') : true)
-            && $this->httpUtils->checkRequestPath($request, $this->options['check_path'])
-            && ($this->options['form_only'] ? 'form' === $request->getContentType() : true);
+            && $this->httpUtils->checkRequestPath($request, $this->options['check_path']);
     }
 
-    public function authenticate(Request $request): Passport
+    public function authenticate(Request $request): PassportInterface
     {
         $credentials = $this->getCredentials($request);
 
@@ -108,18 +106,11 @@ class FormLoginAuthenticator extends AbstractLoginFormAuthenticator
     }
 
     /**
-     * @deprecated since Symfony 5.4, use {@link createToken()} instead
+     * @param Passport $passport
      */
     public function createAuthenticatedToken(PassportInterface $passport, string $firewallName): TokenInterface
     {
-        trigger_deprecation('symfony/security-http', '5.4', 'Method "%s()" is deprecated, use "%s::createToken()" instead.', __METHOD__, __CLASS__);
-
-        return $this->createToken($passport, $firewallName);
-    }
-
-    public function createToken(Passport $passport, string $firewallName): TokenInterface
-    {
-        return new UsernamePasswordToken($passport->getUser(), $firewallName, $passport->getUser()->getRoles());
+        return new UsernamePasswordToken($passport->getUser(), null, $firewallName, $passport->getUser()->getRoles());
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response

@@ -1,23 +1,22 @@
 <?php
 namespace Psalm;
 
-use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Internal\Clause;
-use Psalm\Internal\Type\AssertionReconciler;
-use Psalm\Storage\FunctionLikeStorage;
-use Psalm\Type\Union;
-
 use function array_keys;
-use function array_search;
 use function count;
 use function in_array;
-use function is_int;
 use function json_encode;
 use function preg_match;
 use function preg_quote;
 use function preg_replace;
+use Psalm\Internal\Analyzer\StatementsAnalyzer;
+use Psalm\Internal\Clause;
+use Psalm\Storage\FunctionLikeStorage;
+use Psalm\Internal\Type\AssertionReconciler;
+use Psalm\Type\Union;
 use function strpos;
 use function strtolower;
+use function array_search;
+use function is_int;
 
 class Context
 {
@@ -39,6 +38,13 @@ class Context
      * @var bool
      */
     public $inside_conditional = false;
+
+    /**
+     * Whether or not we're inside a __construct function
+     *
+     * @var bool
+     */
+    public $inside_constructor = false;
 
     /**
      * Whether or not we're inside an isset call
@@ -77,14 +83,7 @@ class Context
      *
      * @var bool
      */
-    public $inside_general_use = false;
-
-    /**
-     * Whether or not we're inside a return expression
-     *
-     * @var bool
-     */
-    public $inside_return = false;
+    public $inside_use = false;
 
     /**
      * Whether or not we're inside a throw
@@ -103,7 +102,7 @@ class Context
     /**
      * @var null|CodeLocation
      */
-    public $include_location;
+    public $include_location = null;
 
     /**
      * @var string|null
@@ -194,7 +193,7 @@ class Context
      *
      * @var array<string, bool>|null
      */
-    public $initialized_methods;
+    public $initialized_methods = null;
 
     /**
      * @var array<string, Type\Union>
@@ -290,27 +289,27 @@ class Context
     /**
      * @var Internal\Scope\LoopScope|null
      */
-    public $loop_scope;
+    public $loop_scope = null;
 
     /**
      * @var Internal\Scope\CaseScope|null
      */
-    public $case_scope;
+    public $case_scope = null;
 
     /**
      * @var Internal\Scope\FinallyScope|null
      */
-    public $finally_scope;
+    public $finally_scope = null;
 
     /**
      * @var Context|null
      */
-    public $if_context;
+    public $if_context = null;
 
     /**
      * @var \Psalm\Internal\Scope\IfScope|null
      */
-    public $if_scope;
+    public $if_scope = null;
 
     /**
      * @var bool
@@ -367,11 +366,6 @@ class Context
      */
     public $has_returned = false;
 
-    /**
-     * @var array<string, bool>
-     */
-    public $vars_from_global = [];
-
     public function __construct(?string $self = null)
     {
         $this->self = $self;
@@ -418,7 +412,7 @@ class Context
                     ? $end_context->vars_in_scope[$var_id]
                     : null;
 
-                $existing_type = $this->vars_in_scope[$var_id] ?? null;
+                $existing_type = isset($this->vars_in_scope[$var_id]) ? $this->vars_in_scope[$var_id] : null;
 
                 if (!$existing_type) {
                     if ($new_type) {
@@ -589,6 +583,14 @@ class Context
                         break;
                     }
 
+                    // empty and !empty are not definitive for arrays and scalar types
+                    if (($type === '!falsy' || $type === 'falsy') &&
+                        ($new_type->hasArray() || $new_type->hasPossiblyNumericType())
+                    ) {
+                        $type_changed = true;
+                        break;
+                    }
+
                     $result_type = AssertionReconciler::reconcile(
                         $type,
                         clone $new_type,
@@ -733,7 +735,7 @@ class Context
         return isset($this->phantom_classes[strtolower($class_name)]);
     }
 
-    public function hasVariable(string $var_name): bool
+    public function hasVariable(?string $var_name): bool
     {
         if (!$var_name) {
             return false;
@@ -827,16 +829,5 @@ class Context
         foreach ($function_storage->throws as $possibly_thrown_exception => $_) {
             $this->possibly_thrown_exceptions[$possibly_thrown_exception][$hash] = $codelocation;
         }
-    }
-
-    public function insideUse(): bool
-    {
-        return $this->inside_assignment
-            || $this->inside_return
-            || $this->inside_call
-            || $this->inside_general_use
-            || $this->inside_conditional
-            || $this->inside_throw
-            || $this->inside_isset;
     }
 }

@@ -12,8 +12,6 @@
 namespace Symfony\Bridge\Twig\Command;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Completion\CompletionInput;
-use Symfony\Component\Console\Completion\CompletionSuggestions;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Input\InputArgument;
@@ -110,17 +108,6 @@ EOF
         }
 
         return 0;
-    }
-
-    public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
-    {
-        if ($input->mustSuggestArgumentValuesFor('name')) {
-            $suggestions->suggestValues(array_keys($this->getLoaderPaths()));
-        }
-
-        if ($input->mustSuggestOptionValuesFor('format')) {
-            $suggestions->suggestValues(['text', 'json']);
-        }
     }
 
     private function displayPathsText(SymfonyStyle $io, string $name)

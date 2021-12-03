@@ -5,14 +5,14 @@ use function substr;
 
 /**
  * Represents the type that is the result of a bitmask combination of its parameters.
- * `int-mask<1, 2, 4>` corresponds to `0|1|2|3|4|5|6|7`
+ * `int-mask<1, 2, 4>` corresponds to `1|2|3|4|5|6|7`
  */
 class TIntMask extends TInt
 {
-    /** @var non-empty-array<TLiteralInt|TClassConstant> */
+    /** @var non-empty-array<TLiteralInt|TScalarClassConstant> */
     public $values;
 
-    /** @param non-empty-array<TLiteralInt|TClassConstant> $values */
+    /** @param non-empty-array<TLiteralInt|TScalarClassConstant> $values */
     public function __construct(array $values)
     {
         $this->values = $values;
@@ -42,6 +42,19 @@ class TIntMask extends TInt
 
     /**
      * @param  array<lowercase-string, string> $aliased_classes
+     */
+    public function toPhpString(
+        ?string $namespace,
+        array $aliased_classes,
+        ?string $this_class,
+        int $php_major_version,
+        int $php_minor_version
+    ): ?string {
+        return $php_major_version >= 7 ? 'int' : null;
+    }
+
+    /**
+     * @param  array<lowercase-string, string> $aliased_classes
      *
      */
     public function toNamespacedString(
@@ -57,7 +70,7 @@ class TIntMask extends TInt
         $s = '';
 
         foreach ($this->values as $value) {
-            $s .= $value->toNamespacedString($namespace, $aliased_classes, $this_class, false) . ', ';
+            $s .= $value->toNamespacedString($namespace, $aliased_classes, $this_class, $use_phpdoc_format) . ', ';
         }
 
         return 'int-mask<' . substr($s, 0, -2) . '>';

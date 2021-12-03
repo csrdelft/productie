@@ -281,8 +281,6 @@ class Intervals
     }
 
     /**
-     * @param bool $stopOnFirstValidInterval
-     *
      * @phpstan-return array{'numeric': Interval[], 'branches': array{'names': string[], 'exclude': bool}}
      */
     private static function generateIntervals(ConstraintInterface $constraint, $stopOnFirstValidInterval = false)
@@ -395,6 +393,7 @@ class Intervals
         $intervals = array();
         $index = 0;
         $activationThreshold = $constraint->isConjunctive() ? \count($numericGroups) : 1;
+        $active = false;
         $start = null;
         foreach ($borders as $border) {
             if ($border['side'] === 'start') {
@@ -402,9 +401,13 @@ class Intervals
             } else {
                 $activeIntervals--;
             }
-            if (!$start && $activeIntervals >= $activationThreshold) {
+            if (!$active && $activeIntervals >= $activationThreshold) {
                 $start = new Constraint($border['operator'], $border['version']);
-            } elseif ($start && $activeIntervals < $activationThreshold) {
+                $active = true;
+            }
+            if ($active && $activeIntervals < $activationThreshold) {
+                $active = false;
+
                 // filter out invalid intervals like > x - <= x, or >= x - < x
                 if (
                     version_compare($start->getVersion(), $border['version'], '=')

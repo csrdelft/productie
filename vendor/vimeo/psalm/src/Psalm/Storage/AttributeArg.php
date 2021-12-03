@@ -3,8 +3,8 @@
 namespace Psalm\Storage;
 
 use Psalm\CodeLocation;
-use Psalm\Internal\Scanner\UnresolvedConstantComponent;
 use Psalm\Type\Union;
+use Psalm\Internal\Scanner\UnresolvedConstantComponent;
 
 class AttributeArg
 {

@@ -17,8 +17,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  * Interface for resolving the authentication status of a given token.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
- *
- * @method bool isAuthenticated(TokenInterface $token = null)
  */
 interface AuthenticationTrustResolverInterface
 {
@@ -29,8 +27,6 @@ interface AuthenticationTrustResolverInterface
      * If null is passed, the method must return false.
      *
      * @return bool
-     *
-     * @deprecated since Symfony 5.4, use !isAuthenticated() instead
      */
     public function isAnonymous(TokenInterface $token = null);
 

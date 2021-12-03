@@ -2,9 +2,9 @@
 namespace Psalm\Internal\Provider\ReturnTypeProvider;
 
 use Psalm\Plugin\EventHandler\Event\MethodReturnTypeProviderEvent;
-use Psalm\Type;
-
 use function count;
+use PhpParser;
+use Psalm\Type;
 
 class SimpleXmlElementAsXml implements \Psalm\Plugin\EventHandler\MethodReturnTypeProviderInterface
 {

@@ -4,15 +4,14 @@ namespace Psalm\Internal\Type\Comparator;
 
 use Psalm\Codebase;
 use Psalm\Type;
+use Psalm\Type\Atomic\TKeyedArray;
 use Psalm\Type\Atomic\TArray;
 use Psalm\Type\Atomic\TClassStringMap;
-use Psalm\Type\Atomic\TKeyedArray;
 use Psalm\Type\Atomic\TList;
 use Psalm\Type\Atomic\TLiteralInt;
 use Psalm\Type\Atomic\TLiteralString;
 use Psalm\Type\Atomic\TNonEmptyArray;
 use Psalm\Type\Atomic\TNonEmptyList;
-
 use function array_map;
 use function range;
 
@@ -33,24 +32,6 @@ class ArrayTypeComparator
         ?TypeComparisonResult $atomic_comparison_result
     ) : bool {
         $all_types_contain = true;
-
-        $is_empty_array = $input_type_part->equals(
-            new Type\Atomic\TArray([
-                new Type\Union([new Type\Atomic\TEmpty()]),
-                new Type\Union([new Type\Atomic\TEmpty()])
-            ]),
-            false
-        );
-
-        if ($is_empty_array
-            && (($container_type_part instanceof Type\Atomic\TArray
-                    && !$container_type_part instanceof Type\Atomic\TNonEmptyArray)
-                || ($container_type_part instanceof Type\Atomic\TKeyedArray
-                    && !$container_type_part->isNonEmpty())
-            )
-        ) {
-            return true;
-        }
 
         if ($container_type_part instanceof TKeyedArray
             && $input_type_part instanceof TArray
@@ -102,23 +83,6 @@ class ArrayTypeComparator
             && $input_type_part->type_params[1]->isEmpty()
         ) {
             return !$container_type_part instanceof TNonEmptyList;
-        }
-
-        if ($container_type_part instanceof TNonEmptyList
-            && $input_type_part instanceof TNonEmptyArray
-            && $input_type_part->type_params[0]->isSingleIntLiteral()
-            && $input_type_part->type_params[0]->getSingleIntLiteral()->value === 0
-        ) {
-            //this is a special case where the only offset value of an non empty array is 0, so it's a non empty list
-            return UnionTypeComparator::isContainedBy(
-                $codebase,
-                $input_type_part->type_params[1],
-                $container_type_part->type_param,
-                $input_type_part->type_params[1]->ignore_nullable_issues,
-                $input_type_part->type_params[1]->ignore_falsable_issues,
-                $atomic_comparison_result,
-                $allow_interface_equality
-            );
         }
 
         if ($input_type_part instanceof TList

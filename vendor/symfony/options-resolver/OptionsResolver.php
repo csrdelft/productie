@@ -280,7 +280,7 @@ class OptionsResolver implements Options
      * Returns true if {@link setDefault()} was called for this option.
      * An option is also considered set if it was set to null.
      *
-     * @return bool
+     * @return bool Whether a default value is set
      */
     public function hasDefault(string $option)
     {
@@ -315,7 +315,7 @@ class OptionsResolver implements Options
      *
      * An option is required if it was passed to {@link setRequired()}.
      *
-     * @return bool
+     * @return bool Whether the option is required
      */
     public function isRequired(string $option)
     {
@@ -325,7 +325,7 @@ class OptionsResolver implements Options
     /**
      * Returns the names of all required options.
      *
-     * @return string[]
+     * @return string[] The names of the required options
      *
      * @see isRequired()
      */
@@ -341,7 +341,7 @@ class OptionsResolver implements Options
      * to {@link setDefault()}. This option must be passed explicitly to
      * {@link resolve()}, otherwise an exception will be thrown.
      *
-     * @return bool
+     * @return bool Whether the option is missing
      */
     public function isMissing(string $option)
     {
@@ -351,7 +351,9 @@ class OptionsResolver implements Options
     /**
      * Returns the names of all options missing a default value.
      *
-     * @return string[]
+     * @return string[] The names of the missing options
+     *
+     * @see isMissing()
      */
     public function getMissingOptions()
     {
@@ -390,7 +392,7 @@ class OptionsResolver implements Options
      * Returns true for any option passed to {@link setDefault()},
      * {@link setRequired()} or {@link setDefined()}.
      *
-     * @return bool
+     * @return bool Whether the option is defined
      */
     public function isDefined(string $option)
     {
@@ -400,7 +402,7 @@ class OptionsResolver implements Options
     /**
      * Returns the names of all defined options.
      *
-     * @return string[]
+     * @return string[] The names of the defined options
      *
      * @see isDefined()
      */
@@ -434,8 +436,6 @@ class OptionsResolver implements Options
      * @param string          $package The name of the composer package that is triggering the deprecation
      * @param string          $version The version of the package that introduced the deprecation
      * @param string|\Closure $message The deprecation message to use
-     *
-     * @return $this
      */
     public function setDeprecated(string $option/*, string $package, string $version, $message = 'The option "%name%" is deprecated.' */): self
     {
@@ -869,7 +869,7 @@ class OptionsResolver implements Options
      *  - Options have invalid types;
      *  - Options have invalid values.
      *
-     * @return array
+     * @return array The merged and validated options
      *
      * @throws UndefinedOptionsException If an option name is undefined
      * @throws InvalidOptionsException   If an option doesn't fulfill the
@@ -932,7 +932,7 @@ class OptionsResolver implements Options
      *
      * @param bool $triggerDeprecation Whether to trigger the deprecation or not (true by default)
      *
-     * @return mixed
+     * @return mixed The option value
      *
      * @throws AccessException           If accessing this method outside of
      *                                   {@link resolve()}
@@ -942,7 +942,6 @@ class OptionsResolver implements Options
      * @throws OptionDefinitionException If there is a cyclic dependency between
      *                                   lazy options and/or normalizers
      */
-    #[\ReturnTypeWillChange]
     public function offsetGet($option, bool $triggerDeprecation = true)
     {
         if (!$this->locked) {
@@ -1194,13 +1193,12 @@ class OptionsResolver implements Options
      *
      * @param string $option The option name
      *
-     * @return bool
+     * @return bool Whether the option is set
      *
      * @throws AccessException If accessing this method outside of {@link resolve()}
      *
      * @see \ArrayAccess::offsetExists()
      */
-    #[\ReturnTypeWillChange]
     public function offsetExists($option)
     {
         if (!$this->locked) {
@@ -1217,7 +1215,6 @@ class OptionsResolver implements Options
      *
      * @throws AccessException
      */
-    #[\ReturnTypeWillChange]
     public function offsetSet($option, $value)
     {
         throw new AccessException('Setting options via array access is not supported. Use setDefault() instead.');
@@ -1230,7 +1227,6 @@ class OptionsResolver implements Options
      *
      * @throws AccessException
      */
-    #[\ReturnTypeWillChange]
     public function offsetUnset($option)
     {
         throw new AccessException('Removing options via array access is not supported. Use remove() instead.');
@@ -1241,13 +1237,12 @@ class OptionsResolver implements Options
      *
      * This may be only a subset of the defined options.
      *
-     * @return int
+     * @return int Number of options
      *
      * @throws AccessException If accessing this method outside of {@link resolve()}
      *
      * @see \Countable::count()
      */
-    #[\ReturnTypeWillChange]
     public function count()
     {
         if (!$this->locked) {

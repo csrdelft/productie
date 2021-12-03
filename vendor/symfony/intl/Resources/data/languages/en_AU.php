@@ -3,6 +3,8 @@
 return [
     'Names' => [
         'bn' => 'Bengali',
+        'frc' => 'frc',
+        'lou' => 'lou',
     ],
     'LocalizedNames' => [
         'ar_001' => 'Modern Standard Arabic',

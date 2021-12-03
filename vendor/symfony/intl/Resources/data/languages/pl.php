@@ -433,7 +433,6 @@ return [
         'rap' => 'rapanui',
         'rar' => 'rarotonga',
         'rgn' => 'romagnol',
-        'rhg' => 'rohingya',
         'rif' => 'tarifit',
         'rm' => 'retoromański',
         'rn' => 'rundi',

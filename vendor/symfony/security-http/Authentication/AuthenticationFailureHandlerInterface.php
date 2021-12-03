@@ -31,7 +31,7 @@ interface AuthenticationFailureHandlerInterface
      * called by authentication listeners inheriting from
      * AbstractAuthenticationListener.
      *
-     * @return Response
+     * @return Response The response to return, never null
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception);
 }

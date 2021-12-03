@@ -1,6 +1,22 @@
 <?php
 
-declare(strict_types=1);
+/*
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license. For more information, see
+ * <http://www.doctrine-project.org>.
+ */
 
 namespace Doctrine\ORM\Cache\Region;
 
@@ -47,8 +63,8 @@ class FileLockRegion implements ConcurrentRegion
     private $lockLifetime;
 
     /**
-     * @param string         $directory
-     * @param numeric-string $lockLifetime
+     * @param string $directory
+     * @param string $lockLifetime
      *
      * @throws InvalidArgumentException
      */
@@ -67,7 +83,10 @@ class FileLockRegion implements ConcurrentRegion
         $this->lockLifetime = $lockLifetime;
     }
 
-    private function isLocked(CacheKey $key, ?Lock $lock = null): bool
+    /**
+     * @return bool
+     */
+    private function isLocked(CacheKey $key, ?Lock $lock = null)
     {
         $filename = $this->getLockFileName($key);
 
@@ -98,23 +117,30 @@ class FileLockRegion implements ConcurrentRegion
         return true;
     }
 
-    private function getLockFileName(CacheKey $key): string
+    /**
+     * @return string
+     */
+    private function getLockFileName(CacheKey $key)
     {
         return $this->directory . DIRECTORY_SEPARATOR . $key->hash . '.' . self::LOCK_EXTENSION;
     }
 
     /**
-     * @return string|false
+     * @param string $filename
+     *
+     * @return string
      */
-    private function getLockContent(string $filename)
+    private function getLockContent($filename)
     {
         return @file_get_contents($filename);
     }
 
     /**
-     * @return int|false
+     * @param string $filename
+     *
+     * @return int
      */
-    private function getLockTime(string $filename)
+    private function getLockTime($filename)
     {
         return @fileatime($filename);
     }

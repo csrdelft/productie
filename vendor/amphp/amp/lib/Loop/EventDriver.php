@@ -39,12 +39,8 @@ class EventDriver extends Driver
 
     public function __construct()
     {
-        $config = new \EventConfig();
-        if (\DIRECTORY_SEPARATOR !== '\\') {
-            $config->requireFeatures(\EventConfig::FEATURE_FDS);
-        }
-
-        $this->handle = new \EventBase($config);
+        /** @psalm-suppress TooFewArguments https://github.com/JetBrains/phpstorm-stubs/pull/763 */
+        $this->handle = new \EventBase;
         $this->nowOffset = getCurrentTime();
         $this->now = \random_int(0, $this->nowOffset);
         $this->nowOffset -= $this->now;
@@ -168,16 +164,15 @@ class EventDriver extends Driver
      */
     public function __destruct()
     {
-        // Unset here, otherwise $event->del() in the loop may fail with a warning, because __destruct order isn't defined.
-        // Related https://github.com/amphp/amp/issues/159.
-        $events = $this->events;
-        $this->events = [];
-
-        foreach ($events as $event) {
+        foreach ($this->events as $event) {
             if ($event !== null) { // Events may have been nulled in extension depending on destruct order.
                 $event->free();
             }
         }
+
+        // Unset here, otherwise $event->del() fails with a warning, because __destruct order isn't defined.
+        // See https://github.com/amphp/amp/issues/159.
+        $this->events = [];
 
         // Manually free the loop handle to fully release loop resources.
         // See https://github.com/amphp/amp/issues/177.

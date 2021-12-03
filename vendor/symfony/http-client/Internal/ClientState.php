@@ -22,5 +22,4 @@ class ClientState
 {
     public $handlesActivity = [];
     public $openHandles = [];
-    public $lastTimeout;
 }

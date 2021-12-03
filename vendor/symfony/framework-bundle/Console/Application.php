@@ -47,7 +47,7 @@ class Application extends BaseApplication
     /**
      * Gets the Kernel associated with this Console.
      *
-     * @return KernelInterface
+     * @return KernelInterface A KernelInterface instance
      */
     public function getKernel()
     {

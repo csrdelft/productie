@@ -25,9 +25,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class X509Factory implements SecurityFactoryInterface, AuthenticatorFactoryInterface
 {
-    public const PRIORITY = -10;
-
-    public function create(ContainerBuilder $container, string $id, array $config, string $userProvider, ?string $defaultEntryPoint): array
+    public function create(ContainerBuilder $container, string $id, array $config, string $userProvider, ?string $defaultEntryPoint)
     {
         $providerId = 'security.authentication.provider.pre_authenticated.'.$id;
         $container
@@ -62,17 +60,12 @@ class X509Factory implements SecurityFactoryInterface, AuthenticatorFactoryInter
         return $authenticatorId;
     }
 
-    public function getPriority(): int
-    {
-        return self::PRIORITY;
-    }
-
-    public function getPosition(): string
+    public function getPosition()
     {
         return 'pre_auth';
     }
 
-    public function getKey(): string
+    public function getKey()
     {
         return 'x509';
     }

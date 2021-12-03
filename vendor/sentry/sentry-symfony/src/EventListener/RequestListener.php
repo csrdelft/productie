@@ -35,8 +35,6 @@ if (Kernel::MAJOR_VERSION >= 5) {
  */
 final class RequestListener
 {
-    use KernelEventForwardCompatibilityTrait;
-
     /** @var HubInterface */
     private $hub;
 
@@ -63,7 +61,7 @@ final class RequestListener
      */
     public function onKernelRequest(RequestListenerRequestEvent $event): void
     {
-        if (! $this->isMainRequest($event)) {
+        if (! $event->isMasterRequest()) {
             return;
         }
 
@@ -98,7 +96,7 @@ final class RequestListener
 
     public function onKernelController(RequestListenerControllerEvent $event): void
     {
-        if (! $this->isMainRequest($event)) {
+        if (! $event->isMasterRequest()) {
             return;
         }
 
@@ -122,7 +120,7 @@ final class RequestListener
     {
         if ($user instanceof UserInterface) {
             return [
-                'username' => method_exists($user, 'getUserIdentifier') ? $user->getUserIdentifier() : $user->getUsername(),
+                'username' => $user->getUsername(),
             ];
         }
 

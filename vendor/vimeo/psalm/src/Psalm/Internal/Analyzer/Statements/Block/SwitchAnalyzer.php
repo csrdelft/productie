@@ -2,37 +2,38 @@
 namespace Psalm\Internal\Analyzer\Statements\Block;
 
 use PhpParser;
-use Psalm\Context;
-use Psalm\Internal\Algebra;
 use Psalm\Internal\Analyzer\ScopeAnalyzer;
-use Psalm\Internal\Analyzer\Statements\Expression\ExpressionIdentifier;
 use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
+use Psalm\Internal\Analyzer\Statements\Expression\ExpressionIdentifier;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
+use Psalm\Context;
 use Psalm\Internal\Scope\SwitchScope;
 use Psalm\Type;
+use Psalm\Internal\Algebra;
 use Psalm\Type\Reconciler;
-
-use function array_merge;
 use function count;
 use function in_array;
+use function array_merge;
 
 /**
  * @internal
  */
 class SwitchAnalyzer
 {
+    /**
+     * @return  false|null
+     */
     public static function analyze(
         StatementsAnalyzer $statements_analyzer,
         PhpParser\Node\Stmt\Switch_ $stmt,
         Context $context
-    ): void {
+    ): ?bool {
         $codebase = $statements_analyzer->getCodebase();
 
         $context->inside_conditional = true;
         if (ExpressionAnalyzer::analyze($statements_analyzer, $stmt->cond, $context) === false) {
-            return;
+            return false;
         }
-
         $context->inside_conditional = false;
 
         $switch_var_id = ExpressionIdentifier::getArrayVarId(
@@ -49,7 +50,7 @@ class SwitchAnalyzer
         ) {
             $switch_var_id = '$__tmp_switch__' . (int) $stmt->cond->getAttribute('startFilePos');
 
-            $condition_type = $statements_analyzer->node_data->getType($stmt->cond) ?? Type::getMixed();
+            $condition_type = $statements_analyzer->node_data->getType($stmt->cond) ?: Type::getMixed();
 
             $context->vars_in_scope[$switch_var_id] = $condition_type;
         }
@@ -86,8 +87,6 @@ class SwitchAnalyzer
                 } elseif (in_array(ScopeAnalyzer::ACTION_LEAVE_SWITCH, $case_actions, true)) {
                     $last_case_exit_type = 'break';
                 }
-            } elseif (count($case_actions) !== 1) {
-                $last_case_exit_type = 'hybrid';
             }
 
             $case_exit_types[$i] = $last_case_exit_type;
@@ -99,16 +98,11 @@ class SwitchAnalyzer
 
         $statements_analyzer->node_data->cache_assertions = false;
 
-        $all_options_returned = true;
-
         for ($i = 0, $l = count($stmt->cases); $i < $l; $i++) {
             $case = $stmt->cases[$i];
 
             /** @var string */
             $case_exit_type = $case_exit_types[$i];
-            if ($case_exit_type !== 'return_throw') {
-                $all_options_returned = false;
-            }
 
             $case_actions = $case_action_map[$i];
 
@@ -130,7 +124,7 @@ class SwitchAnalyzer
                 $switch_scope
             ) === false
             ) {
-                return;
+                return false;
             }
         }
 
@@ -199,7 +193,8 @@ class SwitchAnalyzer
                 }
             }
 
-            $stmt->setAttribute('allMatched', true);
+            /** @psalm-suppress UndefinedPropertyAssignment */
+            $stmt->allMatched = true;
         } elseif ($switch_scope->possibly_redefined_vars) {
             foreach ($switch_scope->possibly_redefined_vars as $var_id => $type) {
                 if (isset($context->vars_in_scope[$var_id])) {
@@ -220,7 +215,6 @@ class SwitchAnalyzer
             $switch_scope->new_vars_possibly_in_scope
         );
 
-        //a switch can't return in all options without a default
-        $context->has_returned = $all_options_returned && $has_default;
+        return null;
     }
 }

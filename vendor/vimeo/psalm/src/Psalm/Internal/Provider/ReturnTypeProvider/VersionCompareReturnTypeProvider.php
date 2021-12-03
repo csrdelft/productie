@@ -1,11 +1,11 @@
 <?php
 namespace Psalm\Internal\Provider\ReturnTypeProvider;
 
-use Psalm\Internal\Type\Comparator\UnionTypeComparator;
 use Psalm\Plugin\EventHandler\Event\FunctionReturnTypeProviderEvent;
-use Psalm\Type;
-
 use function count;
+use PhpParser;
+use Psalm\Internal\Type\Comparator\UnionTypeComparator;
+use Psalm\Type;
 
 class VersionCompareReturnTypeProvider implements \Psalm\Plugin\EventHandler\FunctionReturnTypeProviderInterface
 {

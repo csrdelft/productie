@@ -2,7 +2,7 @@
 namespace Psalm\Type\Atomic;
 
 /**
- * Denotes a string, that is also non-falsy (every string except '' and '0')
+ * Denotes a string, that is also non-empty
  */
 class TNonFalsyString extends TNonEmptyString
 {

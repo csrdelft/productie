@@ -4,7 +4,6 @@ namespace Psalm\Type\Atomic;
 /**
  * Denotes the `empty` type, used to describe a type corresponding to no value whatsoever.
  * Empty arrays `[]` have the type `array<empty, empty>`.
- * @deprecated Will be replaced by TNever when in type context and TAssertionEmpty for assertion context in Psalm 5
  */
 class TEmpty extends Scalar
 {

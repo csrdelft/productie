@@ -49,9 +49,9 @@ class Router extends BaseRouter implements WarmableInterface, ServiceSubscriberI
         $this->setOptions($options);
 
         if ($parameters) {
-            $this->paramFetcher = \Closure::fromCallable([$parameters, 'get']);
+            $this->paramFetcher = [$parameters, 'get'];
         } elseif ($container instanceof SymfonyContainerInterface) {
-            $this->paramFetcher = \Closure::fromCallable([$container, 'getParameter']);
+            $this->paramFetcher = [$container, 'getParameter'];
         } else {
             throw new \LogicException(sprintf('You should either pass a "%s" instance or provide the $parameters argument of the "%s" method.', SymfonyContainerInterface::class, __METHOD__));
         }
@@ -130,15 +130,15 @@ class Router extends BaseRouter implements WarmableInterface, ServiceSubscriberI
 
             $schemes = [];
             foreach ($route->getSchemes() as $scheme) {
-                $schemes[] = explode('|', $this->resolve($scheme));
+                $schemes = array_merge($schemes, explode('|', $this->resolve($scheme)));
             }
-            $route->setSchemes(array_merge([], ...$schemes));
+            $route->setSchemes($schemes);
 
             $methods = [];
             foreach ($route->getMethods() as $method) {
-                $methods[] = explode('|', $this->resolve($method));
+                $methods = array_merge($methods, explode('|', $this->resolve($method)));
             }
-            $route->setMethods(array_merge([], ...$methods));
+            $route->setMethods($methods);
             $route->setCondition($this->resolve($route->getCondition()));
         }
     }

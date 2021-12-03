@@ -25,13 +25,8 @@ class ConvertMappingDoctrineCommand extends ConvertMappingCommand
     {
         parent::configure();
         $this
-            ->setName('doctrine:mapping:convert');
-
-        if ($this->getDefinition()->hasOption('em')) {
-            return;
-        }
-
-        $this->addOption('em', null, InputOption::VALUE_OPTIONAL, 'The entity manager to use for this command');
+            ->setName('doctrine:mapping:convert')
+            ->addOption('em', null, InputOption::VALUE_OPTIONAL, 'The entity manager to use for this command');
     }
 
     /**

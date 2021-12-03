@@ -1,16 +1,15 @@
 <?php
 namespace Psalm\Type\Atomic;
 
+use function get_class;
 use Psalm\Codebase;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Internal\Type\TemplateInferredTypeReplacer;
 use Psalm\Internal\Type\TemplateResult;
 use Psalm\Internal\Type\TemplateStandinTypeReplacer;
+use Psalm\Internal\Type\TemplateInferredTypeReplacer;
 use Psalm\Type;
 use Psalm\Type\Atomic;
 use Psalm\Type\Union;
-
-use function get_class;
 
 /**
  * Represents an array where the type of each value
@@ -92,7 +91,7 @@ class TClassStringMap extends \Psalm\Type\Atomic
                     $namespace,
                     $aliased_classes,
                     $this_class,
-                    true
+                    $use_phpdoc_format
                 );
         }
 
@@ -106,7 +105,7 @@ class TClassStringMap extends \Psalm\Type\Atomic
                 $namespace,
                 $aliased_classes,
                 $this_class,
-                false
+                $use_phpdoc_format
             )
             . '>';
     }
@@ -143,7 +142,7 @@ class TClassStringMap extends \Psalm\Type\Atomic
         ?string $calling_class = null,
         ?string $calling_function = null,
         bool $replace = true,
-        bool $add_lower_bound = false,
+        bool $add_upper_bound = false,
         int $depth = 0
     ) : Atomic {
         $map = clone $this;
@@ -182,8 +181,7 @@ class TClassStringMap extends \Psalm\Type\Atomic
                 $calling_class,
                 $calling_function,
                 $replace,
-                $add_lower_bound,
-                null,
+                $add_upper_bound,
                 $depth + 1
             );
 
@@ -211,13 +209,13 @@ class TClassStringMap extends \Psalm\Type\Atomic
         return [$this->value_param];
     }
 
-    public function equals(Atomic $other_type, bool $ensure_source_equality): bool
+    public function equals(Atomic $other_type): bool
     {
         if (get_class($other_type) !== static::class) {
             return false;
         }
 
-        if (!$this->value_param->equals($other_type->value_param, $ensure_source_equality)) {
+        if (!$this->value_param->equals($other_type->value_param)) {
             return false;
         }
 
@@ -234,7 +232,7 @@ class TClassStringMap extends \Psalm\Type\Atomic
         return new Type\Union([
             new TTemplateParamClass(
                 $this->param_name,
-                $this->as_type->value ?? 'object',
+                $this->as_type ? $this->as_type->value : 'object',
                 $this->as_type,
                 'class-string-map'
             )

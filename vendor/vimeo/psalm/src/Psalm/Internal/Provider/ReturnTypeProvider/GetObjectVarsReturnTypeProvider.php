@@ -42,9 +42,7 @@ class GetObjectVarsReturnTypeProvider implements FunctionReturnTypeProviderInter
                 return new Type\Union([
                     new Type\Atomic\TKeyedArray($object_type->properties)
                 ]);
-            }
-
-            if ($object_type instanceof Type\Atomic\TNamedObject) {
+            } elseif ($object_type instanceof Type\Atomic\TNamedObject) {
                 if (strtolower($object_type->value) === strtolower(stdClass::class)) {
                     return Type::parseString('array<string, mixed>');
                 }
@@ -75,7 +73,7 @@ class GetObjectVarsReturnTypeProvider implements FunctionReturnTypeProviderInter
                             $statements_source,
                             $context
                         );
-                        $properties[$name] = $property_type ?? Type::getMixed();
+                        $properties[$name] = $property_type ?: Type::getMixed();
                     }
                 }
 

@@ -2,10 +2,10 @@
 namespace Psalm\Internal\Analyzer\Statements;
 
 use PhpParser;
-use Psalm\CodeLocation;
-use Psalm\Context;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
 use Psalm\Internal\Type\Comparator\UnionTypeComparator;
+use Psalm\CodeLocation;
+use Psalm\Context;
 use Psalm\Issue\InvalidThrow;
 use Psalm\IssueBuffer;
 use Psalm\Type;
@@ -34,11 +34,13 @@ class ThrowAnalyzer
         if ($context->finally_scope) {
             foreach ($context->vars_in_scope as $var_id => $type) {
                 if (isset($context->finally_scope->vars_in_scope[$var_id])) {
-                    $context->finally_scope->vars_in_scope[$var_id] = Type::combineUnionTypes(
-                        $context->finally_scope->vars_in_scope[$var_id],
-                        $type,
-                        $statements_analyzer->getCodebase()
-                    );
+                    if ($context->finally_scope->vars_in_scope[$var_id] !== $type) {
+                        $context->finally_scope->vars_in_scope[$var_id] = Type::combineUnionTypes(
+                            $context->finally_scope->vars_in_scope[$var_id],
+                            $type,
+                            $statements_analyzer->getCodebase()
+                        );
+                    }
                 } else {
                     $context->finally_scope->vars_in_scope[$var_id] = $type;
                     $type->possibly_undefined = true;

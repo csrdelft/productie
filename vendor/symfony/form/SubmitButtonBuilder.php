@@ -21,7 +21,7 @@ class SubmitButtonBuilder extends ButtonBuilder
     /**
      * Creates the button.
      *
-     * @return SubmitButton
+     * @return SubmitButton The button
      */
     public function getForm()
     {

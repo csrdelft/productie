@@ -62,9 +62,6 @@ class PhpDumper extends Dumper
      */
     public const NON_FIRST_CHARS = 'abcdefghijklmnopqrstuvwxyz0123456789_';
 
-    /**
-     * @var \SplObjectStorage<Definition, Variable>|null
-     */
     private $definitionVariables;
     private $referenceVariables;
     private $variableCount;
@@ -222,7 +219,7 @@ class PhpDumper extends Dumper
         }
 
         $code =
-            $this->startClass($options['class'], $baseClass, $this->inlineFactories && $proxyClasses).
+            $this->startClass($options['class'], $baseClass).
             $this->addServices($services).
             $this->addDeprecatedAliases().
             $this->addDefaultParametersMethod()
@@ -286,15 +283,14 @@ EOF;
 
             $code .= $this->endClass();
 
-            if ($this->inlineFactories && $proxyClasses) {
-                $files['proxy-classes.php'] = "<?php\n\n";
-
+            if ($this->inlineFactories) {
                 foreach ($proxyClasses as $c) {
-                    $files['proxy-classes.php'] .= $c;
+                    $code .= $c;
                 }
             }
 
             $files[$options['class'].'.php'] = $code;
+            $preloadedFiles[$options['class'].'.php'] = $options['class'].'.php';
             $hash = ucfirst(strtr(ContainerBuilder::hash($files), '._', 'xx'));
             $code = [];
 
@@ -314,9 +310,7 @@ EOF;
                 $autoloadFile = trim($this->export($autoloadFile), '()\\');
 
                 $preloadedFiles = array_reverse($preloadedFiles);
-                if ('' !== $preloadedFiles = implode("';\nrequire __DIR__.'/", $preloadedFiles)) {
-                    $preloadedFiles = "require __DIR__.'/$preloadedFiles';\n";
-                }
+                $preloadedFiles = implode("';\nrequire __DIR__.'/", $preloadedFiles);
 
                 $code[$options['class'].'.preload.php'] = <<<EOF
 <?php
@@ -331,8 +325,8 @@ if (in_array(PHP_SAPI, ['cli', 'phpdbg'], true)) {
 }
 
 require $autoloadFile;
-(require __DIR__.'/{$options['class']}.php')->set(\\Container{$hash}\\{$options['class']}::class, null);
-$preloadedFiles
+require __DIR__.'/$preloadedFiles';
+
 \$classes = [];
 
 EOF;
@@ -348,7 +342,7 @@ EOF;
 
                 $code[$options['class'].'.preload.php'] .= <<<'EOF'
 
-$preloaded = Preloader::preload($classes);
+Preloader::preload($classes);
 
 EOF;
             }
@@ -1182,7 +1176,7 @@ EOTXT
         return $return.sprintf('new %s(%s)', $this->dumpLiteralClass($this->dumpValue($class)), implode(', ', $arguments)).$tail;
     }
 
-    private function startClass(string $class, string $baseClass, bool $hasProxyClasses): string
+    private function startClass(string $class, string $baseClass): string
     {
         $namespaceLine = !$this->asFiles && $this->namespace ? "\nnamespace {$this->namespace};\n" : '';
 
@@ -1242,7 +1236,7 @@ EOF;
         $code .= $this->addMethodMap();
         $code .= $this->asFiles && !$this->inlineFactories ? $this->addFileMap() : '';
         $code .= $this->addAliases();
-        $code .= $this->addInlineRequires($hasProxyClasses);
+        $code .= $this->addInlineRequires();
         $code .= <<<EOF
     }
 
@@ -1454,12 +1448,15 @@ EOF;
         return $code;
     }
 
-    private function addInlineRequires(bool $hasProxyClasses): string
+    private function addInlineRequires(): string
     {
-        $lineage = [];
-        $hotPathServices = $this->hotPathTag && $this->inlineRequires ? $this->container->findTaggedServiceIds($this->hotPathTag) : [];
+        if (!$this->hotPathTag || !$this->inlineRequires) {
+            return '';
+        }
 
-        foreach ($hotPathServices as $id => $tags) {
+        $lineage = [];
+
+        foreach ($this->container->findTaggedServiceIds($this->hotPathTag) as $id => $tags) {
             $definition = $this->container->getDefinition($id);
 
             if ($this->getProxyDumper()->isProxyCandidate($definition)) {
@@ -1482,10 +1479,6 @@ EOF;
                 $this->inlinedRequires[$file] = true;
                 $code .= sprintf("\n            include_once %s;", $file);
             }
-        }
-
-        if ($hasProxyClasses) {
-            $code .= "\n            include_once __DIR__.'/proxy-classes.php';";
         }
 
         return $code ? sprintf("\n        \$this->privates['service_container'] = function () {%s\n        };\n", $code) : '';
@@ -1758,7 +1751,7 @@ EOF;
 
                     $returnedType = '';
                     if ($value instanceof TypedReference) {
-                        $returnedType = sprintf(': %s\%s', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE >= $value->getInvalidBehavior() ? '' : '?', str_replace(['|', '&'], ['|\\', '&\\'], $value->getType()));
+                        $returnedType = sprintf(': %s\%s', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE >= $value->getInvalidBehavior() ? '' : '?', $value->getType());
                     }
 
                     $code = sprintf('return %s;', $code);

@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @see       https://github.com/laminas/laminas-eventmanager for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-eventmanager/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-eventmanager/blob/master/LICENSE.md New BSD License
+ */
+
 namespace Laminas\EventManager;
 
 /**
@@ -43,6 +49,7 @@ interface EventManagerInterface extends SharedEventsCapableInterface
      * The result of each listener is passed to $callback; if $callback returns
      * a boolean true value, the manager must short-circuit listener execution.
      *
+     * @param  callable $callback
      * @param  string $eventName
      * @param  null|object|string $target
      * @param  array|object $argv
@@ -56,6 +63,7 @@ interface EventManagerInterface extends SharedEventsCapableInterface
      * Provided an EventInterface instance, this method will trigger listeners
      * based on the event name, raising an exception if the event name is missing.
      *
+     * @param  EventInterface $event
      * @return ResponseCollection
      */
     public function triggerEvent(EventInterface $event);
@@ -69,6 +77,8 @@ interface EventManagerInterface extends SharedEventsCapableInterface
      * The result of each listener is passed to $callback; if $callback returns
      * a boolean true value, the manager must short-circuit listener execution.
      *
+     * @param  callable $callback
+     * @param  EventInterface $event
      * @return ResponseCollection
      */
     public function triggerEventUntil(callable $callback, EventInterface $event);
@@ -88,6 +98,7 @@ interface EventManagerInterface extends SharedEventsCapableInterface
      * it is attached*. As such, register wildcard events last whenever possible!
      *
      * @param  string $eventName Event to which to listen.
+     * @param  callable $listener
      * @param  int $priority Priority at which to register listener.
      * @return callable
      */
@@ -99,6 +110,7 @@ interface EventManagerInterface extends SharedEventsCapableInterface
      * If no $event or '*' is provided, detaches listener from all events;
      * otherwise, detaches only from the named event.
      *
+     * @param callable $listener
      * @param null|string $eventName Event from which to detach; null and '*'
      *     indicate all events.
      * @return void
@@ -119,6 +131,7 @@ interface EventManagerInterface extends SharedEventsCapableInterface
      * When `trigger()` needs to create an event instance, it should clone the
      * prototype provided to this method.
      *
+     * @param  EventInterface $prototype
      * @return void
      */
     public function setEventPrototype(EventInterface $prototype);

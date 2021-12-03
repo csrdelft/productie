@@ -16,7 +16,9 @@ class RegexSchemaAssetFilter
         $this->filterExpression = $filterExpression;
     }
 
-    /** @param string|AbstractAsset $assetName */
+    /**
+     * @param string|AbstractAsset $assetName
+     */
     public function __invoke($assetName): bool
     {
         if ($assetName instanceof AbstractAsset) {

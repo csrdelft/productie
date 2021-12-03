@@ -1,14 +1,11 @@
 <?php
 namespace Psalm\Storage;
 
+use function array_map;
+use function implode;
 use Psalm\CodeLocation;
 use Psalm\Internal\Analyzer\ClassLikeAnalyzer;
 use Psalm\Type;
-
-use function array_column;
-use function array_fill_keys;
-use function array_map;
-use function implode;
 
 abstract class FunctionLikeStorage
 {
@@ -25,13 +22,11 @@ abstract class FunctionLikeStorage
     public $stmt_location;
 
     /**
-     * @psalm-readonly-allow-private-mutation
      * @var list<FunctionLikeParameter>
      */
     public $params = [];
 
     /**
-     * @psalm-readonly-allow-private-mutation
      * @var array<string, bool>
      */
     public $param_lookup = [];
@@ -242,7 +237,7 @@ abstract class FunctionLikeStorage
         return $this->getSignature(false);
     }
 
-    public function getSignature(bool $allow_newlines): string
+    public function getSignature(bool $allow_newlines = false): string
     {
         $newlines = $allow_newlines && !empty($this->params);
 
@@ -274,26 +269,5 @@ abstract class FunctionLikeStorage
         }
 
         return $visibility_text . ' ' . $symbol_text;
-    }
-
-    /**
-     * @internal
-     *
-     * @param list<FunctionLikeParameter> $params
-     */
-    public function setParams(array $params): void
-    {
-        $this->params = $params;
-        $param_names = array_column($params, 'name');
-        $this->param_lookup = array_fill_keys($param_names, true);
-    }
-
-    /**
-     * @internal
-     */
-    public function addParam(FunctionLikeParameter $param, bool $lookup_value = null): void
-    {
-        $this->params[] = $param;
-        $this->param_lookup[$param->name] = $lookup_value ?? true;
     }
 }

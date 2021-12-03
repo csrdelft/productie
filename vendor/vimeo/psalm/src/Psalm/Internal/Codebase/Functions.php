@@ -1,9 +1,11 @@
 <?php
 namespace Psalm\Internal\Codebase;
 
+use function array_shift;
+use function explode;
+use function implode;
 use Psalm\Codebase;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Internal\MethodIdentifier;
 use Psalm\Internal\Provider\FileStorageProvider;
 use Psalm\Internal\Provider\FunctionExistenceProvider;
 use Psalm\Internal\Provider\FunctionParamsProvider;
@@ -11,16 +13,15 @@ use Psalm\Internal\Provider\FunctionReturnTypeProvider;
 use Psalm\Internal\Type\Comparator\CallableTypeComparator;
 use Psalm\StatementsSource;
 use Psalm\Storage\FunctionStorage;
-use Psalm\Type\Atomic\TNamedObject;
-
-use function array_shift;
-use function explode;
-use function implode;
-use function is_bool;
-use function rtrim;
 use function strpos;
 use function strtolower;
 use function substr;
+use Psalm\Type\Atomic\TNamedObject;
+use Psalm\Internal\MethodIdentifier;
+use function strlen;
+use function rtrim;
+use function is_bool;
+use function array_values;
 
 /**
  * @internal
@@ -411,7 +412,7 @@ class Functions
             'header', 'header_remove', 'http_response_code', 'setcookie',
 
             // output buffer
-            'ob_start', 'ob_end_clean', 'ob_get_clean', 'readfile', 'printf', 'var_dump', 'phpinfo',
+            'ob_start', 'ob_end_clean', 'readfile', 'printf', 'var_dump', 'phpinfo',
             'ob_implicit_flush', 'vprintf',
 
             // mcrypt
@@ -421,7 +422,7 @@ class Functions
             'opcache_compile_file', 'clearstatcache',
 
             // process-related
-            'pcntl_signal', 'pcntl_alarm', 'posix_kill', 'cli_set_process_title', 'pcntl_async_signals', 'proc_close',
+            'pcntl_signal', 'posix_kill', 'cli_set_process_title', 'pcntl_async_signals', 'proc_close',
             'proc_nice', 'proc_open', 'proc_terminate',
 
             // curl
@@ -457,7 +458,7 @@ class Functions
             'set_error_handler', 'user_error', 'trigger_error', 'restore_error_handler',
             'date_default_timezone_set', 'assert_options', 'setlocale',
             'set_exception_handler', 'set_time_limit', 'putenv', 'spl_autoload_register',
-            'spl_autoload_unregister', 'microtime', 'array_rand', 'set_include_path',
+            'spl_autoload_unregister', 'microtime', 'array_rand',
 
             // logging
             'openlog', 'syslog', 'error_log', 'define_syslog_variables',
@@ -482,20 +483,13 @@ class Functions
             'ignore_user_abort',
 
             // ftp
-            'ftp_close', 'ftp_pasv',
+            'ftp_close',
 
             // bcmath
             'bcscale',
-
+            
             // json
             'json_last_error',
-
-            // opcache
-            'opcache_compile_file', 'opcache_get_configuration', 'opcache_get_status',
-            'opcache_invalidate', 'opcache_is_script_cached', 'opcache_reset',
-
-            //gettext
-            'bindtextdomain',
         ];
 
         if (\in_array(strtolower($function_id), $impure_functions, true)) {
@@ -531,7 +525,8 @@ class Functions
                         );
 
                         try {
-                            return $codebase->methods->getStorage($count_method_id)->mutation_free;
+                            $method_storage = $codebase->methods->getStorage($count_method_id);
+                            return $method_storage->mutation_free;
                         } catch (\Exception $e) {
                             // do nothing
                         }

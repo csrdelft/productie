@@ -24,8 +24,6 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class JsonLoginFactory extends AbstractFactory implements AuthenticatorFactoryInterface
 {
-    public const PRIORITY = -40;
-
     public function __construct()
     {
         $this->addOption('username_path', 'username');
@@ -34,15 +32,10 @@ class JsonLoginFactory extends AbstractFactory implements AuthenticatorFactoryIn
         $this->defaultSuccessHandlerOptions = [];
     }
 
-    public function getPriority(): int
-    {
-        return self::PRIORITY;
-    }
-
     /**
      * {@inheritdoc}
      */
-    public function getPosition(): string
+    public function getPosition()
     {
         return 'form';
     }
@@ -50,7 +43,7 @@ class JsonLoginFactory extends AbstractFactory implements AuthenticatorFactoryIn
     /**
      * {@inheritdoc}
      */
-    public function getKey(): string
+    public function getKey()
     {
         return 'json-login';
     }
@@ -58,7 +51,7 @@ class JsonLoginFactory extends AbstractFactory implements AuthenticatorFactoryIn
     /**
      * {@inheritdoc}
      */
-    protected function createAuthProvider(ContainerBuilder $container, string $id, array $config, string $userProviderId): string
+    protected function createAuthProvider(ContainerBuilder $container, string $id, array $config, string $userProviderId)
     {
         $provider = 'security.authentication.provider.dao.'.$id;
         $container
@@ -74,7 +67,7 @@ class JsonLoginFactory extends AbstractFactory implements AuthenticatorFactoryIn
     /**
      * {@inheritdoc}
      */
-    protected function getListenerId(): string
+    protected function getListenerId()
     {
         return 'security.authentication.listener.json';
     }
@@ -82,7 +75,7 @@ class JsonLoginFactory extends AbstractFactory implements AuthenticatorFactoryIn
     /**
      * {@inheritdoc}
      */
-    protected function isRememberMeAware(array $config): bool
+    protected function isRememberMeAware(array $config)
     {
         return false;
     }

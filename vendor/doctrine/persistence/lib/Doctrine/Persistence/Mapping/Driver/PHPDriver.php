@@ -10,10 +10,7 @@ use Doctrine\Persistence\Mapping\ClassMetadata;
  */
 class PHPDriver extends FileDriver
 {
-    /**
-     * @var ClassMetadata
-     * @psalm-var ClassMetadata<object>
-     */
+    /** @var ClassMetadata */
     protected $metadata;
 
     /**

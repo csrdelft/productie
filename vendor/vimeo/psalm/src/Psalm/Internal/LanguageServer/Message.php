@@ -3,7 +3,6 @@ declare(strict_types = 1);
 namespace Psalm\Internal\LanguageServer;
 
 use AdvancedJsonRpc\Message as MessageBody;
-
 use function array_pop;
 use function explode;
 use function strlen;

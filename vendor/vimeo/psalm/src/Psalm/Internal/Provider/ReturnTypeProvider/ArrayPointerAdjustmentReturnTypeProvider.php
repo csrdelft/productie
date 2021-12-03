@@ -1,8 +1,9 @@
 <?php
 namespace Psalm\Internal\Provider\ReturnTypeProvider;
 
-use Psalm\Internal\Analyzer\Statements\Expression\Fetch\ArrayFetchAnalyzer;
+use PhpParser;
 use Psalm\Plugin\EventHandler\Event\FunctionReturnTypeProviderEvent;
+use Psalm\Internal\Analyzer\Statements\Expression\Fetch\ArrayFetchAnalyzer;
 use Psalm\Type;
 
 class ArrayPointerAdjustmentReturnTypeProvider implements \Psalm\Plugin\EventHandler\FunctionReturnTypeProviderInterface
@@ -24,7 +25,7 @@ class ArrayPointerAdjustmentReturnTypeProvider implements \Psalm\Plugin\EventHan
             return Type::getMixed();
         }
 
-        $first_arg = $call_args[0]->value ?? null;
+        $first_arg = isset($call_args[0]->value) ? $call_args[0]->value : null;
 
         if (!$first_arg) {
             return Type::getMixed();

@@ -30,7 +30,7 @@ class UserNotFoundException extends AuthenticationException
     }
 
     /**
-     * Get the user identifier (e.g. username or email address).
+     * Get the user identifier (e.g. username or e-mailaddress).
      */
     public function getUserIdentifier(): ?string
     {
@@ -50,7 +50,7 @@ class UserNotFoundException extends AuthenticationException
     }
 
     /**
-     * Set the user identifier (e.g. username or email address).
+     * Set the user identifier (e.g. username or e-mailaddress).
      */
     public function setUserIdentifier(string $identifier): void
     {

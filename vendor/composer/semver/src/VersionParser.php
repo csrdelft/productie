@@ -47,11 +47,10 @@ class VersionParser
      * @param string $version
      *
      * @return string
-     * @phpstan-return 'stable'|'RC'|'beta'|'alpha'|'dev'
      */
     public static function parseStability($version)
     {
-        $version = (string) preg_replace('{#.+$}', '', $version);
+        $version = preg_replace('{#.+$}', '', $version);
 
         if (strpos($version, 'dev-') === 0 || '-dev' === substr($version, -4)) {
             return 'dev';
@@ -253,16 +252,10 @@ class VersionParser
         $prettyConstraint = $constraints;
 
         $orConstraints = preg_split('{\s*\|\|?\s*}', trim($constraints));
-        if (false === $orConstraints) {
-            throw new \RuntimeException('Failed to preg_split string: '.$constraints);
-        }
         $orGroups = array();
 
         foreach ($orConstraints as $constraints) {
             $andConstraints = preg_split('{(?<!^|as|[=>< ,]) *(?<!-)[, ](?!-) *(?!,|as|$)}', $constraints);
-            if (false === $andConstraints) {
-                throw new \RuntimeException('Failed to preg_split string: '.$constraints);
-            }
             if (\count($andConstraints) > 1) {
                 $constraintObjects = array();
                 foreach ($andConstraints as $constraint) {
@@ -296,8 +289,6 @@ class VersionParser
      * @throws \UnexpectedValueException
      *
      * @return array
-     *
-     * @phpstan-return non-empty-array<ConstraintInterface>
      */
     private function parseConstraint($constraint)
     {
@@ -530,10 +521,8 @@ class VersionParser
      * @param string $pad       The string to pad version parts after $position
      *
      * @return string|null The new version
-     *
-     * @phpstan-param string[] $matches
      */
-    private function manipulateVersionString(array $matches, $position, $increment = 0, $pad = '0')
+    private function manipulateVersionString($matches, $position, $increment = 0, $pad = '0')
     {
         for ($i = 4; $i > 0; --$i) {
             if ($i > $position) {

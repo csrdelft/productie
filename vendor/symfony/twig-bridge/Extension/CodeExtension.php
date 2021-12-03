@@ -175,7 +175,7 @@ final class CodeExtension extends AbstractExtension
     /**
      * Returns the link for a given file/line pair.
      *
-     * @return string|false
+     * @return string|false A link or false
      */
     public function getFileLink(string $file, int $line)
     {

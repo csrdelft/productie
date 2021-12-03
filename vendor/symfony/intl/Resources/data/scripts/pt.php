@@ -135,7 +135,7 @@ return [
         'Yiii' => 'yi',
         'Zinh' => 'herdado',
         'Zmth' => 'notação matemática',
-        'Zsye' => 'emoji',
+        'Zsye' => 'Emoji',
         'Zsym' => 'zsym',
         'Zxxx' => 'ágrafo',
         'Zyyy' => 'comum',

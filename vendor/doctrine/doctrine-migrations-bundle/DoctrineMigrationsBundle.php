@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Doctrine\Bundle\MigrationsBundle;
 
 use Doctrine\Bundle\MigrationsBundle\DependencyInjection\CompilerPass\ConfigureDependencyFactoryPass;
@@ -14,8 +15,8 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class DoctrineMigrationsBundle extends Bundle
 {
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $builder)
     {
-      $container->addCompilerPass(new ConfigureDependencyFactoryPass());
+      $builder->addCompilerPass(new ConfigureDependencyFactoryPass());
     }
 }

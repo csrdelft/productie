@@ -25,16 +25,14 @@ class ClassUtils
      *
      * @return string
      *
-     * @template T of object
-     * @psalm-param class-string<Proxy<T>>|class-string<T> $className
-     * @psalm-return class-string<T>
+     * @psalm-param class-string $className
+     * @psalm-return class-string
      */
     public static function getRealClass($className)
     {
         $pos = strrpos($className, '\\' . Proxy::MARKER . '\\');
 
         if ($pos === false) {
-            /** @psalm-var class-string<T> */
             return $className;
         }
 
@@ -48,9 +46,7 @@ class ClassUtils
      *
      * @return string
      *
-     * @template T of object
-     * @psalm-param Proxy<T>|T $object
-     * @psalm-return class-string<T>
+     * @psalm-return class-string
      */
     public static function getClass($object)
     {

@@ -9,22 +9,22 @@ class FunctionDocblockComment
     /**
      * @var string|null
      */
-    public $return_type;
+    public $return_type = null;
 
     /**
      * @var string|null
      */
-    public $return_type_description;
+    public $return_type_description = null;
 
     /**
      * @var int|null
      */
-    public $return_type_start;
+    public $return_type_start = null;
 
     /**
      * @var int|null
      */
-    public $return_type_end;
+    public $return_type_end = null;
 
     /**
      * @var int|null
@@ -57,11 +57,6 @@ class FunctionDocblockComment
     public $self_out;
 
     /**
-     * @var array{type:string, line_number: int}|null
-     */
-    public $if_this_is;
-
-    /**
      * @var array<int, array{name:string, type:string, line_number: int}>
      */
     public $globals = [];
@@ -78,7 +73,7 @@ class FunctionDocblockComment
      *
      * @var null|string
      */
-    public $psalm_internal;
+    public $psalm_internal = null;
 
     /**
      * Whether or not the function is internal
@@ -221,7 +216,4 @@ class FunctionDocblockComment
      * @var ?string
      */
     public $description;
-
-    /** @var array<string, array{lines:list<int>, suggested_replacement?:string}> */
-    public $unexpected_tags = [];
 }

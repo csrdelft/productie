@@ -18,15 +18,16 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  * This class is used when the authenticator system is activated.
  *
  * This is used to not break AuthenticationChecker and ContextListener when
- * using the authenticator system.
- *
- * @author Wouter de Jong <wouter@wouterj.nl>
+ * using the authenticator system. Once the authenticator system is no longer
+ * experimental, this class can be used to trigger deprecation notices.
  *
  * @internal
+ *
+ * @author Wouter de Jong <wouter@wouterj.nl>
  */
 class NoopAuthenticationManager implements AuthenticationManagerInterface
 {
-    public function authenticate(TokenInterface $token): TokenInterface
+    public function authenticate(TokenInterface $token)
     {
         return $token;
     }

@@ -2,11 +2,11 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression;
 
 use PhpParser;
-use Psalm\Context;
 use Psalm\Internal\Algebra\FormulaGenerator;
 use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
 use Psalm\Issue\UnhandledMatchCondition;
+use Psalm\Context;
 use Psalm\Node\Expr\BinaryOp\VirtualIdentical;
 use Psalm\Node\Expr\VirtualArray;
 use Psalm\Node\Expr\VirtualArrayItem;
@@ -20,12 +20,12 @@ use Psalm\Node\Name\VirtualFullyQualified;
 use Psalm\Node\VirtualArg;
 use Psalm\Type;
 
-use function array_map;
+use function substr;
 use function array_reverse;
 use function array_shift;
-use function count;
 use function in_array;
-use function substr;
+use function count;
+use function array_map;
 
 class MatchAnalyzer
 {
@@ -64,14 +64,14 @@ class MatchAnalyzer
                 && ($stmt->cond->name->parts === ['get_class']
                     || $stmt->cond->name->parts === ['gettype']
                     || $stmt->cond->name->parts === ['get_debug_type'])
-                && $stmt->cond->getArgs()
+                && $stmt->cond->args
             ) {
-                $first_arg = $stmt->cond->getArgs()[0];
+                $first_arg = $stmt->cond->args[0];
 
                 if (!$first_arg->value instanceof PhpParser\Node\Expr\Variable) {
                     $switch_var_id = '$__tmp_switch__' . (int) $first_arg->value->getAttribute('startFilePos');
 
-                    $condition_type = $statements_analyzer->node_data->getType($first_arg->value) ?? Type::getMixed();
+                    $condition_type = $statements_analyzer->node_data->getType($first_arg->value) ?: Type::getMixed();
 
                     $context->vars_in_scope[$switch_var_id] = $condition_type;
 
@@ -97,7 +97,7 @@ class MatchAnalyzer
             ) {
                 $switch_var_id = '$__tmp_switch__' . (int) $stmt->cond->getAttribute('startFilePos');
 
-                $condition_type = $statements_analyzer->node_data->getType($stmt->cond) ?? Type::getMixed();
+                $condition_type = $statements_analyzer->node_data->getType($stmt->cond) ?: Type::getMixed();
 
                 $context->vars_in_scope[$switch_var_id] = $condition_type;
 
@@ -248,17 +248,7 @@ class MatchAnalyzer
                 );
 
                 if (isset($vars_in_scope_reconciled[$switch_var_id])) {
-                    $array_literal_types = \array_filter(
-                        $vars_in_scope_reconciled[$switch_var_id]->getAtomicTypes(),
-                        function ($type) {
-                            return $type instanceof Type\Atomic\TLiteralInt
-                                || $type instanceof Type\Atomic\TLiteralString
-                                || $type instanceof Type\Atomic\TLiteralFloat
-                                || $type instanceof Type\Atomic\TEnumCase;
-                        }
-                    );
-
-                    if ($array_literal_types) {
+                    if ($vars_in_scope_reconciled[$switch_var_id]->hasLiteralValue()) {
                         if (\Psalm\IssueBuffer::accepts(
                             new UnhandledMatchCondition(
                                 'This match expression is not exhaustive - consider values '
@@ -276,7 +266,7 @@ class MatchAnalyzer
 
         $stmt_expr_type = $statements_analyzer->node_data->getType($ternary);
 
-        $old_node_data->setType($stmt, $stmt_expr_type ?? Type::getMixed());
+        $old_node_data->setType($stmt, $stmt_expr_type ?: Type::getMixed());
 
         $statements_analyzer->node_data = $old_node_data;
 

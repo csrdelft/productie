@@ -61,7 +61,7 @@ class DefaultAuthenticationSuccessHandler implements AuthenticationSuccessHandle
     /**
      * Gets the options.
      *
-     * @return array
+     * @return array An array of options
      */
     public function getOptions()
     {

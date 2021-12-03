@@ -5,7 +5,6 @@ use PhpParser;
 use Psalm\Aliases;
 use Psalm\CodeLocation;
 use Psalm\Internal\FileManipulation\FileManipulationBuffer;
-
 use function implode;
 use function strtolower;
 
@@ -47,13 +46,11 @@ trait CanAlias
 
         foreach ($stmt->uses as $use) {
             $use_path = implode('\\', $use->name->parts);
-            $use_path_lc = strtolower($use_path);
-            $use_alias = $use->alias->name ?? $use->name->getLast();
-            $use_alias_lc = strtolower($use_alias);
+            $use_alias = $use->alias ? $use->alias->name : $use->name->getLast();
 
             switch ($use->type !== PhpParser\Node\Stmt\Use_::TYPE_UNKNOWN ? $use->type : $stmt->type) {
                 case PhpParser\Node\Stmt\Use_::TYPE_FUNCTION:
-                    $this->aliased_functions[$use_alias_lc] = $use_path;
+                    $this->aliased_functions[strtolower($use_alias)] = $use_path;
                     break;
 
                 case PhpParser\Node\Stmt\Use_::TYPE_CONSTANT:
@@ -69,15 +66,15 @@ trait CanAlias
                     );
                     if ($codebase->collect_locations) {
                         // register the path
-                        $codebase->use_referencing_locations[$use_path_lc][] =
+                        $codebase->use_referencing_locations[strtolower($use_path)][] =
                             new \Psalm\CodeLocation($this, $use);
 
-                        $codebase->use_referencing_files[$this->getFilePath()][$use_path_lc] = true;
+                        $codebase->use_referencing_files[$this->getFilePath()][strtolower($use_path)] = true;
                     }
 
                     if ($codebase->alter_code) {
-                        if (isset($codebase->class_transforms[$use_path_lc])) {
-                            $new_fq_class_name = $codebase->class_transforms[$use_path_lc];
+                        if (isset($codebase->class_transforms[strtolower($use_path)])) {
+                            $new_fq_class_name = $codebase->class_transforms[strtolower($use_path)];
 
                             $file_manipulations = [];
 
@@ -90,12 +87,12 @@ trait CanAlias
                             FileManipulationBuffer::add($this->getFilePath(), $file_manipulations);
                         }
 
-                        $this->aliased_classes_flipped_replaceable[$use_path_lc] = $use_alias;
+                        $this->aliased_classes_flipped_replaceable[strtolower($use_path)] = $use_alias;
                     }
 
-                    $this->aliased_classes[$use_alias_lc] = $use_path;
-                    $this->aliased_class_locations[$use_alias_lc] = new CodeLocation($this, $stmt);
-                    $this->aliased_classes_flipped[$use_path_lc] = $use_alias;
+                    $this->aliased_classes[strtolower($use_alias)] = $use_path;
+                    $this->aliased_class_locations[strtolower($use_alias)] = new CodeLocation($this, $stmt);
+                    $this->aliased_classes_flipped[strtolower($use_path)] = $use_alias;
                     break;
             }
         }
@@ -109,7 +106,7 @@ trait CanAlias
 
         foreach ($stmt->uses as $use) {
             $use_path = $use_prefix . '\\' . implode('\\', $use->name->parts);
-            $use_alias = $use->alias->name ?? $use->name->getLast();
+            $use_alias = $use->alias ? $use->alias->name : $use->name->getLast();
 
             switch ($use->type !== PhpParser\Node\Stmt\Use_::TYPE_UNKNOWN ? $use->type : $stmt->type) {
                 case PhpParser\Node\Stmt\Use_::TYPE_FUNCTION:

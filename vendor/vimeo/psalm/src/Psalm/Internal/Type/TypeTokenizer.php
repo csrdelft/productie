@@ -4,16 +4,19 @@ namespace Psalm\Internal\Type;
 use Psalm\Aliases;
 use Psalm\Exception\TypeParseTreeException;
 
+use function array_filter;
+use function array_push;
 use function array_splice;
 use function array_unshift;
+use function array_values;
 use function count;
 use function in_array;
 use function is_numeric;
 use function preg_match;
 use function preg_replace;
-use function str_split;
 use function strlen;
 use function strpos;
+use function str_split;
 use function strtolower;
 
 class TypeTokenizer
@@ -40,22 +43,16 @@ class TypeTokenizer
         'mixed' => true,
         'numeric-string' => true,
         'class-string' => true,
-        'interface-string' => true,
-        'trait-string' => true,
         'callable-string' => true,
         'callable-array' => true,
-        'callable-object' => true,
-        'stringable-object' => true,
         'pure-callable' => true,
         'pure-Closure' => true,
-        'mysql-escaped-string' => true, // deprecated
-        'html-escaped-string' => true, // deprecated
-        'literal-string' => true,
-        'non-empty-literal-string' => true,
+        'trait-string' => true,
+        'mysql-escaped-string' => true,
+        'html-escaped-string' => true,
         'lowercase-string' => true,
         'non-empty-lowercase-string' => true,
         'positive-int' => true,
-        'literal-int' => true,
         'boolean' => true,
         'integer' => true,
         'double' => true,
@@ -384,10 +381,6 @@ class TypeTokenizer
                 continue;
             }
 
-            if ($string_type_token[0][0] === '-' && is_numeric($string_type_token[0])) {
-                continue;
-            }
-
             if (isset($type_tokens[$i + 1])
                 && $type_tokens[$i + 1][0] === ':'
                 && isset($type_tokens[$i - 1])
@@ -465,10 +458,7 @@ class TypeTokenizer
                 continue;
             }
 
-            if ($string_type_token[0] === 'func_num_args()'
-                || $string_type_token[0] === 'PHP_MAJOR_VERSION'
-                || $string_type_token[0] === 'PHP_VERSION_ID'
-            ) {
+            if ($string_type_token[0] === 'func_num_args()' || $string_type_token[0] === 'PHP_MAJOR_VERSION') {
                 continue;
             }
 
@@ -481,7 +471,7 @@ class TypeTokenizer
                     $replacement_tokens = $type_alias->replacement_tokens;
 
                     array_unshift($replacement_tokens, ['(', $i]);
-                    $replacement_tokens[] = [')', $i];
+                    array_push($replacement_tokens, [')', $i]);
 
                     $diff = count($replacement_tokens) - 1;
 

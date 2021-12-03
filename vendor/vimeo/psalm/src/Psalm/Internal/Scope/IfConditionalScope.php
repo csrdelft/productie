@@ -8,10 +8,8 @@ use Psalm\Context;
  */
 class IfConditionalScope
 {
-    /** @var Context */
     public $if_context;
 
-    /** @var Context */
     public $post_if_context;
 
     /**

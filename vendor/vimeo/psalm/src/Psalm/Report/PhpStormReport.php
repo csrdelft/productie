@@ -2,9 +2,8 @@
 namespace Psalm\Report;
 
 use Psalm\Config;
-use Psalm\Internal\Analyzer\DataFlowNodeData;
 use Psalm\Report;
-
+use Psalm\Internal\Analyzer\DataFlowNodeData;
 use function substr;
 
 class PhpStormReport extends Report

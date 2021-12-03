@@ -3,10 +3,8 @@ namespace Psalm;
 
 use Psalm\Internal\Analyzer\ClassLikeAnalyzer;
 use Psalm\Internal\Scanner\FileScanner;
-use SimpleXMLElement;
-
-use function class_exists;
 use function reset;
+use SimpleXMLElement;
 
 class FileBasedPluginAdapter implements Plugin\PluginEntryPointInterface
 {
@@ -40,8 +38,6 @@ class FileBasedPluginAdapter implements Plugin\PluginEntryPointInterface
         /** @psalm-suppress UnresolvableInclude */
         require_once($this->path);
 
-        \assert(class_exists($fq_class_name));
-
         $registration->registerHooksFromClass($fq_class_name);
     }
 
@@ -60,6 +56,8 @@ class FileBasedPluginAdapter implements Plugin\PluginEntryPointInterface
 
         $declared_classes = ClassLikeAnalyzer::getClassesForFile($codebase, $path);
 
-        return reset($declared_classes);
+        $fq_class_name = reset($declared_classes);
+
+        return $fq_class_name;
     }
 }

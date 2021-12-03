@@ -1,6 +1,8 @@
 <?php
 namespace Psalm\Internal\Codebase;
 
+use function explode;
+use function preg_replace;
 use Psalm\CodeLocation;
 use Psalm\Context;
 use Psalm\Internal\Provider\ClassLikeStorageProvider;
@@ -9,10 +11,8 @@ use Psalm\Internal\Provider\PropertyExistenceProvider;
 use Psalm\Internal\Provider\PropertyTypeProvider;
 use Psalm\Internal\Provider\PropertyVisibilityProvider;
 use Psalm\StatementsSource;
+use Psalm\Storage\ClassLikeStorage;
 use Psalm\Type;
-
-use function explode;
-use function preg_replace;
 use function strtolower;
 
 /**
@@ -127,40 +127,24 @@ class Properties
         }
 
         if (isset($class_storage->declaring_property_ids[$property_name])) {
-            $declaring_property_class = strtolower($class_storage->declaring_property_ids[$property_name]);
+            $declaring_property_class = $class_storage->declaring_property_ids[$property_name];
 
             if ($context && $context->calling_method_id) {
                 $this->file_reference_provider->addMethodReferenceToClassMember(
                     $context->calling_method_id,
-                    $declaring_property_class . '::$' . $property_name,
-                    false
+                    strtolower($declaring_property_class) . '::$' . $property_name
                 );
-
-                if ($read_mode) {
-                    $this->file_reference_provider->addMethodReferenceToClassProperty(
-                        $context->calling_method_id,
-                        $declaring_property_class . '::$' . $property_name
-                    );
-                }
             } elseif ($source) {
                 $this->file_reference_provider->addFileReferenceToClassMember(
                     $source->getFilePath(),
-                    $declaring_property_class . '::$' . $property_name,
-                    false
+                    strtolower($declaring_property_class) . '::$' . $property_name
                 );
-
-                if ($read_mode) {
-                    $this->file_reference_provider->addFileReferenceToClassProperty(
-                        $source->getFilePath(),
-                        $declaring_property_class . '::$' . $property_name
-                    );
-                }
             }
 
             if ($this->collect_locations && $code_location) {
                 $this->file_reference_provider->addCallingLocationForClassProperty(
                     $code_location,
-                    $declaring_property_class . '::$' . $property_name
+                    strtolower($declaring_property_class) . '::$' . $property_name
                 );
             }
 
@@ -262,24 +246,6 @@ class Properties
         }
 
         throw new \UnexpectedValueException('Property ' . $property_id . ' should exist');
-    }
-
-    public function hasStorage(string $property_id): bool
-    {
-        // remove trailing backslash if it exists
-        $property_id = preg_replace('/^\\\\/', '', $property_id);
-
-        [$fq_class_name, $property_name] = explode('::$', $property_id);
-
-        $class_storage = $this->classlike_storage_provider->get($fq_class_name);
-
-        if (isset($class_storage->declaring_property_ids[$property_name])) {
-            $declaring_property_class = $class_storage->declaring_property_ids[$property_name];
-            $declaring_class_storage = $this->classlike_storage_provider->get($declaring_property_class);
-
-            return isset($declaring_class_storage->properties[$property_name]);
-        }
-        return false;
     }
 
     public function getPropertyType(

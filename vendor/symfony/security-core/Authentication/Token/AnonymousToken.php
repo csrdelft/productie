@@ -17,8 +17,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * AnonymousToken represents an anonymous token.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @deprecated since 5.4, anonymous is now represented by the absence of a token
  */
 class AnonymousToken extends AbstractToken
 {
@@ -31,14 +29,11 @@ class AnonymousToken extends AbstractToken
      */
     public function __construct(string $secret, $user, array $roles = [])
     {
-        trigger_deprecation('symfony/security-core', '5.4', 'The "%s" class is deprecated.', __CLASS__);
-
         parent::__construct($roles);
 
         $this->secret = $secret;
         $this->setUser($user);
-        // @deprecated since Symfony 5.4
-        $this->setAuthenticated(true, false);
+        $this->setAuthenticated(true);
     }
 
     /**

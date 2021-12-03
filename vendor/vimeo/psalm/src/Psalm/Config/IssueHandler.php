@@ -1,16 +1,14 @@
 <?php
 namespace Psalm\Config;
 
-use SimpleXMLElement;
-
 use function array_filter;
 use function array_map;
 use function dirname;
 use function in_array;
 use function scandir;
+use SimpleXMLElement;
 use function strtolower;
 use function substr;
-
 use const SCANDIR_SORT_NONE;
 
 class IssueHandler
@@ -43,14 +41,6 @@ class IssueHandler
         }
 
         return $handler;
-    }
-
-    public function setCustomLevels(array $customLevels, string $base_dir): void
-    {
-        /** @var array $customLevel */
-        foreach ($customLevels as $customLevel) {
-            $this->custom_levels[] = ErrorLevelFileFilter::loadFromArray($customLevel, $base_dir, true);
-        }
     }
 
     public function setErrorLevel(string $error_level): void
@@ -146,7 +136,12 @@ class IssueHandler
     {
         return array_filter(
             array_map(
-                function (string $file_name): string {
+                /**
+                 * @param string $file_name
+                 *
+                 * @return string
+                 */
+                function ($file_name) {
                     return substr($file_name, 0, -4);
                 },
                 scandir(dirname(__DIR__) . '/Issue', SCANDIR_SORT_NONE)

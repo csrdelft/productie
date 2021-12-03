@@ -186,11 +186,8 @@ return [
         'documentElement' => 'DOMElement',
         'documentURI' => 'string',
         'encoding' => 'string',
-        'firstElementChild' => 'DOMElement|null',
         'formatOutput' => 'bool',
-        'childElementCount' => 'int',
         'implementation' => 'DOMImplementation',
-        'lastElementChild' => 'DOMElement|null',
         'preserveWhiteSpace' => 'bool',
         'recover' => 'bool',
         'resolveExternals' => 'bool',
@@ -319,11 +316,6 @@ return [
         'schemaTypeInfo' => 'bool',
         'tagName' => 'string',
         'attributes' => 'DOMNamedNodeMap<DOMAttr>',
-        'childElementCount' => 'int',
-        'firstElementChild' => 'DOMElement|null',
-        'lastElementChild' => 'DOMElement|null',
-        'nextElementSibling' => 'DOMElement|null',
-        'previousElementSibling' => 'DOMElement|null',
     ],
     'tidynode' => [
         'value' => 'string',
@@ -450,11 +442,23 @@ return [
     'reflectionparameter' => [
         'name' => 'string',
     ],
+    'phpparser\\node\\expr\\funccall' => [
+        'args' => 'list<PhpParser\Node\Arg>',
+    ],
+    'phpparser\\node\\expr\\new_' => [
+        'args' => 'list<PhpParser\Node\Arg>',
+    ],
     'phpparser\\node\\expr\\array_' => [
         'items' => 'array<int, PhpParser\Node\Expr\ArrayItem|null>',
     ],
     'phpparser\\node\\expr\\list_' => [
         'items' => 'array<int, PhpParser\Node\Expr\ArrayItem|null>',
+    ],
+    'phpparser\\node\\expr\\methodcall' => [
+        'args' => 'list<PhpParser\Node\Arg>',
+    ],
+    'phpparser\\node\\expr\\staticcall' => [
+        'args' => 'list<PhpParser\Node\Arg>',
     ],
     'phpparser\\node\\expr\\arrowfunction' => [
         'params' => 'list<PhpParser\Node\Param>',
@@ -512,9 +516,6 @@ return [
     ],
     'phpparser\\node\\matcharm' => [
         'conds' => 'null|non-empty-list<PhpParser\Node\Expr>',
-    ],
-    'phpparser\\node\\expr\\shellexec' => [
-        'parts' => 'list<PhpParser\Node>',
     ],
     'rdkafka\\message' => [
         'err' => 'int',

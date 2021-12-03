@@ -2,7 +2,7 @@
 namespace Psalm\Type\Atomic;
 
 /**
- * Denotes a string, that is also non-empty (every string except '')
+ * Denotes a string, that is also non-empty
  */
 class TNonEmptyString extends TString
 {

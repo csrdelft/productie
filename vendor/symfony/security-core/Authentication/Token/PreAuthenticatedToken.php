@@ -24,20 +24,12 @@ class PreAuthenticatedToken extends AbstractToken
     private $firewallName;
 
     /**
-     * @param UserInterface $user
-     * @param string        $firewallName
-     * @param string[]      $roles
+     * @param string|\Stringable|UserInterface $user
+     * @param mixed                            $credentials
+     * @param string[]                         $roles
      */
-    public function __construct($user, /*string*/ $firewallName, /*array*/ $roles = [])
+    public function __construct($user, $credentials, string $firewallName, array $roles = [])
     {
-        if (\is_string($roles)) {
-            trigger_deprecation('symfony/security-core', '5.4', 'Argument $credentials of "%s()" is deprecated.', __METHOD__);
-
-            $credentials = $firewallName;
-            $firewallName = $roles;
-            $roles = \func_num_args() > 3 ? func_get_arg(3) : [];
-        }
-
         parent::__construct($roles);
 
         if ('' === $firewallName) {
@@ -45,11 +37,11 @@ class PreAuthenticatedToken extends AbstractToken
         }
 
         $this->setUser($user);
-        $this->credentials = $credentials ?? null;
+        $this->credentials = $credentials;
         $this->firewallName = $firewallName;
 
         if ($roles) {
-            $this->setAuthenticated(true, false);
+            $this->setAuthenticated(true);
         }
     }
 
@@ -63,7 +55,7 @@ class PreAuthenticatedToken extends AbstractToken
     public function getProviderKey()
     {
         if (1 !== \func_num_args() || true !== func_get_arg(0)) {
-            trigger_deprecation('symfony/security-core', '5.2', 'Method "%s()" is deprecated, use "getFirewallName()" instead.', __METHOD__);
+            trigger_deprecation('symfony/security-core', '5.2', 'Method "%s" is deprecated, use "getFirewallName()" instead.', __METHOD__);
         }
 
         return $this->firewallName;
@@ -79,8 +71,6 @@ class PreAuthenticatedToken extends AbstractToken
      */
     public function getCredentials()
     {
-        trigger_deprecation('symfony/security-core', '5.4', 'Method "%s()" is deprecated.', __METHOD__);
-
         return $this->credentials;
     }
 

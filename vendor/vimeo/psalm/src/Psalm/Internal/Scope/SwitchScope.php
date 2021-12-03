@@ -13,7 +13,7 @@ class SwitchScope
     /**
      * @var array<string, Type\Union>|null
      */
-    public $new_vars_in_scope;
+    public $new_vars_in_scope = null;
 
     /**
      * @var array<string, bool>
@@ -23,12 +23,12 @@ class SwitchScope
     /**
      * @var array<string, Type\Union>|null
      */
-    public $redefined_vars;
+    public $redefined_vars = null;
 
     /**
      * @var array<string, Type\Union>|null
      */
-    public $possibly_redefined_vars;
+    public $possibly_redefined_vars = null;
 
     /**
      * @var array<PhpParser\Node\Stmt>
@@ -38,7 +38,7 @@ class SwitchScope
     /**
      * @var PhpParser\Node\Expr|null
      */
-    public $leftover_case_equality_expr;
+    public $leftover_case_equality_expr = null;
 
     /**
      * @var list<Clause>
@@ -48,5 +48,5 @@ class SwitchScope
     /**
      * @var array<string, bool>|null
      */
-    public $new_assigned_var_ids;
+    public $new_assigned_var_ids = null;
 }

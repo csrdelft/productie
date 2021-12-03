@@ -4,19 +4,16 @@ namespace Psalm\Internal\PhpVisitor\Reflector;
 
 use PhpParser;
 use Psalm\Aliases;
-use Psalm\CodeLocation;
 use Psalm\Codebase;
+use Psalm\CodeLocation;
 use Psalm\Config;
 use Psalm\Exception\InvalidMethodOverrideException;
 use Psalm\Exception\TypeParseTreeException;
 use Psalm\Internal\Scanner\FileScanner;
-use Psalm\Internal\Scanner\FunctionDocblockComment;
-use Psalm\Internal\Type\Comparator\UnionTypeComparator;
 use Psalm\Internal\Type\TypeAlias;
 use Psalm\Internal\Type\TypeParser;
 use Psalm\Internal\Type\TypeTokenizer;
 use Psalm\Issue\InvalidDocblock;
-use Psalm\Issue\PossiblyInvalidDocblockTag;
 use Psalm\Storage\ClassLikeStorage;
 use Psalm\Storage\FileStorage;
 use Psalm\Storage\FunctionLikeParameter;
@@ -28,11 +25,9 @@ use function array_filter;
 use function array_merge;
 use function count;
 use function explode;
-use function in_array;
 use function preg_match;
 use function preg_replace;
 use function preg_split;
-use function str_replace;
 use function strlen;
 use function strpos;
 use function strtolower;
@@ -55,13 +50,11 @@ class FunctionLikeDocblockScanner
         array $existing_function_template_types,
         FunctionLikeStorage $storage,
         PhpParser\Node\FunctionLike $stmt,
-        FunctionDocblockComment $docblock_info,
+        \Psalm\Internal\Scanner\FunctionDocblockComment $docblock_info,
         bool $is_functionlike_override,
         bool $fake_method,
         string $cased_function_id
     ) : void {
-        self::handleUnexpectedTags($docblock_info, $storage, $stmt, $file_scanner, $cased_function_id);
-
         $config = Config::getInstance();
 
         if ($docblock_info->mutation_free) {
@@ -119,23 +112,11 @@ class FunctionLikeDocblockScanner
             $storage->specialize_call = true;
         }
 
-        // we make sure we only add ignore flag for internal stubs if the config is set to true
-        if ($docblock_info->ignore_nullable_return
-            && $storage->return_type
-            && ($codebase->config->ignore_internal_nullable_issues
-                || !in_array($file_storage->file_path, $codebase->config->internal_stubs)
-            )
-        ) {
+        if ($docblock_info->ignore_nullable_return && $storage->return_type) {
             $storage->return_type->ignore_nullable_issues = true;
         }
 
-        // we make sure we only add ignore flag for internal stubs if the config is set to true
-        if ($docblock_info->ignore_falsable_return
-            && $storage->return_type
-            && ($codebase->config->ignore_internal_falsable_issues
-                || !in_array($file_storage->file_path, $codebase->config->internal_stubs)
-            )
-        ) {
+        if ($docblock_info->ignore_falsable_return && $storage->return_type) {
             $storage->return_type->ignore_falsable_issues = true;
         }
 
@@ -297,22 +278,6 @@ class FunctionLikeDocblockScanner
             $storage->self_out_type = $out_type;
         }
 
-        if ($docblock_info->if_this_is
-            && $storage instanceof MethodStorage) {
-            $out_type = TypeParser::parseTokens(
-                TypeTokenizer::getFullyQualifiedTokens(
-                    $docblock_info->if_this_is['type'],
-                    $aliases,
-                    $function_template_types + $class_template_types,
-                    $type_aliases
-                ),
-                null,
-                $function_template_types + $class_template_types,
-                $type_aliases
-            );
-            $storage->if_this_is_type = $out_type;
-        }
-
         foreach ($docblock_info->taint_sink_params as $taint_sink_param) {
             $param_name = substr($taint_sink_param['name'], 1);
 
@@ -369,7 +334,7 @@ class FunctionLikeDocblockScanner
             }
         }
 
-        if ($docblock_info->return_type !== null) {
+        if ($docblock_info->return_type) {
             self::handleReturn(
                 $codebase,
                 $docblock_info,
@@ -497,19 +462,6 @@ class FunctionLikeDocblockScanner
 
                 $fixed_type_tokens[$i][0] = $template_name;
             }
-
-            if ($token_body === 'PHP_VERSION_ID') {
-                $template_name = 'TPhpVersionId';
-
-                $storage->template_types[$template_name] = [
-                    $template_function_id => Type::getInt()
-                ];
-
-                $function_template_types[$template_name]
-                    = $storage->template_types[$template_name];
-
-                $fixed_type_tokens[$i][0] = $template_name;
-            }
         }
 
         return [$fixed_type_tokens, $function_template_types];
@@ -596,7 +548,7 @@ class FunctionLikeDocblockScanner
 
         foreach ($namespaced_type->getAtomicTypes() as $namespaced_type_part) {
             if ($namespaced_type_part instanceof Type\Atomic\TAssertionFalsy
-                || $namespaced_type_part instanceof Type\Atomic\TClassConstant
+                || $namespaced_type_part instanceof Type\Atomic\TScalarClassConstant
                 || ($namespaced_type_part instanceof Type\Atomic\TList
                     && $namespaced_type_part->type_param->isMixed())
                 || ($namespaced_type_part instanceof Type\Atomic\TArray
@@ -660,7 +612,7 @@ class FunctionLikeDocblockScanner
             $param_name = $docblock_param['name'];
             $docblock_param_variadic = false;
 
-            if (strpos($param_name, '...') === 0) {
+            if (substr($param_name, 0, 3) === '...') {
                 $docblock_param_variadic = true;
                 $param_name = substr($param_name, 3);
             }
@@ -722,7 +674,7 @@ class FunctionLikeDocblockScanner
                     null
                 );
 
-                $storage->addParam($storage_param);
+                $storage->params[] = $storage_param;
             }
 
             try {
@@ -952,12 +904,6 @@ class FunctionLikeDocblockScanner
                     && !$storage->return_type->isNullable()
                     && !$storage->return_type->hasTemplate()
                     && !$storage->return_type->hasConditional()
-                    //don't add null to docblock type if it's not contained in signature type
-                    && UnionTypeComparator::isContainedBy(
-                        $codebase,
-                        $storage->return_type,
-                        $storage->signature_return_type
-                    )
                 ) {
                     $storage->return_type->addType(new Type\Atomic\TNull());
                 }
@@ -971,23 +917,11 @@ class FunctionLikeDocblockScanner
             );
         }
 
-        // we make sure we only add ignore flag for internal stubs if the config is set to true
-        if ($docblock_info->ignore_nullable_return
-            && $storage->return_type
-            && ($codebase->config->ignore_internal_nullable_issues
-                || !in_array($file_storage->file_path, $codebase->config->internal_stubs)
-            )
-        ) {
+        if ($storage->return_type && $docblock_info->ignore_nullable_return) {
             $storage->return_type->ignore_nullable_issues = true;
         }
 
-        // we make sure we only add ignore flag for internal stubs if the config is set to true
-        if ($docblock_info->ignore_falsable_return
-            && $storage->return_type
-            && ($codebase->config->ignore_internal_falsable_issues
-                || !in_array($file_storage->file_path, $codebase->config->internal_stubs)
-            )
-        ) {
+        if ($storage->return_type && $docblock_info->ignore_falsable_return) {
             $storage->return_type->ignore_falsable_issues = true;
         }
 
@@ -1042,7 +976,7 @@ class FunctionLikeDocblockScanner
 
                 if (isset($flow_parts[0]) && \strpos(trim($flow_parts[0]), 'proxy') === 0) {
                     $proxy_call = trim(substr($flow_parts[0], strlen('proxy')));
-                    [$fully_qualified_name, $source_param_string] = explode('(', $proxy_call, 2);
+                    list($fully_qualified_name, $source_param_string) = explode('(', $proxy_call, 2);
 
                     if (!empty($fully_qualified_name) && !empty($source_param_string)) {
                         $source_params = preg_split('/, ?/', substr($source_param_string, 0, -1)) ?: [];
@@ -1175,14 +1109,6 @@ class FunctionLikeDocblockScanner
                         );
                         continue 2;
                     }
-
-                    if (strpos($assertion['param_name'], $param->name.'->') === 0) {
-                        $storage->assertions[] = new \Psalm\Storage\Assertion(
-                            str_replace($param->name, (string) $i, $assertion['param_name']),
-                            [$assertion_type_parts]
-                        );
-                        continue 2;
-                    }
                 }
 
                 $storage->assertions[] = new \Psalm\Storage\Assertion(
@@ -1222,14 +1148,6 @@ class FunctionLikeDocblockScanner
                         );
                         continue 2;
                     }
-
-                    if (strpos($assertion['param_name'], $param->name.'->') === 0) {
-                        $storage->if_true_assertions[] = new \Psalm\Storage\Assertion(
-                            str_replace($param->name, (string) $i, $assertion['param_name']),
-                            [$assertion_type_parts]
-                        );
-                        continue 2;
-                    }
                 }
 
                 $storage->if_true_assertions[] = new \Psalm\Storage\Assertion(
@@ -1265,14 +1183,6 @@ class FunctionLikeDocblockScanner
                     if ($param->name === $assertion['param_name']) {
                         $storage->if_false_assertions[] = new \Psalm\Storage\Assertion(
                             $i,
-                            [$assertion_type_parts]
-                        );
-                        continue 2;
-                    }
-
-                    if (strpos($assertion['param_name'], $param->name.'->') === 0) {
-                        $storage->if_false_assertions[] = new \Psalm\Storage\Assertion(
-                            str_replace($param->name, (string) $i, $assertion['param_name']),
                             [$assertion_type_parts]
                         );
                         continue 2;
@@ -1412,29 +1322,5 @@ class FunctionLikeDocblockScanner
         }
 
         return array_merge($template_types ?: [], $storage->template_types);
-    }
-
-    private static function handleUnexpectedTags(
-        FunctionDocblockComment $docblock_info,
-        FunctionLikeStorage $storage,
-        PhpParser\Node\FunctionLike $stmt,
-        FileScanner $file_scanner,
-        string $cased_function_id
-    ): void {
-        foreach ($docblock_info->unexpected_tags as $tag => $details) {
-            foreach ($details['lines'] as $line) {
-                $tag_location = new CodeLocation($file_scanner, $stmt, null, true);
-                $tag_location->setCommentLine($line);
-
-                $message = 'Docblock tag @' . $tag . ' is not recognized in the function docblock '
-                    . 'for ' . $cased_function_id;
-
-                if (isset($details['suggested_replacement'])) {
-                    $message .= ', did you mean to use @' . $details['suggested_replacement'] . '?';
-                }
-
-                $storage->docblock_issues[] = new PossiblyInvalidDocblockTag($message, $tag_location);
-            }
-        }
     }
 }

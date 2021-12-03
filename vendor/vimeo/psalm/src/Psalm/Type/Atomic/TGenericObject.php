@@ -1,13 +1,11 @@
 <?php
 namespace Psalm\Type\Atomic;
 
-use Psalm\Type\Atomic;
-
-use function array_merge;
 use function count;
 use function implode;
-use function strrpos;
+use Psalm\Type\Atomic;
 use function substr;
+use function array_merge;
 
 /**
  * Denotes an object type that has generic parameters e.g. `ArrayObject<string, Foo\Bar>`
@@ -70,19 +68,10 @@ class TGenericObject extends TNamedObject
         int $php_major_version,
         int $php_minor_version
     ): ?string {
-        $result = $this->toNamespacedString($namespace, $aliased_classes, $this_class, true);
-        $intersection = strrpos($result, '&');
-        if ($intersection === false || (
-                ($php_major_version === 8 && $php_minor_version >= 1) ||
-                ($php_major_version >= 9)
-            )
-        ) {
-            return $result;
-        }
-        return substr($result, $intersection+1);
+        return parent::toNamespacedString($namespace, $aliased_classes, $this_class, false);
     }
 
-    public function equals(Atomic $other_type, bool $ensure_source_equality): bool
+    public function equals(Atomic $other_type): bool
     {
         if (!$other_type instanceof self) {
             return false;
@@ -93,7 +82,7 @@ class TGenericObject extends TNamedObject
         }
 
         foreach ($this->type_params as $i => $type_param) {
-            if (!$type_param->equals($other_type->type_params[$i], $ensure_source_equality)) {
+            if (!$type_param->equals($other_type->type_params[$i])) {
                 return false;
             }
         }
@@ -108,6 +97,6 @@ class TGenericObject extends TNamedObject
 
     public function getChildNodes() : array
     {
-        return array_merge($this->type_params, $this->extra_types ?? []);
+        return array_merge($this->type_params, $this->extra_types !== null ? $this->extra_types : []);
     }
 }

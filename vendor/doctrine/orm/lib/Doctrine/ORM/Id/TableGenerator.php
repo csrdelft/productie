@@ -1,6 +1,22 @@
 <?php
 
-declare(strict_types=1);
+/*
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license. For more information, see
+ * <http://www.doctrine-project.org>.
+ */
 
 namespace Doctrine\ORM\Id;
 
@@ -8,8 +24,6 @@ use Doctrine\ORM\EntityManager;
 
 /**
  * Id generator that uses a single-row database table and a hi/lo algorithm.
- *
- * @deprecated no replacement planned
  */
 class TableGenerator extends AbstractIdGenerator
 {
@@ -54,7 +68,7 @@ class TableGenerator extends AbstractIdGenerator
             if ($conn->getTransactionNestingLevel() === 0) {
                 // use select for update
                 $sql          = $conn->getDatabasePlatform()->getTableHiLoCurrentValSql($this->_tableName, $this->_sequenceName);
-                $currentLevel = $conn->fetchOne($sql);
+                $currentLevel = $conn->fetchColumn($sql);
 
                 if ($currentLevel !== null) {
                     $this->_nextValue = $currentLevel;
@@ -66,7 +80,7 @@ class TableGenerator extends AbstractIdGenerator
                         $this->_allocationSize
                     );
 
-                    if ($conn->executeStatement($updateSql, [1 => $currentLevel, 2 => $currentLevel + 1]) !== 1) {
+                    if ($conn->executeUpdate($updateSql, [1 => $currentLevel, 2 => $currentLevel + 1]) !== 1) {
                         // no affected rows, concurrency issue, throw exception
                     }
                 } else {

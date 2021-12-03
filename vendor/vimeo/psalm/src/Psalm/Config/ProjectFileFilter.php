@@ -2,7 +2,6 @@
 namespace Psalm\Config;
 
 use SimpleXMLElement;
-
 use function stripos;
 use function strpos;
 
@@ -11,7 +10,7 @@ class ProjectFileFilter extends FileFilter
     /**
      * @var ProjectFileFilter|null
      */
-    private $file_filter;
+    private $file_filter = null;
 
     /**
      * @return static

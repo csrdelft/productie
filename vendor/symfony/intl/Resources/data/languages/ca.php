@@ -405,7 +405,6 @@ return [
         'rap' => 'rapanui',
         'rar' => 'rarotongà',
         'rgn' => 'romanyès',
-        'rhg' => 'rohingya',
         'rm' => 'retoromànic',
         'rn' => 'rundi',
         'ro' => 'romanès',

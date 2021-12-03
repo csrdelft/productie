@@ -2,7 +2,6 @@
 namespace Psalm\CodeLocation;
 
 use PhpParser;
-
 use function substr;
 use function substr_count;
 

@@ -15,9 +15,6 @@ use Symfony\Component\Form\Exception\BadMethodCallException;
 
 /**
  * @author Bernhard Schussek <bschussek@gmail.com>
- *
- * @implements \ArrayAccess<string, FormView>
- * @implements \IteratorAggregate<string, FormView>
  */
 class FormView implements \ArrayAccess, \IteratorAggregate, \Countable
 {
@@ -62,7 +59,7 @@ class FormView implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * Returns whether the view was already rendered.
      *
-     * @return bool
+     * @return bool Whether this view's widget is rendered
      */
     public function isRendered()
     {
@@ -109,9 +106,8 @@ class FormView implements \ArrayAccess, \IteratorAggregate, \Countable
      *
      * @param string $name The child name
      *
-     * @return self
+     * @return self The child view
      */
-    #[\ReturnTypeWillChange]
     public function offsetGet($name)
     {
         return $this->children[$name];
@@ -122,9 +118,8 @@ class FormView implements \ArrayAccess, \IteratorAggregate, \Countable
      *
      * @param string $name The child name
      *
-     * @return bool
+     * @return bool Whether the child view exists
      */
-    #[\ReturnTypeWillChange]
     public function offsetExists($name)
     {
         return isset($this->children[$name]);
@@ -137,7 +132,6 @@ class FormView implements \ArrayAccess, \IteratorAggregate, \Countable
      *
      * @throws BadMethodCallException always as setting a child by name is not allowed
      */
-    #[\ReturnTypeWillChange]
     public function offsetSet($name, $value)
     {
         throw new BadMethodCallException('Not supported.');
@@ -150,7 +144,6 @@ class FormView implements \ArrayAccess, \IteratorAggregate, \Countable
      *
      * @return void
      */
-    #[\ReturnTypeWillChange]
     public function offsetUnset($name)
     {
         unset($this->children[$name]);
@@ -159,9 +152,8 @@ class FormView implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * Returns an iterator to iterate over children (implements \IteratorAggregate).
      *
-     * @return \ArrayIterator<string, FormView>
+     * @return \ArrayIterator<string, FormView> The iterator
      */
-    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return new \ArrayIterator($this->children);
@@ -170,9 +162,8 @@ class FormView implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * Implements \Countable.
      *
-     * @return int
+     * @return int The number of children views
      */
-    #[\ReturnTypeWillChange]
     public function count()
     {
         return \count($this->children);

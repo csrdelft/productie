@@ -431,7 +431,6 @@ return [
         'rap' => 'lea fakalapanui',
         'rar' => 'lea fakalalotonga',
         'rgn' => 'lea fakalomaniolo',
-        'rhg' => 'lea fakalouhingia',
         'rif' => 'lea fakalifi',
         'rm' => 'lea fakalaito-lomēnia',
         'rn' => 'lea fakaluaniti',

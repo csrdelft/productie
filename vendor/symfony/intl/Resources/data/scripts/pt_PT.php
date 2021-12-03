@@ -14,6 +14,7 @@ return [
         'Sylo' => 'siloti nagri',
         'Tale' => 'tai le',
         'Telu' => 'telugu',
+        'Zsye' => 'emoji',
         'Zsym' => 'símbolos',
         'Zxxx' => 'não escrito',
     ],

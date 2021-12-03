@@ -51,10 +51,7 @@ abstract class PersistentObject implements ObjectManagerAware
     /** @var ObjectManager|null */
     private static $objectManager = null;
 
-    /**
-     * @var ClassMetadata<object>|null
-     * @psalm-var ClassMetadata<object>|null
-     */
+    /** @var ClassMetadata|null */
     private $cm = null;
 
     /**
@@ -109,7 +106,7 @@ abstract class PersistentObject implements ObjectManagerAware
             $this->$field = $args[0];
         } elseif ($this->cm->hasAssociation($field) && $this->cm->isSingleValuedAssociation($field)) {
             $targetClass = $this->cm->getAssociationTargetClass($field);
-            if ($targetClass !== null && ! ($args[0] instanceof $targetClass) && $args[0] !== null) {
+            if (! ($args[0] instanceof $targetClass) && $args[0] !== null) {
                 throw new InvalidArgumentException("Expected persistent object of type '" . $targetClass . "'");
             }
 
@@ -141,10 +138,9 @@ abstract class PersistentObject implements ObjectManagerAware
     /**
      * If this is an inverse side association, completes the owning side.
      *
-     * @param string $field
-     * @param string $targetClass
-     * @param object $targetObject
-     * @psalm-param class-string $targetClass
+     * @param string        $field
+     * @param ClassMetadata $targetClass
+     * @param object        $targetObject
      *
      * @return void
      */
@@ -181,7 +177,7 @@ abstract class PersistentObject implements ObjectManagerAware
         }
 
         $targetClass = $this->cm->getAssociationTargetClass($field);
-        if ($targetClass !== null && ! ($args[0] instanceof $targetClass)) {
+        if (! ($args[0] instanceof $targetClass)) {
             throw new InvalidArgumentException("Expected persistent object of type '" . $targetClass . "'");
         }
 

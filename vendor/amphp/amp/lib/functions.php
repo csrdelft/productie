@@ -199,7 +199,7 @@ namespace Amp\Promise
      *
      * @return mixed Promise success value.
      *
-     * @psalm-param T              $promise
+     * @psalm-param T $promise
      * @psalm-return (T is Promise ? TPromise : mixed)
      *
      * @throws \TypeError If $promise is not an instance of \Amp\Promise or \React\Promise\PromiseInterface.
@@ -329,10 +329,6 @@ namespace Amp\Promise
      */
     function adapt($promise): Promise
     {
-        if (!\is_object($promise)) {
-            throw new \Error("Object must be provided");
-        }
-
         $deferred = new Deferred;
 
         if (\method_exists($promise, 'done')) {
@@ -372,7 +368,7 @@ namespace Amp\Promise
      * promise succeeds with an array of values used to succeed each contained promise, with keys corresponding to
      * the array of promises.
      *
-     * @param Promise[]|ReactPromise[]                             $promises Array of only promises.
+     * @param Promise[]|ReactPromise[] $promises Array of only promises.
      *
      * @return Promise
      *
@@ -483,7 +479,7 @@ namespace Amp\Promise
      * Resolves with a two-item array delineating successful and failed Promise results.
      *
      * The returned promise will only fail if the given number of required promises fail.
-     *
+     * 
      * @template TValue
      *
      * @param Promise<TValue>[]|ReactPromise[] $promises Array of only promises.
@@ -777,7 +773,7 @@ namespace Amp\Iterator
      *
      * @template TValue
      *
-     * @param Iterator               $iterator
+     * @param Iterator $iterator
      *
      * @return Promise
      *
@@ -802,7 +798,7 @@ namespace Amp\Iterator
      *
      * @template TValue
      *
-     * @param Iterator               $iterator
+     * @param Iterator $iterator
      *
      * @psalm-param Iterator<TValue> $iterator
      *

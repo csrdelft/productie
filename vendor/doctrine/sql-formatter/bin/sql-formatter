@@ -15,16 +15,6 @@ else {
     $sql = stream_get_contents(fopen('php://stdin', 'r'));
 }
 
-$autoloadFiles = [
-    __DIR__ . '/../vendor/autoload.php',
-    __DIR__ . '/../../../autoload.php'
-];
-
-foreach ($autoloadFiles as $autoloadFile) {
-    if (file_exists($autoloadFile)) {
-        require_once $autoloadFile;
-        break;
-    }
-}
+require_once(__DIR__.'/../vendor/autoload.php');
 
 echo (new \Doctrine\SqlFormatter\SqlFormatter())->format($sql);

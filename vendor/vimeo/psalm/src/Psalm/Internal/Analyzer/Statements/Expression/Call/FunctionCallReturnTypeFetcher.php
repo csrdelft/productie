@@ -3,28 +3,28 @@ namespace Psalm\Internal\Analyzer\Statements\Expression\Call;
 
 use PhpParser;
 use PhpParser\BuilderFactory;
-use Psalm\CodeLocation;
-use Psalm\Context;
 use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Internal\Codebase\TaintFlowGraph;
-use Psalm\Internal\DataFlow\DataFlowNode;
-use Psalm\Internal\DataFlow\TaintSource;
+use Psalm\CodeLocation;
+use Psalm\Context;
 use Psalm\Internal\FileManipulation\FileManipulationBuffer;
-use Psalm\Internal\Type\TemplateBound;
-use Psalm\Internal\Type\TemplateInferredTypeReplacer;
-use Psalm\Internal\Type\TemplateResult;
+use Psalm\Internal\DataFlow\TaintSource;
+use Psalm\Internal\DataFlow\DataFlowNode;
+use Psalm\Internal\Codebase\TaintFlowGraph;
 use Psalm\Internal\Type\TypeExpander;
-use Psalm\Plugin\EventHandler\Event\AddRemoveTaintsEvent;
+use Psalm\Internal\Type\TemplateInferredTypeReplacer;
 use Psalm\Plugin\EventHandler\Event\AfterFunctionCallAnalysisEvent;
 use Psalm\Storage\FunctionLikeStorage;
 use Psalm\Type;
 use Psalm\Type\Atomic\TCallable;
-
 use function count;
-use function explode;
-use function strpos;
 use function strtolower;
+use function strpos;
+use Psalm\Internal\Type\TemplateBound;
+use Psalm\Internal\Type\TemplateResult;
+use Psalm\Plugin\EventHandler\Event\AddRemoveTaintsEvent;
+
+use function explode;
 
 /**
  * @internal
@@ -54,7 +54,7 @@ class FunctionCallReturnTypeFetcher
             $stmt_type = $codebase->functions->return_type_provider->getReturnType(
                 $statements_analyzer,
                 $function_id,
-                $stmt,
+                $stmt->args,
                 $context,
                 new CodeLocation($statements_analyzer->getSource(), $function_name)
             );
@@ -64,42 +64,24 @@ class FunctionCallReturnTypeFetcher
             if (!$in_call_map || $is_stubbed) {
                 if ($function_storage && $function_storage->template_types) {
                     foreach ($function_storage->template_types as $template_name => $_) {
-                        if (!isset($template_result->lower_bounds[$template_name])) {
+                        if (!isset($template_result->upper_bounds[$template_name])) {
                             if ($template_name === 'TFunctionArgCount') {
-                                $template_result->lower_bounds[$template_name] = [
-                                    'fn-' . $function_id => [
-                                        new TemplateBound(
-                                            Type::getInt(false, count($stmt->getArgs()))
-                                        )
-                                    ]
+                                $template_result->upper_bounds[$template_name] = [
+                                    'fn-' . $function_id => new TemplateBound(
+                                        Type::getInt(false, count($stmt->args))
+                                    )
                                 ];
                             } elseif ($template_name === 'TPhpMajorVersion') {
-                                $template_result->lower_bounds[$template_name] = [
-                                    'fn-' . $function_id => [
-                                        new TemplateBound(
-                                            Type::getInt(false, $codebase->php_major_version)
-                                        )
-                                    ]
-                                ];
-                            } elseif ($template_name === 'TPhpVersionId') {
-                                $template_result->lower_bounds[$template_name] = [
-                                    'fn-' . $function_id => [
-                                        new TemplateBound(
-                                            Type::getInt(
-                                                false,
-                                                10000 * $codebase->php_major_version
-                                                + 100 * $codebase->php_minor_version
-                                            )
-                                        )
-                                    ]
+                                $template_result->upper_bounds[$template_name] = [
+                                    'fn-' . $function_id => new TemplateBound(
+                                        Type::getInt(false, $codebase->php_major_version)
+                                    )
                                 ];
                             } else {
-                                $template_result->lower_bounds[$template_name] = [
-                                    'fn-' . $function_id => [
-                                        new TemplateBound(
-                                            Type::getEmpty()
-                                        )
-                                    ]
+                                $template_result->upper_bounds[$template_name] = [
+                                    'fn-' . $function_id => new TemplateBound(
+                                        Type::getEmpty()
+                                    )
                                 ];
                             }
                         }
@@ -117,7 +99,7 @@ class FunctionCallReturnTypeFetcher
                     if ($function_storage && $function_storage->return_type) {
                         $return_type = clone $function_storage->return_type;
 
-                        if ($template_result->lower_bounds && $function_storage->template_types) {
+                        if ($template_result->upper_bounds && $function_storage->template_types) {
                             $return_type = TypeExpander::expandUnion(
                                 $codebase,
                                 $return_type,
@@ -199,7 +181,7 @@ class FunctionCallReturnTypeFetcher
                 $stmt_type = self::getReturnTypeFromCallMapWithArgs(
                     $statements_analyzer,
                     $function_id,
-                    $stmt->getArgs(),
+                    $stmt->args,
                     $callmap_callable,
                     $context
                 );
@@ -228,13 +210,13 @@ class FunctionCallReturnTypeFetcher
             foreach ($function_storage->proxy_calls as $proxy_call) {
                 $fake_call_arguments = [];
                 foreach ($proxy_call['params'] as $i) {
-                    $fake_call_arguments[] = $stmt->getArgs()[$i];
+                    $fake_call_arguments[] = $stmt->args[$i];
                 }
 
                 $fake_call_factory = new BuilderFactory();
 
                 if (strpos($proxy_call['fqn'], '::') !== false) {
-                    [$fqcn, $method] = explode('::', $proxy_call['fqn']);
+                    list($fqcn, $method) = explode('::', $proxy_call['fqn']);
                     $fake_call = $fake_call_factory->staticCall($fqcn, $method, $fake_call_arguments);
                 } else {
                     $fake_call = $fake_call_factory->funcCall($proxy_call['fqn'], $fake_call_arguments);
@@ -337,34 +319,12 @@ class FunctionCallReturnTypeFetcher
                                     ]);
                                 }
 
-                                if ($atomic_types['array'] instanceof Type\Atomic\TKeyedArray) {
-                                    $min = 0;
-                                    $max = 0;
-                                    foreach ($atomic_types['array']->properties as $property) {
-                                        if (!$property->possibly_undefined) {
-                                            $min++;
-                                        }
-                                        $max++;
-                                    }
-
-                                    if ($atomic_types['array']->sealed) {
-                                        //the KeyedArray is sealed, we can use the min and max
-                                        if ($min === $max) {
-                                            return new Type\Union([new Type\Atomic\TLiteralInt($max)]);
-                                        }
-
-                                        return new Type\Union([new Type\Atomic\TIntRange($min, $max)]);
-                                    }
-
-                                    //the type is not sealed, we can only use the min
-                                    return new Type\Union([new Type\Atomic\TIntRange($min, null)]);
-                                }
-
-                                if ($atomic_types['array'] instanceof Type\Atomic\TArray
-                                    && $atomic_types['array']->type_params[0]->isEmpty()
-                                    && $atomic_types['array']->type_params[1]->isEmpty()
+                                if ($atomic_types['array'] instanceof Type\Atomic\TKeyedArray
+                                    && $atomic_types['array']->sealed
                                 ) {
-                                    return Type::getInt(false, 0);
+                                    return new Type\Union([
+                                        new Type\Atomic\TLiteralInt(count($atomic_types['array']->properties))
+                                    ]);
                                 }
 
                                 return new Type\Union([
@@ -471,16 +431,6 @@ class FunctionCallReturnTypeFetcher
                     }
 
                     return $call_map_return_type;
-                case 'mb_strtolower':
-                    if (count($call_args) < 2) {
-                        return Type::getLowercaseString();
-                    } else {
-                        $second_arg_type = $statements_analyzer->node_data->getType($call_args[1]->value);
-                        if ($second_arg_type && $second_arg_type->isNull()) {
-                            return Type::getLowercaseString();
-                        }
-                    }
-                    return Type::getString();
             }
         }
 
@@ -510,6 +460,15 @@ class FunctionCallReturnTypeFetcher
                 ) {
                     $stmt_type->ignore_falsable_issues = true;
                 }
+        }
+
+        switch ($call_map_key) {
+            case 'array_replace':
+            case 'array_replace_recursive':
+                if ($codebase->config->ignore_internal_nullable_issues) {
+                    $stmt_type->ignore_nullable_issues = true;
+                }
+                break;
         }
 
         return $stmt_type;
@@ -608,9 +567,9 @@ class FunctionCallReturnTypeFetcher
         ) {
             $removed_taints = $function_storage->removed_taints;
 
-            if ($function_id === 'preg_replace' && count($stmt->getArgs()) > 2) {
-                $first_stmt_type = $statements_analyzer->node_data->getType($stmt->getArgs()[0]->value);
-                $second_stmt_type = $statements_analyzer->node_data->getType($stmt->getArgs()[1]->value);
+            if ($function_id === 'preg_replace' && count($stmt->args) > 2) {
+                $first_stmt_type = $statements_analyzer->node_data->getType($stmt->args[0]->value);
+                $second_stmt_type = $statements_analyzer->node_data->getType($stmt->args[1]->value);
 
                 if ($first_stmt_type
                     && $second_stmt_type
@@ -629,7 +588,6 @@ class FunctionCallReturnTypeFetcher
 
                         if (self::simpleExclusion($pattern, $first_arg_value[0])) {
                             $removed_taints[] = 'html';
-                            $removed_taints[] = 'has_quotes';
                             $removed_taints[] = 'sql';
                         }
                     }
@@ -649,7 +607,7 @@ class FunctionCallReturnTypeFetcher
                 $function_storage,
                 $statements_analyzer->data_flow_graph,
                 $function_id,
-                $stmt->getArgs(),
+                $stmt->args,
                 $node_location,
                 $function_call_node,
                 $removed_taints,
@@ -742,7 +700,7 @@ class FunctionCallReturnTypeFetcher
             $next = $pattern[$i + 1] ?? null;
 
             if ($current === '\\') {
-                if ($next === null
+                if ($next == null
                     || $next === 'x'
                     || $next === 'u'
                 ) {

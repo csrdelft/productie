@@ -1,8 +1,8 @@
 <?php
 namespace Psalm\Internal\Analyzer\Statements\Expression\Call\Method;
 
-use Psalm\CodeLocation;
 use Psalm\Codebase;
+use Psalm\CodeLocation;
 use Psalm\Context;
 use Psalm\Internal\Analyzer\NamespaceAnalyzer;
 use Psalm\Issue\DeprecatedMethod;
@@ -56,7 +56,7 @@ class MethodCallProhibitionAnalyzer
                     new InternalMethod(
                         'The method ' . $codebase_methods->getCasedMethodId($method_id)
                             . ' is internal to ' . $storage->internal
-                            . ' but called from ' . ($context->self ?: 'root namespace'),
+                            . ' but called from ' . $context->self,
                         $code_location,
                         (string) $method_id
                     ),

@@ -1,6 +1,22 @@
 <?php
 
-declare(strict_types=1);
+/*
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license. For more information, see
+ * <http://www.doctrine-project.org>.
+ */
 
 namespace Doctrine\ORM\Tools\Export\Driver;
 
@@ -156,7 +172,7 @@ class XmlExporter extends AbstractExporter
                 }
 
                 if (isset($field['length'])) {
-                    $idXml->addAttribute('length', (string) $field['length']);
+                    $idXml->addAttribute('length', $field['length']);
                 }
 
                 if (isset($field['associationKey']) && $field['associationKey']) {
@@ -184,15 +200,15 @@ class XmlExporter extends AbstractExporter
                 }
 
                 if (isset($field['length'])) {
-                    $fieldXml->addAttribute('length', (string) $field['length']);
+                    $fieldXml->addAttribute('length', $field['length']);
                 }
 
                 if (isset($field['precision'])) {
-                    $fieldXml->addAttribute('precision', (string) $field['precision']);
+                    $fieldXml->addAttribute('precision', $field['precision']);
                 }
 
                 if (isset($field['scale'])) {
-                    $fieldXml->addAttribute('scale', (string) $field['scale']);
+                    $fieldXml->addAttribute('scale', $field['scale']);
                 }
 
                 if (isset($field['unique']) && $field['unique']) {
@@ -202,7 +218,7 @@ class XmlExporter extends AbstractExporter
                 if (isset($field['options'])) {
                     $optionsXml = $fieldXml->addChild('options');
                     foreach ($field['options'] as $key => $value) {
-                        $optionXml = $optionsXml->addChild('option', (string) $value);
+                        $optionXml = $optionsXml->addChild('option', $value);
                         $optionXml->addAttribute('name', $key);
                     }
                 }
@@ -229,10 +245,10 @@ class XmlExporter extends AbstractExporter
         ];
 
         uasort($metadata->associationMappings, static function ($m1, $m2) use (&$orderMap) {
-            $a1 = array_search($m1['type'], $orderMap, true);
-            $a2 = array_search($m2['type'], $orderMap, true);
+            $a1 = array_search($m1['type'], $orderMap);
+            $a2 = array_search($m2['type'], $orderMap);
 
-            return strcmp((string) $a1, (string) $a2);
+            return strcmp($a1, $a2);
         });
 
         foreach ($metadata->associationMappings as $associationMapping) {

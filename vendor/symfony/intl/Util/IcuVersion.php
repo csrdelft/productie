@@ -46,7 +46,7 @@ class IcuVersion
      * @param int|null $precision The number of components to compare. Pass
      *                            NULL to compare the versions unchanged.
      *
-     * @return bool
+     * @return bool Whether the comparison succeeded
      *
      * @see normalize()
      */
@@ -80,7 +80,8 @@ class IcuVersion
      * @param int|null $precision The number of components to include. Pass
      *                            NULL to return the version unchanged.
      *
-     * @return string|null
+     * @return string|null the normalized ICU version or NULL if it couldn't be
+     *                     normalized
      */
     public static function normalize(string $version, ?int $precision)
     {

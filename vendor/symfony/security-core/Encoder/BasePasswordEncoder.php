@@ -60,7 +60,7 @@ abstract class BasePasswordEncoder implements PasswordEncoderInterface
     /**
      * Merges a password and a salt.
      *
-     * @return string
+     * @return string a merged password and salt
      *
      * @throws \InvalidArgumentException
      */
@@ -83,7 +83,7 @@ abstract class BasePasswordEncoder implements PasswordEncoderInterface
      * This method implements a constant-time algorithm to compare passwords to
      * avoid (remote) timing attacks.
      *
-     * @return bool
+     * @return bool true if the two passwords are the same, false otherwise
      */
     protected function comparePasswords(string $password1, string $password2)
     {
@@ -93,7 +93,7 @@ abstract class BasePasswordEncoder implements PasswordEncoderInterface
     /**
      * Checks if the password is too long.
      *
-     * @return bool
+     * @return bool true if the password is too long, false otherwise
      */
     protected function isPasswordTooLong(string $password)
     {

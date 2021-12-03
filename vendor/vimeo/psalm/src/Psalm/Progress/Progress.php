@@ -1,10 +1,9 @@
 <?php
 namespace Psalm\Progress;
 
+use const E_ERROR;
 use function error_reporting;
 use function fwrite;
-
-use const E_ERROR;
 use const PHP_OS;
 use const STDERR;
 
@@ -54,7 +53,7 @@ abstract class Progress
 
     protected static function doesTerminalSupportUtf8() : bool
     {
-        if (\stripos(PHP_OS, 'WIN') === 0) {
+        if (\strtoupper(\substr(PHP_OS, 0, 3)) === 'WIN') {
             if (!\function_exists('sapi_windows_cp_is_utf8') || !\sapi_windows_cp_is_utf8()) {
                 return false;
             }

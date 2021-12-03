@@ -467,7 +467,7 @@ return [
             1 => 'hrvatski dinar',
         ],
         'HRK' => [
-            0 => 'kn',
+            0 => 'HRK',
             1 => 'hrvatska kuna',
         ],
         'HTG' => [
@@ -596,7 +596,7 @@ return [
         ],
         'LSL' => [
             0 => 'LSL',
-            1 => 'lesotski loti',
+            1 => 'lesoto loti',
         ],
         'LTL' => [
             0 => 'LTL',

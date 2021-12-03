@@ -1,33 +1,46 @@
 <?php
 
-declare(strict_types=1);
+/*
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license. For more information, see
+ * <http://www.doctrine-project.org>.
+ */
 
 namespace Doctrine\ORM\Internal\Hydration;
 
 use Doctrine\DBAL\Driver\ResultStatement;
-use Doctrine\DBAL\ForwardCompatibility\Result as ForwardCompatibilityResult;
+use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Types\Type;
-use Doctrine\Deprecations\Deprecation;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\Tools\Pagination\LimitSubqueryWalker;
 use Doctrine\ORM\UnitOfWork;
-use Generator;
-use LogicException;
+use PDO;
 use ReflectionClass;
-use TypeError;
 
 use function array_map;
 use function array_merge;
 use function count;
 use function end;
-use function get_debug_type;
 use function in_array;
-use function sprintf;
+use function trigger_error;
+
+use const E_USER_DEPRECATED;
 
 /**
  * Base class for all hydrators. A hydrator is a class that provides some form
@@ -38,7 +51,7 @@ abstract class AbstractHydrator
     /**
      * The ResultSetMapping.
      *
-     * @var ResultSetMapping|null
+     * @var ResultSetMapping
      */
     protected $_rsm;
 
@@ -66,7 +79,7 @@ abstract class AbstractHydrator
     /**
      * Local ClassMetadata cache to avoid going to the EntityManager all the time.
      *
-     * @var array<string, ClassMetadata<object>>
+     * @var array<string, ClassMetadata>
      */
     protected $_metadataCache = [];
 
@@ -80,7 +93,7 @@ abstract class AbstractHydrator
     /**
      * The statement that provides the data to hydrate.
      *
-     * @var Result|null
+     * @var ResultStatement
      */
     protected $_stmt;
 
@@ -89,7 +102,7 @@ abstract class AbstractHydrator
      *
      * @var array<string, mixed>
      */
-    protected $_hints = [];
+    protected $_hints;
 
     /**
      * Initializes a new instance of a class derived from <tt>AbstractHydrator</tt>.
@@ -108,22 +121,21 @@ abstract class AbstractHydrator
      *
      * @deprecated
      *
-     * @param Result|ResultStatement $stmt
-     * @param ResultSetMapping       $resultSetMapping
-     * @psalm-param array<string, mixed> $hints
+     * @param object $stmt
+     * @param object $resultSetMapping
      *
      * @return IterableResult
+     *
+     * @psalm-param array<string, mixed> $hints
      */
     public function iterate($stmt, $resultSetMapping, array $hints = [])
     {
-        Deprecation::trigger(
-            'doctrine/orm',
-            'https://github.com/doctrine/orm/issues/8463',
-            'Method %s() is deprecated and will be removed in Doctrine ORM 3.0. Use toIterable() instead.',
-            __METHOD__
+        @trigger_error(
+            'Method ' . __METHOD__ . '() is deprecated and will be removed in Doctrine ORM 3.0. Use toIterable() instead.',
+            E_USER_DEPRECATED
         );
 
-        $this->_stmt  = $stmt instanceof ResultStatement ? ForwardCompatibilityResult::ensure($stmt) : $stmt;
+        $this->_stmt  = $stmt;
         $this->_rsm   = $resultSetMapping;
         $this->_hints = $hints;
 
@@ -139,37 +151,12 @@ abstract class AbstractHydrator
     /**
      * Initiates a row-by-row hydration.
      *
-     * @param Result|ResultStatement $stmt
+     * @return iterable<mixed>
+     *
      * @psalm-param array<string, mixed> $hints
-     *
-     * @return Generator<array-key, mixed>
-     *
-     * @final
      */
-    public function toIterable($stmt, ResultSetMapping $resultSetMapping, array $hints = []): iterable
+    public function toIterable(ResultStatement $stmt, ResultSetMapping $resultSetMapping, array $hints = []): iterable
     {
-        if (! $stmt instanceof Result) {
-            if (! $stmt instanceof ResultStatement) {
-                throw new TypeError(sprintf(
-                    '%s: Expected parameter $stmt to be an instance of %s or %s, got %s',
-                    __METHOD__,
-                    Result::class,
-                    ResultStatement::class,
-                    get_debug_type($stmt)
-                ));
-            }
-
-            Deprecation::trigger(
-                'doctrine/orm',
-                'https://github.com/doctrine/orm/pull/8796',
-                '%s: Passing a result as $stmt that does not implement %s is deprecated and will cause a TypeError on 3.0',
-                __METHOD__,
-                Result::class
-            );
-
-            $stmt = ForwardCompatibilityResult::ensure($stmt);
-        }
-
         $this->_stmt  = $stmt;
         $this->_rsm   = $resultSetMapping;
         $this->_hints = $hints;
@@ -181,9 +168,9 @@ abstract class AbstractHydrator
         $this->prepare();
 
         while (true) {
-            $row = $this->statement()->fetchAssociative();
+            $row = $this->_stmt->fetch(FetchMode::ASSOCIATIVE);
 
-            if ($row === false) {
+            if ($row === false || $row === null) {
                 $this->cleanup();
 
                 break;
@@ -194,69 +181,27 @@ abstract class AbstractHydrator
             $this->hydrateRowData($row, $result);
 
             $this->cleanupAfterRowIteration();
+
             if (count($result) === 1) {
-                if (count($resultSetMapping->indexByMap) === 0) {
-                    yield end($result);
-                } else {
-                    yield from $result;
-                }
+                yield end($result);
             } else {
                 yield $result;
             }
         }
     }
 
-    final protected function statement(): Result
-    {
-        if ($this->_stmt === null) {
-            throw new LogicException('Uninitialized _stmt property');
-        }
-
-        return $this->_stmt;
-    }
-
-    final protected function resultSetMapping(): ResultSetMapping
-    {
-        if ($this->_rsm === null) {
-            throw new LogicException('Uninitialized _rsm property');
-        }
-
-        return $this->_rsm;
-    }
-
     /**
      * Hydrates all rows returned by the passed statement instance at once.
      *
-     * @param Result|ResultStatement $stmt
-     * @param object                 $resultSetMapping
-     * @psalm-param array<string, string> $hints
+     * @param object $stmt
+     * @param object $resultSetMapping
      *
      * @return mixed[]
+     *
+     * @psalm-param array<string, string> $hints
      */
     public function hydrateAll($stmt, $resultSetMapping, array $hints = [])
     {
-        if (! $stmt instanceof Result) {
-            if (! $stmt instanceof ResultStatement) {
-                throw new TypeError(sprintf(
-                    '%s: Expected parameter $stmt to be an instance of %s or %s, got %s',
-                    __METHOD__,
-                    Result::class,
-                    ResultStatement::class,
-                    get_debug_type($stmt)
-                ));
-            }
-
-            Deprecation::trigger(
-                'doctrine/orm',
-                'https://github.com/doctrine/orm/pull/8796',
-                '%s: Passing a result as $stmt that does not implement %s is deprecated and will cause a TypeError on 3.0',
-                __METHOD__,
-                Result::class
-            );
-
-            $stmt = ForwardCompatibilityResult::ensure($stmt);
-        }
-
         $this->_stmt  = $stmt;
         $this->_rsm   = $resultSetMapping;
         $this->_hints = $hints;
@@ -277,13 +222,13 @@ abstract class AbstractHydrator
      * Hydrates a single row returned by the current statement instance during
      * row-by-row hydration with {@link iterate()} or {@link toIterable()}.
      *
-     * @return mixed[]|false
+     * @return mixed
      */
     public function hydrateRow()
     {
-        $row = $this->statement()->fetchAssociative();
+        $row = $this->_stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($row === false) {
+        if ($row === false || $row === null) {
             $this->cleanup();
 
             return false;
@@ -326,7 +271,7 @@ abstract class AbstractHydrator
      */
     protected function cleanup()
     {
-        $this->statement()->free();
+        $this->_stmt->closeCursor();
 
         $this->_stmt          = null;
         $this->_rsm           = null;
@@ -377,13 +322,14 @@ abstract class AbstractHydrator
      * the values applied. Scalar values are kept in a specific key 'scalars'.
      *
      * @param mixed[] $data SQL Result Row.
-     * @psalm-param array<string, string> $id                 Dql-Alias => ID-Hash.
-     * @psalm-param array<string, bool>   $nonemptyComponents Does this DQL-Alias has at least one non NULL value?
      *
      * @return array<string, array<string, mixed>> An array with all the fields
      *                                             (name => value) of the data
      *                                             row, grouped by their
      *                                             component alias.
+     *
+     * @psalm-param array<string, string> $id                 Dql-Alias => ID-Hash.
+     * @psalm-param array<string, bool>   $nonemptyComponents Does this DQL-Alias has at least one non NULL value?
      * @psalm-return array{
      *                   data: array<array-key, array>,
      *                   newObjects?: array<array-key, array{
@@ -468,11 +414,8 @@ abstract class AbstractHydrator
      * values according to their types. The resulting row has the same number
      * of elements as before.
      *
-     * @param mixed[] $data
      * @psalm-param array<string, mixed> $data
-     *
-     * @return mixed[] The processed row.
-     * @psalm-return array<string, mixed>
+     * @psalm-return array<string, mixed> The processed row.
      */
     protected function gatherScalarRowData(&$data)
     {
@@ -506,7 +449,6 @@ abstract class AbstractHydrator
      *
      * @param string $key Column name
      *
-     * @return mixed[]|null
      * @psalm-return array<string, mixed>|null
      */
     protected function hydrateColumnInfo($key)
@@ -599,7 +541,6 @@ abstract class AbstractHydrator
 
     /**
      * @return string[]
-     * @psalm-return non-empty-list<string>
      */
     private function getDiscriminatorValues(ClassMetadata $classMetadata): array
     {

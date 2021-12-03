@@ -2,28 +2,26 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression\Call;
 
 use PhpParser;
+use Psalm\Internal\Analyzer\ClassLikeAnalyzer;
+use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
+use Psalm\Internal\Analyzer\Statements\Expression\CallAnalyzer;
+use Psalm\Internal\Analyzer\StatementsAnalyzer;
 use Psalm\CodeLocation;
 use Psalm\Context;
-use Psalm\Internal\Analyzer\ClassLikeAnalyzer;
-use Psalm\Internal\Analyzer\ClassLikeNameOptions;
-use Psalm\Internal\Analyzer\Statements\Expression\CallAnalyzer;
-use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
-use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Internal\Codebase\TaintFlowGraph;
-use Psalm\Internal\DataFlow\DataFlowNode;
-use Psalm\Internal\DataFlow\TaintSource;
 use Psalm\Internal\MethodIdentifier;
 use Psalm\Internal\Type\TemplateInferredTypeReplacer;
 use Psalm\Issue\NonStaticSelfCall;
 use Psalm\Issue\ParentNotFound;
 use Psalm\IssueBuffer;
-use Psalm\Plugin\EventHandler\Event\AddRemoveTaintsEvent;
 use Psalm\Type;
 use Psalm\Type\Atomic\TNamedObject;
-
 use function count;
 use function in_array;
 use function strtolower;
+use Psalm\Internal\DataFlow\TaintSource;
+use Psalm\Internal\DataFlow\DataFlowNode;
+use Psalm\Internal\Codebase\TaintFlowGraph;
+use Psalm\Plugin\EventHandler\Event\AddRemoveTaintsEvent;
 
 /**
  * @internal
@@ -110,8 +108,7 @@ class StaticCallAnalyzer extends CallAnalyzer
                 ) {
                     $codebase->file_reference_provider->addMethodReferenceToClassMember(
                         $context->calling_method_id,
-                        'use:' . $stmt->class->parts[0] . ':' . \md5($statements_analyzer->getFilePath()),
-                        false
+                        'use:' . $stmt->class->parts[0] . ':' . \md5($statements_analyzer->getFilePath())
                     );
                 }
 
@@ -151,7 +148,9 @@ class StaticCallAnalyzer extends CallAnalyzer
                             ? $context->calling_method_id
                             : null,
                         $statements_analyzer->getSuppressedIssues(),
-                        new ClassLikeNameOptions(false, false, false, true)
+                        false,
+                        false,
+                        false
                     );
                 }
 
@@ -176,17 +175,17 @@ class StaticCallAnalyzer extends CallAnalyzer
                 $lhs_type = new Type\Union([new TNamedObject($fq_class_name)]);
             }
         } else {
-            $was_inside_general_use = $context->inside_general_use;
-            $context->inside_general_use = true;
+            $was_inside_use = $context->inside_use;
+            $context->inside_use = true;
             ExpressionAnalyzer::analyze($statements_analyzer, $stmt->class, $context);
-            $context->inside_general_use = $was_inside_general_use;
-            $lhs_type = $statements_analyzer->node_data->getType($stmt->class) ?? Type::getMixed();
+            $context->inside_use = $was_inside_use;
+            $lhs_type = $statements_analyzer->node_data->getType($stmt->class) ?: Type::getMixed();
         }
 
         if (!$lhs_type) {
             if (ArgumentsAnalyzer::analyze(
                 $statements_analyzer,
-                $stmt->getArgs(),
+                $stmt->args,
                 null,
                 null,
                 true,
@@ -218,7 +217,7 @@ class StaticCallAnalyzer extends CallAnalyzer
         if (!$has_existing_method) {
             return self::checkMethodArgs(
                 $method_id,
-                $stmt->getArgs(),
+                $stmt->args,
                 null,
                 $context,
                 new CodeLocation($statements_analyzer->getSource(), $stmt),
@@ -363,7 +362,7 @@ class StaticCallAnalyzer extends CallAnalyzer
                 $method_storage,
                 $statements_analyzer->data_flow_graph,
                 (string) $method_id,
-                $stmt->getArgs(),
+                $stmt->args,
                 $node_location,
                 $method_source,
                 \array_merge($method_storage->removed_taints, $removed_taints),

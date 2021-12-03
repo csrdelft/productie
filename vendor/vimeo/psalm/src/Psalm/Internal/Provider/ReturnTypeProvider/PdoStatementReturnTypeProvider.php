@@ -1,6 +1,7 @@
 <?php
 namespace Psalm\Internal\Provider\ReturnTypeProvider;
 
+use PhpParser;
 use Psalm\Plugin\EventHandler\Event\MethodReturnTypeProviderEvent;
 use Psalm\Type;
 

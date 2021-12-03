@@ -1,12 +1,11 @@
 <?php
 namespace Psalm\Type\Atomic;
 
-use Psalm\Type\Atomic;
-
-use function array_merge;
 use function count;
 use function implode;
+use Psalm\Type\Atomic;
 use function substr;
+use function array_merge;
 
 /**
  * denotes the `iterable` type(which can also result from an `is_iterable` check).
@@ -100,7 +99,7 @@ class TIterable extends Atomic
         return $this->type_params[0]->isMixed() && $this->type_params[1]->isMixed();
     }
 
-    public function equals(Atomic $other_type, bool $ensure_source_equality): bool
+    public function equals(Atomic $other_type): bool
     {
         if (!$other_type instanceof self) {
             return false;
@@ -111,7 +110,7 @@ class TIterable extends Atomic
         }
 
         foreach ($this->type_params as $i => $type_param) {
-            if (!$type_param->equals($other_type->type_params[$i], $ensure_source_equality)) {
+            if (!$type_param->equals($other_type->type_params[$i])) {
                 return false;
             }
         }
@@ -121,6 +120,6 @@ class TIterable extends Atomic
 
     public function getChildNodes() : array
     {
-        return array_merge($this->type_params, $this->extra_types ?? []);
+        return array_merge($this->type_params, $this->extra_types !== null ? $this->extra_types : []);
     }
 }

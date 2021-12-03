@@ -1,11 +1,10 @@
 <?php
 namespace Psalm\Plugin\Hook;
 
-use Psalm\Codebase;
 use Psalm\Internal\Analyzer\IssueData;
+use Psalm\Codebase;
 use Psalm\SourceControl\SourceControlInfo;
 
-/** @deprecated going to be removed in Psalm 5 */
 interface AfterAnalysisInterface
 {
     /**

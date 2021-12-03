@@ -15,22 +15,20 @@ use Psalm\Issue\TaintedHeader;
 use Psalm\Issue\TaintedHtml;
 use Psalm\Issue\TaintedInclude;
 use Psalm\Issue\TaintedLdap;
-use Psalm\Issue\TaintedSSRF;
 use Psalm\Issue\TaintedShell;
+use Psalm\Issue\TaintedSSRF;
 use Psalm\Issue\TaintedSql;
 use Psalm\Issue\TaintedSystemSecret;
-use Psalm\Issue\TaintedTextWithQuotes;
 use Psalm\Issue\TaintedUnserialize;
 use Psalm\Issue\TaintedUserSecret;
 use Psalm\IssueBuffer;
 use Psalm\Type\TaintKind;
-
-use function array_intersect;
 use function array_merge;
 use function count;
 use function implode;
-use function strlen;
 use function substr;
+use function strlen;
+use function array_intersect;
 
 class TaintFlowGraph extends DataFlowGraph
 {
@@ -191,7 +189,6 @@ class TaintFlowGraph extends DataFlowGraph
         \ksort($this->specializations);
         \ksort($this->forward_edges);
 
-        // reprocess resolved descendants up to a maximum nesting level of 40
         for ($i = 0; count($sinks) && count($sources) && $i < 40; $i++) {
             $new_sources = [];
 
@@ -354,15 +351,6 @@ class TaintFlowGraph extends DataFlowGraph
                                 );
                                 break;
 
-                            case TaintKind::INPUT_HAS_QUOTES:
-                                $issue = new TaintedTextWithQuotes(
-                                    'Detected tainted text with possible quotes',
-                                    $issue_location,
-                                    $issue_trace,
-                                    $path
-                                );
-                                break;
-
                             case TaintKind::INPUT_SHELL:
                                 $issue = new TaintedShell(
                                     'Detected tainted shell code',
@@ -446,6 +434,8 @@ class TaintFlowGraph extends DataFlowGraph
 
                         IssueBuffer::accepts($issue);
                     }
+
+                    continue;
                 }
             }
 

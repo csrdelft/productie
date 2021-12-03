@@ -31,7 +31,6 @@ return [
         'Chrs' => 'khwarezmiska',
         'Cirt' => 'cirt',
         'Copt' => 'koptiska',
-        'Cpmn' => 'cypro-minoisk skrift',
         'Cprt' => 'cypriotiska',
         'Cyrl' => 'kyrilliska',
         'Cyrs' => 'fornkyrkoslavisk kyrilliska',

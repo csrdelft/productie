@@ -2,9 +2,9 @@
 namespace Psalm\Internal\Analyzer\Statements;
 
 use PhpParser;
-use Psalm\Context;
-use Psalm\Internal\Analyzer\Statements\Expression\ExpressionIdentifier;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
+use Psalm\Internal\Analyzer\Statements\Expression\ExpressionIdentifier;
+use Psalm\Context;
 use Psalm\Type;
 
 class UnsetAnalyzer
@@ -17,12 +17,12 @@ class UnsetAnalyzer
         $context->inside_unset = true;
 
         foreach ($stmt->vars as $var) {
-            $was_inside_general_use = $context->inside_general_use;
-            $context->inside_general_use = true;
+            $was_inside_use = $context->inside_use;
+            $context->inside_use = true;
 
             ExpressionAnalyzer::analyze($statements_analyzer, $var, $context);
 
-            $context->inside_general_use = $was_inside_general_use;
+            $context->inside_use = $was_inside_use;
 
             $var_id = ExpressionIdentifier::getArrayVarId(
                 $var,
@@ -51,7 +51,6 @@ class UnsetAnalyzer
                             ) {
                                 if (isset($atomic_root_type->properties[$var->dim->value])) {
                                     unset($atomic_root_type->properties[$var->dim->value]);
-                                    $root_type->bustCache(); //remove id cache
                                 }
 
                                 if (!$atomic_root_type->properties) {

@@ -3,28 +3,10 @@ declare(strict_types = 1);
 namespace Psalm\Internal\LanguageServer;
 
 use AdvancedJsonRpc;
-use Amp\Promise;
-use Amp\Success;
-use LanguageServerProtocol\ClientCapabilities;
-use LanguageServerProtocol\CompletionOptions;
-use LanguageServerProtocol\Diagnostic;
-use LanguageServerProtocol\DiagnosticSeverity;
-use LanguageServerProtocol\InitializeResult;
-use LanguageServerProtocol\Position;
-use LanguageServerProtocol\Range;
-use LanguageServerProtocol\SaveOptions;
-use LanguageServerProtocol\ServerCapabilities;
-use LanguageServerProtocol\SignatureHelpOptions;
-use LanguageServerProtocol\TextDocumentSyncKind;
-use LanguageServerProtocol\TextDocumentSyncOptions;
-use Psalm\Internal\Analyzer\IssueData;
-use Psalm\Internal\Analyzer\ProjectAnalyzer;
-use Psalm\Internal\LanguageServer\Server\TextDocument;
-use Psalm\Internal\LanguageServer\Server\Workspace;
-use Throwable;
-
 use function Amp\asyncCoroutine;
 use function Amp\call;
+use Amp\Promise;
+use Amp\Success;
 use function array_combine;
 use function array_keys;
 use function array_map;
@@ -32,12 +14,27 @@ use function array_shift;
 use function array_unshift;
 use function explode;
 use function implode;
+use LanguageServerProtocol\ClientCapabilities;
+use LanguageServerProtocol\CompletionOptions;
+use LanguageServerProtocol\Diagnostic;
+use LanguageServerProtocol\DiagnosticSeverity;
+use LanguageServerProtocol\InitializeResult;
+use LanguageServerProtocol\Position;
+use LanguageServerProtocol\Range;
+use LanguageServerProtocol\ServerCapabilities;
+use LanguageServerProtocol\SignatureHelpOptions;
+use LanguageServerProtocol\TextDocumentSyncKind;
+use LanguageServerProtocol\TextDocumentSyncOptions;
 use function max;
 use function parse_url;
+use Psalm\Internal\Analyzer\IssueData;
+use Psalm\Internal\Analyzer\ProjectAnalyzer;
+use Psalm\Internal\LanguageServer\Server\TextDocument;
 use function rawurlencode;
 use function str_replace;
 use function strpos;
 use function substr;
+use Throwable;
 use function trim;
 use function urldecode;
 
@@ -52,13 +49,6 @@ class LanguageServer extends AdvancedJsonRpc\Dispatcher
      * @var ?Server\TextDocument
      */
     public $textDocument;
-
-    /**
-     * Handles workspace/* method calls
-     *
-     * @var ?Server\Workspace
-     */
-    public $workspace;
 
     /**
      * @var ProtocolReader
@@ -220,7 +210,7 @@ class LanguageServer extends AdvancedJsonRpc\Dispatcher
 
                 $this->verboseLog("Initializing: Registering stub files...");
                 $this->clientStatus('initializing', 'registering stub files');
-                $codebase->config->visitStubFiles($codebase);
+                $codebase->config->visitStubFiles($codebase, null);
 
                 if ($this->textDocument === null) {
                     $this->textDocument = new TextDocument(
@@ -230,23 +220,9 @@ class LanguageServer extends AdvancedJsonRpc\Dispatcher
                     );
                 }
 
-                if ($this->workspace === null) {
-                    $this->workspace = new Workspace(
-                        $this,
-                        $codebase,
-                        $this->project_analyzer->onchange_line_limit
-                    );
-                }
-
                 $serverCapabilities = new ServerCapabilities();
 
                 $textDocumentSyncOptions = new TextDocumentSyncOptions();
-
-                $textDocumentSyncOptions->openClose = true;
-
-                $saveOptions = new SaveOptions();
-                $saveOptions->includeText = true;
-                $textDocumentSyncOptions->save = $saveOptions;
 
                 if ($this->project_analyzer->onchange_line_limit === 0) {
                     $textDocumentSyncOptions->change = TextDocumentSyncKind::NONE;
@@ -418,7 +394,8 @@ class LanguageServer extends AdvancedJsonRpc\Dispatcher
      * The shutdown request is sent from the client to the server. It asks the server to shut down,
      * but to not exit (otherwise the response might not be delivered correctly to the client).
      * There is a separate exit notification that asks the server to exit.
-     * @psalm-suppress PossiblyUnusedReturnValue
+     *
+     * @psalm-return Promise<null>
      */
     public function shutdown(): Promise
     {
@@ -455,11 +432,11 @@ class LanguageServer extends AdvancedJsonRpc\Dispatcher
      *  - 3 = Info
      *  - 4 = Log
      */
-    public function verboseLog(string $message, int $type = 4): void
+    private function verboseLog(string $message, int $type = 4): Promise
     {
         if ($this->project_analyzer->language_server_verbose) {
             try {
-                $this->client->logMessage(
+                return $this->client->logMessage(
                     '[Psalm ' .PSALM_VERSION. ' - PHP Language Server] ' . $message,
                     $type
                 );
@@ -467,7 +444,7 @@ class LanguageServer extends AdvancedJsonRpc\Dispatcher
                 // do nothing
             }
         }
-        new Success(null);
+        return new Success(null);
     }
 
     /**
@@ -478,19 +455,18 @@ class LanguageServer extends AdvancedJsonRpc\Dispatcher
      * @param string|null $additional_info This is additional info that the client
      *                                       can use as part of the display message.
      */
-    private function clientStatus(string $status, ?string $additional_info = null): void
+    private function clientStatus(string $status, ?string $additional_info = null): Promise
     {
         try {
             // here we send a notification to the client using the telemetry notification method
-            $this->client->logMessage(
+            return $this->client->logMessage(
                 $status . (!empty($additional_info) ? ': ' . $additional_info : ''),
                 3,
                 'telemetry/event'
             );
         } catch (\Throwable $err) {
-            // do nothing
+            return new Success(null);
         }
-        new Success(null);
     }
 
     /**

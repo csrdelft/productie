@@ -22,6 +22,8 @@ use Twig\Profiler\Dumper\HtmlDumper;
 use Twig\Profiler\Profile;
 
 /**
+ * TwigDataCollector.
+ *
  * @author Fabien Potencier <fabien@symfony.com>
  *
  * @final
@@ -196,7 +198,7 @@ class TwigDataCollector extends DataCollector implements LateDataCollectorInterf
     /**
      * {@inheritdoc}
      */
-    public function getName(): string
+    public function getName()
     {
         return 'twig';
     }

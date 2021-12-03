@@ -1,11 +1,10 @@
 <?php
 namespace Psalm\Report;
 
-use Psalm\Config;
 use Psalm\Internal\Json\Json;
-use Psalm\Report;
-
 use function max;
+use Psalm\Config;
+use Psalm\Report;
 
 /**
  * JSON report format suitable for import into SonarQube or SonarCloud as

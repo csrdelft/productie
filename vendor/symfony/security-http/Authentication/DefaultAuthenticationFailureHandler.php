@@ -53,7 +53,7 @@ class DefaultAuthenticationFailureHandler implements AuthenticationFailureHandle
     /**
      * Gets the options.
      *
-     * @return array
+     * @return array An array of options
      */
     public function getOptions()
     {

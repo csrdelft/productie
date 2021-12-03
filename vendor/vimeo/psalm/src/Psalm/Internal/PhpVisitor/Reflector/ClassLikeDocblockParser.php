@@ -14,25 +14,24 @@ use Psalm\Internal\Type\ParseTree;
 use Psalm\Internal\Type\ParseTreeCreator;
 use Psalm\Internal\Type\TypeParser;
 use Psalm\Internal\Type\TypeTokenizer;
-
-use function array_key_first;
-use function array_shift;
-use function count;
-use function implode;
-use function in_array;
-use function preg_match;
-use function preg_replace;
-use function preg_split;
-use function reset;
-use function str_replace;
+use function trim;
+use function substr_count;
 use function strlen;
+use function preg_replace;
+use function str_replace;
+use function preg_match;
+use function count;
+use function reset;
+use function preg_split;
+use function array_merge;
+use function array_shift;
+use function implode;
+use function substr;
 use function strpos;
 use function strtolower;
-use function substr;
-use function substr_count;
-use function trim;
-
+use function in_array;
 use const PREG_OFFSET_CAPTURE;
+use function array_key_first;
 
 /**
  * @internal
@@ -54,7 +53,6 @@ class ClassLikeDocblockParser
 
         $info = new ClassLikeDocblockComment();
 
-        $templates = [];
         if (isset($parsed_docblock->combined_tags['template'])) {
             foreach ($parsed_docblock->combined_tags['template'] as $offset => $template_line) {
                 $template_type = preg_split('/[\s]+/', preg_replace('@^[ \t]*\*@m', '', $template_line));
@@ -65,32 +63,19 @@ class ClassLikeDocblockParser
                     throw new IncorrectDocblockException('Empty @template tag');
                 }
 
-                $source_prefix = 'none';
-                if (isset($parsed_docblock->tags['psalm-template'][$offset])) {
-                    $source_prefix = 'psalm';
-                } elseif (isset($parsed_docblock->tags['phpstan-template'][$offset])) {
-                    $source_prefix = 'phpstan';
-                }
-
                 if (count($template_type) > 1
                     && in_array(strtolower($template_type[0]), ['as', 'super', 'of'], true)
                 ) {
                     $template_modifier = strtolower(array_shift($template_type));
-                    $templates[$template_name][$source_prefix] = [
+                    $info->templates[] = [
                         $template_name,
                         $template_modifier,
                         implode(' ', $template_type),
                         false,
-                        $offset - $comment->getStartFilePos()
+                        $offset
                     ];
                 } else {
-                    $templates[$template_name][$source_prefix] = [
-                        $template_name,
-                        null,
-                        null,
-                        false,
-                        $offset - $comment->getStartFilePos()
-                    ];
+                    $info->templates[] = [$template_name, null, null, false, $offset];
                 }
             }
         }
@@ -105,41 +90,19 @@ class ClassLikeDocblockParser
                     throw new IncorrectDocblockException('Empty @template-covariant tag');
                 }
 
-                $source_prefix = 'none';
-                if (isset($parsed_docblock->tags['psalm-template-covariant'][$offset])) {
-                    $source_prefix = 'psalm';
-                } elseif (isset($parsed_docblock->tags['phpstan-template-covariant'][$offset])) {
-                    $source_prefix = 'phpstan';
-                }
-
                 if (count($template_type) > 1
                     && in_array(strtolower($template_type[0]), ['as', 'super', 'of'], true)
                 ) {
                     $template_modifier = strtolower(array_shift($template_type));
-                    $templates[$template_name][$source_prefix] = [
+                    $info->templates[] = [
                         $template_name,
                         $template_modifier,
                         implode(' ', $template_type),
                         true,
-                        $offset - $comment->getStartFilePos()
+                        $offset
                     ];
                 } else {
-                    $templates[$template_name][$source_prefix] = [
-                        $template_name,
-                        null,
-                        null,
-                        true,
-                        $offset - $comment->getStartFilePos()
-                    ];
-                }
-            }
-        }
-
-        foreach ($templates as $template_entries) {
-            foreach (['psalm', 'phpstan', 'none'] as $source_prefix) {
-                if (isset($template_entries[$source_prefix])) {
-                    $info->templates[] = $template_entries[$source_prefix];
-                    break;
+                    $info->templates[] = [$template_name, null, null, true, $offset];
                 }
             }
         }
@@ -229,6 +192,12 @@ class ClassLikeDocblockParser
                     throw new DocblockParseException('@mixin annotation used without specifying class');
                 }
             }
+
+            // backwards compatibility
+            if ($info->mixins) {
+                /** @psalm-suppress DeprecatedProperty */
+                $info->mixin = reset($info->mixins);
+            }
         }
 
         if (isset($parsed_docblock->tags['psalm-seal-properties'])) {
@@ -266,25 +235,22 @@ class ClassLikeDocblockParser
         if (isset($parsed_docblock->tags['psalm-suppress'])) {
             foreach ($parsed_docblock->tags['psalm-suppress'] as $offset => $suppress_entry) {
                 foreach (DocComment::parseSuppressList($suppress_entry) as $issue_offset => $suppressed_issue) {
-                    $info->suppressed_issues[$issue_offset + $offset] = $suppressed_issue;
+                    $info->suppressed_issues[$issue_offset + $offset + $comment->getStartFilePos()] = $suppressed_issue;
                 }
             }
         }
 
-        $imported_types = ($parsed_docblock->tags['phpstan-import-type'] ?? []) +
-            ($parsed_docblock->tags['psalm-import-type'] ?? []);
+        $imported_types = array_merge(
+            $parsed_docblock->tags['phpstan-import-type'] ?? [],
+            $parsed_docblock->tags['psalm-import-type'] ?? []
+        );
 
         foreach ($imported_types as $offset => $imported_type_entry) {
             $info->imported_types[] = [
-                'line_number' => $comment->getStartLine() + substr_count(
-                    $comment->getText(),
-                    "\n",
-                    0,
-                    $offset - $comment->getStartFilePos()
-                ),
-                'start_offset' => $offset,
-                'end_offset' => $offset + strlen($imported_type_entry),
-                'parts' => CommentAnalyzer::splitDocLine($imported_type_entry)
+                'line_number' => $comment->getStartLine() + substr_count($comment->getText(), "\n", 0, $offset),
+                'start_offset' => $comment->getStartFilePos() + $offset,
+                'end_offset' => $comment->getStartFilePos() + $offset + strlen($imported_type_entry),
+                'parts' => CommentAnalyzer::splitDocLine($imported_type_entry) ?: []
             ];
         }
 
@@ -442,12 +408,7 @@ class ClassLikeDocblockParser
                     $statements[0]->stmts[0]->setDocComment(
                         new \PhpParser\Comment\Doc(
                             $doc_comment->getText(),
-                            $comment->getStartLine() + substr_count(
-                                $comment->getText(),
-                                "\n",
-                                0,
-                                $offset - $comment->getStartFilePos()
-                            ),
+                            $comment->getStartLine() + substr_count($comment->getText(), "\n", 0, $offset),
                             $node_doc_comment->getStartFilePos()
                         )
                     );
@@ -489,7 +450,7 @@ class ClassLikeDocblockParser
         array $specials,
         string $property_tag
     ) : void {
-        $magic_property_comments = $specials[$property_tag] ?? [];
+        $magic_property_comments = isset($specials[$property_tag]) ? $specials[$property_tag] : [];
 
         foreach ($magic_property_comments as $offset => $property) {
             $line_parts = CommentAnalyzer::splitDocLine($property);
@@ -506,7 +467,8 @@ class ClassLikeDocblockParser
 
                     $line_parts[1] = preg_replace('/,$/', '', $line_parts[1]);
 
-                    $end = $offset + strlen($line_parts[0]);
+                    $start = $offset + $comment->getStartFilePos();
+                    $end = $start + strlen($line_parts[0]);
 
                     $line_parts[0] = str_replace("\n", '', preg_replace('@^[ \t]*\*@m', '', $line_parts[0]));
 
@@ -526,14 +488,9 @@ class ClassLikeDocblockParser
                     $info->properties[] = [
                         'name' => $name,
                         'type' => $line_parts[0],
-                        'line_number' => $comment->getStartLine() + substr_count(
-                            $comment->getText(),
-                            "\n",
-                            0,
-                            $offset - $comment->getStartFilePos()
-                        ),
+                        'line_number' => $comment->getStartLine() + substr_count($comment->getText(), "\n", 0, $offset),
                         'tag' => $property_tag,
-                        'start' => $offset,
+                        'start' => $start,
                         'end' => $end,
                     ];
                 }

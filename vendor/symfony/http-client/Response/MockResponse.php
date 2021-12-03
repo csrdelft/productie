@@ -105,11 +105,7 @@ class MockResponse implements ResponseInterface, StreamableInterface
     {
         $this->info['canceled'] = true;
         $this->info['error'] = 'Response has been canceled.';
-        try {
-            $this->body = null;
-        } catch (TransportException $e) {
-            // ignore errors when canceling
-        }
+        $this->body = null;
     }
 
     /**

@@ -7,9 +7,8 @@ use Psalm\Plugin\EventHandler\Event\PropertyVisibilityProviderEvent;
 use Psalm\Plugin\EventHandler\PropertyVisibilityProviderInterface;
 use Psalm\Plugin\Hook\PropertyVisibilityProviderInterface as LegacyPropertyVisibilityProviderInterface;
 use Psalm\StatementsSource;
-
-use function is_subclass_of;
 use function strtolower;
+use function is_subclass_of;
 
 class PropertyVisibilityProvider
 {
@@ -100,21 +99,6 @@ class PropertyVisibilityProvider
         Context $context,
         CodeLocation $code_location
     ): ?bool {
-        foreach (self::$legacy_handlers[strtolower($fq_classlike_name)] ?? [] as $property_handler) {
-            $property_visible = $property_handler(
-                $source,
-                $fq_classlike_name,
-                $property_name,
-                $read_mode,
-                $context,
-                $code_location
-            );
-
-            if ($property_visible !== null) {
-                return $property_visible;
-            }
-        }
-
         foreach (self::$handlers[strtolower($fq_classlike_name)] ?? [] as $property_handler) {
             $event = new PropertyVisibilityProviderEvent(
                 $source,
@@ -125,6 +109,21 @@ class PropertyVisibilityProvider
                 $code_location
             );
             $property_visible = $property_handler($event);
+
+            if ($property_visible !== null) {
+                return $property_visible;
+            }
+        }
+
+        foreach (self::$legacy_handlers[strtolower($fq_classlike_name)] ?? [] as $property_handler) {
+            $property_visible = $property_handler(
+                $source,
+                $fq_classlike_name,
+                $property_name,
+                $read_mode,
+                $context,
+                $code_location
+            );
 
             if ($property_visible !== null) {
                 return $property_visible;

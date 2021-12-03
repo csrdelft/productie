@@ -13,7 +13,6 @@ namespace Symfony\Flex\Command;
 
 use Composer\Command\BaseCommand;
 use Composer\Config;
-use Composer\Factory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -112,16 +111,13 @@ EOF;
                 throw new \RuntimeException('Please provide the name of the environment either by passing it as command line argument or by defining the "APP_ENV" variable in the ".env.local" file.');
             }
 
-            $config = @json_decode(file_get_contents(Factory::getComposerFile()), true);
-            $testEnvs = $config['extra']['runtime']['test_envs'] ?? ['test'];
-
             if (method_exists($dotenv, 'loadEnv')) {
-                $dotenv->loadEnv($path, 'APP_ENV', 'dev', $testEnvs);
+                $dotenv->loadEnv($path);
             } else {
                 // fallback code in case your Dotenv component is not 4.2 or higher (when loadEnv() was added)
                 $dotenv->load(file_exists($path) || !file_exists($p = "$path.dist") ? $path : $p);
 
-                if (!\in_array($env, $testEnvs, true) && file_exists($p = "$path.local")) {
+                if ('test' !== $env && file_exists($p = "$path.local")) {
                     $dotenv->load($p);
                 }
 

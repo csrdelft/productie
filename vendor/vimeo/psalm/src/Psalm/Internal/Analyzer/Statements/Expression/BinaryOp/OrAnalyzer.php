@@ -2,28 +2,27 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression\BinaryOp;
 
 use PhpParser;
+use Psalm\Internal\Algebra\FormulaGenerator;
+use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
+use Psalm\Internal\Analyzer\Statements\Expression\ExpressionIdentifier;
+use Psalm\Internal\Analyzer\StatementsAnalyzer;
+use Psalm\Internal\Analyzer\Statements\Block\IfElseAnalyzer;
+use Psalm\Internal\Analyzer\Statements\Block\IfElse\IfAnalyzer;
+use Psalm\Internal\Analyzer\Statements\Block\IfConditionalAnalyzer;
 use Psalm\CodeLocation;
 use Psalm\Context;
-use Psalm\Internal\Algebra;
-use Psalm\Internal\Algebra\FormulaGenerator;
-use Psalm\Internal\Analyzer\Statements\Block\IfConditionalAnalyzer;
-use Psalm\Internal\Analyzer\Statements\Block\IfElse\IfAnalyzer;
-use Psalm\Internal\Analyzer\Statements\Block\IfElseAnalyzer;
-use Psalm\Internal\Analyzer\Statements\Expression\ExpressionIdentifier;
-use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
-use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Internal\Type\AssertionReconciler;
 use Psalm\Node\Expr\VirtualBooleanNot;
 use Psalm\Node\Stmt\VirtualExpression;
 use Psalm\Node\Stmt\VirtualIf;
 use Psalm\Type;
+use Psalm\Internal\Algebra;
 use Psalm\Type\Reconciler;
-
+use Psalm\Internal\Type\AssertionReconciler;
+use function array_merge;
 use function array_diff_key;
 use function array_filter;
-use function array_map;
-use function array_merge;
 use function array_values;
+use function array_map;
 
 /**
  * @internal
@@ -99,8 +98,6 @@ class OrAnalyzer
             if (ExpressionAnalyzer::analyze($statements_analyzer, $stmt->left, $left_context) === false) {
                 return false;
             }
-
-            IfConditionalAnalyzer::handleParadoxicalCondition($statements_analyzer, $stmt->left);
 
             foreach ($left_context->vars_in_scope as $var_id => $type) {
                 if (!isset($context->vars_in_scope[$var_id])) {
@@ -264,8 +261,6 @@ class OrAnalyzer
         if (ExpressionAnalyzer::analyze($statements_analyzer, $stmt->right, $right_context) === false) {
             return false;
         }
-
-        IfConditionalAnalyzer::handleParadoxicalCondition($statements_analyzer, $stmt->right);
 
         $right_referenced_var_ids = $right_context->referenced_var_ids;
         $right_context->referenced_var_ids = array_merge($pre_referenced_var_ids, $right_referenced_var_ids);

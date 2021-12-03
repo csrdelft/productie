@@ -425,7 +425,6 @@ return [
         'rap' => 'rapanui',
         'rar' => 'rarotonga',
         'rgn' => 'romanja',
-        'rhg' => 'rohingja',
         'rif' => 'riifi',
         'rm' => 'romanši',
         'rn' => 'rundi',

@@ -1,12 +1,11 @@
 <?php
 namespace Psalm\Plugin\Hook;
 
-use Psalm\CodeLocation;
 use Psalm\Codebase;
+use Psalm\CodeLocation;
 use Psalm\FileManipulation;
 use Psalm\StatementsSource;
 
-/** @deprecated going to be removed in Psalm 5 */
 interface AfterClassLikeExistenceCheckInterface
 {
     /**

@@ -106,22 +106,22 @@ final class Dotenv
      * @throws FormatException when a file has a syntax error
      * @throws PathException   when a file does not exist or is not readable
      */
-    public function loadEnv(string $path, string $envKey = null, string $defaultEnv = 'dev', array $testEnvs = ['test'], bool $overrideExistingVars = false): void
+    public function loadEnv(string $path, string $envKey = null, string $defaultEnv = 'dev', array $testEnvs = ['test']): void
     {
         $k = $envKey ?? $this->envKey;
 
         if (is_file($path) || !is_file($p = "$path.dist")) {
-            $this->doLoad($overrideExistingVars, [$path]);
+            $this->load($path);
         } else {
-            $this->doLoad($overrideExistingVars, [$p]);
+            $this->load($p);
         }
 
         if (null === $env = $_SERVER[$k] ?? $_ENV[$k] ?? null) {
-            $this->populate([$k => $env = $defaultEnv], $overrideExistingVars);
+            $this->populate([$k => $env = $defaultEnv]);
         }
 
         if (!\in_array($env, $testEnvs, true) && is_file($p = "$path.local")) {
-            $this->doLoad($overrideExistingVars, [$p]);
+            $this->load($p);
             $env = $_SERVER[$k] ?? $_ENV[$k] ?? $env;
         }
 
@@ -130,11 +130,11 @@ final class Dotenv
         }
 
         if (is_file($p = "$path.$env")) {
-            $this->doLoad($overrideExistingVars, [$p]);
+            $this->load($p);
         }
 
         if (is_file($p = "$path.$env.local")) {
-            $this->doLoad($overrideExistingVars, [$p]);
+            $this->load($p);
         }
     }
 
@@ -145,16 +145,16 @@ final class Dotenv
      *
      * See method loadEnv() for rules related to .env files.
      */
-    public function bootEnv(string $path, string $defaultEnv = 'dev', array $testEnvs = ['test'], bool $overrideExistingVars = false): void
+    public function bootEnv(string $path, string $defaultEnv = 'dev', array $testEnvs = ['test']): void
     {
         $p = $path.'.local.php';
         $env = is_file($p) ? include $p : null;
         $k = $this->envKey;
 
         if (\is_array($env) && (!isset($env[$k]) || ($_SERVER[$k] ?? $_ENV[$k] ?? $env[$k]) === $env[$k])) {
-            $this->populate($env, $overrideExistingVars);
+            $this->populate($env);
         } else {
-            $this->loadEnv($path, $k, $defaultEnv, $testEnvs, $overrideExistingVars);
+            $this->loadEnv($path, $k, $defaultEnv, $testEnvs);
         }
 
         $_SERVER += $_ENV;
@@ -190,13 +190,9 @@ final class Dotenv
         $loadedVars = array_flip(explode(',', $_SERVER['SYMFONY_DOTENV_VARS'] ?? $_ENV['SYMFONY_DOTENV_VARS'] ?? ''));
 
         foreach ($values as $name => $value) {
-            $notHttpName = 0 !== strpos($name, 'HTTP_');
-            if (isset($_SERVER[$name]) && $notHttpName && !isset($_ENV[$name])) {
-                $_ENV[$name] = $_SERVER[$name];
-            }
-
+            $notHttpName = !str_starts_with($name, 'HTTP_');
             // don't check existence with getenv() because of thread safety issues
-            if (!isset($loadedVars[$name]) && !$overrideExistingVars && isset($_ENV[$name])) {
+            if (!isset($loadedVars[$name]) && (!$overrideExistingVars && (isset($_ENV[$name]) || (isset($_SERVER[$name]) && $notHttpName)))) {
                 continue;
             }
 
@@ -230,6 +226,8 @@ final class Dotenv
      *
      * @param string $data The data to be parsed
      * @param string $path The original file name where data where stored (used for more meaningful error messages)
+     *
+     * @return array An array of env variables
      *
      * @throws FormatException when a file has a syntax error
      */
@@ -429,7 +427,7 @@ final class Dotenv
 
     private function resolveCommands(string $value, array $loadedVars): string
     {
-        if (false === strpos($value, '$')) {
+        if (!str_contains($value, '$')) {
             return $value;
         }
 
@@ -465,7 +463,7 @@ final class Dotenv
 
             $env = [];
             foreach ($this->values as $name => $value) {
-                if (isset($loadedVars[$name]) || (!isset($_ENV[$name]) && !(isset($_SERVER[$name]) && 0 !== strpos($name, 'HTTP_')))) {
+                if (isset($loadedVars[$name]) || (!isset($_ENV[$name]) && !(isset($_SERVER[$name]) && !str_starts_with($name, 'HTTP_')))) {
                     $env[$name] = $value;
                 }
             }
@@ -483,7 +481,7 @@ final class Dotenv
 
     private function resolveVariables(string $value, array $loadedVars): string
     {
-        if (false === strpos($value, '$')) {
+        if (!str_contains($value, '$')) {
             return $value;
         }
 
@@ -518,7 +516,7 @@ final class Dotenv
                 $value = $this->values[$name];
             } elseif (isset($_ENV[$name])) {
                 $value = $_ENV[$name];
-            } elseif (isset($_SERVER[$name]) && 0 !== strpos($name, 'HTTP_')) {
+            } elseif (isset($_SERVER[$name]) && !str_starts_with($name, 'HTTP_')) {
                 $value = $_SERVER[$name];
             } elseif (isset($this->values[$name])) {
                 $value = $this->values[$name];

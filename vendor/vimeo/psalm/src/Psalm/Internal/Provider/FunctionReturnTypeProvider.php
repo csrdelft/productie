@@ -5,13 +5,12 @@ use PhpParser;
 use Psalm\CodeLocation;
 use Psalm\Context;
 use Psalm\Plugin\EventHandler\Event\FunctionReturnTypeProviderEvent;
-use Psalm\Plugin\EventHandler\FunctionReturnTypeProviderInterface;
 use Psalm\Plugin\Hook\FunctionReturnTypeProviderInterface as LegacyFunctionReturnTypeProviderInterface;
+use Psalm\Plugin\EventHandler\FunctionReturnTypeProviderInterface;
 use Psalm\StatementsSource;
 use Psalm\Type;
-
-use function is_subclass_of;
 use function strtolower;
+use function is_subclass_of;
 
 class FunctionReturnTypeProvider
 {
@@ -53,7 +52,6 @@ class FunctionReturnTypeProvider
         $this->registerClass(ReturnTypeProvider\ArrayRandReturnTypeProvider::class);
         $this->registerClass(ReturnTypeProvider\ArrayReduceReturnTypeProvider::class);
         $this->registerClass(ReturnTypeProvider\ArraySliceReturnTypeProvider::class);
-        $this->registerClass(ReturnTypeProvider\ArraySpliceReturnTypeProvider::class);
         $this->registerClass(ReturnTypeProvider\ArrayReverseReturnTypeProvider::class);
         $this->registerClass(ReturnTypeProvider\ArrayUniqueReturnTypeProvider::class);
         $this->registerClass(ReturnTypeProvider\ArrayValuesReturnTypeProvider::class);
@@ -71,8 +69,6 @@ class FunctionReturnTypeProvider
         $this->registerClass(ReturnTypeProvider\FirstArgStringReturnTypeProvider::class);
         $this->registerClass(ReturnTypeProvider\HexdecReturnTypeProvider::class);
         $this->registerClass(ReturnTypeProvider\MinMaxReturnTypeProvider::class);
-        $this->registerClass(ReturnTypeProvider\TriggerErrorReturnTypeProvider::class);
-        $this->registerClass(ReturnTypeProvider\RandReturnTypeProvider::class);
     }
 
     /**
@@ -127,37 +123,38 @@ class FunctionReturnTypeProvider
 
     /**
      * @param  non-empty-string $function_id
+     * @param  list<PhpParser\Node\Arg>  $call_args
      */
     public function getReturnType(
         StatementsSource $statements_source,
         string $function_id,
-        PhpParser\Node\Expr\FuncCall $stmt,
+        array $call_args,
         Context $context,
         CodeLocation $code_location
     ): ?Type\Union {
-        foreach (self::$legacy_handlers[strtolower($function_id)] ?? [] as $function_handler) {
-            $return_type = $function_handler(
+        foreach (self::$handlers[strtolower($function_id)] ?? [] as $function_handler) {
+            $event = new FunctionReturnTypeProviderEvent(
                 $statements_source,
                 $function_id,
-                $stmt->getArgs(),
+                $call_args,
                 $context,
                 $code_location
             );
+            $return_type = $function_handler($event);
 
             if ($return_type) {
                 return $return_type;
             }
         }
 
-        foreach (self::$handlers[strtolower($function_id)] ?? [] as $function_handler) {
-            $event = new FunctionReturnTypeProviderEvent(
+        foreach (self::$legacy_handlers[strtolower($function_id)] ?? [] as $function_handler) {
+            $return_type = $function_handler(
                 $statements_source,
                 $function_id,
-                $stmt,
+                $call_args,
                 $context,
                 $code_location
             );
-            $return_type = $function_handler($event);
 
             if ($return_type) {
                 return $return_type;

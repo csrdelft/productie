@@ -2,15 +2,15 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression;
 
 use PhpParser;
+use Psalm\Internal\Analyzer\CommentAnalyzer;
+use Psalm\Internal\Analyzer\FunctionLikeAnalyzer;
+use Psalm\Internal\Analyzer\TraitAnalyzer;
+use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
+use Psalm\Internal\Analyzer\Statements\Expression\Fetch\AtomicPropertyFetchAnalyzer;
+use Psalm\Internal\Analyzer\StatementsAnalyzer;
 use Psalm\CodeLocation;
 use Psalm\Context;
 use Psalm\Exception\DocblockParseException;
-use Psalm\Internal\Analyzer\CommentAnalyzer;
-use Psalm\Internal\Analyzer\FunctionLikeAnalyzer;
-use Psalm\Internal\Analyzer\Statements\Expression\Fetch\AtomicPropertyFetchAnalyzer;
-use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
-use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Internal\Analyzer\TraitAnalyzer;
 use Psalm\Internal\FileManipulation\FileManipulationBuffer;
 use Psalm\Issue\InvalidDocblock;
 use Psalm\Issue\UnnecessaryVarAnnotation;
@@ -97,7 +97,7 @@ class YieldAnalyzer
                             'The @var annotation for ' . $var_comment->var_id . ' is unnecessary',
                             $type_location
                         ),
-                        $statements_analyzer->getSuppressedIssues(),
+                        [],
                         true
                     )) {
                         // fall through
@@ -158,11 +158,15 @@ class YieldAnalyzer
                             $classlike_storage
                         );
 
-                        $yield_type = Type::combineUnionTypes(
-                            $yield_type,
-                            $yield_candidate_type,
-                            $codebase
-                        );
+                        if ($yield_type) {
+                            $yield_type = Type::combineUnionTypes(
+                                $yield_type,
+                                $yield_candidate_type,
+                                $codebase
+                            );
+                        } else {
+                            $yield_type = $yield_candidate_type;
+                        }
                     } else {
                         $yield_type = Type::getMixed();
                     }

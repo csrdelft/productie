@@ -58,7 +58,7 @@ class GeneratorConfig
      * Returns the directory where the source versions of the resource bundles
      * are stored.
      *
-     * @return string
+     * @return string An absolute path to a directory
      */
     public function getSourceDir(): string
     {
@@ -68,7 +68,7 @@ class GeneratorConfig
     /**
      * Returns the ICU version of the bundles being converted.
      *
-     * @return string
+     * @return string The ICU version string
      */
     public function getIcuVersion(): string
     {

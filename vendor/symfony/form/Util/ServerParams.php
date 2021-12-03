@@ -41,7 +41,7 @@ class ServerParams
     /**
      * Returns maximum post size in bytes.
      *
-     * @return int|float|null
+     * @return int|null The maximum post size in bytes
      */
     public function getPostMaxSize()
     {
@@ -86,7 +86,7 @@ class ServerParams
     /**
      * Returns the content length of the request.
      *
-     * @return mixed
+     * @return mixed The request content length
      */
     public function getContentLength()
     {

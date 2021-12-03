@@ -12,7 +12,7 @@ return [
         ],
         'ALL' => [
             0 => 'ALL',
-            1 => 'Lẹ́ẹ̀kì Àlìbáníà',
+            1 => 'Lẹ́kẹ̀ Àlìbéníà',
         ],
         'AMD' => [
             0 => 'AMD',
@@ -112,7 +112,7 @@ return [
         ],
         'CHF' => [
             0 => 'CHF',
-            1 => 'Faransí Síwíìsì',
+            1 => 'Faransi ti Orílẹ́ède Siwisi',
         ],
         'CLP' => [
             0 => 'CLP',
@@ -208,7 +208,7 @@ return [
         ],
         'GIP' => [
             0 => 'GIP',
-            1 => 'Pọ́n-ùn Gibúrátà',
+            1 => 'Pọ́n-ùn Gibraltar',
         ],
         'GMD' => [
             0 => 'GMD',
@@ -240,7 +240,7 @@ return [
         ],
         'HRK' => [
             0 => 'HRK',
-            1 => 'Kúnà Kúróṣíà',
+            1 => 'Kúnà Croatian',
         ],
         'HTG' => [
             0 => 'HTG',
@@ -424,7 +424,7 @@ return [
         ],
         'NOK' => [
             0 => 'NOK',
-            1 => 'kórónì Nọ́wè',
+            1 => 'Kírónì Nọ́ọ́wè',
         ],
         'NPR' => [
             0 => 'NPR',

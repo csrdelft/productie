@@ -38,7 +38,6 @@ Now, in the root of your project place a file named ``migrations.php``, ``migrat
             ],
 
             'all_or_nothing' => true,
-            'transactional' => true,
             'check_database_platform' => true,
             'organize_migrations' => 'none',
             'connection' => null,
@@ -59,7 +58,6 @@ Now, in the root of your project place a file named ``migrations.php``, ``migrat
            'MyProject\Component\Migrations': ./Component/MyProject/Migrations
 
         all_or_nothing: true
-        transactional: true
         check_database_platform: true
         organize_migrations: none
 
@@ -92,7 +90,6 @@ Now, in the root of your project place a file named ``migrations.php``, ``migrat
             </migrations-paths>
 
             <all-or-nothing>true</all-or-nothing>
-            <transactional>true</transactional>
 
             <check-database-platform>true</check-database-platform>
             <organize_migrations>none</organize_migrations>
@@ -115,7 +112,6 @@ Now, in the root of your project place a file named ``migrations.php``, ``migrat
             },
 
             "all_or_nothing": true,
-            "transactional": true,
             "check_database_platform": true,
             "organize_migrations": "none",
 
@@ -139,9 +135,6 @@ Here are details about what each configuration option does:
 | table_storage              | no         |                              | Used by doctrine migrations to track the currently executed migrations           |
 +----------------------------+------------+------------------------------+----------------------------------------------------------------------------------+
 | all_or_nothing             | no         | false                        | Whether or not to wrap multiple migrations in a single transaction.              |
-+----------------------------+------------+------------------------------+----------------------------------------------------------------------------------+
-| transactional              | no         | true                         | Whether or not to wrap migrations in a single transaction.                       |
-|                            |            |                              |                                                                                  |
 +----------------------------+------------+------------------------------+----------------------------------------------------------------------------------+
 | migrations                 | no         | []                           | Manually specify the array of migration versions instead of finding migrations.  |
 +----------------------------+------------+------------------------------+----------------------------------------------------------------------------------+
@@ -232,13 +225,6 @@ All or Nothing Transaction
 
 When using the ``all_or_nothing`` option, multiple migrations ran at the same time will be wrapped in a single
 transaction. If one migration fails, all migrations will be rolled back
-
-Using or not using transactions
--------------------------------
-
-By default, migrations are transactional, meaning code in a migration
-is wrapped in a transaction.
-Setting ``transactional`` to ``false`` will disable that.
 
 From the Command Line
 ~~~~~~~~~~~~~~~~~~~~~

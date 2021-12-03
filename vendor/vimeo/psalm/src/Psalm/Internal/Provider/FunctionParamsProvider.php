@@ -8,9 +8,8 @@ use Psalm\Plugin\EventHandler\Event\FunctionParamsProviderEvent;
 use Psalm\Plugin\EventHandler\FunctionParamsProviderInterface;
 use Psalm\Plugin\Hook\FunctionParamsProviderInterface as LegacyFunctionParamsProviderInterface;
 use Psalm\StatementsSource;
-
-use function is_subclass_of;
 use function strtolower;
+use function is_subclass_of;
 
 class FunctionParamsProvider
 {

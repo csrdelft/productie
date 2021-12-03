@@ -2,12 +2,13 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression\Call\Method;
 
 use PhpParser;
-use Psalm\CodeLocation;
-use Psalm\Codebase;
-use Psalm\Context;
 use Psalm\Internal\Analyzer\ClassLikeAnalyzer;
-use Psalm\Internal\Analyzer\Statements\Expression\Assignment\InstancePropertyAssignmentAnalyzer as AssignmentAnalyzer;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
+use Psalm\Internal\Analyzer\Statements\Expression\Assignment\InstancePropertyAssignmentAnalyzer
+    as AssignmentAnalyzer;
+use Psalm\Codebase;
+use Psalm\CodeLocation;
+use Psalm\Context;
 use Psalm\Internal\MethodIdentifier;
 use Psalm\Issue\ImpureMethodCall;
 use Psalm\IssueBuffer;
@@ -20,7 +21,7 @@ class MethodCallPurityAnalyzer
         Codebase $codebase,
         PhpParser\Node\Expr\MethodCall $stmt,
         ?string $lhs_var_id,
-        string $cased_method_id,
+        ?string $cased_method_id,
         MethodIdentifier $method_id,
         \Psalm\Storage\MethodStorage $method_storage,
         \Psalm\Storage\ClassLikeStorage $class_storage,
@@ -51,7 +52,7 @@ class MethodCallPurityAnalyzer
         ) {
             if (IssueBuffer::accepts(
                 new ImpureMethodCall(
-                    'Cannot call a possibly-mutating method '
+                    'Cannot call an possibly-mutating method '
                         . $cased_method_id . ' from a mutation-free context',
                     new CodeLocation($statements_analyzer, $stmt->name)
                 ),
@@ -66,7 +67,7 @@ class MethodCallPurityAnalyzer
         ) {
             if (IssueBuffer::accepts(
                 new ImpureMethodCall(
-                    'Cannot call a possibly-mutating method '
+                    'Cannot call an possibly-mutating method '
                         . $cased_method_id . ' from a mutation-free context',
                     new CodeLocation($statements_analyzer, $stmt->name)
                 ),
@@ -76,9 +77,7 @@ class MethodCallPurityAnalyzer
             }
         } elseif (($method_storage->mutation_free
                 || ($method_storage->external_mutation_free
-                    && ($stmt->var->getAttribute('external_mutation_free', false)
-                        || $stmt->var->getAttribute('pure', false))
-                ))
+                    && (isset($stmt->var->external_mutation_free) || isset($stmt->var->pure))))
             && !$context->inside_unset
         ) {
             if ($method_storage->mutation_free
@@ -91,28 +90,25 @@ class MethodCallPurityAnalyzer
                     && !$method_storage->assertions
                     && !$method_storage->if_true_assertions
                 ) {
-                    $stmt->setAttribute('memoizable', true);
+                    /** @psalm-suppress UndefinedPropertyAssignment */
+                    $stmt->memoizable = true;
 
                     if ($method_storage->immutable) {
-                        $stmt->setAttribute('pure', true);
+                        /** @psalm-suppress UndefinedPropertyAssignment */
+                        $stmt->pure = true;
                     }
                 }
 
                 $result->can_memoize = true;
+                $result->immutable_call = $method_storage->immutable;
             }
 
             if ($codebase->find_unused_variables
                 && !$context->inside_conditional
-                && !$context->inside_general_use
+                && !$context->inside_use
                 && !$context->inside_throw
             ) {
-                if (!$context->inside_assignment
-                    && !$context->inside_call
-                    && !$context->inside_return
-                    && !$method_storage->assertions
-                    && !$method_storage->if_true_assertions
-                    && !$method_storage->if_false_assertions
-                ) {
+                if (!$context->inside_assignment && !$context->inside_call) {
                     if (IssueBuffer::accepts(
                         new \Psalm\Issue\UnusedMethodCall(
                             'The call to ' . $cased_method_id . ' is not used',
@@ -124,7 +120,8 @@ class MethodCallPurityAnalyzer
                         // fall through
                     }
                 } elseif (!$method_storage->mutation_free_inferred) {
-                    $stmt->setAttribute('pure', true);
+                    /** @psalm-suppress UndefinedPropertyAssignment */
+                    $stmt->pure = true;
                 }
             }
         }
@@ -158,15 +155,12 @@ class MethodCallPurityAnalyzer
                 if ($this_property_didnt_exist) {
                     $context->vars_in_scope[$mutation_var_id] = Type::getMixed();
                 } else {
-                    $new_type = AssignmentAnalyzer::getExpandedPropertyType(
+                    $context->vars_in_scope[$mutation_var_id] = AssignmentAnalyzer::getExpandedPropertyType(
                         $codebase,
                         $class_storage->name,
                         $name,
                         $class_storage
-                    ) ?? Type::getMixed();
-
-                    $context->vars_in_scope[$mutation_var_id] = $new_type;
-                    $context->possibly_assigned_var_ids[$mutation_var_id] = true;
+                    ) ?: Type::getMixed();
                 }
             }
         }

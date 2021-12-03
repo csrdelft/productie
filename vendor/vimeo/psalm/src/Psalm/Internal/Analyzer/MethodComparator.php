@@ -2,32 +2,32 @@
 namespace Psalm\Internal\Analyzer;
 
 use PhpParser\Node\Stmt\ClassMethod;
-use Psalm\CodeLocation;
 use Psalm\Codebase;
+use Psalm\CodeLocation;
 use Psalm\Internal\MethodIdentifier;
 use Psalm\Internal\PhpVisitor\ParamReplacementVisitor;
+use Psalm\Internal\Type\TemplateInferredTypeReplacer;
 use Psalm\Internal\Type\Comparator\TypeComparisonResult;
 use Psalm\Internal\Type\Comparator\UnionTypeComparator;
-use Psalm\Internal\Type\TemplateInferredTypeReplacer;
-use Psalm\Issue\ConstructorSignatureMismatch;
 use Psalm\Issue\ImplementedParamTypeMismatch;
 use Psalm\Issue\ImplementedReturnTypeMismatch;
-use Psalm\Issue\LessSpecificImplementedReturnType;
+use Psalm\Issue\ConstructorSignatureMismatch;
 use Psalm\Issue\MethodSignatureMismatch;
-use Psalm\Issue\MissingImmutableAnnotation;
 use Psalm\Issue\MoreSpecificImplementedParamType;
-use Psalm\Issue\OverriddenMethodAccess;
+use Psalm\Issue\LessSpecificImplementedReturnType;
 use Psalm\Issue\ParamNameMismatch;
+use Psalm\Issue\OverriddenMethodAccess;
 use Psalm\Issue\TraitMethodSignatureMismatch;
 use Psalm\IssueBuffer;
 use Psalm\Storage\ClassLikeStorage;
 use Psalm\Storage\FunctionLikeParameter;
 use Psalm\Storage\MethodStorage;
 use Psalm\Type;
-
-use function in_array;
-use function strpos;
 use function strtolower;
+use function in_array;
+use Psalm\Issue\MissingImmutableAnnotation;
+use function count;
+use function substr;
 
 class MethodComparator
 {
@@ -35,8 +35,6 @@ class MethodComparator
      * @param  string[]         $suppressed_issues
      *
      * @return false|null
-     *
-     * @psalm-suppress PossiblyUnusedReturnValue unused but seems important
      */
     public static function compare(
         Codebase $codebase,
@@ -66,8 +64,8 @@ class MethodComparator
 
         $cased_guide_method_id = $guide_classlike_storage->name . '::' . $guide_method_storage->cased_name;
 
-        $codebase->methods->file_reference_provider->addMethodDependencyToClassMember(
-            strtolower((string)($implementer_declaring_method_id ?? $implementer_method_id)),
+        $codebase->methods->file_reference_provider->addMethodReferenceToClassMember(
+            strtolower((string)($implementer_declaring_method_id ?: $implementer_method_id)),
             strtolower($guide_classlike_storage->name . '::' . $guide_method_storage->cased_name)
         );
 
@@ -137,8 +135,7 @@ class MethodComparator
                         'Method ' . $cased_implementer_method_id . ' has fewer parameters than parent method ' .
                             $cased_guide_method_id,
                         $code_location
-                    ),
-                    $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                    )
                 )) {
                     return false;
                 }
@@ -177,8 +174,7 @@ class MethodComparator
                         'Method ' . $cased_implementer_method_id . ' has more required parameters than parent method ' .
                             $cased_guide_method_id,
                         $code_location
-                    ),
-                    $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                    )
                 )) {
                     return false;
                 }
@@ -188,8 +184,7 @@ class MethodComparator
                         'Method ' . $cased_implementer_method_id . ' has more required parameters than parent method ' .
                             $cased_guide_method_id,
                         $code_location
-                    ),
-                    $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                    )
                 )) {
                     return false;
                 }
@@ -233,8 +228,7 @@ class MethodComparator
                         'Method ' . $cased_implementer_method_id . ' has different access level than '
                             . $cased_guide_method_id,
                         $code_location
-                    ),
-                    $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                    )
                 )) {
                     // fall through
                 }
@@ -243,8 +237,7 @@ class MethodComparator
                     'Method ' . $cased_implementer_method_id . ' has different access level than '
                         . $cased_guide_method_id,
                     $code_location
-                ),
-                $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                )
             )) {
                 // fall through
             }
@@ -259,9 +252,7 @@ class MethodComparator
                     'Method ' . $cased_guide_method_id . ' is declared final and cannot be overridden',
                     $code_location
                 ),
-                $guide_method_storage->final_from_docblock ?
-                    $suppressed_issues + $implementer_classlike_storage->suppressed_issues :
-                    []
+                $guide_method_storage->final_from_docblock ? $suppressed_issues : []
             )) {
                 // fall through
             }
@@ -278,8 +269,7 @@ class MethodComparator
                     'Method ' . $cased_implementer_method_id . ' cannot be abstract when inherited method '
                         . $cased_guide_method_id . ' is non-abstract',
                     $code_location
-                ),
-                $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                )
             )) {
                 // fall through
             }
@@ -298,7 +288,7 @@ class MethodComparator
                         . ' is not marked @psalm-immutable',
                     $code_location
                 ),
-                $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                $suppressed_issues
             )) {
                 // fall through
             }
@@ -374,8 +364,7 @@ class MethodComparator
                                         )
                                         ? $implementer_param->location
                                         : $code_location
-                                ),
-                                $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                                )
                             )) {
                                 // fall through
                             }
@@ -393,8 +382,7 @@ class MethodComparator
                                         )
                                         ? $implementer_param->location
                                         : $code_location
-                                ),
-                                $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                                )
                             )) {
                                 // fall through
                             }
@@ -410,11 +398,12 @@ class MethodComparator
 
             if ($guide_param->name !== $implementer_param->name
                 && $guide_method_storage->allow_named_arg_calls
+                && count($implementer_method_storage->params) > 1
                 && $guide_classlike_storage->user_defined
                 && $implementer_classlike_storage->user_defined
                 && $implementer_param->location
                 && $guide_method_storage->cased_name
-                && strpos($guide_method_storage->cased_name, '__') !== 0
+                && substr($guide_method_storage->cased_name, 0, 2) !== '__'
                 && $config->isInProjectDirs(
                     $implementer_param->location->file_path
                 )
@@ -453,7 +442,7 @@ class MethodComparator
                                     . $cased_guide_method_id,
                                 $implementer_param->location
                             ),
-                            $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                            $suppressed_issues
                         )) {
                             // fall through
                         }
@@ -516,8 +505,7 @@ class MethodComparator
                         )
                         ? $implementer_param->location
                         : $code_location
-                ),
-                $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                )
             )) {
                 // fall through
             }
@@ -603,8 +591,7 @@ class MethodComparator
                                 )
                                 ? $implementer_method_storage->params[$i]->location
                                 : $code_location
-                        ),
-                        $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                        )
                     )) {
                         // fall through
                     }
@@ -623,8 +610,7 @@ class MethodComparator
                                 )
                                 ? $implementer_method_storage->params[$i]->location
                                 : $code_location
-                        ),
-                        $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                        )
                     )) {
                         // fall through
                     }
@@ -643,7 +629,7 @@ class MethodComparator
                             ? $implementer_method_storage->params[$i]->location
                             : $code_location
                     ),
-                    $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                    $suppressed_issues
                 )) {
                     // fall through
                 }
@@ -773,7 +759,7 @@ class MethodComparator
                             $implementer_method_storage->params[$i]->location
                                 ?: $code_location
                         ),
-                        $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                        $suppressed_issues
                     )) {
                         // fall through
                     }
@@ -796,7 +782,7 @@ class MethodComparator
                             $implementer_method_storage->params[$i]->location
                                 ?: $code_location
                         ),
-                        $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                        $suppressed_issues
                     )) {
                          // fall through
                     }
@@ -811,7 +797,7 @@ class MethodComparator
                             $implementer_method_storage->params[$i]->location
                                 ?: $code_location
                         ),
-                        $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                        $suppressed_issues
                     )) {
                          // fall through
                     }
@@ -893,7 +879,7 @@ class MethodComparator
                             . $guide_signature_return_type . '\' of inherited method ' . $cased_guide_method_id,
                         $code_location
                     ),
-                    $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                    $suppressed_issues
                 )) {
                     // fall through
                 }
@@ -905,7 +891,7 @@ class MethodComparator
                             . $guide_signature_return_type . '\' of inherited method ' . $cased_guide_method_id,
                         $code_location
                     ),
-                    $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                    $suppressed_issues
                 )) {
                     // fall through
                 }
@@ -1020,7 +1006,7 @@ class MethodComparator
                         $implementer_method_storage->return_type_location
                             ?: $code_location
                     ),
-                    $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                    $suppressed_issues
                 )) {
                     // fall through
                 }
@@ -1034,7 +1020,7 @@ class MethodComparator
                         $implementer_method_storage->return_type_location
                             ?: $code_location
                     ),
-                    $suppressed_issues + $implementer_classlike_storage->suppressed_issues
+                    $suppressed_issues
                 )) {
                     // fall through
                 }

@@ -83,24 +83,15 @@ class MethodStorage extends FunctionLikeStorage
     /**
      * @var ?array<string, bool>
      */
-    public $this_property_mutations;
+    public $this_property_mutations = null;
 
     /**
      * @var Type\Union|null
      */
-    public $self_out_type;
+    public $self_out_type = null;
 
-    /**
-     * @var Type\Union|null
-     */
-    public $if_this_is_type = null;
     /**
      * @var bool
      */
     public $stubbed = false;
-
-    /**
-     * @var bool
-     */
-    public $probably_fluent = false;
 }

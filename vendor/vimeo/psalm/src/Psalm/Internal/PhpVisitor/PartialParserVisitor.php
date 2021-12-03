@@ -1,9 +1,8 @@
 <?php
 namespace Psalm\Internal\PhpVisitor;
 
-use PhpParser;
-
 use function count;
+use PhpParser;
 use function preg_replace;
 use function reset;
 use function strlen;
@@ -60,9 +59,11 @@ class PartialParserVisitor extends PhpParser\NodeVisitorAbstract
     }
 
     /**
+     * @param  bool $traverseChildren
+     *
      * @return null|int|PhpParser\Node
      */
-    public function enterNode(PhpParser\Node $node, bool &$traverseChildren = true)
+    public function enterNode(PhpParser\Node $node, &$traverseChildren = true)
     {
         /** @var array{startFilePos: int, endFilePos: int, startLine: int} */
         $attrs = $node->getAttributes();

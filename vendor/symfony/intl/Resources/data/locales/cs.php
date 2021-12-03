@@ -492,8 +492,6 @@ return [
         'rw_RW' => 'kiňarwandština (Rwanda)',
         'sa' => 'sanskrt',
         'sa_IN' => 'sanskrt (Indie)',
-        'sc' => 'sardština',
-        'sc_IT' => 'sardština (Itálie)',
         'sd' => 'sindhština',
         'sd_Arab' => 'sindhština (arabské)',
         'sd_Arab_PK' => 'sindhština (arabské, Pákistán)',

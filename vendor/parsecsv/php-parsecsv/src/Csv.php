@@ -49,7 +49,7 @@ class Csv {
      */
 
     /**
-     * Header row:
+     * Heading
      * Use first line/entry as field names
      *
      * @var bool
@@ -57,6 +57,7 @@ class Csv {
     public $heading = true;
 
     /**
+     * Fields
      * Override field names
      *
      * @var array
@@ -64,6 +65,7 @@ class Csv {
     public $fields = array();
 
     /**
+     * Sort By
      * Sort CSV by this field
      *
      * @var string|null
@@ -71,13 +73,15 @@ class Csv {
     public $sort_by = null;
 
     /**
-     * Reverse the sort direction
+     * Sort Reverse
+     * Reverse the sort function
      *
      * @var bool
      */
     public $sort_reverse = false;
 
     /**
+     * Sort Type
      * Sort behavior passed to sort methods
      *
      * regular = SORT_REGULAR
@@ -89,34 +93,31 @@ class Csv {
     public $sort_type = SortEnum::SORT_TYPE_REGULAR;
 
     /**
-     * Field delimiter character
+     * Delimiter
+     * Delimiter character
      *
      * @var string
      */
     public $delimiter = ',';
 
     /**
+     * Enclosure
      * Enclosure character
-     *
-     * This is useful for cell values that are either multi-line
-     * or contain the field delimiter character.
      *
      * @var string
      */
     public $enclosure = '"';
 
     /**
-     * Force enclosing all columns.
-     *
-     * If false, only cells that are either multi-line or
-     * contain the field delimiter character are enclosed
-     * in the $enclosure char.
+     * Enclose All
+     * Force enclosing all columns
      *
      * @var bool
      */
     public $enclose_all = false;
 
     /**
+     * Conditions
      * Basic SQL-Like conditions for row matching
      *
      * @var string|null
@@ -124,6 +125,7 @@ class Csv {
     public $conditions = null;
 
     /**
+     * Offset
      * Number of rows to ignore from beginning of data. If present, the heading
      * row is also counted (if $this->heading == true). In other words,
      * $offset == 1 and $offset == 0 have the same meaning in that situation.
@@ -133,6 +135,7 @@ class Csv {
     public $offset = null;
 
     /**
+     * Limit
      * Limits the number of returned rows to the specified amount
      *
      * @var int|null
@@ -140,6 +143,7 @@ class Csv {
     public $limit = null;
 
     /**
+     * Auto Depth
      * Number of rows to analyze when attempting to auto-detect delimiter
      *
      * @var int
@@ -147,6 +151,7 @@ class Csv {
     public $auto_depth = 15;
 
     /**
+     * Auto Non Chars
      * Characters that should be ignored when attempting to auto-detect delimiter
      *
      * @var string
@@ -154,6 +159,7 @@ class Csv {
     public $auto_non_chars = "a-zA-Z0-9\n\r";
 
     /**
+     * Auto Preferred
      * preferred delimiter characters, only used when all filtering method
      * returns multiple possible delimiters (happens very rarely)
      *
@@ -162,14 +168,15 @@ class Csv {
     public $auto_preferred = ",;\t.:|";
 
     /**
+     * Convert Encoding
      * Should we convert the CSV character encoding?
-     * Used for both parse and unparse operations.
      *
      * @var bool
      */
     public $convert_encoding = false;
 
     /**
+     * Input Encoding
      * Set the input encoding
      *
      * @var string
@@ -177,6 +184,7 @@ class Csv {
     public $input_encoding = 'ISO-8859-1';
 
     /**
+     * Output Encoding
      * Set the output encoding
      *
      * @var string
@@ -194,14 +202,15 @@ class Csv {
     public $use_mb_convert_encoding = false;
 
     /**
+     * Linefeed
      * Line feed characters used by unparse, save, and output methods
-     * Popular choices are "\r\n" and "\n".
      *
      * @var string
      */
     public $linefeed = "\r";
 
     /**
+     * Output Delimiter
      * Sets the output delimiter used by the output method
      *
      * @var string
@@ -209,6 +218,7 @@ class Csv {
     public $output_delimiter = ',';
 
     /**
+     * Output filename
      * Sets the output filename
      *
      * @var string
@@ -216,6 +226,7 @@ class Csv {
     public $output_filename = 'data.csv';
 
     /**
+     * Keep File Data
      * keep raw file data in memory after successful parsing (useful for debugging)
      *
      * @var bool
@@ -259,6 +270,7 @@ class Csv {
     public $error = 0;
 
     /**
+     * Error Information
      * Detailed error information
      *
      * @var array
@@ -286,16 +298,17 @@ class Csv {
     public $titles = array();
 
     /**
-     * Two-dimensional array of CSV data.
-     * The first dimension are the line numbers. Each line is represented as an array with field names as keys.
+     * Data
+     * Two-dimensional array of CSV data
      *
-     * @var array<array>
+     * @var array
      */
     public $data = array();
 
     use DatatypeTrait;
 
     /**
+     * Constructor
      * Class constructor
      *
      * @param string|null $data            The CSV string or a direct file path.
@@ -355,6 +368,7 @@ class Csv {
     // ==============================================
 
     /**
+     * Parse
      * Parse a CSV file or string
      *
      * @param string|null $dataString  The CSV string or a direct file path
@@ -401,7 +415,8 @@ class Csv {
     }
 
     /**
-     * Save changes, or write a new file and/or data.
+     * Save
+     * Save changes, or write a new file and/or data
      *
      * @param string $file    File location to save to
      * @param array  $data    2D array of data
@@ -425,9 +440,8 @@ class Csv {
     }
 
     /**
-     * Generate a CSV-based string for output.
-     *
-     * Useful for exports in web applications.
+     * Output
+     * Generate a CSV based string for output.
      *
      * @param string|null $filename    If a filename is specified here or in the
      *                                 object, headers and data will be output
@@ -471,15 +485,11 @@ class Csv {
     }
 
     /**
+     * Encoding
      * Convert character encoding
      *
-     * Specify the encoding to use for the next parsing or unparsing.
-     * Calling this function will not change the data held in the object immediately.
-     *
-     * @param string|null $input  Input character encoding
-     *   If the value null is passed, the existing input encoding remains set (default: ISO-8859-1).
+     * @param string|null $input  Input character encoding, uses default if left blank
      * @param string|null $output Output character encoding, uses default if left blank
-     *   If the value null is passed, the existing input encoding remains set (default: ISO-8859-1).
      *
      * @return void
      */
@@ -495,7 +505,8 @@ class Csv {
     }
 
     /**
-     * Auto-detect delimiter: Find delimiter by analyzing a specific number of
+     * Auto
+     * Auto-Detect Delimiter: Find delimiter by analyzing a specific number of
      * rows to determine most probable delimiter character
      *
      * @param string|null $file          Local CSV file
@@ -598,6 +609,7 @@ class Csv {
     // ==============================================
 
     /**
+     * Parse File
      * Read file to string and call _parse_string()
      *
      * @param string|null $file  Path to a CSV file.
@@ -605,26 +617,23 @@ class Csv {
      *                           the path may also contain a protocol:
      *                           https://example.org/some/file.csv
      *
-     * @return array<array>|false
+     * @return array|bool
      */
     public function parseFile($file = null) {
         if (is_null($file)) {
             $file = $this->file;
         }
 
-        /**
-         * @see self::keep_file_data
-         * Usually, _parse_string will clean this
-         * Instead of leaving stale data for the next parseFile call behind.
-         */
-        if (empty($this->file_data) && !$this->loadFile($file)) {
-            return false;
+        if (empty($this->file_data)) {
+            /**
+             * @see self::keep_file_data
+             * Usually, _parse_string will clean this
+             * Instead of leaving stale data for the next parseFile call behind.
+             */
+            $this->load_data($file);
         }
 
-        if (empty($this->file_data)) {
-            return false;
-        }
-        return $this->data = $this->_parse_string();
+        return !empty($this->file_data) ? $this->_parse_string() : false;
     }
 
     /**
@@ -638,8 +647,7 @@ class Csv {
      *
      * @param string|null $data CSV data
      *
-     * @return array<array>|false
-     *   2D array with CSV data, or false on failure
+     * @return array|false - 2D array with CSV data, or false on failure
      */
     protected function _parse_string($data = null) {
         if (empty($data)) {
@@ -1226,14 +1234,14 @@ class Csv {
                 $file = $this->file;
             }
 
-            return $this->loadFile($file);
+            return $this->load_data($file);
         }
 
         return true;
     }
 
     /**
-     * Check if passed info might be delimiter.
+     * Check if passed info might be delimiter
      * Only used by find_delimiter
      *
      * @param string $char      Potential field separating character
@@ -1248,7 +1256,7 @@ class Csv {
             $first = null;
             $equal = null;
             $almost = false;
-            foreach ($array as $value) {
+            foreach ($array as $key => $value) {
                 if ($first == null) {
                     $first = $value;
                 } elseif ($value == $first && $equal !== false) {
@@ -1261,7 +1269,7 @@ class Csv {
                 }
             }
 
-            if ($equal || $depth === 1) {
+            if ($equal) {
                 $match = $almost ? 2 : 1;
                 $pref = strpos($preferred, $char);
                 $pref = ($pref !== false) ? str_pad($pref, 3, '0', STR_PAD_LEFT) : '999';
@@ -1405,7 +1413,7 @@ class Csv {
             $is_newline = ($ch == "\n" && $pch != "\r") || $ch == "\r";
             if ($ch == $enclosure) {
                 if (!$enclosed || $nch != $enclosure) {
-                    $enclosed = !$enclosed;
+                    $enclosed = $enclosed ? false : true;
                 } elseif ($enclosed) {
                     $i++;
                 }

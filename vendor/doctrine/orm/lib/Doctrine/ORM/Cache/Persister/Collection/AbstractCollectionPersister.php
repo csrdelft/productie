@@ -1,10 +1,25 @@
 <?php
 
-declare(strict_types=1);
+/*
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license. For more information, see
+ * <http://www.doctrine-project.org>.
+ */
 
 namespace Doctrine\ORM\Cache\Persister\Collection;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Cache\CollectionCacheKey;
@@ -23,10 +38,11 @@ use Doctrine\ORM\UnitOfWork;
 use function array_values;
 use function assert;
 use function count;
+use function is_array;
 
 abstract class AbstractCollectionPersister implements CachedCollectionPersister
 {
-    /** @var UnitOfWork */
+     /** @var UnitOfWork */
     protected $uow;
 
     /** @var ClassMetadataFactory */
@@ -44,7 +60,7 @@ abstract class AbstractCollectionPersister implements CachedCollectionPersister
     /** @var mixed[] */
     protected $association;
 
-    /** @var mixed[] */
+     /** @var mixed[] */
     protected $queuedCache = [];
 
     /** @var Region */
@@ -56,7 +72,7 @@ abstract class AbstractCollectionPersister implements CachedCollectionPersister
     /** @var CollectionHydrator */
     protected $hydrator;
 
-    /** @var CacheLogger|null */
+    /** @var CacheLogger */
     protected $cacheLogger;
 
     /**
@@ -135,7 +151,7 @@ abstract class AbstractCollectionPersister implements CachedCollectionPersister
         // Only preserve ordering if association configured it
         if (! (isset($associationMapping['indexBy']) && $associationMapping['indexBy'])) {
             // Elements may be an array or a Collection
-            $elements = array_values($elements instanceof Collection ? $elements->getValues() : $elements);
+            $elements = array_values(is_array($elements) ? $elements : $elements->getValues());
         }
 
         $entry = $this->hydrator->buildCacheEntry($this->targetEntity, $key, $elements);
@@ -223,8 +239,6 @@ abstract class AbstractCollectionPersister implements CachedCollectionPersister
 
     /**
      * Clears cache entries related to the current collection
-     *
-     * @return void
      */
     protected function evictCollectionCache(PersistentCollection $collection)
     {
@@ -244,8 +258,6 @@ abstract class AbstractCollectionPersister implements CachedCollectionPersister
     /**
      * @param string $targetEntity
      * @param object $element
-     *
-     * @return void
      */
     protected function evictElementCache($targetEntity, $element)
     {
