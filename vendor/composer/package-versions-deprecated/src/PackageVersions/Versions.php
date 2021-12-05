@@ -37,6 +37,7 @@ final class Versions
   'amphp/amp' => 'v2.5.2@efca2b32a7580087adb8aabbff6be1dc1bb924a9',
   'amphp/byte-stream' => 'v1.8.1@acbd8002b3536485c997c4e019206b3f10ca15bd',
   'beberlei/doctrineextensions' => 'v1.3.0@008f162f191584a6c37c03a803f718802ba9dd9a',
+  'clegginabox/pdf-merger' => 'dev-master@ca9367d0d4e21faa686414961d3e096973ecef14',
   'clue/stream-filter' => 'v1.5.0@aeb7d8ea49c7963d3b581378955dbf5bc49aa320',
   'composer/package-versions-deprecated' => '1.11.99.1@7413f0b55a051e89485c5cb9f765fe24bb02a7b6',
   'composer/semver' => '3.2.4@a02fdf930a3c1c3ed3a49b5f63859c0c20e10464',
@@ -114,6 +115,8 @@ final class Versions
   'sentry/sdk' => '2.2.0@089858b1b27d3705a5fd1c32d8d10beb55980190',
   'sentry/sentry' => '2.5.2@ce63f13e2cf9f72ec169413545a3f7312b2e45e3',
   'sentry/sentry-symfony' => '3.5.3@839460734f50fc26a0276532ad9bf977c117bece',
+  'setasign/fpdf' => '1.8.4@b0ddd9c5b98ced8230ef38534f6f3c17308a7974',
+  'setasign/fpdi' => 'v2.3.6@6231e315f73e4f62d72b73f3d6d78ff0eed93c31',
   'symfony/cache' => 'v5.3.4@944db6004fc374fbe032d18e07cce51cc4e1e661',
   'symfony/cache-contracts' => 'v2.5.0@ac2e168102a2e06a2624f0379bde94cd5854ced2',
   'symfony/config' => 'v5.3.11@f080af00c441f1df40cf5c269707fdebe5740557',
@@ -177,6 +180,7 @@ final class Versions
   'symfony/var-dumper' => 'v5.3.11@a029b3a11b757f9cc8693040339153b4745a913f',
   'symfony/var-exporter' => 'v5.3.4@b7898a65fc91e7c41de7a88c7db9aee9c0d432f0',
   'symfony/yaml' => 'v5.3.4@90909bd7352ae57411a93fcd67b09e6199340547',
+  'tecnickcom/tcpdf' => '6.4.2@172540dcbfdf8dc983bc2fe78feff48ff7ec1c76',
   'tijsverkoyen/css-to-inline-styles' => '2.2.3@b43b05cf43c1b6d849478965062b6ef73e223bb5',
   'trikoder/oauth2-bundle' => 'v3.x-dev@f970a9c6f4275960d77f24b851563ce99e70ba8d',
   'twig/cssinliner-extra' => 'v3.3.0@89a7b0f64c1296068864d540567428210c9de340',
@@ -187,7 +191,7 @@ final class Versions
   'webmozart/assert' => '1.10.0@6964c76c7804814a842473e0c8fd15bab0f18e25',
   'webmozart/path-util' => '2.3.0@d939f7edc24c9a1bb9c0dee5cb05d8e859490725',
   'zumba/json-serializer' => '3.0.0@4387bfaa6948d219e947ee77d975ec4f41fefd2b',
-  'csr/csrdelft.nl' => 'dev-master@2dfec469fb2f483b382d4ee51f426822775f2be4',
+  'csr/csrdelft.nl' => 'dev-master@38edb29dc1c07b1f1a9a8eb19c5421fe3d96e122',
 );
 
     private function __construct()

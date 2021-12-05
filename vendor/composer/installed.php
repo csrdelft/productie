@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '2dfec469fb2f483b382d4ee51f426822775f2be4',
+        'reference' => '38edb29dc1c07b1f1a9a8eb19c5421fe3d96e122',
         'name' => 'csr/csrdelft.nl',
         'dev' => false,
     ),
@@ -44,6 +44,17 @@
             'install_path' => __DIR__ . '/../beberlei/doctrineextensions',
             'aliases' => array(),
             'reference' => '008f162f191584a6c37c03a803f718802ba9dd9a',
+            'dev_requirement' => false,
+        ),
+        'clegginabox/pdf-merger' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../clegginabox/pdf-merger',
+            'aliases' => array(
+                0 => '9999999-dev',
+            ),
+            'reference' => 'ca9367d0d4e21faa686414961d3e096973ecef14',
             'dev_requirement' => false,
         ),
         'clue/stream-filter' => array(
@@ -88,7 +99,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '2dfec469fb2f483b382d4ee51f426822775f2be4',
+            'reference' => '38edb29dc1c07b1f1a9a8eb19c5421fe3d96e122',
             'dev_requirement' => false,
         ),
         'csrdelft/bb' => array(
@@ -782,8 +793,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0.0',
-                1 => '1.0|2.0',
+                0 => '1.0|2.0',
+                1 => '1.0.0',
             ),
         ),
         'psr/simple-cache-implementation' => array(
@@ -844,6 +855,24 @@
             'install_path' => __DIR__ . '/../sentry/sentry-symfony',
             'aliases' => array(),
             'reference' => '839460734f50fc26a0276532ad9bf977c117bece',
+            'dev_requirement' => false,
+        ),
+        'setasign/fpdf' => array(
+            'pretty_version' => '1.8.4',
+            'version' => '1.8.4.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../setasign/fpdf',
+            'aliases' => array(),
+            'reference' => 'b0ddd9c5b98ced8230ef38534f6f3c17308a7974',
+            'dev_requirement' => false,
+        ),
+        'setasign/fpdi' => array(
+            'pretty_version' => 'v2.3.6',
+            'version' => '2.3.6.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../setasign/fpdi',
+            'aliases' => array(),
+            'reference' => '6231e315f73e4f62d72b73f3d6d78ff0eed93c31',
             'dev_requirement' => false,
         ),
         'symfony/cache' => array(
@@ -1441,6 +1470,15 @@
             'install_path' => __DIR__ . '/../symfony/yaml',
             'aliases' => array(),
             'reference' => '90909bd7352ae57411a93fcd67b09e6199340547',
+            'dev_requirement' => false,
+        ),
+        'tecnickcom/tcpdf' => array(
+            'pretty_version' => '6.4.2',
+            'version' => '6.4.2.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../tecnickcom/tcpdf',
+            'aliases' => array(),
+            'reference' => '172540dcbfdf8dc983bc2fe78feff48ff7ec1c76',
             'dev_requirement' => false,
         ),
         'tijsverkoyen/css-to-inline-styles' => array(
