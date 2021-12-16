@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '38edb29dc1c07b1f1a9a8eb19c5421fe3d96e122',
+        'reference' => '940982a92bb6c2cd52a70b1b2571750af63f3c2d',
         'name' => 'csr/csrdelft.nl',
         'dev' => false,
     ),
@@ -35,6 +35,15 @@
             'install_path' => __DIR__ . '/../amphp/byte-stream',
             'aliases' => array(),
             'reference' => 'acbd8002b3536485c997c4e019206b3f10ca15bd',
+            'dev_requirement' => false,
+        ),
+        'bacon/bacon-qr-code' => array(
+            'pretty_version' => '2.0.4',
+            'version' => '2.0.4.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../bacon/bacon-qr-code',
+            'aliases' => array(),
+            'reference' => 'f73543ac4e1def05f1a70bcd1525c8a157a1ad09',
             'dev_requirement' => false,
         ),
         'beberlei/doctrineextensions' => array(
@@ -99,7 +108,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '38edb29dc1c07b1f1a9a8eb19c5421fe3d96e122',
+            'reference' => '940982a92bb6c2cd52a70b1b2571750af63f3c2d',
             'dev_requirement' => false,
         ),
         'csrdelft/bb' => array(
@@ -109,6 +118,15 @@
             'install_path' => __DIR__ . '/../csrdelft/bb',
             'aliases' => array(),
             'reference' => '87d66406e30d8c38bdf5b143655cd1c19a5667ef',
+            'dev_requirement' => false,
+        ),
+        'dasprid/enum' => array(
+            'pretty_version' => '1.0.3',
+            'version' => '1.0.3.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../dasprid/enum',
+            'aliases' => array(),
+            'reference' => '5abf82f213618696dda8e3bf6f64dd042d8542b2',
             'dev_requirement' => false,
         ),
         'defuse/php-encryption' => array(
@@ -280,6 +298,15 @@
             'install_path' => __DIR__ . '/../easyrdf/easyrdf',
             'aliases' => array(),
             'reference' => 'acd09dfe0555fbcfa254291e433c45fdd4652566',
+            'dev_requirement' => false,
+        ),
+        'endroid/qr-code' => array(
+            'pretty_version' => '4.3.5',
+            'version' => '4.3.5.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../endroid/qr-code',
+            'aliases' => array(),
+            'reference' => '5630e192948b466d418608ecce697465d20260af',
             'dev_requirement' => false,
         ),
         'felixfbecker/advanced-json-rpc' => array(
@@ -793,8 +820,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
-                1 => '1.0.0',
+                0 => '1.0.0',
+                1 => '1.0|2.0',
             ),
         ),
         'psr/simple-cache-implementation' => array(

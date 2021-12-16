@@ -36,6 +36,7 @@ final class Versions
   'ajgarlag/psr-http-message-bundle' => '1.2.1@7f7e82f8a70b54c0c48a797b1b537421c9049e65',
   'amphp/amp' => 'v2.5.2@efca2b32a7580087adb8aabbff6be1dc1bb924a9',
   'amphp/byte-stream' => 'v1.8.1@acbd8002b3536485c997c4e019206b3f10ca15bd',
+  'bacon/bacon-qr-code' => '2.0.4@f73543ac4e1def05f1a70bcd1525c8a157a1ad09',
   'beberlei/doctrineextensions' => 'v1.3.0@008f162f191584a6c37c03a803f718802ba9dd9a',
   'clegginabox/pdf-merger' => 'dev-master@ca9367d0d4e21faa686414961d3e096973ecef14',
   'clue/stream-filter' => 'v1.5.0@aeb7d8ea49c7963d3b581378955dbf5bc49aa320',
@@ -43,6 +44,7 @@ final class Versions
   'composer/semver' => '3.2.4@a02fdf930a3c1c3ed3a49b5f63859c0c20e10464',
   'composer/xdebug-handler' => '2.0.0@31d57697eb1971712a08031cfaff5a846d10bdf5',
   'csrdelft/bb' => 'v1.3.5@87d66406e30d8c38bdf5b143655cd1c19a5667ef',
+  'dasprid/enum' => '1.0.3@5abf82f213618696dda8e3bf6f64dd042d8542b2',
   'defuse/php-encryption' => 'v2.3.1@77880488b9954b7884c25555c2a0ea9e7053f9d2',
   'dnoegel/php-xdg-base-dir' => 'v0.1.1@8f8a6e48c5ecb0f991c2fdcf5f154a47d85f9ffd',
   'doctrine/annotations' => '1.12.1@b17c5014ef81d212ac539f07a1001832df1b6d3b',
@@ -62,6 +64,7 @@ final class Versions
   'doctrine/persistence' => '2.1.0@9899c16934053880876b920a3b8b02ed2337ac1d',
   'doctrine/sql-formatter' => '1.1.1@56070bebac6e77230ed7d306ad13528e60732871',
   'easyrdf/easyrdf' => '0.9.1@acd09dfe0555fbcfa254291e433c45fdd4652566',
+  'endroid/qr-code' => '4.3.5@5630e192948b466d418608ecce697465d20260af',
   'felixfbecker/advanced-json-rpc' => 'v3.2.0@06f0b06043c7438959dbdeed8bb3f699a19be22e',
   'felixfbecker/language-server-protocol' => '1.5.1@9d846d1f5cf101deee7a61c8ba7caa0a975cd730',
   'firebase/php-jwt' => 'v5.2.1@f42c9110abe98dd6cfe9053c49bc86acc70b2d23',
@@ -191,7 +194,7 @@ final class Versions
   'webmozart/assert' => '1.10.0@6964c76c7804814a842473e0c8fd15bab0f18e25',
   'webmozart/path-util' => '2.3.0@d939f7edc24c9a1bb9c0dee5cb05d8e859490725',
   'zumba/json-serializer' => '3.0.0@4387bfaa6948d219e947ee77d975ec4f41fefd2b',
-  'csr/csrdelft.nl' => 'dev-master@38edb29dc1c07b1f1a9a8eb19c5421fe3d96e122',
+  'csr/csrdelft.nl' => 'dev-master@940982a92bb6c2cd52a70b1b2571750af63f3c2d',
 );
 
     private function __construct()
