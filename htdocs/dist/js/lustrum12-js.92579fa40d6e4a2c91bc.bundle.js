@@ -1,0 +1,2 @@
+$(document).ready((function(){$(".dies-activiteit-ketzers").each((function(){const e="Verberg ketzers",t=$(this).find(".toggler"),i=$(this).find(".ketzers");t.click((function(){t.text(t.text()==e?"Laat ketzers zien":e),i.toggleClass("verborgen")}))}))}));
+//# sourceMappingURL=lustrum12-js.92579fa40d6e4a2c91bc.bundle.js.map
