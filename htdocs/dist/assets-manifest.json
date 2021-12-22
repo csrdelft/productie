@@ -574,8 +574,8 @@
       "assets": {
         "css": [
           {
-            "src": "css/lustrumdies.d2f5b645dd6a99b07c71.css",
-            "integrity": "sha256-LOJjogxIvWIkyWMpWCs/KE/SvRKoB02h3lVzHgDmAO8= sha384-OeXdEo4H2y8OqG2Z/yVP++0DfsoGVp3GOGY9v8gcNu4ZISdILe8GQOsW/jXAFnl5 sha512-bgPoDENGcMqf2KxZlJha/mFAoUHaIaTyKdgZISQr7axy8GzAgfrfUFVaJ+HiLMzkTnkSikHEFRuogTFC2xNz4Q=="
+            "src": "css/lustrumdies.a3448ab4db66991718d5.css",
+            "integrity": "sha256-Too9pxSFSYJgiSvIAl6gx3bYRQRpxFQ5dguS5c6S0DU= sha384-HpTTH6Souv0Ae+wPF75SKHc3bnsFUp6nqenEOfroNQjLXIumL4/JH3QlTX3bnKR0 sha512-UjR9sQ+xvFNki0JaHYwI3bMwQErvj7FW1+EtEqsONvNmn0GPswBcfYJczXGkmeO+ABewf2fVo6FgEzN8/fTxJg=="
           }
         ]
       }
@@ -1620,8 +1620,8 @@
     "integrity": "sha256-NHpZs6PwQYj4J27ChzIhv02OgqyUmJg8b7rSpFQ/UxY= sha384-7duTVzPTfD6afZj3vwwkOKthSUYwSu/70De06FlxbddL87Bi/u55agWzbGB25IKP sha512-5NsQspEIuixEf0vRxwKQF2jWmHwob3ijYuczTMyUAkD9UR4LCB0SCYGfD+2h80omMWYTIun93k/jtcxrjS1hTA=="
   },
   "lustrumdies.css": {
-    "src": "css/lustrumdies.d2f5b645dd6a99b07c71.css",
-    "integrity": "sha256-LOJjogxIvWIkyWMpWCs/KE/SvRKoB02h3lVzHgDmAO8= sha384-OeXdEo4H2y8OqG2Z/yVP++0DfsoGVp3GOGY9v8gcNu4ZISdILe8GQOsW/jXAFnl5 sha512-bgPoDENGcMqf2KxZlJha/mFAoUHaIaTyKdgZISQr7axy8GzAgfrfUFVaJ+HiLMzkTnkSikHEFRuogTFC2xNz4Q=="
+    "src": "css/lustrumdies.a3448ab4db66991718d5.css",
+    "integrity": "sha256-Too9pxSFSYJgiSvIAl6gx3bYRQRpxFQ5dguS5c6S0DU= sha384-HpTTH6Souv0Ae+wPF75SKHc3bnsFUp6nqenEOfroNQjLXIumL4/JH3QlTX3bnKR0 sha512-UjR9sQ+xvFNki0JaHYwI3bMwQErvj7FW1+EtEqsONvNmn0GPswBcfYJczXGkmeO+ABewf2fVo6FgEzN8/fTxJg=="
   },
   "lustrumdiesthema.css": {
     "src": "css/lustrumdiesthema.5091cfdaf759584ff1e6.css",
