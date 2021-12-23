@@ -2,9 +2,9 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression\BinaryOp;
 
 use PhpParser;
-use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Internal\Analyzer\Statements\Expression\BinaryOpAnalyzer;
 use Psalm\Context;
+use Psalm\Internal\Analyzer\Statements\Expression\BinaryOpAnalyzer;
+use Psalm\Internal\Analyzer\StatementsAnalyzer;
 use Psalm\Type;
 
 /**
@@ -34,6 +34,13 @@ class NonComparisonOpAnalyzer
             $stmt_type = Type::getString();
 
             $statements_analyzer->node_data->setType($stmt, $stmt_type);
+            BinaryOpAnalyzer::addDataFlow(
+                $statements_analyzer,
+                $stmt,
+                $stmt->left,
+                $stmt->right,
+                'nondivop'
+            );
 
             return;
         }
@@ -49,7 +56,7 @@ class NonComparisonOpAnalyzer
             || $stmt instanceof PhpParser\Node\Expr\BinaryOp\ShiftLeft
             || $stmt instanceof PhpParser\Node\Expr\BinaryOp\ShiftRight
         ) {
-            NonDivArithmeticOpAnalyzer::analyze(
+            ArithmeticOpAnalyzer::analyze(
                 $statements_analyzer,
                 $statements_analyzer->node_data,
                 $stmt->left,
@@ -109,7 +116,7 @@ class NonComparisonOpAnalyzer
         }
 
         if ($stmt instanceof PhpParser\Node\Expr\BinaryOp\Div) {
-            NonDivArithmeticOpAnalyzer::analyze(
+            ArithmeticOpAnalyzer::analyze(
                 $statements_analyzer,
                 $statements_analyzer->node_data,
                 $stmt->left,
@@ -137,7 +144,7 @@ class NonComparisonOpAnalyzer
         }
 
         if ($stmt instanceof PhpParser\Node\Expr\BinaryOp\BitwiseOr) {
-            NonDivArithmeticOpAnalyzer::analyze(
+            ArithmeticOpAnalyzer::analyze(
                 $statements_analyzer,
                 $statements_analyzer->node_data,
                 $stmt->left,

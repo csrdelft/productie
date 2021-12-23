@@ -3,9 +3,9 @@
 namespace Psalm\Report;
 
 use Psalm\Config;
+use Psalm\Internal\Analyzer\IssueData;
 use Psalm\Internal\Json\Json;
 use Psalm\Report;
-use Psalm\Internal\Analyzer\IssueData;
 
 use function array_values;
 use function md5;
@@ -50,7 +50,7 @@ class CodeClimateReport extends Report
                     'severity' => $this->convertSeverity($issue->severity),
                     'fingerprint' => $this->calculateFingerprint($issue),
                     'location' => [
-                        'path' => $issue->file_path,
+                        'path' => $issue->file_name,
                         'lines' => [
                             'begin' => $issue->line_from,
                             'end' => $issue->line_to,
@@ -90,6 +90,6 @@ class CodeClimateReport extends Report
      */
     protected function calculateFingerprint(IssueData $issue): string
     {
-        return md5($issue->type.$issue->message.$issue->file_path.$issue->from.$issue->to);
+        return md5($issue->type.$issue->message.$issue->file_name.$issue->from.$issue->to);
     }
 }

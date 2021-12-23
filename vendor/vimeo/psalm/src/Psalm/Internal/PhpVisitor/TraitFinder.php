@@ -2,6 +2,7 @@
 namespace Psalm\Internal\PhpVisitor;
 
 use PhpParser;
+
 use function count;
 
 /**
@@ -20,12 +21,7 @@ class TraitFinder extends PhpParser\NodeVisitorAbstract
         $this->fq_trait_name = $fq_trait_name;
     }
 
-    /**
-     * @param  bool $traverseChildren
-     *
-     * @return int|null
-     */
-    public function enterNode(PhpParser\Node $node, &$traverseChildren = true)
+    public function enterNode(PhpParser\Node $node, bool &$traverseChildren = true): ?int
     {
         if ($node instanceof PhpParser\Node\Stmt\Trait_) {
             /** @var ?string */

@@ -46,7 +46,7 @@ interface EmitterInterface
         string $eventName,
         array $arguments = [],
         ?callable $continueCallBack = null
-    ) : bool;
+    ) : void;
 
     /**
      * Returns the list of listeners for an event.
@@ -63,6 +63,7 @@ interface EmitterInterface
      *
      * If the listener could not be found, this method will return false. If it
      * was removed it will return true.
+     * @psalm-suppress PossiblyUnusedReturnValue
      */
     public function removeListener(string $eventName, callable $listener) : bool;
 }

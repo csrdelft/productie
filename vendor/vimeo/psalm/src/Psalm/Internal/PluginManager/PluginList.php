@@ -2,6 +2,7 @@
 namespace Psalm\Internal\PluginManager;
 
 use RuntimeException;
+
 use function array_diff_key;
 use function array_flip;
 use function array_key_exists;
@@ -17,10 +18,10 @@ class PluginList
     private $composer_lock;
 
     /** @var ?array<string,string> [pluginClass => packageName] */
-    private $all_plugins = null;
+    private $all_plugins;
 
     /** @var ?array<string,?string> [pluginClass => ?packageName] */
-    private $enabled_plugins = null;
+    private $enabled_plugins;
 
     public function __construct(?ConfigFile $config_file, ComposerLock $composer_lock)
     {

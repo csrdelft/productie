@@ -2,9 +2,9 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression;
 
 use PhpParser;
+use Psalm\Context;
 use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Context;
 use Psalm\Node\Expr\BinaryOp\VirtualIdentical;
 use Psalm\Node\Expr\VirtualConstFetch;
 use Psalm\Node\Expr\VirtualMethodCall;
@@ -28,11 +28,11 @@ class NullsafeAnalyzer
         Context $context
     ) : bool {
         if (!$stmt->var instanceof PhpParser\Node\Expr\Variable) {
-            $was_inside_use = $context->inside_use;
+            $was_inside_general_use = $context->inside_general_use;
 
-            $context->inside_use = true;
+            $context->inside_general_use = true;
             ExpressionAnalyzer::analyze($statements_analyzer, $stmt->var, $context);
-            $context->inside_use = $was_inside_use;
+            $context->inside_general_use = $was_inside_general_use;
 
             $tmp_name = '__tmp_nullsafe__' . (int) $stmt->var->getAttribute('startFilePos');
 
@@ -90,7 +90,7 @@ class NullsafeAnalyzer
 
         $statements_analyzer->node_data = $old_node_data;
 
-        $statements_analyzer->node_data->setType($stmt, $ternary_type ?: Type::getMixed());
+        $statements_analyzer->node_data->setType($stmt, $ternary_type ?? Type::getMixed());
 
         return true;
     }

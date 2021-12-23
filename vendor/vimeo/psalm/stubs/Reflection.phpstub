@@ -13,7 +13,7 @@ class ReflectionClass implements Reflector {
     public $name;
 
     /**
-     * @param T|class-string<T>|trait-string $argument
+     * @param T|class-string<T>|interface-string<T>|trait-string $argument
      */
     public function __construct($argument) {}
 
@@ -76,6 +76,18 @@ class ReflectionProperty implements Reflector
      * @return array<ReflectionAttribute<TClass>>
      */
     public function getAttributes(?string $name = null, int $flags = 0): array {}
+
+    /**
+     * @since 7.4
+     * @psalm-assert-if-true ReflectionType $this->getType()
+     */
+    public function hasType() : bool {}
+
+    /**
+     * @since 7.4
+     * @psalm-mutation-free
+     */
+    public function getType() : ?ReflectionType {}
 }
 
 class ReflectionMethod implements Reflector
@@ -110,4 +122,17 @@ class ReflectionParameter {
     public function hasType() : bool {}
 
     public function getType() : ?ReflectionType {}
+}
+
+/**
+ * @psalm-immutable
+ */
+class ReflectionNamedType extends ReflectionType
+{
+    public function getName(): string {}
+
+    /**
+     * @psalm-assert-if-false class-string $this->getName()
+     */
+    public function isBuiltin(): bool {}
 }

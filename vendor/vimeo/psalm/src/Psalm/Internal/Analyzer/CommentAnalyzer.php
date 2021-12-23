@@ -8,24 +8,25 @@ use Psalm\Exception\DocblockParseException;
 use Psalm\Exception\IncorrectDocblockException;
 use Psalm\Exception\TypeParseTreeException;
 use Psalm\FileSource;
-use Psalm\Internal\Scanner\VarDocblockComment;
 use Psalm\Internal\Scanner\ParsedDocblock;
-use Psalm\Type;
+use Psalm\Internal\Scanner\VarDocblockComment;
 use Psalm\Internal\Type\TypeAlias;
 use Psalm\Internal\Type\TypeParser;
 use Psalm\Internal\Type\TypeTokenizer;
-use function trim;
-use function substr_count;
-use function strlen;
-use function preg_replace;
-use function str_replace;
-use function preg_match;
-use function count;
-use function reset;
-use function preg_split;
-use function substr;
+use Psalm\Type;
+
 use function array_merge;
+use function count;
+use function preg_match;
+use function preg_replace;
+use function preg_split;
+use function reset;
 use function rtrim;
+use function str_replace;
+use function strlen;
+use function substr;
+use function substr_count;
+use function trim;
 
 /**
  * @internal
@@ -101,11 +102,16 @@ class CommentAnalyzer
 
                 $line_parts = self::splitDocLine($var_line);
 
-                $line_number = $comment->getStartLine() + substr_count($comment_text, "\n", 0, $offset);
+                $line_number = $comment->getStartLine() + substr_count(
+                    $comment_text,
+                    "\n",
+                    0,
+                    $offset - $comment->getStartFilePos()
+                );
                 $description = $parsed_docblock->description;
 
-                if ($line_parts && $line_parts[0]) {
-                    $type_start = $offset + $comment->getStartFilePos();
+                if ($line_parts[0]) {
+                    $type_start = $offset;
                     $type_end = $type_start + strlen($line_parts[0]);
 
                     $line_parts[0] = self::sanitizeDocblockType($line_parts[0]);
@@ -170,7 +176,6 @@ class CommentAnalyzer
 
                 $var_comment = new VarDocblockComment();
                 $var_comment->type = $defined_type;
-                $var_comment->original_type = $original_type;
                 $var_comment->var_id = $var_id;
                 $var_comment->line_number = $var_line_number;
                 $var_comment->type_start = $type_start;
@@ -280,7 +285,7 @@ class CommentAnalyzer
             $last_char = $i > 0 ? $return_block[$i - 1] : null;
 
             if ($quote_char) {
-                if ($char === $quote_char && $i > 1 && !$escaped) {
+                if ($char === $quote_char && !$escaped) {
                     $quote_char = null;
 
                     $type .= $char;

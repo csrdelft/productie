@@ -2,15 +2,16 @@
 namespace Psalm\Internal\Analyzer\Statements\Block;
 
 use PhpParser;
+use Psalm\Context;
 use Psalm\Internal\Analyzer\ScopeAnalyzer;
 use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Context;
 use Psalm\Internal\Scope\LoopScope;
 use Psalm\Type;
+
+use function array_intersect_key;
 use function array_merge;
 use function in_array;
-use function array_intersect_key;
 
 /**
  * @internal
@@ -77,14 +78,16 @@ class ForAnalyzer
             $context->protected_var_ids
         );
 
-        LoopAnalyzer::analyze(
+        if (LoopAnalyzer::analyze(
             $statements_analyzer,
             $stmt->stmts,
             $stmt->cond,
             $stmt->loop,
             $loop_scope,
             $inner_loop_context
-        );
+        ) === false) {
+            return false;
+        }
 
         if (!$inner_loop_context) {
             throw new \UnexpectedValueException('There should be an inner loop context');
@@ -94,11 +97,7 @@ class ForAnalyzer
 
         foreach ($stmt->cond as $cond) {
             if ($cond_type = $statements_analyzer->node_data->getType($cond)) {
-                foreach ($cond_type->getAtomicTypes() as $iterator_type) {
-                    $always_enters_loop = $iterator_type instanceof Type\Atomic\TTrue;
-
-                    break;
-                }
+                $always_enters_loop = $cond_type->isAlwaysTruthy();
             }
 
             if (\count($stmt->init) === 1
@@ -145,7 +144,8 @@ class ForAnalyzer
         if ($always_enters_loop && $can_leave_loop) {
             foreach ($inner_loop_context->vars_in_scope as $var_id => $type) {
                 // if there are break statements in the loop it's not certain
-                // that the loop has finished executing
+                // that the loop has finished executing, so the assertions at the end
+                // the loop in the while conditional may not hold
                 if (in_array(ScopeAnalyzer::ACTION_BREAK, $loop_scope->final_actions, true)
                     || in_array(ScopeAnalyzer::ACTION_CONTINUE, $loop_scope->final_actions, true)
                 ) {

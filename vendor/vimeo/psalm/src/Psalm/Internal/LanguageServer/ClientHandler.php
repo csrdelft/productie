@@ -3,9 +3,10 @@ declare(strict_types = 1);
 namespace Psalm\Internal\LanguageServer;
 
 use AdvancedJsonRpc;
-use function Amp\call;
 use Amp\Deferred;
 use Amp\Promise;
+
+use function Amp\call;
 use function error_log;
 
 /**
@@ -92,13 +93,10 @@ class ClientHandler
      *
      * @param string $method The method to call
      * @param array|object $params The method parameters
-     *
-     * @return Promise<void> Will be resolved as soon as the notification has been sent
      */
-    public function notify(string $method, $params): Promise
+    public function notify(string $method, $params): void
     {
-        /** @var Promise<void> */
-        return $this->protocolWriter->write(
+        $this->protocolWriter->write(
             new Message(
                 new AdvancedJsonRpc\Notification($method, (object)$params)
             )

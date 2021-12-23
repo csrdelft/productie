@@ -2,15 +2,17 @@
 namespace Psalm\Internal\Analyzer;
 
 use PhpParser;
-use Psalm\Internal\Clause;
 use Psalm\CodeLocation;
+use Psalm\Internal\Algebra;
+use Psalm\Internal\Clause;
 use Psalm\Issue\ParadoxicalCondition;
 use Psalm\Issue\RedundantCondition;
 use Psalm\IssueBuffer;
-use Psalm\Internal\Algebra;
+
 use function array_intersect_key;
-use function count;
 use function array_unique;
+use function count;
+use function preg_match;
 
 /**
  * @internal
@@ -134,6 +136,12 @@ class AlgebraAnalyzer
                     if ($negated_clause_2->possibilities[$key] != $keyed_possibilities) {
                         $negated_clause_2_contains_1_possibilities = false;
                         break;
+                    }
+                    foreach ($keyed_possibilities as $possibility) {
+                        if (preg_match('@^!?in-array-@', $possibility)) {
+                            $negated_clause_2_contains_1_possibilities = false;
+                            break;
+                        }
                     }
                 }
 

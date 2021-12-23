@@ -1,6 +1,10 @@
 <?php
 namespace Psalm\Internal\Provider;
 
+use PhpParser;
+use Psalm\Progress\Progress;
+use Psalm\Progress\VoidProgress;
+
 use function abs;
 use function array_flip;
 use function array_intersect_key;
@@ -9,11 +13,8 @@ use function array_merge;
 use function count;
 use function filemtime;
 use function md5;
-use PhpParser;
-use Psalm\Progress\Progress;
-use Psalm\Progress\VoidProgress;
 use function strlen;
-use function substr;
+use function strpos;
 
 /**
  * @internal
@@ -199,24 +200,14 @@ class StatementsProvider
                     );
 
                 $unchanged_members = array_map(
-                    /**
-                     * @param int $_
-                     *
-                     * @return bool
-                     */
-                    function ($_): bool {
+                    function (int $_): bool {
                         return true;
                     },
                     array_flip($unchanged_members)
                 );
 
                 $unchanged_signature_members = array_map(
-                    /**
-                     * @param int $_
-                     *
-                     * @return bool
-                     */
-                    function ($_): bool {
+                    function (int $_): bool {
                         return true;
                     },
                     array_flip($unchanged_signature_members)
@@ -226,7 +217,7 @@ class StatementsProvider
 
                 $changed_members = array_map(
                     function (string $key) use ($file_path_hash) : string {
-                        if (substr($key, 0, 4) === 'use:') {
+                        if (strpos($key, 'use:') === 0) {
                             return $key . ':' . $file_path_hash;
                         }
 

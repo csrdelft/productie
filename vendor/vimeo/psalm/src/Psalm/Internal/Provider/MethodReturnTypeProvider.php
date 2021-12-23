@@ -9,8 +9,9 @@ use Psalm\Plugin\EventHandler\MethodReturnTypeProviderInterface;
 use Psalm\Plugin\Hook\MethodReturnTypeProviderInterface as LegacyMethodReturnTypeProviderInterface;
 use Psalm\StatementsSource;
 use Psalm\Type;
-use function strtolower;
+
 use function is_subclass_of;
+use function strtolower;
 
 class MethodReturnTypeProvider
 {
@@ -46,6 +47,7 @@ class MethodReturnTypeProvider
         self::$legacy_handlers = [];
 
         $this->registerClass(ReturnTypeProvider\DomNodeAppendChild::class);
+        $this->registerClass(ReturnTypeProvider\ImagickPixelColorReturnTypeProvider::class);
         $this->registerClass(ReturnTypeProvider\SimpleXmlElementAsXml::class);
         $this->registerClass(ReturnTypeProvider\PdoStatementReturnTypeProvider::class);
         $this->registerClass(ReturnTypeProvider\ClosureFromCallableReturnTypeProvider::class);
@@ -105,27 +107,44 @@ class MethodReturnTypeProvider
     }
 
     /**
-     * @param list<PhpParser\Node\Arg>  $call_args
+     * @param PhpParser\Node\Expr\MethodCall|PhpParser\Node\Expr\StaticCall $stmt
      * @param  ?array<Type\Union> $template_type_parameters
-     *
      */
     public function getReturnType(
         StatementsSource $statements_source,
         string $fq_classlike_name,
         string $method_name,
-        array $call_args,
+        $stmt,
         Context $context,
         CodeLocation $code_location,
         ?array $template_type_parameters = null,
         ?string $called_fq_classlike_name = null,
         ?string $called_method_name = null
     ): ?Type\Union {
+        foreach (self::$legacy_handlers[strtolower($fq_classlike_name)] ?? [] as $class_handler) {
+            $result = $class_handler(
+                $statements_source,
+                $fq_classlike_name,
+                strtolower($method_name),
+                $stmt->getArgs(),
+                $context,
+                $code_location,
+                $template_type_parameters,
+                $called_fq_classlike_name,
+                $called_method_name ? strtolower($called_method_name) : null
+            );
+
+            if ($result) {
+                return $result;
+            }
+        }
+
         foreach (self::$handlers[strtolower($fq_classlike_name)] ?? [] as $class_handler) {
             $event = new MethodReturnTypeProviderEvent(
                 $statements_source,
                 $fq_classlike_name,
                 strtolower($method_name),
-                $call_args,
+                $stmt,
                 $context,
                 $code_location,
                 $template_type_parameters,
@@ -133,24 +152,6 @@ class MethodReturnTypeProvider
                 $called_method_name ? strtolower($called_method_name) : null
             );
             $result = $class_handler($event);
-
-            if ($result) {
-                return $result;
-            }
-        }
-
-        foreach (self::$legacy_handlers[strtolower($fq_classlike_name)] ?? [] as $class_handler) {
-            $result = $class_handler(
-                $statements_source,
-                $fq_classlike_name,
-                strtolower($method_name),
-                $call_args,
-                $context,
-                $code_location,
-                $template_type_parameters,
-                $called_fq_classlike_name,
-                $called_method_name ? strtolower($called_method_name) : null
-            );
 
             if ($result) {
                 return $result;

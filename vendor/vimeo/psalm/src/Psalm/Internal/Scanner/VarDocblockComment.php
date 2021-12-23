@@ -14,14 +14,9 @@ class VarDocblockComment
     public $type;
 
     /**
-     * @var ?string
-     */
-    public $original_type;
-
-    /**
      * @var string|null
      */
-    public $var_id = null;
+    public $var_id;
 
     /**
      * @var int|null
@@ -57,7 +52,7 @@ class VarDocblockComment
      *
      * @var null|string
      */
-    public $psalm_internal = null;
+    public $psalm_internal;
 
     /**
      * Whether or not the property is readonly

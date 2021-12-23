@@ -2,26 +2,27 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression\Call;
 
 use PhpParser;
+use Psalm\CodeLocation;
 use Psalm\Codebase;
-use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
+use Psalm\Context;
 use Psalm\Internal\Analyzer\Statements\Expression\AssignmentAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Expression\CallAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Expression\ExpressionIdentifier;
 use Psalm\Internal\Analyzer\Statements\Expression\Fetch\ArrayFetchAnalyzer;
+use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
+use Psalm\Internal\Codebase\Functions;
 use Psalm\Internal\Codebase\InternalCallMapHandler;
 use Psalm\Internal\Codebase\TaintFlowGraph;
 use Psalm\Internal\DataFlow\TaintSink;
+use Psalm\Internal\MethodIdentifier;
 use Psalm\Internal\Stubs\Generator\StubsGenerator;
 use Psalm\Internal\Type\Comparator\UnionTypeComparator;
-use Psalm\Internal\MethodIdentifier;
+use Psalm\Internal\Type\TemplateInferredTypeReplacer;
 use Psalm\Internal\Type\TemplateResult;
 use Psalm\Internal\Type\TemplateStandinTypeReplacer;
-use Psalm\Internal\Type\TemplateInferredTypeReplacer;
-use Psalm\CodeLocation;
-use Psalm\Context;
-use Psalm\Issue\InvalidPassByReference;
 use Psalm\Issue\InvalidNamedArgument;
+use Psalm\Issue\InvalidPassByReference;
 use Psalm\Issue\PossiblyUndefinedVariable;
 use Psalm\Issue\TooFewArguments;
 use Psalm\Issue\TooManyArguments;
@@ -31,16 +32,18 @@ use Psalm\Storage\ClassLikeStorage;
 use Psalm\Storage\FunctionLikeParameter;
 use Psalm\Storage\FunctionLikeStorage;
 use Psalm\Type;
-use Psalm\Type\Atomic\TKeyedArray;
 use Psalm\Type\Atomic\TArray;
+use Psalm\Type\Atomic\TKeyedArray;
 use Psalm\Type\Atomic\TList;
-use function strtolower;
-use function strpos;
+
+use function array_map;
+use function array_reverse;
 use function count;
 use function in_array;
-use function array_reverse;
 use function is_string;
-use function array_map;
+use function reset;
+use function strpos;
+use function strtolower;
 
 /**
  * @internal
@@ -67,8 +70,7 @@ class ArgumentsAnalyzer
             : null;
 
         // if this modifies the array type based on further args
-        if ($method_id
-            && in_array($method_id, ['array_push', 'array_unshift'], true)
+        if (in_array($method_id, ['array_push', 'array_unshift'], true)
             && $function_params
             && isset($args[0])
             && isset($args[1])
@@ -77,7 +79,7 @@ class ArgumentsAnalyzer
                 $statements_analyzer,
                 $args,
                 $context,
-                $method_id === 'array_push'
+                $method_id
             ) === false
             ) {
                 return false;
@@ -86,7 +88,7 @@ class ArgumentsAnalyzer
             return null;
         }
 
-        if ($method_id && $method_id === 'array_splice' && $function_params && count($args) > 1) {
+        if ($method_id === 'array_splice' && $function_params && count($args) > 1) {
             if (ArrayFunctionArgumentsAnalyzer::handleSplice($statements_analyzer, $args, $context) === false) {
                 return false;
             }
@@ -100,7 +102,7 @@ class ArgumentsAnalyzer
 
         foreach ($args as $argument_offset => $arg) {
             if ($function_params === null) {
-                if (self::evaluateAribitraryParam(
+                if (self::evaluateArbitraryParam(
                     $statements_analyzer,
                     $arg,
                     $context
@@ -130,7 +132,7 @@ class ArgumentsAnalyzer
 
             $by_ref_type = null;
 
-            if ($by_ref && $param) {
+            if ($by_ref) {
                 $by_ref_type = $param->type ? clone $param->type : Type::getMixed();
             }
 
@@ -175,7 +177,7 @@ class ArgumentsAnalyzer
             if (($arg->value instanceof PhpParser\Node\Expr\Closure
                     || $arg->value instanceof PhpParser\Node\Expr\ArrowFunction)
                 && $template_result
-                && $template_result->upper_bounds
+                && $template_result->lower_bounds
                 && $param
                 && !$arg->value->getDocComment()
             ) {
@@ -263,15 +265,16 @@ class ArgumentsAnalyzer
             $statements_analyzer,
             $existing_type,
             $argument_offset,
-            'fn-' . ($context->calling_method_id ?: $context->calling_function_id)
+            $context->self,
+            $context->calling_method_id ?: $context->calling_function_id
         );
 
-        if ($replace_template_result->upper_bounds) {
+        if ($replace_template_result->lower_bounds) {
             if (!$template_result) {
                 $template_result = new TemplateResult([], []);
             }
 
-            $template_result->upper_bounds += $replace_template_result->upper_bounds;
+            $template_result->lower_bounds += $replace_template_result->lower_bounds;
         }
     }
 
@@ -299,7 +302,7 @@ class ArgumentsAnalyzer
         ) {
             $function_like_params = [];
 
-            foreach ($template_result->upper_bounds as $template_name => $_) {
+            foreach ($template_result->lower_bounds as $template_name => $_) {
                 $function_like_params[] = new \Psalm\Storage\FunctionLikeParameter(
                     'function',
                     false,
@@ -325,15 +328,18 @@ class ArgumentsAnalyzer
 
         $replace_template_result = new \Psalm\Internal\Type\TemplateResult(
             array_map(
-                function ($template_map) {
+                function ($template_map) use ($codebase) {
                     return array_map(
-                        function ($bound) {
-                            return $bound->type;
+                        function ($lower_bounds) use ($codebase) {
+                            return \Psalm\Internal\Type\TemplateStandinTypeReplacer::getMostSpecificTypeFromBounds(
+                                $lower_bounds,
+                                $codebase
+                            );
                         },
                         $template_map
                     );
                 },
-                $template_result->upper_bounds
+                $template_result->lower_bounds
             ),
             []
         );
@@ -346,7 +352,7 @@ class ArgumentsAnalyzer
             null,
             null,
             null,
-            'fn-' . ($context->calling_method_id ?: $context->calling_function_id)
+            $context->calling_method_id ?: $context->calling_function_id
         );
 
         TemplateInferredTypeReplacer::replace(
@@ -401,15 +407,11 @@ class ArgumentsAnalyzer
                                 }
                             }
 
-                            if (!$newly_inferred_type) {
-                                $newly_inferred_type = $replaced_type_part->params[$closure_param_offset]->type;
-                            } else {
-                                $newly_inferred_type = Type::combineUnionTypes(
-                                    $newly_inferred_type,
-                                    $replaced_type_part->params[$closure_param_offset]->type,
-                                    $codebase
-                                );
-                            }
+                            $newly_inferred_type = Type::combineUnionTypes(
+                                $newly_inferred_type,
+                                $replaced_type_part->params[$closure_param_offset]->type,
+                                $codebase
+                            );
                         }
                     }
                 }
@@ -470,7 +472,7 @@ class ArgumentsAnalyzer
             if ($function_storage) {
                 $is_variadic = $function_storage->variadic;
             } elseif (is_string($method_id)) {
-                $is_variadic = $codebase->functions->isVariadic(
+                $is_variadic = Functions::isVariadic(
                     $codebase,
                     strtolower($method_id),
                     $statements_analyzer->getRootFilePath()
@@ -560,9 +562,11 @@ class ArgumentsAnalyzer
         $class_generic_params = [];
 
         if ($class_template_result) {
-            foreach ($class_template_result->upper_bounds as $template_name => $type_map) {
-                foreach ($type_map as $class => $bound) {
-                    $class_generic_params[$template_name][$class] = clone $bound->type;
+            foreach ($class_template_result->lower_bounds as $template_name => $type_map) {
+                foreach ($type_map as $class => $lower_bounds) {
+                    if (count($lower_bounds) === 1) {
+                        $class_generic_params[$template_name][$class] = clone reset($lower_bounds)->type;
+                    }
                 }
             }
         }
@@ -615,7 +619,7 @@ class ArgumentsAnalyzer
                             $function_params[$i],
                             $i,
                             $i,
-                            $function_storage ? $function_storage->allow_named_arg_calls : true,
+                            $function_storage->allow_named_arg_calls ?? true,
                             new VirtualArg(
                                 StubsGenerator::getExpressionFromType($default_type)
                             ),
@@ -623,7 +627,7 @@ class ArgumentsAnalyzer
                             $context,
                             $class_generic_params,
                             $template_result,
-                            $function_storage ? $function_storage->specialize_call : true,
+                            $function_storage->specialize_call ?? true,
                             $in_call_map
                         );
                     }
@@ -791,13 +795,13 @@ class ArgumentsAnalyzer
                     $function_param,
                     $argument_offset + $i,
                     $i,
-                    $function_storage ? $function_storage->allow_named_arg_calls : true,
+                    $function_storage->allow_named_arg_calls ?? true,
                     $arg,
                     $arg_value_type,
                     $context,
                     $class_generic_params,
                     $template_result,
-                    $function_storage ? $function_storage->specialize_call : true,
+                    $function_storage->specialize_call ?? true,
                     $in_call_map
                 ) === false) {
                     return false;
@@ -903,7 +907,7 @@ class ArgumentsAnalyzer
     private static function handlePossiblyMatchingByRefParam(
         StatementsAnalyzer $statements_analyzer,
         Codebase $codebase,
-        ?string $method_id,
+        string $method_id,
         ?string $cased_method_id,
         ?FunctionLikeParameter $last_param,
         array $function_params,
@@ -964,8 +968,12 @@ class ArgumentsAnalyzer
                     $function_param = $last_param;
                 }
 
-                $by_ref_type = $function_param->type;
-                $by_ref_out_type = $function_param->out_type;
+                if ($function_param->type) {
+                    $by_ref_type = clone $function_param->type;
+                }
+                if ($function_param->out_type) {
+                    $by_ref_out_type = clone $function_param->out_type;
+                }
 
                 if ($by_ref_type && $by_ref_type->isNullable()) {
                     $check_null_ref = false;
@@ -981,10 +989,11 @@ class ArgumentsAnalyzer
                         $statements_analyzer,
                         $statements_analyzer->node_data->getType($arg->value),
                         $argument_offset,
-                        'fn-' . ($context->calling_method_id ?: $context->calling_function_id)
+                        $context->self,
+                        $context->calling_method_id ?: $context->calling_function_id
                     );
 
-                    if ($template_result->upper_bounds) {
+                    if ($template_result->lower_bounds) {
                         TemplateInferredTypeReplacer::replace(
                             $original_by_ref_type,
                             $template_result,
@@ -1005,10 +1014,11 @@ class ArgumentsAnalyzer
                         $statements_analyzer,
                         $statements_analyzer->node_data->getType($arg->value),
                         $argument_offset,
-                        'fn-' . ($context->calling_method_id ?: $context->calling_function_id)
+                        $context->self,
+                        $context->calling_method_id ?: $context->calling_function_id
                     );
 
-                    if ($template_result->upper_bounds) {
+                    if ($template_result->lower_bounds) {
                         TemplateInferredTypeReplacer::replace(
                             $original_by_ref_out_type,
                             $template_result,
@@ -1048,7 +1058,7 @@ class ArgumentsAnalyzer
     /**
      * @return false|null
      */
-    private static function evaluateAribitraryParam(
+    private static function evaluateArbitraryParam(
         StatementsAnalyzer $statements_analyzer,
         PhpParser\Node\Arg $arg,
         Context $context
@@ -1357,12 +1367,12 @@ class ArgumentsAnalyzer
             $fleshed_out_param_type = \Psalm\Internal\Type\TypeExpander::expandUnion(
                 $codebase,
                 $function_param->type,
-                $class_storage ? $class_storage->name : null,
-                $calling_class_storage ? $calling_class_storage->name : null,
+                $class_storage->name ?? null,
+                $calling_class_storage->name ?? null,
                 null,
                 true,
                 false,
-                $calling_class_storage ? $calling_class_storage->final : false
+                $calling_class_storage->final ?? false
             );
 
             TemplateStandinTypeReplacer::replace(

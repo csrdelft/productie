@@ -1,9 +1,10 @@
 <?php
 namespace Psalm\Report;
 
-use Psalm\Internal\Json\Json;
 use Psalm\Config;
+use Psalm\Internal\Json\Json;
 use Psalm\Report;
+
 use function file_exists;
 use function file_get_contents;
 
@@ -18,6 +19,7 @@ class SarifReport extends Report
     {
         $report = [
             'version' => '2.1.0',
+            '$schema' => 'https://json.schemastore.org/sarif-2.1.0.json',
             'runs' => [
                 [
                     'tool' => [
@@ -43,7 +45,7 @@ class SarifReport extends Report
                 ],
                 'properties' => [
                     'tags' => [
-                        (\substr($issue_data->type, 0, 7) === 'Tainted') ? 'security' : 'maintainability',
+                        (\strpos($issue_data->type, 'Tainted') === 0) ? 'security' : 'maintainability',
                     ],
                 ],
                 'helpUri' => $issue_data->link,

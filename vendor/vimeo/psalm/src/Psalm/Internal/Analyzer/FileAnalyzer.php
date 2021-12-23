@@ -2,8 +2,8 @@
 namespace Psalm\Internal\Analyzer;
 
 use PhpParser;
-use Psalm\Codebase;
 use Psalm\CodeLocation\DocblockTypeLocation;
+use Psalm\Codebase;
 use Psalm\Context;
 use Psalm\Exception\UnpreparedAnalysisException;
 use Psalm\Internal\FileManipulation\FileManipulationBuffer;
@@ -14,11 +14,12 @@ use Psalm\IssueBuffer;
 use Psalm\Plugin\EventHandler\Event\AfterFileAnalysisEvent;
 use Psalm\Plugin\EventHandler\Event\BeforeFileAnalysisEvent;
 use Psalm\Type;
-use function implode;
-use function strtolower;
-use function strpos;
+
 use function array_keys;
 use function count;
+use function implode;
+use function strpos;
+use function strtolower;
 
 /**
  * @internal
@@ -191,8 +192,8 @@ class FileAnalyzer extends SourceAnalyzer
             foreach ($leftover_stmts as $leftover_stmt) {
                 if ($leftover_stmt instanceof PhpParser\Node\Stmt\Return_) {
                     if ($leftover_stmt->expr) {
-                        $this->return_type = $statements_analyzer->node_data->getType($leftover_stmt->expr)
-                            ?: Type::getMixed();
+                        $this->return_type =
+                            $statements_analyzer->node_data->getType($leftover_stmt->expr) ?? Type::getMixed();
                     } else {
                         $this->return_type = Type::getVoid();
                     }
@@ -248,10 +249,13 @@ class FileAnalyzer extends SourceAnalyzer
                         null,
                         null,
                         $this->suppressed_issues,
-                        true,
-                        false,
-                        true,
-                        true
+                        new ClassLikeNameOptions(
+                            true,
+                            false,
+                            true,
+                            true,
+                            true
+                        )
                     ) === false) {
                         continue;
                     }
@@ -323,13 +327,15 @@ class FileAnalyzer extends SourceAnalyzer
 
     private function populateClassLikeAnalyzers(PhpParser\Node\Stmt\ClassLike $stmt): void
     {
-        if ($stmt instanceof PhpParser\Node\Stmt\Class_) {
+        if ($stmt instanceof PhpParser\Node\Stmt\Class_ || $stmt instanceof PhpParser\Node\Stmt\Enum_) {
             if (!$stmt->name) {
                 return;
             }
 
             // this can happen when stubbing
-            if (!$this->codebase->classExists($stmt->name->name)) {
+            if (!$this->codebase->classExists($stmt->name->name)
+                && !$this->codebase->classlikes->enumExists($stmt->name->name)
+            ) {
                 return;
             }
 
@@ -656,7 +662,6 @@ class FileAnalyzer extends SourceAnalyzer
 
     public function clearSourceBeforeDestruction() : void
     {
-        /** @psalm-suppress PossiblyNullPropertyAssignmentValue */
-        $this->source = null;
+        unset($this->source);
     }
 }

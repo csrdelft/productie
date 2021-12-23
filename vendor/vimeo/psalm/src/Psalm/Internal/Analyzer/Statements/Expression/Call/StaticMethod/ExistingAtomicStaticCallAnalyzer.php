@@ -2,12 +2,12 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression\Call\StaticMethod;
 
 use PhpParser;
-use Psalm\Internal\Analyzer\Statements\Expression\CallAnalyzer;
-use Psalm\Internal\Analyzer\Statements\Expression\Call\Method\MethodCallProhibitionAnalyzer;
-use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Internal\Analyzer\Statements\Expression\Call\ClassTemplateParamCollector;
 use Psalm\CodeLocation;
 use Psalm\Context;
+use Psalm\Internal\Analyzer\Statements\Expression\Call\ClassTemplateParamCollector;
+use Psalm\Internal\Analyzer\Statements\Expression\Call\Method\MethodCallProhibitionAnalyzer;
+use Psalm\Internal\Analyzer\Statements\Expression\CallAnalyzer;
+use Psalm\Internal\Analyzer\StatementsAnalyzer;
 use Psalm\Internal\FileManipulation\FileManipulationBuffer;
 use Psalm\Internal\MethodIdentifier;
 use Psalm\Internal\Type\TemplateBound;
@@ -19,14 +19,15 @@ use Psalm\Plugin\EventHandler\Event\AfterMethodCallAnalysisEvent;
 use Psalm\Storage\Assertion;
 use Psalm\Storage\ClassLikeStorage;
 use Psalm\Type;
-use function count;
-use function strtolower;
+
 use function array_map;
+use function count;
 use function explode;
-use function strpos;
-use function strlen;
-use function substr;
 use function in_array;
+use function strlen;
+use function strpos;
+use function strtolower;
+use function substr;
 
 class ExistingAtomicStaticCallAnalyzer
 {
@@ -190,7 +191,7 @@ class ExistingAtomicStaticCallAnalyzer
                 $statements_analyzer,
                 $fq_class_name,
                 $stmt_name->name,
-                $stmt->args,
+                $stmt,
                 $context,
                 new CodeLocation($statements_analyzer->getSource(), $stmt_name)
             );
@@ -210,7 +211,7 @@ class ExistingAtomicStaticCallAnalyzer
                     $statements_analyzer,
                     $declaring_fq_class_name,
                     $declaring_method_name,
-                    $stmt->args,
+                    $stmt,
                     $context,
                     new CodeLocation($statements_analyzer->getSource(), $stmt_name),
                     null,
@@ -279,7 +280,7 @@ class ExistingAtomicStaticCallAnalyzer
                 } elseif ($context->mutation_free && !$method_storage->mutation_free) {
                     if (IssueBuffer::accepts(
                         new ImpureMethodCall(
-                            'Cannot call an possibly-mutating method from a mutation-free context',
+                            'Cannot call a possibly-mutating method from a mutation-free context',
                             new CodeLocation($statements_analyzer, $stmt_name)
                         ),
                         $statements_analyzer->getSuppressedIssues()
@@ -299,14 +300,14 @@ class ExistingAtomicStaticCallAnalyzer
                 }
             }
 
-            $generic_params = $template_result->upper_bounds;
+            $generic_params = $template_result->lower_bounds;
 
             if ($method_storage->assertions) {
                 CallAnalyzer::applyAssertionsToContext(
                     $stmt_name,
                     null,
                     $method_storage->assertions,
-                    $stmt->args,
+                    $stmt->getArgs(),
                     $generic_params,
                     $context,
                     $statements_analyzer
@@ -317,8 +318,8 @@ class ExistingAtomicStaticCallAnalyzer
                 $statements_analyzer->node_data->setIfTrueAssertions(
                     $stmt,
                     array_map(
-                        function (Assertion $assertion) use ($generic_params) : Assertion {
-                            return $assertion->getUntemplatedCopy($generic_params, null);
+                        function (Assertion $assertion) use ($generic_params, $codebase) : Assertion {
+                            return $assertion->getUntemplatedCopy($generic_params, null, $codebase);
                         },
                         $method_storage->if_true_assertions
                     )
@@ -329,8 +330,8 @@ class ExistingAtomicStaticCallAnalyzer
                 $statements_analyzer->node_data->setIfFalseAssertions(
                     $stmt,
                     array_map(
-                        function (Assertion $assertion) use ($generic_params) : Assertion {
-                            return $assertion->getUntemplatedCopy($generic_params, null);
+                        function (Assertion $assertion) use ($generic_params, $codebase) : Assertion {
+                            return $assertion->getUntemplatedCopy($generic_params, null, $codebase);
                         },
                         $method_storage->if_false_assertions
                     )
@@ -406,7 +407,7 @@ class ExistingAtomicStaticCallAnalyzer
             }
         }
 
-        $return_type_candidate = $return_type_candidate ?: Type::getMixed();
+        $return_type_candidate = $return_type_candidate ?? Type::getMixed();
 
         \Psalm\Internal\Analyzer\Statements\Expression\Call\StaticCallAnalyzer::taintReturnType(
             $statements_analyzer,
@@ -419,14 +420,11 @@ class ExistingAtomicStaticCallAnalyzer
             $context
         );
 
-        if ($stmt_type = $statements_analyzer->node_data->getType($stmt)) {
-            $statements_analyzer->node_data->setType(
-                $stmt,
-                Type::combineUnionTypes($stmt_type, $return_type_candidate)
-            );
-        } else {
-            $statements_analyzer->node_data->setType($stmt, $return_type_candidate);
-        }
+        $stmt_type = $statements_analyzer->node_data->getType($stmt);
+        $statements_analyzer->node_data->setType(
+            $stmt,
+            Type::combineUnionTypes($stmt_type, $return_type_candidate)
+        );
 
         if ($codebase->store_node_types
             && !$context->collect_initializations
@@ -481,25 +479,43 @@ class ExistingAtomicStaticCallAnalyzer
 
                 foreach ($bindable_template_types as $template_type) {
                     if (!isset(
-                        $template_result->upper_bounds
+                        $template_result->lower_bounds
                         [$template_type->param_name]
                         [$template_type->defining_class]
                     )) {
                         if ($template_type->param_name === 'TFunctionArgCount') {
-                            $template_result->upper_bounds[$template_type->param_name] = [
-                                'fn-' . strtolower((string)$method_id) => new TemplateBound(
-                                    Type::getInt(false, count($stmt->args))
-                                )
+                            $template_result->lower_bounds[$template_type->param_name] = [
+                                'fn-' . strtolower((string)$method_id) => [
+                                    new TemplateBound(
+                                        Type::getInt(false, count($stmt->getArgs()))
+                                    )
+                                ]
                             ];
                         } elseif ($template_type->param_name === 'TPhpMajorVersion') {
-                            $template_result->upper_bounds[$template_type->param_name] = [
-                                'fn-' . strtolower((string)$method_id) => new TemplateBound(
-                                    Type::getInt(false, $codebase->php_major_version)
-                                )
+                            $template_result->lower_bounds[$template_type->param_name] = [
+                                'fn-' . strtolower((string)$method_id) => [
+                                    new TemplateBound(
+                                        Type::getInt(false, $codebase->php_major_version)
+                                    )
+                                ]
+                            ];
+                        } elseif ($template_type->param_name === 'TPhpVersionId') {
+                            $template_result->lower_bounds[$template_type->param_name] = [
+                                'fn-' . strtolower((string) $method_id) => [
+                                    new TemplateBound(
+                                        Type::getInt(
+                                            false,
+                                            10000 * $codebase->php_major_version
+                                            + 100 * $codebase->php_minor_version
+                                        )
+                                    )
+                                ]
                             ];
                         } else {
-                            $template_result->upper_bounds[$template_type->param_name] = [
-                                ($template_type->defining_class) => new TemplateBound(Type::getEmpty())
+                            $template_result->lower_bounds[$template_type->param_name] = [
+                                ($template_type->defining_class) => [
+                                    new TemplateBound(Type::getEmpty())
+                                ]
                             ];
                         }
                     }
@@ -530,7 +546,7 @@ class ExistingAtomicStaticCallAnalyzer
                 $static_type = $fq_class_name;
             }
 
-            if ($template_result->upper_bounds) {
+            if ($template_result->lower_bounds) {
                 $return_type_candidate = \Psalm\Internal\Type\TypeExpander::expandUnion(
                     $codebase,
                     $return_type_candidate,

@@ -2,14 +2,15 @@
 namespace Psalm\Internal\Analyzer\Statements;
 
 use PhpParser;
-use Psalm\Internal\Analyzer\FunctionLikeAnalyzer;
-use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Internal\Analyzer\Statements\Expression\Fetch\VariableFetchAnalyzer;
-use Psalm\Internal\DataFlow\DataFlowNode;
 use Psalm\CodeLocation;
 use Psalm\Context;
+use Psalm\Internal\Analyzer\FunctionLikeAnalyzer;
+use Psalm\Internal\Analyzer\Statements\Expression\Fetch\VariableFetchAnalyzer;
+use Psalm\Internal\Analyzer\StatementsAnalyzer;
+use Psalm\Internal\DataFlow\DataFlowNode;
 use Psalm\Issue\InvalidGlobal;
 use Psalm\IssueBuffer;
+
 use function is_string;
 
 class GlobalAnalyzer
@@ -64,6 +65,7 @@ class GlobalAnalyzer
                     $context->vars_in_scope[$var_id]->parent_nodes = [
                         $assignment_node->id => $assignment_node,
                     ];
+                    $context->vars_from_global[$var_id] = true;
                     $statements_analyzer->registerVariable(
                         $var_id,
                         new CodeLocation($statements_analyzer, $var),
