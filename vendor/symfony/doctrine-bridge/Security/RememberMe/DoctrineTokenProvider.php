@@ -13,7 +13,6 @@ namespace Symfony\Bridge\Doctrine\Security\RememberMe;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Result as DriverResult;
-use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Types;
@@ -58,7 +57,7 @@ class DoctrineTokenProvider implements TokenProviderInterface, TokenVerifierInte
         // the alias for lastUsed works around case insensitivity in PostgreSQL
         $sql = 'SELECT class, username, value, lastUsed AS last_used FROM rememberme_token WHERE series=:series';
         $paramValues = ['series' => $series];
-        $paramTypes = ['series' => ParameterType::STRING];
+        $paramTypes = ['series' => \PDO::PARAM_STR];
         $stmt = $this->conn->executeQuery($sql, $paramValues, $paramTypes);
         $row = $stmt instanceof Result || $stmt instanceof DriverResult ? $stmt->fetchAssociative() : $stmt->fetch(\PDO::FETCH_ASSOC);
 
@@ -76,7 +75,7 @@ class DoctrineTokenProvider implements TokenProviderInterface, TokenVerifierInte
     {
         $sql = 'DELETE FROM rememberme_token WHERE series=:series';
         $paramValues = ['series' => $series];
-        $paramTypes = ['series' => ParameterType::STRING];
+        $paramTypes = ['series' => \PDO::PARAM_STR];
         if (method_exists($this->conn, 'executeStatement')) {
             $this->conn->executeStatement($sql, $paramValues, $paramTypes);
         } else {
@@ -96,9 +95,9 @@ class DoctrineTokenProvider implements TokenProviderInterface, TokenVerifierInte
             'series' => $series,
         ];
         $paramTypes = [
-            'value' => ParameterType::STRING,
+            'value' => \PDO::PARAM_STR,
             'lastUsed' => Types::DATETIME_MUTABLE,
-            'series' => ParameterType::STRING,
+            'series' => \PDO::PARAM_STR,
         ];
         if (method_exists($this->conn, 'executeStatement')) {
             $updated = $this->conn->executeStatement($sql, $paramValues, $paramTypes);
@@ -118,17 +117,17 @@ class DoctrineTokenProvider implements TokenProviderInterface, TokenVerifierInte
         $sql = 'INSERT INTO rememberme_token (class, username, series, value, lastUsed) VALUES (:class, :username, :series, :value, :lastUsed)';
         $paramValues = [
             'class' => $token->getClass(),
-            // @deprecated since Symfony 5.3, change to $token->getUserIdentifier() in 6.0
+            // @deprecated since 5.3, change to $token->getUserIdentifier() in 6.0
             'username' => method_exists($token, 'getUserIdentifier') ? $token->getUserIdentifier() : $token->getUsername(),
             'series' => $token->getSeries(),
             'value' => $token->getTokenValue(),
             'lastUsed' => $token->getLastUsed(),
         ];
         $paramTypes = [
-            'class' => ParameterType::STRING,
-            'username' => ParameterType::STRING,
-            'series' => ParameterType::STRING,
-            'value' => ParameterType::STRING,
+            'class' => \PDO::PARAM_STR,
+            'username' => \PDO::PARAM_STR,
+            'series' => \PDO::PARAM_STR,
+            'value' => \PDO::PARAM_STR,
             'lastUsed' => Types::DATETIME_MUTABLE,
         ];
         if (method_exists($this->conn, 'executeStatement')) {

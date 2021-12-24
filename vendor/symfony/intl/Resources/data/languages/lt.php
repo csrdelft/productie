@@ -432,7 +432,6 @@ return [
         'rap' => 'rapanui',
         'rar' => 'rarotonganų',
         'rgn' => 'italų kalbos Romanijos tarmė',
-        'rhg' => 'rochindža',
         'rif' => 'rifų',
         'rm' => 'retoromanų',
         'rn' => 'rundi',

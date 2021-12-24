@@ -2,8 +2,8 @@
 
 namespace Psalm\Internal\Scanner;
 
-use function explode;
 use function trim;
+use function explode;
 
 class ParsedDocblock
 {

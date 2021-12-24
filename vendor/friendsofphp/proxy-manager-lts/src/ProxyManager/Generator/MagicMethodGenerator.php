@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ProxyManager\Generator;
 
-use Laminas\Code\Generator\ParameterGenerator;
 use ReflectionClass;
 
 use function strtolower;
@@ -15,7 +14,7 @@ use function strtolower;
 class MagicMethodGenerator extends MethodGenerator
 {
     /**
-     * @param ParameterGenerator[]|array[]|string[] $parameters
+     * @param mixed[] $parameters
      */
     public function __construct(ReflectionClass $originalClass, string $name, array $parameters = [])
     {

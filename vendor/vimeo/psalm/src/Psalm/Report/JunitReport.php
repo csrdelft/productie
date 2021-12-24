@@ -4,10 +4,12 @@ namespace Psalm\Report;
 use DOMDocument;
 use DOMElement;
 use Psalm\Config;
-use Psalm\Internal\Analyzer\IssueData;
 use Psalm\Report;
-
+use Psalm\Internal\Analyzer\IssueData;
+use const ENT_XML1;
+use const ENT_QUOTES;
 use function count;
+use function htmlspecialchars;
 use function trim;
 
 /**
@@ -161,10 +163,10 @@ class JunitReport extends Report
 
     private function dataToOutput(IssueData $data): string
     {
-        $ret = 'message: ' . $this->xmlEncode(trim($data->message)) . "\n";
+        $ret = 'message: ' . htmlspecialchars(trim($data->message), ENT_XML1 | ENT_QUOTES) . "\n";
         $ret .= 'type: ' . trim($data->type) . "\n";
-        $ret .= 'snippet: ' . $this->xmlEncode(trim($data->snippet)) . "\n";
-        $ret .= 'selected_text: ' . $this->xmlEncode(trim($data->selected_text)) . "\n";
+        $ret .= 'snippet: ' . htmlspecialchars(trim($data->snippet), ENT_XML1 | ENT_QUOTES) . "\n";
+        $ret .= 'selected_text: ' . htmlspecialchars(trim($data->selected_text)) . "\n";
         $ret .= 'line: ' . $data->line_from . "\n";
         $ret .= 'column_from: ' . $data->column_from . "\n";
         $ret .= 'column_to: ' . $data->column_to . "\n";

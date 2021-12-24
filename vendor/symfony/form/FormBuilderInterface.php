@@ -14,7 +14,7 @@ namespace Symfony\Component\Form;
 /**
  * @author Bernhard Schussek <bschussek@gmail.com>
  *
- * @extends \Traversable<string, FormBuilderInterface>
+ * @extends \Traversable<string, self>
  */
 interface FormBuilderInterface extends \Traversable, \Countable, FormConfigBuilderInterface
 {
@@ -28,7 +28,7 @@ interface FormBuilderInterface extends \Traversable, \Countable, FormConfigBuild
      * @param string|FormBuilderInterface $child
      * @param array<string, mixed>        $options
      *
-     * @return static
+     * @return self
      */
     public function add($child, string $type = null, array $options = []);
 
@@ -55,7 +55,7 @@ interface FormBuilderInterface extends \Traversable, \Countable, FormConfigBuild
     /**
      * Removes the field with the given name.
      *
-     * @return static
+     * @return self
      */
     public function remove(string $name);
 
@@ -76,7 +76,7 @@ interface FormBuilderInterface extends \Traversable, \Countable, FormConfigBuild
     /**
      * Creates the form.
      *
-     * @return FormInterface
+     * @return FormInterface The form
      */
     public function getForm();
 }

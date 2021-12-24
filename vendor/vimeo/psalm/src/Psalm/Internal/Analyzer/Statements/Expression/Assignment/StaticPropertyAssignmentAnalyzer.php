@@ -2,15 +2,15 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression\Assignment;
 
 use PhpParser;
-use Psalm\CodeLocation;
-use Psalm\Context;
 use Psalm\Internal\Analyzer\ClassAnalyzer;
 use Psalm\Internal\Analyzer\ClassLikeAnalyzer;
-use Psalm\Internal\Analyzer\Statements\Expression\ExpressionIdentifier;
 use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
+use Psalm\Internal\Analyzer\Statements\Expression\ExpressionIdentifier;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Internal\FileManipulation\FileManipulationBuffer;
 use Psalm\Internal\Type\Comparator\UnionTypeComparator;
+use Psalm\Internal\FileManipulation\FileManipulationBuffer;
+use Psalm\CodeLocation;
+use Psalm\Context;
 use Psalm\Issue\ImplicitToStringCast;
 use Psalm\Issue\InvalidPropertyAssignmentValue;
 use Psalm\Issue\MixedPropertyTypeCoercion;
@@ -19,9 +19,8 @@ use Psalm\Issue\PropertyTypeCoercion;
 use Psalm\Issue\UndefinedPropertyAssignment;
 use Psalm\IssueBuffer;
 use Psalm\Type;
-
-use function explode;
 use function strtolower;
+use function explode;
 
 /**
  * @internal
@@ -70,15 +69,15 @@ class StaticPropertyAssignmentAnalyzer
             $fq_class_name = $lhs_atomic_type->value;
 
             if (!$prop_name instanceof PhpParser\Node\Identifier) {
-                $was_inside_general_use = $context->inside_general_use;
+                $was_inside_use = $context->inside_use;
 
-                $context->inside_general_use = true;
+                $context->inside_use = true;
 
                 if (ExpressionAnalyzer::analyze($statements_analyzer, $prop_name, $context) === false) {
                     return false;
                 }
 
-                $context->inside_general_use = $was_inside_general_use;
+                $context->inside_use = $was_inside_use;
 
                 if (!$context->ignore_variable_property) {
                     $codebase->analyzer->addMixedMemberName(
@@ -206,10 +205,14 @@ class StaticPropertyAssignmentAnalyzer
                 if ($source_analyzer instanceof ClassAnalyzer
                     && $fq_class_name === $source_analyzer->getFQCLN()
                 ) {
-                    $source_analyzer->inferred_property_types[$prop_name_name] = Type::combineUnionTypes(
-                        $assignment_value_type,
-                        $source_analyzer->inferred_property_types[$prop_name_name] ?? null
-                    );
+                    if (isset($source_analyzer->inferred_property_types[$prop_name_name])) {
+                        $source_analyzer->inferred_property_types[$prop_name_name] = Type::combineUnionTypes(
+                            $assignment_value_type,
+                            $source_analyzer->inferred_property_types[$prop_name_name]
+                        );
+                    } else {
+                        $source_analyzer->inferred_property_types[$prop_name_name] = $assignment_value_type;
+                    }
                 }
             } else {
                 $class_property_type = clone $class_property_type;
@@ -250,7 +253,7 @@ class StaticPropertyAssignmentAnalyzer
                                 . ' parent type `' . $assignment_value_type->getId() . '` provided',
                             new CodeLocation(
                                 $statements_analyzer->getSource(),
-                                $assignment_value ?? $stmt,
+                                $assignment_value ?: $stmt,
                                 $context->include_location
                             ),
                             $property_id
@@ -266,7 +269,7 @@ class StaticPropertyAssignmentAnalyzer
                                 . ' parent type \'' . $assignment_value_type->getId() . '\' provided',
                             new CodeLocation(
                                 $statements_analyzer->getSource(),
-                                $assignment_value ?? $stmt,
+                                $assignment_value ?: $stmt,
                                 $context->include_location
                             ),
                             $property_id
@@ -285,7 +288,7 @@ class StaticPropertyAssignmentAnalyzer
                             . '\'' . $assignment_value_type . '\' provided with a __toString method',
                         new CodeLocation(
                             $statements_analyzer->getSource(),
-                            $assignment_value ?? $stmt,
+                            $assignment_value ?: $stmt,
                             $context->include_location
                         )
                     ),
@@ -304,7 +307,7 @@ class StaticPropertyAssignmentAnalyzer
                                 . $assignment_value_type->getId() . '\'',
                             new CodeLocation(
                                 $statements_analyzer->getSource(),
-                                $assignment_value ?? $stmt
+                                $assignment_value ?: $stmt
                             ),
                             $property_id
                         ),
@@ -320,7 +323,7 @@ class StaticPropertyAssignmentAnalyzer
                                 . $assignment_value_type->getId() . '\'',
                             new CodeLocation(
                                 $statements_analyzer->getSource(),
-                                $assignment_value ?? $stmt
+                                $assignment_value ?: $stmt
                             ),
                             $property_id
                         ),

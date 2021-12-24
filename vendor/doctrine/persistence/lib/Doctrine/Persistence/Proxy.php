@@ -4,8 +4,6 @@ namespace Doctrine\Persistence;
 
 /**
  * Interface for proxy classes.
- *
- * @template T of object
  */
 interface Proxy
 {

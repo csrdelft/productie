@@ -36,7 +36,7 @@ interface EngineInterface
      * @param string|TemplateReferenceInterface $name       A template name or a TemplateReferenceInterface instance
      * @param array                             $parameters An array of parameters to pass to the template
      *
-     * @return string
+     * @return string The evaluated template as a string
      *
      * @throws \RuntimeException if the template cannot be rendered
      */
@@ -47,7 +47,7 @@ interface EngineInterface
      *
      * @param string|TemplateReferenceInterface $name A template name or a TemplateReferenceInterface instance
      *
-     * @return bool
+     * @return bool true if the template exists, false otherwise
      *
      * @throws \RuntimeException if the engine cannot handle the template name
      */
@@ -58,7 +58,7 @@ interface EngineInterface
      *
      * @param string|TemplateReferenceInterface $name A template name or a TemplateReferenceInterface instance
      *
-     * @return bool
+     * @return bool true if this class supports the given template, false otherwise
      */
     public function supports($name);
 }

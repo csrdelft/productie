@@ -33,7 +33,9 @@ class ImportMappingDoctrineCommand extends DoctrineCommand
     /** @var string[] */
     private $bundles;
 
-    /** @param string[] $bundles */
+    /**
+     * @param string[] $bundles
+     */
     public function __construct(ManagerRegistry $doctrine, array $bundles)
     {
         parent::__construct($doctrine);
@@ -87,7 +89,10 @@ EOT
         );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    /**
+     * {@inheritDoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $type = $input->getArgument('mapping-type') ?: 'xml';
         if ($type === 'yaml') {

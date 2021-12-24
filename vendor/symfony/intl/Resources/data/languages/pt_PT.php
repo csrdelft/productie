@@ -62,7 +62,6 @@ return [
         'pro' => 'provençal antigo',
         'ps' => 'pastó',
         'raj' => 'rajastanês',
-        'rhg' => 'rohingya',
         'se' => 'sami do norte',
         'sga' => 'irlandês antigo',
         'shu' => 'árabe do Chade',

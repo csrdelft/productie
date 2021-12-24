@@ -330,10 +330,6 @@ return [
             0 => 'LRD',
             1 => 'Dolar Liberia',
         ],
-        'LSL' => [
-            0 => 'LSL',
-            1 => 'Lesotho Loti',
-        ],
         'LYD' => [
             0 => 'LYD',
             1 => 'Dinar Libya',

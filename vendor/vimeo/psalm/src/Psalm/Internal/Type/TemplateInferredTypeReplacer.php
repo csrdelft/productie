@@ -10,11 +10,10 @@ use Psalm\Type\Atomic\TIterable;
 use Psalm\Type\Atomic\TNamedObject;
 use Psalm\Type\Atomic\TTemplateParam;
 use Psalm\Type\Union;
-
 use function array_merge;
 use function array_shift;
 use function array_values;
-use function strpos;
+use function substr;
 
 class TemplateInferredTypeReplacer
 {
@@ -32,7 +31,7 @@ class TemplateInferredTypeReplacer
 
         $is_mixed = false;
 
-        $inferred_lower_bounds = $template_result->lower_bounds ?: [];
+        $inferred_upper_bounds = $template_result->upper_bounds ?: [];
 
         foreach ($union->getAtomicTypes() as $key => $atomic_type) {
             $atomic_type->replaceTemplateTypesWithArgTypes($template_result, $codebase);
@@ -41,11 +40,9 @@ class TemplateInferredTypeReplacer
                 $template_type = null;
 
                 $traversed_type = \Psalm\Internal\Type\TemplateStandinTypeReplacer::getRootTemplateType(
-                    $inferred_lower_bounds,
+                    $inferred_upper_bounds,
                     $atomic_type->param_name,
-                    $atomic_type->defining_class,
-                    [],
-                    $codebase
+                    $atomic_type->defining_class
                 );
 
                 if ($traversed_type) {
@@ -81,9 +78,9 @@ class TemplateInferredTypeReplacer
                         }
                     }
                 } elseif ($codebase) {
-                    foreach ($inferred_lower_bounds as $template_type_map) {
+                    foreach ($inferred_upper_bounds as $template_type_map) {
                         foreach ($template_type_map as $template_class => $_) {
-                            if (strpos($template_class, 'fn-') === 0) {
+                            if (substr($template_class, 0, 3) === 'fn-') {
                                 continue;
                             }
 
@@ -97,15 +94,12 @@ class TemplateInferredTypeReplacer
                                         $param_map = $classlike_storage->template_extended_params[$defining_class];
 
                                         if (isset($param_map[$key])
-                                            && isset($inferred_lower_bounds[(string) $param_map[$key]][$template_class])
+                                            && isset($inferred_upper_bounds[(string) $param_map[$key]][$template_class])
                                         ) {
                                             $template_name = (string) $param_map[$key];
 
                                             $template_type
-                                                = clone TemplateStandinTypeReplacer::getMostSpecificTypeFromBounds(
-                                                    $inferred_lower_bounds[$template_name][$template_class],
-                                                    $codebase
-                                                );
+                                                = clone $inferred_upper_bounds[$template_name][$template_class]->type;
                                         }
                                     }
                                 }
@@ -123,15 +117,12 @@ class TemplateInferredTypeReplacer
                             $is_mixed = true;
                         }
 
-                        $new_types[] = $template_type_part;
+                        $new_types[$template_type_part->getKey()] = $template_type_part;
                     }
                 }
             } elseif ($atomic_type instanceof Atomic\TTemplateParamClass) {
-                $template_type = isset($inferred_lower_bounds[$atomic_type->param_name][$atomic_type->defining_class])
-                    ? clone TemplateStandinTypeReplacer::getMostSpecificTypeFromBounds(
-                        $inferred_lower_bounds[$atomic_type->param_name][$atomic_type->defining_class],
-                        $codebase
-                    )
+                $template_type = isset($inferred_upper_bounds[$atomic_type->param_name][$atomic_type->defining_class])
+                    ? clone $inferred_upper_bounds[$atomic_type->param_name][$atomic_type->defining_class]->type
                     : null;
 
                 $class_template_type = null;
@@ -162,27 +153,22 @@ class TemplateInferredTypeReplacer
 
                 if ($class_template_type) {
                     $keys_to_unset[] = $key;
-                    $new_types[] = $class_template_type;
+                    $new_types[$class_template_type->getKey()] = $class_template_type;
                 }
             } elseif ($atomic_type instanceof Atomic\TTemplateIndexedAccess) {
                 $keys_to_unset[] = $key;
 
                 $template_type = null;
 
-                if (isset($inferred_lower_bounds[$atomic_type->array_param_name][$atomic_type->defining_class])
-                    && !empty($inferred_lower_bounds[$atomic_type->offset_param_name])
+                if (isset($inferred_upper_bounds[$atomic_type->array_param_name][$atomic_type->defining_class])
+                    && !empty($inferred_upper_bounds[$atomic_type->offset_param_name])
                 ) {
                     $array_template_type
-                        = TemplateStandinTypeReplacer::getMostSpecificTypeFromBounds(
-                            $inferred_lower_bounds[$atomic_type->array_param_name][$atomic_type->defining_class],
-                            $codebase
-                        );
-
+                        = $inferred_upper_bounds[$atomic_type->array_param_name][$atomic_type->defining_class]->type;
                     $offset_template_type
-                        = TemplateStandinTypeReplacer::getMostSpecificTypeFromBounds(
-                            array_values($inferred_lower_bounds[$atomic_type->offset_param_name])[0],
-                            $codebase
-                        );
+                        = array_values(
+                            $inferred_upper_bounds[$atomic_type->offset_param_name]
+                        )[0]->type;
 
                     if ($array_template_type->isSingle()
                         && $offset_template_type->isSingle()
@@ -208,19 +194,16 @@ class TemplateInferredTypeReplacer
                             $is_mixed = true;
                         }
 
-                        $new_types[] = $template_type_part;
+                        $new_types[$template_type_part->getKey()] = $template_type_part;
                     }
                 } else {
-                    $new_types[] = new Atomic\TMixed();
+                    $new_types[$key] = new Atomic\TMixed();
                 }
             } elseif ($atomic_type instanceof Atomic\TConditional
                 && $codebase
             ) {
-                $template_type = isset($inferred_lower_bounds[$atomic_type->param_name][$atomic_type->defining_class])
-                    ? clone TemplateStandinTypeReplacer::getMostSpecificTypeFromBounds(
-                        $inferred_lower_bounds[$atomic_type->param_name][$atomic_type->defining_class],
-                        $codebase
-                    )
+                $template_type = isset($inferred_upper_bounds[$atomic_type->param_name][$atomic_type->defining_class])
+                    ? clone $inferred_upper_bounds[$atomic_type->param_name][$atomic_type->defining_class]->type
                     : null;
 
                 $if_template_type = null;
@@ -290,12 +273,10 @@ class TemplateInferredTypeReplacer
 
                         $refined_template_result = clone $template_result;
 
-                        $refined_template_result->lower_bounds[$atomic_type->param_name][$atomic_type->defining_class]
-                            = [
-                            new \Psalm\Internal\Type\TemplateBound(
+                        $refined_template_result->upper_bounds[$atomic_type->param_name][$atomic_type->defining_class]
+                            = new \Psalm\Internal\Type\TemplateBound(
                                 $if_candidate_type
-                            )
-                        ];
+                            );
 
                         self::replace(
                             $if_template_type,
@@ -320,12 +301,10 @@ class TemplateInferredTypeReplacer
 
                         $refined_template_result = clone $template_result;
 
-                        $refined_template_result->lower_bounds[$atomic_type->param_name][$atomic_type->defining_class]
-                            = [
-                            new \Psalm\Internal\Type\TemplateBound(
+                        $refined_template_result->upper_bounds[$atomic_type->param_name][$atomic_type->defining_class]
+                            = new \Psalm\Internal\Type\TemplateBound(
                                 $else_candidate_type
-                            )
-                        ];
+                            );
 
                         self::replace(
                             $else_template_type,
@@ -353,6 +332,10 @@ class TemplateInferredTypeReplacer
                         $atomic_type->else_type,
                         $codebase
                     );
+                } elseif ($if_template_type && !$else_template_type) {
+                    $class_template_type = $if_template_type;
+                } elseif (!$if_template_type) {
+                    $class_template_type = $else_template_type;
                 } else {
                     $class_template_type = Type::combineUnionTypes(
                         $if_template_type,
@@ -364,7 +347,7 @@ class TemplateInferredTypeReplacer
                 $keys_to_unset[] = $key;
 
                 foreach ($class_template_type->getAtomicTypes() as $class_template_atomic_type) {
-                    $new_types[] = $class_template_atomic_type;
+                    $new_types[$class_template_atomic_type->getKey()] = $class_template_atomic_type;
                 }
             }
         }
@@ -376,12 +359,7 @@ class TemplateInferredTypeReplacer
                 throw new \UnexpectedValueException('This array should be full');
             }
 
-            $union->replaceTypes(
-                TypeCombiner::combine(
-                    $new_types,
-                    $codebase
-                )->getAtomicTypes()
-            );
+            $union->replaceTypes($new_types);
 
             return;
         }

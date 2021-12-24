@@ -3,12 +3,12 @@ namespace Psalm\Internal\Analyzer;
 
 use Psalm\Codebase;
 use Psalm\Internal\Type\Comparator\AtomicTypeComparator;
-use Psalm\Internal\Type\Comparator\TypeComparisonResult;
 use Psalm\Internal\Type\Comparator\UnionTypeComparator;
+use Psalm\Internal\Type\Comparator\TypeComparisonResult;
 use Psalm\Type;
 
-use function array_keys;
 use function array_merge;
+use function array_keys;
 use function array_unique;
 
 /**
@@ -19,7 +19,7 @@ class TypeAnalyzer
     /**
      * Does the input param type match the given param type
      *
-     * @deprecated in favour of UnionTypeComparator, going to be removed in Psalm 5
+     * @deprecated in favour of UnionTypeComparator
      * @psalm-suppress PossiblyUnusedMethod
      */
     public static function isContainedBy(
@@ -45,7 +45,7 @@ class TypeAnalyzer
     /**
      * Does the input param atomic type match the given param atomic type
      *
-     * @deprecated in favour of AtomicTypeComparator, going to be removed in Psalm 5
+     * @deprecated in favour of AtomicTypeComparator
      * @psalm-suppress PossiblyUnusedMethod
      */
     public static function isAtomicContainedBy(

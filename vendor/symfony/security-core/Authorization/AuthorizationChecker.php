@@ -32,29 +32,10 @@ class AuthorizationChecker implements AuthorizationCheckerInterface
     private $alwaysAuthenticate;
     private $exceptionOnNoToken;
 
-    public function __construct(TokenStorageInterface $tokenStorage, /*AccessDecisionManagerInterface*/ $accessDecisionManager, /*bool*/ $alwaysAuthenticate = false, /*bool*/ $exceptionOnNoToken = true)
+    public function __construct(TokenStorageInterface $tokenStorage, AuthenticationManagerInterface $authenticationManager, AccessDecisionManagerInterface $accessDecisionManager, bool $alwaysAuthenticate = false, bool $exceptionOnNoToken = true)
     {
-        if ($accessDecisionManager instanceof AuthenticationManagerInterface) {
-            trigger_deprecation('symfony/security-core', '5.4', 'The $autenticationManager argument of "%s" is deprecated.', __METHOD__);
-
-            $this->authenticationManager = $accessDecisionManager;
-            $accessDecisionManager = $alwaysAuthenticate;
-            $alwaysAuthenticate = $exceptionOnNoToken;
-            $exceptionOnNoToken = \func_num_args() > 4 ? func_get_arg(4) : true;
-        }
-
-        if (false !== $alwaysAuthenticate) {
-            trigger_deprecation('symfony/security-core', '5.4', 'Not setting the 4th argument of "%s" to "false" is deprecated.', __METHOD__);
-        }
-        if (false !== $exceptionOnNoToken) {
-            trigger_deprecation('symfony/security-core', '5.4', 'Not setting the 5th argument of "%s" to "false" is deprecated.', __METHOD__);
-        }
-
-        if (!$accessDecisionManager instanceof AccessDecisionManagerInterface) {
-            throw new \TypeError(sprintf('Argument 2 of "%s" must be instance of "%s", "%s" given.', __METHOD__, AccessDecisionManagerInterface::class, get_debug_type($accessDecisionManager)));
-        }
-
         $this->tokenStorage = $tokenStorage;
+        $this->authenticationManager = $authenticationManager;
         $this->accessDecisionManager = $accessDecisionManager;
         $this->alwaysAuthenticate = $alwaysAuthenticate;
         $this->exceptionOnNoToken = $exceptionOnNoToken;
@@ -67,21 +48,14 @@ class AuthorizationChecker implements AuthorizationCheckerInterface
      */
     final public function isGranted($attribute, $subject = null): bool
     {
-        $token = $this->tokenStorage->getToken();
-
-        if (!$token || !$token->getUser()) {
+        if (null === ($token = $this->tokenStorage->getToken())) {
             if ($this->exceptionOnNoToken) {
                 throw new AuthenticationCredentialsNotFoundException('The token storage contains no authentication token. One possible reason may be that there is no firewall configured for this URL.');
             }
 
             $token = new NullToken();
         } else {
-            $authenticated = true;
-            // @deprecated since Symfony 5.4
-            if ($this->alwaysAuthenticate || !$authenticated = $token->isAuthenticated(false)) {
-                if (!($authenticated ?? true)) {
-                    trigger_deprecation('symfony/core', '5.4', 'Returning false from "%s()" is deprecated, return null from "getUser()" instead.');
-                }
+            if ($this->alwaysAuthenticate || !$token->isAuthenticated()) {
                 $this->tokenStorage->setToken($token = $this->authenticationManager->authenticate($token));
             }
         }

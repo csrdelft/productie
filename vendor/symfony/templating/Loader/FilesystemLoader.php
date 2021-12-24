@@ -87,7 +87,7 @@ class FilesystemLoader extends Loader
     /**
      * Returns true if the file is an existing absolute path.
      *
-     * @return bool
+     * @return bool true if the path exists and is absolute, false otherwise
      */
     protected static function isAbsolutePath(string $file)
     {

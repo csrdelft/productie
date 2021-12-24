@@ -4,14 +4,12 @@ namespace Doctrine\Persistence\Mapping;
 
 use Doctrine\Persistence\Reflection\RuntimePublicReflectionProperty;
 use Doctrine\Persistence\Reflection\TypedNoDefaultReflectionProperty;
-use Doctrine\Persistence\Reflection\TypedNoDefaultRuntimePublicReflectionProperty;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionProperty;
 
 use function array_key_exists;
-use function assert;
 use function class_exists;
 use function class_parents;
 use function phpversion;
@@ -39,11 +37,7 @@ class RuntimeReflectionService implements ReflectionService
             throw MappingException::nonExistingClass($class);
         }
 
-        $parents = class_parents($class);
-
-        assert($parents !== false);
-
-        return $parents;
+        return class_parents($class);
     }
 
     /**
@@ -67,13 +61,7 @@ class RuntimeReflectionService implements ReflectionService
     }
 
     /**
-     * @param string $class
-     * @psalm-param class-string<T> $class
-     *
-     * @return ReflectionClass
-     * @psalm-return ReflectionClass<T>
-     *
-     * @template T of object
+     * {@inheritDoc}
      */
     public function getClass($class)
     {
@@ -87,14 +75,10 @@ class RuntimeReflectionService implements ReflectionService
     {
         $reflectionProperty = new ReflectionProperty($class, $property);
 
-        if ($this->supportsTypedPropertiesWorkaround && ! array_key_exists($property, $this->getClass($class)->getDefaultProperties())) {
-            if ($reflectionProperty->isPublic()) {
-                $reflectionProperty = new TypedNoDefaultRuntimePublicReflectionProperty($class, $property);
-            } else {
-                $reflectionProperty = new TypedNoDefaultReflectionProperty($class, $property);
-            }
-        } elseif ($reflectionProperty->isPublic()) {
+        if ($reflectionProperty->isPublic()) {
             $reflectionProperty = new RuntimePublicReflectionProperty($class, $property);
+        } elseif ($this->supportsTypedPropertiesWorkaround && ! array_key_exists($property, $this->getClass($class)->getDefaultProperties())) {
+            $reflectionProperty = new TypedNoDefaultReflectionProperty($class, $property);
         }
 
         $reflectionProperty->setAccessible(true);

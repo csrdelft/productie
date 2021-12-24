@@ -102,12 +102,11 @@ final class RedirectPlugin implements Plugin
     private $circularDetection = [];
 
     /**
-     * @param array{'preserve_header'?: bool|string[], 'use_default_for_multiple'?: bool, 'strict'?: bool} $config
+     * @param array $config {
      *
-     * Configuration options:
-     *   - preserve_header: True keeps all headers, false remove all of them, an array is interpreted as a list of header names to keep
-     *   - use_default_for_multiple: Whether the location header must be directly used for a multiple redirection status code (300)
-     *   - strict: When true, redirect codes 300, 301, 302 will not modify request method and body.
+     *     @var bool|string[] $preserve_header True keeps all headers, false remove all of them, an array is interpreted as a list of header names to keep
+     *     @var bool $use_default_for_multiple Whether the location header must be directly used for a multiple redirection status code (300).
+     * }
      */
     public function __construct(array $config = [])
     {
@@ -115,11 +114,9 @@ final class RedirectPlugin implements Plugin
         $resolver->setDefaults([
             'preserve_header' => true,
             'use_default_for_multiple' => true,
-            'strict' => false,
         ]);
         $resolver->setAllowedTypes('preserve_header', ['bool', 'array']);
         $resolver->setAllowedTypes('use_default_for_multiple', 'bool');
-        $resolver->setAllowedTypes('strict', 'bool');
         $resolver->setNormalizer('preserve_header', function (OptionsResolver $resolver, $value) {
             if (is_bool($value) && false === $value) {
                 return [];
@@ -131,12 +128,6 @@ final class RedirectPlugin implements Plugin
 
         $this->preserveHeader = $options['preserve_header'];
         $this->useDefaultForMultiple = $options['use_default_for_multiple'];
-
-        if ($options['strict']) {
-            $this->redirectCodes[300]['switch'] = false;
-            $this->redirectCodes[301]['switch'] = false;
-            $this->redirectCodes[302]['switch'] = false;
-        }
     }
 
     /**
@@ -182,7 +173,9 @@ final class RedirectPlugin implements Plugin
             }
 
             // Call redirect request synchronously
-            return $first($redirectRequest)->wait();
+            $redirectPromise = $first($redirectRequest);
+
+            return $redirectPromise->wait();
         });
     }
 

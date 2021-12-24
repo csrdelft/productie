@@ -65,7 +65,7 @@ final class Forms
     /**
      * Creates a form factory with the default configuration.
      *
-     * @return FormFactoryInterface
+     * @return FormFactoryInterface The form factory
      */
     public static function createFormFactory(): FormFactoryInterface
     {
@@ -75,7 +75,7 @@ final class Forms
     /**
      * Creates a form factory builder with the default configuration.
      *
-     * @return FormFactoryBuilderInterface
+     * @return FormFactoryBuilderInterface The form factory builder
      */
     public static function createFormFactoryBuilder(): FormFactoryBuilderInterface
     {

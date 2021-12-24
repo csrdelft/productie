@@ -1,10 +1,17 @@
 <?php
 namespace Psalm\Internal\PhpVisitor;
 
+use Psalm\Plugin\EventHandler\Event\AfterClassLikeVisitEvent;
+use function array_pop;
+use function count;
+use function end;
+use function implode;
+use function in_array;
+use function is_string;
 use PhpParser;
 use Psalm\Aliases;
-use Psalm\CodeLocation;
 use Psalm\Codebase;
+use Psalm\CodeLocation;
 use Psalm\Exception\DocblockParseException;
 use Psalm\Exception\TypeParseTreeException;
 use Psalm\FileSource;
@@ -16,16 +23,9 @@ use Psalm\Internal\Scanner\PhpStormMetaScanner;
 use Psalm\Internal\Type\TypeAlias;
 use Psalm\Internal\Type\TypeParser;
 use Psalm\Issue\InvalidDocblock;
-use Psalm\Plugin\EventHandler\Event\AfterClassLikeVisitEvent;
 use Psalm\Storage\FileStorage;
 use Psalm\Storage\MethodStorage;
 use Psalm\Type;
-
-use function array_pop;
-use function end;
-use function implode;
-use function in_array;
-use function is_string;
 use function strpos;
 use function strtolower;
 
@@ -92,7 +92,7 @@ class ReflectorVisitor extends PhpParser\NodeVisitorAbstract implements FileSour
     /**
      * @var ?int
      */
-    private $skip_if_descendants;
+    private $skip_if_descendants = null;
 
     /**
      * @var array<string, TypeAlias>
@@ -126,12 +126,17 @@ class ReflectorVisitor extends PhpParser\NodeVisitorAbstract implements FileSour
     {
         foreach ($node->getComments() as $comment) {
             if ($comment instanceof PhpParser\Comment\Doc && !$node instanceof PhpParser\Node\Stmt\ClassLike) {
+                $self_fqcln = $node instanceof PhpParser\Node\Stmt\ClassLike
+                    && $node->name !== null
+                    ? ($this->aliases->namespace ? $this->aliases->namespace . '\\' : '') . $node->name->name
+                    : null;
+
                 try {
                     $type_aliases = Reflector\ClassLikeNodeScanner::getTypeAliasesFromComment(
                         $comment,
                         $this->aliases,
                         $this->type_aliases,
-                        null
+                        $self_fqcln
                     );
 
                     foreach ($type_aliases as $type_alias) {
@@ -140,7 +145,12 @@ class ReflectorVisitor extends PhpParser\NodeVisitorAbstract implements FileSour
                     }
 
                     $this->type_aliases += $type_aliases;
-                } catch (DocblockParseException | TypeParseTreeException $e) {
+                } catch (DocblockParseException $e) {
+                    $this->file_storage->docblock_issues[] = new InvalidDocblock(
+                        $e->getMessage(),
+                        new CodeLocation($this->file_scanner, $node, null, true)
+                    );
+                } catch (TypeParseTreeException $e) {
                     $this->file_storage->docblock_issues[] = new InvalidDocblock(
                         $e->getMessage(),
                         new CodeLocation($this->file_scanner, $node, null, true)
@@ -276,7 +286,7 @@ class ReflectorVisitor extends PhpParser\NodeVisitorAbstract implements FileSour
                     new \Psalm\Internal\Provider\NodeDataProvider(),
                     $const->value,
                     $this->aliases
-                ) ?? Type::getMixed();
+                ) ?: Type::getMixed();
 
                 $fq_const_name = Type::getFQCLNFromString($const->name->name, $this->aliases);
 
@@ -424,7 +434,7 @@ class ReflectorVisitor extends PhpParser\NodeVisitorAbstract implements FileSour
         foreach ($node->uses as $use) {
             $use_path = implode('\\', $use->name->parts);
 
-            $use_alias = $use->alias->name ?? $use->name->getLast();
+            $use_alias = $use->alias ? $use->alias->name : $use->name->getLast();
 
             switch ($use->type !== PhpParser\Node\Stmt\Use_::TYPE_UNKNOWN ? $use->type : $node->type) {
                 case PhpParser\Node\Stmt\Use_::TYPE_FUNCTION:
@@ -457,7 +467,7 @@ class ReflectorVisitor extends PhpParser\NodeVisitorAbstract implements FileSour
 
         foreach ($node->uses as $use) {
             $use_path = $use_prefix . '\\' . implode('\\', $use->name->parts);
-            $use_alias = $use->alias->name ?? $use->name->getLast();
+            $use_alias = $use->alias ? $use->alias->name : $use->name->getLast();
 
             switch ($use->type !== PhpParser\Node\Stmt\Use_::TYPE_UNKNOWN ? $use->type : $node->type) {
                 case PhpParser\Node\Stmt\Use_::TYPE_FUNCTION:
@@ -506,7 +516,7 @@ class ReflectorVisitor extends PhpParser\NodeVisitorAbstract implements FileSour
                         && $meta_stmt->expr->name instanceof PhpParser\Node\Name
                         && $meta_stmt->expr->name->parts === ['override']
                     ) {
-                        PhpStormMetaScanner::handleOverride($meta_stmt->expr->getArgs(), $this->codebase);
+                        PhpStormMetaScanner::handleOverride($meta_stmt->expr->args, $this->codebase);
                     }
                 }
             }
@@ -626,10 +636,8 @@ class ReflectorVisitor extends PhpParser\NodeVisitorAbstract implements FileSour
         return $this->aliases;
     }
 
-    public function afterTraverse(array $nodes)
+    public function afterTraverse(array $nodes): void
     {
         $this->file_storage->type_aliases = $this->type_aliases;
-
-        return null;
     }
 }

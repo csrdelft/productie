@@ -4,7 +4,6 @@ namespace Psalm\Internal;
 use function array_diff;
 use function array_keys;
 use function array_map;
-use function array_unique;
 use function array_values;
 use function count;
 use function implode;
@@ -12,6 +11,7 @@ use function json_encode;
 use function ksort;
 use function md5;
 use function sort;
+use function array_unique;
 use function strpos;
 
 /**
@@ -131,15 +131,23 @@ class Clause
     {
         $clause_strings = array_map(
             /**
+             * @param string $var_id
              * @param non-empty-list<string> $values
+             *
+             * @return string
              */
-            function (string $var_id, array $values): string {
+            function ($var_id, $values): string {
                 if ($var_id[0] === '*') {
                     $var_id = '<expr>';
                 }
 
                 $var_id_clauses = array_map(
-                    function (string $value) use ($var_id): string {
+                    /**
+                     * @param string $value
+                     *
+                     * @return string
+                     */
+                    function ($value) use ($var_id): string {
                         if ($value === 'falsy') {
                             return '!' . $var_id;
                         }

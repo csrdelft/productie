@@ -1,6 +1,9 @@
 <?php
 namespace Psalm\Internal\Codebase;
 
+use function array_keys;
+use function array_merge;
+use function count;
 use Psalm\Config;
 use Psalm\Internal\Analyzer\ClassLikeAnalyzer;
 use Psalm\Internal\Provider\ClassLikeStorageProvider;
@@ -12,14 +15,10 @@ use Psalm\Progress\Progress;
 use Psalm\Storage\ClassLikeStorage;
 use Psalm\Storage\FileStorage;
 use Psalm\Type;
-
-use function array_keys;
-use function array_merge;
-use function count;
 use function reset;
-use function strlen;
 use function strpos;
 use function strtolower;
+use function strlen;
 
 /**
  * @internal
@@ -147,8 +146,8 @@ class Populator
 
         $this->progress->debug('FileStorage is populated' . "\n");
 
-        ClassLikeStorageProvider::populated();
-        FileStorageProvider::populated();
+        $this->classlike_storage_provider->populated();
+        $this->file_storage_provider->populated();
     }
 
     private function populateClassLikeStorage(ClassLikeStorage $storage, array $dependent_classlikes = []): void
@@ -981,11 +980,6 @@ class Populator
 
     private function convertPhpStormGenericToPsalmGeneric(Type\Union $candidate, bool $is_property = false): void
     {
-        if (!$candidate->from_docblock) {
-            //never convert a type that comes from a signature
-            return;
-        }
-
         $atomic_types = $candidate->getAtomicTypes();
 
         if (isset($atomic_types['array']) && count($atomic_types) > 1 && !isset($atomic_types['null'])) {

@@ -1,12 +1,8 @@
 <?php
 namespace Psalm\Internal\Provider\ReturnTypeProvider;
 
-use Psalm\Internal\Type\Comparator\UnionTypeComparator;
 use Psalm\Plugin\EventHandler\Event\FunctionReturnTypeProviderEvent;
-use Psalm\Type;
-
 use function count;
-
 use const PHP_URL_FRAGMENT;
 use const PHP_URL_HOST;
 use const PHP_URL_PASS;
@@ -15,6 +11,9 @@ use const PHP_URL_PORT;
 use const PHP_URL_QUERY;
 use const PHP_URL_SCHEME;
 use const PHP_URL_USER;
+use PhpParser;
+use Psalm\Internal\Type\Comparator\UnionTypeComparator;
+use Psalm\Type;
 
 class ParseUrlReturnTypeProvider implements \Psalm\Plugin\EventHandler\FunctionReturnTypeProviderInterface
 {

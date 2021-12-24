@@ -73,7 +73,7 @@ class SlotsHelper extends Helper
      *
      * @param bool|string $default The default slot content
      *
-     * @return string
+     * @return string The slot content
      */
     public function get(string $name, $default = false)
     {
@@ -115,7 +115,7 @@ class SlotsHelper extends Helper
     /**
      * Returns the canonical name of this helper.
      *
-     * @return string
+     * @return string The canonical name
      */
     public function getName()
     {

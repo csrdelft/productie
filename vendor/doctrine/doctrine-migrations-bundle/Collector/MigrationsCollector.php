@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\MigrationsBundle\Collector;
 
-use Doctrine\DBAL\Exception;
 use Doctrine\Migrations\DependencyFactory;
 use Doctrine\Migrations\Metadata\Storage\TableMetadataStorageConfiguration;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,33 +25,18 @@ class MigrationsCollector extends DataCollector
 
     public function collect(Request $request, Response $response, \Throwable $exception = null)
     {
-        if (!empty($this->data)) {
-            return;
-        }
-
         $metadataStorage = $this->dependencyFactory->getMetadataStorage();
         $planCalculator = $this->dependencyFactory->getMigrationPlanCalculator();
+        $statusCalculator = $this->dependencyFactory->getMigrationStatusCalculator();
 
-        try {
-            $executedMigrations = $metadataStorage->getExecutedMigrations();
-        } catch (Exception $dbalException) {
-            $this->dependencyFactory->getLogger()->error(
-                'error while trying to collect executed migrations',
-                ['exception' => $dbalException]
-            );
-
-            return;
-        }
-
+        $executedMigrations  = $metadataStorage->getExecutedMigrations();
         $availableMigrations = $planCalculator->getMigrations();
 
-        $this->data['available_migrations_count'] = count($availableMigrations);
-        $unavailableMigrations = $executedMigrations->unavailableSubset($availableMigrations);
-        $this->data['unavailable_migrations_count'] = count($unavailableMigrations);
-
-        $newMigrations = $availableMigrations->newSubset($executedMigrations);
-        $this->data['new_migrations'] = $this->flattener->flattenAvailableMigrations($newMigrations);
+        $this->data['available_migrations'] = $this->flattener->flattenAvailableMigrations($availableMigrations, $executedMigrations);
         $this->data['executed_migrations'] = $this->flattener->flattenExecutedMigrations($executedMigrations, $availableMigrations);
+
+        $this->data['new_migrations'] = $this->flattener->flattenAvailableMigrations($statusCalculator->getNewMigrations());
+        $this->data['unavailable_migrations'] = $this->flattener->flattenExecutedMigrations($statusCalculator->getExecutedUnavailableMigrations());
 
         $this->data['storage'] = get_class($metadataStorage);
         $configuration = $this->dependencyFactory->getConfiguration();
@@ -69,9 +53,6 @@ class MigrationsCollector extends DataCollector
         $this->data['namespaces'] = $configuration->getMigrationDirectories();
     }
 
-    /**
-     * @return string
-     */
     public function getName()
     {
         return 'doctrine_migrations';

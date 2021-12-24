@@ -27,8 +27,6 @@ use Symfony\Component\Security\Http\LoginLink\LoginLinkHandler;
  */
 class LoginLinkFactory extends AbstractFactory implements AuthenticatorFactoryInterface
 {
-    public const PRIORITY = -20;
-
     public function addConfiguration(NodeDefinition $node)
     {
         /** @var NodeBuilder $builder */
@@ -81,7 +79,7 @@ class LoginLinkFactory extends AbstractFactory implements AuthenticatorFactoryIn
         }
     }
 
-    public function getKey(): string
+    public function getKey()
     {
         return 'login-link';
     }
@@ -149,22 +147,17 @@ class LoginLinkFactory extends AbstractFactory implements AuthenticatorFactoryIn
         return $authenticatorId;
     }
 
-    public function getPriority(): int
-    {
-        return self::PRIORITY;
-    }
-
-    public function getPosition(): string
+    public function getPosition()
     {
         return 'form';
     }
 
-    protected function createAuthProvider(ContainerBuilder $container, string $id, array $config, string $userProviderId): string
+    protected function createAuthProvider(ContainerBuilder $container, string $id, array $config, string $userProviderId)
     {
         throw new \Exception('The old authentication system is not supported with login_link.');
     }
 
-    protected function getListenerId(): string
+    protected function getListenerId()
     {
         throw new \Exception('The old authentication system is not supported with login_link.');
     }
@@ -174,7 +167,7 @@ class LoginLinkFactory extends AbstractFactory implements AuthenticatorFactoryIn
         throw new \Exception('The old authentication system is not supported with login_link.');
     }
 
-    protected function createEntryPoint(ContainerBuilder $container, string $id, array $config, ?string $defaultEntryPointId): ?string
+    protected function createEntryPoint(ContainerBuilder $container, string $id, array $config, ?string $defaultEntryPointId)
     {
         throw new \Exception('The old authentication system is not supported with login_link.');
     }

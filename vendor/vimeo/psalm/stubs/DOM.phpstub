@@ -169,8 +169,3 @@ class SimpleXMLElement implements \Countable, \RecursiveIterator, \ArrayAccess
     {
     }
 }
-
-class SimpleXMLIterator extends SimpleXMLElement
-{
-
-}

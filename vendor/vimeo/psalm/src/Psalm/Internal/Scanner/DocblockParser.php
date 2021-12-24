@@ -2,6 +2,7 @@
 
 namespace Psalm\Internal\Scanner;
 
+use const PREG_OFFSET_CAPTURE;
 use function explode;
 use function implode;
 use function min;
@@ -15,23 +16,14 @@ use function strspn;
 use function substr;
 use function trim;
 
-use const PREG_OFFSET_CAPTURE;
-
-/**
- * This class will parse Docblocks in order to extract known tags from them
- */
 class DocblockParser
 {
-    /**
-     * $offsetStart is the absolute position of the docblock in the file. It'll be used to add to the position of some
-     * special tags (like `psalm-suppress`) for future uses
-     */
-    public static function parse(string $docblock, int $offsetStart) : ParsedDocblock
+    public static function parse(string $docblock) : ParsedDocblock
     {
         // Strip off comments.
         $docblock = trim($docblock);
 
-        if (strpos($docblock, '/**') === 0) {
+        if (substr($docblock, 0, 3) === '/**') {
             $docblock = substr($docblock, 3);
         }
 
@@ -81,7 +73,7 @@ class DocblockParser
 
             if (preg_match('/^[ \t]*\*?\s*@([\w\-\\\:]+)[\t ]*(.*)$/sm', $line, $matches, PREG_OFFSET_CAPTURE)) {
                 /** @var array<int, array{string, int}> $matches */
-                [, $type_info, $data_info] = $matches;
+                [$_, $type_info, $data_info] = $matches;
 
                 [$type] = $type_info;
                 [$data, $data_offset] = $data_info;
@@ -96,7 +88,7 @@ class DocblockParser
 
                 $data_offset += $line_offset;
 
-                $special[$type][$data_offset + 3 + $offsetStart] = $data;
+                $special[$type][$data_offset + 3] = $data;
 
                 unset($lines[$k]);
             } else {

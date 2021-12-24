@@ -24,21 +24,11 @@ class Constraint implements ConstraintInterface
     const OP_GE = 4;
     const OP_NE = 5;
 
-    /* operator string values */
-    const STR_OP_EQ = '==';
-    const STR_OP_EQ_ALT = '=';
-    const STR_OP_LT = '<';
-    const STR_OP_LE = '<=';
-    const STR_OP_GT = '>';
-    const STR_OP_GE = '>=';
-    const STR_OP_NE = '!=';
-    const STR_OP_NE_ALT = '<>';
-
     /**
      * Operator to integer translation table.
      *
      * @var array
-     * @phpstan-var array<self::STR_OP_*, self::OP_*>
+     * @phpstan-var array<string, self::OP_*>
      */
     private static $transOpStr = array(
         '=' => self::OP_EQ,
@@ -55,7 +45,7 @@ class Constraint implements ConstraintInterface
      * Integer to operator translation table.
      *
      * @var array
-     * @phpstan-var array<self::OP_*, self::STR_OP_*>
+     * @phpstan-var array<self::OP_*, string>
      */
     private static $transOpInt = array(
         self::OP_EQ => '==',
@@ -91,8 +81,6 @@ class Constraint implements ConstraintInterface
      * @param string $version
      *
      * @throws \InvalidArgumentException if invalid operator is given.
-     *
-     * @phpstan-param self::STR_OP_* $operator
      */
     public function __construct($operator, $version)
     {
@@ -108,19 +96,11 @@ class Constraint implements ConstraintInterface
         $this->version = $version;
     }
 
-    /**
-     * @return string
-     */
     public function getVersion()
     {
         return $this->version;
     }
 
-    /**
-     * @return string
-     *
-     * @phpstan-return self::STR_OP_*
-     */
     public function getOperator()
     {
         return self::$transOpInt[$this->operator];
@@ -142,7 +122,7 @@ class Constraint implements ConstraintInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @param string|null $prettyString
      */
     public function setPrettyString($prettyString)
     {
@@ -150,7 +130,7 @@ class Constraint implements ConstraintInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @return string
      */
     public function getPrettyString()
     {
@@ -165,8 +145,6 @@ class Constraint implements ConstraintInterface
      * Get all supported comparison operators.
      *
      * @return array
-     *
-     * @phpstan-return list<self::STR_OP_*>
      */
     public static function getSupportedOperators()
     {
@@ -177,7 +155,6 @@ class Constraint implements ConstraintInterface
      * @param  string $operator
      * @return int
      *
-     * @phpstan-param  self::STR_OP_* $operator
      * @phpstan-return self::OP_*
      */
     public static function getOperatorConstant($operator)
@@ -194,8 +171,6 @@ class Constraint implements ConstraintInterface
      * @throws \InvalidArgumentException if invalid operator is given.
      *
      * @return bool
-     *
-     * @phpstan-param self::STR_OP_* $operator
      */
     public function versionCompare($a, $b, $operator, $compareBranches = false)
     {
@@ -226,9 +201,6 @@ class Constraint implements ConstraintInterface
         return \version_compare($a, $b, $operator);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function compile($otherOperator)
     {
         if (strpos($this->version, 'dev-') === 0) {
@@ -281,7 +253,7 @@ class Constraint implements ConstraintInterface
             if (self::OP_LT === $otherOperator || self::OP_LE === $otherOperator) {
                 return '!$b';
             }
-        } else { // $this->operator must be self::OP_GT || self::OP_GE here
+        } elseif (self::OP_GT === $this->operator || self::OP_GE === $this->operator) {
             if (self::OP_GT === $otherOperator || self::OP_GE === $otherOperator) {
                 return '!$b';
             }
@@ -388,9 +360,6 @@ class Constraint implements ConstraintInterface
         return $this->upperBound;
     }
 
-    /**
-     * @return void
-     */
     private function extractBounds()
     {
         if (null !== $this->lowerBound) {

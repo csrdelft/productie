@@ -1,16 +1,12 @@
 <?php
 namespace Psalm\Config;
 
-use Psalm\Exception\ConfigCreationException;
 use Psalm\Internal\Composer;
-
-use function array_filter;
-use function array_keys;
 use function array_merge;
 use function array_shift;
-use function array_sum;
 use function array_unique;
 use function count;
+use const DIRECTORY_SEPARATOR;
 use function explode;
 use function file_exists;
 use function file_get_contents;
@@ -19,14 +15,16 @@ use function implode;
 use function is_array;
 use function is_dir;
 use function json_decode;
-use function ksort;
-use function max;
 use function preg_replace;
+use Psalm\Exception\ConfigCreationException;
 use function sort;
 use function str_replace;
 use function strpos;
-
-use const DIRECTORY_SEPARATOR;
+use function ksort;
+use function array_filter;
+use function array_sum;
+use function array_keys;
+use function max;
 use const GLOB_NOSORT;
 
 class Creator
@@ -76,11 +74,13 @@ class Creator
             );
         }
 
-        return str_replace(
+        $template = str_replace(
             'errorLevel="1"',
             'errorLevel="' . $level . '"',
             $template
         );
+
+        return $template;
     }
 
     public static function createBareConfig(

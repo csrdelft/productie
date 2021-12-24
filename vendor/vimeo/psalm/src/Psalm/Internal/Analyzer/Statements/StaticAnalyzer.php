@@ -11,16 +11,18 @@ use Psalm\Internal\Type\Comparator\UnionTypeComparator;
 use Psalm\Issue\InvalidDocblock;
 use Psalm\IssueBuffer;
 use Psalm\Type;
-
 use function is_string;
 
 class StaticAnalyzer
 {
+    /**
+     * @return  false|null
+     */
     public static function analyze(
         StatementsAnalyzer $statements_analyzer,
         PhpParser\Node\Stmt\Static_ $stmt,
         Context $context
-    ): void {
+    ): ?bool {
         $codebase = $statements_analyzer->getCodebase();
 
         if ($context->mutation_free) {
@@ -145,7 +147,7 @@ class StaticAnalyzer
 
             if ($var->default) {
                 if (ExpressionAnalyzer::analyze($statements_analyzer, $var->default, $context) === false) {
-                    return;
+                    return false;
                 }
 
                 if ($comment_type
@@ -183,5 +185,7 @@ class StaticAnalyzer
                 );
             }
         }
+
+        return null;
     }
 }

@@ -1,10 +1,26 @@
 <?php
 
-declare(strict_types=1);
+/*
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license. For more information, see
+ * <http://www.doctrine-project.org>.
+ */
 
 namespace Doctrine\ORM\Query\AST\Functions;
 
-use Doctrine\DBAL\Platforms\TrimMode;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
@@ -77,26 +93,29 @@ class TrimFunction extends FunctionNode
     }
 
     /**
-     * @psalm-return TrimMode::*
+     * @return int
      */
-    private function getTrimMode(): int
+    private function getTrimMode()
     {
         if ($this->leading) {
-            return TrimMode::LEADING;
+            return AbstractPlatform::TRIM_LEADING;
         }
 
         if ($this->trailing) {
-            return TrimMode::TRAILING;
+            return AbstractPlatform::TRIM_TRAILING;
         }
 
         if ($this->both) {
-            return TrimMode::BOTH;
+            return AbstractPlatform::TRIM_BOTH;
         }
 
-        return TrimMode::UNSPECIFIED;
+        return AbstractPlatform::TRIM_UNSPECIFIED;
     }
 
-    private function parseTrimMode(Parser $parser): void
+    /**
+     * @return void
+     */
+    private function parseTrimMode(Parser $parser)
     {
         $lexer = $parser->getLexer();
         $value = $lexer->lookahead['value'];

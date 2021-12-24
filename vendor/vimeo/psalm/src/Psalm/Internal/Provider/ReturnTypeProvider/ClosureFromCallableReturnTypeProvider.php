@@ -1,6 +1,7 @@
 <?php
 namespace Psalm\Internal\Provider\ReturnTypeProvider;
 
+use PhpParser;
 use Psalm\Internal\Type\Comparator\CallableTypeComparator;
 use Psalm\Internal\Type\TypeCombiner;
 use Psalm\Plugin\EventHandler\Event\MethodReturnTypeProviderEvent;

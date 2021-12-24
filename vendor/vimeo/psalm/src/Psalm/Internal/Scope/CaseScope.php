@@ -26,6 +26,6 @@ class CaseScope
 
     public function __destruct()
     {
-        unset($this->parent_context);
+        $this->parent_context = null;
     }
 }

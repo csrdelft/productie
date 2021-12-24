@@ -1,8 +1,7 @@
 <?php
 namespace Psalm\Internal\Analyzer;
 
-use Psalm\Internal\Scanner\UnresolvedConstantComponent;
-use Psalm\Issue\InvalidAttribute;
+use PhpParser;
 use Psalm\Node\Expr\VirtualNew;
 use Psalm\Node\Name\VirtualFullyQualified;
 use Psalm\Node\Stmt\VirtualExpression;
@@ -10,8 +9,9 @@ use Psalm\Node\VirtualArg;
 use Psalm\Node\VirtualIdentifier;
 use Psalm\Storage\AttributeStorage;
 use Psalm\Storage\ClassLikeStorage;
+use Psalm\Internal\Scanner\UnresolvedConstantComponent;
+use Psalm\Issue\InvalidAttribute;
 use Psalm\Type\Union;
-
 use function reset;
 
 class AttributeAnalyzer
@@ -34,14 +34,11 @@ class AttributeAnalyzer
             null,
             null,
             $suppressed_issues,
-            new ClassLikeNameOptions(
-                false,
-                false,
-                false,
-                false,
-                false,
-                true
-            )
+            false,
+            false,
+            false,
+            false,
+            true
         ) === false) {
             return;
         }
@@ -56,7 +53,7 @@ class AttributeAnalyzer
             if ($classlike_storage->is_trait) {
                 if (\Psalm\IssueBuffer::accepts(
                     new InvalidAttribute(
-                        'Traits cannot act as attribute classes',
+                        'Traits cannot act a attribute classes',
                         $attribute->name_location
                     ),
                     $source->getSuppressedIssues()
@@ -66,7 +63,7 @@ class AttributeAnalyzer
             } elseif ($classlike_storage->is_interface) {
                 if (\Psalm\IssueBuffer::accepts(
                     new InvalidAttribute(
-                        'Interfaces cannot act as attribute classes',
+                        'Interfaces cannot act a attribute classes',
                         $attribute->name_location
                     ),
                     $source->getSuppressedIssues()
@@ -76,7 +73,7 @@ class AttributeAnalyzer
             } elseif ($classlike_storage->abstract) {
                 if (\Psalm\IssueBuffer::accepts(
                     new InvalidAttribute(
-                        'Abstract classes cannot act as attribute classes',
+                        'Abstract classes cannot act a attribute classes',
                         $attribute->name_location
                     ),
                     $source->getSuppressedIssues()
@@ -88,17 +85,7 @@ class AttributeAnalyzer
             ) {
                 if (\Psalm\IssueBuffer::accepts(
                     new InvalidAttribute(
-                        'Classes with protected/private constructors cannot act as attribute classes',
-                        $attribute->name_location
-                    ),
-                    $source->getSuppressedIssues()
-                )) {
-                    // fall through
-                }
-            } elseif ($classlike_storage->is_enum) {
-                if (\Psalm\IssueBuffer::accepts(
-                    new InvalidAttribute(
-                        'Enums cannot act as attribute classes',
+                        'Classes with protected/private constructors cannot act a attribute classes',
                         $attribute->name_location
                     ),
                     $source->getSuppressedIssues()

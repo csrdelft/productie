@@ -13,8 +13,6 @@ namespace Symfony\Bundle\FrameworkBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Console\Helper\DescriptorHelper;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Completion\CompletionInput;
-use Symfony\Component\Console\Completion\CompletionSuggestions;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -192,44 +190,6 @@ EOF
         return 0;
     }
 
-    public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
-    {
-        if ($input->mustSuggestOptionValuesFor('format')) {
-            $helper = new DescriptorHelper();
-            $suggestions->suggestValues($helper->getFormats());
-
-            return;
-        }
-
-        $kernel = $this->getApplication()->getKernel();
-        $object = $this->getContainerBuilder($kernel);
-
-        if ($input->mustSuggestArgumentValuesFor('name')
-            && !$input->getOption('tag') && !$input->getOption('tags')
-            && !$input->getOption('parameter') && !$input->getOption('parameters')
-            && !$input->getOption('env-var') && !$input->getOption('env-vars')
-            && !$input->getOption('types') && !$input->getOption('deprecations')
-        ) {
-            $suggestions->suggestValues($this->findServiceIdsContaining(
-                $object,
-                $input->getCompletionValue(),
-                (bool) $input->getOption('show-hidden')
-            ));
-
-            return;
-        }
-
-        if ($input->mustSuggestOptionValuesFor('tag')) {
-            $suggestions->suggestValues($object->findTags());
-
-            return;
-        }
-
-        if ($input->mustSuggestOptionValuesFor('parameter')) {
-            $suggestions->suggestValues(array_keys($object->getParameterBag()->all()));
-        }
-    }
-
     /**
      * Validates input arguments and options.
      *
@@ -248,9 +208,9 @@ EOF
 
         $name = $input->getArgument('name');
         if ((null !== $name) && ($optionsCount > 0)) {
-            throw new InvalidArgumentException('The options tags, tag, parameters & parameter cannot be combined with the service name argument.');
+            throw new InvalidArgumentException('The options tags, tag, parameters & parameter can not be combined with the service name argument.');
         } elseif ((null === $name) && $optionsCount > 1) {
-            throw new InvalidArgumentException('The options tags, tag, parameters & parameter cannot be combined together.');
+            throw new InvalidArgumentException('The options tags, tag, parameters & parameter can not be combined together.');
         }
     }
 
@@ -285,7 +245,7 @@ EOF
             if (false !== stripos(str_replace('\\', '', $serviceId), $name)) {
                 $foundServiceIdsIgnoringBackslashes[] = $serviceId;
             }
-            if ('' === $name || false !== stripos($serviceId, $name)) {
+            if (false !== stripos($serviceId, $name)) {
                 $foundServiceIds[] = $serviceId;
             }
         }

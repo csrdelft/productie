@@ -1,24 +1,22 @@
 <?php
 namespace Psalm;
 
-use PhpParser;
-use Psalm\Internal\Analyzer\CommentAnalyzer;
-
 use function explode;
 use function max;
-use function mb_strcut;
 use function min;
+use PhpParser;
 use function preg_match;
+use const PREG_OFFSET_CAPTURE;
 use function preg_quote;
 use function preg_replace;
+use Psalm\Internal\Analyzer\CommentAnalyzer;
 use function str_replace;
 use function strlen;
 use function strpos;
 use function strrpos;
 use function substr_count;
+use function mb_strcut;
 use function trim;
-
-use const PREG_OFFSET_CAPTURE;
 
 class CodeLocation
 {
@@ -77,6 +75,9 @@ class CodeLocation
     public $docblock_start;
 
     /** @var int|null */
+    public $docblock_end;
+
+    /** @var int|null */
     private $docblock_start_line_number;
 
     /** @var int|null */
@@ -122,6 +123,7 @@ class CodeLocation
         $doc_comment = $stmt->getDocComment();
 
         $this->docblock_start = $doc_comment ? $doc_comment->getStartFilePos() : null;
+        $this->docblock_end = $doc_comment ? $this->file_start : null;
         $this->docblock_start_line_number = $doc_comment ? $doc_comment->getStartLine() : null;
 
         $this->preview_start = $this->docblock_start ?: $this->file_start;
@@ -213,35 +215,43 @@ class CodeLocation
         if ($this->regex_type !== null) {
             switch ($this->regex_type) {
                 case self::VAR_TYPE:
-                    $regex = '/@(?:psalm-)?var[ \t]+' . CommentAnalyzer::TYPE_REGEX . '/';
+                    $regex = '/@(psalm-)?var[ \t]+' . CommentAnalyzer::TYPE_REGEX . '/';
+                    $match_offset = 2;
                     break;
 
                 case self::FUNCTION_RETURN_TYPE:
                     $regex = '/\\:\s+(\\??\s*[A-Za-z0-9_\\\\\[\]]+)/';
+                    $match_offset = 1;
                     break;
 
                 case self::FUNCTION_PARAM_TYPE:
                     $regex = '/^(\\??\s*[A-Za-z0-9_\\\\\[\]]+)\s/';
+                    $match_offset = 1;
                     break;
 
                 case self::FUNCTION_PHPDOC_RETURN_TYPE:
-                    $regex = '/@(?:psalm-)?return[ \t]+' . CommentAnalyzer::TYPE_REGEX . '/';
+                    $regex = '/@(psalm-)?return[ \t]+' . CommentAnalyzer::TYPE_REGEX . '/';
+                    $match_offset = 2;
                     break;
 
                 case self::FUNCTION_PHPDOC_METHOD:
-                    $regex = '/@(?:psalm-)?method[ \t]+(.*)/';
+                    $regex = '/@(psalm-)method[ \t]+.*/';
+                    $match_offset = 2;
                     break;
 
                 case self::FUNCTION_PHPDOC_PARAM_TYPE:
-                    $regex = '/@(?:psalm-)?param[ \t]+' . CommentAnalyzer::TYPE_REGEX . '/';
+                    $regex = '/@(psalm-)?param[ \t]+' . CommentAnalyzer::TYPE_REGEX . '/';
+                    $match_offset = 2;
                     break;
 
                 case self::FUNCTION_PARAM_VAR:
                     $regex = '/(\$[^ ]*)/';
+                    $match_offset = 1;
                     break;
 
                 case self::CATCH_VAR:
                     $regex = '/(\$[^ ^\)]*)/';
+                    $match_offset = 1;
                     break;
 
                 default:
@@ -256,17 +266,12 @@ class CodeLocation
 
             if ($this->text) {
                 $regex = '/(' . str_replace(',', ',[ ]*', preg_quote($this->text, '/')) . ')/';
+                $match_offset = 1;
             }
 
             if (preg_match($regex, $preview_snippet, $matches, PREG_OFFSET_CAPTURE)) {
-                if (!isset($matches[1]) || (int)$matches[1][1] === -1) {
-                    throw new \LogicException(
-                        "Failed to match anything to 1st capturing group, "
-                        . "or regex doesn't contain 1st capturing group, regex type " . $this->regex_type
-                    );
-                }
-                $this->selection_start = $this->selection_start + (int)$matches[1][1];
-                $this->selection_end = $this->selection_start + strlen((string)$matches[1][0]);
+                $this->selection_start = $this->selection_start + (int)$matches[$match_offset][1];
+                $this->selection_end = $this->selection_start + strlen((string)$matches[$match_offset][0]);
             }
         }
 
@@ -297,12 +302,8 @@ class CodeLocation
         $this->text = mb_strcut($file_contents, $this->selection_start, $this->selection_end - $this->selection_start);
 
         // reset preview start to beginning of line
-        if ($file_contents !== '') {
-            $this->column_from = $this->selection_start -
-                (int)strrpos($file_contents, "\n", $this->selection_start - strlen($file_contents));
-        } else {
-            $this->column_from = $this->selection_start;
-        }
+        $this->column_from = $this->selection_start -
+            (int)strrpos($file_contents, "\n", $this->selection_start - strlen($file_contents));
 
         $newlines = substr_count($this->text, "\n");
 

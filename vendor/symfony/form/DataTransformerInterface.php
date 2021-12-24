@@ -55,7 +55,7 @@ interface DataTransformerInterface
      *
      * @param mixed $value The value in the original representation
      *
-     * @return mixed
+     * @return mixed The value in the transformed representation
      *
      * @throws TransformationFailedException when the transformation fails
      */
@@ -84,7 +84,7 @@ interface DataTransformerInterface
      *
      * @param mixed $value The value in the transformed representation
      *
-     * @return mixed
+     * @return mixed The value in the original representation
      *
      * @throws TransformationFailedException when the transformation fails
      */

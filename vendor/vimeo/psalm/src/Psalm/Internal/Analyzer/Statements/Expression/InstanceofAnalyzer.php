@@ -2,16 +2,15 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression;
 
 use PhpParser;
-use Psalm\CodeLocation;
-use Psalm\Context;
 use Psalm\Internal\Analyzer\ClassLikeAnalyzer;
 use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
+use Psalm\CodeLocation;
+use Psalm\Context;
 use Psalm\Type;
-
-use function implode;
 use function in_array;
 use function strtolower;
+use function implode;
 
 class InstanceofAnalyzer
 {
@@ -20,14 +19,14 @@ class InstanceofAnalyzer
         PhpParser\Node\Expr\Instanceof_ $stmt,
         Context $context
     ) : bool {
-        $was_inside_general_use = $context->inside_general_use;
-        $context->inside_general_use = true;
+        $was_inside_use = $context->inside_use;
+        $context->inside_use = true;
 
         if (ExpressionAnalyzer::analyze($statements_analyzer, $stmt->expr, $context) === false) {
             return false;
         }
 
-        $context->inside_general_use = $was_inside_general_use;
+        $context->inside_use = $was_inside_use;
 
         if ($stmt->class instanceof PhpParser\Node\Expr) {
             if (ExpressionAnalyzer::analyze($statements_analyzer, $stmt->class, $context) === false) {
@@ -50,7 +49,7 @@ class InstanceofAnalyzer
                     $codebase->analyzer->addNodeReference(
                         $statements_analyzer->getFilePath(),
                         $stmt->class,
-                        $codebase->classlikes->classOrInterfaceOrEnumExists($fq_class_name)
+                        $codebase->classlikes->classOrInterfaceExists($fq_class_name)
                             ? $fq_class_name
                             : '*'
                                 . ($stmt->class instanceof PhpParser\Node\Name\FullyQualified
@@ -67,7 +66,8 @@ class InstanceofAnalyzer
                         new CodeLocation($statements_analyzer->getSource(), $stmt->class),
                         $context->self,
                         $context->calling_method_id,
-                        $statements_analyzer->getSuppressedIssues()
+                        $statements_analyzer->getSuppressedIssues(),
+                        false
                     ) === false) {
                         return false;
                     }

@@ -2,13 +2,12 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression;
 
 use PhpParser;
-use Psalm\CodeLocation;
-use Psalm\Context;
 use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Internal\Codebase\TaintFlowGraph;
 use Psalm\Internal\Codebase\VariableUseGraph;
 use Psalm\Internal\DataFlow\DataFlowNode;
+use Psalm\CodeLocation;
+use Psalm\Context;
 use Psalm\Issue\ImpureMethodCall;
 use Psalm\Issue\InvalidOperand;
 use Psalm\IssueBuffer;
@@ -38,8 +37,8 @@ class BinaryOpAnalyzer
         if ($stmt instanceof PhpParser\Node\Expr\BinaryOp\BooleanAnd ||
             $stmt instanceof PhpParser\Node\Expr\BinaryOp\LogicalAnd
         ) {
-            $was_inside_general_use = $context->inside_general_use;
-            $context->inside_general_use = true;
+            $was_inside_use = $context->inside_use;
+            $context->inside_use = true;
 
             $expr_result = BinaryOp\AndAnalyzer::analyze(
                 $statements_analyzer,
@@ -48,7 +47,7 @@ class BinaryOpAnalyzer
                 $from_stmt
             );
 
-            $context->inside_general_use = $was_inside_general_use;
+            $context->inside_use = $was_inside_use;
 
             $statements_analyzer->node_data->setType($stmt, Type::getBool());
 
@@ -58,8 +57,8 @@ class BinaryOpAnalyzer
         if ($stmt instanceof PhpParser\Node\Expr\BinaryOp\BooleanOr ||
             $stmt instanceof PhpParser\Node\Expr\BinaryOp\LogicalOr
         ) {
-            $was_inside_general_use = $context->inside_general_use;
-            $context->inside_general_use = true;
+            $was_inside_use = $context->inside_use;
+            $context->inside_use = true;
 
             $expr_result = BinaryOp\OrAnalyzer::analyze(
                 $statements_analyzer,
@@ -68,7 +67,7 @@ class BinaryOpAnalyzer
                 $from_stmt
             );
 
-            $context->inside_general_use = $was_inside_general_use;
+            $context->inside_use = $was_inside_use;
 
             $statements_analyzer->node_data->setType($stmt, Type::getBool());
 
@@ -245,14 +244,14 @@ class BinaryOpAnalyzer
                 && $stmt->left instanceof PhpParser\Node\Expr\FuncCall
                 && $stmt->left->name instanceof PhpParser\Node\Name
                 && $stmt->left->name->parts === ['substr']
-                && isset($stmt->left->getArgs()[1])
+                && isset($stmt->left->args[1])
                 && $stmt_right_type
                 && $stmt_right_type->hasLiteralString()
             ) {
-                $from_type = $statements_analyzer->node_data->getType($stmt->left->getArgs()[1]->value);
+                $from_type = $statements_analyzer->node_data->getType($stmt->left->args[1]->value);
 
-                $length_type = isset($stmt->left->getArgs()[2])
-                    ? ($statements_analyzer->node_data->getType($stmt->left->getArgs()[2]->value) ?? Type::getMixed())
+                $length_type = isset($stmt->left->args[2])
+                    ? ($statements_analyzer->node_data->getType($stmt->left->args[2]->value) ?: Type::getMixed())
                     : null;
 
                 $string_length = null;
@@ -370,21 +369,10 @@ class BinaryOpAnalyzer
             throw new \UnexpectedValueException('bad');
         }
         $result_type = $statements_analyzer->node_data->getType($stmt);
-        if (!$result_type) {
-            return;
-        }
 
-        if ($statements_analyzer->data_flow_graph instanceof TaintFlowGraph
-            && $stmt instanceof PhpParser\Node\Expr\BinaryOp
-            && !$stmt instanceof PhpParser\Node\Expr\BinaryOp\Concat
-            && !$stmt instanceof PhpParser\Node\Expr\BinaryOp\Coalesce
-            && (!$stmt instanceof PhpParser\Node\Expr\BinaryOp\Plus || !$result_type->hasArray())
+        if ($statements_analyzer->data_flow_graph
+            && $result_type
         ) {
-            //among BinaryOp, only Concat and Coalesce can pass tainted value to the result. Also Plus on arrays only
-            return;
-        }
-
-        if ($statements_analyzer->data_flow_graph) {
             $stmt_left_type = $statements_analyzer->node_data->getType($left);
             $stmt_right_type = $statements_analyzer->node_data->getType($right);
 

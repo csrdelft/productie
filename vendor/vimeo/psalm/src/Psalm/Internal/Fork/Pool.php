@@ -3,50 +3,49 @@ namespace Psalm\Internal\Fork;
 
 use function array_fill_keys;
 use function array_keys;
-use function array_map;
 use function array_pop;
 use function array_values;
 use function base64_decode;
 use function base64_encode;
 use function count;
-use function error_get_last;
 use function error_log;
+use function error_get_last;
 use function explode;
 use function extension_loaded;
 use function fclose;
 use function feof;
 use function fread;
 use function fwrite;
-use function get_class;
 use function gettype;
-use function in_array;
 use function ini_get;
+use function intval;
 use function pcntl_fork;
 use function pcntl_waitpid;
 use function pcntl_wexitstatus;
 use function pcntl_wifsignaled;
 use function pcntl_wtermsig;
+use const PHP_EOL;
+use const PHP_VERSION;
 use function posix_get_last_error;
 use function posix_kill;
 use function posix_strerror;
 use function serialize;
+use const SIGALRM;
+use const STREAM_IPPROTO_IP;
+use const STREAM_PF_UNIX;
 use function stream_select;
 use function stream_set_blocking;
+use const STREAM_SOCK_STREAM;
 use function stream_socket_pair;
-use function stripos;
 use function strlen;
 use function strpos;
+use function stripos;
 use function substr;
 use function unserialize;
 use function usleep;
 use function version_compare;
-
-use const PHP_EOL;
-use const PHP_VERSION;
-use const SIGALRM;
-use const STREAM_IPPROTO_IP;
-use const STREAM_PF_UNIX;
-use const STREAM_SOCK_STREAM;
+use function array_map;
+use function in_array;
 
 /**
  * Adapted with relatively few changes from
@@ -219,10 +218,7 @@ class Pool
             // This can happen when developing Psalm from source without running `composer update`,
             // or because of rare bugs in Psalm.
             $process_done_message = new ForkProcessErrorMessage(
-                get_class($t) . ' ' . $t->getMessage() . "\n" .
-                "Emitted in " . $t->getFile() . ":" . $t->getLine() . "\n" .
-                "Stack trace in the forked worker:\n" .
-                $t->getTraceAsString()
+                $t->getMessage() . "\nStack trace in the forked worker:\n" . $t->getTraceAsString()
             );
         }
 
@@ -231,7 +227,7 @@ class Pool
         $bytes_to_write = strlen($serialized_message);
         $bytes_written = 0;
 
-        while ($bytes_written < $bytes_to_write && !feof($write_stream)) {
+        while ($bytes_written < $bytes_to_write) {
             // attempt to write the remaining unsent part
             $bytes_written += @fwrite($write_stream, substr($serialized_message, $bytes_written));
 
@@ -308,7 +304,7 @@ class Pool
         // resource id.
         $streams = [];
         foreach ($this->read_streams as $stream) {
-            $streams[(int)$stream] = $stream;
+            $streams[intval($stream)] = $stream;
         }
 
         // Create an array for the content received on each stream,
@@ -341,12 +337,12 @@ class Pool
             foreach ($needs_read as $file) {
                 $buffer = fread($file, 1024);
                 if ($buffer !== false) {
-                    $content[(int)$file] .= $buffer;
+                    $content[intval($file)] .= $buffer;
                 }
 
                 if (strpos($buffer, "\n") !== false) {
-                    $serialized_messages = explode("\n", $content[(int)$file]);
-                    $content[(int)$file] = array_pop($serialized_messages);
+                    $serialized_messages = explode("\n", $content[intval($file)]);
+                    $content[intval($file)] = array_pop($serialized_messages);
 
                     foreach ($serialized_messages as $serialized_message) {
                         $message = unserialize(base64_decode($serialized_message, true));
@@ -358,14 +354,6 @@ class Pool
                                 ($this->task_done_closure)($message->data);
                             }
                         } elseif ($message instanceof ForkProcessErrorMessage) {
-                            // Kill all children
-                            foreach ($this->child_pid_list as $child_pid) {
-                                /**
-                                 * @psalm-suppress UndefinedConstant - does not exist on windows
-                                 * @psalm-suppress MixedArgument
-                                 */
-                                posix_kill($child_pid, \SIGTERM);
-                            }
                             throw new \Exception($message->message);
                         } else {
                             error_log('Child should return ForkMessage - response type=' . gettype($message));
@@ -376,13 +364,13 @@ class Pool
 
                 // If the stream has closed, stop trying to select on it.
                 if (feof($file)) {
-                    if ($content[(int)$file] !== '') {
+                    if ($content[intval($file)] !== '') {
                         error_log('Child did not send full message before closing the connection');
                         $this->did_have_error = true;
                     }
 
                     fclose($file);
-                    unset($streams[(int)$file]);
+                    unset($streams[intval($file)]);
                 }
             }
         }
@@ -397,46 +385,38 @@ class Pool
      */
     public function wait(): array
     {
-        $ignore_return_code = false;
-        try {
-            // Read all the streams from child processes into an array.
-            $content = $this->readResultsFromChildren();
-        } catch (\Throwable $e) {
-            // If children were killed because one of them threw an exception we don't care about return codes.
-            $ignore_return_code = true;
-            // PHP guarantees finally is run even after throwing
-            throw $e;
-        } finally {
-            // Wait for all children to return
-            foreach ($this->child_pid_list as $child_pid) {
-                $process_lookup = posix_kill($child_pid, 0);
+        // Read all the streams from child processes into an array.
+        $content = $this->readResultsFromChildren();
 
-                $status = 0;
+        // Wait for all children to return
+        foreach ($this->child_pid_list as $child_pid) {
+            $process_lookup = posix_kill($child_pid, 0);
 
-                if ($process_lookup) {
-                    /**
-                     * @psalm-suppress UndefinedConstant - does not exist on windows
-                     * @psalm-suppress MixedArgument
-                     */
-                    posix_kill($child_pid, SIGALRM);
+            $status = 0;
 
-                    if (pcntl_waitpid($child_pid, $status) < 0) {
-                        error_log(posix_strerror(posix_get_last_error()));
-                    }
+            if ($process_lookup) {
+                /**
+                 * @psalm-suppress UndefinedConstant - does not exist on windows
+                 * @psalm-suppress MixedArgument
+                 */
+                posix_kill($child_pid, SIGALRM);
+
+                if (pcntl_waitpid($child_pid, $status) < 0) {
+                    error_log(posix_strerror(posix_get_last_error()));
                 }
+            }
 
-                // Check to see if the child died a graceful death
-                if (!$ignore_return_code && pcntl_wifsignaled($status)) {
-                    $return_code = pcntl_wexitstatus($status);
-                    $term_sig = pcntl_wtermsig($status);
+            // Check to see if the child died a graceful death
+            if (pcntl_wifsignaled($status)) {
+                $return_code = pcntl_wexitstatus($status);
+                $term_sig = pcntl_wtermsig($status);
 
-                    /**
-                     * @psalm-suppress UndefinedConstant - does not exist on windows
-                     */
-                    if ($term_sig !== SIGALRM) {
-                        $this->did_have_error = true;
-                        error_log("Child terminated with return code $return_code and signal $term_sig");
-                    }
+                /**
+                 * @psalm-suppress UndefinedConstant - does not exist on windows
+                 */
+                if ($term_sig !== SIGALRM) {
+                    $this->did_have_error = true;
+                    error_log("Child terminated with return code $return_code and signal $term_sig");
                 }
             }
         }

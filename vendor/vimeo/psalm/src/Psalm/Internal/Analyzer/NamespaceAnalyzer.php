@@ -5,12 +5,11 @@ use PhpParser;
 use PhpParser\Node\Stmt\Namespace_;
 use Psalm\Context;
 use Psalm\Type;
-
 use function implode;
-use function preg_replace;
-use function strpos;
 use function strtolower;
 use function trim;
+use function strpos;
+use function preg_replace;
 
 /**
  * @internal
@@ -100,7 +99,7 @@ class NamespaceAnalyzer extends SourceAnalyzer
 
         $fq_class_name = Type::getFQCLNFromString($stmt->name->name, $this->getAliases());
 
-        if ($stmt instanceof PhpParser\Node\Stmt\Class_ || $stmt instanceof PhpParser\Node\Stmt\Enum_) {
+        if ($stmt instanceof PhpParser\Node\Stmt\Class_) {
             $this->source->addNamespacedClassAnalyzer(
                 $fq_class_name,
                 new ClassAnalyzer($stmt, $this, $fq_class_name)

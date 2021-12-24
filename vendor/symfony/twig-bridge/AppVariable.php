@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Exposes some Symfony parameters and services as an "app" global variable.
@@ -69,7 +68,7 @@ class AppVariable
     /**
      * Returns the current user.
      *
-     * @return UserInterface|null
+     * @return object|null
      *
      * @see TokenInterface::getUser()
      */
@@ -85,14 +84,13 @@ class AppVariable
 
         $user = $token->getUser();
 
-        // @deprecated since Symfony 5.4, $user will always be a UserInterface instance
         return \is_object($user) ? $user : null;
     }
 
     /**
      * Returns the current request.
      *
-     * @return Request|null
+     * @return Request|null The HTTP request object
      */
     public function getRequest()
     {
@@ -106,7 +104,7 @@ class AppVariable
     /**
      * Returns the current session.
      *
-     * @return Session|null
+     * @return Session|null The session
      */
     public function getSession()
     {
@@ -121,7 +119,7 @@ class AppVariable
     /**
      * Returns the current app environment.
      *
-     * @return string
+     * @return string The current environment string (e.g 'dev')
      */
     public function getEnvironment()
     {
@@ -135,7 +133,7 @@ class AppVariable
     /**
      * Returns the current app debug mode.
      *
-     * @return bool
+     * @return bool The current debug mode
      */
     public function getDebug()
     {

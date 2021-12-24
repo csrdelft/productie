@@ -1,29 +1,26 @@
 <?php
 namespace Psalm\Config;
 
-use Psalm\Exception\ConfigException;
-use SimpleXMLElement;
-
 use function array_filter;
 use function array_map;
+use const DIRECTORY_SEPARATOR;
+use const E_WARNING;
 use function explode;
 use function glob;
 use function in_array;
 use function is_dir;
-use function is_iterable;
 use function preg_match;
 use function preg_replace;
+use Psalm\Exception\ConfigException;
 use function readlink;
 use function realpath;
 use function restore_error_handler;
 use function set_error_handler;
+use SimpleXMLElement;
 use function str_replace;
 use function stripos;
 use function strpos;
 use function strtolower;
-
-use const DIRECTORY_SEPARATOR;
-use const E_WARNING;
 use const GLOB_NOSORT;
 use const GLOB_ONLYDIR;
 
@@ -95,19 +92,19 @@ class FileFilter
     /**
      * @return static
      */
-    public static function loadFromArray(
-        array $config,
+    public static function loadFromXMLElement(
+        SimpleXMLElement $e,
         string $base_dir,
         bool $inclusive
     ) {
-        $allow_missing_files = ($config['allowMissingFiles'] ?? false) === true;
+        $allow_missing_files = ((string) $e['allowMissingFiles']) === 'true';
 
         $filter = new static($inclusive);
 
-        if (isset($config['directory']) && is_iterable($config['directory'])) {
-            /** @var array $directory */
-            foreach ($config['directory'] as $directory) {
-                $directory_path = (string) ($directory['name'] ?? '');
+        if ($e->directory) {
+            /** @var \SimpleXMLElement $directory */
+            foreach ($e->directory as $directory) {
+                $directory_path = (string) $directory['name'];
                 $ignore_type_stats = strtolower(
                     isset($directory['ignoreTypeStats']) ? (string) $directory['ignoreTypeStats'] : ''
                 ) === 'true';
@@ -134,7 +131,7 @@ class FileFilter
 
                         throw new ConfigException(
                             'Could not resolve config path to ' . $base_dir
-                            . DIRECTORY_SEPARATOR . $directory_path
+                                . DIRECTORY_SEPARATOR . (string)$directory['name']
                         );
                     }
 
@@ -146,7 +143,7 @@ class FileFilter
 
                             throw new ConfigException(
                                 'Could not resolve config path to ' . $base_dir
-                                . DIRECTORY_SEPARATOR . $directory_path . ':' . $glob_index
+                                    . DIRECTORY_SEPARATOR . (string)$directory['name'] . ':' . $glob_index
                             );
                         }
 
@@ -172,14 +169,14 @@ class FileFilter
 
                     throw new ConfigException(
                         'Could not resolve config path to ' . $base_dir
-                        . DIRECTORY_SEPARATOR . $directory_path
+                            . DIRECTORY_SEPARATOR . (string)$directory['name']
                     );
                 }
 
                 if (!is_dir($directory_path)) {
                     throw new ConfigException(
-                        $base_dir . DIRECTORY_SEPARATOR . $directory_path
-                        . ' is not a directory'
+                        $base_dir . DIRECTORY_SEPARATOR . (string)$directory['name']
+                            . ' is not a directory'
                     );
                 }
 
@@ -221,10 +218,10 @@ class FileFilter
             }
         }
 
-        if (isset($config['file']) && is_iterable($config['file'])) {
-            /** @var array $file */
-            foreach ($config['file'] as $file) {
-                $file_path = (string) ($file['name'] ?? '');
+        if ($e->file) {
+            /** @var \SimpleXMLElement $file */
+            foreach ($e->file as $file) {
+                $file_path = (string) $file['name'];
 
                 if ($file_path[0] === '/' && DIRECTORY_SEPARATOR === '/') {
                     $prospective_file_path = $file_path;
@@ -248,7 +245,7 @@ class FileFilter
 
                         throw new ConfigException(
                             'Could not resolve config path to ' . $base_dir . DIRECTORY_SEPARATOR .
-                            $file_path
+                                (string)$file['name']
                         );
                     }
 
@@ -256,7 +253,7 @@ class FileFilter
                         if (!$file_path && !$allow_missing_files) {
                             throw new ConfigException(
                                 'Could not resolve config path to ' . $base_dir . DIRECTORY_SEPARATOR .
-                                $file_path . ':' . $glob_index
+                                    (string)$file['name'] . ':' . $glob_index
                             );
                         }
                         $filter->addFile($file_path);
@@ -269,7 +266,7 @@ class FileFilter
                 if (!$file_path && !$allow_missing_files) {
                     throw new ConfigException(
                         'Could not resolve config path to ' . $base_dir . DIRECTORY_SEPARATOR .
-                        $file_path
+                        (string)$file['name']
                     );
                 }
 
@@ -277,10 +274,10 @@ class FileFilter
             }
         }
 
-        if (isset($config['referencedClass']) && is_iterable($config['referencedClass'])) {
-            /** @var array $referenced_class */
-            foreach ($config['referencedClass'] as $referenced_class) {
-                $class_name = strtolower((string) ($referenced_class['name'] ?? ''));
+        if ($e->referencedClass) {
+            /** @var \SimpleXMLElement $referenced_class */
+            foreach ($e->referencedClass as $referenced_class) {
+                $class_name = strtolower((string)$referenced_class['name']);
 
                 if (strpos($class_name, '*') !== false) {
                     $regex = '/' . \str_replace('*', '.*', str_replace('\\', '\\\\', $class_name)) . '/i';
@@ -291,10 +288,10 @@ class FileFilter
             }
         }
 
-        if (isset($config['referencedMethod']) && is_iterable($config['referencedMethod'])) {
-            /** @var array $referenced_method */
-            foreach ($config['referencedMethod'] as $referenced_method) {
-                $method_id = (string) ($referenced_method['name'] ?? '');
+        if ($e->referencedMethod) {
+            /** @var \SimpleXMLElement $referenced_method */
+            foreach ($e->referencedMethod as $referenced_method) {
+                $method_id = (string)$referenced_method['name'];
 
                 if (!preg_match('/^[^:]+::[^:]+$/', $method_id) && !static::isRegularExpression($method_id)) {
                     throw new ConfigException(
@@ -306,108 +303,28 @@ class FileFilter
             }
         }
 
-        if (isset($config['referencedFunction']) && is_iterable($config['referencedFunction'])) {
-            /** @var array $referenced_function */
-            foreach ($config['referencedFunction'] as $referenced_function) {
-                $filter->method_ids[] = strtolower((string) ($referenced_function['name'] ?? ''));
-            }
-        }
-
-        if (isset($config['referencedProperty']) && is_iterable($config['referencedProperty'])) {
-            /** @var array $referenced_property */
-            foreach ($config['referencedProperty'] as $referenced_property) {
-                $filter->property_ids[] = strtolower((string) ($referenced_property['name'] ?? ''));
-            }
-        }
-
-        if (isset($config['referencedVariable']) && is_iterable($config['referencedVariable'])) {
-            /** @var array $referenced_variable */
-            foreach ($config['referencedVariable'] as $referenced_variable) {
-                $filter->var_names[] = strtolower((string) ($referenced_variable['name'] ?? ''));
-            }
-        }
-
-        return $filter;
-    }
-
-    /**
-     * @return static
-     */
-    public static function loadFromXMLElement(
-        SimpleXMLElement $e,
-        string $base_dir,
-        bool $inclusive
-    ) {
-        $config = [];
-        $config['allowMissingFiles'] = ((string) $e['allowMissingFiles']) === 'true';
-
-        if ($e->directory) {
-            $config['directory'] = [];
-            /** @var \SimpleXMLElement $directory */
-            foreach ($e->directory as $directory) {
-                $config['directory'][] = [
-                    'name' => (string) $directory['name'],
-                    'ignoreTypeStats' => strtolower(
-                        isset($directory['ignoreTypeStats']) ? (string) $directory['ignoreTypeStats'] : ''
-                    ) === 'true',
-
-                    'useStrictTypes' => strtolower(
-                        isset($directory['useStrictTypes']) ? (string) $directory['useStrictTypes'] : ''
-                    ) === 'true',
-                ];
-            }
-        }
-
-        if ($e->file) {
-            $config['file'] = [];
-            /** @var \SimpleXMLElement $file */
-            foreach ($e->file as $file) {
-                $config['file'][]['name'] = (string) $file['name'];
-            }
-        }
-
-        if ($e->referencedClass) {
-            $config['referencedClass'] = [];
-            /** @var \SimpleXMLElement $referenced_class */
-            foreach ($e->referencedClass as $referenced_class) {
-                $config['referencedClass'][]['name'] = strtolower((string)$referenced_class['name']);
-            }
-        }
-
-        if ($e->referencedMethod) {
-            $config['referencedMethod'] = [];
-            /** @var \SimpleXMLElement $referenced_method */
-            foreach ($e->referencedMethod as $referenced_method) {
-                $config['referencedMethod'][]['name'] = (string)$referenced_method['name'];
-            }
-        }
-
         if ($e->referencedFunction) {
-            $config['referencedFunction'] = [];
             /** @var \SimpleXMLElement $referenced_function */
             foreach ($e->referencedFunction as $referenced_function) {
-                $config['referencedFunction'][]['name'] = strtolower((string)$referenced_function['name']);
+                $filter->method_ids[] = strtolower((string)$referenced_function['name']);
             }
         }
 
         if ($e->referencedProperty) {
-            $config['referencedProperty'] = [];
             /** @var \SimpleXMLElement $referenced_property */
             foreach ($e->referencedProperty as $referenced_property) {
-                $config['referencedProperty'][]['name'] = strtolower((string)$referenced_property['name']);
+                $filter->property_ids[] = strtolower((string)$referenced_property['name']);
             }
         }
 
         if ($e->referencedVariable) {
-            $config['referencedVariable'] = [];
-
             /** @var \SimpleXMLElement $referenced_variable */
             foreach ($e->referencedVariable as $referenced_variable) {
-                $config['referencedVariable'][]['name'] = strtolower((string)$referenced_variable['name']);
+                $filter->var_names[] = strtolower((string)$referenced_variable['name']);
             }
         }
 
-        return self::loadFromArray($config, $base_dir, $inclusive);
+        return $filter;
     }
 
     private static function isRegularExpression(string $string) : bool

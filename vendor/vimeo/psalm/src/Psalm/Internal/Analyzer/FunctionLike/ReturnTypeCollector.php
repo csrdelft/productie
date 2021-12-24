@@ -6,7 +6,6 @@ use Psalm\Codebase;
 use Psalm\Internal\Analyzer\Statements\Block\ForeachAnalyzer;
 use Psalm\Type;
 use Psalm\Type\Atomic;
-
 use function array_merge;
 
 /**
@@ -21,10 +20,6 @@ class ReturnTypeCollector
      * @param  list<Type\Union>         $yield_types
      *
      * @return list<Type\Union>    a list of return types
-     *
-     * @psalm-suppress ComplexMethod to be refactored
-     *
-     * TODO: This would probably benefit from using the list of exit_functions
      */
     public static function getReturnTypes(
         Codebase $codebase,
@@ -43,18 +38,6 @@ class ReturnTypeCollector
                     $return_types[] = $stmt_type;
 
                     $yield_types = array_merge($yield_types, self::getYieldTypeFromExpression($stmt->expr, $nodes));
-                } elseif ($stmt->expr instanceof PhpParser\Node\Scalar\String_) {
-                    $return_types[] = Type::getString();
-                } elseif ($stmt->expr instanceof PhpParser\Node\Scalar\LNumber) {
-                    $return_types[] = Type::getInt();
-                } elseif ($stmt->expr instanceof PhpParser\Node\Expr\ConstFetch) {
-                    if ((string)$stmt->expr->name === 'true') {
-                        $return_types[] = Type::getTrue();
-                    } elseif ((string)$stmt->expr->name === 'false') {
-                        $return_types[] = Type::getFalse();
-                    } elseif ((string)$stmt->expr->name === 'null') {
-                        $return_types[] = Type::getNull();
-                    }
                 } else {
                     $return_types[] = Type::getMixed();
                 }
@@ -62,29 +45,14 @@ class ReturnTypeCollector
                 break;
             }
 
-            if ($stmt instanceof PhpParser\Node\Stmt\Break_
+            if ($stmt instanceof PhpParser\Node\Stmt\Throw_
+                || $stmt instanceof PhpParser\Node\Stmt\Break_
                 || $stmt instanceof PhpParser\Node\Stmt\Continue_
             ) {
                 break;
             }
 
-            if ($stmt instanceof PhpParser\Node\Stmt\Throw_) {
-                if ($collapse_types) {
-                    $return_types[] = Type::getNever();
-                }
-
-                break;
-            }
-
             if ($stmt instanceof PhpParser\Node\Stmt\Expression) {
-                if ($stmt->expr instanceof PhpParser\Node\Expr\Exit_) {
-                    if ($collapse_types) {
-                        $return_types[] = Type::getNever();
-                    }
-
-                    break;
-                }
-
                 if ($stmt->expr instanceof PhpParser\Node\Expr\Assign) {
                     $return_types = array_merge(
                         $return_types,
@@ -260,8 +228,17 @@ class ReturnTypeCollector
             if ($type instanceof Type\Atomic\TArray) {
                 [$key_type_param, $value_type_param] = $type->type_params;
 
-                $key_type = Type::combineUnionTypes(clone $key_type_param, $key_type);
-                $value_type = Type::combineUnionTypes(clone $value_type_param, $value_type);
+                if (!$key_type) {
+                    $key_type = clone $key_type_param;
+                } else {
+                    $key_type = Type::combineUnionTypes($key_type_param, $key_type);
+                }
+
+                if (!$value_type) {
+                    $value_type = clone $value_type_param;
+                } else {
+                    $value_type = Type::combineUnionTypes($value_type_param, $value_type);
+                }
             } elseif ($type instanceof Type\Atomic\TIterable
                 || $type instanceof Type\Atomic\TNamedObject
             ) {
@@ -279,8 +256,8 @@ class ReturnTypeCollector
                 new Atomic\TGenericObject(
                     'Generator',
                     [
-                        $key_type ?? Type::getMixed(),
-                        $value_type ?? Type::getMixed(),
+                        $key_type ?: Type::getMixed(),
+                        $value_type ?: Type::getMixed(),
                         Type::getMixed(),
                         $return_types ? Type::combineUnionTypeArray($return_types, null) : Type::getVoid()
                     ]
@@ -320,34 +297,26 @@ class ReturnTypeCollector
             }
 
             return [Type::getMixed()];
-        }
-
-        if ($stmt instanceof PhpParser\Node\Expr\YieldFrom) {
+        } elseif ($stmt instanceof PhpParser\Node\Expr\YieldFrom) {
             if ($stmt_expr_type = $nodes->getType($stmt->expr)) {
                 return [$stmt_expr_type];
             }
 
             return [Type::getMixed()];
-        }
-
-        if ($stmt instanceof PhpParser\Node\Expr\BinaryOp) {
+        } elseif ($stmt instanceof PhpParser\Node\Expr\BinaryOp) {
             return array_merge(
                 self::getYieldTypeFromExpression($stmt->left, $nodes),
                 self::getYieldTypeFromExpression($stmt->right, $nodes)
             );
-        }
-
-        if ($stmt instanceof PhpParser\Node\Expr\Assign) {
+        } elseif ($stmt instanceof PhpParser\Node\Expr\Assign) {
             return self::getYieldTypeFromExpression($stmt->expr, $nodes);
-        }
-
-        if ($stmt instanceof PhpParser\Node\Expr\MethodCall
+        } elseif ($stmt instanceof PhpParser\Node\Expr\MethodCall
             || $stmt instanceof PhpParser\Node\Expr\FuncCall
             || $stmt instanceof PhpParser\Node\Expr\StaticCall
-            || $stmt instanceof PhpParser\Node\Expr\New_) {
+        ) {
             $yield_types = [];
 
-            foreach ($stmt->getArgs() as $arg) {
+            foreach ($stmt->args as $arg) {
                 $yield_types = array_merge($yield_types, self::getYieldTypeFromExpression($arg->value, $nodes));
             }
 

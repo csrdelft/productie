@@ -37,7 +37,7 @@ class LoopScope
     /**
      * @var array<string, Type\Union>|null
      */
-    public $possibly_redefined_loop_parent_vars;
+    public $possibly_redefined_loop_parent_vars = null;
 
     /**
      * @var array<string, Type\Union>
@@ -67,7 +67,7 @@ class LoopScope
 
     public function __destruct()
     {
-        unset($this->loop_context);
-        unset($this->loop_parent_context);
+        $this->loop_context = null;
+        $this->loop_parent_context = null;
     }
 }

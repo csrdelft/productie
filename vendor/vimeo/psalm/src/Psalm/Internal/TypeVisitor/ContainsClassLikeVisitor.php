@@ -1,12 +1,11 @@
 <?php
 namespace Psalm\Internal\TypeVisitor;
 
-use Psalm\Type\Atomic\TClassConstant;
 use Psalm\Type\Atomic\TLiteralClassString;
 use Psalm\Type\Atomic\TNamedObject;
-use Psalm\Type\NodeVisitor;
+use Psalm\Type\Atomic\TScalarClassConstant;
 use Psalm\Type\TypeNode;
-
+use Psalm\Type\NodeVisitor;
 use function strtolower;
 
 class ContainsClassLikeVisitor extends NodeVisitor
@@ -38,7 +37,7 @@ class ContainsClassLikeVisitor extends NodeVisitor
             }
         }
 
-        if ($type instanceof TClassConstant) {
+        if ($type instanceof TScalarClassConstant) {
             if (strtolower($type->fq_classlike_name) === $this->fq_classlike_name) {
                 $this->contains_classlike = true;
                 return NodeVisitor::STOP_TRAVERSAL;

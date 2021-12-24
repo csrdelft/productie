@@ -28,7 +28,9 @@ class DisconnectedMetadataFactory
     /** @var ManagerRegistry */
     private $registry;
 
-    /** @param ManagerRegistry $registry A ManagerRegistry instance */
+    /**
+     * @param ManagerRegistry $registry A ManagerRegistry instance
+     */
     public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
@@ -176,7 +178,9 @@ class DisconnectedMetadataFactory
         return new ClassMetadataCollection([]);
     }
 
-    /** @return ClassMetadata[] */
+    /**
+     * @return ClassMetadata[]
+     */
     private function getAllMetadata(): array
     {
         $metadata = [];

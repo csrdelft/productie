@@ -44,7 +44,7 @@ class BooleanToStringTransformer implements DataTransformerInterface
      *
      * @param bool $value Boolean value
      *
-     * @return string|null
+     * @return string|null String value
      *
      * @throws TransformationFailedException if the given value is not a Boolean
      */
@@ -66,7 +66,7 @@ class BooleanToStringTransformer implements DataTransformerInterface
      *
      * @param string $value String value
      *
-     * @return bool
+     * @return bool Boolean value
      *
      * @throws TransformationFailedException if the given value is not a string
      */

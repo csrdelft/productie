@@ -9,6 +9,5 @@ return [
         'mg' => 'madagassisk',
         'ne' => 'nepalsk',
         'rw' => 'kinjarwanda',
-        'sc' => 'sardinsk',
     ],
 ];

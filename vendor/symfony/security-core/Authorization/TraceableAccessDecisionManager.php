@@ -26,7 +26,6 @@ class TraceableAccessDecisionManager implements AccessDecisionManagerInterface
 {
     private $manager;
     private $strategy;
-    /** @var iterable<mixed, VoterInterface> */
     private $voters = [];
     private $decisionLog = []; // All decision logs
     private $currentLog = [];  // Logs being filled in
@@ -88,18 +87,14 @@ class TraceableAccessDecisionManager implements AccessDecisionManagerInterface
 
     public function getStrategy(): string
     {
-        if (null === $this->strategy) {
-            return '-';
-        }
-        if (method_exists($this->strategy, '__toString')) {
-            return (string) $this->strategy;
-        }
-
-        return get_debug_type($this->strategy);
+        // The $strategy property is misleading because it stores the name of its
+        // method (e.g. 'decideAffirmative') instead of the original strategy name
+        // (e.g. 'affirmative')
+        return null === $this->strategy ? '-' : strtolower(substr($this->strategy, 6));
     }
 
     /**
-     * @return iterable<mixed, VoterInterface>
+     * @return iterable|VoterInterface[]
      */
     public function getVoters(): iterable
     {

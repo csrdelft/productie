@@ -415,7 +415,7 @@ return [
         'teo' => 'Teso',
         'ter' => 'Tereno',
         'tet' => 'Tetum',
-        'tg' => 'Taġik',
+        'tg' => 'Tajik',
         'th' => 'Tajlandiż',
         'ti' => 'Tigrinya',
         'tig' => 'Tigre',

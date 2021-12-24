@@ -3,8 +3,8 @@ namespace Psalm\Internal\Analyzer;
 
 use PhpParser;
 use Psalm\Aliases;
-use Psalm\CodeLocation;
 use Psalm\Codebase;
+use Psalm\CodeLocation;
 use Psalm\Context;
 use Psalm\Internal\FileManipulation\FileManipulationBuffer;
 use Psalm\Issue\InaccessibleProperty;
@@ -19,15 +19,15 @@ use Psalm\Plugin\EventHandler\Event\AfterClassLikeExistenceCheckEvent;
 use Psalm\StatementsSource;
 use Psalm\Storage\ClassLikeStorage;
 use Psalm\Type;
-
-use function array_pop;
-use function explode;
-use function gettype;
-use function implode;
+use Psalm\Type\Atomic\TLiteralString;
+use function strtolower;
+use function preg_replace;
 use function in_array;
 use function preg_match;
-use function preg_replace;
-use function strtolower;
+use function explode;
+use function array_pop;
+use function implode;
+use function gettype;
 
 /**
  * @internal
@@ -106,8 +106,8 @@ abstract class ClassLikeAnalyzer extends SourceAnalyzer
 
     public function __destruct()
     {
-        unset($this->source);
-        unset($this->file_analyzer);
+        $this->source = null;
+        $this->file_analyzer = null;
     }
 
     public function getMethodMutations(
@@ -196,6 +196,7 @@ abstract class ClassLikeAnalyzer extends SourceAnalyzer
 
     /**
      * @param  array<string>    $suppressed_issues
+     * @param  bool             $inferred - whether or not the type was inferred
      */
     public static function checkFullyQualifiedClassLikeName(
         StatementsSource $statements_source,
@@ -204,12 +205,12 @@ abstract class ClassLikeAnalyzer extends SourceAnalyzer
         ?string $calling_fq_class_name,
         ?string $calling_method_id,
         array $suppressed_issues,
-        ?ClassLikeNameOptions $options = null
+        bool $inferred = true,
+        bool $allow_trait = false,
+        bool $allow_interface = true,
+        bool $from_docblock = false,
+        bool $from_attribute = false
     ): ?bool {
-        if ($options === null) {
-            $options = new ClassLikeNameOptions();
-        }
-
         $codebase = $statements_source->getCodebase();
         if ($fq_class_name === '') {
             if (IssueBuffer::accepts(
@@ -256,34 +257,23 @@ abstract class ClassLikeAnalyzer extends SourceAnalyzer
 
         $class_exists = $codebase->classlikes->classExists(
             $fq_class_name,
-            !$options->inferred ? $code_location : null,
+            !$inferred ? $code_location : null,
             $calling_fq_class_name,
             $calling_method_id
         );
-
         $interface_exists = $codebase->classlikes->interfaceExists(
             $fq_class_name,
-            !$options->inferred ? $code_location : null,
+            !$inferred ? $code_location : null,
             $calling_fq_class_name,
             $calling_method_id
         );
 
-        $enum_exists = $codebase->classlikes->enumExists(
-            $fq_class_name,
-            !$options->inferred ? $code_location : null,
-            $calling_fq_class_name,
-            $calling_method_id
-        );
-
-        if (!$class_exists
-            && !($interface_exists && $options->allow_interface)
-            && !($enum_exists && $options->allow_enum)
-        ) {
-            if (!$options->allow_trait || !$codebase->classlikes->traitExists($fq_class_name, $code_location)) {
-                if ($options->from_docblock) {
+        if (!$class_exists && !($interface_exists && $allow_interface)) {
+            if (!$allow_trait || !$codebase->classlikes->traitExists($fq_class_name, $code_location)) {
+                if ($from_docblock) {
                     if (IssueBuffer::accepts(
                         new UndefinedDocblockClass(
-                            'Docblock-defined class, interface or enum named ' . $fq_class_name . ' does not exist',
+                            'Docblock-defined class or interface ' . $fq_class_name . ' does not exist',
                             $code_location,
                             $fq_class_name
                         ),
@@ -291,7 +281,7 @@ abstract class ClassLikeAnalyzer extends SourceAnalyzer
                     )) {
                         return false;
                     }
-                } elseif ($options->from_attribute) {
+                } elseif ($from_attribute) {
                     if (IssueBuffer::accepts(
                         new UndefinedAttributeClass(
                             'Attribute class ' . $fq_class_name . ' does not exist',
@@ -305,7 +295,7 @@ abstract class ClassLikeAnalyzer extends SourceAnalyzer
                 } else {
                     if (IssueBuffer::accepts(
                         new UndefinedClass(
-                            'Class, interface or enum named ' . $fq_class_name . ' does not exist',
+                            'Class or interface ' . $fq_class_name . ' does not exist',
                             $code_location,
                             $fq_class_name
                         ),
@@ -326,7 +316,7 @@ abstract class ClassLikeAnalyzer extends SourceAnalyzer
         try {
             $class_storage = $codebase->classlike_storage_provider->get($aliased_name);
         } catch (\InvalidArgumentException $e) {
-            if (!$options->inferred) {
+            if (!$inferred) {
                 throw $e;
             }
 
@@ -353,15 +343,14 @@ abstract class ClassLikeAnalyzer extends SourceAnalyzer
             }
         }
 
-        if (!$options->inferred) {
-            if (($class_exists && !$codebase->classHasCorrectCasing($fq_class_name))
-                || ($interface_exists && !$codebase->interfaceHasCorrectCasing($fq_class_name))
-                || ($enum_exists && !$codebase->classlikes->enumHasCorrectCasing($fq_class_name))
+        if (!$inferred) {
+            if (($class_exists && !$codebase->classHasCorrectCasing($fq_class_name)) ||
+                ($interface_exists && !$codebase->interfaceHasCorrectCasing($fq_class_name))
             ) {
                 if ($codebase->classlikes->isUserDefined(strtolower($aliased_name))) {
                     if (IssueBuffer::accepts(
                         new InvalidClass(
-                            'Class, interface or enum ' . $fq_class_name . ' has wrong casing',
+                            'Class or interface ' . $fq_class_name . ' has wrong casing',
                             $code_location,
                             $fq_class_name
                         ),
@@ -373,7 +362,7 @@ abstract class ClassLikeAnalyzer extends SourceAnalyzer
             }
         }
 
-        if (!$options->inferred) {
+        if (!$inferred) {
             $event = new AfterClassLikeExistenceCheckEvent(
                 $fq_class_name,
                 $code_location,
@@ -454,7 +443,7 @@ abstract class ClassLikeAnalyzer extends SourceAnalyzer
 
     public function getClassName(): ?string
     {
-        return $this->class->name->name ?? null;
+        return $this->class->name ? $this->class->name->name : null;
     }
 
     /**
@@ -580,18 +569,27 @@ abstract class ClassLikeAnalyzer extends SourceAnalyzer
                 return $emit_issues ? null : true;
 
             case self::VISIBILITY_PRIVATE:
-                if ($emit_issues && IssueBuffer::accepts(
-                    new InaccessibleProperty(
-                        'Cannot access private property ' . $property_id . ' from context ' . $context->self,
-                        $code_location
-                    ),
-                    $suppressed_issues
-                )) {
-                    // fall through
+                if (!$context->self || $appearing_property_class !== $context->self) {
+                    if ($emit_issues && IssueBuffer::accepts(
+                        new InaccessibleProperty(
+                            'Cannot access private property ' . $property_id . ' from context ' . $context->self,
+                            $code_location
+                        ),
+                        $suppressed_issues
+                    )) {
+                        // fall through
+                    }
+
+                    return null;
                 }
 
-                return null;
+                return $emit_issues ? null : true;
+
             case self::VISIBILITY_PROTECTED:
+                if ($appearing_property_class === $context->self) {
+                    return null;
+                }
+
                 if (!$context->self) {
                     if ($emit_issues && IssueBuffer::accepts(
                         new InaccessibleProperty(

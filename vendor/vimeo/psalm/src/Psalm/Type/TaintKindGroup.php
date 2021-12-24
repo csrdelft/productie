@@ -9,7 +9,6 @@ class TaintKindGroup
 {
     public const ALL_INPUT = [
         TaintKind::INPUT_HTML,
-        TaintKind::INPUT_HAS_QUOTES,
         TaintKind::INPUT_SHELL,
         TaintKind::INPUT_SQL,
         TaintKind::INPUT_CALLABLE,

@@ -5,7 +5,6 @@ use Psalm\Internal\Analyzer\IssueData;
 use Psalm\Internal\Analyzer\ProjectAnalyzer;
 use Psalm\Internal\ExecutionEnvironment\BuildInfoCollector;
 use Psalm\Issue\CodeIssue;
-use Psalm\Issue\ConfigIssue;
 use Psalm\Issue\UnusedPsalmSuppress;
 use Psalm\Plugin\EventHandler\Event\AfterAnalysisEvent;
 use Psalm\Report\CheckstyleReport;
@@ -44,12 +43,10 @@ use function mkdir;
 use function number_format;
 use function ob_get_clean;
 use function ob_start;
-use function preg_match;
 use function sha1;
 use function sprintf;
 use function str_repeat;
 use function str_replace;
-use function trim;
 use function usort;
 
 use const DEBUG_BACKTRACE_IGNORE_ARGS;
@@ -116,7 +113,7 @@ class IssueBuffer
 
     public static function addUnusedSuppression(string $file_path, int $offset, string $issue_type) : void
     {
-        if (\strpos($issue_type, 'Tainted') === 0) {
+        if (\substr($issue_type, 0, 7) === 'Tainted') {
             return;
         }
 
@@ -143,7 +140,7 @@ class IssueBuffer
         $issue_type = array_pop($fqcn_parts);
         $file_path = $e->getFilePath();
 
-        if (!$e instanceof ConfigIssue && !$config->reportIssueInFile($issue_type, $file_path)) {
+        if (!$config->reportIssueInFile($issue_type, $file_path)) {
             return true;
         }
 
@@ -216,7 +213,7 @@ class IssueBuffer
             return false;
         }
 
-        $is_tainted = \strpos($issue_type, 'Tainted') === 0;
+        $is_tainted = \substr($issue_type, 0, 7) === 'Tainted';
 
         if ($project_analyzer->getCodebase()->taint_flow_graph && !$is_tainted) {
             return false;
@@ -235,13 +232,7 @@ class IssueBuffer
             fwrite(STDERR, "\nEmitting {$e->getShortLocation()} $issue_type {$e->message}\n$trace\n");
         }
 
-        // Make issue type for trace variable specific ("Trace" => "Trace~$var").
-        $trace_var = $issue_type === 'Trace' && preg_match('/^(\$.+?):/', $e->message, $m) === 1 && isset($m[1])
-            ? '~' . $m[1]
-            : '';
-
         $emitted_key = $issue_type
-            . $trace_var
             . '-' . $e->getShortLocation()
             . ':' . $e->code_location->getColumn()
             . ' ' . $e->dupe_key;
@@ -402,10 +393,6 @@ class IssueBuffer
                 continue;
             }
 
-            if (!$config->isInProjectDirs($file_path)) {
-                continue;
-            }
-
             $file_contents = $file_provider->getContents($file_path);
 
             foreach ($offsets as $start => $end) {
@@ -472,15 +459,8 @@ class IssueBuffer
 
         $codebase = $project_analyzer->getCodebase();
 
-        foreach ($codebase->config->config_issues as $issue) {
-            if (self::accepts($issue)) {
-                // fall through
-            }
-        }
-
         $error_count = 0;
         $info_count = 0;
-
 
         $issues_data = [];
 
@@ -530,7 +510,7 @@ class IssueBuffer
                         if (isset($issue_baseline[$file][$type]) && $issue_baseline[$file][$type]['o'] > 0) {
                             if ($issue_baseline[$file][$type]['o'] === count($issue_baseline[$file][$type]['s'])) {
                                 $position = array_search(
-                                    trim($issue_data->selected_text),
+                                    $issue_data->selected_text,
                                     $issue_baseline[$file][$type]['s'],
                                     true
                                 );
@@ -538,12 +518,12 @@ class IssueBuffer
                                 if ($position !== false) {
                                     $issue_data->severity = Config::REPORT_INFO;
                                     array_splice($issue_baseline[$file][$type]['s'], $position, 1);
-                                    $issue_baseline[$file][$type]['o']--;
+                                    $issue_baseline[$file][$type]['o'] = $issue_baseline[$file][$type]['o'] - 1;
                                 }
                             } else {
                                 $issue_baseline[$file][$type]['s'] = [];
                                 $issue_data->severity = Config::REPORT_INFO;
-                                $issue_baseline[$file][$type]['o']--;
+                                $issue_baseline[$file][$type]['o'] = $issue_baseline[$file][$type]['o'] - 1;
                             }
                         }
 

@@ -2,12 +2,10 @@
 
 namespace Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\Cache\Adapter\DoctrineDbalAdapter;
 use Symfony\Component\Cache\Adapter\PdoAdapter;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
-use Symfony\Component\Lock\Store\DoctrineDbalStore;
 use Symfony\Component\Lock\Store\PdoStore;
 use Symfony\Component\Messenger\Bridge\Doctrine\Transport\Connection;
 use Symfony\Component\Messenger\Transport\Doctrine\Connection as LegacyConnection;
@@ -34,7 +32,6 @@ class WellKnownSchemaFilterPass implements CompilerPassInterface
             }
 
             switch ($definition->getClass()) {
-                case DoctrineDbalAdapter::class:
                 case PdoAdapter::class:
                     $blacklist[] = $definition->getArguments()[3]['db_table'] ?? 'cache_items';
                     break;
@@ -43,7 +40,6 @@ class WellKnownSchemaFilterPass implements CompilerPassInterface
                     $blacklist[] = $definition->getArguments()[1]['db_table'] ?? 'sessions';
                     break;
 
-                case DoctrineDbalStore::class:
                 case PdoStore::class:
                     $blacklist[] = $definition->getArguments()[1]['db_table'] ?? 'lock_keys';
                     break;

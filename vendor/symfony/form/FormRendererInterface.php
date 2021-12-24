@@ -21,7 +21,7 @@ interface FormRendererInterface
     /**
      * Returns the engine used by this renderer.
      *
-     * @return FormRendererEngineInterface
+     * @return FormRendererEngineInterface The renderer engine
      */
     public function getEngine();
 
@@ -42,7 +42,7 @@ interface FormRendererInterface
      * @param FormView $view      The view for which to render the block
      * @param array    $variables The variables to pass to the template
      *
-     * @return string
+     * @return string The HTML markup
      */
     public function renderBlock(FormView $view, string $blockName, array $variables = []);
 
@@ -59,7 +59,7 @@ interface FormRendererInterface
      * @param FormView $view      The view for which to render the block
      * @param array    $variables The variables to pass to the template
      *
-     * @return string
+     * @return string The HTML markup
      */
     public function searchAndRenderBlock(FormView $view, string $blockNameSuffix, array $variables = []);
 
@@ -78,7 +78,7 @@ interface FormRendererInterface
      *         throw new \RuntimeException('CSRF attack detected.');
      *     }
      *
-     * @return string
+     * @return string A CSRF token
      */
     public function renderCsrfToken(string $tokenId);
 
@@ -89,7 +89,7 @@ interface FormRendererInterface
      * of the resulting string is capitalized, while all other letters are
      * turned to lowercase.
      *
-     * @return string
+     * @return string The humanized text
      */
     public function humanize(string $text);
 }

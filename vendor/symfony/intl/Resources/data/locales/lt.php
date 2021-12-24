@@ -492,8 +492,6 @@ return [
         'rw_RW' => 'kinjaruandų (Ruanda)',
         'sa' => 'sanskritas',
         'sa_IN' => 'sanskritas (Indija)',
-        'sc' => 'sardiniečių',
-        'sc_IT' => 'sardiniečių (Italija)',
         'sd' => 'sindų',
         'sd_Arab' => 'sindų (arabų)',
         'sd_Arab_PK' => 'sindų (arabų, Pakistanas)',

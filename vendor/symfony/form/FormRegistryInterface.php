@@ -23,16 +23,16 @@ interface FormRegistryInterface
      *
      * This methods registers the type extensions from the form extensions.
      *
-     * @return ResolvedFormTypeInterface
+     * @return ResolvedFormTypeInterface The type
      *
-     * @throws Exception\InvalidArgumentException if the type cannot be retrieved from any extension
+     * @throws Exception\InvalidArgumentException if the type can not be retrieved from any extension
      */
     public function getType(string $name);
 
     /**
      * Returns whether the given form type is supported.
      *
-     * @return bool
+     * @return bool Whether the type is supported
      */
     public function hasType(string $name);
 

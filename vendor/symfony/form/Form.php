@@ -66,8 +66,6 @@ use Symfony\Component\PropertyAccess\PropertyPathInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Bernhard Schussek <bschussek@gmail.com>
- *
- * @implements \IteratorAggregate<string, FormInterface>
  */
 class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterface
 {
@@ -84,7 +82,7 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
     /**
      * A map of FormInterface instances.
      *
-     * @var OrderedHashMap<string, FormInterface>
+     * @var FormInterface[]|OrderedHashMap
      */
     private $children;
 
@@ -822,6 +820,8 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
 
     /**
      * {@inheritdoc}
+     *
+     * @return $this
      */
     public function clearErrors(bool $deep = false): self
     {
@@ -965,7 +965,6 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
      *
      * @return bool
      */
-    #[\ReturnTypeWillChange]
     public function offsetExists($name)
     {
         return $this->has($name);
@@ -976,11 +975,10 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
      *
      * @param string $name The name of the child
      *
-     * @return FormInterface
+     * @return FormInterface The child form
      *
      * @throws OutOfBoundsException if the named child does not exist
      */
-    #[\ReturnTypeWillChange]
     public function offsetGet($name)
     {
         return $this->get($name);
@@ -999,7 +997,6 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
      *
      * @see self::add()
      */
-    #[\ReturnTypeWillChange]
     public function offsetSet($name, $child)
     {
         $this->add($child);
@@ -1014,7 +1011,6 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
      *
      * @throws AlreadySubmittedException if the form has already been submitted
      */
-    #[\ReturnTypeWillChange]
     public function offsetUnset($name)
     {
         $this->remove($name);
@@ -1023,9 +1019,8 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
     /**
      * Returns the iterator for this group.
      *
-     * @return \Traversable<string, FormInterface>
+     * @return \Traversable<FormInterface>
      */
-    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return $this->children;
@@ -1034,9 +1029,8 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
     /**
      * Returns the number of form children (implements the \Countable interface).
      *
-     * @return int
+     * @return int The number of embedded form children
      */
-    #[\ReturnTypeWillChange]
     public function count()
     {
         return \count($this->children);

@@ -26,7 +26,7 @@ return [
         'Egyd' => 'Éigipteach coiteann',
         'Egyh' => 'Éigipteach cliarúil',
         'Egyp' => 'Iairiglifí Éigipteacha',
-        'Ethi' => 'Aetóipic',
+        'Ethi' => 'Aetópach',
         'Geor' => 'Seoirseach',
         'Glag' => 'Glagalach',
         'Goth' => 'Gotach',
@@ -105,7 +105,7 @@ return [
         'Zmth' => 'Nodaireacht Mhatamaiticiúil',
         'Zsye' => 'Emoji',
         'Zsym' => 'Siombailí',
-        'Zxxx' => 'Neamhscríofa',
+        'Zxxx' => 'Gan Scríobh',
         'Zyyy' => 'Coitianta',
     ],
 ];

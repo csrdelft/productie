@@ -2,20 +2,19 @@
 namespace Psalm\Internal\Analyzer\Statements\Block;
 
 use PhpParser;
-use Psalm\CodeLocation;
 use Psalm\Codebase;
-use Psalm\Context;
-use Psalm\Internal\Algebra;
 use Psalm\Internal\Algebra\FormulaGenerator;
 use Psalm\Internal\Analyzer\AlgebraAnalyzer;
 use Psalm\Internal\Analyzer\ScopeAnalyzer;
 use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Internal\Scope\CaseScope;
-use Psalm\Internal\Scope\SwitchScope;
+use Psalm\CodeLocation;
+use Psalm\Context;
 use Psalm\Issue\ContinueOutsideLoop;
 use Psalm\Issue\ParadoxicalCondition;
 use Psalm\IssueBuffer;
+use Psalm\Internal\Scope\CaseScope;
+use Psalm\Internal\Scope\SwitchScope;
 use Psalm\Node\Expr\BinaryOp\VirtualBooleanOr;
 use Psalm\Node\Expr\BinaryOp\VirtualEqual;
 use Psalm\Node\Expr\BinaryOp\VirtualIdentical;
@@ -31,16 +30,15 @@ use Psalm\Node\Stmt\VirtualIf;
 use Psalm\Node\VirtualArg;
 use Psalm\Node\VirtualName;
 use Psalm\Type;
+use Psalm\Internal\Algebra;
 use Psalm\Type\Reconciler;
-
-use function array_diff_key;
-use function array_intersect_key;
-use function array_merge;
 use function count;
 use function in_array;
+use function array_merge;
 use function is_string;
-use function strpos;
 use function substr;
+use function array_intersect_key;
+use function array_diff_key;
 
 /**
  * @internal
@@ -83,7 +81,7 @@ class SwitchCaseAnalyzer
 
         $fake_switch_condition = false;
 
-        if ($switch_var_id && strpos($switch_var_id, '$__tmp_switch__') === 0) {
+        if ($switch_var_id && substr($switch_var_id, 0, 15) === '$__tmp_switch__') {
             $switch_condition = new VirtualVariable(
                 substr($switch_var_id, 1),
                 $stmt->cond->getAttributes()
@@ -99,9 +97,10 @@ class SwitchCaseAnalyzer
             $case_context->inside_conditional = true;
 
             if (ExpressionAnalyzer::analyze($statements_analyzer, $case->cond, $case_context) === false) {
-                unset($case_scope->parent_context);
-                unset($case_context->case_scope);
-                unset($case_context->parent_context);
+                /** @psalm-suppress PossiblyNullPropertyAssignmentValue */
+                $case_scope->parent_context = null;
+                $case_context->case_scope = null;
+                $case_context->parent_context = null;
 
                 return false;
             }
@@ -204,11 +203,7 @@ class SwitchCaseAnalyzer
                 }
             }
 
-            if ($switch_condition instanceof PhpParser\Node\Expr\ConstFetch
-                && $switch_condition->name->parts === ['true']
-            ) {
-                $case_equality_expr = $case->cond;
-            } elseif (($switch_condition_type = $statements_analyzer->node_data->getType($switch_condition))
+            if (($switch_condition_type = $statements_analyzer->node_data->getType($switch_condition))
                 && ($case_cond_type = $statements_analyzer->node_data->getType($case->cond))
                 && (($switch_condition_type->isString() && $case_cond_type->isString())
                     || ($switch_condition_type->isInt() && $case_cond_type->isInt())
@@ -273,9 +268,10 @@ class SwitchCaseAnalyzer
                 $switch_scope->leftover_statements = [$case_if_stmt];
             }
 
-            unset($case_scope->parent_context);
-            unset($case_context->case_scope);
-            unset($case_context->parent_context);
+            /** @psalm-suppress PossiblyNullPropertyAssignmentValue */
+            $case_scope->parent_context = null;
+            $case_context->case_scope = null;
+            $case_context->parent_context = null;
 
             $statements_analyzer->node_data = $old_node_data;
 
@@ -316,7 +312,7 @@ class SwitchCaseAnalyzer
             if ($new_case_equality_expr) {
                 ExpressionAnalyzer::analyze(
                     $statements_analyzer,
-                    $new_case_equality_expr->getArgs()[1]->value,
+                    $new_case_equality_expr->args[1]->value,
                     $case_context
                 );
 
@@ -403,7 +399,7 @@ class SwitchCaseAnalyzer
                     $case_context->inside_loop,
                     new CodeLocation(
                         $statements_analyzer->getSource(),
-                        $case->cond ?? $case,
+                        $case->cond ? $case->cond : $case,
                         $context->include_location
                     )
                 );
@@ -499,9 +495,10 @@ class SwitchCaseAnalyzer
                 $case_exit_type,
                 $switch_scope
             ) === false) {
-                unset($case_scope->parent_context);
-                unset($case_context->case_scope);
-                unset($case_context->parent_context);
+                /** @psalm-suppress PossiblyNullPropertyAssignmentValue */
+                $case_scope->parent_context = null;
+                $case_context->case_scope = null;
+                $case_context->parent_context = null;
 
                 return false;
             }
@@ -517,10 +514,14 @@ class SwitchCaseAnalyzer
             } else {
                 foreach ($case_scope->break_vars as $var_id => $type) {
                     if (isset($context->vars_in_scope[$var_id])) {
-                        $switch_scope->possibly_redefined_vars[$var_id] = Type::combineUnionTypes(
-                            clone $type,
-                            $switch_scope->possibly_redefined_vars[$var_id] ?? null
-                        );
+                        if (!isset($switch_scope->possibly_redefined_vars[$var_id])) {
+                            $switch_scope->possibly_redefined_vars[$var_id] = clone $type;
+                        } else {
+                            $switch_scope->possibly_redefined_vars[$var_id] = Type::combineUnionTypes(
+                                clone $type,
+                                $switch_scope->possibly_redefined_vars[$var_id]
+                            );
+                        }
                     }
                 }
             }
@@ -556,9 +557,10 @@ class SwitchCaseAnalyzer
             }
         }
 
-        unset($case_scope->parent_context);
-        unset($case_context->case_scope);
-        unset($case_context->parent_context);
+        /** @psalm-suppress PossiblyNullPropertyAssignmentValue */
+        $case_scope->parent_context = null;
+        $case_context->case_scope = null;
+        $case_context->parent_context = null;
 
         return null;
     }
@@ -611,10 +613,14 @@ class SwitchCaseAnalyzer
                 $switch_scope->possibly_redefined_vars = $case_redefined_vars;
             } else {
                 foreach ($case_redefined_vars as $var_id => $type) {
-                    $switch_scope->possibly_redefined_vars[$var_id] = Type::combineUnionTypes(
-                        clone $type,
-                        $switch_scope->possibly_redefined_vars[$var_id] ?? null
-                    );
+                    if (!isset($switch_scope->possibly_redefined_vars[$var_id])) {
+                        $switch_scope->possibly_redefined_vars[$var_id] = clone $type;
+                    } else {
+                        $switch_scope->possibly_redefined_vars[$var_id] = Type::combineUnionTypes(
+                            clone $type,
+                            $switch_scope->possibly_redefined_vars[$var_id]
+                        );
+                    }
                 }
             }
 

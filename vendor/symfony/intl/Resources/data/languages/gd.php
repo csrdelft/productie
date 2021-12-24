@@ -423,7 +423,6 @@ return [
         'rap' => 'Rapa Nui',
         'rar' => 'Cànan Rarotonga',
         'rgn' => 'Romagnol',
-        'rhg' => 'Rohingya',
         'rm' => 'Rumains',
         'rn' => 'Kirundi',
         'ro' => 'Romàinis',

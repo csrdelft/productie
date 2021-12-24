@@ -21,7 +21,6 @@ use Symfony\Component\Intl\Data\Util\RingBuffer;
 class BufferedBundleReader implements BundleReaderInterface
 {
     private $reader;
-    /** @var RingBuffer<string, mixed> */
     private $buffer;
 
     /**

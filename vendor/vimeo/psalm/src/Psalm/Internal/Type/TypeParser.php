@@ -1,11 +1,24 @@
 <?php
 namespace Psalm\Internal\Type;
 
+use Psalm\Type\TypeNode;
+use function array_keys;
+use function array_map;
+use function array_shift;
+use function array_unshift;
+use function array_values;
+use function count;
+use function explode;
+use function get_class;
+use function in_array;
+use function preg_match;
+use function preg_replace;
 use Psalm\Codebase;
 use Psalm\Exception\TypeParseTreeException;
 use Psalm\Internal\Analyzer\ProjectAnalyzer;
 use Psalm\Storage\FunctionLikeParameter;
 use Psalm\Type\Atomic;
+use Psalm\Type\Atomic\TKeyedArray;
 use Psalm\Type\Atomic\TArray;
 use Psalm\Type\Atomic\TArrayKey;
 use Psalm\Type\Atomic\TCallable;
@@ -13,9 +26,7 @@ use Psalm\Type\Atomic\TClassString;
 use Psalm\Type\Atomic\TClassStringMap;
 use Psalm\Type\Atomic\TClosure;
 use Psalm\Type\Atomic\TGenericObject;
-use Psalm\Type\Atomic\TIntRange;
 use Psalm\Type\Atomic\TIterable;
-use Psalm\Type\Atomic\TKeyedArray;
 use Psalm\Type\Atomic\TList;
 use Psalm\Type\Atomic\TLiteralFloat;
 use Psalm\Type\Atomic\TLiteralInt;
@@ -29,29 +40,16 @@ use Psalm\Type\Atomic\TObject;
 use Psalm\Type\Atomic\TObjectWithProperties;
 use Psalm\Type\Atomic\TTemplateParam;
 use Psalm\Type\Atomic\TTypeAlias;
-use Psalm\Type\TypeNode;
 use Psalm\Type\Union;
-
 use function array_key_exists;
-use function array_keys;
-use function array_map;
-use function array_merge;
-use function array_shift;
-use function array_unique;
-use function array_unshift;
-use function array_values;
-use function count;
-use function explode;
-use function get_class;
-use function in_array;
-use function is_int;
-use function preg_match;
-use function preg_replace;
-use function reset;
 use function strlen;
 use function strpos;
 use function strtolower;
 use function substr;
+use function reset;
+use function is_int;
+use function array_merge;
+use function array_unique;
 
 class TypeParser
 {
@@ -180,14 +178,6 @@ class TypeParser
         }
 
         if ($parse_tree instanceof ParseTree\EncapsulationTree) {
-            if (!$parse_tree->terminated) {
-                throw new TypeParseTreeException('Unterminated parentheses');
-            }
-
-            if (!isset($parse_tree->children[0])) {
-                throw new TypeParseTreeException('Empty parentheses');
-            }
-
             return self::getTypeFromTree(
                 $parse_tree->children[0],
                 $codebase,
@@ -324,7 +314,7 @@ class TypeParser
                 return new Atomic\TLiteralClassString($fq_classlike_name);
             }
 
-            return new Atomic\TClassConstant($fq_classlike_name, $const_name);
+            return new Atomic\TScalarClassConstant($fq_classlike_name, $const_name);
         }
 
         if (preg_match('/^\-?(0|[1-9][0-9]*)(\.[0-9]{1,})$/', $parse_tree->value)) {
@@ -406,7 +396,7 @@ class TypeParser
 
                 return new Atomic\TTemplateParamClass(
                     $t->param_name,
-                    $t_atomic_type->value ?? 'object',
+                    $t_atomic_type ? $t_atomic_type->value : 'object',
                     $t_atomic_type,
                     $t->defining_class
                 );
@@ -435,7 +425,6 @@ class TypeParser
      */
     public static function getComputedIntsFromMask(array $potential_ints) : array
     {
-        /** @var list<int> */
         $potential_values = [];
 
         foreach ($potential_ints as $ith) {
@@ -444,15 +433,14 @@ class TypeParser
             $new_values[] = $ith;
 
             if ($ith !== 0) {
-                foreach ($potential_values as $potential_value) {
-                    $new_values[] = $ith | $potential_value;
+                for ($j = 0; $j < count($potential_values); $j++) {
+                    $new_values[] = $ith | $potential_values[$j];
                 }
             }
 
             $potential_values = array_merge($new_values, $potential_values);
         }
 
-        array_unshift($potential_values, 0);
         $potential_values = array_unique($potential_values);
 
         return array_map(
@@ -468,7 +456,6 @@ class TypeParser
      * @param  array<string, TypeAlias> $type_aliases
      * @return Atomic|Union
      * @throws TypeParseTreeException
-     * @psalm-suppress ComplexMethod to be refactored
      */
     private static function getTypeFromGenericTree(
         ParseTree\GenericTree $parse_tree,
@@ -579,7 +566,7 @@ class TypeParser
             return new TNonEmptyList($generic_params[0]);
         }
 
-        if ($generic_type_value === 'class-string' || $generic_type_value === 'interface-string') {
+        if ($generic_type_value === 'class-string') {
             $class_name = (string)$generic_params[0];
 
             if (isset($template_type_map[$class_name])) {
@@ -662,7 +649,7 @@ class TypeParser
                 throw new TypeParseTreeException('Union types are not allowed in key-of type');
             }
 
-            if (!$param_union_types[0] instanceof Atomic\TClassConstant) {
+            if (!$param_union_types[0] instanceof Atomic\TScalarClassConstant) {
                 throw new TypeParseTreeException(
                     'Untemplated key-of param ' . $param_name . ' should be a class constant'
                 );
@@ -683,7 +670,7 @@ class TypeParser
                 throw new TypeParseTreeException('Union types are not allowed in value-of type');
             }
 
-            if (!$param_union_types[0] instanceof Atomic\TClassConstant) {
+            if (!$param_union_types[0] instanceof Atomic\TScalarClassConstant) {
                 throw new TypeParseTreeException(
                     'Untemplated value-of param ' . $param_name . ' should be a class constant'
                 );
@@ -729,7 +716,7 @@ class TypeParser
                 }
 
                 if (!$atomic_type instanceof TLiteralInt
-                    && !($atomic_type instanceof Atomic\TClassConstant
+                    && !($atomic_type instanceof Atomic\TScalarClassConstant
                         && strpos($atomic_type->const_name, '*') === false)
                 ) {
                     throw new TypeParseTreeException(
@@ -762,14 +749,14 @@ class TypeParser
 
             $param_type = $param_union_types[0];
 
-            if (!$param_type instanceof Atomic\TClassConstant
+            if (!$param_type instanceof Atomic\TScalarClassConstant
                 && !$param_type instanceof Atomic\TValueOfClassConstant
                 && !$param_type instanceof Atomic\TKeyOfClassConstant
             ) {
                 throw new TypeParseTreeException(
                     'Invalid reference passed to int-mask-of'
                 );
-            } elseif ($param_type instanceof Atomic\TClassConstant
+            } elseif ($param_type instanceof Atomic\TScalarClassConstant
                 && strpos($param_type->const_name, '*') === false
             ) {
                 throw new TypeParseTreeException(
@@ -778,49 +765,6 @@ class TypeParser
             }
 
             return new Atomic\TIntMaskOf($param_type);
-        }
-
-        if ($generic_type_value === 'int') {
-            if (count($generic_params) !== 2) {
-                throw new TypeParseTreeException('int range must have 2 params');
-            }
-
-            $param0_union_types = array_values($generic_params[0]->getAtomicTypes());
-            $param1_union_types = array_values($generic_params[1]->getAtomicTypes());
-
-            if (count($param0_union_types) > 1 || count($param1_union_types) > 1) {
-                throw new TypeParseTreeException('Union types are not allowed in int range type');
-            }
-
-            if ($param0_union_types[0] instanceof TNamedObject &&
-                $param0_union_types[0]->value === TIntRange::BOUND_MAX
-            ) {
-                throw new TypeParseTreeException("min bound for int range param can't be 'max'");
-            }
-            if ($param1_union_types[0] instanceof TNamedObject &&
-                $param1_union_types[0]->value === TIntRange::BOUND_MIN
-            ) {
-                throw new TypeParseTreeException("max bound for int range param can't be 'min'");
-            }
-
-            $min_bound = null;
-            $max_bound = null;
-            if ($param0_union_types[0] instanceof TLiteralInt) {
-                $min_bound = $param0_union_types[0]->value;
-            }
-            if ($param1_union_types[0] instanceof TLiteralInt) {
-                $max_bound = $param1_union_types[0]->value;
-            }
-
-            if ($min_bound === null && $max_bound === null) {
-                return new Atomic\TInt();
-            }
-
-            if ($min_bound === 1 && $max_bound === null) {
-                return new Atomic\TPositiveInt();
-            }
-
-            return new Atomic\TIntRange($min_bound, $max_bound);
         }
 
         if (isset(TypeTokenizer::PSALM_RESERVED_WORDS[$generic_type_value])
@@ -1125,7 +1069,7 @@ class TypeParser
                     $is_variadic
                 );
 
-                // type is not authoritative
+                // type is not authoratative
                 $param->signature_type = null;
 
                 return $param;
@@ -1183,7 +1127,7 @@ class TypeParser
         $array_defining_class = array_keys($template_type_map[$array_param_name])[0];
 
         if ($offset_defining_class !== $array_defining_class
-            && strpos($offset_defining_class, 'fn-') !== 0
+            && substr($offset_defining_class, 0, 3) !== 'fn-'
         ) {
             throw new TypeParseTreeException('Template params are defined in different locations');
         }

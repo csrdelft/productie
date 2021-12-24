@@ -1,13 +1,24 @@
 <?php
 namespace Psalm\Internal\Codebase;
 
+use function array_merge;
+use function array_pop;
+use function count;
+use function end;
+use function explode;
+use function get_declared_classes;
+use function get_declared_interfaces;
+use function implode;
+use const PHP_EOL;
 use PhpParser;
+use function preg_match;
+use function preg_replace;
 use Psalm\CodeLocation;
 use Psalm\Config;
 use Psalm\Exception\UnpopulatedClasslikeException;
 use Psalm\Internal\Analyzer\ClassLikeAnalyzer;
-use Psalm\Internal\FileManipulation\ClassDocblockManipulator;
 use Psalm\Internal\FileManipulation\FileManipulationBuffer;
+use Psalm\Internal\FileManipulation\ClassDocblockManipulator;
 use Psalm\Internal\Provider\ClassLikeStorageProvider;
 use Psalm\Internal\Provider\FileReferenceProvider;
 use Psalm\Internal\Provider\StatementsProvider;
@@ -19,30 +30,16 @@ use Psalm\Issue\UnusedConstructor;
 use Psalm\Issue\UnusedMethod;
 use Psalm\Issue\UnusedProperty;
 use Psalm\IssueBuffer;
-use Psalm\Node\VirtualNode;
 use Psalm\Progress\Progress;
 use Psalm\Progress\VoidProgress;
 use Psalm\Storage\ClassLikeStorage;
 use Psalm\Type;
 use ReflectionProperty;
-
-use function array_merge;
-use function array_pop;
-use function count;
-use function end;
-use function explode;
-use function get_declared_classes;
-use function get_declared_interfaces;
-use function implode;
-use function preg_match;
-use function preg_quote;
-use function preg_replace;
 use function strlen;
 use function strrpos;
 use function strtolower;
 use function substr;
-
-use const PHP_EOL;
+use function preg_quote;
 
 /**
  * @internal
@@ -95,16 +92,6 @@ class ClassLikes
      * @var array<string, bool>
      */
     private $existing_traits = [];
-
-    /**
-     * @var array<lowercase-string, bool>
-     */
-    private $existing_enums_lc = [];
-
-    /**
-     * @var array<string, bool>
-     */
-    private $existing_enums = [];
 
     /**
      * @var array<lowercase-string, string>
@@ -197,11 +184,9 @@ class ClassLikes
         $fq_class_name_lc = strtolower($fq_class_name);
         $this->existing_classlikes_lc[$fq_class_name_lc] = true;
         $this->existing_classes_lc[$fq_class_name_lc] = true;
-        $this->existing_classes[$fq_class_name] = true;
-
         $this->existing_traits_lc[$fq_class_name_lc] = false;
         $this->existing_interfaces_lc[$fq_class_name_lc] = false;
-        $this->existing_enums_lc[$fq_class_name_lc] = false;
+        $this->existing_classes[$fq_class_name] = true;
 
         if ($file_path) {
             $this->scanner->setClassLikeFilePath($fq_class_name_lc, $file_path);
@@ -213,11 +198,9 @@ class ClassLikes
         $fq_class_name_lc = strtolower($fq_class_name);
         $this->existing_classlikes_lc[$fq_class_name_lc] = true;
         $this->existing_interfaces_lc[$fq_class_name_lc] = true;
-        $this->existing_interfaces[$fq_class_name] = true;
-
         $this->existing_classes_lc[$fq_class_name_lc] = false;
         $this->existing_traits_lc[$fq_class_name_lc] = false;
-        $this->existing_enums_lc[$fq_class_name_lc] = false;
+        $this->existing_interfaces[$fq_class_name] = true;
 
         if ($file_path) {
             $this->scanner->setClassLikeFilePath($fq_class_name_lc, $file_path);
@@ -229,27 +212,9 @@ class ClassLikes
         $fq_class_name_lc = strtolower($fq_class_name);
         $this->existing_classlikes_lc[$fq_class_name_lc] = true;
         $this->existing_traits_lc[$fq_class_name_lc] = true;
+        $this->existing_classes_lc[$fq_class_name_lc] = false;
+        $this->existing_interfaces_lc[$fq_class_name_lc] = false;
         $this->existing_traits[$fq_class_name] = true;
-
-        $this->existing_classes_lc[$fq_class_name_lc] = false;
-        $this->existing_interfaces_lc[$fq_class_name_lc] = false;
-        $this->existing_enums[$fq_class_name] = false;
-
-        if ($file_path) {
-            $this->scanner->setClassLikeFilePath($fq_class_name_lc, $file_path);
-        }
-    }
-
-    public function addFullyQualifiedEnumName(string $fq_class_name, ?string $file_path = null): void
-    {
-        $fq_class_name_lc = strtolower($fq_class_name);
-        $this->existing_classlikes_lc[$fq_class_name_lc] = true;
-        $this->existing_enums_lc[$fq_class_name_lc] = true;
-        $this->existing_enums[$fq_class_name] = true;
-
-        $this->existing_traits_lc[$fq_class_name_lc] = false;
-        $this->existing_classes_lc[$fq_class_name_lc] = false;
-        $this->existing_interfaces_lc[$fq_class_name_lc] = false;
 
         if ($file_path) {
             $this->scanner->setClassLikeFilePath($fq_class_name_lc, $file_path);
@@ -321,7 +286,11 @@ class ClassLikes
         ?string $calling_fq_class_name = null,
         ?string $calling_method_id = null
     ): bool {
-        $fq_class_name_lc = strtolower($this->getUnAliasedName($fq_class_name));
+        $fq_class_name_lc = strtolower($fq_class_name);
+
+        if (isset($this->classlike_aliases[$fq_class_name_lc])) {
+            $fq_class_name_lc = strtolower($this->classlike_aliases[$fq_class_name_lc]);
+        }
 
         if ($code_location) {
             if ($calling_method_id) {
@@ -388,7 +357,11 @@ class ClassLikes
         ?string $calling_fq_class_name = null,
         ?string $calling_method_id = null
     ): bool {
-        $fq_class_name_lc = strtolower($this->getUnAliasedName($fq_class_name));
+        $fq_class_name_lc = strtolower($fq_class_name);
+
+        if (isset($this->classlike_aliases[$fq_class_name_lc])) {
+            $fq_class_name_lc = strtolower($this->classlike_aliases[$fq_class_name_lc]);
+        }
 
         if (!isset($this->existing_interfaces_lc[$fq_class_name_lc])
             || !$this->existing_interfaces_lc[$fq_class_name_lc]
@@ -449,76 +422,13 @@ class ClassLikes
         return true;
     }
 
-    public function hasFullyQualifiedEnumName(
-        string $fq_class_name,
-        ?CodeLocation $code_location = null,
-        ?string $calling_fq_class_name = null,
-        ?string $calling_method_id = null
-    ): bool {
-        $fq_class_name_lc = strtolower($this->getUnAliasedName($fq_class_name));
-
-        if (!isset($this->existing_enums_lc[$fq_class_name_lc])
-            || !$this->existing_enums_lc[$fq_class_name_lc]
-            || !$this->classlike_storage_provider->has($fq_class_name_lc)
-        ) {
-            if ((
-                !isset($this->existing_classes_lc[$fq_class_name_lc])
-                    || $this->existing_classes_lc[$fq_class_name_lc]
-                )
-                && !$this->classlike_storage_provider->has($fq_class_name_lc)
-            ) {
-                if (!isset($this->existing_enums_lc[$fq_class_name_lc])) {
-                    $this->existing_enums_lc[$fq_class_name_lc] = false;
-
-                    return false;
-                }
-
-                return $this->existing_enums_lc[$fq_class_name_lc];
-            }
-
-            return false;
-        }
-
-        if ($this->collect_references && $code_location) {
-            if ($calling_method_id) {
-                $this->file_reference_provider->addMethodReferenceToClass(
-                    $calling_method_id,
-                    $fq_class_name_lc
-                );
-            } else {
-                $this->file_reference_provider->addNonMethodReferenceToClass(
-                    $code_location->file_path,
-                    $fq_class_name_lc
-                );
-
-                if ($calling_fq_class_name) {
-                    $class_storage = $this->classlike_storage_provider->get($calling_fq_class_name);
-
-                    if ($class_storage->location
-                        && $class_storage->location->file_path !== $code_location->file_path
-                    ) {
-                        $this->file_reference_provider->addNonMethodReferenceToClass(
-                            $class_storage->location->file_path,
-                            $fq_class_name_lc
-                        );
-                    }
-                }
-            }
-        }
-
-        if ($this->collect_locations && $code_location) {
-            $this->file_reference_provider->addCallingLocationForClass(
-                $code_location,
-                strtolower($fq_class_name)
-            );
-        }
-
-        return true;
-    }
-
     public function hasFullyQualifiedTraitName(string $fq_class_name, ?CodeLocation $code_location = null): bool
     {
-        $fq_class_name_lc = strtolower($this->getUnAliasedName($fq_class_name));
+        $fq_class_name_lc = strtolower($fq_class_name);
+
+        if (isset($this->classlike_aliases[$fq_class_name_lc])) {
+            $fq_class_name_lc = strtolower($this->classlike_aliases[$fq_class_name_lc]);
+        }
 
         if (!isset($this->existing_traits_lc[$fq_class_name_lc]) ||
             !$this->existing_traits_lc[$fq_class_name_lc]
@@ -545,22 +455,13 @@ class ClassLikes
         ?string $calling_fq_class_name = null,
         ?string $calling_method_id = null
     ): bool {
-        return $this->classExists($fq_class_name, $code_location, $calling_fq_class_name, $calling_method_id)
-            || $this->interfaceExists($fq_class_name, $code_location, $calling_fq_class_name, $calling_method_id);
-    }
+        if (!$this->classExists($fq_class_name, $code_location, $calling_fq_class_name, $calling_method_id)
+            && !$this->interfaceExists($fq_class_name, $code_location, $calling_fq_class_name, $calling_method_id)
+        ) {
+            return false;
+        }
 
-    /**
-     * Check whether a class/interface exists
-     */
-    public function classOrInterfaceOrEnumExists(
-        string $fq_class_name,
-        ?CodeLocation $code_location = null,
-        ?string $calling_fq_class_name = null,
-        ?string $calling_method_id = null
-    ): bool {
-        return $this->classExists($fq_class_name, $code_location, $calling_fq_class_name, $calling_method_id)
-            || $this->interfaceExists($fq_class_name, $code_location, $calling_fq_class_name, $calling_method_id)
-            || $this->enumExists($fq_class_name, $code_location, $calling_fq_class_name, $calling_method_id);
+        return true;
     }
 
     /**
@@ -596,14 +497,15 @@ class ClassLikes
      */
     public function classExtends(string $fq_class_name, string $possible_parent, bool $from_api = false): bool
     {
-        $unaliased_fq_class_name = $this->getUnAliasedName($fq_class_name);
-        $unaliased_fq_class_name_lc = strtolower($unaliased_fq_class_name);
+        $fq_class_name_lc = strtolower($fq_class_name);
 
-        if ($unaliased_fq_class_name_lc === 'generator') {
+        if ($fq_class_name_lc === 'generator') {
             return false;
         }
 
-        $class_storage = $this->classlike_storage_provider->get($unaliased_fq_class_name);
+        $fq_class_name = $this->classlike_aliases[$fq_class_name_lc] ?? $fq_class_name;
+
+        $class_storage = $this->classlike_storage_provider->get($fq_class_name_lc);
 
         if ($from_api && !$class_storage->populated) {
             throw new UnpopulatedClasslikeException($fq_class_name);
@@ -639,28 +541,13 @@ class ClassLikes
             return false;
         }
 
-        $fq_class_name = $this->getUnAliasedName($fq_class_name);
-
-        if (!$this->classlike_storage_provider->has($fq_class_name)) {
-            return false;
+        if (isset($this->classlike_aliases[$fq_class_name])) {
+            $fq_class_name = $this->classlike_aliases[$fq_class_name];
         }
+
         $class_storage = $this->classlike_storage_provider->get($fq_class_name);
 
-        if (isset($class_storage->class_implements[$interface_id])) {
-            return true;
-        }
-
-        foreach ($class_storage->class_implements as $implementing_interface_lc => $_) {
-            $aliased_interface_lc = strtolower(
-                $this->getUnAliasedName($implementing_interface_lc)
-            );
-
-            if ($aliased_interface_lc === $interface_id) {
-                return true;
-            }
-        }
-
-        return false;
+        return isset($class_storage->class_implements[$interface_id]);
     }
 
     public function interfaceExists(
@@ -681,24 +568,6 @@ class ClassLikes
         );
     }
 
-    public function enumExists(
-        string $fq_enum_name,
-        ?CodeLocation $code_location = null,
-        ?string $calling_fq_class_name = null,
-        ?string $calling_method_id = null
-    ): bool {
-        if (isset(ClassLikeAnalyzer::SPECIAL_TYPES[strtolower($fq_enum_name)])) {
-            return false;
-        }
-
-        return $this->hasFullyQualifiedEnumName(
-            $fq_enum_name,
-            $code_location,
-            $calling_fq_class_name,
-            $calling_method_id
-        );
-    }
-
     public function interfaceExtends(string $interface_name, string $possible_parent): bool
     {
         return isset($this->getParentInterfaces($interface_name)[strtolower($possible_parent)]);
@@ -711,7 +580,9 @@ class ClassLikes
     {
         $fq_interface_name = strtolower($fq_interface_name);
 
-        return $this->classlike_storage_provider->get($fq_interface_name)->parent_interfaces;
+        $storage = $this->classlike_storage_provider->get($fq_interface_name);
+
+        return $storage->parent_interfaces;
     }
 
     public function traitExists(string $fq_trait_name, ?CodeLocation $code_location = null): bool
@@ -742,15 +613,6 @@ class ClassLikes
         }
 
         return isset($this->existing_interfaces[$fq_interface_name]);
-    }
-
-    public function enumHasCorrectCasing(string $fq_enum_name): bool
-    {
-        if (isset($this->classlike_aliases[strtolower($fq_enum_name)])) {
-            return true;
-        }
-
-        return isset($this->existing_enums[$fq_enum_name]);
     }
 
     public function traitHasCorrectCase(string $fq_trait_name): bool
@@ -821,12 +683,7 @@ class ClassLikes
             return $alias_name;
         }
 
-        $result = $this->classlike_aliases[$alias_name_lc] ?? $alias_name;
-        if ($result === $alias_name) {
-            return $result;
-        }
-
-        return $this->getUnAliasedName($result);
+        return $this->classlike_aliases[$alias_name_lc] ?? $alias_name;
     }
 
     public function consolidateAnalyzedData(Methods $methods, ?Progress $progress, bool $find_unused_code): void
@@ -1192,9 +1049,6 @@ class ClassLikes
         bool $force_change = false,
         bool $was_self = false
     ) : bool {
-        if ($class_name_node instanceof VirtualNode) {
-            return false;
-        }
         $calling_fq_class_name = $source->getFQCLN();
 
         // if we're inside a moved class static method
@@ -1376,7 +1230,6 @@ class ClassLikes
         ?string $calling_method_id
     ) : void {
         $calling_fq_class_name = $source->getFQCLN();
-        $fq_class_name_lc = strtolower($calling_fq_class_name ?? '');
 
         $moved_type = false;
 
@@ -1409,9 +1262,9 @@ class ClassLikes
             $migrated_source_fqcln = $calling_fq_class_name;
 
             if ($calling_fq_class_name
-                && isset($codebase->class_transforms[$fq_class_name_lc])
+                && isset($codebase->class_transforms[strtolower($calling_fq_class_name)])
             ) {
-                $migrated_source_fqcln = $codebase->class_transforms[$fq_class_name_lc];
+                $migrated_source_fqcln = $codebase->class_transforms[strtolower($calling_fq_class_name)];
             }
 
             $source_namespace = $source->getNamespace();
@@ -1472,16 +1325,16 @@ class ClassLikes
         if (!$moved_type
             && $codebase->classes_to_move
             && $calling_fq_class_name
-            && isset($codebase->classes_to_move[$fq_class_name_lc])
+            && isset($codebase->classes_to_move[strtolower($calling_fq_class_name)])
         ) {
             $bounds = $type_location->getSelectionBounds();
 
-            $destination_class = $codebase->classes_to_move[$fq_class_name_lc];
+            $destination_class = $codebase->classes_to_move[strtolower($calling_fq_class_name)];
 
-            if ($type->containsClassLike($fq_class_name_lc)) {
+            if ($type->containsClassLike(strtolower($calling_fq_class_name))) {
                 $type = clone $type;
 
-                $type->replaceClassLike($fq_class_name_lc, $destination_class);
+                $type->replaceClassLike(strtolower($calling_fq_class_name), $destination_class);
             }
 
             $this->airliftClassDefinedDocblockType(
@@ -1620,43 +1473,37 @@ class ClassLikes
         array $visited_constant_ids = []
     ) : ?Type\Union {
         $class_name = strtolower($class_name);
+        $storage = $this->classlike_storage_provider->get($class_name);
 
-        if (!$this->classlike_storage_provider->has($class_name)) {
+        if (!isset($storage->constants[$constant_name])) {
             return null;
         }
 
-        $storage = $this->classlike_storage_provider->get($class_name);
+        $constant_storage = $storage->constants[$constant_name];
 
-        if (isset($storage->constants[$constant_name])) {
-            $constant_storage = $storage->constants[$constant_name];
-
-            if ($visibility === ReflectionProperty::IS_PUBLIC
-                && $constant_storage->visibility !== ClassLikeAnalyzer::VISIBILITY_PUBLIC
-            ) {
-                return null;
-            }
-
-            if ($visibility === ReflectionProperty::IS_PROTECTED
-                && $constant_storage->visibility !== ClassLikeAnalyzer::VISIBILITY_PUBLIC
-                && $constant_storage->visibility !== ClassLikeAnalyzer::VISIBILITY_PROTECTED
-            ) {
-                return null;
-            }
-
-            if ($constant_storage->unresolved_node) {
-                $constant_storage->type = new Type\Union([ConstantTypeResolver::resolve(
-                    $this,
-                    $constant_storage->unresolved_node,
-                    $statements_analyzer,
-                    $visited_constant_ids
-                )]);
-            }
-
-            return $constant_storage->type;
-        } elseif (isset($storage->enum_cases[$constant_name])) {
-            return new Type\Union([new Type\Atomic\TEnumCase($storage->name, $constant_name)]);
+        if ($visibility === ReflectionProperty::IS_PUBLIC
+            && $constant_storage->visibility !== ClassLikeAnalyzer::VISIBILITY_PUBLIC
+        ) {
+            return null;
         }
-        return null;
+
+        if ($visibility === ReflectionProperty::IS_PROTECTED
+            && $constant_storage->visibility !== ClassLikeAnalyzer::VISIBILITY_PUBLIC
+            && $constant_storage->visibility !== ClassLikeAnalyzer::VISIBILITY_PROTECTED
+        ) {
+            return null;
+        }
+
+        if ($constant_storage->unresolved_node) {
+            $constant_storage->type = new Type\Union([ConstantTypeResolver::resolve(
+                $this,
+                $constant_storage->unresolved_node,
+                $statements_analyzer,
+                $visited_constant_ids
+            )]);
+        }
+
+        return $constant_storage->type;
     }
 
     private function checkMethodReferences(ClassLikeStorage $classlike_storage, Methods $methods): void
@@ -1705,152 +1552,105 @@ class ClassLikes
             );
 
             if (!$method_referenced
+                && $method_name !== '__destruct'
+                && $method_name !== '__clone'
+                && $method_name !== '__invoke'
+                && $method_name !== '__unset'
+                && $method_name !== '__isset'
+                && $method_name !== '__sleep'
+                && $method_name !== '__wakeup'
+                && $method_name !== '__serialize'
+                && $method_name !== '__unserialize'
+                && $method_name !== '__set_state'
+                && $method_name !== '__debuginfo'
+                && $method_name !== '__tostring' // can be called in array_unique
                 && $method_storage->location
             ) {
-                if ($method_name !== '__destruct'
-                    && $method_name !== '__clone'
-                    && $method_name !== '__invoke'
-                    && $method_name !== '__unset'
-                    && $method_name !== '__isset'
-                    && $method_name !== '__sleep'
-                    && $method_name !== '__wakeup'
-                    && $method_name !== '__serialize'
-                    && $method_name !== '__unserialize'
-                    && $method_name !== '__set_state'
-                    && $method_name !== '__debuginfo'
-                    && $method_name !== '__tostring' // can be called in array_unique)
-                ) {
-                    $method_location = $method_storage->location;
+                $method_location = $method_storage->location;
 
-                    $method_id = $classlike_storage->name . '::' . $method_storage->cased_name;
+                $method_id = $classlike_storage->name . '::' . $method_storage->cased_name;
 
-                    if ($method_storage->visibility !== ClassLikeAnalyzer::VISIBILITY_PRIVATE) {
-                        $has_parent_references = false;
+                if ($method_storage->visibility !== ClassLikeAnalyzer::VISIBILITY_PRIVATE) {
+                    $has_parent_references = false;
 
-                        if ($codebase->classImplements($classlike_storage->name, 'Serializable')
-                            && ($method_name === 'serialize' || $method_name === 'unserialize')
-                        ) {
-                            continue;
-                        }
+                    if ($codebase->classImplements($classlike_storage->name, 'Serializable')
+                        && ($method_name === 'serialize' || $method_name === 'unserialize')
+                    ) {
+                        continue;
+                    }
 
-                        $has_variable_calls = $codebase->analyzer->hasMixedMemberName($method_name)
-                            || $codebase->analyzer->hasMixedMemberName(strtolower($classlike_storage->name . '::'));
+                    $has_variable_calls = $codebase->analyzer->hasMixedMemberName($method_name)
+                        || $codebase->analyzer->hasMixedMemberName(strtolower($classlike_storage->name . '::'));
 
-                        if (isset($classlike_storage->overridden_method_ids[$method_name])) {
-                            foreach ($classlike_storage->overridden_method_ids[$method_name] as $parent_method_id) {
-                                $parent_method_storage = $methods->getStorage($parent_method_id);
+                    if (isset($classlike_storage->overridden_method_ids[$method_name])) {
+                        foreach ($classlike_storage->overridden_method_ids[$method_name] as $parent_method_id) {
+                            $parent_method_storage = $methods->getStorage($parent_method_id);
 
-                                if ($parent_method_storage->location
-                                    && !$project_analyzer->canReportIssues($parent_method_storage->location->file_path)
-                                ) {
-                                    // here we just don’t know
-                                    $has_parent_references = true;
-                                    break;
-                                }
-
-                                $parent_method_referenced = $this->file_reference_provider->isClassMethodReferenced(
-                                    strtolower((string) $parent_method_id)
-                                );
-
-                                if (!$parent_method_storage->abstract || $parent_method_referenced) {
-                                    $has_parent_references = true;
-                                    break;
-                                }
+                            if ($parent_method_storage->location
+                                && !$project_analyzer->canReportIssues($parent_method_storage->location->file_path)
+                            ) {
+                                // here we just don’t know
+                                $has_parent_references = true;
+                                break;
                             }
-                        }
 
-                        foreach ($classlike_storage->parent_classes as $parent_method_fqcln) {
-                            if ($codebase->analyzer->hasMixedMemberName(
-                                strtolower($parent_method_fqcln) . '::'
-                            )) {
-                                $has_variable_calls = true;
+                            $parent_method_referenced = $this->file_reference_provider->isClassMethodReferenced(
+                                strtolower((string) $parent_method_id)
+                            );
+
+                            if (!$parent_method_storage->abstract || $parent_method_referenced) {
+                                $has_parent_references = true;
                                 break;
                             }
                         }
+                    }
 
-                        foreach ($classlike_storage->class_implements as $fq_interface_name_lc => $_) {
-                            try {
-                                $interface_storage = $this->classlike_storage_provider->get($fq_interface_name_lc);
-                            } catch (\InvalidArgumentException $e) {
-                                continue;
-                            }
+                    foreach ($classlike_storage->parent_classes as $parent_method_fqcln) {
+                        if ($codebase->analyzer->hasMixedMemberName(
+                            strtolower($parent_method_fqcln) . '::'
+                        )) {
+                            $has_variable_calls = true;
+                            break;
+                        }
+                    }
 
-                            if ($codebase->analyzer->hasMixedMemberName(
-                                $fq_interface_name_lc . '::'
-                            )) {
-                                $has_variable_calls = true;
-                            }
-
-                            if (isset($interface_storage->methods[$method_name])) {
-                                $interface_method_referenced = $this->file_reference_provider->isClassMethodReferenced(
-                                    $fq_interface_name_lc . '::' . $method_name
-                                );
-
-                                if ($interface_method_referenced) {
-                                    $has_parent_references = true;
-                                }
-                            }
+                    foreach ($classlike_storage->class_implements as $fq_interface_name_lc => $_) {
+                        try {
+                            $interface_storage = $this->classlike_storage_provider->get($fq_interface_name_lc);
+                        } catch (\InvalidArgumentException $e) {
+                            continue;
                         }
 
-                        if (!$has_parent_references) {
-                            $issue = new PossiblyUnusedMethod(
-                                'Cannot find ' . ($has_variable_calls ? 'explicit' : 'any')
-                                    . ' calls to method ' . $method_id
-                                    . ($has_variable_calls ? ' (but did find some potential callers)' : ''),
-                                $method_storage->location,
-                                $method_id
+                        if ($codebase->analyzer->hasMixedMemberName(
+                            $fq_interface_name_lc . '::'
+                        )) {
+                            $has_variable_calls = true;
+                        }
+
+                        if (isset($interface_storage->methods[$method_name])) {
+                            $interface_method_referenced = $this->file_reference_provider->isClassMethodReferenced(
+                                $fq_interface_name_lc . '::' . $method_name
                             );
 
-                            if ($codebase->alter_code) {
-                                if ($method_storage->stmt_location
-                                    && !$declaring_classlike_storage->is_trait
-                                    && isset($project_analyzer->getIssuesToFix()['PossiblyUnusedMethod'])
-                                    && !$has_variable_calls
-                                    && !IssueBuffer::isSuppressed($issue, $method_storage->suppressed_issues)
-                                ) {
-                                    FileManipulationBuffer::addForCodeLocation(
-                                        $method_storage->stmt_location,
-                                        '',
-                                        true
-                                    );
-                                }
-                            } elseif (IssueBuffer::accepts(
-                                $issue,
-                                $method_storage->suppressed_issues,
-                                $method_storage->stmt_location
-                                    && !$declaring_classlike_storage->is_trait
-                                    && !$has_variable_calls
-                            )) {
-                                // fall through
+                            if ($interface_method_referenced) {
+                                $has_parent_references = true;
                             }
                         }
-                    } elseif (!isset($classlike_storage->declaring_method_ids['__call'])) {
-                        $has_variable_calls = $codebase->analyzer->hasMixedMemberName(
-                            strtolower($classlike_storage->name . '::')
-                        ) || $codebase->analyzer->hasMixedMemberName($method_name);
+                    }
 
-                        if ($method_name === '__construct') {
-                            $issue = new UnusedConstructor(
-                                'Cannot find ' . ($has_variable_calls ? 'explicit' : 'any')
-                                    . ' calls to private constructor ' . $method_id
-                                    . ($has_variable_calls ? ' (but did find some potential callers)' : ''),
-                                $method_location,
-                                $method_id
-                            );
-                        } else {
-                            $issue = new UnusedMethod(
-                                'Cannot find ' . ($has_variable_calls ? 'explicit' : 'any')
-                                    . ' calls to private method ' . $method_id
-                                    . ($has_variable_calls ? ' (but did find some potential callers)' : ''),
-                                $method_location,
-                                $method_id
-                            );
-                        }
+                    if (!$has_parent_references) {
+                        $issue = new PossiblyUnusedMethod(
+                            'Cannot find ' . ($has_variable_calls ? 'explicit' : 'any')
+                                . ' calls to method ' . $method_id
+                                . ($has_variable_calls ? ' (but did find some potential callers)' : ''),
+                            $method_storage->location,
+                            $method_id
+                        );
 
                         if ($codebase->alter_code) {
                             if ($method_storage->stmt_location
                                 && !$declaring_classlike_storage->is_trait
-                                && isset($project_analyzer->getIssuesToFix()['UnusedMethod'])
+                                && isset($project_analyzer->getIssuesToFix()['PossiblyUnusedMethod'])
                                 && !$has_variable_calls
                                 && !IssueBuffer::isSuppressed($issue, $method_storage->suppressed_issues)
                             ) {
@@ -1870,44 +1670,53 @@ class ClassLikes
                             // fall through
                         }
                     }
-                }
-            } else {
-                if ($method_storage->return_type
-                    && $method_storage->return_type_location
-                    && !$method_storage->return_type->isVoid()
-                    && !$method_storage->return_type->isNever()
-                    && $method_id->method_name !== '__tostring'
-                    && ($method_storage->is_static || !$method_storage->probably_fluent)
-                ) {
-                    $method_return_referenced = $this->file_reference_provider->isMethodReturnReferenced(
-                        strtolower((string) $method_id)
-                    );
+                } elseif (!isset($classlike_storage->declaring_method_ids['__call'])) {
+                    $has_variable_calls = $codebase->analyzer->hasMixedMemberName(
+                        strtolower($classlike_storage->name . '::')
+                    ) || $codebase->analyzer->hasMixedMemberName($method_name);
 
-                    if (!$method_return_referenced) {
-                        if ($method_storage->visibility === ClassLikeAnalyzer::VISIBILITY_PRIVATE) {
-                            if (IssueBuffer::accepts(
-                                new \Psalm\Issue\UnusedReturnValue(
-                                    'The return value for this private method is never used',
-                                    $method_storage->return_type_location
-                                ),
-                                $method_storage->suppressed_issues
-                            )) {
-                                // fall through
-                            }
-                        } else {
-                            if (IssueBuffer::accepts(
-                                new \Psalm\Issue\PossiblyUnusedReturnValue(
-                                    'The return value for this method is never used',
-                                    $method_storage->return_type_location
-                                ),
-                                $method_storage->suppressed_issues
-                            )) {
-                                // fall through
-                            }
+                    if ($method_name === '__construct') {
+                        $issue = new UnusedConstructor(
+                            'Cannot find ' . ($has_variable_calls ? 'explicit' : 'any')
+                                . ' calls to private constructor ' . $method_id
+                                . ($has_variable_calls ? ' (but did find some potential callers)' : ''),
+                            $method_location,
+                            $method_id
+                        );
+                    } else {
+                        $issue = new UnusedMethod(
+                            'Cannot find ' . ($has_variable_calls ? 'explicit' : 'any')
+                                . ' calls to private method ' . $method_id
+                                . ($has_variable_calls ? ' (but did find some potential callers)' : ''),
+                            $method_location,
+                            $method_id
+                        );
+                    }
+
+                    if ($codebase->alter_code) {
+                        if ($method_storage->stmt_location
+                            && !$declaring_classlike_storage->is_trait
+                            && isset($project_analyzer->getIssuesToFix()['UnusedMethod'])
+                            && !$has_variable_calls
+                            && !IssueBuffer::isSuppressed($issue, $method_storage->suppressed_issues)
+                        ) {
+                            FileManipulationBuffer::addForCodeLocation(
+                                $method_storage->stmt_location,
+                                '',
+                                true
+                            );
                         }
+                    } elseif (IssueBuffer::accepts(
+                        $issue,
+                        $method_storage->suppressed_issues,
+                        $method_storage->stmt_location
+                            && !$declaring_classlike_storage->is_trait
+                            && !$has_variable_calls
+                    )) {
+                        // fall through
                     }
                 }
-
+            } else {
                 if ($method_storage->visibility !== ClassLikeAnalyzer::VISIBILITY_PRIVATE
                     && !$classlike_storage->is_interface
                 ) {
@@ -2082,7 +1891,7 @@ class ClassLikes
 
             $property_constructor_referenced = false;
             if ($property_referenced && $property_storage->visibility === ClassLikeAnalyzer::VISIBILITY_PRIVATE) {
-                $all_method_references = $this->file_reference_provider->getAllMethodReferencesToClassProperties();
+                $all_method_references = $this->file_reference_provider->getAllMethodReferencesToClassMembers();
 
                 if (isset($all_method_references[$referenced_property_name])
                     && count($all_method_references[$referenced_property_name]) === 1) {
@@ -2226,13 +2035,11 @@ class ClassLikes
 
         unset(
             $this->existing_classlikes_lc[$fq_class_name_lc],
+            $this->existing_classes_lc[$fq_class_name_lc],
             $this->existing_traits_lc[$fq_class_name_lc],
             $this->existing_traits[$fq_class_name],
-            $this->existing_enums_lc[$fq_class_name_lc],
-            $this->existing_enums[$fq_class_name],
             $this->existing_interfaces_lc[$fq_class_name_lc],
             $this->existing_interfaces[$fq_class_name],
-            $this->existing_classes_lc[$fq_class_name_lc],
             $this->existing_classes[$fq_class_name],
             $this->trait_nodes[$fq_class_name_lc]
         );
@@ -2242,15 +2049,13 @@ class ClassLikes
 
     /**
      * @return array{
-     *     array<lowercase-string, bool>,
-     *     array<lowercase-string, bool>,
-     *     array<lowercase-string, bool>,
-     *     array<string, bool>,
-     *     array<lowercase-string, bool>,
-     *     array<string, bool>,
-     *     array<lowercase-string, bool>,
-     *     array<string, bool>,
-     *     array<string, bool>,
+     *     0: array<lowercase-string, bool>,
+     *     1: array<lowercase-string, bool>,
+     *     2: array<lowercase-string, bool>,
+     *     3: array<string, bool>,
+     *     4: array<lowercase-string, bool>,
+     *     5: array<string, bool>,
+     *     6: array<string, bool>,
      * }
      */
     public function getThreadData(): array
@@ -2260,8 +2065,6 @@ class ClassLikes
             $this->existing_classes_lc,
             $this->existing_traits_lc,
             $this->existing_traits,
-            $this->existing_enums_lc,
-            $this->existing_enums,
             $this->existing_interfaces_lc,
             $this->existing_interfaces,
             $this->existing_classes,
@@ -2276,9 +2079,7 @@ class ClassLikes
      *     3: array<string, bool>,
      *     4: array<lowercase-string, bool>,
      *     5: array<string, bool>,
-     *     6: array<lowercase-string, bool>,
-     *     7: array<string, bool>,
-     *     8: array<string, bool>,
+     *     6: array<string, bool>,
      * } $thread_data
      *
      */
@@ -2289,8 +2090,6 @@ class ClassLikes
             $existing_classes_lc,
             $existing_traits_lc,
             $existing_traits,
-            $existing_enums_lc,
-            $existing_enums,
             $existing_interfaces_lc,
             $existing_interfaces,
             $existing_classes
@@ -2300,8 +2099,6 @@ class ClassLikes
         $this->existing_classes_lc = array_merge($existing_classes_lc, $this->existing_classes_lc);
         $this->existing_traits_lc = array_merge($existing_traits_lc, $this->existing_traits_lc);
         $this->existing_traits = array_merge($existing_traits, $this->existing_traits);
-        $this->existing_enums_lc = array_merge($existing_enums_lc, $this->existing_enums_lc);
-        $this->existing_enums = array_merge($existing_enums, $this->existing_enums);
         $this->existing_interfaces_lc = array_merge($existing_interfaces_lc, $this->existing_interfaces_lc);
         $this->existing_interfaces = array_merge($existing_interfaces, $this->existing_interfaces);
         $this->existing_classes = array_merge($existing_classes, $this->existing_classes);

@@ -26,7 +26,9 @@ final class ContainerRepositoryFactory implements RepositoryFactory
     /** @var ContainerInterface */
     private $container;
 
-    /** @param ContainerInterface $container A service locator containing the repositories */
+    /**
+     * @param ContainerInterface $container A service locator containing the repositories
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;

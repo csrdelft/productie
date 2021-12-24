@@ -2,19 +2,15 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression\Fetch;
 
 use PhpParser;
-use Psalm\CodeLocation;
-use Psalm\Context;
-use Psalm\Internal\Analyzer\Statements\Expression\Call\MethodCallAnalyzer;
-use Psalm\Internal\Analyzer\Statements\Expression\ExpressionIdentifier;
 use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
+use Psalm\Internal\Analyzer\Statements\Expression\ExpressionIdentifier;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
+use Psalm\Internal\Type\Comparator\UnionTypeComparator;
 use Psalm\Internal\Codebase\TaintFlowGraph;
 use Psalm\Internal\DataFlow\DataFlowNode;
-use Psalm\Internal\Type\Comparator\UnionTypeComparator;
 use Psalm\Internal\Type\TemplateInferredTypeReplacer;
-use Psalm\Internal\Type\TemplateResult;
-use Psalm\Internal\Type\TypeCombiner;
-use Psalm\Internal\Type\TypeExpander;
+use Psalm\CodeLocation;
+use Psalm\Context;
 use Psalm\Issue\EmptyArrayAccess;
 use Psalm\Issue\InvalidArrayAccess;
 use Psalm\Issue\InvalidArrayAssignment;
@@ -22,8 +18,8 @@ use Psalm\Issue\InvalidArrayOffset;
 use Psalm\Issue\MixedArrayAccess;
 use Psalm\Issue\MixedArrayAssignment;
 use Psalm\Issue\MixedArrayOffset;
-use Psalm\Issue\MixedArrayTypeCoercion;
 use Psalm\Issue\MixedStringOffsetAssignment;
+use Psalm\Issue\MixedArrayTypeCoercion;
 use Psalm\Issue\NullArrayAccess;
 use Psalm\Issue\NullArrayOffset;
 use Psalm\Issue\PossiblyInvalidArrayAccess;
@@ -41,18 +37,17 @@ use Psalm\Node\Expr\VirtualMethodCall;
 use Psalm\Node\VirtualArg;
 use Psalm\Node\VirtualIdentifier;
 use Psalm\Node\VirtualName;
-use Psalm\Plugin\EventHandler\Event\AddRemoveTaintsEvent;
 use Psalm\Type;
-use Psalm\Type\Atomic;
+use Psalm\Type\Atomic\TKeyedArray;
 use Psalm\Type\Atomic\TArray;
 use Psalm\Type\Atomic\TArrayKey;
 use Psalm\Type\Atomic\TClassStringMap;
 use Psalm\Type\Atomic\TEmpty;
-use Psalm\Type\Atomic\TInt;
-use Psalm\Type\Atomic\TKeyedArray;
-use Psalm\Type\Atomic\TList;
 use Psalm\Type\Atomic\TLiteralInt;
 use Psalm\Type\Atomic\TLiteralString;
+use Psalm\Type\Atomic\TTemplateParam;
+use Psalm\Type\Atomic\TInt;
+use Psalm\Type\Atomic\TList;
 use Psalm\Type\Atomic\TMixed;
 use Psalm\Type\Atomic\TNamedObject;
 use Psalm\Type\Atomic\TNonEmptyArray;
@@ -60,18 +55,18 @@ use Psalm\Type\Atomic\TNonEmptyList;
 use Psalm\Type\Atomic\TNull;
 use Psalm\Type\Atomic\TSingleLetter;
 use Psalm\Type\Atomic\TString;
-use Psalm\Type\Atomic\TTemplateParam;
-
-use function array_keys;
-use function array_pop;
 use function array_values;
+use function array_keys;
 use function count;
+use function array_pop;
 use function implode;
+use function strlen;
+use function strtolower;
 use function in_array;
 use function is_int;
 use function preg_match;
-use function strlen;
-use function strtolower;
+use Psalm\Internal\Type\TemplateResult;
+use Psalm\Plugin\EventHandler\Event\AddRemoveTaintsEvent;
 
 /**
  * @internal
@@ -90,8 +85,8 @@ class ArrayFetchAnalyzer
         );
 
         if ($stmt->dim) {
-            $was_inside_general_use = $context->inside_general_use;
-            $context->inside_general_use = true;
+            $was_inside_use = $context->inside_use;
+            $context->inside_use = true;
 
             $was_inside_unset = $context->inside_unset;
             $context->inside_unset = false;
@@ -102,7 +97,7 @@ class ArrayFetchAnalyzer
 
             $context->inside_unset = $was_inside_unset;
 
-            $context->inside_general_use = $was_inside_general_use;
+            $context->inside_use = $was_inside_use;
         }
 
         $keyed_array_var_id = ExpressionIdentifier::getArrayVarId(
@@ -115,7 +110,7 @@ class ArrayFetchAnalyzer
         $new_offset_type = null;
 
         if ($stmt->dim) {
-            $used_key_type = $statements_analyzer->node_data->getType($stmt->dim) ?? Type::getMixed();
+            $used_key_type = $statements_analyzer->node_data->getType($stmt->dim) ?: Type::getMixed();
 
             $dim_var_id = ExpressionIdentifier::getArrayVarId(
                 $stmt->dim,
@@ -179,11 +174,14 @@ class ArrayFetchAnalyzer
                     }
                 }
 
-                $stmt_type = $statements_analyzer->node_data->getType($stmt);
-                $statements_analyzer->node_data->setType(
-                    $stmt,
-                    Type::combineUnionTypes($stmt_type, Type::getNull())
-                );
+                if ($stmt_type = $statements_analyzer->node_data->getType($stmt)) {
+                    $statements_analyzer->node_data->setType(
+                        $stmt,
+                        Type::combineUnionTypes($stmt_type, Type::getNull())
+                    );
+                } else {
+                    $statements_analyzer->node_data->setType($stmt, Type::getNull());
+                }
 
                 return true;
             }
@@ -307,7 +305,6 @@ class ArrayFetchAnalyzer
             $stmt_type->possibly_undefined = false;
         }
 
-        /** @psalm-suppress RedundantCondition can be empty after removing above */
         if ($context->inside_isset && $dim_var_id && $new_offset_type && $new_offset_type->getAtomicTypes()) {
             $context->vars_in_scope[$dim_var_id] = $new_offset_type;
         }
@@ -429,10 +426,6 @@ class ArrayFetchAnalyzer
         }
     }
 
-    /**
-     * @psalm-suppress ComplexMethod to be refactored.
-     * Good type/bad type behaviour could be mutualised with ArrayAnalyzer
-     */
     public static function getArrayAccessTypeGivenOffset(
         StatementsAnalyzer $statements_analyzer,
         PhpParser\Node\Expr\ArrayDimFetch $stmt,
@@ -450,6 +443,7 @@ class ArrayFetchAnalyzer
         $non_array_types = [];
 
         $has_valid_expected_offset = false;
+        $has_valid_absolute_offset = false;
         $expected_offset_types = [];
 
         $key_values = [];
@@ -518,11 +512,28 @@ class ArrayFetchAnalyzer
         }
 
         if ($array_type->isArray()) {
-            $has_valid_absolute_offset = self::checkArrayOffsetType(
-                $offset_type,
-                $offset_type->getAtomicTypes(),
-                $codebase
-            );
+            foreach ($offset_type->getAtomicTypes() as $atomic_offset_type) {
+                if ($atomic_offset_type instanceof Type\Atomic\TFalse &&
+                    $offset_type->ignore_falsable_issues === true
+                ) {
+                    //do nothing
+                } elseif ($atomic_offset_type instanceof Type\Atomic\TNull &&
+                    $offset_type->ignore_nullable_issues === true
+                ) {
+                    //do nothing
+                } elseif ($atomic_offset_type instanceof Type\Atomic\TString ||
+                    $atomic_offset_type instanceof Type\Atomic\TInt ||
+                    $atomic_offset_type instanceof Type\Atomic\TArrayKey ||
+                    $atomic_offset_type instanceof Type\Atomic\TMixed ||
+                    $atomic_offset_type instanceof Type\Atomic\TTemplateParam ||
+                    (
+                        $atomic_offset_type instanceof Type\Atomic\TObjectWithProperties
+                        && isset($atomic_offset_type->methods['__toString'])
+                    )
+                ) {
+                    $has_valid_absolute_offset = true;
+                }
+            }
 
             if ($has_valid_absolute_offset === false) {
                 //we didn't find a single type that could be valid
@@ -564,7 +575,11 @@ class ArrayFetchAnalyzer
 
                 if ($in_assignment) {
                     if ($replacement_type) {
-                        $array_access_type = Type::combineUnionTypes($array_access_type, clone $replacement_type);
+                        if ($array_access_type) {
+                            $array_access_type = Type::combineUnionTypes($array_access_type, $replacement_type);
+                        } else {
+                            $array_access_type = clone $replacement_type;
+                        }
                     } else {
                         if (IssueBuffer::accepts(
                             new PossiblyNullArrayAssignment(
@@ -580,7 +595,7 @@ class ArrayFetchAnalyzer
                         $array_access_type = new Type\Union([new TEmpty]);
                     }
                 } else {
-                    if (!$context->inside_isset && !MethodCallAnalyzer::hasNullsafe($stmt->var)) {
+                    if (!$context->inside_isset) {
                         if (IssueBuffer::accepts(
                             new PossiblyNullArrayAccess(
                                 'Cannot access array value on possibly null variable ' . $array_var_id .
@@ -593,7 +608,11 @@ class ArrayFetchAnalyzer
                         }
                     }
 
-                    $array_access_type = Type::combineUnionTypes($array_access_type, Type::getNull());
+                    if ($array_access_type) {
+                        $array_access_type = Type::combineUnionTypes($array_access_type, Type::getNull());
+                    } else {
+                        $array_access_type = Type::getNull();
+                    }
                 }
 
                 continue;
@@ -768,7 +787,7 @@ class ArrayFetchAnalyzer
                 $used_offset = 'using a ' . $offset_type->getId() . ' offset';
 
                 if ($key_values) {
-                    $used_offset = "using offset value of '" . implode('|', $key_values) . "'";
+                    $used_offset = 'using offset value of ' . implode('|', $key_values);
                 }
 
                 if ($has_valid_expected_offset && $has_valid_absolute_offset && $context->inside_isset) {
@@ -787,45 +806,6 @@ class ArrayFetchAnalyzer
                         }
                     }
                 } else {
-                    $good_types = [];
-                    $bad_types = [];
-                    foreach ($offset_type->getAtomicTypes() as $atomic_key_type) {
-                        if (!$atomic_key_type instanceof Type\Atomic\TString
-                            && !$atomic_key_type instanceof Type\Atomic\TInt
-                            && !$atomic_key_type instanceof Type\Atomic\TArrayKey
-                            && !$atomic_key_type instanceof Type\Atomic\TMixed
-                            && !$atomic_key_type instanceof Type\Atomic\TTemplateParam
-                            && !(
-                                $atomic_key_type instanceof Type\Atomic\TObjectWithProperties
-                                && isset($atomic_key_type->methods['__toString'])
-                            )
-                        ) {
-                            $bad_types[] = $atomic_key_type;
-
-                            if ($atomic_key_type instanceof Type\Atomic\TFalse) {
-                                $good_types[] = new Type\Atomic\TLiteralInt(0);
-                            } elseif ($atomic_key_type instanceof Type\Atomic\TTrue) {
-                                $good_types[] = new Type\Atomic\TLiteralInt(1);
-                            } elseif ($atomic_key_type instanceof Type\Atomic\TBool) {
-                                $good_types[] = new Type\Atomic\TLiteralInt(0);
-                                $good_types[] = new Type\Atomic\TLiteralInt(1);
-                            } elseif ($atomic_key_type instanceof Type\Atomic\TLiteralFloat) {
-                                $good_types[] = new Type\Atomic\TLiteralInt((int)$atomic_key_type->value);
-                            } elseif ($atomic_key_type instanceof Type\Atomic\TFloat) {
-                                $good_types[] = new Type\Atomic\TInt;
-                            } else {
-                                $good_types[] = new Type\Atomic\TArrayKey;
-                            }
-                        }
-                    }
-
-                    if ($bad_types && $good_types) {
-                        $offset_type->substitute(
-                            TypeCombiner::combine($bad_types, $codebase),
-                            TypeCombiner::combine($good_types, $codebase)
-                        );
-                    }
-
                     if (IssueBuffer::accepts(
                         new InvalidArrayOffset(
                             'Cannot access value on variable ' . $array_var_id . ' ' . $used_offset
@@ -883,11 +863,6 @@ class ArrayFetchAnalyzer
                             $array_var_id . '[' . $offset_type_part->value . ']'
                         ]->possibly_undefined
                 ) {
-                    $found_match = true;
-                    break;
-                }
-
-                if ($offset_type_part instanceof Type\Atomic\TPositiveInt) {
                     $found_match = true;
                     break;
                 }
@@ -1076,10 +1051,16 @@ class ArrayFetchAnalyzer
             }
         }
 
-        return Type::combineUnionTypes(
-            $array_access_type,
-            Type::getMixed($type instanceof TEmpty)
-        );
+        if (!$array_access_type) {
+            return Type::getMixed(
+                $type instanceof TEmpty
+            );
+        } else {
+            return Type::combineUnionTypes(
+                $array_access_type,
+                Type::getMixed($type instanceof TEmpty)
+            );
+        }
     }
 
     /**
@@ -1110,8 +1091,10 @@ class ArrayFetchAnalyzer
 
         if ($in_assignment
             && $type instanceof TArray
-            && $type->type_params[0]->isEmpty()
-            && $type->type_params[1]->isEmpty()
+            && (($type->type_params[0]->isEmpty() && $type->type_params[1]->isEmpty())
+                || ($type->type_params[1]->hasMixed()
+                    && count($key_values) === 1
+                    && \is_string($key_values[0])))
         ) {
             $from_empty_array = $type->type_params[0]->isEmpty() && $type->type_params[1]->isEmpty();
 
@@ -1295,18 +1278,14 @@ class ArrayFetchAnalyzer
                 if ($codebase->config->ensure_array_string_offsets_exist
                     && $offset_type_contained_by_expected
                 ) {
-                    //we already know we found a match, so if the array is non-empty and the key is a literal,
-                    //then no need to check for PossiblyUndefinedStringArrayOffset
-                    if (!$type instanceof TNonEmptyArray || !$type->type_params[0]->isSingleStringLiteral()) {
-                        self::checkLiteralStringArrayOffset(
-                            $offset_type,
-                            $expected_offset_type,
-                            $array_var_id,
-                            $stmt,
-                            $context,
-                            $statements_analyzer
-                        );
-                    }
+                    self::checkLiteralStringArrayOffset(
+                        $offset_type,
+                        $expected_offset_type,
+                        $array_var_id,
+                        $stmt,
+                        $context,
+                        $statements_analyzer
+                    );
                 }
 
                 if ($codebase->config->ensure_array_int_offsets_exist
@@ -1368,10 +1347,14 @@ class ArrayFetchAnalyzer
             );
         }
 
-        $array_access_type = Type::combineUnionTypes(
-            $array_access_type,
-            $type->type_params[1]
-        );
+        if (!$array_access_type) {
+            $array_access_type = $type->type_params[1];
+        } else {
+            $array_access_type = Type::combineUnionTypes(
+                $array_access_type,
+                $type->type_params[1]
+            );
+        }
 
         if ($array_access_type->isEmpty()
             && !$array_type->hasMixed()
@@ -1481,11 +1464,15 @@ class ArrayFetchAnalyzer
                     );
                 }
 
-                $array_access_type = Type::combineUnionTypes(
-                    $array_access_type,
-                    $expected_value_param_get,
-                    $codebase
-                );
+                if (!$array_access_type) {
+                    $array_access_type = $expected_value_param_get;
+                } else {
+                    $array_access_type = Type::combineUnionTypes(
+                        $array_access_type,
+                        $expected_value_param_get,
+                        $codebase
+                    );
+                }
             }
         }
     }
@@ -1523,23 +1510,35 @@ class ArrayFetchAnalyzer
                     $has_valid_offset = true;
 
                     if ($replacement_type) {
-                        $type->properties[$key_value] = Type::combineUnionTypes(
-                            $type->properties[$key_value] ?? null,
-                            $replacement_type
-                        );
+                        if (isset($type->properties[$key_value])) {
+                            $type->properties[$key_value] = Type::combineUnionTypes(
+                                $type->properties[$key_value],
+                                $replacement_type
+                            );
+                        } else {
+                            $type->properties[$key_value] = $replacement_type;
+                        }
                     }
 
-                    $array_access_type = Type::combineUnionTypes(
-                        $array_access_type,
-                        clone $type->properties[$key_value]
-                    );
+                    if (!$array_access_type) {
+                        $array_access_type = clone $type->properties[$key_value];
+                    } else {
+                        $array_access_type = Type::combineUnionTypes(
+                            $array_access_type,
+                            $type->properties[$key_value]
+                        );
+                    }
                 } elseif ($in_assignment) {
                     $type->properties[$key_value] = new Type\Union([new TEmpty]);
 
-                    $array_access_type = Type::combineUnionTypes(
-                        $array_access_type,
-                        clone $type->properties[$key_value]
-                    );
+                    if (!$array_access_type) {
+                        $array_access_type = clone $type->properties[$key_value];
+                    } else {
+                        $array_access_type = Type::combineUnionTypes(
+                            $array_access_type,
+                            $type->properties[$key_value]
+                        );
+                    }
                 } elseif ($type->previous_value_type) {
                     if ($codebase->config->ensure_array_string_offsets_exist) {
                         self::checkLiteralStringArrayOffset(
@@ -1669,15 +1668,23 @@ class ArrayFetchAnalyzer
                         $array_type->addType($type);
                     }
 
-                    $array_access_type = Type::combineUnionTypes(
-                        $array_access_type,
-                        clone $generic_params
-                    );
+                    if (!$array_access_type) {
+                        $array_access_type = clone $generic_params;
+                    } else {
+                        $array_access_type = Type::combineUnionTypes(
+                            $array_access_type,
+                            $generic_params
+                        );
+                    }
                 } else {
-                    $array_access_type = Type::combineUnionTypes(
-                        $array_access_type,
-                        $type->getGenericValueType()
-                    );
+                    if (!$array_access_type) {
+                        $array_access_type = $type->getGenericValueType();
+                    } else {
+                        $array_access_type = Type::combineUnionTypes(
+                            $array_access_type,
+                            $type->getGenericValueType()
+                        );
+                    }
                 }
 
                 $has_valid_offset = true;
@@ -1756,10 +1763,14 @@ class ArrayFetchAnalyzer
             );
         }
 
-        $array_access_type = Type::combineUnionTypes(
-            $array_access_type,
-            $type->type_param
-        );
+        if (!$array_access_type) {
+            $array_access_type = $type->type_param;
+        } else {
+            $array_access_type = Type::combineUnionTypes(
+                $array_access_type,
+                $type->type_param
+            );
+        }
     }
 
     private static function handleArrayAccessOnNamedObject(
@@ -1797,7 +1808,7 @@ class ArrayFetchAnalyzer
                 $statements_analyzer->addSuppressedIssues(['MixedMethodCall']);
             }
 
-            MethodCallAnalyzer::analyze(
+            \Psalm\Internal\Analyzer\Statements\Expression\Call\MethodCallAnalyzer::analyze(
                 $statements_analyzer,
                 $fake_method_call,
                 $context
@@ -1811,7 +1822,9 @@ class ArrayFetchAnalyzer
                 $statements_analyzer->removeSuppressedIssues(['MixedMethodCall']);
             }
 
-            $call_array_access_type = $statements_analyzer->node_data->getType($fake_method_call) ?? Type::getMixed();
+            $call_array_access_type = $statements_analyzer->node_data->getType(
+                $fake_method_call
+            ) ?: Type::getMixed();
 
             $statements_analyzer->node_data = $old_data_provider;
         } else {
@@ -1836,21 +1849,23 @@ class ArrayFetchAnalyzer
                     [
                         new VirtualArg(
                             $stmt->dim
-                                ?? new VirtualConstFetch(
+                                ? $stmt->dim
+                                : new VirtualConstFetch(
                                     new VirtualName('null'),
                                     $stmt->var->getAttributes()
                                 )
                         ),
                         new VirtualArg(
-                            $assign_value ?? new VirtualConstFetch(
-                                new VirtualName('null'),
-                                $stmt->var->getAttributes()
-                            )
+                            $assign_value
+                                ?: new VirtualConstFetch(
+                                    new VirtualName('null'),
+                                    $stmt->var->getAttributes()
+                                )
                         ),
                     ]
                 );
 
-                MethodCallAnalyzer::analyze(
+                \Psalm\Internal\Analyzer\Statements\Expression\Call\MethodCallAnalyzer::analyze(
                     $statements_analyzer,
                     $fake_set_method_call,
                     $context
@@ -1874,14 +1889,14 @@ class ArrayFetchAnalyzer
                     ]
                 );
 
-                MethodCallAnalyzer::analyze(
+                \Psalm\Internal\Analyzer\Statements\Expression\Call\MethodCallAnalyzer::analyze(
                     $statements_analyzer,
                     $fake_get_method_call,
                     $context
                 );
 
-                $call_array_access_type =
-                    $statements_analyzer->node_data->getType($fake_get_method_call) ?? Type::getMixed();
+                $call_array_access_type = $statements_analyzer->node_data->getType($fake_get_method_call)
+                    ?: Type::getMixed();
 
                 $statements_analyzer->node_data = $old_node_data;
             } else {
@@ -1899,10 +1914,14 @@ class ArrayFetchAnalyzer
             }
         }
 
-        $array_access_type = Type::combineUnionTypes(
-            $array_access_type,
-            $call_array_access_type
-        );
+        if (!$array_access_type) {
+            $array_access_type = $call_array_access_type;
+        } else {
+            $array_access_type = Type::combineUnionTypes(
+                $array_access_type,
+                $call_array_access_type
+            );
+        }
     }
 
     /**
@@ -1958,7 +1977,7 @@ class ArrayFetchAnalyzer
         if ($type instanceof TSingleLetter) {
             $valid_offset_type = Type::getInt(false, 0);
         } elseif ($type instanceof TLiteralString) {
-            if ($type->value === '') {
+            if (!strlen($type->value)) {
                 $valid_offset_type = Type::getEmpty();
             } elseif (strlen($type->value) < 10) {
                 $valid_offsets = [];
@@ -1991,82 +2010,14 @@ class ArrayFetchAnalyzer
         } else {
             $has_valid_offset = true;
 
-            $array_access_type = Type::combineUnionTypes(
-                $array_access_type,
-                Type::getSingleLetter()
-            );
-        }
-    }
-
-    /**
-     * @param Atomic[] $offset_types
-     */
-    private static function checkArrayOffsetType(
-        Type\Union $offset_type,
-        array $offset_types,
-        \Psalm\Codebase $codebase
-    ): bool {
-        $has_valid_absolute_offset = false;
-        foreach ($offset_types as $atomic_offset_type) {
-            if ($atomic_offset_type instanceof Type\Atomic\TClassConstant) {
-                $expanded = TypeExpander::expandAtomic(
-                    $codebase,
-                    $atomic_offset_type,
-                    $atomic_offset_type->fq_classlike_name,
-                    $atomic_offset_type->fq_classlike_name,
-                    null,
-                    true,
-                    true
+            if (!$array_access_type) {
+                $array_access_type = Type::getSingleLetter();
+            } else {
+                $array_access_type = Type::combineUnionTypes(
+                    $array_access_type,
+                    Type::getSingleLetter()
                 );
-
-                if ($expanded instanceof Atomic) {
-                    if (!$expanded instanceof Atomic\TClassConstant) {
-                        $has_valid_absolute_offset = self::checkArrayOffsetType(
-                            $offset_type,
-                            [$expanded],
-                            $codebase
-                        );
-                    }
-                } else {
-                    $has_valid_absolute_offset = self::checkArrayOffsetType(
-                        $offset_type,
-                        $expanded,
-                        $codebase
-                    );
-                }
-
-                if ($has_valid_absolute_offset) {
-                    break;
-                }
-            }
-
-            if ($atomic_offset_type instanceof Type\Atomic\TFalse &&
-                $offset_type->ignore_falsable_issues === true
-            ) {
-                //do nothing
-            } elseif ($atomic_offset_type instanceof Type\Atomic\TNull &&
-                $offset_type->ignore_nullable_issues === true
-            ) {
-                //do nothing
-            } elseif ($atomic_offset_type instanceof Type\Atomic\TString ||
-                $atomic_offset_type instanceof Type\Atomic\TInt ||
-                $atomic_offset_type instanceof Type\Atomic\TArrayKey ||
-                $atomic_offset_type instanceof Type\Atomic\TMixed
-            ) {
-                $has_valid_absolute_offset = true;
-                break;
-            } elseif ($atomic_offset_type instanceof Type\Atomic\TTemplateParam) {
-                $has_valid_absolute_offset = self::checkArrayOffsetType(
-                    $offset_type,
-                    $atomic_offset_type->as->getAtomicTypes(),
-                    $codebase
-                );
-
-                if ($has_valid_absolute_offset) {
-                    break;
-                }
             }
         }
-        return $has_valid_absolute_offset;
     }
 }

@@ -205,9 +205,6 @@ class FlattenException
         return $this->statusText;
     }
 
-    /**
-     * @return $this
-     */
     public function setStatusText(string $statusText): self
     {
         $this->statusText = $statusText;
@@ -301,6 +298,7 @@ class FlattenException
     }
 
     /**
+     *
      * @return $this
      */
     public function setTrace(array $trace, ?string $file, ?int $line): self

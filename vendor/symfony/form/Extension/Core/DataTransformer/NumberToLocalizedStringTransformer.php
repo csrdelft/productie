@@ -78,10 +78,10 @@ class NumberToLocalizedStringTransformer implements DataTransformerInterface
      *
      * @param int|float|null $value Number value
      *
-     * @return string
+     * @return string Localized value
      *
      * @throws TransformationFailedException if the given value is not numeric
-     *                                       or if the value cannot be transformed
+     *                                       or if the value can not be transformed
      */
     public function transform($value)
     {
@@ -111,10 +111,10 @@ class NumberToLocalizedStringTransformer implements DataTransformerInterface
      *
      * @param string $value The localized value
      *
-     * @return int|float|null
+     * @return int|float|null The numeric value
      *
      * @throws TransformationFailedException if the given value is not a string
-     *                                       or if the value cannot be transformed
+     *                                       or if the value can not be transformed
      */
     public function reverseTransform($value)
     {
@@ -223,7 +223,7 @@ class NumberToLocalizedStringTransformer implements DataTransformerInterface
      *
      * @param int|float $number A number
      *
-     * @return int|float
+     * @return int|float The rounded number
      */
     private function round($number)
     {

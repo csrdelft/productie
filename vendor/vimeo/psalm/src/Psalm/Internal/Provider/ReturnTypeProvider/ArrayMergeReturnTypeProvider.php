@@ -1,12 +1,12 @@
 <?php
 namespace Psalm\Internal\Provider\ReturnTypeProvider;
 
-use Psalm\Internal\Type\TypeCombiner;
 use Psalm\Plugin\EventHandler\Event\FunctionReturnTypeProviderEvent;
-use Psalm\Type;
-
 use function array_merge;
 use function array_values;
+use PhpParser;
+use Psalm\Internal\Type\TypeCombiner;
+use Psalm\Type;
 
 class ArrayMergeReturnTypeProvider implements \Psalm\Plugin\EventHandler\FunctionReturnTypeProviderInterface
 {
@@ -38,8 +38,6 @@ class ArrayMergeReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functio
         $all_int_offsets = true;
         $all_nonempty_lists = true;
         $any_nonempty = false;
-
-        $max_keyed_array_size = 0;
 
         foreach ($call_args as $call_arg) {
             if (!($call_arg_type = $statements_source->node_data->getType($call_arg->value))) {
@@ -80,11 +78,6 @@ class ArrayMergeReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functio
                         }
 
                         if ($unpacked_type_part instanceof Type\Atomic\TKeyedArray) {
-                            $max_keyed_array_size = \max(
-                                $max_keyed_array_size,
-                                \count($unpacked_type_part->properties)
-                            );
-
                             foreach ($unpacked_type_part->properties as $key => $type) {
                                 if (!\is_string($key)) {
                                     $generic_properties[] = $type;
@@ -193,13 +186,7 @@ class ArrayMergeReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functio
             $inner_value_type = TypeCombiner::combine($inner_value_types, $codebase, true);
         }
 
-        $generic_property_count = \count($generic_properties);
-
-        if ($generic_properties
-            && $generic_property_count < 64
-            && ($generic_property_count < $max_keyed_array_size * 2
-                || $generic_property_count < 16)
-        ) {
+        if ($generic_properties) {
             $objectlike = new Type\Atomic\TKeyedArray($generic_properties);
 
             if ($all_nonempty_lists || $all_int_offsets) {
@@ -227,7 +214,7 @@ class ArrayMergeReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functio
                 ]);
             }
 
-            $inner_key_type = $inner_key_type ?? Type::getArrayKey();
+            $inner_key_type = $inner_key_type ?: Type::getArrayKey();
 
             if ($any_nonempty) {
                 return new Type\Union([

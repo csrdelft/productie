@@ -15,10 +15,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use function count;
-use function dirname;
 use function getcwd;
 use function in_array;
-use function is_dir;
 use function is_string;
 use function is_writable;
 use function sprintf;
@@ -75,7 +73,8 @@ final class MigrateCommand extends DoctrineCommand
                 'all-or-nothing',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Wrap the entire migration in a transaction.'
+                'Wrap the entire migration in a transaction.',
+                false
             )
             ->setHelp(<<<EOT
 The <info>%command.name%</info> command executes a migration to a specified version or the latest available version:
@@ -129,10 +128,9 @@ EOT
         $migratorConfigurationFactory = $this->getDependencyFactory()->getConsoleInputMigratorConfigurationFactory();
         $migratorConfiguration        = $migratorConfigurationFactory->getMigratorConfiguration($input);
 
-        $databaseName = (string) $this->getDependencyFactory()->getConnection()->getDatabase();
-        $question     = sprintf(
+        $question = sprintf(
             'WARNING! You are about to execute a migration in database "%s" that could result in schema changes and data loss. Are you sure you wish to continue?',
-            $databaseName === '' ? '<unnamed>' : $databaseName
+            $this->getDependencyFactory()->getConnection()->getDatabase() ?? '<unnamed>'
         );
         if (! $migratorConfiguration->isDryRun() && ! $this->canExecute($question, $input)) {
             $this->io->error('Migration cancelled!');
@@ -146,8 +144,7 @@ EOT
         $versionAlias     = $input->getArgument('version');
 
         $path = $input->getOption('write-sql') ?? getcwd();
-
-        if (is_string($path) && ! $this->isPathWritable($path)) {
+        if (is_string($path) && ! is_writable($path)) {
             $this->io->error(sprintf('The path "%s" not writeable!', $path));
 
             return 1;
@@ -282,10 +279,5 @@ EOT
         }
 
         return 0;
-    }
-
-    private function isPathWritable(string $path): bool
-    {
-        return is_writable($path) || is_dir($path) || is_writable(dirname($path));
     }
 }

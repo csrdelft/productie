@@ -105,11 +105,7 @@ class MockResponse implements ResponseInterface, StreamableInterface
     {
         $this->info['canceled'] = true;
         $this->info['error'] = 'Response has been canceled.';
-        try {
-            $this->body = null;
-        } catch (TransportException $e) {
-            // ignore errors when canceling
-        }
+        $this->body = null;
     }
 
     /**
@@ -284,10 +280,6 @@ class MockResponse implements ResponseInterface, StreamableInterface
             'user_data' => $response->info['user_data'],
             'http_code' => $response->info['http_code'],
         ] + $info + $response->info;
-
-        if (null !== $response->info['error']) {
-            throw new TransportException($response->info['error']);
-        }
 
         if (!isset($response->info['total_time'])) {
             $response->info['total_time'] = microtime(true) - $response->info['start_time'];

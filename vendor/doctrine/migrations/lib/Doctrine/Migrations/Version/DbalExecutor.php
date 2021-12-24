@@ -270,7 +270,7 @@ final class DbalExecutor implements Executor
     private function logResult(Throwable $e, ExecutionResult $result, MigrationPlan $plan): void
     {
         if ($result->isSkipped()) {
-            $this->logger->notice(
+            $this->logger->error(
                 'Migration {version} skipped during {state}. Reason: "{reason}"',
                 [
                     'version' => (string) $plan->getVersion(),

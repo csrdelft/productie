@@ -1,9 +1,7 @@
 <?php
 namespace Psalm\Internal\Provider;
 
-use PhpParser;
-use Psalm\Config;
-
+use const DIRECTORY_SEPARATOR;
 use function error_log;
 use function file_exists;
 use function file_get_contents;
@@ -20,14 +18,14 @@ use function json_decode;
 use function json_encode;
 use function md5;
 use function mkdir;
+use PhpParser;
+use Psalm\Config;
 use function scandir;
 use function serialize;
 use function touch;
 use function trigger_error;
 use function unlink;
 use function unserialize;
-
-use const DIRECTORY_SEPARATOR;
 use const E_USER_ERROR;
 use const SCANDIR_SORT_NONE;
 
@@ -45,7 +43,7 @@ class ParserCacheProvider
      *
      * @var array<string, string>|null
      */
-    private $existing_file_content_hashes;
+    private $existing_file_content_hashes = null;
 
     /**
      * A map of recently-added filename hashes to contents hashes

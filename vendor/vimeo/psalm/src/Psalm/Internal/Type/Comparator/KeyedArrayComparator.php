@@ -5,9 +5,8 @@ namespace Psalm\Internal\Type\Comparator;
 use Psalm\Codebase;
 use Psalm\Type;
 use Psalm\Type\Atomic\TKeyedArray;
-use Psalm\Type\Atomic\TNamedObject;
 use Psalm\Type\Atomic\TObjectWithProperties;
-
+use Psalm\Type\Atomic\TNamedObject;
 use function is_string;
 
 /**

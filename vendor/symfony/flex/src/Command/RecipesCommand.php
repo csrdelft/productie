@@ -81,7 +81,7 @@ class RecipesCommand extends BaseCommand
             $operations[] = new InformationOperation($pkg);
         }
 
-        $recipes = $this->flex->fetchRecipes($operations, false);
+        $recipes = $this->flex->fetchRecipes($operations);
         ksort($recipes);
 
         $nbRecipe = \count($recipes);
@@ -109,7 +109,7 @@ class RecipesCommand extends BaseCommand
             $additional = null;
             if (null === $lockRef && null !== $recipe->getRef()) {
                 $additional = '<comment>(recipe not installed)</comment>';
-            } elseif ($recipe->getRef() !== $lockRef && !$recipe->isAuto()) {
+            } elseif ($recipe->getRef() !== $lockRef) {
                 $additional = '<comment>(update available)</comment>';
             }
 
@@ -156,7 +156,6 @@ class RecipesCommand extends BaseCommand
         $lockRepo = $recipeLock['recipe']['repo'] ?? null;
         $lockFiles = $recipeLock['files'] ?? null;
         $lockBranch = $recipeLock['recipe']['branch'] ?? null;
-        $lockVersion = $recipeLock['recipe']['version'] ?? $recipeLock['version'] ?? null;
 
         $status = '<comment>up to date</comment>';
         if ($recipe->isAuto()) {
@@ -175,7 +174,7 @@ class RecipesCommand extends BaseCommand
                     $recipe->getName(),
                     $lockRepo,
                     $lockBranch ?? '',
-                    $lockVersion,
+                    $recipeLock['version'],
                     $lockRef
                 );
             } catch (TransportException $exception) {
@@ -184,16 +183,16 @@ class RecipesCommand extends BaseCommand
         }
 
         $io->write('<info>name</info>             : '.$recipe->getName());
-        $io->write('<info>version</info>          : '.($lockVersion ?? 'n/a'));
+        $io->write('<info>version</info>          : '.$recipeLock['version']);
         $io->write('<info>status</info>           : '.$status);
-        if (!$recipe->isAuto() && null !== $lockVersion) {
+        if (!$recipe->isAuto()) {
             $recipeUrl = sprintf(
                 'https://%s/tree/%s/%s/%s',
                 $lockRepo,
                 // if something fails, default to the branch as the closest "sha"
                 $gitSha ?? $lockBranch,
                 $recipe->getName(),
-                $lockVersion
+                $recipeLock['version']
             );
 
             $io->write('<info>installed recipe</info> : '.$recipeUrl);
@@ -201,9 +200,7 @@ class RecipesCommand extends BaseCommand
 
         if ($lockRef !== $recipe->getRef()) {
             $io->write('<info>latest recipe</info>    : '.$recipe->getURL());
-        }
 
-        if ($lockRef !== $recipe->getRef() && null !== $lockVersion) {
             $historyUrl = sprintf(
                 'https://%s/commits/%s/%s',
                 $lockRepo,

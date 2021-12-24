@@ -16,12 +16,12 @@ use Psr\Http\Message\ResponseInterface;
 final class BatchResult
 {
     /**
-     * @var \SplObjectStorage<RequestInterface, ResponseInterface>
+     * @var \SplObjectStorage
      */
     private $responses;
 
     /**
-     * @var \SplObjectStorage<RequestInterface, ClientExceptionInterface>
+     * @var \SplObjectStorage
      */
     private $exceptions;
 

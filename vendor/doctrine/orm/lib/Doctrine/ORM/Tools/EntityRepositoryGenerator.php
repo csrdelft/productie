@@ -1,10 +1,25 @@
 <?php
 
-declare(strict_types=1);
+/*
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license. For more information, see
+ * <http://www.doctrine-project.org>.
+ */
 
 namespace Doctrine\ORM\Tools;
 
-use Doctrine\Deprecations\Deprecation;
 use Doctrine\ORM\EntityRepository;
 
 use function array_keys;
@@ -19,8 +34,10 @@ use function str_replace;
 use function strlen;
 use function strrpos;
 use function substr;
+use function trigger_error;
 
 use const DIRECTORY_SEPARATOR;
+use const E_USER_DEPRECATED;
 
 /**
  * Class to generate entity repository classes
@@ -31,7 +48,7 @@ use const DIRECTORY_SEPARATOR;
  */
 class EntityRepositoryGenerator
 {
-    /** @psalm-var class-string|null */
+    /** @psalm-var class-string */
     private $repositoryName;
 
     /** @var string */
@@ -53,12 +70,7 @@ class <className> extends <repositoryName>
 
     public function __construct()
     {
-        Deprecation::trigger(
-            'doctrine/orm',
-            'https://github.com/doctrine/orm/issues/8458',
-            '%s is deprecated and will be removed in Doctrine ORM 3.0',
-            self::class
-        );
+        @trigger_error(self::class . ' is deprecated and will be removed in Doctrine ORM 3.0', E_USER_DEPRECATED);
     }
 
     /**
@@ -80,19 +92,23 @@ class <className> extends <repositoryName>
     /**
      * Generates the namespace, if class do not have namespace, return empty string instead.
      *
-     * @psalm-param class-string $fullClassName
+     * @param string $fullClassName
+     *
+     * @return string $namespace
      */
-    private function getClassNamespace(string $fullClassName): string
+    private function getClassNamespace($fullClassName)
     {
-        return substr($fullClassName, 0, (int) strrpos($fullClassName, '\\'));
+        return substr($fullClassName, 0, strrpos($fullClassName, '\\'));
     }
 
     /**
      * Generates the class name
      *
-     * @psalm-param class-string $fullClassName
+     * @param string $fullClassName
+     *
+     * @return string
      */
-    private function generateClassName(string $fullClassName): string
+    private function generateClassName($fullClassName)
     {
         $namespace = $this->getClassNamespace($fullClassName);
 
@@ -108,16 +124,23 @@ class <className> extends <repositoryName>
     /**
      * Generates the namespace statement, if class do not have namespace, return empty string instead.
      *
-     * @psalm-param class-string $fullClassName The full repository class name.
+     * @param string $fullClassName The full repository class name.
+     *
+     * @return string $namespace
      */
-    private function generateEntityRepositoryNamespace(string $fullClassName): string
+    private function generateEntityRepositoryNamespace($fullClassName)
     {
         $namespace = $this->getClassNamespace($fullClassName);
 
         return $namespace ? 'namespace ' . $namespace . ';' : '';
     }
 
-    private function generateEntityRepositoryName(string $fullClassName): string
+    /**
+     * @param string $fullClassName
+     *
+     * @return string $repositoryName
+     */
+    private function generateEntityRepositoryName($fullClassName)
     {
         $namespace = $this->getClassNamespace($fullClassName);
 
@@ -157,7 +180,7 @@ class <className> extends <repositoryName>
     /**
      * @param string $repositoryName
      *
-     * @return $this
+     * @return self
      */
     public function setDefaultRepositoryName($repositoryName)
     {

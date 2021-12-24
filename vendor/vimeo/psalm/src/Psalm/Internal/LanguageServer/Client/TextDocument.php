@@ -2,14 +2,13 @@
 declare(strict_types = 1);
 namespace Psalm\Internal\LanguageServer\Client;
 
+use function Amp\call;
 use Amp\Promise;
 use JsonMapper;
 use LanguageServerProtocol\Diagnostic;
 use LanguageServerProtocol\TextDocumentIdentifier;
 use LanguageServerProtocol\TextDocumentItem;
 use Psalm\Internal\LanguageServer\ClientHandler;
-
-use function Amp\call;
 
 /**
  * Provides method handlers for all textDocument/* methods
@@ -36,10 +35,12 @@ class TextDocument
      * Diagnostics notification are sent from the server to the client to signal results of validation runs.
      *
      * @param Diagnostic[] $diagnostics
+     *
+     * @return Promise<void>
      */
-    public function publishDiagnostics(string $uri, array $diagnostics): void
+    public function publishDiagnostics(string $uri, array $diagnostics): Promise
     {
-        $this->handler->notify('textDocument/publishDiagnostics', [
+        return $this->handler->notify('textDocument/publishDiagnostics', [
             'uri' => $uri,
             'diagnostics' => $diagnostics,
         ]);

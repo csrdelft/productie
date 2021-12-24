@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @see       https://github.com/laminas/laminas-eventmanager for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-eventmanager/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-eventmanager/blob/master/LICENSE.md New BSD License
+ */
+
 namespace Laminas\EventManager;
 
 /**
@@ -28,8 +34,8 @@ interface SharedEventManagerInterface
      *      all registered identifiers.
      * @param  null|string $eventName Event from which to detach; null indicates
      *      all registered events.
-     * @throws Exception\InvalidArgumentException For invalid identifier arguments.
-     * @throws Exception\InvalidArgumentException For invalid event arguments.
+     * @throws Exception\InvalidArgumentException for invalid identifier arguments.
+     * @throws Exception\InvalidArgumentException for invalid event arguments.
      */
     public function detach(callable $listener, $identifier = null, $eventName = null);
 

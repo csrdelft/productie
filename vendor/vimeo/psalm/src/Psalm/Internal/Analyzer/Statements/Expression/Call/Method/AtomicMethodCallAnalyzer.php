@@ -2,33 +2,31 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression\Call\Method;
 
 use PhpParser;
-use Psalm\CodeLocation;
-use Psalm\Codebase;
-use Psalm\Context;
 use Psalm\Internal\Analyzer\ClassLikeAnalyzer;
-use Psalm\Internal\Analyzer\ClassLikeNameOptions;
 use Psalm\Internal\Analyzer\FunctionLikeAnalyzer;
 use Psalm\Internal\Analyzer\MethodAnalyzer;
-use Psalm\Internal\Analyzer\Statements\Expression\Call\ArgumentsAnalyzer;
-use Psalm\Internal\Analyzer\Statements\Expression\Call\ClassTemplateParamCollector;
-use Psalm\Internal\Analyzer\Statements\Expression\CallAnalyzer;
 use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
+use Psalm\Internal\Analyzer\Statements\Expression\CallAnalyzer;
+use Psalm\Internal\Analyzer\Statements\Expression\Call\ClassTemplateParamCollector;
+use Psalm\Internal\Analyzer\Statements\Expression\Call\ArgumentsAnalyzer;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
 use Psalm\Internal\Codebase\InternalCallMapHandler;
 use Psalm\Internal\Codebase\VariableUseGraph;
+use Psalm\Codebase;
+use Psalm\CodeLocation;
+use Psalm\Context;
 use Psalm\Internal\MethodIdentifier;
 use Psalm\Issue\MixedMethodCall;
 use Psalm\IssueBuffer;
 use Psalm\Type;
 use Psalm\Type\Atomic\TNamedObject;
-
-use function array_merge;
-use function array_shift;
 use function array_values;
-use function count;
+use function array_shift;
 use function get_class;
-use function reset;
 use function strtolower;
+use function array_merge;
+use function count;
+use function reset;
 
 /**
  * This is a bunch of complex logic to handle the potential for missing methods,
@@ -126,7 +124,7 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
 
             ArgumentsAnalyzer::analyze(
                 $statements_analyzer,
-                $stmt->getArgs(),
+                $stmt->args,
                 null,
                 null,
                 true,
@@ -146,7 +144,10 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
                 $context->self,
                 $context->calling_method_id,
                 $statements_analyzer->getSuppressedIssues(),
-                new ClassLikeNameOptions(true, false, true, true, $lhs_type_part->from_docblock)
+                true,
+                false,
+                true,
+                $lhs_type_part->from_docblock
             );
         }
 
@@ -170,7 +171,7 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
 
             ArgumentsAnalyzer::analyze(
                 $statements_analyzer,
-                $stmt->getArgs(),
+                $stmt->args,
                 null,
                 null,
                 true,
@@ -185,7 +186,7 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
 
         $method_id = new MethodIdentifier($fq_class_name, $method_name_lc);
 
-        $args = $stmt->getArgs();
+        $args = $stmt->args;
 
         $naive_method_id = $method_id;
 
@@ -201,8 +202,7 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
                 ? $statements_analyzer
                 : null,
             $statements_analyzer->getFilePath(),
-            false,
-            $context->insideUse()
+            false
         );
 
         $fake_method_exists = false;
@@ -320,9 +320,7 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
                         && !$context->collect_mutations
                         ? $statements_analyzer
                         : null,
-                    $statements_analyzer->getFilePath(),
-                    true,
-                    $context->insideUse()
+                    $statements_analyzer->getFilePath()
                 )
             ) {
                 $new_call_context = MissingMethodCallHandler::handleMagicMethod(
@@ -423,7 +421,7 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
 
         $declaring_method_id = $codebase->methods->getDeclaringMethodId($method_id);
 
-        $in_call_map = InternalCallMapHandler::inCallMap((string) ($declaring_method_id ?? $method_id));
+        $in_call_map = InternalCallMapHandler::inCallMap((string) ($declaring_method_id ?: $method_id));
 
         if (!$in_call_map) {
             if ($result->check_visibility) {
@@ -443,6 +441,7 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
             $result,
             $return_type_candidate,
             $all_intersection_return_type,
+            $method_name_lc,
             $codebase
         );
     }
@@ -470,7 +469,7 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
         foreach ($intersection_types as $intersection_type) {
             $intersection_result = clone $result;
 
-            /** @var ?Type\Union $intersection_result->return_type */
+            /** @var ?Type\Union */
             $intersection_result->return_type = null;
 
             self::analyze(
@@ -507,7 +506,7 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
                         $all_intersection_return_type,
                         $intersection_result->return_type,
                         $codebase
-                    ) ?? Type::getMixed();
+                    ) ?: Type::getMixed();
                 }
             }
         }
@@ -517,19 +516,36 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
 
     private static function updateResultReturnType(
         AtomicMethodCallAnalysisResult $result,
-        Type\Union $return_type_candidate,
+        ?Type\Union $return_type_candidate,
         ?Type\Union $all_intersection_return_type,
+        string $method_name,
         Codebase $codebase
     ) : void {
-        if ($all_intersection_return_type) {
-            $return_type_candidate = Type::intersectUnionTypes(
-                $all_intersection_return_type,
-                $return_type_candidate,
-                $codebase
-            ) ?? Type::getMixed();
-        }
+        if ($return_type_candidate) {
+            if ($all_intersection_return_type) {
+                $return_type_candidate = Type::intersectUnionTypes(
+                    $all_intersection_return_type,
+                    $return_type_candidate,
+                    $codebase
+                ) ?: Type::getMixed();
+            }
 
-        $result->return_type = Type::combineUnionTypes($return_type_candidate, $result->return_type);
+            if (!$result->return_type) {
+                $result->return_type = $return_type_candidate;
+            } else {
+                $result->return_type = Type::combineUnionTypes($return_type_candidate, $result->return_type);
+            }
+        } elseif ($all_intersection_return_type) {
+            if (!$result->return_type) {
+                $result->return_type = $all_intersection_return_type;
+            } else {
+                $result->return_type = Type::combineUnionTypes($all_intersection_return_type, $result->return_type);
+            }
+        } elseif ($method_name === '__tostring') {
+            $result->return_type = Type::getString();
+        } else {
+            $result->return_type = Type::getMixed();
+        }
     }
 
     private static function handleInvalidClass(
@@ -627,7 +643,7 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
 
                 if (ArgumentsAnalyzer::analyze(
                     $statements_analyzer,
-                    $stmt->getArgs(),
+                    $stmt->args,
                     null,
                     null,
                     true,
@@ -660,7 +676,7 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
         PhpParser\Node\Expr\MethodCall $stmt,
         StatementsAnalyzer $statements_analyzer,
         string $fq_class_name
-    ): array {
+    ) {
         $naive_method_exists = false;
 
         if ($class_storage->templatedMixins
@@ -704,9 +720,7 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
                                 && !$context->collect_mutations
                                     ? $statements_analyzer
                                     : null,
-                                $statements_analyzer->getFilePath(),
-                                true,
-                                $context->insideUse()
+                                $statements_analyzer->getFilePath()
                             )) {
                                 $lhs_type_part = clone $lhs_type_part_new;
                                 $class_storage = $mixin_class_storage;
@@ -749,7 +763,7 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
         StatementsAnalyzer $statements_analyzer,
         string $fq_class_name,
         ?string $lhs_var_id
-    ): array {
+    ) {
         $naive_method_exists = false;
 
         foreach ($class_storage->namedMixins as $mixin) {
@@ -772,9 +786,7 @@ class AtomicMethodCallAnalyzer extends CallAnalyzer
                 && !$context->collect_mutations
                     ? $statements_analyzer
                     : null,
-                $statements_analyzer->getFilePath(),
-                true,
-                $context->insideUse()
+                $statements_analyzer->getFilePath()
             )) {
                 $mixin_declaring_class_storage = $codebase->classlike_storage_provider->get(
                     $class_storage->mixin_declaring_fqcln

@@ -12,13 +12,10 @@
 namespace Symfony\Bundle\FrameworkBundle\Command;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Completion\CompletionInput;
-use Symfony\Component\Console\Completion\CompletionSuggestions;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -43,13 +40,9 @@ class TranslationUpdateCommand extends Command
     private const ASC = 'asc';
     private const DESC = 'desc';
     private const SORT_ORDERS = [self::ASC, self::DESC];
-    private const FORMATS = [
-        'xlf12' => ['xlf', '1.2'],
-        'xlf20' => ['xlf', '2.0'],
-    ];
 
-    protected static $defaultName = 'translation:extract|translation:update';
-    protected static $defaultDescription = 'Extract missing translations keys from code to translation files.';
+    protected static $defaultName = 'translation:update';
+    protected static $defaultDescription = 'Update the translation file';
 
     private $writer;
     private $reader;
@@ -59,9 +52,8 @@ class TranslationUpdateCommand extends Command
     private $defaultViewsPath;
     private $transPaths;
     private $codePaths;
-    private $enabledLocales;
 
-    public function __construct(TranslationWriterInterface $writer, TranslationReaderInterface $reader, ExtractorInterface $extractor, string $defaultLocale, string $defaultTransPath = null, string $defaultViewsPath = null, array $transPaths = [], array $codePaths = [], array $enabledLocales = [])
+    public function __construct(TranslationWriterInterface $writer, TranslationReaderInterface $reader, ExtractorInterface $extractor, string $defaultLocale, string $defaultTransPath = null, string $defaultViewsPath = null, array $transPaths = [], array $codePaths = [])
     {
         parent::__construct();
 
@@ -73,7 +65,6 @@ class TranslationUpdateCommand extends Command
         $this->defaultViewsPath = $defaultViewsPath;
         $this->transPaths = $transPaths;
         $this->codePaths = $codePaths;
-        $this->enabledLocales = $enabledLocales;
     }
 
     /**
@@ -89,9 +80,9 @@ class TranslationUpdateCommand extends Command
                 new InputOption('output-format', null, InputOption::VALUE_OPTIONAL, 'Override the default output format (deprecated)'),
                 new InputOption('format', null, InputOption::VALUE_OPTIONAL, 'Override the default output format', 'xlf12'),
                 new InputOption('dump-messages', null, InputOption::VALUE_NONE, 'Should the messages be dumped in the console'),
-                new InputOption('force', null, InputOption::VALUE_NONE, 'Should the extract be done'),
+                new InputOption('force', null, InputOption::VALUE_NONE, 'Should the update be done'),
                 new InputOption('clean', null, InputOption::VALUE_NONE, 'Should clean not found messages'),
-                new InputOption('domain', null, InputOption::VALUE_OPTIONAL, 'Specify the domain to extract'),
+                new InputOption('domain', null, InputOption::VALUE_OPTIONAL, 'Specify the domain to update'),
                 new InputOption('xliff-version', null, InputOption::VALUE_OPTIONAL, 'Override the default xliff version (deprecated)'),
                 new InputOption('sort', null, InputOption::VALUE_OPTIONAL, 'Return list of messages sorted alphabetically', 'asc'),
                 new InputOption('as-tree', null, InputOption::VALUE_OPTIONAL, 'Dump the messages as a tree-like structure: The given value defines the level where to switch to inline YAML'),
@@ -136,13 +127,6 @@ EOF
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $errorIo = $output instanceof ConsoleOutputInterface ? new SymfonyStyle($input, $output->getErrorOutput()) : $io;
-
-        if ('translation:update' === $input->getFirstArgument()) {
-            $errorIo->caution('Command "translation:update" is deprecated since version 5.4 and will be removed in Symfony 6.0. Use "translation:extract" instead.');
-        }
-
-        $io = new SymfonyStyle($input, $output);
         $errorIo = $io->getErrorStyle();
 
         // check presence of force or dump-message
@@ -156,15 +140,17 @@ EOF
         $xliffVersion = $input->getOption('xliff-version') ?? '1.2';
 
         if ($input->getOption('xliff-version')) {
-            $errorIo->warning(sprintf('The "--xliff-version" option is deprecated since version 5.3, use "--format=xlf%d" instead.', 10 * $xliffVersion));
+            trigger_deprecation('symfony/framework-bundle', '5.3', 'The "--xliff-version" option is deprecated, use "--format=xlf%d" instead.', 10 * $xliffVersion);
         }
 
         if ($input->getOption('output-format')) {
-            $errorIo->warning(sprintf('The "--output-format" option is deprecated since version 5.3, use "--format=xlf%d" instead.', 10 * $xliffVersion));
+            trigger_deprecation('symfony/framework-bundle', '5.3', 'The "--output-format" option is deprecated, use "--format=xlf%d" instead.', 10 * $xliffVersion);
         }
 
-        if (\in_array($format, array_keys(self::FORMATS), true)) {
-            [$format, $xliffVersion] = self::FORMATS[$format];
+        switch ($format) {
+            case 'xlf20': $xliffVersion = '2.0';
+            // no break
+            case 'xlf12': $format = 'xlf';
         }
 
         // check format
@@ -179,9 +165,15 @@ EOF
         $kernel = $this->getApplication()->getKernel();
 
         // Define Root Paths
-        $transPaths = $this->getRootTransPaths();
-        $codePaths = $this->getRootCodePaths($kernel);
-
+        $transPaths = $this->transPaths;
+        if ($this->defaultTransPath) {
+            $transPaths[] = $this->defaultTransPath;
+        }
+        $codePaths = $this->codePaths;
+        $codePaths[] = $kernel->getProjectDir().'/src';
+        if ($this->defaultViewsPath) {
+            $codePaths[] = $this->defaultViewsPath;
+        }
         $currentName = 'default directory';
 
         // Override with provided Bundle info
@@ -205,7 +197,7 @@ EOF
                 $transPaths = [$path.'/translations'];
                 $codePaths = [$path.'/templates'];
 
-                if (!is_dir($transPaths[0])) {
+                if (!is_dir($transPaths[0]) && !isset($transPaths[1])) {
                     throw new InvalidArgumentException(sprintf('"%s" is neither an enabled bundle nor a directory.', $transPaths[0]));
                 }
             }
@@ -214,11 +206,24 @@ EOF
         $io->title('Translation Messages Extractor and Dumper');
         $io->comment(sprintf('Generating "<info>%s</info>" translation files for "<info>%s</info>"', $input->getArgument('locale'), $currentName));
 
+        // load any messages from templates
+        $extractedCatalogue = new MessageCatalogue($input->getArgument('locale'));
         $io->comment('Parsing templates...');
-        $extractedCatalogue = $this->extractMessages($input->getArgument('locale'), $codePaths, $input->getOption('prefix'));
+        $this->extractor->setPrefix($input->getOption('prefix'));
+        foreach ($codePaths as $path) {
+            if (is_dir($path) || is_file($path)) {
+                $this->extractor->extract($path, $extractedCatalogue);
+            }
+        }
 
+        // load any existing messages from the translation files
+        $currentCatalogue = new MessageCatalogue($input->getArgument('locale'));
         $io->comment('Loading translation files...');
-        $currentCatalogue = $this->loadCurrentMessages($input->getArgument('locale'), $transPaths);
+        foreach ($transPaths as $path) {
+            if (is_dir($path)) {
+                $this->reader->read($path, $currentCatalogue);
+            }
+        }
 
         if (null !== $domain = $input->getOption('domain')) {
             $currentCatalogue = $this->filterCatalogue($currentCatalogue, $domain);
@@ -316,60 +321,6 @@ EOF
         return 0;
     }
 
-    public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
-    {
-        if ($input->mustSuggestArgumentValuesFor('locale')) {
-            $suggestions->suggestValues($this->enabledLocales);
-
-            return;
-        }
-
-        /** @var KernelInterface $kernel */
-        $kernel = $this->getApplication()->getKernel();
-        if ($input->mustSuggestArgumentValuesFor('bundle')) {
-            $bundles = [];
-
-            foreach ($kernel->getBundles() as $bundle) {
-                $bundles[] = $bundle->getName();
-                if ($bundle->getContainerExtension()) {
-                    $bundles[] = $bundle->getContainerExtension()->getAlias();
-                }
-            }
-
-            $suggestions->suggestValues($bundles);
-
-            return;
-        }
-
-        if ($input->mustSuggestOptionValuesFor('format')) {
-            $suggestions->suggestValues(array_merge(
-                $this->writer->getFormats(),
-                array_keys(self::FORMATS)
-            ));
-
-            return;
-        }
-
-        if ($input->mustSuggestOptionValuesFor('domain') && $locale = $input->getArgument('locale')) {
-            $extractedCatalogue = $this->extractMessages($locale, $this->getRootCodePaths($kernel), $input->getOption('prefix'));
-
-            $currentCatalogue = $this->loadCurrentMessages($locale, $this->getRootTransPaths());
-
-            // process catalogues
-            $operation = $input->getOption('clean')
-                ? new TargetOperation($currentCatalogue, $extractedCatalogue)
-                : new MergeOperation($currentCatalogue, $extractedCatalogue);
-
-            $suggestions->suggestValues($operation->getDomains());
-
-            return;
-        }
-
-        if ($input->mustSuggestOptionValuesFor('sort')) {
-            $suggestions->suggestValues(self::SORT_ORDERS);
-        }
-    }
-
     private function filterCatalogue(MessageCatalogue $catalogue, string $domain): MessageCatalogue
     {
         $filteredCatalogue = new MessageCatalogue($catalogue->getLocale());
@@ -401,51 +352,5 @@ EOF
         }
 
         return $filteredCatalogue;
-    }
-
-    private function extractMessages(string $locale, array $transPaths, string $prefix): MessageCatalogue
-    {
-        $extractedCatalogue = new MessageCatalogue($locale);
-        $this->extractor->setPrefix($prefix);
-        foreach ($transPaths as $path) {
-            if (is_dir($path) || is_file($path)) {
-                $this->extractor->extract($path, $extractedCatalogue);
-            }
-        }
-
-        return $extractedCatalogue;
-    }
-
-    private function loadCurrentMessages(string $locale, array $transPaths): MessageCatalogue
-    {
-        $currentCatalogue = new MessageCatalogue($locale);
-        foreach ($transPaths as $path) {
-            if (is_dir($path)) {
-                $this->reader->read($path, $currentCatalogue);
-            }
-        }
-
-        return $currentCatalogue;
-    }
-
-    private function getRootTransPaths(): array
-    {
-        $transPaths = $this->transPaths;
-        if ($this->defaultTransPath) {
-            $transPaths[] = $this->defaultTransPath;
-        }
-
-        return $transPaths;
-    }
-
-    private function getRootCodePaths(KernelInterface $kernel): array
-    {
-        $codePaths = $this->codePaths;
-        $codePaths[] = $kernel->getProjectDir().'/src';
-        if ($this->defaultViewsPath) {
-            $codePaths[] = $this->defaultViewsPath;
-        }
-
-        return $codePaths;
     }
 }

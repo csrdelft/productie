@@ -1,13 +1,8 @@
 <?php
 namespace Psalm;
 
-use Psalm\Internal\Analyzer\IssueData;
-
 use function array_filter;
-use function htmlspecialchars;
-
-use const ENT_QUOTES;
-use const ENT_XML1;
+use Psalm\Internal\Analyzer\IssueData;
 
 abstract class Report
 {
@@ -101,11 +96,6 @@ abstract class Report
 
         $this->mixed_expression_count = $mixed_expression_count;
         $this->total_expression_count = $total_expression_count;
-    }
-
-    protected function xmlEncode(string $data): string
-    {
-        return htmlspecialchars($data, ENT_XML1 | ENT_QUOTES);
     }
 
     abstract public function create(): string;

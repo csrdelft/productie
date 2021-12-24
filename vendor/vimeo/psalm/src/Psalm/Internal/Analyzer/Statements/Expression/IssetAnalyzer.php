@@ -2,9 +2,9 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression;
 
 use PhpParser;
-use Psalm\Context;
 use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
+use Psalm\Context;
 use Psalm\Type;
 
 class IssetAnalyzer
@@ -38,11 +38,14 @@ class IssetAnalyzer
         StatementsAnalyzer $statements_analyzer,
         PhpParser\Node\Expr $stmt,
         Context $context
-    ) : void {
+    ) : bool {
+
         $context->inside_isset = true;
 
-        ExpressionAnalyzer::analyze($statements_analyzer, $stmt, $context);
+        $result = ExpressionAnalyzer::analyze($statements_analyzer, $stmt, $context);
 
         $context->inside_isset = false;
+
+        return $result;
     }
 }

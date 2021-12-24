@@ -66,9 +66,6 @@ abstract class AbstractToken implements TokenInterface
         return (string) $this->user;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getUserIdentifier(): string
     {
         // method returns "null" in non-legacy mode if not overridden
@@ -102,16 +99,7 @@ abstract class AbstractToken implements TokenInterface
             throw new \InvalidArgumentException('$user must be an instanceof UserInterface, an object implementing a __toString method, or a primitive string.');
         }
 
-        if (!$user instanceof UserInterface) {
-            trigger_deprecation('symfony/security-core', '5.4', 'Using an object that is not an instance of "%s" as $user in "%s" is deprecated.', UserInterface::class, static::class);
-        }
-
-        // @deprecated since Symfony 5.4, remove the whole block if/elseif/else block in 6.0
-        if (1 < \func_num_args() && !func_get_arg(1)) {
-            // ContextListener checks if the user has changed on its own and calls `setAuthenticated()` subsequently,
-            // avoid doing the same checks twice
-            $changed = false;
-        } elseif (null === $this->user) {
+        if (null === $this->user) {
             $changed = false;
         } elseif ($this->user instanceof UserInterface) {
             if (!$user instanceof UserInterface) {
@@ -125,9 +113,8 @@ abstract class AbstractToken implements TokenInterface
             $changed = (string) $this->user !== (string) $user;
         }
 
-        // @deprecated since Symfony 5.4
         if ($changed) {
-            $this->setAuthenticated(false, false);
+            $this->setAuthenticated(false);
         }
 
         $this->user = $user;
@@ -135,15 +122,9 @@ abstract class AbstractToken implements TokenInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @deprecated since Symfony 5.4
      */
     public function isAuthenticated()
     {
-        if (1 > \func_num_args() || func_get_arg(0)) {
-            trigger_deprecation('symfony/security-core', '5.4', 'Method "%s()" is deprecated, return null from "getUser()" instead when a token is not authenticated.', __METHOD__);
-        }
-
         return $this->authenticated;
     }
 
@@ -152,10 +133,6 @@ abstract class AbstractToken implements TokenInterface
      */
     public function setAuthenticated(bool $authenticated)
     {
-        if (2 > \func_num_args() || func_get_arg(1)) {
-            trigger_deprecation('symfony/security-core', '5.4', 'Method "%s()" is deprecated', __METHOD__);
-        }
-
         $this->authenticated = $authenticated;
     }
 
@@ -211,7 +188,9 @@ abstract class AbstractToken implements TokenInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the token attributes.
+     *
+     * @return array The token attributes
      */
     public function getAttributes()
     {
@@ -219,7 +198,9 @@ abstract class AbstractToken implements TokenInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Sets the token attributes.
+     *
+     * @param array $attributes The token attributes
      */
     public function setAttributes(array $attributes)
     {
@@ -227,7 +208,9 @@ abstract class AbstractToken implements TokenInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Returns true if the attribute exists.
+     *
+     * @return bool true if the attribute exists, false otherwise
      */
     public function hasAttribute(string $name)
     {
@@ -235,7 +218,11 @@ abstract class AbstractToken implements TokenInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Returns an attribute value.
+     *
+     * @return mixed The attribute value
+     *
+     * @throws \InvalidArgumentException When attribute doesn't exist for this token
      */
     public function getAttribute(string $name)
     {
@@ -247,7 +234,9 @@ abstract class AbstractToken implements TokenInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Sets an attribute.
+     *
+     * @param mixed $value The attribute value
      */
     public function setAttribute(string $name, $value)
     {
@@ -286,9 +275,6 @@ abstract class AbstractToken implements TokenInterface
         $this->__unserialize(\is_array($serialized) ? $serialized : unserialize($serialized));
     }
 
-    /**
-     * @deprecated since Symfony 5.4
-     */
     private function hasUserChanged(UserInterface $user): bool
     {
         if (!($this->user instanceof UserInterface)) {

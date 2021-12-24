@@ -69,10 +69,12 @@ final class TranslationNodeVisitor extends AbstractNodeVisitor
                 $this->getReadDomainFromArguments($node->getNode('arguments'), 1),
             ];
         } elseif (
-            $node instanceof FunctionExpression &&
-            't' === $node->getAttribute('name')
+            $node instanceof FilterExpression &&
+            'trans' === $node->getNode('filter')->getAttribute('value') &&
+            $node->getNode('node') instanceof FunctionExpression &&
+            't' === $node->getNode('node')->getAttribute('name')
         ) {
-            $nodeArguments = $node->getNode('arguments');
+            $nodeArguments = $node->getNode('node')->getNode('arguments');
 
             if ($nodeArguments->getIterator()->current() instanceof ConstantExpression) {
                 $this->messages[] = [

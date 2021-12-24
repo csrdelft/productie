@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Doctrine\ORM\Utility;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,6 +19,7 @@ final class HierarchyDiscriminatorResolver
      * it extracts all the discriminators from the child classes and returns them
      *
      * @return null[]
+     *
      * @psalm-return array<array-key, null>
      */
     public static function resolveDiscriminatorsForClass(

@@ -6,8 +6,6 @@ use ReflectionClass;
 
 /**
  * Contract for a Doctrine persistence layer ClassMetadata class to implement.
- *
- * @template-covariant T of object
  */
 interface ClassMetadata
 {
@@ -15,7 +13,6 @@ interface ClassMetadata
      * Gets the fully-qualified class name of this persistent class.
      *
      * @return string
-     * @psalm-return class-string<T>
      */
     public function getName();
 
@@ -31,7 +28,7 @@ interface ClassMetadata
     /**
      * Gets the ReflectionClass instance for this mapped class.
      *
-     * @return ReflectionClass<T>
+     * @return ReflectionClass
      */
     public function getReflectionClass();
 
@@ -113,7 +110,7 @@ interface ClassMetadata
      *
      * @param string $fieldName
      *
-     * @return string|null
+     * @return string
      */
     public function getTypeOfField($fieldName);
 
@@ -122,8 +119,7 @@ interface ClassMetadata
      *
      * @param string $assocName
      *
-     * @return string|null
-     * @psalm-return class-string|null
+     * @return string
      */
     public function getAssociationTargetClass($assocName);
 

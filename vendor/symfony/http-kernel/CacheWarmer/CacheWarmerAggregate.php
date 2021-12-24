@@ -26,9 +26,6 @@ class CacheWarmerAggregate implements CacheWarmerInterface
     private $optionalsEnabled = false;
     private $onlyOptionalsEnabled = false;
 
-    /**
-     * @param iterable<mixed, CacheWarmerInterface> $warmers
-     */
     public function __construct(iterable $warmers = [], bool $debug = false, string $deprecationLogsFilepath = null)
     {
         $this->warmers = $warmers;
@@ -47,9 +44,11 @@ class CacheWarmerAggregate implements CacheWarmerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Warms up the cache.
+     *
+     * @return string[] A list of classes or files to preload on PHP 7.4+
      */
-    public function warmUp(string $cacheDir): array
+    public function warmUp(string $cacheDir)
     {
         if ($collectDeprecations = $this->debug && !\defined('PHPUNIT_COMPOSER_INSTALL')) {
             $collectedLogs = [];
@@ -117,7 +116,9 @@ class CacheWarmerAggregate implements CacheWarmerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Checks whether this warmer is optional or not.
+     *
+     * @return bool always false
      */
     public function isOptional(): bool
     {

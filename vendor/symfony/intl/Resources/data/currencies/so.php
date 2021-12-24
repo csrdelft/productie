@@ -366,10 +366,6 @@ return [
             0 => 'LRD',
             1 => 'Doolarka Liberiya',
         ],
-        'LSL' => [
-            0 => 'LSL',
-            1 => 'Lesotho Loti',
-        ],
         'LVR' => [
             0 => 'LVR',
             1 => 'Rubalka Latfiya',

@@ -70,7 +70,7 @@ class DateTimeToLocalizedStringTransformer extends BaseDateTimeTransformer
      *
      * @param \DateTimeInterface $dateTime A DateTimeInterface object
      *
-     * @return string
+     * @return string Localized date string
      *
      * @throws TransformationFailedException if the given value is not a \DateTimeInterface
      *                                       or if the date could not be transformed
@@ -99,7 +99,7 @@ class DateTimeToLocalizedStringTransformer extends BaseDateTimeTransformer
      *
      * @param string|array $value Localized date string/array
      *
-     * @return \DateTime|null
+     * @return \DateTime|null Normalized date
      *
      * @throws TransformationFailedException if the given value is not a string,
      *                                       if the date could not be parsed
@@ -165,7 +165,7 @@ class DateTimeToLocalizedStringTransformer extends BaseDateTimeTransformer
      *
      * @return \IntlDateFormatter
      *
-     * @throws TransformationFailedException in case the date formatter cannot be constructed
+     * @throws TransformationFailedException in case the date formatter can not be constructed
      */
     protected function getIntlDateFormatter(bool $ignoreTimezone = false)
     {

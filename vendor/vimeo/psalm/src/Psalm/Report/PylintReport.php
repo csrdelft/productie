@@ -3,7 +3,6 @@ namespace Psalm\Report;
 
 use Psalm\Config;
 use Psalm\Report;
-
 use function sprintf;
 
 class PylintReport extends Report
@@ -36,12 +35,14 @@ class PylintReport extends Report
         // but it's still useful for users.
         // E.g. jenkins can't parse %s:%d:%d.
         $message = sprintf('%s (column %d)', $message, $issue_data->column_from);
-        return sprintf(
+        $issue_string = sprintf(
             '%s:%d: [%s] %s',
             $issue_data->file_name,
             $issue_data->line_from,
             $code,
             $message
         );
+
+        return $issue_string;
     }
 }

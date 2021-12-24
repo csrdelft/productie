@@ -21,7 +21,7 @@ class FileStorage extends Storage
     /**
      * Returns the content of the template.
      *
-     * @return string
+     * @return string The template content
      */
     public function getContent()
     {

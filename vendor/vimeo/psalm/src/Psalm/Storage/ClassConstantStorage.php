@@ -15,7 +15,7 @@ class ClassConstantStorage
     /**
      * @var ClassLikeAnalyzer::VISIBILITY_*
      */
-    public $visibility = ClassLikeAnalyzer::VISIBILITY_PUBLIC;
+    public $visibility = 1;
 
     /**
      * @var ?CodeLocation
@@ -30,7 +30,7 @@ class ClassConstantStorage
     /**
      * @var ?\Psalm\Internal\Scanner\UnresolvedConstantComponent
      */
-    public $unresolved_node;
+    public $unresolved_node = null;
 
     /**
      * @var bool

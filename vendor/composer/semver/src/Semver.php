@@ -45,10 +45,10 @@ class Semver
     /**
      * Return all versions that satisfy given constraints.
      *
-     * @param string[] $versions
-     * @param string   $constraints
+     * @param array  $versions
+     * @param string $constraints
      *
-     * @return string[]
+     * @return array
      */
     public static function satisfiedBy(array $versions, $constraints)
     {
@@ -62,9 +62,9 @@ class Semver
     /**
      * Sort given array of versions.
      *
-     * @param string[] $versions
+     * @param array $versions
      *
-     * @return string[]
+     * @return array
      */
     public static function sort(array $versions)
     {
@@ -74,9 +74,9 @@ class Semver
     /**
      * Sort given array of versions in reverse.
      *
-     * @param string[] $versions
+     * @param array $versions
      *
-     * @return string[]
+     * @return array
      */
     public static function rsort(array $versions)
     {
@@ -84,10 +84,10 @@ class Semver
     }
 
     /**
-     * @param string[] $versions
-     * @param int      $direction
+     * @param array $versions
+     * @param int   $direction
      *
-     * @return string[]
+     * @return array
      */
     private static function usort(array $versions, $direction)
     {

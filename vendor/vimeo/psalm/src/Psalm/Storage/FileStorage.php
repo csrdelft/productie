@@ -27,6 +27,11 @@ class FileStorage
      */
     public $required_interfaces = [];
 
+    /**
+     * @var bool
+     */
+    public $has_trait = false;
+
     /** @var string */
     public $file_path;
 

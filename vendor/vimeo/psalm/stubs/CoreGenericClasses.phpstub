@@ -426,15 +426,15 @@ class ArrayObject implements IteratorAggregate, ArrayAccess, Serializable, Count
 
 interface Serializable {
     /**
-     * @return null|string
+     * @return string the string representation of the object or null
      */
     public function serialize();
 
     /**
-     * @param string $data
+     * @param string $serialized <p>
      * @return void
      */
-    public function unserialize($data);
+    public function unserialize($serialized);
 }
 
 /**
@@ -493,11 +493,4 @@ final class WeakMap implements ArrayAccess, Countable, IteratorAggregate, Traver
      * @return void
      */
     public function offsetUnset($offset) {}
-}
-
-
-#[Attribute]
-final class ReturnTypeWillChange
-{
-    public function __construct() {}
 }

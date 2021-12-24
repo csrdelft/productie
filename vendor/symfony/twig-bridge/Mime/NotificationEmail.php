@@ -69,9 +69,6 @@ class NotificationEmail extends TemplatedEmail
         return $email;
     }
 
-    /**
-     * @return $this
-     */
     public function markAsPublic(): self
     {
         $this->context['importance'] = null;

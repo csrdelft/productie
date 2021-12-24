@@ -2,15 +2,15 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression\Fetch;
 
 use PhpParser;
-use Psalm\CodeLocation;
-use Psalm\Context;
 use Psalm\Internal\Analyzer\FunctionLikeAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Expression\AssignmentAnalyzer;
 use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
+use Psalm\Internal\DataFlow\TaintSource;
 use Psalm\Internal\Codebase\TaintFlowGraph;
 use Psalm\Internal\DataFlow\DataFlowNode;
-use Psalm\Internal\DataFlow\TaintSource;
+use Psalm\CodeLocation;
+use Psalm\Context;
 use Psalm\Issue\ImpureVariable;
 use Psalm\Issue\InvalidScope;
 use Psalm\Issue\PossiblyUndefinedGlobalVariable;
@@ -19,9 +19,8 @@ use Psalm\Issue\UndefinedGlobalVariable;
 use Psalm\Issue\UndefinedVariable;
 use Psalm\IssueBuffer;
 use Psalm\Type;
-
-use function in_array;
 use function is_string;
+use function in_array;
 
 /**
  * @internal
@@ -192,10 +191,10 @@ class VariableFetchAnalyzer
                 $statements_analyzer->getSource()->inferred_impure = true;
             }
 
-            $was_inside_general_use = $context->inside_general_use;
-            $context->inside_general_use = true;
+            $was_inside_use = $context->inside_use;
+            $context->inside_use = true;
             $expr_result = ExpressionAnalyzer::analyze($statements_analyzer, $stmt->name, $context);
-            $context->inside_general_use = $was_inside_general_use;
+            $context->inside_use = $was_inside_use;
 
             return $expr_result;
         }
@@ -423,12 +422,11 @@ class VariableFetchAnalyzer
 
         if ($statements_analyzer->data_flow_graph
             && $codebase->find_unused_variables
-            && ($context->inside_return
-                || $context->inside_call
-                || $context->inside_general_use
+            && ($context->inside_call
                 || $context->inside_conditional
-                || $context->inside_throw
-                || $context->inside_isset)
+                || $context->inside_use
+                || $context->inside_isset
+                || $context->inside_throw)
         ) {
             if (!$stmt_type->parent_nodes) {
                 $assignment_node = DataFlowNode::getForAssignment(
@@ -442,7 +440,7 @@ class VariableFetchAnalyzer
             }
 
             foreach ($stmt_type->parent_nodes as $parent_node) {
-                if ($context->inside_call || $context->inside_return) {
+                if ($context->inside_call) {
                     $statements_analyzer->data_flow_graph->addPath(
                         $parent_node,
                         new DataFlowNode(
@@ -550,17 +548,9 @@ class VariableFetchAnalyzer
             return Type::getInt();
         }
 
-        if ($var_id === '$http_response_header') {
-            return new Type\Union([
-                new Type\Atomic\TList(Type::getString())
-            ]);
-        }
-
         if (self::isSuperGlobal($var_id)) {
             $type = Type::getArray();
-            if ($var_id === '$_SESSION') {
-                $type->possibly_undefined = true;
-            }
+
             return $type;
         }
 

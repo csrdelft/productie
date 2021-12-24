@@ -1,11 +1,10 @@
 <?php
 namespace Psalm\Internal\Codebase;
 
-use Psalm\Internal\Analyzer\Statements\Expression\Fetch\ConstFetchAnalyzer;
 use Psalm\Internal\Scanner\UnresolvedConstant;
+use Psalm\Internal\Analyzer\Statements\Expression\Fetch\ConstFetchAnalyzer;
 use Psalm\Type;
 use ReflectionProperty;
-
 use function ctype_digit;
 
 /**
@@ -134,12 +133,12 @@ class ConstantTypeResolver
                 || $cond instanceof Type\Atomic\TLiteralString
             ) {
                 if ($cond->value) {
-                    return $if ?? $cond;
+                    return $if ? $if : $cond;
                 }
             } elseif ($cond instanceof Type\Atomic\TFalse || $cond instanceof Type\Atomic\TNull) {
                 return $else;
             } elseif ($cond instanceof Type\Atomic\TTrue) {
-                return $if ?? $cond;
+                return $if ? $if : $cond;
             }
         }
 
@@ -301,24 +300,16 @@ class ConstantTypeResolver
     {
         if (\is_string($value)) {
             return new Type\Atomic\TLiteralString($value);
-        }
-
-        if (\is_int($value)) {
+        } elseif (\is_int($value)) {
             return new Type\Atomic\TLiteralInt($value);
-        }
-
-        if (\is_float($value)) {
+        } elseif (\is_float($value)) {
             return new Type\Atomic\TLiteralFloat($value);
-        }
-
-        if ($value === false) {
+        } elseif ($value === false) {
             return new Type\Atomic\TFalse;
-        }
-
-        if ($value === true) {
+        } elseif ($value === true) {
             return new Type\Atomic\TTrue;
+        } else {
+            return new Type\Atomic\TNull;
         }
-
-        return new Type\Atomic\TNull;
     }
 }

@@ -9,11 +9,8 @@ use Psalm\Internal\Scanner\UnresolvedConstantComponent;
  */
 class UnresolvedTernary extends UnresolvedConstantComponent
 {
-    /** @var UnresolvedConstantComponent */
     public $cond;
-    /** @var UnresolvedConstantComponent|null */
     public $if;
-    /** @var UnresolvedConstantComponent */
     public $else;
 
     public function __construct(

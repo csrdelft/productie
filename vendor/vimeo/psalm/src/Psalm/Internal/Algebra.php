@@ -1,8 +1,6 @@
 <?php
 namespace Psalm\Internal;
 
-use Psalm\Exception\ComplicatedExpressionException;
-
 use function array_filter;
 use function array_keys;
 use function array_map;
@@ -12,6 +10,7 @@ use function array_unique;
 use function array_values;
 use function count;
 use function in_array;
+use Psalm\Exception\ComplicatedExpressionException;
 use function substr;
 
 class Algebra
@@ -88,37 +87,6 @@ class Algebra
      */
     public static function simplifyCNF(array $clauses): array
     {
-        $clause_count = count($clauses);
-
-        //65536 seems to be a significant threshold, when put at 65537, the code https://psalm.dev/r/216f362ea6 goes
-        //from seconds in analysis to many minutes
-        if ($clause_count > 65536) {
-            return [];
-        }
-
-        if ($clause_count > 50) {
-            $all_has_unknown = true;
-
-            foreach ($clauses as $clause) {
-                $clause_has_unknown = false;
-                foreach ($clause->possibilities as $key => $_) {
-                    if ($key[0] === '*') {
-                        $clause_has_unknown = true;
-                        break;
-                    }
-                }
-
-                if (!$clause_has_unknown) {
-                    $all_has_unknown = false;
-                    break;
-                }
-            }
-
-            if ($all_has_unknown) {
-                return $clauses;
-            }
-        }
-
         $cloned_clauses = [];
 
         // avoid strict duplicates
@@ -462,10 +430,6 @@ class Algebra
         array $right_clauses,
         int $conditional_object_id
     ): array {
-        if (count($left_clauses) > 60000 || count($right_clauses) > 60000) {
-            return [];
-        }
-
         $clauses = [];
 
         $all_wedges = true;

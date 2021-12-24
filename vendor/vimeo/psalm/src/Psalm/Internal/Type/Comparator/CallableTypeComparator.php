@@ -2,22 +2,20 @@
 
 namespace Psalm\Internal\Type\Comparator;
 
-use Psalm\Codebase;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
+use Psalm\Codebase;
 use Psalm\Internal\Codebase\InternalCallMapHandler;
 use Psalm\Type;
 use Psalm\Type\Atomic;
+use Psalm\Type\Atomic\TKeyedArray;
 use Psalm\Type\Atomic\TArray;
 use Psalm\Type\Atomic\TCallable;
-use Psalm\Type\Atomic\TClassString;
 use Psalm\Type\Atomic\TClosure;
-use Psalm\Type\Atomic\TKeyedArray;
 use Psalm\Type\Atomic\TList;
 use Psalm\Type\Atomic\TLiteralString;
 use Psalm\Type\Atomic\TNamedObject;
-
-use function end;
 use function strtolower;
+use function end;
 
 /**
  * @internal
@@ -202,7 +200,7 @@ class CallableTypeComparator
             }
         }
 
-        $input_callable = self::getCallableFromAtomic($codebase, $input_type_part, $container_type_part, null, true);
+        $input_callable = self::getCallableFromAtomic($codebase, $input_type_part, $container_type_part);
 
         if ($input_callable) {
             if (self::isContainedBy(
@@ -226,8 +224,7 @@ class CallableTypeComparator
         Codebase $codebase,
         Type\Atomic $input_type_part,
         ?TCallable $container_type_part = null,
-        ?StatementsAnalyzer $statements_analyzer = null,
-        bool $expand_callable = false
+        ?StatementsAnalyzer $statements_analyzer = null
     ): ?Atomic {
         if ($input_type_part instanceof TCallable || $input_type_part instanceof TClosure) {
             return $input_type_part;
@@ -240,55 +237,10 @@ class CallableTypeComparator
                     strtolower($input_type_part->value)
                 );
 
-                if ($expand_callable) {
-                    $params = [];
-
-                    foreach ($function_storage->params as $param) {
-                        $param = clone $param;
-
-                        if ($param->type) {
-                            $param->type = \Psalm\Internal\Type\TypeExpander::expandUnion(
-                                $codebase,
-                                $param->type,
-                                null,
-                                null,
-                                null,
-                                true,
-                                true,
-                                false,
-                                false,
-                                true
-                            );
-                        }
-
-                        $params[] = $param;
-                    }
-
-                    $return_type = null;
-
-                    if ($function_storage->return_type) {
-                        $return_type = \Psalm\Internal\Type\TypeExpander::expandUnion(
-                            $codebase,
-                            $function_storage->return_type,
-                            null,
-                            null,
-                            null,
-                            true,
-                            true,
-                            false,
-                            false,
-                            true
-                        );
-                    }
-                } else {
-                    $return_type = $function_storage->return_type;
-                    $params = $function_storage->params;
-                }
-
                 return new TCallable(
                     'callable',
-                    $params,
-                    $return_type,
+                    $function_storage->params,
+                    $function_storage->return_type,
                     $function_storage->pure
                 );
             } catch (\UnexpectedValueException $e) {
@@ -322,7 +274,7 @@ class CallableTypeComparator
 
                     $matching_callable->is_pure = $codebase->functions->isCallMapFunctionPure(
                         $codebase,
-                        $statements_analyzer->node_data ?? null,
+                        $statements_analyzer ? $statements_analyzer->node_data : null,
                         $input_type_part->value,
                         null,
                         $must_use
@@ -431,24 +383,6 @@ class CallableTypeComparator
                             strtolower($lhs_atomic_type->value) . '::',
                             $calling_method_id ?: $file_name
                         );
-                    } elseif ($lhs_atomic_type instanceof Atomic\TTemplateParam) {
-                        $lhs_template_type = $lhs_atomic_type->as;
-                        if ($lhs_template_type->isSingle()) {
-                            $lhs_template_atomic_type = $lhs_template_type->getSingleAtomic();
-                            $member_id = null;
-                            if ($lhs_template_atomic_type instanceof TNamedObject) {
-                                $member_id = $lhs_template_atomic_type->value;
-                            } elseif ($lhs_template_atomic_type instanceof TClassString) {
-                                $member_id = $lhs_template_atomic_type->as;
-                            }
-
-                            if ($member_id) {
-                                $codebase->analyzer->addMixedMemberName(
-                                    strtolower($member_id) . '::',
-                                    $calling_method_id ?: $file_name
-                                );
-                            }
-                        }
                     }
                 }
             }
@@ -469,16 +403,6 @@ class CallableTypeComparator
             foreach ($lhs->getAtomicTypes() as $lhs_atomic_type) {
                 if ($lhs_atomic_type instanceof TNamedObject) {
                     $class_name = $lhs_atomic_type->value;
-                } elseif ($lhs_atomic_type instanceof Atomic\TTemplateParam) {
-                    $lhs_template_type = $lhs_atomic_type->as;
-                    if ($lhs_template_type->isSingle()) {
-                        $lhs_template_atomic_type = $lhs_template_type->getSingleAtomic();
-                        if ($lhs_template_atomic_type instanceof TNamedObject) {
-                            $class_name = $lhs_template_atomic_type->value;
-                        } elseif ($lhs_template_atomic_type instanceof TClassString) {
-                            $class_name = $lhs_template_atomic_type->as;
-                        }
-                    }
                 } elseif ($lhs_atomic_type instanceof Type\Atomic\TClassString
                     && $lhs_atomic_type->as
                 ) {

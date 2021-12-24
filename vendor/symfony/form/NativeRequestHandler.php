@@ -226,7 +226,7 @@ class NativeRequestHandler implements RequestHandlerInterface
     /**
      * Sets empty uploaded files to NULL in the given uploaded files array.
      *
-     * @return mixed
+     * @return mixed Returns the stripped upload data
      */
     private static function stripEmptyFiles($data)
     {

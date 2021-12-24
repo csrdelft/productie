@@ -1,8 +1,8 @@
 <?php
 namespace Psalm\Type\Atomic;
 
-use function array_map;
 use function implode;
+use function array_map;
 
 class TTypeAlias extends \Psalm\Type\Atomic
 {
@@ -76,6 +76,19 @@ class TTypeAlias extends \Psalm\Type\Atomic
     public function canBeFullyExpressedInPhp(int $php_major_version, int $php_minor_version): bool
     {
         return false;
+    }
+
+    /**
+     * @param  array<lowercase-string, string> $aliased_classes
+     *
+     */
+    public function toNamespacedString(
+        ?string $namespace,
+        array $aliased_classes,
+        ?string $this_class,
+        bool $use_phpdoc_format
+    ): string {
+        return $this->getKey();
     }
 
     public function getAssertionString(bool $exact = false): string

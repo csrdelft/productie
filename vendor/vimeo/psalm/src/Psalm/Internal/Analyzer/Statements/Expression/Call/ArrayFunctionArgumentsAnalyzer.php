@@ -2,42 +2,41 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression\Call;
 
 use PhpParser;
-use Psalm\CodeLocation;
-use Psalm\Context;
+use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Expression\Assignment\ArrayAssignmentAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Expression\AssignmentAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Expression\CallAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Expression\ExpressionIdentifier;
-use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
 use Psalm\Internal\Codebase\InternalCallMapHandler;
-use Psalm\Internal\Type\Comparator\UnionTypeComparator;
-use Psalm\Internal\Type\TemplateStandinTypeReplacer;
 use Psalm\Internal\Type\TypeCombiner;
-use Psalm\Internal\Type\TypeExpander;
-use Psalm\Issue\ArgumentTypeCoercion;
+use Psalm\Internal\Type\TemplateStandinTypeReplacer;
+use Psalm\Internal\Type\Comparator\UnionTypeComparator;
+use Psalm\CodeLocation;
+use Psalm\Context;
 use Psalm\Issue\InvalidArgument;
 use Psalm\Issue\InvalidScalarArgument;
 use Psalm\Issue\MixedArgumentTypeCoercion;
 use Psalm\Issue\PossiblyInvalidArgument;
 use Psalm\Issue\TooFewArguments;
 use Psalm\Issue\TooManyArguments;
+use Psalm\Issue\ArgumentTypeCoercion;
 use Psalm\IssueBuffer;
 use Psalm\Node\Expr\VirtualArrayDimFetch;
 use Psalm\Type;
+use Psalm\Type\Atomic\TKeyedArray;
 use Psalm\Type\Atomic\TArray;
 use Psalm\Type\Atomic\TEmpty;
-use Psalm\Type\Atomic\TKeyedArray;
 use Psalm\Type\Atomic\TList;
 use Psalm\Type\Atomic\TNonEmptyArray;
 use Psalm\Type\Atomic\TNonEmptyList;
-
+use function strtolower;
+use function strpos;
+use function explode;
+use function count;
 use function array_filter;
 use function assert;
-use function count;
-use function explode;
-use function strpos;
-use function strtolower;
+use Psalm\Internal\Type\TypeExpander;
 
 /**
  * @internal
@@ -88,7 +87,7 @@ class ArrayFunctionArgumentsAnalyzer
             $array_arg_types[] = $array_arg_type;
         }
 
-        $closure_arg = $args[$closure_index] ?? null;
+        $closure_arg = isset($args[$closure_index]) ? $args[$closure_index] : null;
 
         $closure_arg_type = null;
 
@@ -128,10 +127,9 @@ class ArrayFunctionArgumentsAnalyzer
         StatementsAnalyzer $statements_analyzer,
         array $args,
         Context $context,
-        string $method_id
+        bool $is_push
     ): ?bool {
         $array_arg = $args[0]->value;
-        $nb_args = count($args);
 
         $unpacked_args = array_filter(
             $args,
@@ -140,8 +138,8 @@ class ArrayFunctionArgumentsAnalyzer
             }
         );
 
-        if ($method_id === 'array_push' && !$unpacked_args) {
-            for ($i = 1; $i < $nb_args; $i++) {
+        if ($is_push && !$unpacked_args) {
+            for ($i = 1, $iMax = count($args); $i < $iMax; $i++) {
                 $was_inside_assignment = $context->inside_assignment;
 
                 $context->inside_assignment = true;
@@ -169,7 +167,7 @@ class ArrayFunctionArgumentsAnalyzer
                     ),
                     $context,
                     $args[$i]->value,
-                    $statements_analyzer->node_data->getType($args[$i]->value) ?? Type::getMixed()
+                    $statements_analyzer->node_data->getType($args[$i]->value) ?: Type::getMixed()
                 );
 
                 $statements_analyzer->node_data = $old_node_data;
@@ -188,7 +186,7 @@ class ArrayFunctionArgumentsAnalyzer
             return false;
         }
 
-        for ($i = 1; $i < $nb_args; $i++) {
+        for ($i = 1, $iMax = count($args); $i < $iMax; $i++) {
             if (ExpressionAnalyzer::analyze(
                 $statements_analyzer,
                 $args[$i]->value,
@@ -240,18 +238,12 @@ class ArrayFunctionArgumentsAnalyzer
                     return false;
                 }
 
-                if ($method_id === 'array_unshift' && $nb_args === 2 && !$unpacked_args) {
-                    $new_offset_type = Type::getInt(false, 0);
-                } else {
-                    $new_offset_type = Type::getInt();
-                }
-
                 if (!($arg_value_type = $statements_analyzer->node_data->getType($arg->value))
                     || $arg_value_type->hasMixed()
                 ) {
                     $by_ref_type = Type::combineUnionTypes(
                         $by_ref_type,
-                        new Type\Union([new TArray([$new_offset_type, Type::getMixed()])])
+                        new Type\Union([new TArray([Type::getInt(), Type::getMixed()])])
                     );
                 } elseif ($arg->unpack) {
                     $arg_value_type = clone $arg_value_type;
@@ -299,14 +291,12 @@ class ArrayFunctionArgumentsAnalyzer
                                 [
                                     new TNonEmptyArray(
                                         [
-                                            $new_offset_type,
+                                            Type::getInt(),
                                             clone $arg_value_type
                                         ]
                                     ),
                                 ]
-                            ),
-                            null,
-                            true
+                            )
                         );
                     }
                 }
@@ -779,9 +769,7 @@ class ArrayFunctionArgumentsAnalyzer
             }
 
             return;
-        }
-
-        if ($required_param_count > $max_closure_param_count) {
+        } elseif ($required_param_count > $max_closure_param_count) {
             $argument_text = $max_closure_param_count === 1 ? 'one argument' : $max_closure_param_count . ' arguments';
 
             if (IssueBuffer::accepts(

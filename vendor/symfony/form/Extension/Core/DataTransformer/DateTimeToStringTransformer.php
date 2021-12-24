@@ -73,7 +73,7 @@ class DateTimeToStringTransformer extends BaseDateTimeTransformer
      *
      * @param \DateTimeInterface $dateTime A DateTimeInterface object
      *
-     * @return string
+     * @return string A value as produced by PHP's date() function
      *
      * @throws TransformationFailedException If the given value is not a \DateTimeInterface
      */
@@ -101,7 +101,7 @@ class DateTimeToStringTransformer extends BaseDateTimeTransformer
      *
      * @param string $value A value as produced by PHP's date() function
      *
-     * @return \DateTime|null
+     * @return \DateTime|null An instance of \DateTime
      *
      * @throws TransformationFailedException If the given value is not a string,
      *                                       or could not be transformed

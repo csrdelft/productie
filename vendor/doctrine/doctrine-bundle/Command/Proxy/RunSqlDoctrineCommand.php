@@ -8,7 +8,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use function trigger_deprecation;
+use function sprintf;
+use function trigger_error;
+
+use const E_USER_DEPRECATED;
 
 /**
  * Execute a SQL query and output the results.
@@ -51,14 +54,12 @@ EOT
         $this->addOption('connection', null, InputOption::VALUE_OPTIONAL, 'The connection to use for this command');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    /**
+     * {@inheritDoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        trigger_deprecation(
-            'doctrine/doctrine-bundle',
-            '2.2',
-            'The "%s" (doctrine:query:sql) is deprecated, use dbal:run-sql command instead.',
-            self::class
-        );
+        @trigger_error(sprintf('The "%s" (doctrine:query:sql) is deprecated, use dbal:run-sql command instead.', self::class), E_USER_DEPRECATED);
 
         if (! $this->connectionProvider) {
             DoctrineCommandHelper::setApplicationConnection($this->getApplication(), $input->getOption('connection'));

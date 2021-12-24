@@ -433,7 +433,6 @@ return [
         'rap' => 'rapanujština',
         'rar' => 'rarotongánština',
         'rgn' => 'romaňolština',
-        'rhg' => 'rohingština',
         'rif' => 'rífština',
         'rm' => 'rétorománština',
         'rn' => 'kirundština',

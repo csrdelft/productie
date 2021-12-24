@@ -11,7 +11,8 @@
 
 namespace Symfony\Bridge\Doctrine\Messenger;
 
-use Doctrine\DBAL\Exception as DBALException;
+use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Middleware\StackInterface;
@@ -39,7 +40,7 @@ class DoctrinePingConnectionMiddleware extends AbstractDoctrineMiddleware
 
         try {
             $connection->executeQuery($connection->getDatabasePlatform()->getDummySelectSQL());
-        } catch (DBALException $e) {
+        } catch (DBALException | Exception $e) {
             $connection->close();
             $connection->connect();
         }

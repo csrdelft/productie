@@ -1,16 +1,6 @@
 <?php
 namespace Psalm\Type\Atomic;
 
-use Psalm\Codebase;
-use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Internal\Type\TemplateInferredTypeReplacer;
-use Psalm\Internal\Type\TemplateResult;
-use Psalm\Internal\Type\TemplateStandinTypeReplacer;
-use Psalm\Internal\Type\TypeCombiner;
-use Psalm\Type;
-use Psalm\Type\Atomic;
-use Psalm\Type\Union;
-
 use function array_keys;
 use function array_map;
 use function count;
@@ -18,6 +8,15 @@ use function get_class;
 use function implode;
 use function is_int;
 use function sort;
+use Psalm\Codebase;
+use Psalm\Internal\Analyzer\StatementsAnalyzer;
+use Psalm\Internal\Type\TypeCombiner;
+use Psalm\Internal\Type\TemplateResult;
+use Psalm\Internal\Type\TemplateStandinTypeReplacer;
+use Psalm\Internal\Type\TemplateInferredTypeReplacer;
+use Psalm\Type;
+use Psalm\Type\Atomic;
+use Psalm\Type\Union;
 
 /**
  * Represents an 'object-like array' - an array with known keys.
@@ -32,7 +31,7 @@ class TKeyedArray extends \Psalm\Type\Atomic
     /**
      * @var array<string, bool>|null
      */
-    public $class_strings;
+    public $class_strings = null;
 
     /**
      * @var bool - whether or not the objectlike has been created from an explicit array
@@ -44,14 +43,14 @@ class TKeyedArray extends \Psalm\Type\Atomic
      *
      * @var ?Union
      */
-    public $previous_key_type;
+    public $previous_key_type = null;
 
     /**
      * Whether or not to allow new properties to be asserted on the given array
      *
      * @var ?Union
      */
-    public $previous_value_type;
+    public $previous_value_type = null;
 
     /**
      * @var bool - if this is a list of sequential elements
@@ -147,7 +146,7 @@ class TKeyedArray extends \Psalm\Type\Atomic
                 $namespace,
                 $aliased_classes,
                 $this_class,
-                true
+                $use_phpdoc_format
             );
         }
 
@@ -219,7 +218,11 @@ class TKeyedArray extends \Psalm\Type\Atomic
 
         $key_type->possibly_undefined = false;
 
-        return Type::combineUnionTypes($this->previous_key_type, $key_type);
+        if ($this->previous_key_type) {
+            $key_type = Type::combineUnionTypes($this->previous_key_type, $key_type);
+        }
+
+        return $key_type;
     }
 
     public function getGenericValueType(): Union
@@ -227,10 +230,16 @@ class TKeyedArray extends \Psalm\Type\Atomic
         $value_type = null;
 
         foreach ($this->properties as $property) {
-            $value_type = Type::combineUnionTypes(clone $property, $value_type);
+            if ($value_type === null) {
+                $value_type = clone $property;
+            } else {
+                $value_type = Type::combineUnionTypes($property, $value_type);
+            }
         }
 
-        $value_type = Type::combineUnionTypes($this->previous_value_type, $value_type);
+        if ($this->previous_value_type) {
+            $value_type = Type::combineUnionTypes($this->previous_value_type, $value_type);
+        }
 
         $value_type->possibly_undefined = false;
 
@@ -253,7 +262,11 @@ class TKeyedArray extends \Psalm\Type\Atomic
                 $key_types[] = new Type\Atomic\TLiteralString($key);
             }
 
-            $value_type = Type::combineUnionTypes(clone $property, $value_type);
+            if ($value_type === null) {
+                $value_type = clone $property;
+            } else {
+                $value_type = Type::combineUnionTypes($property, $value_type);
+            }
 
             if (!$property->possibly_undefined) {
                 $has_defined_keys = true;
@@ -262,8 +275,13 @@ class TKeyedArray extends \Psalm\Type\Atomic
 
         $key_type = TypeCombiner::combine($key_types);
 
-        $value_type = Type::combineUnionTypes($this->previous_value_type, $value_type);
-        $key_type = Type::combineUnionTypes($this->previous_key_type, $key_type);
+        if ($this->previous_value_type) {
+            $value_type = Type::combineUnionTypes($this->previous_value_type, $value_type);
+        }
+
+        if ($this->previous_key_type) {
+            $key_type = Type::combineUnionTypes($this->previous_key_type, $key_type);
+        }
 
         $value_type->possibly_undefined = false;
 
@@ -274,17 +292,6 @@ class TKeyedArray extends \Psalm\Type\Atomic
         }
 
         return $array_type;
-    }
-
-    public function isNonEmpty(): bool
-    {
-        foreach ($this->properties as $property) {
-            if (!$property->possibly_undefined) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     public function __clone()
@@ -309,7 +316,7 @@ class TKeyedArray extends \Psalm\Type\Atomic
         ?string $calling_class = null,
         ?string $calling_function = null,
         bool $replace = true,
-        bool $add_lower_bound = false,
+        bool $add_upper_bound = false,
         int $depth = 0
     ) : Atomic {
         $object_like = clone $this;
@@ -333,8 +340,7 @@ class TKeyedArray extends \Psalm\Type\Atomic
                 $calling_class,
                 $calling_function,
                 $replace,
-                $add_lower_bound,
-                null,
+                $add_upper_bound,
                 $depth
             );
         }
@@ -360,7 +366,7 @@ class TKeyedArray extends \Psalm\Type\Atomic
         return $this->properties;
     }
 
-    public function equals(Atomic $other_type, bool $ensure_source_equality): bool
+    public function equals(Atomic $other_type): bool
     {
         if (get_class($other_type) !== static::class) {
             return false;
@@ -379,7 +385,7 @@ class TKeyedArray extends \Psalm\Type\Atomic
                 return false;
             }
 
-            if (!$property_type->equals($other_type->properties[$property_name], $ensure_source_equality)) {
+            if (!$property_type->equals($other_type->properties[$property_name])) {
                 return false;
             }
         }

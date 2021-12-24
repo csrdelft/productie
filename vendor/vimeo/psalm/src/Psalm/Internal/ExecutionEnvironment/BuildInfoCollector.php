@@ -3,7 +3,6 @@ namespace Psalm\Internal\ExecutionEnvironment;
 
 use Psalm\SourceControl\Git\CommitInfo;
 use Psalm\SourceControl\Git\GitInfo;
-
 use function explode;
 
 /**

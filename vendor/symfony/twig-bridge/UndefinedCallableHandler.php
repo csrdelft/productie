@@ -13,8 +13,6 @@ namespace Symfony\Bridge\Twig;
 
 use Symfony\Bundle\FullStack;
 use Twig\Error\SyntaxError;
-use Twig\TwigFilter;
-use Twig\TwigFunction;
 
 /**
  * @internal
@@ -32,8 +30,6 @@ class UndefinedCallableHandler
         'asset' => 'asset',
         'asset_version' => 'asset',
         'dump' => 'debug-bundle',
-        'encore_entry_link_tags' => 'webpack-encore-bundle',
-        'encore_entry_script_tags' => 'webpack-encore-bundle',
         'expression' => 'expression-language',
         'form_widget' => 'form',
         'form_errors' => 'form',
@@ -68,40 +64,34 @@ class UndefinedCallableHandler
         'workflow' => 'enable "framework.workflows"',
     ];
 
-    /**
-     * @return TwigFilter|false
-     */
-    public static function onUndefinedFilter(string $name)
+    public static function onUndefinedFilter(string $name): bool
     {
         if (!isset(self::FILTER_COMPONENTS[$name])) {
             return false;
         }
 
-        throw new SyntaxError(self::onUndefined($name, 'filter', self::FILTER_COMPONENTS[$name]));
+        self::onUndefined($name, 'filter', self::FILTER_COMPONENTS[$name]);
+
+        return true;
     }
 
-    /**
-     * @return TwigFunction|false
-     */
-    public static function onUndefinedFunction(string $name)
+    public static function onUndefinedFunction(string $name): bool
     {
         if (!isset(self::FUNCTION_COMPONENTS[$name])) {
             return false;
         }
 
-        if ('webpack-encore-bundle' === self::FUNCTION_COMPONENTS[$name]) {
-            return new TwigFunction($name, static function () { return ''; });
-        }
+        self::onUndefined($name, 'function', self::FUNCTION_COMPONENTS[$name]);
 
-        throw new SyntaxError(self::onUndefined($name, 'function', self::FUNCTION_COMPONENTS[$name]));
+        return true;
     }
 
-    private static function onUndefined(string $name, string $type, string $component): string
+    private static function onUndefined(string $name, string $type, string $component)
     {
         if (class_exists(FullStack::class) && isset(self::FULL_STACK_ENABLE[$component])) {
-            return sprintf('Did you forget to %s? Unknown %s "%s".', self::FULL_STACK_ENABLE[$component], $type, $name);
+            throw new SyntaxError(sprintf('Did you forget to %s? Unknown %s "%s".', self::FULL_STACK_ENABLE[$component], $type, $name));
         }
 
-        return sprintf('Did you forget to run "composer require symfony/%s"? Unknown %s "%s".', $component, $type, $name);
+        throw new SyntaxError(sprintf('Did you forget to run "composer require symfony/%s"? Unknown %s "%s".', $component, $type, $name));
     }
 }

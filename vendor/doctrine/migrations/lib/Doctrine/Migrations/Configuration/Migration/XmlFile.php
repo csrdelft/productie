@@ -47,13 +47,6 @@ final class XmlFile extends ConfigurationFile
             );
         }
 
-        if (isset($config['transactional'])) {
-            $config['transactional'] = BooleanStringFormatter::toBoolean(
-                $config['transactional'],
-                true
-            );
-        }
-
         if (isset($config['migrations_paths'])) {
             $config['migrations_paths'] = $this->getDirectoriesRelativeToFile(
                 $config['migrations_paths'],

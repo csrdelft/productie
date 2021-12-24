@@ -357,7 +357,6 @@ return [
         'raj' => 'radžastanščina',
         'rap' => 'rapanujščina',
         'rar' => 'rarotongščina',
-        'rhg' => 'rohinščina',
         'rm' => 'retoromanščina',
         'rn' => 'rundščina',
         'ro' => 'romunščina',

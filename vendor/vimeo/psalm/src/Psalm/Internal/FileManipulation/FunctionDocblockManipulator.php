@@ -2,27 +2,26 @@
 namespace Psalm\Internal\FileManipulation;
 
 use PhpParser;
+use function count;
+use function ltrim;
 use PhpParser\Node\Expr\ArrowFunction;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
+use function preg_match;
 use Psalm\DocComment;
 use Psalm\FileManipulation;
 use Psalm\Internal\Analyzer\CommentAnalyzer;
 use Psalm\Internal\Analyzer\ProjectAnalyzer;
-
-use function array_merge;
-use function count;
-use function ltrim;
-use function preg_match;
-use function reset;
 use function str_replace;
 use function str_split;
 use function strlen;
 use function strpos;
 use function strrpos;
 use function substr;
+use function reset;
+use function array_merge;
 
 /**
  * @internal
@@ -123,14 +122,6 @@ class FunctionDocblockManipulator
         $this->docblock_end = $function_start = (int)$stmt->getAttribute('startFilePos');
         $function_end = (int)$stmt->getAttribute('endFilePos');
 
-        $attributes = $stmt->getAttrGroups();
-        foreach ($attributes as $attribute) {
-            // if we have attribute groups, we need to consider that the function starts after them
-            if ((int) $attribute->getAttribute('endFilePos') > $function_start) {
-                $function_start = (int) $attribute->getAttribute('endFilePos');
-            }
-        }
-
         foreach ($stmt->params as $param) {
             if ($param->var instanceof PhpParser\Node\Expr\Variable
                 && \is_string($param->var->name)
@@ -224,12 +215,6 @@ class FunctionDocblockManipulator
 
                     break 2;
 
-                case '=':
-                    if ($in_multi_line_comment || $in_single_line_comment) {
-                        continue 2;
-                    }
-                    break 2;
-
                 case '?':
                     if ($in_multi_line_comment || $in_single_line_comment) {
                         continue 2;
@@ -299,17 +284,12 @@ class FunctionDocblockManipulator
     ): void {
         $new_type = str_replace(['<mixed, mixed>', '<array-key, mixed>', '<empty, empty>'], '', $new_type);
 
-        if ($php_type === 'static') {
-            $php_type = '';
-        }
         if ($php_type) {
             $this->new_php_param_types[$param_name] = $php_type;
         }
 
-        if ($php_type !== $phpdoc_type) {
+        if ($php_type !== $new_type) {
             $this->new_phpdoc_param_types[$param_name] = $phpdoc_type;
-        }
-        if ($php_type !== $new_type && $phpdoc_type !== $new_type) {
             $this->new_psalm_param_types[$param_name] = $new_type;
         }
     }
@@ -357,32 +337,6 @@ class FunctionDocblockManipulator
             }
         }
 
-        foreach ($this->new_psalm_param_types as $param_name => $psalm_type) {
-            $found_in_params = false;
-            $new_param_block = $psalm_type . ' ' . '$' . $param_name;
-
-            if (isset($parsed_docblock->tags['psalm-param'])) {
-                foreach ($parsed_docblock->tags['psalm-param'] as &$param_block) {
-                    $doc_parts = CommentAnalyzer::splitDocLine($param_block);
-
-                    if (($doc_parts[1] ?? null) === '$' . $param_name) {
-                        if ($param_block !== $new_param_block) {
-                            $modified_docblock = true;
-                        }
-
-                        $param_block = $new_param_block;
-                        $found_in_params = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!$found_in_params) {
-                $modified_docblock = true;
-                $parsed_docblock->tags['psalm-param'][] = $new_param_block;
-            }
-        }
-
         $old_phpdoc_return_type = null;
         if (isset($parsed_docblock->tags['return'])) {
             $old_phpdoc_return_type = reset($parsed_docblock->tags['return']);
@@ -393,18 +347,14 @@ class FunctionDocblockManipulator
             $parsed_docblock->tags['psalm-pure'] = [''];
         }
 
-
-        if ($this->new_phpdoc_return_type && $this->new_phpdoc_return_type !== $old_phpdoc_return_type) {
+        if ($this->new_phpdoc_return_type
+            && $this->new_phpdoc_return_type !== $old_phpdoc_return_type
+        ) {
             $modified_docblock = true;
-            if ($this->new_phpdoc_return_type !== $this->new_php_return_type || $this->return_type_description) {
-                //only add the type if it's different than signature or if there's a description
-                $parsed_docblock->tags['return'] = [
-                    $this->new_phpdoc_return_type
+            $parsed_docblock->tags['return'] = [
+                $this->new_phpdoc_return_type
                     . ($this->return_type_description ? (' ' . $this->return_type_description) : ''),
-                ];
-            } else {
-                unset($parsed_docblock->tags['return']);
-            }
+            ];
         }
 
         $old_psalm_return_type = null;

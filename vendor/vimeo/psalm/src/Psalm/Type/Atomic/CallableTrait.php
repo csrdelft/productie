@@ -1,18 +1,17 @@
 <?php
 namespace Psalm\Type\Atomic;
 
-use Psalm\Codebase;
-use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Internal\Type\TemplateInferredTypeReplacer;
-use Psalm\Internal\Type\TemplateResult;
-use Psalm\Internal\Type\TemplateStandinTypeReplacer;
-use Psalm\Storage\FunctionLikeParameter;
-use Psalm\Type\Atomic;
-use Psalm\Type\Union;
-
 use function array_map;
 use function count;
 use function implode;
+use Psalm\Codebase;
+use Psalm\Internal\Analyzer\StatementsAnalyzer;
+use Psalm\Internal\Type\TemplateResult;
+use Psalm\Internal\Type\TemplateStandinTypeReplacer;
+use Psalm\Internal\Type\TemplateInferredTypeReplacer;
+use Psalm\Storage\FunctionLikeParameter;
+use Psalm\Type\Atomic;
+use Psalm\Type\Union;
 
 trait CallableTrait
 {
@@ -188,7 +187,7 @@ trait CallableTrait
         ?string $calling_class = null,
         ?string $calling_function = null,
         bool $replace = true,
-        bool $add_lower_bound = false,
+        bool $add_upper_bound = false,
         int $depth = 0
     ) : Atomic {
         $callable = clone $this;
@@ -217,8 +216,7 @@ trait CallableTrait
                     $calling_class,
                     $calling_function,
                     $replace,
-                    !$add_lower_bound,
-                    null,
+                    !$add_upper_bound,
                     $depth
                 );
             }
@@ -237,7 +235,7 @@ trait CallableTrait
                 $calling_class,
                 $calling_function,
                 $replace,
-                $add_lower_bound
+                $add_upper_bound
             );
         }
 

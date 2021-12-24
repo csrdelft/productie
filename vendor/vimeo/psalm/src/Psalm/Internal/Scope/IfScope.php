@@ -12,7 +12,7 @@ class IfScope
     /**
      * @var array<string, Type\Union>|null
      */
-    public $new_vars;
+    public $new_vars = null;
 
     /**
      * @var array<string, bool>
@@ -22,12 +22,12 @@ class IfScope
     /**
      * @var array<string, Type\Union>|null
      */
-    public $redefined_vars;
+    public $redefined_vars = null;
 
     /**
      * @var array<string, int>|null
      */
-    public $assigned_var_ids;
+    public $assigned_var_ids = null;
 
     /**
      * @var array<string, bool>
@@ -57,7 +57,7 @@ class IfScope
     /**
      * @var array<string, string>|null
      */
-    public $negatable_if_types;
+    public $negatable_if_types = null;
 
     /**
      * @var list<Clause>
@@ -78,7 +78,7 @@ class IfScope
      *
      * @var array<string, Type\Union>|null
      */
-    public $possible_param_types;
+    public $possible_param_types = null;
 
     /**
      * @var string[]

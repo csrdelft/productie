@@ -2,33 +2,32 @@
 namespace Psalm\Internal\Analyzer\Statements\Block;
 
 use PhpParser;
-use Psalm\CodeLocation;
-use Psalm\Context;
-use Psalm\Internal\Algebra;
 use Psalm\Internal\Algebra\FormulaGenerator;
 use Psalm\Internal\Analyzer\AlgebraAnalyzer;
 use Psalm\Internal\Analyzer\ScopeAnalyzer;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
 use Psalm\Internal\Clause;
+use Psalm\CodeLocation;
+use Psalm\Context;
 use Psalm\Internal\Scope\IfScope;
 use Psalm\Node\Expr\VirtualBooleanNot;
 use Psalm\Type;
+use Psalm\Internal\Algebra;
 use Psalm\Type\Reconciler;
-
-use function array_combine;
+use function array_merge;
+use function array_map;
 use function array_diff_key;
 use function array_filter;
-use function array_intersect_key;
-use function array_keys;
-use function array_map;
-use function array_merge;
-use function array_reduce;
-use function array_unique;
 use function array_values;
-use function count;
-use function in_array;
+use function array_keys;
+use function array_reduce;
+use function array_combine;
 use function preg_match;
 use function preg_quote;
+use function array_unique;
+use function count;
+use function in_array;
+use function array_intersect_key;
 
 /**
  * @internal
@@ -77,7 +76,7 @@ class IfElseAnalyzer
                 $stmt->stmts,
                 null,
                 $codebase->config->exit_functions,
-                []
+                $context->break_types
             );
 
             $has_leaving_statements = $final_actions === [ScopeAnalyzer::ACTION_END]
@@ -195,7 +194,7 @@ class IfElseAnalyzer
             }
         }
 
-        // define this before we alter local clauses after reconciliation
+        // define this before we alter local claues after reconciliation
         $if_scope->reasonable_clauses = $if_context->clauses;
 
         try {
@@ -234,7 +233,7 @@ class IfElseAnalyzer
         if (array_filter(
             $context->clauses,
             function ($clause): bool {
-                return (bool)$clause->possibilities;
+                return !!$clause->possibilities;
             }
         )) {
             $omit_keys = array_reduce(
@@ -449,7 +448,9 @@ class IfElseAnalyzer
                     $if_scope->reasonable_clauses = Context::filterClauses(
                         $var_id,
                         $if_scope->reasonable_clauses,
-                        $context->vars_in_scope[$var_id] ?? null,
+                        isset($context->vars_in_scope[$var_id])
+                            ? $context->vars_in_scope[$var_id]
+                            : null,
                         $statements_analyzer
                     );
                 }

@@ -36,7 +36,7 @@ class Translator extends BaseTranslator implements WarmableInterface
     ];
 
     /**
-     * @var list<string>
+     * @var array
      */
     private $resourceLocales;
 
@@ -44,13 +44,10 @@ class Translator extends BaseTranslator implements WarmableInterface
      * Holds parameters from addResource() calls so we can defer the actual
      * parent::addResource() calls until initialize() is executed.
      *
-     * @var array[]
+     * @var array
      */
     private $resources = [];
 
-    /**
-     * @var string[][]
-     */
     private $resourceFiles;
 
     /**
@@ -103,7 +100,7 @@ class Translator extends BaseTranslator implements WarmableInterface
     {
         // skip warmUp when translator doesn't use cache
         if (null === $this->options['cache_dir']) {
-            return [];
+            return;
         }
 
         $localesToWarmUp = $this->enabledLocales ?: array_merge($this->getFallbackLocales(), [$this->getLocale()], $this->resourceLocales);
@@ -155,7 +152,7 @@ class Translator extends BaseTranslator implements WarmableInterface
         if ($this->resourceFiles) {
             $this->addResourceFiles();
         }
-        foreach ($this->resources as $params) {
+        foreach ($this->resources as $key => $params) {
             [$format, $resource, $locale, $domain] = $params;
             parent::addResource($format, $resource, $locale, $domain);
         }
@@ -168,13 +165,13 @@ class Translator extends BaseTranslator implements WarmableInterface
         }
     }
 
-    private function addResourceFiles(): void
+    private function addResourceFiles()
     {
         $filesByLocale = $this->resourceFiles;
         $this->resourceFiles = [];
 
-        foreach ($filesByLocale as $files) {
-            foreach ($files as $file) {
+        foreach ($filesByLocale as $locale => $files) {
+            foreach ($files as $key => $file) {
                 // filename is domain.locale.format
                 $fileNameParts = explode('.', basename($file));
                 $format = array_pop($fileNameParts);

@@ -505,8 +505,6 @@ return [
         'rw_RW' => 'Kinyarwanda (Rwanda)',
         'sa' => 'Sanskriet',
         'sa_IN' => 'Sanskriet (India)',
-        'sc' => 'Sardijns',
-        'sc_IT' => 'Sardijns (Italië)',
         'sd' => 'Sindhi',
         'sd_Arab' => 'Sindhi (Arabisch)',
         'sd_Arab_PK' => 'Sindhi (Arabisch, Pakistan)',

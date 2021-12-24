@@ -21,7 +21,7 @@ class ExpressionCacheWarmer implements CacheWarmerInterface
     private $expressionLanguage;
 
     /**
-     * @param iterable<mixed, Expression> $expressions
+     * @param iterable|Expression[] $expressions
      */
     public function __construct(iterable $expressions, ExpressionLanguage $expressionLanguage)
     {

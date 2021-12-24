@@ -3,7 +3,6 @@ namespace Psalm\Report;
 
 use Psalm\Config;
 use Psalm\Report;
-
 use function sprintf;
 
 class TextReport extends Report

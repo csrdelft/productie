@@ -2,8 +2,7 @@
 
 return [
     'Names' => [
-        'Africa/Djibouti' => 'hora de África oriental (Yibutí)',
-        'Asia/Pyongyang' => 'hora de Corea (Pionyang)',
+        'Asia/Pyongyang' => 'hora de Corea (Piongyang)',
         'Europe/Astrakhan' => 'hora de Moscú (Astrakhan)',
         'Europe/Kirov' => 'hora de Rusia (Kirov)',
         'Europe/Ulyanovsk' => 'hora de Moscú (Ulyanovsk)',

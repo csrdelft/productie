@@ -45,8 +45,6 @@ final class CacheItem implements CacheItemInterface
 
     /**
      * {@inheritDoc}
-     *
-     * @return mixed
      */
     public function get()
     {

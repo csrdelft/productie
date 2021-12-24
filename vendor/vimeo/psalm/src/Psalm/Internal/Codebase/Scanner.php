@@ -1,11 +1,21 @@
 <?php
 namespace Psalm\Internal\Codebase;
 
+use function array_filter;
+use function array_merge;
+use function array_pop;
+use function ceil;
+use function count;
+use const DIRECTORY_SEPARATOR;
+use function error_reporting;
+use function explode;
+use function file_exists;
+use function min;
+use const PHP_EOL;
 use Psalm\Codebase;
 use Psalm\Config;
 use Psalm\Internal\Analyzer\IssueData;
 use Psalm\Internal\ErrorHandler;
-use Psalm\Internal\Provider\ClassLikeStorageProvider;
 use Psalm\Internal\Provider\FileProvider;
 use Psalm\Internal\Provider\FileReferenceProvider;
 use Psalm\Internal\Provider\FileStorageProvider;
@@ -13,46 +23,32 @@ use Psalm\Internal\Scanner\FileScanner;
 use Psalm\Progress\Progress;
 use ReflectionClass;
 
-use function array_filter;
-use function array_merge;
-use function array_pop;
-use function ceil;
-use function count;
-use function error_reporting;
-use function explode;
-use function file_exists;
-use function min;
 use function realpath;
 use function strtolower;
 use function substr;
 
-use const DIRECTORY_SEPARATOR;
-use const PHP_EOL;
-
 /**
  * @psalm-type  ThreadData = array{
- *     array<string, string>,
- *     array<string, string>,
- *     array<string, string>,
- *     array<string, bool>,
- *     array<string, bool>,
- *     array<string, string>,
- *     array<string, bool>,
- *     array<string, bool>,
- *     array<string, bool>
+ *     0: array<string, string>,
+ *     1: array<string, string>,
+ *     2: array<string, string>,
+ *     3: array<string, bool>,
+ *     4: array<string, bool>,
+ *     5: array<string, string>,
+ *     6: array<string, bool>,
+ *     7: array<string, bool>,
+ *     8: array<string, bool>
  * }
  *
  * @psalm-type  PoolData = array{
  *     classlikes_data:array{
- *         array<lowercase-string, bool>,
- *         array<lowercase-string, bool>,
- *         array<lowercase-string, bool>,
- *         array<string, bool>,
- *         array<lowercase-string, bool>,
- *         array<string, bool>,
- *         array<lowercase-string, bool>,
- *         array<string, bool>,
- *         array<string, bool>
+ *         0:array<lowercase-string, bool>,
+ *         1:array<lowercase-string, bool>,
+ *         2:array<lowercase-string, bool>,
+ *         3:array<string, bool>,
+ *         4:array<lowercase-string, bool>,
+ *         5:array<string, bool>,
+ *         6:array<string, bool>
  *     },
  *     scanner_data: ThreadData,
  *     issues:array<string, list<IssueData>>,
@@ -361,8 +357,8 @@ class Scanner
                     $statements_provider = $codebase->statements_provider;
 
                     $codebase->scanner->isForked();
-                    FileStorageProvider::deleteAll();
-                    ClassLikeStorageProvider::deleteAll();
+                    $codebase->file_storage_provider->deleteAll();
+                    $codebase->classlike_storage_provider->deleteAll();
 
                     $statements_provider->resetDiffs();
 
@@ -676,6 +672,10 @@ class Scanner
 
         if ($fq_class_name === 'self') {
             return false;
+        }
+
+        if (isset($this->existing_classlikes_lc[$fq_class_name_lc])) {
+            throw new \InvalidArgumentException('Why are you asking about a builtin class?');
         }
 
         $composer_file_path = $this->config->getComposerFilePathForClassLike($fq_class_name);

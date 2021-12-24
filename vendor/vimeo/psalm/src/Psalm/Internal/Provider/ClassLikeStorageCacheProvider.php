@@ -3,25 +3,23 @@ namespace Psalm\Internal\Provider;
 
 use Psalm\Config;
 use Psalm\Storage\ClassLikeStorage;
-
-use function array_merge;
 use function dirname;
+use const DIRECTORY_SEPARATOR;
+use function array_merge;
 use function file_exists;
-use function file_get_contents;
-use function file_put_contents;
 use function filemtime;
-use function get_class;
+use function strtolower;
+use function file_put_contents;
 use function igbinary_serialize;
+use function serialize;
+use function get_class;
+use function unlink;
+use function sha1;
 use function igbinary_unserialize;
+use function file_get_contents;
+use function unserialize;
 use function is_dir;
 use function mkdir;
-use function serialize;
-use function sha1;
-use function strtolower;
-use function unlink;
-use function unserialize;
-
-use const DIRECTORY_SEPARATOR;
 
 /**
  * @internal
@@ -65,10 +63,10 @@ class ClassLikeStorageCacheProvider
             $this->modified_timestamps .= ' ' . filemtime($dependent_file_path);
         }
 
-        $this->modified_timestamps .= $this->config->computeHash();
+        $this->modified_timestamps .= $this->config->hash;
     }
 
-    public function writeToCache(ClassLikeStorage $storage, string $file_path, string $file_contents): void
+    public function writeToCache(ClassLikeStorage $storage, ?string $file_path, ?string $file_contents): void
     {
         $fq_classlike_name_lc = strtolower($storage->name);
 

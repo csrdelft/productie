@@ -35,10 +35,10 @@ class MoneyToLocalizedStringTransformer extends NumberToLocalizedStringTransform
      *
      * @param int|float|null $value Normalized number
      *
-     * @return string
+     * @return string Localized money string
      *
      * @throws TransformationFailedException if the given value is not numeric or
-     *                                       if the value cannot be transformed
+     *                                       if the value can not be transformed
      */
     public function transform($value)
     {
@@ -57,10 +57,10 @@ class MoneyToLocalizedStringTransformer extends NumberToLocalizedStringTransform
      *
      * @param string $value Localized money string
      *
-     * @return int|float|null
+     * @return int|float|null Normalized number
      *
      * @throws TransformationFailedException if the given value is not a string
-     *                                       or if the value cannot be transformed
+     *                                       or if the value can not be transformed
      */
     public function reverseTransform($value)
     {

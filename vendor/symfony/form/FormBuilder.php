@@ -21,8 +21,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
  * A builder for creating {@link Form} instances.
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
- *
- * @implements \IteratorAggregate<string, FormBuilderInterface>
  */
 class FormBuilder extends FormConfigBuilder implements \IteratorAggregate, FormBuilderInterface
 {
@@ -163,7 +161,6 @@ class FormBuilder extends FormConfigBuilder implements \IteratorAggregate, FormB
     /**
      * @return int
      */
-    #[\ReturnTypeWillChange]
     public function count()
     {
         if ($this->locked) {
@@ -216,9 +213,8 @@ class FormBuilder extends FormConfigBuilder implements \IteratorAggregate, FormB
     /**
      * {@inheritdoc}
      *
-     * @return \Traversable<string, FormBuilderInterface>
+     * @return FormBuilderInterface[]|\Traversable
      */
-    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         if ($this->locked) {

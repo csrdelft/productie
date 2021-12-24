@@ -8,7 +8,7 @@ return [
         ],
         'AED' => [
             0 => 'AED',
-            1 => 'dírham dels Emirats Àrabs Units',
+            1 => 'dírham de la UEA',
         ],
         'AFA' => [
             0 => 'AFA',
@@ -24,11 +24,11 @@ return [
         ],
         'ALL' => [
             0 => 'ALL',
-            1 => 'lek',
+            1 => 'lek albanès',
         ],
         'AMD' => [
             0 => 'AMD',
-            1 => 'dram',
+            1 => 'dram armeni',
         ],
         'ANG' => [
             0 => 'ANG',
@@ -108,7 +108,7 @@ return [
         ],
         'BDT' => [
             0 => 'BDT',
-            1 => 'taka',
+            1 => 'taka de Bangla Desh',
         ],
         'BEC' => [
             0 => 'BEC',
@@ -132,7 +132,7 @@ return [
         ],
         'BGN' => [
             0 => 'BGN',
-            1 => 'lev',
+            1 => 'lev búlgar',
         ],
         'BGO' => [
             0 => 'BGO',
@@ -268,7 +268,7 @@ return [
         ],
         'CNY' => [
             0 => 'CNY',
-            1 => 'iuan',
+            1 => 'iuan xinès',
         ],
         'COP' => [
             0 => 'COP',
@@ -392,7 +392,7 @@ return [
         ],
         'GBP' => [
             0 => '£',
-            1 => 'lliura esterlina',
+            1 => 'lliura esterlina britànica',
         ],
         'GEK' => [
             0 => 'GEK',
@@ -400,7 +400,7 @@ return [
         ],
         'GEL' => [
             0 => 'GEL',
-            1 => 'lari',
+            1 => 'lari georgià',
         ],
         'GHC' => [
             0 => 'GHC',
@@ -436,7 +436,7 @@ return [
         ],
         'GTQ' => [
             0 => 'GTQ',
-            1 => 'quetzal',
+            1 => 'quetzal guatemalenc',
         ],
         'GWE' => [
             0 => 'GWE',
@@ -456,7 +456,7 @@ return [
         ],
         'HNL' => [
             0 => 'HNL',
-            1 => 'lempira',
+            1 => 'lempira hondurenya',
         ],
         'HRD' => [
             0 => 'HRD',
@@ -464,15 +464,15 @@ return [
         ],
         'HRK' => [
             0 => 'HRK',
-            1 => 'kuna',
+            1 => 'kuna croata',
         ],
         'HTG' => [
             0 => 'HTG',
-            1 => 'gourde',
+            1 => 'gourde haitià',
         ],
         'HUF' => [
             0 => 'HUF',
-            1 => 'fòrint',
+            1 => 'fòrint hongarès',
         ],
         'IDR' => [
             0 => 'IDR',
@@ -528,7 +528,7 @@ return [
         ],
         'JPY' => [
             0 => '¥',
-            1 => 'ien',
+            1 => 'ien japonès',
         ],
         'KES' => [
             0 => 'KES',
@@ -572,7 +572,7 @@ return [
         ],
         'KZT' => [
             0 => 'KZT',
-            1 => 'tenge',
+            1 => 'tenge kazakh',
         ],
         'LAK' => [
             0 => 'LAK',
@@ -592,7 +592,7 @@ return [
         ],
         'LSL' => [
             0 => 'LSL',
-            1 => 'loti',
+            1 => 'loti de Lesotho',
         ],
         'LTL' => [
             0 => 'LTL',
@@ -656,7 +656,7 @@ return [
         ],
         'MKD' => [
             0 => 'MKD',
-            1 => 'dinar macedoni',
+            1 => 'denar macedoni',
         ],
         'MKN' => [
             0 => 'MKN',
@@ -720,7 +720,7 @@ return [
         ],
         'MYR' => [
             0 => 'MYR',
-            1 => 'ringgit',
+            1 => 'ringgit de Malàisia',
         ],
         'MZE' => [
             0 => 'MZE',
@@ -772,7 +772,7 @@ return [
         ],
         'PAB' => [
             0 => 'PAB',
-            1 => 'balboa',
+            1 => 'balboa panameny',
         ],
         'PEI' => [
             0 => 'PEI',
@@ -780,7 +780,7 @@ return [
         ],
         'PEN' => [
             0 => 'PEN',
-            1 => 'sol',
+            1 => 'sol peruà',
         ],
         'PES' => [
             0 => 'PES',
@@ -788,7 +788,7 @@ return [
         ],
         'PGK' => [
             0 => 'PGK',
-            1 => 'kina',
+            1 => 'kina de Papua Nova Guinea',
         ],
         'PHP' => [
             0 => 'PHP',
@@ -800,7 +800,7 @@ return [
         ],
         'PLN' => [
             0 => 'PLN',
-            1 => 'zloty',
+            1 => 'zloty polonès',
         ],
         'PLZ' => [
             0 => 'PLZ',
@@ -812,7 +812,7 @@ return [
         ],
         'PYG' => [
             0 => 'PYG',
-            1 => 'guaraní',
+            1 => 'guaraní paraguaià',
         ],
         'QAR' => [
             0 => 'QAR',
@@ -836,7 +836,7 @@ return [
         ],
         'RUB' => [
             0 => 'RUB',
-            1 => 'ruble',
+            1 => 'ruble rus',
         ],
         'RUR' => [
             0 => 'RUR',
@@ -936,7 +936,7 @@ return [
         ],
         'THB' => [
             0 => '฿',
-            1 => 'baht',
+            1 => 'baht tailandès',
         ],
         'TJR' => [
             0 => 'TJR',
@@ -988,7 +988,7 @@ return [
         ],
         'UAH' => [
             0 => 'UAH',
-            1 => 'hrívnia',
+            1 => 'hrívnia ucraïnesa',
         ],
         'UAK' => [
             0 => 'UAK',

@@ -16,7 +16,6 @@ use Psalm\Storage\ClassLikeStorage;
 use Psalm\Internal\Analyzer\ClassLikeAnalyzer;
 use Psalm\Internal\Scanner\ParsedDocblock;
 use Psalm\Type;
-use function array_slice;
 
 class ClassLikeStubGenerator
 {

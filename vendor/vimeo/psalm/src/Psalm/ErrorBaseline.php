@@ -1,29 +1,26 @@
 <?php
 namespace Psalm;
 
-use Psalm\Internal\Analyzer\IssueData;
-use Psalm\Internal\Provider\FileProvider;
-use RuntimeException;
-
 use function array_filter;
 use function array_intersect;
 use function array_map;
 use function array_merge;
 use function array_reduce;
-use function array_values;
 use function get_loaded_extensions;
 use function implode;
 use function ksort;
+use const LIBXML_NOBLANKS;
 use function min;
+use const PHP_VERSION;
 use function phpversion;
 use function preg_replace_callback;
+use Psalm\Internal\Analyzer\IssueData;
+use Psalm\Internal\Provider\FileProvider;
+use RuntimeException;
 use function str_replace;
 use function strpos;
-use function trim;
 use function usort;
-
-use const LIBXML_NOBLANKS;
-use const PHP_VERSION;
+use function array_values;
 
 class ErrorBaseline
 {
@@ -116,7 +113,7 @@ class ErrorBaseline
                 $codeSamples = $issue->getElementsByTagName('code');
 
                 foreach ($codeSamples as $codeSample) {
-                    $files[$fileName][$issueType]['s'][] = trim($codeSample->textContent);
+                    $files[$fileName][$issueType]['s'][] = $codeSample->textContent;
                 }
             }
         }
@@ -274,10 +271,6 @@ class ErrorBaseline
                 foreach ($existingIssueType['s'] as $selection) {
                     $codeNode = $baselineDoc->createElement('code');
 
-                    /** @todo in major version release (e.g. Psalm 5) replace $selection with trim($selection)
-                     * This will be a minor BC break as baselines generated will then not be compatible with Psalm
-                     * versions from before PR https://github.com/vimeo/psalm/pull/6000
-                     */
                     $codeNode->textContent = $selection;
                     $issueNode->appendChild($codeNode);
                 }
@@ -293,7 +286,7 @@ class ErrorBaseline
         $xml = preg_replace_callback(
             '/<files (psalm-version="[^"]+") (?:php-version="(.+)"(\/?>)\n)/',
             /**
-             * @param string[] $matches
+             * @param array<int, string> $matches
              */
             function (array $matches) : string {
                 return

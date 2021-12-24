@@ -1,9 +1,10 @@
 <?php
 namespace Psalm\Internal\Provider\ReturnTypeProvider;
 
-use Psalm\Internal\DataFlow\DataFlowNode;
+use PhpParser;
 use Psalm\Plugin\EventHandler\Event\FunctionReturnTypeProviderEvent;
 use Psalm\Type;
+use Psalm\Internal\DataFlow\DataFlowNode;
 
 class StrTrReturnTypeProvider implements \Psalm\Plugin\EventHandler\FunctionReturnTypeProviderInterface
 {

@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * TokenInterface is the interface for the user authentication information.
  *
- * @method string getUserIdentifier() returns the user identifier used during authentication (e.g. a user's email address or username)
+ * @method string getUserIdentifier() returns the user identifier used during authentication (e.g. a user's e-mailaddress or username)
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
@@ -35,32 +35,33 @@ interface TokenInterface extends \Serializable
     /**
      * Returns the user roles.
      *
-     * @return string[]
+     * @return string[] The associated roles
      */
     public function getRoleNames(): array;
 
     /**
      * Returns the user credentials.
      *
-     * @return mixed
-     *
-     * @deprecated since Symfony 5.4
+     * @return mixed The user credentials
      */
     public function getCredentials();
 
     /**
      * Returns a user representation.
      *
-     * @return UserInterface|null
+     * @return string|\Stringable|UserInterface
      *
      * @see AbstractToken::setUser()
      */
     public function getUser();
 
     /**
-     * Sets the authenticated user in the token.
+     * Sets the user in the token.
      *
-     * @param UserInterface $user
+     * The user can be a UserInterface instance, or an object implementing
+     * a __toString method or the username as a regular string.
+     *
+     * @param string|\Stringable|UserInterface $user
      *
      * @throws \InvalidArgumentException
      */
@@ -70,15 +71,11 @@ interface TokenInterface extends \Serializable
      * Returns whether the user is authenticated or not.
      *
      * @return bool true if the token has been authenticated, false otherwise
-     *
-     * @deprecated since Symfony 5.4, return null from "getUser()" instead when a token is not authenticated
      */
     public function isAuthenticated();
 
     /**
      * Sets the authenticated flag.
-     *
-     * @deprecated since Symfony 5.4
      */
     public function setAuthenticated(bool $isAuthenticated);
 
@@ -88,28 +85,38 @@ interface TokenInterface extends \Serializable
     public function eraseCredentials();
 
     /**
-     * @return array
+     * Returns the token attributes.
+     *
+     * @return array The token attributes
      */
     public function getAttributes();
 
     /**
+     * Sets the token attributes.
+     *
      * @param array $attributes The token attributes
      */
     public function setAttributes(array $attributes);
 
     /**
-     * @return bool
+     * Returns true if the attribute exists.
+     *
+     * @return bool true if the attribute exists, false otherwise
      */
     public function hasAttribute(string $name);
 
     /**
-     * @return mixed
+     * Returns an attribute value.
+     *
+     * @return mixed The attribute value
      *
      * @throws \InvalidArgumentException When attribute doesn't exist for this token
      */
     public function getAttribute(string $name);
 
     /**
+     * Sets an attribute.
+     *
      * @param mixed $value The attribute value
      */
     public function setAttribute(string $name, $value);

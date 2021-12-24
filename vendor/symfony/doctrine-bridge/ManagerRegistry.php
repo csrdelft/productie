@@ -59,7 +59,7 @@ abstract class ManagerRegistry extends AbstractManagerRegistry
                     $name = $this->aliases[$name];
                 }
                 if (isset($this->fileMap[$name])) {
-                    $wrappedInstance = $this->load($this->fileMap[$name], false);
+                    $wrappedInstance = $this->load($this->fileMap[$name]);
                 } else {
                     $wrappedInstance = $this->{$this->methodMap[$name]}(false);
                 }

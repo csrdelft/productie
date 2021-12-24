@@ -29,10 +29,7 @@ abstract class AbstractManagerRegistry implements ManagerRegistry
     /** @var string */
     private $defaultManager;
 
-    /**
-     * @var string
-     * @psalm-var class-string
-     */
+    /** @var string */
     private $proxyInterfaceName;
 
     /**
@@ -42,7 +39,6 @@ abstract class AbstractManagerRegistry implements ManagerRegistry
      * @param string   $defaultConnection
      * @param string   $defaultManager
      * @param string   $proxyInterfaceName
-     * @psalm-param class-string $proxyInterfaceName
      */
     public function __construct($name, array $connections, array $managers, $defaultConnection, $defaultManager, $proxyInterfaceName)
     {
@@ -162,9 +158,13 @@ abstract class AbstractManagerRegistry implements ManagerRegistry
      */
     public function getManagerForClass($class)
     {
-        $className = $this->getRealClassName($class);
+        // Check for namespace alias
+        if (strpos($class, ':') !== false) {
+            [$namespaceAlias, $simpleClassName] = explode(':', $class, 2);
+            $class                              = $this->getAliasNamespace($namespaceAlias) . '\\' . $simpleClassName;
+        }
 
-        $proxyClass = new ReflectionClass($className);
+        $proxyClass = new ReflectionClass($class);
 
         if ($proxyClass->implementsInterface($this->proxyInterfaceName)) {
             $parentClass = $proxyClass->getParentClass();
@@ -173,13 +173,13 @@ abstract class AbstractManagerRegistry implements ManagerRegistry
                 return null;
             }
 
-            $className = $parentClass->getName();
+            $class = $parentClass->getName();
         }
 
         foreach ($this->managers as $id) {
             $manager = $this->getService($id);
 
-            if (! $manager->getMetadataFactory()->isTransient($className)) {
+            if (! $manager->getMetadataFactory()->isTransient($class)) {
                 return $manager;
             }
         }
@@ -238,9 +238,6 @@ abstract class AbstractManagerRegistry implements ManagerRegistry
         return $this->getManager($name);
     }
 
-    /**
-     * @psalm-param class-string $persistentObjectName
-     */
     private function selectManager(string $persistentObjectName, ?string $persistentManagerName = null): ObjectManager
     {
         if ($persistentManagerName !== null) {
@@ -248,22 +245,5 @@ abstract class AbstractManagerRegistry implements ManagerRegistry
         }
 
         return $this->getManagerForClass($persistentObjectName) ?? $this->getManager();
-    }
-
-    /**
-     * @psalm-return class-string
-     */
-    private function getRealClassName(string $classNameOrAlias): string
-    {
-        // Check for namespace alias
-        if (strpos($classNameOrAlias, ':') !== false) {
-            [$namespaceAlias, $simpleClassName] = explode(':', $classNameOrAlias, 2);
-
-            /** @psalm-var class-string */
-            return $this->getAliasNamespace($namespaceAlias) . '\\' . $simpleClassName;
-        }
-
-        /** @psalm-var class-string */
-        return $classNameOrAlias;
     }
 }

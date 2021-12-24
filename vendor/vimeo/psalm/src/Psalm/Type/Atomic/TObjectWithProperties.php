@@ -1,20 +1,19 @@
 <?php
 namespace Psalm\Type\Atomic;
 
-use Psalm\Codebase;
-use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Internal\Type\TemplateInferredTypeReplacer;
-use Psalm\Internal\Type\TemplateResult;
-use Psalm\Internal\Type\TemplateStandinTypeReplacer;
-use Psalm\Type\Atomic;
-use Psalm\Type\Union;
-
 use function array_keys;
 use function array_map;
-use function array_merge;
-use function array_values;
 use function count;
 use function implode;
+use Psalm\Codebase;
+use Psalm\Type\Atomic;
+use Psalm\Type\Union;
+use Psalm\Internal\Analyzer\StatementsAnalyzer;
+use Psalm\Internal\Type\TemplateResult;
+use Psalm\Internal\Type\TemplateStandinTypeReplacer;
+use Psalm\Internal\Type\TemplateInferredTypeReplacer;
+use function array_merge;
+use function array_values;
 
 /**
  * Denotes an object with specified member variables e.g. `object{foo:int, bar:string}`.
@@ -190,7 +189,7 @@ class TObjectWithProperties extends TObject
         }
     }
 
-    public function equals(Atomic $other_type, bool $ensure_source_equality): bool
+    public function equals(Atomic $other_type): bool
     {
         if (!$other_type instanceof self) {
             return false;
@@ -209,7 +208,7 @@ class TObjectWithProperties extends TObject
                 return false;
             }
 
-            if (!$property_type->equals($other_type->properties[$property_name], $ensure_source_equality)) {
+            if (!$property_type->equals($other_type->properties[$property_name])) {
                 return false;
             }
         }
@@ -226,7 +225,7 @@ class TObjectWithProperties extends TObject
         ?string $calling_class = null,
         ?string $calling_function = null,
         bool $replace = true,
-        bool $add_lower_bound = false,
+        bool $add_upper_bound = false,
         int $depth = 0
     ) : Atomic {
         $object_like = clone $this;
@@ -250,8 +249,7 @@ class TObjectWithProperties extends TObject
                 $calling_class,
                 $calling_function,
                 $replace,
-                $add_lower_bound,
-                null,
+                $add_upper_bound,
                 $depth
             );
         }

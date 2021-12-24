@@ -3,11 +3,10 @@ declare(strict_types = 1);
 namespace Psalm\Internal\LanguageServer;
 
 use AdvancedJsonRpc\Message as MessageBody;
-use Amp\ByteStream\ResourceInputStream;
-use Amp\Promise;
-use Exception;
-
 use function Amp\asyncCall;
+use Amp\Promise;
+use Amp\ByteStream\ResourceInputStream;
+use Exception;
 use function explode;
 use function strlen;
 use function substr;
@@ -37,7 +36,7 @@ class ProtocolStreamReader implements ProtocolReader
     /** @var string[] */
     private $headers = [];
     /** @var ?int */
-    private $content_length;
+    private $content_length = null;
     /** @var bool */
     private $did_emit_close = false;
 
@@ -116,10 +115,7 @@ class ProtocolStreamReader implements ProtocolReader
                         if ($msg) {
                             ++$emitted_messages;
                             $this->emit('message', [$msg]);
-                            /**
-                             * @psalm-suppress DocblockTypeContradiction
-                             * @psalm-suppress RedundantConditionGivenDocblockType
-                             */
+                            /** @psalm-suppress DocblockTypeContradiction */
                             if (!$this->is_accepting_new_requests) {
                                 // If we fork, don't read any bytes in the input buffer from the worker process.
                                 $this->emitClose();

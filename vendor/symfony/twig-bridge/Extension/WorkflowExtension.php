@@ -59,7 +59,7 @@ final class WorkflowExtension extends AbstractExtension
     /**
      * Returns all enabled transitions.
      *
-     * @return Transition[]
+     * @return Transition[] All enabled transitions
      */
     public function getEnabledTransitions(object $subject, string $name = null): array
     {

@@ -14,7 +14,6 @@ namespace Symfony\Bundle\FrameworkBundle\Routing;
 use Symfony\Component\Config\Exception\LoaderLoadException;
 use Symfony\Component\Config\Loader\DelegatingLoader as BaseDelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
-use Symfony\Component\Routing\RouteCollection;
 
 /**
  * DelegatingLoader delegates route loading to other loaders using a loader resolver.
@@ -43,7 +42,7 @@ class DelegatingLoader extends BaseDelegatingLoader
     /**
      * {@inheritdoc}
      */
-    public function load($resource, string $type = null): RouteCollection
+    public function load($resource, string $type = null)
     {
         if ($this->loading) {
             // This can happen if a fatal error occurs in parent::load().

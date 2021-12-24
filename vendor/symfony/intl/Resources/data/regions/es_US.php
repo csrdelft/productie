@@ -3,7 +3,7 @@
 return [
     'Names' => [
         'BA' => 'Bosnia y Herzegovina',
-        'EH' => 'Sahara Occidental',
+        'CI' => 'Côte d’Ivoire',
         'GG' => 'Guernsey',
         'UM' => 'Islas menores alejadas de EE. UU.',
     ],
