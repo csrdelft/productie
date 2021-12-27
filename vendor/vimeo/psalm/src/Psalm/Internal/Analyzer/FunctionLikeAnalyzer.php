@@ -6,17 +6,19 @@ use PhpParser\Node\Expr\ArrowFunction;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
+use Psalm\CodeLocation;
 use Psalm\Codebase;
+use Psalm\Context;
 use Psalm\Internal\Analyzer\FunctionLike\ReturnTypeAnalyzer;
 use Psalm\Internal\Analyzer\FunctionLike\ReturnTypeCollector;
 use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
+use Psalm\Internal\DataFlow\DataFlowNode;
+use Psalm\Internal\FileManipulation\FunctionDocblockManipulator;
 use Psalm\Internal\Type\Comparator\TypeComparisonResult;
 use Psalm\Internal\Type\Comparator\UnionTypeComparator;
-use Psalm\CodeLocation;
-use Psalm\Context;
-use Psalm\Internal\FileManipulation\FunctionDocblockManipulator;
 use Psalm\Issue\InvalidDocblockParamName;
 use Psalm\Issue\InvalidParamDefault;
+use Psalm\Issue\MethodSignatureMismatch;
 use Psalm\Issue\MismatchingDocblockParamType;
 use Psalm\Issue\MissingClosureParamType;
 use Psalm\Issue\MissingParamType;
@@ -27,23 +29,21 @@ use Psalm\Issue\UnusedClosureParam;
 use Psalm\Issue\UnusedParam;
 use Psalm\IssueBuffer;
 use Psalm\Plugin\EventHandler\Event\AfterFunctionLikeAnalysisEvent;
-use Psalm\StatementsSource;
 use Psalm\Storage\FunctionLikeStorage;
+use Psalm\Storage\FunctionStorage;
 use Psalm\Storage\MethodStorage;
 use Psalm\Type;
 use Psalm\Type\Atomic\TNamedObject;
-use function md5;
-use function strtolower;
-use function array_merge;
+
 use function array_key_exists;
-use function substr;
-use function strpos;
-use function array_search;
 use function array_keys;
+use function array_merge;
+use function array_search;
 use function end;
-use Psalm\Internal\DataFlow\DataFlowNode;
-use Psalm\Issue\MethodSignatureMismatch;
-use Psalm\Storage\FunctionStorage;
+use function md5;
+use function strpos;
+use function strtolower;
+use function substr;
 
 /**
  * @internal
@@ -134,6 +134,8 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
      * @param bool          $add_mutations  whether or not to add mutations to this method
      *
      * @return false|null
+     *
+     * @psalm-suppress PossiblyUnusedReturnValue unused but seems important
      */
     public function analyze(
         Context $context,
@@ -196,6 +198,9 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
         ] = $function_information;
 
         $this->suppressed_issues = $this->getSource()->getSuppressedIssues() + $storage->suppressed_issues;
+        if ($appearing_class_storage) {
+            $this->suppressed_issues += $appearing_class_storage->suppressed_issues;
+        }
 
         if ($storage instanceof MethodStorage && $storage->is_static) {
             $this->is_static = true;
@@ -497,7 +502,7 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
             $this->function->getStmts() ?: [],
             null,
             $codebase->config->exit_functions,
-            $context->break_types
+            []
         );
 
         if ($final_actions !== [ScopeAnalyzer::ACTION_END]) {
@@ -541,7 +546,7 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
                 $this->source->getFQCLN(),
                 $storage->return_type_location,
                 $context->has_returned,
-                $global_context && $global_context->inside_call
+                $global_context && ($global_context->inside_call || $global_context->inside_return)
             );
 
             $closure_yield_types = [];
@@ -624,10 +629,13 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
                     $context->self,
                     $context->calling_method_id,
                     $statements_analyzer->getSuppressedIssues(),
-                    false,
-                    false,
-                    true,
-                    true
+                    new ClassLikeNameOptions(
+                        false,
+                        false,
+                        true,
+                        true,
+                        true
+                    )
                 )) {
                     $input_type = new Type\Union([new TNamedObject($expected_exception)]);
                     $container_type = new Type\Union([new TNamedObject('Exception'), new TNamedObject('Throwable')]);
@@ -1618,16 +1626,6 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
         return [];
     }
 
-    public function getFQCLN(): ?string
-    {
-        return $this->source->getFQCLN();
-    }
-
-    public function getClassName(): ?string
-    {
-        return $this->source->getClassName();
-    }
-
     /**
      * @return array<string, array<string, Type\Union>>|null
      */
@@ -1639,16 +1637,6 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
         }
 
         return $this->storage->template_types;
-    }
-
-    public function getParentFQCLN(): ?string
-    {
-        return $this->source->getParentFQCLN();
-    }
-
-    public function getNodeTypeProvider() : \Psalm\NodeTypeProvider
-    {
-        return $this->source->getNodeTypeProvider();
     }
 
     public function isStatic(): bool
@@ -1834,10 +1822,6 @@ abstract class FunctionLikeAnalyzer extends SourceAnalyzer
             $cased_method_id = $fq_class_name . '::' . $storage->cased_name;
 
             $overridden_method_ids = $codebase->methods->getOverriddenMethodIds($method_id);
-
-            if ($this->function->name->name === '__construct') {
-                $context->inside_constructor = true;
-            }
 
             $codeLocation = new CodeLocation(
                 $this,

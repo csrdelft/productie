@@ -3,15 +3,9 @@ namespace Psalm\Internal\TypeVisitor;
 
 use Psalm\CodeLocation;
 use Psalm\Internal\Analyzer\ClassLikeAnalyzer;
+use Psalm\Internal\Analyzer\ClassLikeNameOptions;
 use Psalm\Internal\Type\Comparator\UnionTypeComparator;
 use Psalm\Internal\Type\TypeExpander;
-use Psalm\Storage\MethodStorage;
-use Psalm\Type\Atomic\TArray;
-use Psalm\Type\Atomic\TScalarClassConstant;
-use Psalm\Type\Atomic\TGenericObject;
-use Psalm\Type\Atomic\TNamedObject;
-use Psalm\Type\Atomic\TResource;
-use Psalm\Type\Atomic\TTemplateParam;
 use Psalm\Issue\DeprecatedClass;
 use Psalm\Issue\InvalidTemplateParam;
 use Psalm\Issue\MissingTemplateParam;
@@ -19,8 +13,16 @@ use Psalm\Issue\TooManyTemplateParams;
 use Psalm\Issue\UndefinedConstant;
 use Psalm\IssueBuffer;
 use Psalm\StatementsSource;
-use Psalm\Type\TypeNode;
+use Psalm\Storage\MethodStorage;
+use Psalm\Type\Atomic\TArray;
+use Psalm\Type\Atomic\TClassConstant;
+use Psalm\Type\Atomic\TGenericObject;
+use Psalm\Type\Atomic\TNamedObject;
+use Psalm\Type\Atomic\TResource;
+use Psalm\Type\Atomic\TTemplateParam;
 use Psalm\Type\NodeVisitor;
+use Psalm\Type\TypeNode;
+
 use function strtolower;
 
 class TypeChecker extends NodeVisitor
@@ -103,7 +105,7 @@ class TypeChecker extends NodeVisitor
 
         if ($type instanceof TNamedObject) {
             $this->checkNamedObject($type);
-        } elseif ($type instanceof TScalarClassConstant) {
+        } elseif ($type instanceof TClassConstant) {
             $this->checkScalarClassConstant($type);
         } elseif ($type instanceof TTemplateParam) {
             $this->checkTemplateParam($type);
@@ -155,7 +157,8 @@ class TypeChecker extends NodeVisitor
         ) {
             $codebase->file_reference_provider->addMethodReferenceToClassMember(
                 $this->calling_method_id,
-                'use:' . $atomic->text . ':' . \md5($this->source->getFilePath())
+                'use:' . $atomic->text . ':' . \md5($this->source->getFilePath()),
+                false
             );
         }
 
@@ -167,10 +170,7 @@ class TypeChecker extends NodeVisitor
                 $this->source->getFQCLN(),
                 $this->calling_method_id,
                 $this->suppressed_issues,
-                $this->inferred,
-                false,
-                true,
-                $atomic->from_docblock
+                new ClassLikeNameOptions($this->inferred, false, true, true, $atomic->from_docblock)
             ) === false
         ) {
             $this->has_errors = true;
@@ -291,7 +291,7 @@ class TypeChecker extends NodeVisitor
         }
     }
 
-    public function checkScalarClassConstant(TScalarClassConstant $atomic) : void
+    public function checkScalarClassConstant(TClassConstant $atomic) : void
     {
         $fq_classlike_name = $atomic->fq_classlike_name === 'self'
             ? $this->source->getClassName()
@@ -308,10 +308,7 @@ class TypeChecker extends NodeVisitor
             null,
             null,
             $this->suppressed_issues,
-            $this->inferred,
-            false,
-            true,
-            $atomic->from_docblock
+            new ClassLikeNameOptions($this->inferred, false, true, true, $atomic->from_docblock)
         ) === false
         ) {
             $this->has_errors = true;
@@ -358,7 +355,7 @@ class TypeChecker extends NodeVisitor
     public function checkTemplateParam(\Psalm\Type\Atomic\TTemplateParam $atomic) : void
     {
         if ($this->prevent_template_covariance
-            && \substr($atomic->defining_class, 0, 3) !== 'fn-'
+            && \strpos($atomic->defining_class, 'fn-') !== 0
         ) {
             $codebase = $this->source->getCodebase();
 

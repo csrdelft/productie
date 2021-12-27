@@ -1,15 +1,16 @@
 <?php
 namespace Psalm\Report;
 
-use function count;
-use function implode;
 use Psalm\Config;
 use Psalm\Report;
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Output\BufferedOutput;
+
+use function count;
+use function implode;
 use function str_split;
 use function strlen;
 use function strtoupper;
-use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Output\BufferedOutput;
 
 class CompactReport extends Report
 {
@@ -31,7 +32,9 @@ class CompactReport extends Report
         foreach ($this->issues_data as $i => $issue_data) {
             if (!$this->show_info && $issue_data->severity === Config::REPORT_INFO) {
                 continue;
-            } elseif ($current_file === null || $current_file !== $issue_data->file_name) {
+            }
+
+            if ($current_file === null || $current_file !== $issue_data->file_name) {
                 // If we're processing a new file, then wrap up the last table and render it out.
                 if ($buffer !== null) {
                     $table->render();

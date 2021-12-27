@@ -2,44 +2,46 @@
 namespace Psalm\Internal\Analyzer\Statements\Block;
 
 use PhpParser;
-use Psalm\Codebase;
-use Psalm\Internal\Analyzer\ClassLikeAnalyzer;
-use Psalm\Internal\Analyzer\CommentAnalyzer;
-use Psalm\Internal\Analyzer\Statements\Expression\AssignmentAnalyzer;
-use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
-use Psalm\Internal\Analyzer\Statements\Expression\ExpressionIdentifier;
-use Psalm\Internal\Analyzer\Statements\Expression\Fetch\VariableFetchAnalyzer;
-use Psalm\Internal\Analyzer\Statements\Expression\Fetch\ArrayFetchAnalyzer;
-use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Internal\Type\Comparator\AtomicTypeComparator;
-use Psalm\Internal\FileManipulation\FileManipulationBuffer;
 use Psalm\CodeLocation;
+use Psalm\Codebase;
 use Psalm\Context;
 use Psalm\Exception\DocblockParseException;
+use Psalm\Internal\Analyzer\ClassLikeAnalyzer;
+use Psalm\Internal\Analyzer\ClassLikeNameOptions;
+use Psalm\Internal\Analyzer\CommentAnalyzer;
+use Psalm\Internal\Analyzer\Statements\Expression\AssignmentAnalyzer;
+use Psalm\Internal\Analyzer\Statements\Expression\ExpressionIdentifier;
+use Psalm\Internal\Analyzer\Statements\Expression\Fetch\ArrayFetchAnalyzer;
+use Psalm\Internal\Analyzer\Statements\Expression\Fetch\VariableFetchAnalyzer;
+use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
+use Psalm\Internal\Analyzer\StatementsAnalyzer;
+use Psalm\Internal\FileManipulation\FileManipulationBuffer;
+use Psalm\Internal\Scope\LoopScope;
+use Psalm\Internal\Type\Comparator\AtomicTypeComparator;
 use Psalm\Issue\ImpureMethodCall;
 use Psalm\Issue\InvalidDocblock;
 use Psalm\Issue\InvalidIterator;
 use Psalm\Issue\NullIterator;
+use Psalm\Issue\PossibleRawObjectIteration;
 use Psalm\Issue\PossiblyFalseIterator;
 use Psalm\Issue\PossiblyInvalidIterator;
 use Psalm\Issue\PossiblyNullIterator;
-use Psalm\Issue\PossibleRawObjectIteration;
 use Psalm\Issue\RawObjectIteration;
 use Psalm\Issue\UnnecessaryVarAnnotation;
 use Psalm\IssueBuffer;
-use Psalm\Internal\Scope\LoopScope;
 use Psalm\Node\Expr\VirtualMethodCall;
 use Psalm\Node\VirtualIdentifier;
 use Psalm\Type;
-use function is_string;
-use function in_array;
-use function array_merge;
+
 use function array_intersect_key;
-use function array_values;
-use function strtolower;
-use function array_map;
-use function array_search;
 use function array_keys;
+use function array_map;
+use function array_merge;
+use function array_search;
+use function array_values;
+use function in_array;
+use function is_string;
+use function strtolower;
 
 /**
  * @internal
@@ -91,6 +93,10 @@ class ForeachAnalyzer
 
         if ($stmt->valueVar instanceof PhpParser\Node\Expr\Variable && is_string($stmt->valueVar->name)) {
             $safe_var_ids['$' . $stmt->valueVar->name] = true;
+            $statements_analyzer->foreach_var_locations['$' . $stmt->valueVar->name][] = new CodeLocation(
+                $statements_analyzer,
+                $stmt->valueVar
+            );
         } elseif ($stmt->valueVar instanceof PhpParser\Node\Expr\List_) {
             foreach ($stmt->valueVar->items as $list_item) {
                 if (!$list_item) {
@@ -173,7 +179,7 @@ class ForeachAnalyzer
                                 . $var_comment->var_id . ' is unnecessary',
                             $type_location
                         ),
-                        [],
+                        $statements_analyzer->getSuppressedIssues(),
                         true
                     )) {
                         // fall through
@@ -188,12 +194,12 @@ class ForeachAnalyzer
             }
         }
 
-        $was_inside_use = $context->inside_use;
-        $context->inside_use = true;
+        $was_inside_general_use = $context->inside_general_use;
+        $context->inside_general_use = true;
         if (ExpressionAnalyzer::analyze($statements_analyzer, $stmt->expr, $context) === false) {
             return false;
         }
-        $context->inside_use = $was_inside_use;
+        $context->inside_general_use = $was_inside_general_use;
 
         $key_type = null;
         $value_type = null;
@@ -244,8 +250,8 @@ class ForeachAnalyzer
                 $foreach_context->branch_point ?: (int) $stmt->getAttribute('startFilePos');
         }
 
-        if ($stmt->keyVar && $stmt->keyVar instanceof PhpParser\Node\Expr\Variable && is_string($stmt->keyVar->name)) {
-            $key_type = $key_type ?: Type::getMixed();
+        if ($stmt->keyVar instanceof PhpParser\Node\Expr\Variable && is_string($stmt->keyVar->name)) {
+            $key_type = $key_type ?? Type::getMixed();
 
             AssignmentAnalyzer::analyze(
                 $statements_analyzer,
@@ -258,7 +264,7 @@ class ForeachAnalyzer
             );
         }
 
-        $value_type = $value_type ?: Type::getMixed();
+        $value_type = $value_type ?? Type::getMixed();
 
         if ($stmt->byRef) {
             $value_type->by_ref = true;
@@ -303,7 +309,7 @@ class ForeachAnalyzer
 
         $loop_scope->protected_var_ids = $context->protected_var_ids;
 
-        LoopAnalyzer::analyze(
+        if (LoopAnalyzer::analyze(
             $statements_analyzer,
             $stmt->stmts,
             [],
@@ -312,7 +318,9 @@ class ForeachAnalyzer
             $inner_loop_context,
             false,
             $always_non_empty_array
-        );
+        ) === false) {
+            return false;
+        }
 
         if (!$inner_loop_context) {
             throw new \UnexpectedValueException('There should be an inner loop context');
@@ -360,9 +368,12 @@ class ForeachAnalyzer
                 ),
                 $statements_analyzer->getSuppressedIssues()
             )) {
-                return false;
             }
-        } elseif ($iterator_type->isNullable() && !$iterator_type->ignore_nullable_issues) {
+
+            return false;
+        }
+
+        if ($iterator_type->isNullable() && !$iterator_type->ignore_nullable_issues) {
             if (IssueBuffer::accepts(
                 new PossiblyNullIterator(
                     'Cannot iterate over nullable var ' . $iterator_type,
@@ -370,9 +381,13 @@ class ForeachAnalyzer
                 ),
                 $statements_analyzer->getSuppressedIssues()
             )) {
-                return false;
+                // fall through
             }
-        } elseif ($iterator_type->isFalsable() && !$iterator_type->ignore_falsable_issues) {
+
+            return null;
+        }
+
+        if ($iterator_type->isFalsable() && !$iterator_type->ignore_falsable_issues) {
             if (IssueBuffer::accepts(
                 new PossiblyFalseIterator(
                     'Cannot iterate over falsable var ' . $iterator_type,
@@ -380,8 +395,10 @@ class ForeachAnalyzer
                 ),
                 $statements_analyzer->getSuppressedIssues()
             )) {
-                return false;
+                // fall through
             }
+
+            return null;
         }
 
         $has_valid_iterator = false;
@@ -434,26 +451,18 @@ class ForeachAnalyzer
                             ? new Type\Union([
                                 new Type\Atomic\TDependentListKey($list_var_id)
                             ])
-                            : Type::getInt(),
+                            : new Type\Union([new Type\Atomic\TIntRange(0, null)]),
                         $iterator_atomic_type->type_param
                     ]);
                 } elseif (!$iterator_atomic_type instanceof Type\Atomic\TNonEmptyArray) {
                     $always_non_empty_array = false;
                 }
 
-                if (!$value_type) {
-                    $value_type = clone $iterator_atomic_type->type_params[1];
-                } else {
-                    $value_type = Type::combineUnionTypes($value_type, $iterator_atomic_type->type_params[1]);
-                }
+                $value_type = Type::combineUnionTypes($value_type, clone $iterator_atomic_type->type_params[1]);
 
                 $key_type_part = $iterator_atomic_type->type_params[0];
 
-                if (!$key_type) {
-                    $key_type = $key_type_part;
-                } else {
-                    $key_type = Type::combineUnionTypes($key_type, $key_type_part);
-                }
+                $key_type = Type::combineUnionTypes($key_type, $key_type_part);
 
                 ArrayFetchAnalyzer::taintArrayFetch(
                     $statements_analyzer,
@@ -540,7 +549,7 @@ class ForeachAnalyzer
                             $intersection_value_type,
                             $value_type_part,
                             $codebase
-                        ) ?: Type::getMixed();
+                        ) ?? Type::getMixed();
                     }
 
                     if (!$intersection_key_type) {
@@ -550,7 +559,7 @@ class ForeachAnalyzer
                             $intersection_key_type,
                             $key_type_part,
                             $codebase
-                        ) ?: Type::getMixed();
+                        ) ?? Type::getMixed();
                     }
                 }
 
@@ -558,17 +567,8 @@ class ForeachAnalyzer
                     throw new \UnexpectedValueException('Should not happen');
                 }
 
-                if (!$value_type) {
-                    $value_type = $intersection_value_type;
-                } else {
-                    $value_type = Type::combineUnionTypes($value_type, $intersection_value_type);
-                }
-
-                if (!$key_type) {
-                    $key_type = $intersection_key_type;
-                } else {
-                    $key_type = Type::combineUnionTypes($key_type, $intersection_key_type);
-                }
+                $value_type = Type::combineUnionTypes($value_type, $intersection_value_type);
+                $key_type = Type::combineUnionTypes($key_type, $intersection_key_type);
 
                 ArrayFetchAnalyzer::taintArrayFetch(
                     $statements_analyzer,
@@ -609,7 +609,8 @@ class ForeachAnalyzer
                         new CodeLocation($statements_analyzer->getSource(), $expr),
                         $context->self,
                         $context->calling_method_id,
-                        $statements_analyzer->getSuppressedIssues()
+                        $statements_analyzer->getSuppressedIssues(),
+                        new ClassLikeNameOptions(true)
                     ) === false) {
                         return false;
                     }
@@ -739,23 +740,15 @@ class ForeachAnalyzer
             if ($iterator_atomic_type instanceof Type\Atomic\TNamedObject
                 && strtolower($iterator_atomic_type->value) === 'simplexmlelement'
             ) {
-                if ($value_type) {
-                    $value_type = Type::combineUnionTypes(
-                        $value_type,
-                        new Type\Union([clone $iterator_atomic_type])
-                    );
-                } else {
-                    $value_type = new Type\Union([clone $iterator_atomic_type]);
-                }
+                $value_type = Type::combineUnionTypes(
+                    $value_type,
+                    new Type\Union([clone $iterator_atomic_type])
+                );
 
-                if ($key_type) {
-                    $key_type = Type::combineUnionTypes(
-                        $key_type,
-                        Type::getString()
-                    );
-                } else {
-                    $key_type = Type::getString();
-                }
+                $key_type = Type::combineUnionTypes(
+                    $key_type,
+                    Type::getString()
+                );
             }
 
             if ($iterator_atomic_type instanceof Type\Atomic\TIterable
@@ -823,7 +816,7 @@ class ForeachAnalyzer
                         $statements_analyzer->removeSuppressedIssues(['PossiblyUndefinedMethod']);
                     }
 
-                    $iterator_class_type = $statements_analyzer->node_data->getType($fake_method_call) ?: null;
+                    $iterator_class_type = $statements_analyzer->node_data->getType($fake_method_call) ?? null;
 
                     $statements_analyzer->node_data = $old_data_provider;
 
@@ -898,17 +891,8 @@ class ForeachAnalyzer
                                 break;
                             }
 
-                            if (!$key_type) {
-                                $key_type = $key_type_part;
-                            } else {
-                                $key_type = Type::combineUnionTypes($key_type, $key_type_part);
-                            }
-
-                            if (!$value_type) {
-                                $value_type = $value_type_part;
-                            } else {
-                                $value_type = Type::combineUnionTypes($value_type, $value_type_part);
-                            }
+                            $key_type = Type::combineUnionTypes($key_type, $key_type_part);
+                            $value_type = Type::combineUnionTypes($value_type, $value_type_part);
                         }
                     }
                 } elseif ($codebase->classImplements(
@@ -938,19 +922,11 @@ class ForeachAnalyzer
                     );
 
                     if ($iterator_value_type && !$iterator_value_type->isMixed()) {
-                        if (!$value_type) {
-                            $value_type = $iterator_value_type;
-                        } else {
-                            $value_type = Type::combineUnionTypes($value_type, $iterator_value_type);
-                        }
+                        $value_type = Type::combineUnionTypes($value_type, $iterator_value_type);
                     }
 
                     if ($iterator_key_type && !$iterator_key_type->isMixed()) {
-                        if (!$key_type) {
-                            $key_type = $iterator_key_type;
-                        } else {
-                            $key_type = Type::combineUnionTypes($key_type, $iterator_key_type);
-                        }
+                        $key_type = Type::combineUnionTypes($key_type, $iterator_key_type);
                     }
                 }
 
@@ -982,21 +958,9 @@ class ForeachAnalyzer
             || ($iterator_atomic_type instanceof Type\Atomic\TGenericObject
                 && strtolower($iterator_atomic_type->value) === 'traversable')
         ) {
-            $value_type_part = $iterator_atomic_type->type_params[1];
+            $value_type = Type::combineUnionTypes($value_type, $iterator_atomic_type->type_params[1]);
+            $key_type = Type::combineUnionTypes($key_type, $iterator_atomic_type->type_params[0]);
 
-            if (!$value_type) {
-                $value_type = $value_type_part;
-            } else {
-                $value_type = Type::combineUnionTypes($value_type, $value_type_part);
-            }
-
-            $key_type_part = $iterator_atomic_type->type_params[0];
-
-            if (!$key_type) {
-                $key_type = $key_type_part;
-            } else {
-                $key_type = Type::combineUnionTypes($key_type, $key_type_part);
-            }
             return;
         }
 
@@ -1107,7 +1071,7 @@ class ForeachAnalyzer
             $statements_analyzer->removeSuppressedIssues(['PossiblyUndefinedMethod']);
         }
 
-        $iterator_class_type = $statements_analyzer->node_data->getType($fake_method_call) ?: null;
+        $iterator_class_type = $statements_analyzer->node_data->getType($fake_method_call) ?? null;
 
         $statements_analyzer->node_data = $old_data_provider;
 
@@ -1146,14 +1110,10 @@ class ForeachAnalyzer
 
             foreach ($extended_type->getAtomicTypes() as $extended_atomic_type) {
                 if (!$extended_atomic_type instanceof Type\Atomic\TTemplateParam) {
-                    if (!$return_type) {
-                        $return_type = $extended_type;
-                    } else {
-                        $return_type = Type::combineUnionTypes(
-                            $return_type,
-                            $extended_type
-                        );
-                    }
+                    $return_type = Type::combineUnionTypes(
+                        $return_type,
+                        $extended_type
+                    );
 
                     continue;
                 }
@@ -1168,14 +1128,10 @@ class ForeachAnalyzer
                 );
 
                 if ($candidate_type) {
-                    if (!$return_type) {
-                        $return_type = $candidate_type;
-                    } else {
-                        $return_type = Type::combineUnionTypes(
-                            $return_type,
-                            $candidate_type
-                        );
-                    }
+                    $return_type = Type::combineUnionTypes(
+                        $return_type,
+                        $candidate_type
+                    );
                 }
             }
 

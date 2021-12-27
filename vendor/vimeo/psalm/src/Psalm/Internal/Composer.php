@@ -7,6 +7,7 @@ use function getenv;
 use function pathinfo;
 use function substr;
 use function trim;
+
 use const PATHINFO_EXTENSION;
 
 /**
@@ -34,7 +35,7 @@ final class Composer
      */
     public static function getLockFilePath(string $root): string
     {
-        $composer_json_path = static::getJsonFilePath($root);
+        $composer_json_path = self::getJsonFilePath($root);
         return "json" === pathinfo($composer_json_path, PATHINFO_EXTENSION)
             ? substr($composer_json_path, 0, -4).'lock'
             : $composer_json_path . '.lock';

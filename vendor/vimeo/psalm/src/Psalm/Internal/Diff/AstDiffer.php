@@ -2,8 +2,9 @@
 declare(strict_types=1);
 namespace Psalm\Internal\Diff;
 
-use function array_reverse;
 use PhpParser;
+
+use function array_reverse;
 
 /**
  * Borrows from https://github.com/nikic/PHP-Parser/blob/master/lib/PhpParser/Internal/Differ.php
@@ -51,7 +52,6 @@ class AstDiffer
                 $body_change = false;
 
                 while ($x < $n && $y < $m && ($is_equal)($a[$x], $b[$y], $a_code, $b_code, $body_change)) {
-                    /** @var bool */
                     $bc[$x] = $body_change;
                     ++$x;
                     ++$y;

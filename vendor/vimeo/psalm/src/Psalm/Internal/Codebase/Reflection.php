@@ -1,7 +1,6 @@
 <?php
 namespace Psalm\Internal\Codebase;
 
-use function array_merge;
 use Psalm\Codebase;
 use Psalm\Internal\Analyzer\ClassLikeAnalyzer;
 use Psalm\Internal\Provider\ClassLikeStorageProvider;
@@ -10,6 +9,8 @@ use Psalm\Storage\FunctionStorage;
 use Psalm\Storage\MethodStorage;
 use Psalm\Storage\PropertyStorage;
 use Psalm\Type;
+
+use function array_merge;
 use function strtolower;
 
 /**
@@ -259,7 +260,7 @@ class Reflection
         $storage->is_static = $method->isStatic();
         $storage->abstract = $method->isAbstract();
         $storage->mutation_free = $storage->external_mutation_free
-            = $method_name_lc === '__construct' && $fq_class_name_lc === 'datetimezone';
+            = ($method_name_lc === '__construct' && $fq_class_name_lc === 'datetimezone');
 
         $class_storage->declaring_method_ids[$method_name_lc] = new \Psalm\Internal\MethodIdentifier(
             $declaring_class->name,
@@ -279,7 +280,7 @@ class Reflection
         $callables = InternalCallMapHandler::getCallablesFromCallMap($method_id);
 
         if ($callables && $callables[0]->params !== null && $callables[0]->return_type !== null) {
-            $storage->params = [];
+            $storage->setParams([]);
 
             foreach ($callables[0]->params as $param) {
                 if ($param->type) {
@@ -287,19 +288,18 @@ class Reflection
                 }
             }
 
-            $storage->params = $callables[0]->params;
+            $storage->setParams($callables[0]->params);
 
             $storage->return_type = $callables[0]->return_type;
             $storage->return_type->queueClassLikesForScanning($this->codebase);
         } else {
             $params = $method->getParameters();
 
-            $storage->params = [];
+            $storage->setParams([]);
 
             foreach ($params as $param) {
                 $param_array = $this->getReflectionParamData($param);
-                $storage->params[] = $param_array;
-                $storage->param_lookup[$param->name] = true;
+                $storage->addParam($param_array);
             }
         }
 
@@ -366,14 +366,14 @@ class Reflection
                 && $callmap_callable->params !== null
                 && $callmap_callable->return_type !== null
             ) {
-                $storage->params = $callmap_callable->params;
+                $storage->setParams($callmap_callable->params);
                 $storage->return_type = $callmap_callable->return_type;
             } else {
                 $reflection_params = $reflection_function->getParameters();
 
                 foreach ($reflection_params as $param) {
                     $param_obj = $this->getReflectionParamData($param);
-                    $storage->params[] = $param_obj;
+                    $storage->addParam($param_obj);
                 }
 
                 if ($reflection_return_type = $reflection_function->getReturnType()) {

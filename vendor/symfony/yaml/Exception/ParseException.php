@@ -44,7 +44,7 @@ class ParseException extends RuntimeException
     /**
      * Gets the snippet of code near the error.
      *
-     * @return string The snippet of code
+     * @return string
      */
     public function getSnippet()
     {
@@ -66,7 +66,7 @@ class ParseException extends RuntimeException
      *
      * This method returns null if a string is parsed.
      *
-     * @return string The filename
+     * @return string
      */
     public function getParsedFile()
     {
@@ -86,7 +86,7 @@ class ParseException extends RuntimeException
     /**
      * Gets the line where the error occurred.
      *
-     * @return int The file line
+     * @return int
      */
     public function getParsedLine()
     {
@@ -108,7 +108,7 @@ class ParseException extends RuntimeException
         $this->message = $this->rawMessage;
 
         $dot = false;
-        if (str_ends_with($this->message, '.')) {
+        if ('.' === substr($this->message, -1)) {
             $this->message = substr($this->message, 0, -1);
             $dot = true;
         }

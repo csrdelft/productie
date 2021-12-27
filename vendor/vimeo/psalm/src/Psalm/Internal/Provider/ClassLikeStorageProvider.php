@@ -1,8 +1,9 @@
 <?php
 namespace Psalm\Internal\Provider;
 
-use function array_merge;
 use Psalm\Storage\ClassLikeStorage;
+
+use function array_merge;
 use function strtolower;
 
 /**
@@ -52,7 +53,7 @@ class ClassLikeStorageProvider
         return isset(self::$storage[$fq_classlike_name_lc]);
     }
 
-    public function exhume(string $fq_classlike_name, ?string $file_path, ?string $file_contents): ClassLikeStorage
+    public function exhume(string $fq_classlike_name, string $file_path, string $file_contents): ClassLikeStorage
     {
         $fq_classlike_name_lc = strtolower($fq_classlike_name);
 

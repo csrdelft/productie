@@ -1,18 +1,19 @@
 <?php
 namespace Psalm\Internal\Provider\ReturnTypeProvider;
 
-use Psalm\Plugin\EventHandler\Event\FunctionReturnTypeProviderEvent;
-use function count;
-use function explode;
-use function in_array;
 use PhpParser;
 use Psalm\CodeLocation;
 use Psalm\Internal\Analyzer\Statements\Expression\CallAnalyzer;
-use Psalm\Internal\Type\Comparator\UnionTypeComparator;
 use Psalm\Internal\Codebase\InternalCallMapHandler;
+use Psalm\Internal\Type\Comparator\UnionTypeComparator;
 use Psalm\Issue\InvalidArgument;
 use Psalm\IssueBuffer;
+use Psalm\Plugin\EventHandler\Event\FunctionReturnTypeProviderEvent;
 use Psalm\Type;
+
+use function count;
+use function explode;
+use function in_array;
 use function strpos;
 use function strtolower;
 
@@ -216,7 +217,14 @@ class ArrayReduceReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functi
 
                             [$callable_fq_class_name, $method_name] = explode('::', $mapping_function_id_part);
 
-                            if (in_array($callable_fq_class_name, ['self', 'static', 'parent'], true)) {
+                            if (in_array($callable_fq_class_name, ['self', 'static'], true)) {
+                                $callable_fq_class_name = $statements_source->getFQCLN();
+                                if ($callable_fq_class_name === null) {
+                                    continue;
+                                }
+                            }
+
+                            if ($callable_fq_class_name === 'parent') {
                                 continue;
                             }
 
@@ -249,12 +257,7 @@ class ArrayReduceReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functi
                             $return_type = $codebase->methods->getMethodReturnType(
                                 $method_id,
                                 $self_class
-                            ) ?: Type::getMixed();
-
-                            $reduce_return_type = Type::combineUnionTypes(
-                                $reduce_return_type,
-                                $return_type
-                            );
+                            ) ?? Type::getMixed();
                         } else {
                             if (!$codebase->functions->functionExists(
                                 $statements_source,
@@ -272,12 +275,9 @@ class ArrayReduceReturnTypeProvider implements \Psalm\Plugin\EventHandler\Functi
                             );
 
                             $return_type = $function_storage->return_type ?: Type::getMixed();
-
-                            $reduce_return_type = Type::combineUnionTypes(
-                                $reduce_return_type,
-                                $return_type
-                            );
                         }
+
+                        $reduce_return_type = Type::combineUnionTypes($reduce_return_type, $return_type);
                     }
                 }
 

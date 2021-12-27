@@ -7,8 +7,9 @@ use Psalm\Type;
 use Psalm\Type\Atomic\TGenericObject;
 use Psalm\Type\Atomic\TIterable;
 use Psalm\Type\Atomic\TNamedObject;
-use function count;
+
 use function array_fill;
+use function count;
 
 /**
  * @internal
@@ -16,7 +17,7 @@ use function array_fill;
 class GenericTypeComparator
 {
     /**
-     * @param TGenericObject|Titerable $container_type_part
+     * @param TGenericObject|TIterable $container_type_part
      */
     public static function isContainedBy(
         Codebase $codebase,
@@ -161,9 +162,7 @@ class GenericTypeComparator
                 && !$container_param->hasTemplate()
                 && !$input_param->hasTemplate()
             ) {
-                if ($input_param->hasEmptyArray()
-                    || $input_param->hasLiteralValue()
-                ) {
+                if ($input_param->containsAnyLiteral()) {
                     if ($atomic_comparison_result) {
                         if (!$atomic_comparison_result->replacement_atomic_type) {
                             $atomic_comparison_result->replacement_atomic_type = clone $input_type_part;

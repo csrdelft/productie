@@ -2,16 +2,16 @@
 namespace Psalm\Internal\PluginManager;
 
 use DOMDocument;
-use function file_get_contents;
-use function file_put_contents;
 use Psalm\Config;
 use RuntimeException;
+
+use function file_get_contents;
+use function file_put_contents;
 use function strpos;
 use function substr;
 
 class ConfigFile
 {
-    public const NS = 'https://getpsalm.org/schema/config';
     /** @var string */
     private $path;
 
@@ -93,7 +93,7 @@ class ConfigFile
 
         $plugin_class_element = $config_xml->createElement('pluginClass');
         if ($plugin_class_element) {
-            $plugin_class_element->setAttribute('xmlns', self::NS);
+            $plugin_class_element->setAttribute('xmlns', Config::CONFIG_NAMESPACE);
             $plugin_class_element->setAttribute('class', $plugin_class);
             if ($plugins_element) {
                 $plugins_element->appendChild($plugin_class_element);

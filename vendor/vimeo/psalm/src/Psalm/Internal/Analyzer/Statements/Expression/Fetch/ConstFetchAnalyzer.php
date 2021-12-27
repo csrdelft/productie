@@ -3,22 +3,23 @@ namespace Psalm\Internal\Analyzer\Statements\Expression\Fetch;
 
 use PhpParser;
 use Psalm\Aliases;
+use Psalm\CodeLocation;
+use Psalm\Codebase;
+use Psalm\Context;
 use Psalm\Internal\Analyzer\ClassLikeAnalyzer;
 use Psalm\Internal\Analyzer\NamespaceAnalyzer;
-use Psalm\Internal\Analyzer\StatementsAnalyzer;
-use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Expression\SimpleTypeInferer;
-use Psalm\Codebase;
-use Psalm\CodeLocation;
-use Psalm\Context;
+use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
+use Psalm\Internal\Analyzer\StatementsAnalyzer;
 use Psalm\Issue\UndefinedConstant;
 use Psalm\IssueBuffer;
 use Psalm\Type;
+
 use function array_key_exists;
+use function array_pop;
+use function explode;
 use function implode;
 use function strtolower;
-use function explode;
-use function array_pop;
 
 /**
  * @internal
@@ -99,7 +100,7 @@ class ConstFetchAnalyzer
 
     public static function getGlobalConstType(
         Codebase $codebase,
-        ?string $fq_const_name,
+        string $fq_const_name,
         string $const_name
     ): ?Type\Union {
         if ($const_name === 'STDERR'
@@ -136,6 +137,9 @@ class ConstFetchAnalyzer
                 case 'PHP_VERSION':
                 case 'DIRECTORY_SEPARATOR':
                 case 'PATH_SEPARATOR':
+                case 'PHP_EOL':
+                    return Type::getNonEmptyString();
+
                 case 'PEAR_EXTENSION_DIR':
                 case 'PEAR_INSTALL_DIR':
                 case 'PHP_BINARY':
@@ -143,7 +147,6 @@ class ConstFetchAnalyzer
                 case 'PHP_CONFIG_FILE_PATH':
                 case 'PHP_CONFIG_FILE_SCAN_DIR':
                 case 'PHP_DATADIR':
-                case 'PHP_EOL':
                 case 'PHP_EXTENSION_DIR':
                 case 'PHP_EXTRA_VERSION':
                 case 'PHP_LIBDIR':
@@ -238,8 +241,8 @@ class ConstFetchAnalyzer
             return $file_storage_provider->get($constant_file_path)->constants[$fq_const_name];
         }
 
-        return ConstFetchAnalyzer::getGlobalConstType($codebase, $fq_const_name, $const_name)
-            ?? ConstFetchAnalyzer::getGlobalConstType($codebase, $const_name, $const_name);
+        return self::getGlobalConstType($codebase, $fq_const_name, $const_name)
+            ?? self::getGlobalConstType($codebase, $const_name, $const_name);
     }
 
     public static function setConstType(
@@ -294,7 +297,7 @@ class ConstFetchAnalyzer
             self::setConstType(
                 $statements_analyzer,
                 $const->name->name,
-                $statements_analyzer->node_data->getType($const->value) ?: Type::getMixed(),
+                $statements_analyzer->node_data->getType($const->value) ?? Type::getMixed(),
                 $context
             );
         }

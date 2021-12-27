@@ -1,16 +1,16 @@
 <?php
 namespace Psalm\Internal\PhpVisitor\Reflector;
 
-use function implode;
 use PhpParser;
 use Psalm\Aliases;
 use Psalm\Internal\Analyzer\ClassLikeAnalyzer;
+use Psalm\Internal\Codebase\Scanner as CodebaseScanner;
 use Psalm\Storage\ClassLikeStorage;
 use Psalm\Storage\FileStorage;
 use Psalm\Type;
-use function strtolower;
 
-use Psalm\Internal\Codebase\Scanner as CodebaseScanner;
+use function implode;
+use function strtolower;
 
 class TypeHintResolver
 {
@@ -44,11 +44,7 @@ class TypeHintResolver
                     $php_minor_version
                 );
 
-                if (!$type) {
-                    $type = $resolved_type;
-                } else {
-                    $type = Type::combineUnionTypes($resolved_type, $type);
-                }
+                $type = Type::combineUnionTypes($resolved_type, $type);
             }
 
             return $type;

@@ -2,24 +2,25 @@
 namespace Psalm\Internal\Analyzer\Statements\Expression\Call\Method;
 
 use PhpParser;
+use Psalm\CodeLocation;
+use Psalm\Codebase;
+use Psalm\Context;
+use Psalm\Internal\Analyzer\Statements\Expression\Call\FunctionCallReturnTypeFetcher;
+use Psalm\Internal\Analyzer\Statements\Expression\ExpressionIdentifier;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
 use Psalm\Internal\Codebase\InternalCallMapHandler;
-use Psalm\Internal\Analyzer\Statements\Expression\ExpressionIdentifier;
-use Psalm\Internal\Analyzer\Statements\Expression\Call\FunctionCallReturnTypeFetcher;
-use Psalm\Codebase;
-use Psalm\CodeLocation;
-use Psalm\Context;
+use Psalm\Internal\Codebase\TaintFlowGraph;
+use Psalm\Internal\DataFlow\DataFlowNode;
+use Psalm\Internal\DataFlow\TaintSource;
 use Psalm\Internal\MethodIdentifier;
 use Psalm\Internal\Type\TemplateBound;
-use Psalm\Internal\Type\TemplateResult;
 use Psalm\Internal\Type\TemplateInferredTypeReplacer;
+use Psalm\Internal\Type\TemplateResult;
+use Psalm\Plugin\EventHandler\Event\AddRemoveTaintsEvent;
 use Psalm\Type;
 use Psalm\Type\Atomic\TGenericObject;
+
 use function strtolower;
-use Psalm\Internal\DataFlow\TaintSource;
-use Psalm\Internal\DataFlow\DataFlowNode;
-use Psalm\Internal\Codebase\TaintFlowGraph;
-use Psalm\Plugin\EventHandler\Event\AddRemoveTaintsEvent;
 
 class MethodCallReturnTypeFetcher
 {
@@ -42,7 +43,7 @@ class MethodCallReturnTypeFetcher
         AtomicMethodCallAnalysisResult $result,
         TemplateResult $template_result
     ) : Type\Union {
-        $call_map_id = $declaring_method_id ?: $method_id;
+        $call_map_id = $declaring_method_id ?? $method_id;
 
         $fq_class_name = $method_id->fq_class_name;
         $method_name = $method_id->method_name;
@@ -52,7 +53,7 @@ class MethodCallReturnTypeFetcher
                 $statements_analyzer,
                 $premixin_method_id->fq_class_name,
                 $premixin_method_id->method_name,
-                $stmt->args,
+                $stmt,
                 $context,
                 new CodeLocation($statements_analyzer->getSource(), $stmt->name),
                 $lhs_type_part instanceof TGenericObject ? $lhs_type_part->type_params : null
@@ -72,7 +73,7 @@ class MethodCallReturnTypeFetcher
                     $statements_analyzer,
                     $declaring_fq_class_name,
                     $declaring_method_name,
-                    $stmt->args,
+                    $stmt,
                     $context,
                     new CodeLocation($statements_analyzer->getSource(), $stmt->name),
                     $lhs_type_part instanceof TGenericObject ? $lhs_type_part->type_params : null,
@@ -89,7 +90,7 @@ class MethodCallReturnTypeFetcher
         $class_storage = $codebase->methods->getClassLikeStorageForMethod($method_id);
 
         if (InternalCallMapHandler::inCallMap((string) $call_map_id)) {
-            if (($template_result->upper_bounds || $class_storage->stubbed)
+            if (($template_result->lower_bounds || $class_storage->stubbed)
                 && ($method_storage = ($class_storage->methods[$method_id->method_name] ?? null))
                 && $method_storage->return_type
             ) {
@@ -99,7 +100,7 @@ class MethodCallReturnTypeFetcher
                     $return_type_candidate,
                     $template_result,
                     $method_id,
-                    \count($stmt->args),
+                    \count($stmt->getArgs()),
                     $codebase
                 );
             } else {
@@ -140,7 +141,7 @@ class MethodCallReturnTypeFetcher
             if ($return_type_candidate) {
                 $return_type_candidate = clone $return_type_candidate;
 
-                if ($template_result->upper_bounds) {
+                if ($template_result->lower_bounds) {
                     $return_type_candidate = \Psalm\Internal\Type\TypeExpander::expandUnion(
                         $codebase,
                         $return_type_candidate,
@@ -159,7 +160,7 @@ class MethodCallReturnTypeFetcher
                     $return_type_candidate,
                     $template_result,
                     $method_id,
-                    \count($stmt->args),
+                    \count($stmt->getArgs()),
                     $codebase
                 );
 
@@ -513,7 +514,7 @@ class MethodCallReturnTypeFetcher
         );
     }
 
-    private static function replaceTemplateTypes(
+    public static function replaceTemplateTypes(
         Type\Union $return_type_candidate,
         TemplateResult $template_result,
         MethodIdentifier $method_id,
@@ -526,33 +527,51 @@ class MethodCallReturnTypeFetcher
             foreach ($bindable_template_types as $template_type) {
                 if ($template_type->defining_class !== $method_id->fq_class_name
                     && !isset(
-                        $template_result->upper_bounds
+                        $template_result->lower_bounds
                             [$template_type->param_name]
                             [$template_type->defining_class]
                     )
                 ) {
                     if ($template_type->param_name === 'TFunctionArgCount') {
-                        $template_result->upper_bounds[$template_type->param_name] = [
-                            'fn-' . strtolower((string) $method_id) => new TemplateBound(
-                                Type::getInt(false, $arg_count)
-                            )
+                        $template_result->lower_bounds[$template_type->param_name] = [
+                            'fn-' . strtolower((string) $method_id) => [
+                                new TemplateBound(
+                                    Type::getInt(false, $arg_count)
+                                )
+                            ]
                         ];
                     } elseif ($template_type->param_name === 'TPhpMajorVersion') {
-                        $template_result->upper_bounds[$template_type->param_name] = [
-                            'fn-' . strtolower((string) $method_id) => new TemplateBound(
-                                Type::getInt(false, $codebase->php_major_version)
-                            )
+                        $template_result->lower_bounds[$template_type->param_name] = [
+                            'fn-' . strtolower((string) $method_id) => [
+                                new TemplateBound(
+                                    Type::getInt(false, $codebase->php_major_version)
+                                )
+                            ]
+                        ];
+                    } elseif ($template_type->param_name === 'TPhpVersionId') {
+                        $template_result->lower_bounds[$template_type->param_name] = [
+                            'fn-' . strtolower((string) $method_id) => [
+                                new TemplateBound(
+                                    Type::getInt(
+                                        false,
+                                        10000 * $codebase->php_major_version
+                                        + 100 * $codebase->php_minor_version
+                                    )
+                                )
+                            ]
                         ];
                     } else {
-                        $template_result->upper_bounds[$template_type->param_name] = [
-                            ($template_type->defining_class) => new TemplateBound(Type::getEmpty())
+                        $template_result->lower_bounds[$template_type->param_name] = [
+                            ($template_type->defining_class) => [
+                                new TemplateBound(Type::getEmpty())
+                            ]
                         ];
                     }
                 }
             }
         }
 
-        if ($template_result->upper_bounds) {
+        if ($template_result->lower_bounds) {
             $return_type_candidate = \Psalm\Internal\Type\TypeExpander::expandUnion(
                 $codebase,
                 $return_type_candidate,

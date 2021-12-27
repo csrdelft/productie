@@ -2,10 +2,9 @@
 namespace Psalm\Issue;
 
 use Psalm\CodeLocation;
-use Psalm\Config;
-use function explode;
-use function get_called_class;
+
 use function array_pop;
+use function explode;
 
 abstract class CodeIssue
 {
@@ -38,7 +37,7 @@ abstract class CodeIssue
     }
 
     /**
-     * @deprecated
+     * @deprecated going to be removed in Psalm 5
      * @psalm-suppress PossiblyUnusedMethod
      */
     public function getLocation(): CodeLocation
@@ -69,7 +68,7 @@ abstract class CodeIssue
     }
 
     /**
-     * @deprecated
+     * @deprecated going to be removed in Psalm 5
      * @psalm-suppress PossiblyUnusedMethod for convenience
      */
     public function getFileName(): string
@@ -78,7 +77,7 @@ abstract class CodeIssue
     }
 
     /**
-     * @deprecated
+     * @deprecated going to be removed in Psalm 5
      * @psalm-suppress PossiblyUnusedMethod
      */
     public function getMessage(): string
@@ -86,13 +85,13 @@ abstract class CodeIssue
         return $this->message;
     }
 
-    public function toIssueData(string $severity = Config::REPORT_ERROR): \Psalm\Internal\Analyzer\IssueData
+    public function toIssueData(string $severity): \Psalm\Internal\Analyzer\IssueData
     {
         $location = $this->code_location;
         $selection_bounds = $location->getSelectionBounds();
         $snippet_bounds = $location->getSnippetBounds();
 
-        $fqcn_parts = explode('\\', get_called_class());
+        $fqcn_parts = explode('\\', static::class);
         $issue_type = array_pop($fqcn_parts);
 
         return new \Psalm\Internal\Analyzer\IssueData(
@@ -120,8 +119,7 @@ abstract class CodeIssue
                 ? [
                     TaintedInput::nodeToDataFlowNodeData(
                         $origin_location,
-                        'The type of ' . $location->getSelectedText() . ' is sourced from here',
-                        ''
+                        'The type of ' . $location->getSelectedText() . ' is sourced from here'
                     )
                 ]
                 : null,

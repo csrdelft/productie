@@ -1,11 +1,12 @@
 <?php
 namespace Psalm\Type\Atomic;
 
-use function implode;
 use Psalm\Codebase;
 use Psalm\Internal\Type\TemplateResult;
 use Psalm\Type\Union;
+
 use function array_map;
+use function implode;
 
 /**
  * denotes a template parameter that has been previously specified in a `@template` tag.
@@ -99,7 +100,7 @@ class TTemplateParam extends \Psalm\Type\Atomic
                 $namespace,
                 $aliased_classes,
                 $this_class,
-                $use_phpdoc_format
+                true
             );
         }
 
@@ -107,7 +108,7 @@ class TTemplateParam extends \Psalm\Type\Atomic
             $namespace,
             $aliased_classes,
             $this_class,
-            $use_phpdoc_format
+            false
         );
 
         return $this->param_name . $intersection_types;

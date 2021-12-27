@@ -2,6 +2,12 @@
 namespace Psalm\Internal\Analyzer;
 
 use PhpParser;
+use Psalm\CodeLocation;
+use Psalm\Codebase;
+use Psalm\Context;
+use Psalm\DocComment;
+use Psalm\Exception\DocblockParseException;
+use Psalm\FileManipulation;
 use Psalm\Internal\Analyzer\Statements\Block\DoAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Block\ForAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Block\ForeachAnalyzer;
@@ -9,8 +15,8 @@ use Psalm\Internal\Analyzer\Statements\Block\IfElseAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Block\SwitchAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Block\TryAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Block\WhileAnalyzer;
-use Psalm\Internal\Analyzer\Statements\Expression\AssignmentAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Expression\Assignment\InstancePropertyAssignmentAnalyzer;
+use Psalm\Internal\Analyzer\Statements\Expression\AssignmentAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Expression\Fetch\ClassConstFetchAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Expression\Fetch\ConstFetchAnalyzer;
 use Psalm\Internal\Analyzer\Statements\Expression\Fetch\VariableFetchAnalyzer;
@@ -18,18 +24,12 @@ use Psalm\Internal\Analyzer\Statements\Expression\SimpleTypeInferer;
 use Psalm\Internal\Analyzer\Statements\ExpressionAnalyzer;
 use Psalm\Internal\Analyzer\Statements\ReturnAnalyzer;
 use Psalm\Internal\Analyzer\Statements\ThrowAnalyzer;
-use Psalm\Internal\Scanner\ParsedDocblock;
 use Psalm\Internal\Codebase\DataFlowGraph;
 use Psalm\Internal\Codebase\TaintFlowGraph;
 use Psalm\Internal\Codebase\VariableUseGraph;
 use Psalm\Internal\DataFlow\DataFlowNode;
-use Psalm\Codebase;
-use Psalm\CodeLocation;
-use Psalm\Context;
-use Psalm\DocComment;
-use Psalm\Exception\DocblockParseException;
-use Psalm\FileManipulation;
 use Psalm\Internal\FileManipulation\FileManipulationBuffer;
+use Psalm\Internal\Scanner\ParsedDocblock;
 use Psalm\Issue\ComplexFunction;
 use Psalm\Issue\ComplexMethod;
 use Psalm\Issue\InvalidDocblock;
@@ -38,26 +38,30 @@ use Psalm\Issue\Trace;
 use Psalm\Issue\UndefinedTrace;
 use Psalm\Issue\UnevaluatedCode;
 use Psalm\Issue\UnrecognizedStatement;
+use Psalm\Issue\UnusedForeachValue;
 use Psalm\Issue\UnusedVariable;
 use Psalm\IssueBuffer;
 use Psalm\Plugin\EventHandler\Event\AfterStatementAnalysisEvent;
 use Psalm\Type;
-use function strtolower;
-use function fwrite;
-use const STDERR;
-use function array_filter;
-use function array_merge;
-use function preg_split;
-use function get_class;
-use function strrpos;
-use function strlen;
-use function substr;
+
 use function array_change_key_case;
-use function trim;
 use function array_column;
 use function array_combine;
 use function array_keys;
+use function array_merge;
+use function fwrite;
+use function get_class;
+use function preg_split;
 use function round;
+use function strlen;
+use function strpos;
+use function strrpos;
+use function strtolower;
+use function substr;
+use function trim;
+
+use const PREG_SPLIT_NO_EMPTY;
+use const STDERR;
 
 /**
  * @internal
@@ -114,18 +118,28 @@ class StatementsAnalyzer extends SourceAnalyzer
     /**
      * @var ParsedDocblock|null
      */
-    private $parsed_docblock = null;
+    private $parsed_docblock;
 
     /**
      * @var ?string
      */
-    private $fake_this_class = null;
+    private $fake_this_class;
 
     /** @var \Psalm\Internal\Provider\NodeDataProvider */
     public $node_data;
 
     /** @var ?DataFlowGraph */
     public $data_flow_graph;
+
+    /**
+     * Locations of foreach values
+     *
+     * Used to discern ordinary UnusedVariables from UnusedForeachValues
+     *
+     * @var array<string, list<CodeLocation>>
+     * @psalm-internal Psalm\Internal\Analyzer
+     */
+    public $foreach_var_locations = [];
 
     public function __construct(SourceAnalyzer $source, \Psalm\Internal\Provider\NodeDataProvider $node_data)
     {
@@ -181,7 +195,7 @@ class StatementsAnalyzer extends SourceAnalyzer
             && $context->check_variables
         ) {
             //var_dump($this->data_flow_graph);
-            $this->checkUnreferencedVars($stmts);
+            $this->checkUnreferencedVars($stmts, $context);
         }
 
         if ($codebase->alter_code && $root_scope && $this->vars_to_initialize) {
@@ -276,7 +290,7 @@ class StatementsAnalyzer extends SourceAnalyzer
                             $const->value,
                             $statements_analyzer->getAliases(),
                             $statements_analyzer
-                        ) ?: Type::getMixed(),
+                        ) ?? Type::getMixed(),
                         $context
                     );
                 }
@@ -284,10 +298,10 @@ class StatementsAnalyzer extends SourceAnalyzer
                 && $stmt->expr instanceof PhpParser\Node\Expr\FuncCall
                 && $stmt->expr->name instanceof PhpParser\Node\Name
                 && $stmt->expr->name->parts === ['define']
-                && isset($stmt->expr->args[1])
+                && isset($stmt->expr->getArgs()[1])
             ) {
                 $const_name = ConstFetchAnalyzer::getConstName(
-                    $stmt->expr->args[0]->value,
+                    $stmt->expr->getArgs()[0]->value,
                     $statements_analyzer->node_data,
                     $codebase,
                     $statements_analyzer->getAliases()
@@ -300,10 +314,10 @@ class StatementsAnalyzer extends SourceAnalyzer
                         Statements\Expression\SimpleTypeInferer::infer(
                             $codebase,
                             $statements_analyzer->node_data,
-                            $stmt->expr->args[1]->value,
+                            $stmt->expr->getArgs()[1]->value,
                             $statements_analyzer->getAliases(),
                             $statements_analyzer
-                        ) ?: Type::getMixed(),
+                        ) ?? Type::getMixed(),
                         $context
                     );
                 }
@@ -329,7 +343,11 @@ class StatementsAnalyzer extends SourceAnalyzer
             && !$context->collect_initializations
             && !$context->collect_mutations
             && !($stmt instanceof PhpParser\Node\Stmt\Nop)
-            && !($stmt instanceof PhpParser\Node\Stmt\InlineHTML)
+            && !($stmt instanceof PhpParser\Node\Stmt\Function_)
+            && !($stmt instanceof PhpParser\Node\Stmt\Class_)
+            && !($stmt instanceof PhpParser\Node\Stmt\Interface_)
+            && !($stmt instanceof PhpParser\Node\Stmt\Trait_)
+            && !($stmt instanceof PhpParser\Node\Stmt\HaltCompiler)
         ) {
             if ($codebase->find_unused_variables) {
                 if (IssueBuffer::accepts(
@@ -339,7 +357,7 @@ class StatementsAnalyzer extends SourceAnalyzer
                     ),
                     $statements_analyzer->source->getSuppressedIssues()
                 )) {
-                    return false;
+                    return null;
                 }
             }
 
@@ -364,12 +382,14 @@ class StatementsAnalyzer extends SourceAnalyzer
 
             if (isset($statements_analyzer->parsed_docblock->tags['psalm-trace'])) {
                 foreach ($statements_analyzer->parsed_docblock->tags['psalm-trace'] as $traced_variable_line) {
-                    $possible_traced_variable_names = preg_split('/[\s]+/', $traced_variable_line);
+                    $possible_traced_variable_names = preg_split(
+                        '/(?:\s*,\s*|\s+)/',
+                        $traced_variable_line,
+                        -1,
+                        PREG_SPLIT_NO_EMPTY
+                    );
                     if ($possible_traced_variable_names) {
-                        $traced_variables = array_merge(
-                            $traced_variables,
-                            array_filter($possible_traced_variable_names)
-                        );
+                        $traced_variables = array_merge($traced_variables, $possible_traced_variable_names);
                     }
                 }
             }
@@ -389,7 +409,7 @@ class StatementsAnalyzer extends SourceAnalyzer
 
                     foreach ($suppressed as $offset => $suppress_entry) {
                         foreach (DocComment::parseSuppressList($suppress_entry) as $issue_offset => $issue_type) {
-                            $new_issues[$issue_offset + $offset + $docblock->getStartFilePos()] = $issue_type;
+                            $new_issues[$issue_offset + $offset] = $issue_type;
 
                             if ($issue_type === 'InaccessibleMethod') {
                                 continue;
@@ -398,7 +418,7 @@ class StatementsAnalyzer extends SourceAnalyzer
                             if ($codebase->track_unused_suppressions) {
                                 IssueBuffer::addUnusedSuppression(
                                     $statements_analyzer->getFilePath(),
-                                    $issue_offset + $offset + $docblock->getStartFilePos(),
+                                    $issue_offset + $offset,
                                     $issue_type
                                 );
                             }
@@ -495,7 +515,9 @@ class StatementsAnalyzer extends SourceAnalyzer
                 return false;
             }
         } elseif ($stmt instanceof PhpParser\Node\Stmt\Do_) {
-            DoAnalyzer::analyze($statements_analyzer, $stmt, $context);
+            if (DoAnalyzer::analyze($statements_analyzer, $stmt, $context) === false) {
+                return false;
+            }
         } elseif ($stmt instanceof PhpParser\Node\Stmt\Const_) {
             ConstFetchAnalyzer::analyzeConstAssignment($statements_analyzer, $stmt, $context);
         } elseif ($stmt instanceof PhpParser\Node\Stmt\Unset_) {
@@ -544,7 +566,7 @@ class StatementsAnalyzer extends SourceAnalyzer
                 $class_analyzer = new ClassAnalyzer(
                     $stmt,
                     $statements_analyzer->source,
-                    $stmt->name ? $stmt->name->name : null
+                    $stmt->name->name ?? null
                 );
 
                 $class_analyzer->analyze(null, $global_context);
@@ -688,7 +710,7 @@ class StatementsAnalyzer extends SourceAnalyzer
     /**
      * @param  array<PhpParser\Node\Stmt>   $stmts
      */
-    public function checkUnreferencedVars(array $stmts): void
+    public function checkUnreferencedVars(array $stmts, Context $context): void
     {
         $source = $this->getSource();
         $codebase = $source->getCodebase();
@@ -742,7 +764,7 @@ class StatementsAnalyzer extends SourceAnalyzer
         }
 
         foreach ($this->unused_var_locations as [$var_id, $original_location]) {
-            if (substr($var_id, 0, 2) === '$_') {
+            if (strpos($var_id, '$_') === 0) {
                 continue;
             }
 
@@ -763,16 +785,36 @@ class StatementsAnalyzer extends SourceAnalyzer
             $assignment_node = DataFlowNode::getForAssignment($var_id, $original_location);
 
             if (!isset($this->byref_uses[$var_id])
+                && !isset($context->vars_from_global[$var_id])
                 && !VariableFetchAnalyzer::isSuperGlobal($var_id)
                 && $this->data_flow_graph instanceof VariableUseGraph
                 && !$this->data_flow_graph->isVariableUsed($assignment_node)
             ) {
-                $issue = new UnusedVariable(
-                    $var_id . ' is never referenced or the value is not used',
-                    $original_location
-                );
+                $is_foreach_var = false;
+
+                if (isset($this->foreach_var_locations[$var_id])) {
+                    foreach ($this->foreach_var_locations[$var_id] as $location) {
+                        if ($location->raw_file_start === $original_location->raw_file_start) {
+                            $is_foreach_var = true;
+                            break;
+                        }
+                    }
+                }
+
+                if ($is_foreach_var) {
+                    $issue = new UnusedForeachValue(
+                        $var_id . ' is never referenced or the value is not used',
+                        $original_location
+                    );
+                } else {
+                    $issue = new UnusedVariable(
+                        $var_id . ' is never referenced or the value is not used',
+                        $original_location
+                    );
+                }
 
                 if ($codebase->alter_code
+                    && $issue instanceof UnusedVariable
                     && !$unused_var_remover->checkIfVarRemoved($var_id, $original_location)
                     && isset($project_analyzer->getIssuesToFix()['UnusedVariable'])
                     && !IssueBuffer::isSuppressed($issue, $this->getSuppressedIssues())
@@ -789,7 +831,7 @@ class StatementsAnalyzer extends SourceAnalyzer
                 if (IssueBuffer::accepts(
                     $issue,
                     $this->getSuppressedIssues(),
-                    true
+                    $issue instanceof UnusedVariable
                 )) {
                     // fall through
                 }
@@ -878,12 +920,12 @@ class StatementsAnalyzer extends SourceAnalyzer
      */
     public function getFirstAppearance(string $var_id): ?CodeLocation
     {
-        return isset($this->all_vars[$var_id]) ? $this->all_vars[$var_id] : null;
+        return $this->all_vars[$var_id] ?? null;
     }
 
     public function getBranchPoint(string $var_id): ?int
     {
-        return isset($this->var_branch_points[$var_id]) ? $this->var_branch_points[$var_id] : null;
+        return $this->var_branch_points[$var_id] ?? null;
     }
 
     public function addVariableInitialization(string $var_id, int $branch_point): void

@@ -4,19 +4,20 @@ namespace Psalm\Internal\Analyzer;
 use PhpParser;
 use Psalm\CodeLocation;
 use Psalm\Context;
+use Psalm\Internal\DataFlow\DataFlowNode;
 use Psalm\Issue\DuplicateParam;
 use Psalm\Issue\PossiblyUndefinedVariable;
 use Psalm\Issue\UndefinedVariable;
 use Psalm\IssueBuffer;
-use Psalm\Internal\DataFlow\DataFlowNode;
 use Psalm\Type;
 use Psalm\Type\Atomic\TNamedObject;
-use function strpos;
-use function is_string;
-use function in_array;
-use function strtolower;
+
 use function array_map;
+use function in_array;
+use function is_string;
 use function preg_match;
+use function strpos;
+use function strtolower;
 
 /**
  * @internal
@@ -129,7 +130,7 @@ class ClosureAnalyzer extends FunctionLikeAnalyzer
 
                 // insert the ref into the current context if passed by ref, as whatever we're passing
                 // the closure to could execute it straight away.
-                if (!$context->hasVariable($use_var_id) && $use->byRef) {
+                if ($use->byRef && !$context->hasVariable($use_var_id)) {
                     $context->vars_in_scope[$use_var_id] = Type::getMixed();
                 }
 

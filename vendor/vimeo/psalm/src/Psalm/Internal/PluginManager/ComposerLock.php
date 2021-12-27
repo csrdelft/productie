@@ -1,6 +1,8 @@
 <?php
 namespace Psalm\Internal\PluginManager;
 
+use RuntimeException;
+
 use function array_merge;
 use function file_get_contents;
 use function is_array;
@@ -8,7 +10,6 @@ use function is_string;
 use function json_decode;
 use function json_last_error;
 use function json_last_error_msg;
-use RuntimeException;
 
 class ComposerLock
 {
@@ -24,7 +25,7 @@ class ComposerLock
     /**
      * @param mixed $package
      *
-     * @psalm-assert-if-true array $package
+     * @psalm-assert-if-true array{name: string, extra: array{psalm: array{pluginClass: string}}} $package
      *
      * @psalm-pure
      */
@@ -77,7 +78,6 @@ class ComposerLock
         /** @psalm-suppress MixedAssignment */
         foreach ($packages as $package) {
             if ($this->isPlugin($package)) {
-                /** @var array{name:string,extra:array{psalm:array{pluginClass:string}}} */
                 $ret[] = $package;
             }
         }

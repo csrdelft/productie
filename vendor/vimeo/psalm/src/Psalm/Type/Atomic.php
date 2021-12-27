@@ -1,33 +1,31 @@
 <?php
 namespace Psalm\Type;
 
-use function array_filter;
-use function array_keys;
-use function get_class;
-use function is_numeric;
 use Psalm\Codebase;
 use Psalm\Internal\Analyzer\StatementsAnalyzer;
 use Psalm\Internal\Type\TemplateResult;
 use Psalm\Internal\Type\TypeAlias;
 use Psalm\Type;
-use Psalm\Type\Atomic\TKeyedArray;
 use Psalm\Type\Atomic\TArray;
 use Psalm\Type\Atomic\TArrayKey;
 use Psalm\Type\Atomic\TAssertionFalsy;
 use Psalm\Type\Atomic\TBool;
 use Psalm\Type\Atomic\TCallable;
 use Psalm\Type\Atomic\TCallableArray;
+use Psalm\Type\Atomic\TCallableKeyedArray;
 use Psalm\Type\Atomic\TCallableList;
 use Psalm\Type\Atomic\TCallableObject;
-use Psalm\Type\Atomic\TCallableKeyedArray;
 use Psalm\Type\Atomic\TCallableString;
+use Psalm\Type\Atomic\TClassConstant;
 use Psalm\Type\Atomic\TClassString;
 use Psalm\Type\Atomic\TEmpty;
+use Psalm\Type\Atomic\TEmptyScalar;
 use Psalm\Type\Atomic\TFalse;
 use Psalm\Type\Atomic\TFloat;
 use Psalm\Type\Atomic\THtmlEscapedString;
 use Psalm\Type\Atomic\TInt;
 use Psalm\Type\Atomic\TIterable;
+use Psalm\Type\Atomic\TKeyedArray;
 use Psalm\Type\Atomic\TList;
 use Psalm\Type\Atomic\TLiteralClassString;
 use Psalm\Type\Atomic\TLiteralString;
@@ -36,6 +34,8 @@ use Psalm\Type\Atomic\TNamedObject;
 use Psalm\Type\Atomic\TNever;
 use Psalm\Type\Atomic\TNonEmptyArray;
 use Psalm\Type\Atomic\TNonEmptyList;
+use Psalm\Type\Atomic\TNonEmptyMixed;
+use Psalm\Type\Atomic\TNonEmptyScalar;
 use Psalm\Type\Atomic\TNull;
 use Psalm\Type\Atomic\TNumeric;
 use Psalm\Type\Atomic\TNumericString;
@@ -43,16 +43,19 @@ use Psalm\Type\Atomic\TObject;
 use Psalm\Type\Atomic\TPositiveInt;
 use Psalm\Type\Atomic\TResource;
 use Psalm\Type\Atomic\TScalar;
-use Psalm\Type\Atomic\TScalarClassConstant;
 use Psalm\Type\Atomic\TString;
 use Psalm\Type\Atomic\TTemplateParam;
 use Psalm\Type\Atomic\TTraitString;
 use Psalm\Type\Atomic\TTrue;
 use Psalm\Type\Atomic\TTypeAlias;
 use Psalm\Type\Atomic\TVoid;
+
+use function array_filter;
+use function array_keys;
+use function get_class;
+use function is_numeric;
 use function strpos;
 use function strtolower;
-use function substr;
 
 abstract class Atomic implements TypeNode
 {
@@ -88,9 +91,9 @@ abstract class Atomic implements TypeNode
     public $text;
 
     /**
-     * @param  array{int,int}|null   $php_version
-     * @param  array<string, array<string, Union>> $template_type_map
-     * @param  array<string, TypeAlias> $type_aliases
+     * @param array{int,int}|null $php_version contains php version when the type comes from signature
+     * @param array<string, array<string, Union>> $template_type_map
+     * @param array<string, TypeAlias> $type_aliases
      */
     public static function create(
         string $value,
@@ -241,6 +244,9 @@ abstract class Atomic implements TypeNode
             case 'callable-object':
                 return new TCallableObject();
 
+            case 'stringable-object':
+                return new Type\Atomic\TObjectWithProperties([], ['__tostring' => 'string']);
+
             case 'class-string':
             case 'interface-string':
                 return new TClassString();
@@ -257,14 +263,32 @@ abstract class Atomic implements TypeNode
             case 'html-escaped-string':
                 return new THtmlEscapedString();
 
+            case 'literal-string':
+                return new Type\Atomic\TNonspecificLiteralString();
+
+            case 'non-empty-literal-string':
+                return new Type\Atomic\TNonEmptyNonspecificLiteralString();
+
+            case 'literal-int':
+                return new Type\Atomic\TNonspecificLiteralInt();
+
             case 'false-y':
                 return new TAssertionFalsy();
 
             case '$this':
                 return new TNamedObject('static');
+
+            case 'non-empty-scalar':
+                return new TNonEmptyScalar;
+
+            case 'empty-scalar':
+                return new TEmptyScalar;
+
+            case 'non-empty-mixed':
+                return new TNonEmptyMixed();
         }
 
-        if (strpos($value, '-') && substr($value, 0, 4) !== 'OCI-') {
+        if (strpos($value, '-') && strpos($value, 'OCI-') !== 0) {
             throw new \Psalm\Exception\TypeParseTreeException('Unrecognized type ' . $value);
         }
 
@@ -471,7 +495,7 @@ abstract class Atomic implements TypeNode
             }
         }
 
-        if ($this instanceof TScalarClassConstant) {
+        if ($this instanceof TClassConstant) {
             if (strtolower($this->fq_classlike_name) === $old) {
                 $this->fq_classlike_name = $new;
             }
@@ -593,7 +617,7 @@ abstract class Atomic implements TypeNode
         ?string $calling_class = null,
         ?string $calling_function = null,
         bool $replace = true,
-        bool $add_upper_bound = false,
+        bool $add_lower_bound = false,
         int $depth = 0
     ) : self {
         return $this;
@@ -606,7 +630,7 @@ abstract class Atomic implements TypeNode
         // do nothing
     }
 
-    public function equals(Atomic $other_type): bool
+    public function equals(Atomic $other_type, bool $ensure_source_equality): bool
     {
         return get_class($other_type) === get_class($this);
     }
