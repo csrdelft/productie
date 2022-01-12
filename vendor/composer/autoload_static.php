@@ -4,22 +4,14 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitabaa427e39fd8a36e762252940689f16
+class ComposerStaticInit1789b734abfebd8c162ff58b56a97ac2
 {
     public static $files = array (
-        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
-        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        'e8aa6e4b5a1db2f56ae794f1505391a8' => __DIR__ . '/..' . '/amphp/amp/lib/functions.php',
-        '76cd0796156622033397994f25b0d8fc' => __DIR__ . '/..' . '/amphp/amp/lib/Internal/functions.php',
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
-        '6cd5651c4fef5ed6b63e8d8b8ffbf3cc' => __DIR__ . '/..' . '/amphp/byte-stream/lib/functions.php',
-        'dc51568953534d6c54b08731e61104e2' => __DIR__ . '/..' . '/vimeo/psalm/src/functions.php',
-        '8e4171839e12546525126d38dac3dafa' => __DIR__ . '/..' . '/vimeo/psalm/src/spl_object_id.php',
-        '23c18046f52bef3eea034657bafda50f' => __DIR__ . '/..' . '/symfony/polyfill-php81/bootstrap.php',
-        '6a47392539ca2329373e0d33e1dba053' => __DIR__ . '/..' . '/symfony/polyfill-intl-icu/bootstrap.php',
-        '53c7be3308b5aa229d03a4dfcf6ca18d' => __DIR__ . '/..' . '/symfony/intl/Resources/functions.php',
         'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
@@ -27,10 +19,18 @@ class ComposerStaticInitabaa427e39fd8a36e762252940689f16
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
+        '23c18046f52bef3eea034657bafda50f' => __DIR__ . '/..' . '/symfony/polyfill-php81/bootstrap.php',
+        'e8aa6e4b5a1db2f56ae794f1505391a8' => __DIR__ . '/..' . '/amphp/amp/lib/functions.php',
+        '76cd0796156622033397994f25b0d8fc' => __DIR__ . '/..' . '/amphp/amp/lib/Internal/functions.php',
+        '6a47392539ca2329373e0d33e1dba053' => __DIR__ . '/..' . '/symfony/polyfill-intl-icu/bootstrap.php',
+        '53c7be3308b5aa229d03a4dfcf6ca18d' => __DIR__ . '/..' . '/symfony/intl/Resources/functions.php',
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
+        '6cd5651c4fef5ed6b63e8d8b8ffbf3cc' => __DIR__ . '/..' . '/amphp/byte-stream/lib/functions.php',
+        'dc51568953534d6c54b08731e61104e2' => __DIR__ . '/..' . '/vimeo/psalm/src/functions.php',
+        '8e4171839e12546525126d38dac3dafa' => __DIR__ . '/..' . '/vimeo/psalm/src/spl_object_id.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
-        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '7e9bd612cc444b3eed788ebbe46263a0' => __DIR__ . '/..' . '/laminas/laminas-zendframework-bridge/src/autoload.php',
+        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '9c67151ae59aff4788964ce8eb2a0f43' => __DIR__ . '/..' . '/clue/stream-filter/src/functions_include.php',
         '8cff32064859f4559445b89279f3199c' => __DIR__ . '/..' . '/php-http/message/src/filters.php',
@@ -43,8 +43,8 @@ class ComposerStaticInitabaa427e39fd8a36e762252940689f16
         '1f87db08236948d07391152dccb70f04' => __DIR__ . '/..' . '/google/apiclient-services/autoload.php',
         '241d2bc730dc592f76425fee315639b6' => __DIR__ . '/..' . '/globalcitizen/php-iban/oophp-iban.php',
         'ac2da84b5f360a33c0c760ac23936bfb' => __DIR__ . '/..' . '/globalcitizen/php-iban/php-iban.php',
-        'b45b351e6b6f7487d819961fef2fda77' => __DIR__ . '/..' . '/jakeasmith/http_build_url/src/http_build_url.php',
         'a8d3953fd9959404dd22d3dfcd0a79f0' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
+        'b45b351e6b6f7487d819961fef2fda77' => __DIR__ . '/..' . '/jakeasmith/http_build_url/src/http_build_url.php',
         'a3f2be845066769516b886f5549e88a7' => __DIR__ . '/../..' . '/lib/common/common.functions.php',
         '598410c4d4c0d7251ebf739136022718' => __DIR__ . '/../..' . '/lib/common/common.view.functions.php',
     );
@@ -574,8 +574,8 @@ class ComposerStaticInitabaa427e39fd8a36e762252940689f16
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -1029,6 +1029,15 @@ class ComposerStaticInitabaa427e39fd8a36e762252940689f16
         'Composer\\XdebugHandler\\Process' => __DIR__ . '/..' . '/composer/xdebug-handler/src/Process.php',
         'Composer\\XdebugHandler\\Status' => __DIR__ . '/..' . '/composer/xdebug-handler/src/Status.php',
         'Composer\\XdebugHandler\\XdebugHandler' => __DIR__ . '/..' . '/composer/xdebug-handler/src/XdebugHandler.php',
+        'CsrDelft\\Component\\DataTable\\AbstractDataTableType' => __DIR__ . '/../..' . '/lib/Component/DataTable/AbstractDataTableType.php',
+        'CsrDelft\\Component\\DataTable\\CustomDataTableEntry' => __DIR__ . '/../..' . '/lib/Component/DataTable/CustomDataTableEntry.php',
+        'CsrDelft\\Component\\DataTable\\DataTableBuilder' => __DIR__ . '/../..' . '/lib/Component/DataTable/DataTableBuilder.php',
+        'CsrDelft\\Component\\DataTable\\DataTableEntry' => __DIR__ . '/../..' . '/lib/Component/DataTable/DataTableEntry.php',
+        'CsrDelft\\Component\\DataTable\\DataTableFactory' => __DIR__ . '/../..' . '/lib/Component/DataTable/DataTableFactory.php',
+        'CsrDelft\\Component\\DataTable\\DataTableInstance' => __DIR__ . '/../..' . '/lib/Component/DataTable/DataTableInstance.php',
+        'CsrDelft\\Component\\DataTable\\DataTableTypeInterface' => __DIR__ . '/../..' . '/lib/Component/DataTable/DataTableTypeInterface.php',
+        'CsrDelft\\Component\\DataTable\\DataTableView' => __DIR__ . '/../..' . '/lib/Component/DataTable/DataTableView.php',
+        'CsrDelft\\Component\\DataTable\\RemoveDataTableEntry' => __DIR__ . '/../..' . '/lib/Component/DataTable/RemoveDataTableEntry.php',
         'CsrDelft\\Component\\Form\\Type\\BbTextType' => __DIR__ . '/../..' . '/lib/Component/Form/Type/BbTextType.php',
         'CsrDelft\\Component\\Form\\Type\\DateDisplayType' => __DIR__ . '/../..' . '/lib/Component/Form/Type/DateDisplayType.php',
         'CsrDelft\\Component\\Formulier\\FormulierBuilder' => __DIR__ . '/../..' . '/lib/Component/Formulier/FormulierBuilder.php',
@@ -1145,9 +1154,6 @@ class ComposerStaticInitabaa427e39fd8a36e762252940689f16
         'CsrDelft\\common\\Serializer\\Normalizer\\RemoveDataTableEntryNormalizer' => __DIR__ . '/../..' . '/lib/common/Serializer/Normalizer/RemoveDataTableEntryNormalizer.php',
         'CsrDelft\\common\\ShutdownHandler' => __DIR__ . '/../..' . '/lib/common/ShutdownHandler.php',
         'CsrDelft\\common\\SimpleSpamFilter' => __DIR__ . '/../..' . '/lib/common/SimpleSpamFilter.php',
-        'CsrDelft\\common\\datatable\\CustomDataTableEntry' => __DIR__ . '/../..' . '/lib/common/datatable/CustomDataTableEntry.php',
-        'CsrDelft\\common\\datatable\\DataTableEntry' => __DIR__ . '/../..' . '/lib/common/datatable/DataTableEntry.php',
-        'CsrDelft\\common\\datatable\\RemoveDataTableEntry' => __DIR__ . '/../..' . '/lib/common/datatable/RemoveDataTableEntry.php',
         'CsrDelft\\common\\instellingen\\InstellingConfiguration' => __DIR__ . '/../..' . '/lib/common/instellingen/InstellingConfiguration.php',
         'CsrDelft\\common\\instellingen\\InstellingType' => __DIR__ . '/../..' . '/lib/common/instellingen/InstellingType.php',
         'CsrDelft\\common\\yaml\\YamlFileLoader' => __DIR__ . '/../..' . '/lib/common/yaml/YamlFileLoader.php',
@@ -1695,7 +1701,6 @@ class ComposerStaticInitabaa427e39fd8a36e762252940689f16
         'CsrDelft\\view\\fiscaat\\pin\\PinBestellingInfoForm' => __DIR__ . '/../..' . '/lib/view/fiscaat/pin/PinBestellingInfoForm.php',
         'CsrDelft\\view\\fiscaat\\pin\\PinBestellingVeranderenForm' => __DIR__ . '/../..' . '/lib/view/fiscaat/pin/PinBestellingVeranderenForm.php',
         'CsrDelft\\view\\fiscaat\\pin\\PinTransactieMatchNegerenForm' => __DIR__ . '/../..' . '/lib/view/fiscaat/pin/PinTransactieMatchNegerenForm.php',
-        'CsrDelft\\view\\fiscaat\\pin\\PinTransactieMatchTable' => __DIR__ . '/../..' . '/lib/view/fiscaat/pin/PinTransactieMatchTable.php',
         'CsrDelft\\view\\fiscaat\\producten\\CiviProductForm' => __DIR__ . '/../..' . '/lib/view/fiscaat/producten/CiviProductForm.php',
         'CsrDelft\\view\\fiscaat\\producten\\CiviProductSuggestiesResponse' => __DIR__ . '/../..' . '/lib/view/fiscaat/producten/CiviProductSuggestiesResponse.php',
         'CsrDelft\\view\\fiscaat\\producten\\CiviProductTable' => __DIR__ . '/../..' . '/lib/view/fiscaat/producten/CiviProductTable.php',
@@ -1914,6 +1919,7 @@ class ComposerStaticInitabaa427e39fd8a36e762252940689f16
         'CsrDelft\\view\\response\\VcardResponse' => __DIR__ . '/../..' . '/lib/view/response/VcardResponse.php',
         'CsrDelft\\view\\roodschopper\\RoodschopperForm' => __DIR__ . '/../..' . '/lib/view/roodschopper/RoodschopperForm.php',
         'CsrDelft\\view\\streeplijst\\StreeplijstForm' => __DIR__ . '/../..' . '/lib/view/streeplijst/StreeplijstForm.php',
+        'CsrDelft\\view\\table\\PinTransactieMatchTableType' => __DIR__ . '/../..' . '/lib/view/table/PinTransactieMatchTableType.php',
         'CsrDelft\\view\\toestemming\\ToestemmingLijstResponse' => __DIR__ . '/../..' . '/lib/view/toestemming/ToestemmingLijstResponse.php',
         'CsrDelft\\view\\toestemming\\ToestemmingLijstTable' => __DIR__ . '/../..' . '/lib/view/toestemming/ToestemmingLijstTable.php',
         'CsrDelft\\view\\toestemming\\ToestemmingModalForm' => __DIR__ . '/../..' . '/lib/view/toestemming/ToestemmingModalForm.php',
@@ -23799,10 +23805,10 @@ class ComposerStaticInitabaa427e39fd8a36e762252940689f16
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitabaa427e39fd8a36e762252940689f16::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitabaa427e39fd8a36e762252940689f16::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitabaa427e39fd8a36e762252940689f16::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitabaa427e39fd8a36e762252940689f16::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit1789b734abfebd8c162ff58b56a97ac2::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit1789b734abfebd8c162ff58b56a97ac2::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit1789b734abfebd8c162ff58b56a97ac2::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit1789b734abfebd8c162ff58b56a97ac2::$classMap;
 
         }, null, ClassLoader::class);
     }
