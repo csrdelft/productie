@@ -9,8 +9,15 @@
  * file that was distributed with this source code.
  */
 
-if (\PHP_VERSION_ID < 70300) {
-    class JsonException extends Exception
-    {
-    }
+namespace Symfony\Component\Security\Core\Role;
+
+/**
+ * Allows migrating session payloads from v4.
+ *
+ * @internal
+ */
+class SwitchUserRole extends Role
+{
+    private $deprecationTriggered;
+    private $source;
 }
