@@ -187,12 +187,12 @@ final class Versions
   'twig/cssinliner-extra' => 'v3.3.4@a6065b23645282e1c81d847cf0c7f0211d22b682',
   'twig/extra-bundle' => 'v3.3.4@1fe52d84aa22b7891c7717ef904b1551c8d70100',
   'twig/intl-extra' => 'v3.3.4@a0bdab97a1cf5ccc944c70aee1d2f2602db64d16',
-  'twig/twig' => 'v3.3.4@65cb6f0b956485e1664f13d023c55298a4bb59ca',
+  'twig/twig' => 'v3.3.8@972d8604a92b7054828b539f2febb0211dd5945c',
   'vimeo/psalm' => '4.13.1@5cf660f63b548ccd4a56f62d916ee4d6028e01a3',
   'webmozart/assert' => '1.10.0@6964c76c7804814a842473e0c8fd15bab0f18e25',
   'webmozart/path-util' => '2.3.0@d939f7edc24c9a1bb9c0dee5cb05d8e859490725',
   'zumba/json-serializer' => '3.0.1@d91d5a22bbbacbb1d6ad23302137a90e9a7dafd5',
-  'csr/csrdelft.nl' => 'dev-master@a9d812f21e629cebbf9385ef12813ae10abcd92e',
+  'csr/csrdelft.nl' => 'dev-master@feef941be400ef9a2448ae2c6aa76fd48e58791a',
 );
 
     private function __construct()

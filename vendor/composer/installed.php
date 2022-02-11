@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'a9d812f21e629cebbf9385ef12813ae10abcd92e',
+        'reference' => 'feef941be400ef9a2448ae2c6aa76fd48e58791a',
         'name' => 'csr/csrdelft.nl',
         'dev' => false,
     ),
@@ -108,7 +108,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'a9d812f21e629cebbf9385ef12813ae10abcd92e',
+            'reference' => 'feef941be400ef9a2448ae2c6aa76fd48e58791a',
             'dev_requirement' => false,
         ),
         'csrdelft/bb' => array(
@@ -1538,12 +1538,12 @@
             'dev_requirement' => false,
         ),
         'twig/twig' => array(
-            'pretty_version' => 'v3.3.4',
-            'version' => '3.3.4.0',
+            'pretty_version' => 'v3.3.8',
+            'version' => '3.3.8.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../twig/twig',
             'aliases' => array(),
-            'reference' => '65cb6f0b956485e1664f13d023c55298a4bb59ca',
+            'reference' => '972d8604a92b7054828b539f2febb0211dd5945c',
             'dev_requirement' => false,
         ),
         'vimeo/psalm' => array(
