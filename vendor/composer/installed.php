@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'feef941be400ef9a2448ae2c6aa76fd48e58791a',
+        'reference' => 'e11ed618097a8e5555dabd9ecd816097d767ce35',
         'name' => 'csr/csrdelft.nl',
         'dev' => false,
     ),
@@ -108,7 +108,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'feef941be400ef9a2448ae2c6aa76fd48e58791a',
+            'reference' => 'e11ed618097a8e5555dabd9ecd816097d767ce35',
             'dev_requirement' => false,
         ),
         'csrdelft/bb' => array(
@@ -820,8 +820,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0.0 || 2.0.0 || 3.0.0',
-                1 => '1.0|2.0',
+                0 => '1.0|2.0',
+                1 => '1.0.0 || 2.0.0 || 3.0.0',
             ),
         ),
         'psr/simple-cache-implementation' => array(
