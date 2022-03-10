@@ -1,2 +1,0 @@
-(self.webpackChunk=self.webpackChunk||[]).push([[2932],{2932:(e,t,o)=>{"use strict";async function c(e){navigator.clipboard?await navigator.clipboard.writeText(e):function(e){const t=document.createElement("textarea");t.value=e,t.style.top="0",t.style.left="0",t.style.position="fixed",document.body.appendChild(t),t.focus(),t.select(),document.execCommand("copy"),document.body.removeChild(t)}(e)}o.r(t),o.d(t,{copyTextToClipboard:()=>c})}}]);
-//# sourceMappingURL=2932.49b98e442e894271f2a5.chunk.js.map
