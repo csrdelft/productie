@@ -494,8 +494,8 @@
             "integrity": "sha256-nk5Y1dwe4HZicAf+8yhpaFfe29LmKFZyx5Lb0Gbut4Q= sha384-N1KvqorqAZjx5MlKTyArNXE3YLbcBqhH4mr4gQDAK2qDQqlkTtGRk1SBFXk+WNqH sha512-e1pB5yPE7/bvNo4Y5FIGOnTi8ZQZmxWy12gUSgNgrQPG4lGxqhXoGD/HMfl+iDpd5mo2MvEYdw23AUUwgPJyeQ=="
           },
           {
-            "src": "css/thema-sineregno.0cc2f9cc2ffe042c2d73.css",
-            "integrity": "sha256-A3Rouj4sfYeoyzxuh4YwZO5vAuuDmyC/LMvtH6IZivk= sha384-7M8qETuXLlfIycfrJlIgPRh/TzP5uWaxxyoXJOMQ2nS5aI6Ep+/huK+e/L3t+W8C sha512-BmMq+3xsDZcD4HgW18aZnatjnD8kTpLSkw+zutE5WFOzYqfTGuomwTh3ZtwGcXchLOO7d9F3llK8kiCeDt/ZJQ=="
+            "src": "css/thema-sineregno.41bc4f05581d605c8fd5.css",
+            "integrity": "sha256-7capyHcjrogEN4jW+1IeUqfSrZk4G4SZG02E1q2Kpkw= sha384-ckqfrGethWN/F/NiZdNu/v3BP9DZbVQFgx8Tyg0KcYYBOj5qjpb91dNnltDgThRz sha512-Rj5SnWEMoONSgPqxwTL6oTVXCLMJNdAEIvoGVsuxasI5gLLV0yzdlubD1mR4wsh33vJNoUMjVtBz7ZwcwYlY+g=="
           }
         ]
       }
@@ -615,9 +615,17 @@
     "src": "js/extern.39406eb4e802fc700091.bundle.js",
     "integrity": "sha256-hditq2xhiCZmXyOh7WVTsPUeRDSU8HSf+xskrr+HH4Q= sha384-+zssH36ukIfsqeiUOh11jx1iigxFhjWQTrH0C0Qs6UQhv02lEgOjCg6iREfTk2ei sha512-pw2tLbXxvULQJEtFZO3qOq2fz77xlfQ5oKNdEwnP7Y5f8YnyshZGOCsKlucBSMJXCR6eP8MgaH9o8BcpkAPXGg=="
   },
+  "fonts/28-Days-Later_1.woff": {
+    "src": "fonts/08fdd6e25ab27c9811b0.woff",
+    "integrity": "sha256-8hx65d9IASq6dHFFGqW2NSgRDaRZvcaL3DVIk3imgzI= sha384-Q2I50VvzY/SA94U/2Hvtv4fPONEhPRdS3Xacbxo5PO3/Szf4VCTF2YZ1RrNKtTdn sha512-Do+kR3CXh36b2fkcogypAvngCB5L2XTbTUbBtMGKMMhLTvBE0MdP9Qu5s1orpjReX0brEFvLfSNcmSqCsYodpw=="
+  },
   "fonts/Algol.woff": {
     "src": "fonts/89fa60fc801c3545521b.woff",
     "integrity": "sha256-op98rnQ7YpTh4Gwud8YmyaDGoCEy+4xckFWHUjX8v3g= sha384-uOc1mSHzmx4+FqZFebbo+wg/Lz9mOvSNXoMVOq6ksVh/rgyMaA78RaBZGFi/qA8M sha512-3hsmXxq2sIoB18l0jJ38p+o/S7WU/5QN/XsThmdO3n+8BAd2/FOGePXD0U/clwsKjZjgr4f/u7RJk0hec+Xjrw=="
+  },
+  "fonts/Apocalypse-Now.woff": {
+    "src": "fonts/4a567728bab1c8edd079.woff",
+    "integrity": "sha256-Gwmxh1zTioTWOBet9y0+m5FSkV+AVNvrtovClSaKKFY= sha384-i9t2hbzKRImXH1c+KOfXPPUVhGyq0UYrVvmVfUZXT1kw4Cf+S6yCMncr3PsbjDwn sha512-+kYz6vMQncyZhxV3BJ6QYZH8iuUTtNch/pnRliJsFhoBIXNHrQxVXeWvmerjqj8ZkJHj/KLsWScHZeZt7FiBPg=="
   },
   "fonts/ArkadelphiaRegular.ttf": {
     "src": "fonts/f4d75ec1c6bc71d8b639.ttf",
@@ -687,10 +695,6 @@
     "src": "fonts/972b642e35323937d113.otf",
     "integrity": "sha256-gu1B7tCxglTBu818Qxer+/pVrAVqXPYgBPVhwMRPc1w= sha384-aT2bgmcdekZDKtPncSwthtum7Q6vud7J0CU7B+iHPg6/8zsibpyzJLkJf4c1ovOT sha512-9gmndw6NTJGGfTlmirGqWjMs7GqGhgrOhnRu11tDWXhG6cKIc/m4/VquXICSycpLdqtlOx3+KxhGTAY+BvkOjw=="
   },
-  "fonts/Spongeboy-Me-Bob.woff": {
-    "src": "fonts/c7acf7228e5647fc13fe.woff",
-    "integrity": "sha256-3h0M7azwAYqBjQstuTQhruW07KrkqIn+PJ++/7/p/BI= sha384-TtpCQVGbxOfZ73UzA9OuygN9/f4BWV0k7/lgvah+GlQ5vT8xyBRQBPWBvgjOjolS sha512-QcIJGc1kseBRisTzhOEdGWTAkE8wKnJscMVZywVvQCurmVLqxFVxQxpYS+Ldu1uxEtPQTXEYiKOL4mPB6B15Wg=="
-  },
   "fonts/TCM.woff": {
     "src": "fonts/c98a56cc20e759a8efec.woff",
     "integrity": "sha256-ZpX1MtwmfJtzUdSo2hIzF/aGR8Lr//WrJLt9r3NvY5M= sha384-LWsad078aR5a0v/5jDca1HYsIDHlShzz4k5jLe+U4QeO8bPjZzu5msXPruRu4NqK sha512-ER6aptN+qp88D+/nMZt3Qnud7xtfpgnKb/Fi5JeYQLQUF8E/RA3k8N+CWO8lcFyd8HtnYP3o+qHt0S6CWTp38Q=="
@@ -706,10 +710,6 @@
   "fonts/UpperEastSide.ttf": {
     "src": "fonts/3d7091f8735e844f2a9d.ttf",
     "integrity": "sha256-C+n2nfAfb4tg2nMmR9eHRayahSVKttJzqhisUnlqQSY= sha384-PnTryFCLjGu+ty4bFwrdkuJuBLZ6zK5DEPnebe9Idb5SsaxcdUmuaijBI6EPjSE7 sha512-/4FPlZT81OE3Rrk6sfktmZexue2WT19f6isa3dedPv2KO7PacYNr33l2VAkMN2xOc3Y+0R61CulwawC5S3i/BQ=="
-  },
-  "fonts/caricature.woff": {
-    "src": "fonts/1b9e35791253708d57a3.woff",
-    "integrity": "sha256-iINdv7digucFrgdOdhuhteSdYW2TwLy8hiiOgG9wMaU= sha384-mT6qI6+Qri/urnQAv0MV64bGX911KdCdDDa2e7z4YfD1Ov2Py5brY0d3MkLKOUfq sha512-4NA9nTcW+IIxlIJb/eIqDfSDORTS09C7bi+Mk4WtH3CDzfRuyPw7/apFCg3E7Veqiaj4k2Tnzafn0cun7g4eAw=="
   },
   "fonts/fa-brands-400.eot": {
     "src": "fonts/140e875e1e58453221ad.eot",
@@ -1684,8 +1684,8 @@
     "integrity": "sha256-xE5P1H0S6BZxmZo0+viFbrH1QEoVIiPrCaxl2wqOPoM= sha384-F71dFvJ+xqC2EDNQgab3lQo4k4VecMwFH/17HcgCerN4DhHBDvayZBkhu2hZx/zP sha512-kwDS0y035ZMxy4cKNO6sty5lE4cCOO0XeTg5oHHY7WN1ViPnecjpgSldTfWh6wQBlakcaxGC6J8b9l4gJs4jZw=="
   },
   "thema-sineregno.css": {
-    "src": "css/thema-sineregno.0cc2f9cc2ffe042c2d73.css",
-    "integrity": "sha256-A3Rouj4sfYeoyzxuh4YwZO5vAuuDmyC/LMvtH6IZivk= sha384-7M8qETuXLlfIycfrJlIgPRh/TzP5uWaxxyoXJOMQ2nS5aI6Ep+/huK+e/L3t+W8C sha512-BmMq+3xsDZcD4HgW18aZnatjnD8kTpLSkw+zutE5WFOzYqfTGuomwTh3ZtwGcXchLOO7d9F3llK8kiCeDt/ZJQ=="
+    "src": "css/thema-sineregno.41bc4f05581d605c8fd5.css",
+    "integrity": "sha256-7capyHcjrogEN4jW+1IeUqfSrZk4G4SZG02E1q2Kpkw= sha384-ckqfrGethWN/F/NiZdNu/v3BP9DZbVQFgx8Tyg0KcYYBOj5qjpb91dNnltDgThRz sha512-Rj5SnWEMoONSgPqxwTL6oTVXCLMJNdAEIvoGVsuxasI5gLLV0yzdlubD1mR4wsh33vJNoUMjVtBz7ZwcwYlY+g=="
   },
   "zijbalk-scroll.js": {
     "src": "js/zijbalk-scroll.8ab881b8b171507aa163.bundle.js",
