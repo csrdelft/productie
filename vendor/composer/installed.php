@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'e11ed618097a8e5555dabd9ecd816097d767ce35',
+        'reference' => '74ea920c6b6c63d0cf7829e1e54912c8a7b69cc0',
         'name' => 'csr/csrdelft.nl',
         'dev' => false,
     ),
@@ -108,7 +108,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'e11ed618097a8e5555dabd9ecd816097d767ce35',
+            'reference' => '74ea920c6b6c63d0cf7829e1e54912c8a7b69cc0',
             'dev_requirement' => false,
         ),
         'csrdelft/bb' => array(
