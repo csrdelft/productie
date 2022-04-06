@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '74ea920c6b6c63d0cf7829e1e54912c8a7b69cc0',
+        'reference' => '381cc753658f7f28555dd516742286ccb30f90b7',
         'name' => 'csr/csrdelft.nl',
         'dev' => false,
     ),
@@ -108,7 +108,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '74ea920c6b6c63d0cf7829e1e54912c8a7b69cc0',
+            'reference' => '381cc753658f7f28555dd516742286ccb30f90b7',
             'dev_requirement' => false,
         ),
         'csrdelft/bb' => array(
@@ -415,15 +415,6 @@
             'install_path' => __DIR__ . '/../http-interop/http-factory-guzzle',
             'aliases' => array(),
             'reference' => '8f06e92b95405216b237521cc64c804dd44c4a81',
-            'dev_requirement' => false,
-        ),
-        'jakeasmith/http_build_url' => array(
-            'pretty_version' => '1.0.1',
-            'version' => '1.0.1.0',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../jakeasmith/http_build_url',
-            'aliases' => array(),
-            'reference' => '93c273e77cb1edead0cf8bcf8cd2003428e74e37',
             'dev_requirement' => false,
         ),
         'jean85/pretty-package-versions' => array(
@@ -820,8 +811,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
-                1 => '1.0.0 || 2.0.0 || 3.0.0',
+                0 => '1.0.0 || 2.0.0 || 3.0.0',
+                1 => '1.0|2.0',
             ),
         ),
         'psr/simple-cache-implementation' => array(
