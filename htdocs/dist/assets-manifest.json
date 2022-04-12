@@ -358,8 +358,8 @@
         ],
         "css": [
           {
-            "src": "css/extern-owee.4c9b2317a76c27610e0a.css",
-            "integrity": "sha256-phkyittmKf1p+pe7NCGVuHIwFNA2dBDwFP5Af9ewdgE= sha384-p+ubgXBaBDk1fxeqCwmZ2H/QgDxbtrloUPs80P7SKWeCZ+Oxk3Z6+L9ZHtzNCnGg sha512-4+xPyyOnK5ePIk8tIEpZHtmcppoWLoPUe24+nQHflYa8Az6PfEktG4WlmyO5d4ESOrdL6EYObps+umy4zy9wEg=="
+            "src": "css/extern-owee.e00677587929ebc95679.css",
+            "integrity": "sha256-wKzY+q9ZoCsEtrG3A+YbZScXq7MqCOws7zpqFUAjw/A= sha384-9pSSvQXZBfFf5cFCVqsqGqG6GEvoRfs1BDAJIyrS85PvxhZKHxTo7uuCqwtfDwks sha512-LmxnRBpq9nz+fAO3CHozPkUw5FA8wmtijrTFNmnvfj6McO1odgPad359S3xopSaf09eaYYyYmjtEM54xin8M3A=="
           }
         ]
       }
@@ -600,8 +600,8 @@
     "integrity": "sha256-gmyaNTS+jxi/CmRRZnkcD41qndXFYhnN2JGrSJMuXOo= sha384-qT6HBr/J66FH1G2T5ipjs3DAf+/76DIwH4pj+ohAbfMFrtrn6f9143n4uT4rJS99 sha512-jezeaKXnbN+ajboIuvTOBajKF+22wC2jcgOFBEA+VDELBncvFvHl4RCxu3aNnMAEX3Yg7UBN2D1OuXj0ZTddag=="
   },
   "extern-owee.css": {
-    "src": "css/extern-owee.4c9b2317a76c27610e0a.css",
-    "integrity": "sha256-phkyittmKf1p+pe7NCGVuHIwFNA2dBDwFP5Af9ewdgE= sha384-p+ubgXBaBDk1fxeqCwmZ2H/QgDxbtrloUPs80P7SKWeCZ+Oxk3Z6+L9ZHtzNCnGg sha512-4+xPyyOnK5ePIk8tIEpZHtmcppoWLoPUe24+nQHflYa8Az6PfEktG4WlmyO5d4ESOrdL6EYObps+umy4zy9wEg=="
+    "src": "css/extern-owee.e00677587929ebc95679.css",
+    "integrity": "sha256-wKzY+q9ZoCsEtrG3A+YbZScXq7MqCOws7zpqFUAjw/A= sha384-9pSSvQXZBfFf5cFCVqsqGqG6GEvoRfs1BDAJIyrS85PvxhZKHxTo7uuCqwtfDwks sha512-LmxnRBpq9nz+fAO3CHozPkUw5FA8wmtijrTFNmnvfj6McO1odgPad359S3xopSaf09eaYYyYmjtEM54xin8M3A=="
   },
   "extern-owee.js": {
     "src": "js/extern-owee.f32fab0d0a341c7636f8.bundle.js",
@@ -1010,10 +1010,6 @@
   "images/owee2021.svg": {
     "src": "images/3f0a3c4e487b57b1891c.svg",
     "integrity": "sha256-h23ULwcHKqoHpJhmKIeQM4LhdhUUHqlMPJtSClFHjS0= sha384-1u1jOYpr5aU6fL3VOws2rHZ94b/QJ3eTK+BWJfF20H+e3pdbLBUSJY6nau4QJRxy sha512-Odyo6mw7T2kRhSGPDAmNc5FLtdMP2L3Y9+YefUSinaMaYhEFE4vLWERwuesYw0wWVrBWKJfAUOrYf/d4jpm2rw=="
-  },
-  "images/owee2021bg.png": {
-    "src": "images/1451e78fc8101a32439c.png",
-    "integrity": "sha256-jzvlBlj6EYqEWft8p6ulfQotfRUlHFGFAH/6DEZa6T0= sha384-EYaUCRR/k/PzmlH6oyfuwrpXL7n6+abfcuvLsVK06hiON4RugiJiWzSLwgJH7Aam sha512-EmhIau5LxiDQZxusMB5JquG2QkL9eiVWzfy+MEjbSWRtfJJ9Vj/SC2ZdxvpwiNFOxm4jrFvbKIW1Hlktdh175w=="
   },
   "images/portal-break.png": {
     "src": "images/942eb606ecf64087b2db.png",
