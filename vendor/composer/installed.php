@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '1f32c2ef87a8e75b90a5838b872ea8a9506beeef',
+        'reference' => 'fb5b97b58cb353a22b9459ebe287ee007310621f',
         'name' => 'csr/csrdelft.nl',
         'dev' => false,
     ),
@@ -72,7 +72,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '1f32c2ef87a8e75b90a5838b872ea8a9506beeef',
+            'reference' => 'fb5b97b58cb353a22b9459ebe287ee007310621f',
             'dev_requirement' => false,
         ),
         'csrdelft/bb' => array(
@@ -337,12 +337,12 @@
             'dev_requirement' => false,
         ),
         'guzzlehttp/psr7' => array(
-            'pretty_version' => '1.8.3',
-            'version' => '1.8.3.0',
+            'pretty_version' => '1.8.5',
+            'version' => '1.8.5.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../guzzlehttp/psr7',
             'aliases' => array(),
-            'reference' => '1afdd860a2566ed3c2b0b4a3de6e23434a79ec85',
+            'reference' => '337e3ad8e5716c15f9657bd214d16cc5e69df268',
             'dev_requirement' => false,
         ),
         'http-interop/http-factory-guzzle' => array(
