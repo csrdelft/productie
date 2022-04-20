@@ -589,6 +589,16 @@
           }
         ]
       }
+    },
+    "lustrumreis": {
+      "assets": {
+        "css": [
+          {
+            "src": "css/lustrumreis.afa914d1466f7a378b8d.css",
+            "integrity": "sha256-2Gy300+/zlb7o0OL8EqLGosqTMEZZTX+/H/pPnnnzuM= sha384-Sb/BWdYBDauWhPx5xjxsr7GJLT5l36qtsiIm121ZMt+9iFZt1oc+7VP8bW7mi6g7 sha512-ty9cdcImQrrn7o3PdS3BUc8PIBwO6RGvrkqf1ilU8BH3Fke+q6hghVeQDH/fbCmrPZGdNfpVw/lBXwvUqfNrng=="
+          }
+        ]
+      }
     }
   },
   "extern-forum.css": {
@@ -866,6 +876,10 @@
   "images/blue-box.png": {
     "src": "images/7f71ff8854666a509ba3.png",
     "integrity": "sha256-hG6xOTiBpV52JaiPOG0mNpTafosVWeOlxMuDEEPBt+M= sha384-O+G0WvSoq5P7SR/HzDApeYLxpfOUiGtO+qT5lB5UejXUfvH+sM34nssO/P7Y2UzM sha512-+KzYTKG+XlLHftcAp8uz6FhmuxgaJlwQeV7aapWl/hGpSJBYQqhyYE47TlzrdmTVRyELTXxx+yDoVmpyp/Y9MQ=="
+  },
+  "images/budapest-achtergrond.jpg": {
+    "src": "images/5b9b68ad219962c91a89.jpg",
+    "integrity": "sha256-d9raxe4Y/vEm3c9Sy0ZT9xIrgIq3kP8K4kyBxPR4FO8= sha384-ayntStSWPG/cXthQjQVsnCaFhurWr1bXKlGzqIE0JjgQ14YZmzTVfM+S9aK43NAp sha512-Rb+PlWQwmRbJ9ly8iI3vRqnQKMExMbhVn/y5PFPItCwIzU+SUcYbZ2VMcjDj9JlfSegV1kBf0ahEwQCbTEQnmw=="
   },
   "images/cd-arrow.svg": {
     "src": "images/1512b02ea901615c6173.svg",
@@ -1630,6 +1644,10 @@
   "lustrummerch.css": {
     "src": "css/lustrummerch.fc454e95fe6f8854f06b.css",
     "integrity": "sha256-TPS9ITkMzhTqAlKjMWnS/diB917U3gR8SM4FPxgB5pM= sha384-QSmLIO2E42i3KCGq3o3dgX4O4X0FYY//Av9yzGTCemkhumozHUZB5ELHEGAHPhj2 sha512-Y6IqOKHgKqpM+x0n579ABw7reiqX5lpq0ZddGn0zbkxD0V6FpEz6vK37mnZuCKHEag1azliGZuwNFOAxMUjN4A=="
+  },
+  "lustrumreis.css": {
+    "src": "css/lustrumreis.afa914d1466f7a378b8d.css",
+    "integrity": "sha256-2Gy300+/zlb7o0OL8EqLGosqTMEZZTX+/H/pPnnnzuM= sha384-Sb/BWdYBDauWhPx5xjxsr7GJLT5l36qtsiIm121ZMt+9iFZt1oc+7VP8bW7mi6g7 sha512-ty9cdcImQrrn7o3PdS3BUc8PIBwO6RGvrkqf1ilU8BH3Fke+q6hghVeQDH/fbCmrPZGdNfpVw/lBXwvUqfNrng=="
   },
   "lustrumthema.css": {
     "src": "css/lustrumthema.9ec43a4ac81a17210ab7.css",
