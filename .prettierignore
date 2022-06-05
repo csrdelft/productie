@@ -1,23 +1,17 @@
-data
-sql
-assets/js/lib/external
-node_modules
-vendor
-sessie
-htdocs/bar
-htdocs/dist
-htdocs/bakeliet
-htdocs/bc
-htdocs/beaufort
-htdocs/ccd
-htdocs/dies
-htdocs/lustrum
-htdocs/wiki
-.idea
-db
-translations
-var
-tests
-docker
+htdocs
+
+# Yarn files
 .yarn
-.github
+.yarnrc.yml
+.pnp.cjs
+.pnp.loader.mjs
+
+# Php vendor files
+bin/.phpunit
+vendor
+
+# Built docs site
+docs/_site
+
+# Services, !tagged_locator wordt gesloopt door prettier.
+services.yaml
