@@ -4,7 +4,7 @@
 		style="${e.getAttribute("style")}"
 		src="${a}"
 	/>`;if(!a)throw new Error("Bb image heeft geen src");try{await(0,r.pt)(a),e.replaceWith(t)}catch(a){e.replaceWith(r.dy`<div class="alert alert-danger" role="alert">
-				<i class="fa fa-exclamation-triangle"></i> Afbeelding kan niet geladen
+				<i class="fas fa-exclamation-triangle"></i> Afbeelding kan niet geladen
 				worden.
 			</div>`)}}}}]);
-//# sourceMappingURL=4382.7511dda4bc6920e6b811.chunk.js.map
+//# sourceMappingURL=4382.2ca8e0e3ad5df33d01b5.chunk.js.map
