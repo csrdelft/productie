@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit6aa9c88e3382445501ee94169b255cc4
+class ComposerStaticInite8b54fb6a721deb3c82d116024c2c548
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -250,8 +250,8 @@ class ComposerStaticInit6aa9c88e3382445501ee94169b255cc4
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'Zumba\\JsonSerializer\\Test\\' => 
         array (
@@ -547,8 +547,8 @@ class ComposerStaticInit6aa9c88e3382445501ee94169b255cc4
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -632,8 +632,8 @@ class ComposerStaticInit6aa9c88e3382445501ee94169b255cc4
         ),
         'Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/php-http/message-factory/src',
-            1 => __DIR__ . '/..' . '/php-http/message/src',
+            0 => __DIR__ . '/..' . '/php-http/message/src',
+            1 => __DIR__ . '/..' . '/php-http/message-factory/src',
         ),
         'Http\\Factory\\Guzzle\\' => 
         array (
@@ -733,9 +733,9 @@ class ComposerStaticInit6aa9c88e3382445501ee94169b255cc4
         ),
         'Doctrine\\Common\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/event-manager/lib/Doctrine/Common',
-            1 => __DIR__ . '/..' . '/doctrine/persistence/lib/Doctrine/Common',
-            2 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
+            0 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
+            1 => __DIR__ . '/..' . '/doctrine/event-manager/lib/Doctrine/Common',
+            2 => __DIR__ . '/..' . '/doctrine/persistence/lib/Doctrine/Common',
         ),
         'Doctrine\\Bundle\\MigrationsBundle\\' => 
         array (
@@ -999,7 +999,6 @@ class ComposerStaticInit6aa9c88e3382445501ee94169b255cc4
         'CsrDelft\\common\\Security\\Voter\\EerstejaarsVoter' => __DIR__ . '/../..' . '/lib/common/Security/Voter/EerstejaarsVoter.php',
         'CsrDelft\\common\\Security\\Voter\\Entity\\CmsPaginaVoter' => __DIR__ . '/../..' . '/lib/common/Security/Voter/Entity/CmsPaginaVoter.php',
         'CsrDelft\\common\\Security\\Voter\\Entity\\CourantBerichtVoter' => __DIR__ . '/../..' . '/lib/common/Security/Voter/Entity/CourantBerichtVoter.php',
-        'CsrDelft\\common\\Security\\Voter\\Entity\\FotoAlbumVoter' => __DIR__ . '/../..' . '/lib/common/Security/Voter/Entity/FotoAlbumVoter.php',
         'CsrDelft\\common\\Security\\Voter\\Entity\\MenuItemVoter' => __DIR__ . '/../..' . '/lib/common/Security/Voter/Entity/MenuItemVoter.php',
         'CsrDelft\\common\\Security\\Voter\\ExpressionVoter' => __DIR__ . '/../..' . '/lib/common/Security/Voter/ExpressionVoter.php',
         'CsrDelft\\common\\Security\\Voter\\GeslachtPrefixVoter' => __DIR__ . '/../..' . '/lib/common/Security/Voter/GeslachtPrefixVoter.php',
@@ -22293,10 +22292,10 @@ class ComposerStaticInit6aa9c88e3382445501ee94169b255cc4
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit6aa9c88e3382445501ee94169b255cc4::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit6aa9c88e3382445501ee94169b255cc4::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit6aa9c88e3382445501ee94169b255cc4::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit6aa9c88e3382445501ee94169b255cc4::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite8b54fb6a721deb3c82d116024c2c548::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite8b54fb6a721deb3c82d116024c2c548::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInite8b54fb6a721deb3c82d116024c2c548::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInite8b54fb6a721deb3c82d116024c2c548::$classMap;
 
         }, null, ClassLoader::class);
     }
