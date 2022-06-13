@@ -207,6 +207,7 @@ return array(
     'CsrDelft\\common\\Security\\Voter\\EerstejaarsVoter' => $baseDir . '/lib/common/Security/Voter/EerstejaarsVoter.php',
     'CsrDelft\\common\\Security\\Voter\\Entity\\CmsPaginaVoter' => $baseDir . '/lib/common/Security/Voter/Entity/CmsPaginaVoter.php',
     'CsrDelft\\common\\Security\\Voter\\Entity\\CourantBerichtVoter' => $baseDir . '/lib/common/Security/Voter/Entity/CourantBerichtVoter.php',
+    'CsrDelft\\common\\Security\\Voter\\Entity\\FotoAlbumVoter' => $baseDir . '/lib/common/Security/Voter/Entity/FotoAlbumVoter.php',
     'CsrDelft\\common\\Security\\Voter\\Entity\\MenuItemVoter' => $baseDir . '/lib/common/Security/Voter/Entity/MenuItemVoter.php',
     'CsrDelft\\common\\Security\\Voter\\ExpressionVoter' => $baseDir . '/lib/common/Security/Voter/ExpressionVoter.php',
     'CsrDelft\\common\\Security\\Voter\\GeslachtPrefixVoter' => $baseDir . '/lib/common/Security/Voter/GeslachtPrefixVoter.php',
