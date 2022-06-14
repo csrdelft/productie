@@ -99,8 +99,12 @@ abstract class AbstractSerializer
                 return $this->serializeValue($value);
             }
 
-            if (\is_callable($value)) {
-                return $this->serializeCallableWithoutTypeHint($value);
+            try {
+                if (\is_callable($value)) {
+                    return $this->serializeCallable($value);
+                }
+            } catch (\Throwable $exception) {
+                // Do nothing on purpose
             }
 
             if (\is_array($value)) {
@@ -244,8 +248,12 @@ abstract class AbstractSerializer
             return 'Resource ' . get_resource_type($value);
         }
 
-        if (\is_callable($value)) {
-            return $this->serializeCallableWithoutTypeHint($value);
+        try {
+            if (\is_callable($value)) {
+                return $this->serializeCallable($value);
+            }
+        } catch (\Throwable $exception) {
+            // Do nothing on purpose
         }
 
         if (\is_array($value)) {
@@ -256,12 +264,9 @@ abstract class AbstractSerializer
     }
 
     /**
-     * This method is provided as a non-BC upgrade of serializeCallable,
-     * since using the callable type raises a deprecation in some cases.
-     *
      * @param callable|mixed $callable
      */
-    protected function serializeCallableWithoutTypeHint($callable): string
+    protected function serializeCallable($callable): string
     {
         if (\is_string($callable) && !\function_exists($callable)) {
             return $callable;
@@ -271,18 +276,6 @@ abstract class AbstractSerializer
             throw new InvalidArgumentException(sprintf('Expecting callable, got %s', \is_object($callable) ? \get_class($callable) : \gettype($callable)));
         }
 
-        return $this->serializeCallable($callable);
-    }
-
-    /**
-     * Use serializeCallableWithoutTypeHint instead (no type in argument).
-     *
-     * @see https://github.com/getsentry/sentry-php/pull/821
-     *
-     * @param callable $callable callable type to be removed in 3.0, see #821
-     */
-    protected function serializeCallable(callable $callable): string
-    {
         try {
             if (\is_array($callable)) {
                 $reflection = new \ReflectionMethod($callable[0], $callable[1]);

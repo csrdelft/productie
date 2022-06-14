@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Sentry;
 
+use Sentry\State\Scope;
+use Sentry\Tracing\Transaction;
+use Sentry\Tracing\TransactionContext;
+
 /**
  * Creates a new Client and Hub which will be set as current.
  *
@@ -19,40 +23,45 @@ function init(array $options = []): void
 /**
  * Captures a message event and sends it to Sentry.
  *
- * @param string   $message The message
- * @param Severity $level   The severity level of the message
+ * @param string         $message The message
+ * @param Severity|null  $level   The severity level of the message
+ * @param EventHint|null $hint    Object that can contain additional information about the event
  */
-function captureMessage(string $message, ?Severity $level = null): ?string
+function captureMessage(string $message, ?Severity $level = null, ?EventHint $hint = null): ?EventId
 {
-    return SentrySdk::getCurrentHub()->captureMessage($message, $level);
+    return SentrySdk::getCurrentHub()->captureMessage($message, $level, $hint);
 }
 
 /**
  * Captures an exception event and sends it to Sentry.
  *
- * @param \Throwable $exception The exception
+ * @param \Throwable     $exception The exception
+ * @param EventHint|null $hint      Object that can contain additional information about the event
  */
-function captureException(\Throwable $exception): ?string
+function captureException(\Throwable $exception, ?EventHint $hint = null): ?EventId
 {
-    return SentrySdk::getCurrentHub()->captureException($exception);
+    return SentrySdk::getCurrentHub()->captureException($exception, $hint);
 }
 
 /**
  * Captures a new event using the provided data.
  *
- * @param array<string, mixed> $payload The data of the event being captured
+ * @param Event          $event The event being captured
+ * @param EventHint|null $hint  May contain additional information about the event
  */
-function captureEvent(array $payload): ?string
+function captureEvent(Event $event, ?EventHint $hint = null): ?EventId
 {
-    return SentrySdk::getCurrentHub()->captureEvent($payload);
+    return SentrySdk::getCurrentHub()->captureEvent($event, $hint);
 }
 
 /**
- * Logs the most recent error (obtained with {@link error_get_last}).
+ * Logs the most recent error (obtained with {@see error_get_last()}).
+ *
+ * @param EventHint|null $hint Object that can contain additional information about the event
  */
-function captureLastError(): ?string
+function captureLastError(?EventHint $hint = null): ?EventId
 {
-    return SentrySdk::getCurrentHub()->captureLastError();
+    return SentrySdk::getCurrentHub()->captureLastError($hint);
 }
 
 /**
@@ -83,8 +92,39 @@ function configureScope(callable $callback): void
  * is automatically removed once the operation finishes or throws.
  *
  * @param callable $callback The callback to be executed
+ *
+ * @return mixed|void The callback's return value, upon successful execution
+ *
+ * @psalm-template T
+ *
+ * @psalm-param callable(Scope): T $callback
+ *
+ * @psalm-return T
  */
-function withScope(callable $callback): void
+function withScope(callable $callback)
 {
-    SentrySdk::getCurrentHub()->withScope($callback);
+    return SentrySdk::getCurrentHub()->withScope($callback);
+}
+
+/**
+ * Starts a new `Transaction` and returns it. This is the entry point to manual
+ * tracing instrumentation.
+ *
+ * A tree structure can be built by adding child spans to the transaction, and
+ * child spans to other spans. To start a new child span within the transaction
+ * or any span, call the respective `startChild()` method.
+ *
+ * Every child span must be finished before the transaction is finished,
+ * otherwise the unfinished spans are discarded.
+ *
+ * The transaction must be finished with a call to its `finish()` method, at
+ * which point the transaction with all its finished child spans will be sent to
+ * Sentry.
+ *
+ * @param TransactionContext   $context               Properties of the new transaction
+ * @param array<string, mixed> $customSamplingContext Additional context that will be passed to the {@see \Sentry\Tracing\SamplingContext}
+ */
+function startTransaction(TransactionContext $context, array $customSamplingContext = []): Transaction
+{
+    return SentrySdk::getCurrentHub()->startTransaction($context, $customSamplingContext);
 }
