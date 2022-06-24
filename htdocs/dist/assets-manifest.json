@@ -344,8 +344,8 @@
         ],
         "css": [
           {
-            "src": "css/extern-owee.f98e411bb5aff844fc4b.css",
-            "integrity": "sha256-syLE4eA421mTV5UkMQSA7H97+CtCslDFmay6pvNBKY0= sha384-iWuRikcE30qz14iFs39kCECDLFEIS8BX0aca7rJ22DOFLcUUPKhW/eLKC9kHlBYA sha512-Lq+/w7HkNWx2qn5OpEnhM7ER6tc9L0ZZ5oS/s4vbH9npLi0QsjpphVICCbZS+st9fz2R6ane3Sir+MxSMdUZvA=="
+            "src": "css/extern-owee.dd4dbc6234e0c1208b94.css",
+            "integrity": "sha256-N+j67nvBET31crmPzxfS3MAxpkMzhMTBh9Np78mbabA= sha384-JQCKvEhuiPYLx42nhA9Pf13JgHg6NRm+Yh+sAhP+duJJ+THqpUFwXCuER+uUKKTw sha512-wr71uxBzBLoxtW2G8kEwZL3jnTlTacRBquXagsFXLh3OQXbGxZHM2iXjk3qXV1N0w7MMf0hm4AunbEJXsvIFSA=="
           }
         ]
       }
@@ -596,8 +596,8 @@
     "integrity": "sha256-bqIWk6DXUuaMKJ+XiZRw8Er2v4NnlIWTWY9+QqAVoOE= sha384-6pb7jj6uvpaDdJmQpfevb3DlAJcjv1uVdEZAJ8zLePbxWoxCHDJHlqtgLgsasMT3 sha512-xxVQ/CLIaiT9YXjckgNY6r7FdCO7Bxzxfb9VEel8flR3jwsYBD+vlnooT+mST1i6vs58Q/2p8zfnQPTVtmiFFw=="
   },
   "extern-owee.css": {
-    "src": "css/extern-owee.f98e411bb5aff844fc4b.css",
-    "integrity": "sha256-syLE4eA421mTV5UkMQSA7H97+CtCslDFmay6pvNBKY0= sha384-iWuRikcE30qz14iFs39kCECDLFEIS8BX0aca7rJ22DOFLcUUPKhW/eLKC9kHlBYA sha512-Lq+/w7HkNWx2qn5OpEnhM7ER6tc9L0ZZ5oS/s4vbH9npLi0QsjpphVICCbZS+st9fz2R6ane3Sir+MxSMdUZvA=="
+    "src": "css/extern-owee.dd4dbc6234e0c1208b94.css",
+    "integrity": "sha256-N+j67nvBET31crmPzxfS3MAxpkMzhMTBh9Np78mbabA= sha384-JQCKvEhuiPYLx42nhA9Pf13JgHg6NRm+Yh+sAhP+duJJ+THqpUFwXCuER+uUKKTw sha512-wr71uxBzBLoxtW2G8kEwZL3jnTlTacRBquXagsFXLh3OQXbGxZHM2iXjk3qXV1N0w7MMf0hm4AunbEJXsvIFSA=="
   },
   "extern-owee.js": {
     "src": "js/extern-owee.82e246adcee7f5a3c4c8.bundle.js",
@@ -642,6 +642,10 @@
   "fonts/OrpheusPro-Bold.otf": {
     "src": "fonts/504f88c889d90b38761c.otf",
     "integrity": "sha256-bCdfTz6haND643k3qA6JhtsaNww1driUSt6zRfrNtIM= sha384-cTsJNER5QEnMn+x7EqXKuqn+svHE43GvmfsH08/NOzhSrP0+IhPAMTDNoR6jgXmv sha512-ctqR74ZNVuGxpLNIPYTNWk+4QL8rk0t0+0oDuHKUTBs3KwOet/uf87spJwQRC8MRMrwrAzGn7YPFGVJ1/8l1Qg=="
+  },
+  "fonts/Playbill.ttf": {
+    "src": "fonts/93b69782d5815251da02.ttf",
+    "integrity": "sha256-45NhV3Ho6ISikJSNCNyiP4Wlq+iXGQFzDr1FQ2s4boY= sha384-UR5Qdwoc7yaiwtJWEaZFYIqAYy4iDJZWqW8+zWBlagexrnkzaGLxhXbOeZppzOt6 sha512-/K85AWoke1IsRhIuEdPM5oMIiaAinUwRCsvdMPUYxdpHdCkwsouPCFu2eXKTwVYcWC4Y4y+BagkowsLp2SEhaw=="
   },
   "fonts/SourceSansPro-Black.otf": {
     "src": "fonts/46ac4a80d50e7812e677.otf",
@@ -799,6 +803,10 @@
     "src": "js/fxtrein.23bd2e5cdbabff221d62.bundle.js",
     "integrity": "sha256-VJxE2Wjd1PKGHnDjIhmdau6bEgRV+0gc2ZknrGYL3Sw= sha384-KzuebN6r1+tB6pWVT5VHtpcilMZysb0/MB7ugmwlb77h7gYnw15zVswd8ZENLx58 sha512-mx26aJe8Wo4GxE8jfuQdhjlpU7WmL3GMT2bhypIILkdEIiD0C8H8zp5xtWa6AGShF88yHrNBqoueLQ8HKtHTGA=="
   },
+  "images/Freestyle Script.TTF": {
+    "src": "images/66481f539db7e51d22d9.TTF",
+    "integrity": "sha256-LhMYI4YUg7lm+HyiMGO6bzwM7PmsXXhdce0XENq0d9U= sha384-8jGwie8ure8Sd4ucz8PR9gHpDuBsLRXHg3NUaK9dmJ4q7nhpxaBM8h9Z/8h/hQVn sha512-vQ6q91aDnwVaSzyMMdNk30aSzolkMlRWWjS21aV+E3GP4RxSlUb1EtJCyizRHMhqc7f2c8zhJ2sv+P7YDwJxMA=="
+  },
   "images/KoetjeVoet.png": {
     "src": "images/d7eae83d3813ed1f3435.png",
     "integrity": "sha256-IfMcLbXPf3hdLbdFXuhLNEqIKs1qQSDSlCJCiAEZ2ic= sha384-AyR+XN8qTXrWf8s8uvpJQHZCeN2uos5YIGjpkVCNdOwINAfRrValxi21ePZ521tQ sha512-oTM235/U7y+SY6YhVdYU/BZcNpPOaE/gC7lXw+aKGMRGtbr8nu0ZsB+HsgaIyz8CpOArKSKcE9GCUIThtU+Hdw=="
@@ -954,6 +962,14 @@
   "images/owee2021.svg": {
     "src": "images/3f0a3c4e487b57b1891c.svg",
     "integrity": "sha256-h23ULwcHKqoHpJhmKIeQM4LhdhUUHqlMPJtSClFHjS0= sha384-1u1jOYpr5aU6fL3VOws2rHZ94b/QJ3eTK+BWJfF20H+e3pdbLBUSJY6nau4QJRxy sha512-Odyo6mw7T2kRhSGPDAmNc5FLtdMP2L3Y9+YefUSinaMaYhEFE4vLWERwuesYw0wWVrBWKJfAUOrYf/d4jpm2rw=="
+  },
+  "images/owee2022-achtergrond.png": {
+    "src": "images/0e659408430791f70416.png",
+    "integrity": "sha256-cM87EEwx6ZWog1jKMjijuokyCtMmgpp8drLNbMZ7zfE= sha384-yMdG7hbC1K8y7uzfszuX6cOwZYK0RScd1A1y6SKXzrTGPOY6W+crxfjURMseX/FA sha512-1p8zWWVHFMYntHHCDZv+h+Mzg0Wes7th2p6qQxDt3NxIcNQmqwXbGqolqXtO5zQCPX4n2abBAx5OUozv3iqI2w=="
+  },
+  "images/owee2022-banner.jpg": {
+    "src": "images/310ed9eaed52e4576cf6.jpg",
+    "integrity": "sha256-Ts6xK+0e63+APxPtD8pHNitpBzz+6QVtp1T2p+YYHE4= sha384-iOSNH0jLxwRCxGX/ytnRon/woC30bBVqyzKnwiyXv85o1kT2r83dJsCGkXhiVPOp sha512-Pip496XgczqMS223ZQV/cXyRETwQE1eUxWlhFR2RKUmE7HGv6+HDOC8o6OgGl6zib0O2uh6erMFOngKtuq2R/w=="
   },
   "images/portal-break.png": {
     "src": "images/942eb606ecf64087b2db.png",
