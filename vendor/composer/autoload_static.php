@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInite8b54fb6a721deb3c82d116024c2c548
+class ComposerStaticInit1e9412ffb403f7aab97b109083142b14
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -251,8 +251,8 @@ class ComposerStaticInite8b54fb6a721deb3c82d116024c2c548
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
         ),
         'Zumba\\JsonSerializer\\Test\\' => 
         array (
@@ -548,8 +548,8 @@ class ComposerStaticInite8b54fb6a721deb3c82d116024c2c548
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -734,9 +734,9 @@ class ComposerStaticInite8b54fb6a721deb3c82d116024c2c548
         ),
         'Doctrine\\Common\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
-            1 => __DIR__ . '/..' . '/doctrine/event-manager/lib/Doctrine/Common',
-            2 => __DIR__ . '/..' . '/doctrine/persistence/lib/Doctrine/Common',
+            0 => __DIR__ . '/..' . '/doctrine/event-manager/lib/Doctrine/Common',
+            1 => __DIR__ . '/..' . '/doctrine/persistence/lib/Doctrine/Common',
+            2 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
         ),
         'Doctrine\\Bundle\\MigrationsBundle\\' => 
         array (
@@ -1229,6 +1229,9 @@ class ComposerStaticInite8b54fb6a721deb3c82d116024c2c548
         'CsrDelft\\entity\\groepen\\enum\\HuisStatus' => __DIR__ . '/../..' . '/lib/entity/groepen/enum/HuisStatus.php',
         'CsrDelft\\entity\\groepen\\enum\\OnderverenigingStatus' => __DIR__ . '/../..' . '/lib/entity/groepen/enum/OnderverenigingStatus.php',
         'CsrDelft\\entity\\groepen\\interfaces\\HeeftAanmeldLimiet' => __DIR__ . '/../..' . '/lib/entity/groepen/interfaces/HeeftAanmeldLimiet.php',
+        'CsrDelft\\entity\\groepen\\interfaces\\HeeftAanmeldMoment' => __DIR__ . '/../..' . '/lib/entity/groepen/interfaces/HeeftAanmeldMoment.php',
+        'CsrDelft\\entity\\groepen\\interfaces\\HeeftAanmeldRechten' => __DIR__ . '/../..' . '/lib/entity/groepen/interfaces/HeeftAanmeldRechten.php',
+        'CsrDelft\\entity\\groepen\\interfaces\\HeeftMoment' => __DIR__ . '/../..' . '/lib/entity/groepen/interfaces/HeeftMoment.php',
         'CsrDelft\\entity\\groepen\\interfaces\\HeeftSoort' => __DIR__ . '/../..' . '/lib/entity/groepen/interfaces/HeeftSoort.php',
         'CsrDelft\\entity\\instellingen\\LidInstelling' => __DIR__ . '/../..' . '/lib/entity/instellingen/LidInstelling.php',
         'CsrDelft\\entity\\maalcie\\ArchiefMaaltijd' => __DIR__ . '/../..' . '/lib/entity/maalcie/ArchiefMaaltijd.php',
@@ -1263,6 +1266,8 @@ class ComposerStaticInite8b54fb6a721deb3c82d116024c2c548
         'CsrDelft\\events\\BarTokenSubscriber' => __DIR__ . '/../..' . '/lib/events/BarTokenSubscriber.php',
         'CsrDelft\\events\\CacheControlEventListener' => __DIR__ . '/../..' . '/lib/events/CacheControlEventListener.php',
         'CsrDelft\\events\\CheckMigrationsListener' => __DIR__ . '/../..' . '/lib/events/CheckMigrationsListener.php',
+        'CsrDelft\\events\\FotoAlbumListener' => __DIR__ . '/../..' . '/lib/events/FotoAlbumListener.php',
+        'CsrDelft\\events\\FotoListener' => __DIR__ . '/../..' . '/lib/events/FotoListener.php',
         'CsrDelft\\events\\JsonBodyEventListener' => __DIR__ . '/../..' . '/lib/events/JsonBodyEventListener.php',
         'CsrDelft\\events\\LogEventListener' => __DIR__ . '/../..' . '/lib/events/LogEventListener.php',
         'CsrDelft\\events\\OAuth2Subscriber' => __DIR__ . '/../..' . '/lib/events/OAuth2Subscriber.php',
@@ -22343,10 +22348,10 @@ class ComposerStaticInite8b54fb6a721deb3c82d116024c2c548
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInite8b54fb6a721deb3c82d116024c2c548::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInite8b54fb6a721deb3c82d116024c2c548::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInite8b54fb6a721deb3c82d116024c2c548::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInite8b54fb6a721deb3c82d116024c2c548::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit1e9412ffb403f7aab97b109083142b14::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit1e9412ffb403f7aab97b109083142b14::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit1e9412ffb403f7aab97b109083142b14::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit1e9412ffb403f7aab97b109083142b14::$classMap;
 
         }, null, ClassLoader::class);
     }
