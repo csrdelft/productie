@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0f63a1e229b8418811271be2c1520632
+class ComposerStaticInit08c7d8d9eda4883d6d8ad7bcbd5d5ef4
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -1094,6 +1094,7 @@ class ComposerStaticInit0f63a1e229b8418811271be2c1520632
         'CsrDelft\\controller\\groepen\\ActiviteitenController' => __DIR__ . '/../..' . '/lib/controller/groepen/ActiviteitenController.php',
         'CsrDelft\\controller\\groepen\\BesturenController' => __DIR__ . '/../..' . '/lib/controller/groepen/BesturenController.php',
         'CsrDelft\\controller\\groepen\\CommissiesController' => __DIR__ . '/../..' . '/lib/controller/groepen/CommissiesController.php',
+        'CsrDelft\\controller\\groepen\\GroepLedenImportController' => __DIR__ . '/../..' . '/lib/controller/groepen/GroepLedenImportController.php',
         'CsrDelft\\controller\\groepen\\KetzersController' => __DIR__ . '/../..' . '/lib/controller/groepen/KetzersController.php',
         'CsrDelft\\controller\\groepen\\KringenController' => __DIR__ . '/../..' . '/lib/controller/groepen/KringenController.php',
         'CsrDelft\\controller\\groepen\\LichtingenController' => __DIR__ . '/../..' . '/lib/controller/groepen/LichtingenController.php',
@@ -1208,6 +1209,7 @@ class ComposerStaticInit0f63a1e229b8418811271be2c1520632
         'CsrDelft\\entity\\groepen\\GroepAanmeldLimiet' => __DIR__ . '/../..' . '/lib/entity/groepen/GroepAanmeldLimiet.php',
         'CsrDelft\\entity\\groepen\\GroepAanmeldMoment' => __DIR__ . '/../..' . '/lib/entity/groepen/GroepAanmeldMoment.php',
         'CsrDelft\\entity\\groepen\\GroepAanmeldRechten' => __DIR__ . '/../..' . '/lib/entity/groepen/GroepAanmeldRechten.php',
+        'CsrDelft\\entity\\groepen\\GroepLedenImportDTO' => __DIR__ . '/../..' . '/lib/entity/groepen/GroepLedenImportDTO.php',
         'CsrDelft\\entity\\groepen\\GroepLid' => __DIR__ . '/../..' . '/lib/entity/groepen/GroepLid.php',
         'CsrDelft\\entity\\groepen\\GroepMoment' => __DIR__ . '/../..' . '/lib/entity/groepen/GroepMoment.php',
         'CsrDelft\\entity\\groepen\\GroepStatistiekDTO' => __DIR__ . '/../..' . '/lib/entity/groepen/GroepStatistiekDTO.php',
@@ -22349,10 +22351,10 @@ class ComposerStaticInit0f63a1e229b8418811271be2c1520632
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0f63a1e229b8418811271be2c1520632::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0f63a1e229b8418811271be2c1520632::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit0f63a1e229b8418811271be2c1520632::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit0f63a1e229b8418811271be2c1520632::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit08c7d8d9eda4883d6d8ad7bcbd5d5ef4::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit08c7d8d9eda4883d6d8ad7bcbd5d5ef4::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit08c7d8d9eda4883d6d8ad7bcbd5d5ef4::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit08c7d8d9eda4883d6d8ad7bcbd5d5ef4::$classMap;
 
         }, null, ClassLoader::class);
     }
