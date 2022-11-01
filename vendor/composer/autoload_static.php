@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit08c7d8d9eda4883d6d8ad7bcbd5d5ef4
+class ComposerStaticInitf4dfd26079d7bf01dd9b50fd925307ce
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -251,8 +251,8 @@ class ComposerStaticInit08c7d8d9eda4883d6d8ad7bcbd5d5ef4
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'Zumba\\JsonSerializer\\Test\\' => 
         array (
@@ -22351,10 +22351,10 @@ class ComposerStaticInit08c7d8d9eda4883d6d8ad7bcbd5d5ef4
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit08c7d8d9eda4883d6d8ad7bcbd5d5ef4::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit08c7d8d9eda4883d6d8ad7bcbd5d5ef4::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit08c7d8d9eda4883d6d8ad7bcbd5d5ef4::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit08c7d8d9eda4883d6d8ad7bcbd5d5ef4::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitf4dfd26079d7bf01dd9b50fd925307ce::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitf4dfd26079d7bf01dd9b50fd925307ce::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitf4dfd26079d7bf01dd9b50fd925307ce::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitf4dfd26079d7bf01dd9b50fd925307ce::$classMap;
 
         }, null, ClassLoader::class);
     }
