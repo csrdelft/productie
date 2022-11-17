@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./js/page/voorpagina.ts"],"names":[],"mappings":"0GACA,QAAc,sBACd","file":"js/7447.5de264eeba53b69dab14.chunk.js","sourcesContent":["import { laadForumIds, slaOpForumIds } from '../lib/forum';\nslaOpForumIds('.cell-forum > div');\nlaadForumIds();\n"],"sourceRoot":""}
