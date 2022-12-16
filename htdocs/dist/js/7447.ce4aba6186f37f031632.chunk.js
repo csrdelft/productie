@@ -1,0 +1,2 @@
+(self.webpackChunk=self.webpackChunk||[]).push([[7447],{7447:(t,e,r)=>{"use strict";r.r(e);var s=r(2671),i=r(9470);(0,i.Tc)(".cell-forum > div"),(0,i.Q_)();const a=(0,s.Ys)(".carousel-indicators"),l=(0,s.Ys)(".carousel-indicators > button"),c=(0,s.td)(".carousel-inner > *");for(let t=1;t<c.length;t++){let e=l.cloneNode(!0);e.setAttribute("data-bs-slide-to",String(t)),e.setAttribute("aria-current",String(!1)),e.setAttribute("aria-label",`Slide ${t+1}`),e.classList.remove("active"),a.appendChild(e)}}}]);
+//# sourceMappingURL=7447.ce4aba6186f37f031632.chunk.js.map

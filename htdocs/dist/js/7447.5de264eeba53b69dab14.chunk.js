@@ -1,2 +1,0 @@
-(self.webpackChunk=self.webpackChunk||[]).push([[7447],{7447:(e,c,s)=>{"use strict";s.r(c);var u=s(9470);(0,u.Tc)(".cell-forum > div"),(0,u.Q_)()}}]);
-//# sourceMappingURL=7447.5de264eeba53b69dab14.chunk.js.map
