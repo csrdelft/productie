@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitf4dfd26079d7bf01dd9b50fd925307ce
+class ComposerStaticInit79235e8fc1ed21df47524b5f32d461da
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -251,8 +251,8 @@ class ComposerStaticInitf4dfd26079d7bf01dd9b50fd925307ce
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
         ),
         'Zumba\\JsonSerializer\\Test\\' => 
         array (
@@ -1042,6 +1042,7 @@ class ComposerStaticInitf4dfd26079d7bf01dd9b50fd925307ce
         'CsrDelft\\controller\\CourantController' => __DIR__ . '/../..' . '/lib/controller/CourantController.php',
         'CsrDelft\\controller\\DeclaratieController' => __DIR__ . '/../..' . '/lib/controller/DeclaratieController.php',
         'CsrDelft\\controller\\DeclaratiePrintController' => __DIR__ . '/../..' . '/lib/controller/DeclaratiePrintController.php',
+        'CsrDelft\\controller\\Dies2023Controller' => __DIR__ . '/../..' . '/lib/controller/Dies2023Controller.php',
         'CsrDelft\\controller\\DocumentenController' => __DIR__ . '/../..' . '/lib/controller/DocumentenController.php',
         'CsrDelft\\controller\\EetplanController' => __DIR__ . '/../..' . '/lib/controller/EetplanController.php',
         'CsrDelft\\controller\\ErrorController' => __DIR__ . '/../..' . '/lib/controller/ErrorController.php',
@@ -1062,6 +1063,7 @@ class ComposerStaticInitf4dfd26079d7bf01dd9b50fd925307ce
         'CsrDelft\\controller\\StreeplijstController' => __DIR__ . '/../..' . '/lib/controller/StreeplijstController.php',
         'CsrDelft\\controller\\ToestemmingController' => __DIR__ . '/../..' . '/lib/controller/ToestemmingController.php',
         'CsrDelft\\controller\\ToolsController' => __DIR__ . '/../..' . '/lib/controller/ToolsController.php',
+        'CsrDelft\\controller\\VoorpaginaController' => __DIR__ . '/../..' . '/lib/controller/VoorpaginaController.php',
         'CsrDelft\\controller\\WachtwoordController' => __DIR__ . '/../..' . '/lib/controller/WachtwoordController.php',
         'CsrDelft\\controller\\ZoekController' => __DIR__ . '/../..' . '/lib/controller/ZoekController.php',
         'CsrDelft\\controller\\api\\ApiActiviteitenController' => __DIR__ . '/../..' . '/lib/controller/api/ApiActiviteitenController.php',
@@ -22351,10 +22353,10 @@ class ComposerStaticInitf4dfd26079d7bf01dd9b50fd925307ce
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitf4dfd26079d7bf01dd9b50fd925307ce::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitf4dfd26079d7bf01dd9b50fd925307ce::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitf4dfd26079d7bf01dd9b50fd925307ce::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitf4dfd26079d7bf01dd9b50fd925307ce::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit79235e8fc1ed21df47524b5f32d461da::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit79235e8fc1ed21df47524b5f32d461da::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit79235e8fc1ed21df47524b5f32d461da::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit79235e8fc1ed21df47524b5f32d461da::$classMap;
 
         }, null, ClassLoader::class);
     }
