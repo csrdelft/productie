@@ -35,7 +35,7 @@
  */
 
 /*!
- * jQuery UI Keycode 1.13.0
+ * jQuery UI Keycode 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -44,7 +44,7 @@
  */
 
 /*!
- * jQuery UI Mouse 1.13.0
+ * jQuery UI Mouse 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -53,7 +53,7 @@
  */
 
 /*!
- * jQuery UI Widget 1.13.0
+ * jQuery UI Widget 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors

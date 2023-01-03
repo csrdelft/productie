@@ -18,7 +18,7 @@
  */
 
 /*!
- * jQuery UI Effects 1.13.0
+ * jQuery UI Effects 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -27,7 +27,7 @@
  */
 
 /*!
- * jQuery UI Effects Fade 1.13.0
+ * jQuery UI Effects Fade 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -36,7 +36,7 @@
  */
 
 /*!
- * jQuery UI Effects Highlight 1.13.0
+ * jQuery UI Effects Highlight 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -45,7 +45,7 @@
  */
 
 /*!
- * jQuery UI Slider 1.13.0
+ * jQuery UI Slider 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
