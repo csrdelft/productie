@@ -20,8 +20,8 @@
     "integrity": "sha256-ggIs1iglqD5AbrmOb1Yv9Igu8v35PC2rPBMjd74w55s= sha384-6jjGPApedpkYkhx9ZqGilaBKHtrFHE71gDWOyxnyLy9AcmZzRTvZ+LX1zyRxF8BK sha512-gpuK8QQTxxnc5dB8t/Qw62OTOXyQW+/WVJlRao46YxKjS76GfQzDD4nK678PEYZi/eWK1vJ7nNgZYmMvzw4FnQ=="
   },
   "dies2023.css": {
-    "src": "css/dies2023.73d09a060c750922c68e.css",
-    "integrity": "sha256-O1O6P+ZSf51+OAigDxTV5+MSmYJeIcUab4I/2MVXYxM= sha384-FKyqgn8+bkz7PQZHjNQu15eO78QynKTvMF1UMZNAP+Fe1p1oVfSAwGi4EkBnCk/o sha512-uJepfVNZKXba+M2+3TLVuqLW6BnoU7j8kZzFFK+3ae+zP7eelPch1yWiA48m9Te+9ncNrqFgLVVM6TAVRpnuYg=="
+    "src": "css/dies2023.9e711525f221e4269263.css",
+    "integrity": "sha256-SXrzsO4McIax1OO52wjGkOEDwQz72IQmtiW463xTpbA= sha384-985vF7RZckM+Jg3r9Qo10yT6mViSScBSHnhdxoiAZKojYReC5VHCWAk6dDxpNqA7 sha512-o39BNTNk1stqIYQS38QZnsE1+QS97pWOfYPI6KHfusKT+K0W1TjUBy3NtveXNV7FvMNZzkBi/966W9tNY42KQQ=="
   },
   "effect-civisaldo.css": {
     "src": "css/effect-civisaldo.4e9987af0efcf79a782c.css",
@@ -584,8 +584,8 @@
       "assets": {
         "css": [
           {
-            "src": "css/dies2023.73d09a060c750922c68e.css",
-            "integrity": "sha256-O1O6P+ZSf51+OAigDxTV5+MSmYJeIcUab4I/2MVXYxM= sha384-FKyqgn8+bkz7PQZHjNQu15eO78QynKTvMF1UMZNAP+Fe1p1oVfSAwGi4EkBnCk/o sha512-uJepfVNZKXba+M2+3TLVuqLW6BnoU7j8kZzFFK+3ae+zP7eelPch1yWiA48m9Te+9ncNrqFgLVVM6TAVRpnuYg=="
+            "src": "css/dies2023.9e711525f221e4269263.css",
+            "integrity": "sha256-SXrzsO4McIax1OO52wjGkOEDwQz72IQmtiW463xTpbA= sha384-985vF7RZckM+Jg3r9Qo10yT6mViSScBSHnhdxoiAZKojYReC5VHCWAk6dDxpNqA7 sha512-o39BNTNk1stqIYQS38QZnsE1+QS97pWOfYPI6KHfusKT+K0W1TjUBy3NtveXNV7FvMNZzkBi/966W9tNY42KQQ=="
           }
         ]
       }
