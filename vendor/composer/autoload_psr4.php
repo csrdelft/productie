@@ -16,7 +16,6 @@ return array(
     'Twig\\Extra\\Intl\\' => array($vendorDir . '/twig/intl-extra'),
     'Twig\\Extra\\CssInliner\\' => array($vendorDir . '/twig/cssinliner-extra'),
     'Twig\\' => array($vendorDir . '/twig/twig/src'),
-    'Trikoder\\Bundle\\OAuth2Bundle\\' => array($vendorDir . '/trikoder/oauth2-bundle'),
     'TijsVerkoyen\\CssToInlineStyles\\' => array($vendorDir . '/tijsverkoyen/css-to-inline-styles/src'),
     'Symfony\\Polyfill\\Uuid\\' => array($vendorDir . '/symfony/polyfill-uuid'),
     'Symfony\\Polyfill\\Php81\\' => array($vendorDir . '/symfony/polyfill-php81'),
@@ -97,6 +96,7 @@ return array(
     'Maknz\\Slack\\' => array($vendorDir . '/maknz/slack/src'),
     'League\\OAuth2\\Server\\' => array($vendorDir . '/league/oauth2-server/src'),
     'League\\Event\\' => array($vendorDir . '/league/event/src'),
+    'League\\Bundle\\OAuth2ServerBundle\\' => array($vendorDir . '/league/oauth2-server-bundle/src'),
     'Lcobucci\\JWT\\' => array($vendorDir . '/lcobucci/jwt/src'),
     'Laminas\\ZendFrameworkBridge\\' => array($vendorDir . '/laminas/laminas-zendframework-bridge/src'),
     'Laminas\\EventManager\\' => array($vendorDir . '/laminas/laminas-eventmanager/src'),
@@ -140,5 +140,4 @@ return array(
     'CsrDelft\\' => array($baseDir . '/lib'),
     'Clue\\StreamFilter\\' => array($vendorDir . '/clue/stream-filter/src'),
     'BaconQrCode\\' => array($vendorDir . '/bacon/bacon-qr-code/src'),
-    'Ajgarlag\\Bundle\\PsrHttpMessageBundle\\' => array($vendorDir . '/ajgarlag/psr-http-message-bundle/src'),
 );
