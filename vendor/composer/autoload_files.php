@@ -39,6 +39,4 @@ return array(
     'a8d3953fd9959404dd22d3dfcd0a79f0' => $vendorDir . '/google/apiclient/src/aliases.php',
     '39d333a989a6b1782fd993e87683d446' => $vendorDir . '/sentry/sentry-symfony/src/aliases.php',
     'a1105708a18b76903365ca1c4aa61b02' => $vendorDir . '/symfony/translation/Resources/functions.php',
-    'a3f2be845066769516b886f5549e88a7' => $baseDir . '/lib/common/common.functions.php',
-    '598410c4d4c0d7251ebf739136022718' => $baseDir . '/lib/common/common.view.functions.php',
 );
