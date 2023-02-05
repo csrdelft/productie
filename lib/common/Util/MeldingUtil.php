@@ -4,7 +4,7 @@ namespace CsrDelft\common\Util;
 
 use CsrDelft\view\Icon;
 
-class MeldingUtil
+final class MeldingUtil
 {
 	/**
 	 * Stores a message.
@@ -44,7 +44,7 @@ class MeldingUtil
 	}
 
 	/**
-	 * Geeft berichten weer die opgeslagen zijn in de sessie met met\CsrDelft\common\Util\DateUtil::dateFormatIntl($msg, $lvl)
+	 * Geeft berichten weer die opgeslagen zijn in de sessie met met MeldingUtil::setMelding($msg, $lvl)
 	 *
 	 * @return string html van melding(en) of lege string
 	 */

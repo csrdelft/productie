@@ -4,7 +4,9 @@ namespace CsrDelft\repository\maalcie;
 
 use CsrDelft\common\CsrException;
 use CsrDelft\common\CsrGebruikerException;
+use CsrDelft\common\Util\DateUtil;
 use CsrDelft\common\Util\MeldingUtil;
+use CsrDelft\common\Util\SqlUtil;
 use CsrDelft\entity\maalcie\Maaltijd;
 use CsrDelft\entity\maalcie\MaaltijdRepetitie;
 use CsrDelft\repository\AbstractRepository;
@@ -534,7 +536,7 @@ class MaaltijdenRepository extends AbstractRepository
 					)
 				) {
 					MeldingUtil::setMelding(
-						date_format_intl($maaltijd->getMoment(), DATETIME_FORMAT) .
+						DateUtil::dateFormatIntl($maaltijd->getMoment(), DATETIME_FORMAT) .
 							' heeft nog gekoppelde corveetaken!',
 						2
 					);
@@ -769,7 +771,7 @@ class MaaltijdenRepository extends AbstractRepository
 			->where(
 				'm.titel like :query or date_format(m.datum, \'%Y-%m-%d\') like :query or m.maaltijd_id like :query'
 			)
-			->setParameter('query', sql_contains($query))
+			->setParameter('query', SqlUtil::sql_contains($query))
 			->getQuery()
 			->getResult();
 	}
