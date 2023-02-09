@@ -13,6 +13,7 @@ use CsrDelft\entity\groepen\Activiteit;
 use CsrDelft\entity\groepen\enum\ActiviteitSoort;
 use CsrDelft\entity\groepen\enum\GroepStatus;
 use CsrDelft\entity\groepen\enum\GroepVersie;
+use CsrDelft\entity\groepen\Groep;
 use CsrDelft\entity\groepen\GroepLid;
 use CsrDelft\entity\groepen\interfaces\HeeftAanmeldMoment;
 use CsrDelft\entity\groepen\interfaces\HeeftAanmeldRechten;
@@ -40,7 +41,6 @@ use CsrDelft\view\groepen\leden\GroepEetwensView;
 use CsrDelft\view\groepen\leden\GroepEmailsView;
 use CsrDelft\view\groepen\leden\GroepLedenTable;
 use CsrDelft\view\groepen\leden\GroepLijstView;
-use CsrDelft\view\groepen\leden\GroepOmschrijvingView;
 use CsrDelft\view\groepen\leden\GroepPasfotosView;
 use CsrDelft\view\groepen\leden\GroepStatistiekView;
 use CsrDelft\view\Icon;
@@ -77,14 +77,19 @@ abstract class AbstractGroepenController extends AbstractController implements
 	/** @var GroepLidRepository */
 	private $groepLidRepository;
 
-	public function __construct(ManagerRegistry $registry, $groepType)
+	public function __construct(ManagerRegistry $registry)
 	{
-		$this->repository = $registry->getRepository($groepType);
+		$this->repository = $registry->getRepository($this->getGroepType());
 		$this->changeLogRepository = $registry->getRepository(
 			ChangeLogEntry::class
 		);
 		$this->groepLidRepository = $registry->getRepository(GroepLid::class);
 	}
+
+	/**
+	 * @return Groep|string
+	 */
+	abstract public function getGroepType();
 
 	/**
 	 * Alle routes die groepen controllers aan gaan @return RouteCollection
@@ -223,6 +228,7 @@ abstract class AbstractGroepenController extends AbstractController implements
 		};
 		// controleert rechten bekijken per groep
 		$body = new GroepenView(
+			$this->container->get('twig'),
 			$this->repository,
 			$groepen,
 			$soortEnum,
@@ -250,6 +256,7 @@ abstract class AbstractGroepenController extends AbstractController implements
 		}
 		// controleert rechten bekijken per groep
 		$body = new GroepenView(
+			$this->container->get('twig'),
 			$this->repository,
 			$groepen,
 			$soort,
@@ -293,7 +300,7 @@ abstract class AbstractGroepenController extends AbstractController implements
 		if (!$groep->mag(AccessAction::Bekijken())) {
 			throw $this->createAccessDeniedException();
 		}
-		return new GroepOmschrijvingView($groep);
+		return $this->render('groep/omschrijving.html.twig', ['groep' => $groep]);
 	}
 
 	public function pasfotos($id)
@@ -302,7 +309,7 @@ abstract class AbstractGroepenController extends AbstractController implements
 		if (!$groep->mag(AccessAction::Bekijken())) {
 			throw $this->createAccessDeniedException();
 		}
-		return new GroepPasfotosView($groep);
+		return new GroepPasfotosView($this->container->get('twig'), $groep);
 	}
 
 	public function lijst($id)
@@ -311,7 +318,7 @@ abstract class AbstractGroepenController extends AbstractController implements
 		if (!$groep->mag(AccessAction::Bekijken())) {
 			throw $this->createAccessDeniedException();
 		}
-		return new GroepLijstView($groep);
+		return new GroepLijstView($this->container->get('twig'), $groep);
 	}
 
 	public function stats($id)
@@ -323,7 +330,11 @@ abstract class AbstractGroepenController extends AbstractController implements
 
 		$statistieken = $this->repository->getStatistieken($groep);
 
-		return new GroepStatistiekView($groep, $statistieken);
+		return new GroepStatistiekView(
+			$this->container->get('twig'),
+			$groep,
+			$statistieken
+		);
 	}
 
 	public function emails($id)
@@ -332,7 +343,7 @@ abstract class AbstractGroepenController extends AbstractController implements
 		if (!$groep->mag(AccessAction::Bekijken())) {
 			throw $this->createAccessDeniedException();
 		}
-		return new GroepEmailsView($groep);
+		return new GroepEmailsView($this->container->get('twig'), $groep);
 	}
 
 	public function eetwens($id)
@@ -341,7 +352,7 @@ abstract class AbstractGroepenController extends AbstractController implements
 		if (!$groep->mag(AccessAction::Bekijken())) {
 			throw $this->createAccessDeniedException();
 		}
-		return new GroepEetwensView($groep);
+		return new GroepEetwensView($this->container->get('twig'), $groep);
 	}
 
 	public function zoeken(Request $request, $zoekterm = null)
@@ -703,7 +714,7 @@ abstract class AbstractGroepenController extends AbstractController implements
 		if (!$groep || !$groep->mag(AccessAction::Bekijken())) {
 			throw $this->createAccessDeniedException();
 		}
-		return new GroepPreviewForm($groep);
+		return new GroepPreviewForm($this->container->get('twig'), $groep);
 	}
 
 	/**
@@ -808,7 +819,7 @@ abstract class AbstractGroepenController extends AbstractController implements
 			$em->persist($lid);
 			$em->flush();
 			$groep->getLeden()->add($lid);
-			return new GroepPasfotosView($groep);
+			return new GroepPasfotosView($this->container->get('twig'), $groep);
 		} else {
 			return $form;
 		}
@@ -937,7 +948,7 @@ abstract class AbstractGroepenController extends AbstractController implements
 		$em->remove($lid);
 		$em->flush();
 
-		return new GroepView($groep);
+		return new GroepView($this->container->get('twig'), $groep);
 	}
 
 	public function afmelden(EntityManagerInterface $em, $id, $uid)

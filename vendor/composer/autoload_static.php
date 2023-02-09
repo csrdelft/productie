@@ -1760,7 +1760,6 @@ class ComposerStaticInit813ae848c4956a1156f41c20415d0afc
         'CsrDelft\\view\\groepen\\leden\\GroepOmschrijvingView' => __DIR__ . '/../..' . '/lib/view/groepen/leden/GroepOmschrijvingView.php',
         'CsrDelft\\view\\groepen\\leden\\GroepPasfotosView' => __DIR__ . '/../..' . '/lib/view/groepen/leden/GroepPasfotosView.php',
         'CsrDelft\\view\\groepen\\leden\\GroepStatistiekView' => __DIR__ . '/../..' . '/lib/view/groepen/leden/GroepStatistiekView.php',
-        'CsrDelft\\view\\groepen\\leden\\GroepTabView' => __DIR__ . '/../..' . '/lib/view/groepen/leden/GroepTabView.php',
         'CsrDelft\\view\\ledenmemory\\LedenMemoryScoreForm' => __DIR__ . '/../..' . '/lib/view/ledenmemory/LedenMemoryScoreForm.php',
         'CsrDelft\\view\\ledenmemory\\LedenMemoryScoreResponse' => __DIR__ . '/../..' . '/lib/view/ledenmemory/LedenMemoryScoreResponse.php',
         'CsrDelft\\view\\ledenmemory\\LedenMemoryScoreTable' => __DIR__ . '/../..' . '/lib/view/ledenmemory/LedenMemoryScoreTable.php',

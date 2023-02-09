@@ -977,7 +977,6 @@ return array(
     'CsrDelft\\view\\groepen\\leden\\GroepOmschrijvingView' => $baseDir . '/lib/view/groepen/leden/GroepOmschrijvingView.php',
     'CsrDelft\\view\\groepen\\leden\\GroepPasfotosView' => $baseDir . '/lib/view/groepen/leden/GroepPasfotosView.php',
     'CsrDelft\\view\\groepen\\leden\\GroepStatistiekView' => $baseDir . '/lib/view/groepen/leden/GroepStatistiekView.php',
-    'CsrDelft\\view\\groepen\\leden\\GroepTabView' => $baseDir . '/lib/view/groepen/leden/GroepTabView.php',
     'CsrDelft\\view\\ledenmemory\\LedenMemoryScoreForm' => $baseDir . '/lib/view/ledenmemory/LedenMemoryScoreForm.php',
     'CsrDelft\\view\\ledenmemory\\LedenMemoryScoreResponse' => $baseDir . '/lib/view/ledenmemory/LedenMemoryScoreResponse.php',
     'CsrDelft\\view\\ledenmemory\\LedenMemoryScoreTable' => $baseDir . '/lib/view/ledenmemory/LedenMemoryScoreTable.php',
