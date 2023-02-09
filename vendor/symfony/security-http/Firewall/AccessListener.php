@@ -39,7 +39,7 @@ class AccessListener extends AbstractListener
     private $authManager;
     private $exceptionOnNoToken;
 
-    public function __construct(TokenStorageInterface $tokenStorage, AccessDecisionManagerInterface $accessDecisionManager, AccessMapInterface $map, /*bool*/ $exceptionOnNoToken = true)
+    public function __construct(TokenStorageInterface $tokenStorage, AccessDecisionManagerInterface $accessDecisionManager, AccessMapInterface $map, /* bool */ $exceptionOnNoToken = true)
     {
         if ($exceptionOnNoToken instanceof AuthenticationManagerInterface) {
             trigger_deprecation('symfony/security-http', '5.4', 'The $authManager argument of "%s" is deprecated.', __METHOD__);
@@ -114,7 +114,7 @@ class AccessListener extends AbstractListener
 
         // @deprecated since Symfony 5.4
         if (method_exists($token, 'isAuthenticated') && !$token->isAuthenticated(false)) {
-            trigger_deprecation('symfony/core', '5.4', 'Returning false from "%s()" is deprecated, return null from "getUser()" instead.');
+            trigger_deprecation('symfony/core', '5.4', 'Returning false from "%s::isAuthenticated()" is deprecated, return null from "getUser()" instead.', get_debug_type($token));
 
             if ($this->authManager) {
                 $token = $this->authManager->authenticate($token);
