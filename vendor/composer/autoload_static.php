@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit813ae848c4956a1156f41c20415d0afc
+class ComposerStaticInit16c13ac02df6705400bbd14496436272
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -245,8 +245,8 @@ class ComposerStaticInit813ae848c4956a1156f41c20415d0afc
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
         ),
         'Zumba\\JsonSerializer\\Test\\' => 
         array (
@@ -538,8 +538,8 @@ class ComposerStaticInit813ae848c4956a1156f41c20415d0afc
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -627,8 +627,8 @@ class ComposerStaticInit813ae848c4956a1156f41c20415d0afc
         ),
         'Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/php-http/message/src',
-            1 => __DIR__ . '/..' . '/php-http/message-factory/src',
+            0 => __DIR__ . '/..' . '/php-http/message-factory/src',
+            1 => __DIR__ . '/..' . '/php-http/message/src',
         ),
         'Http\\Factory\\Guzzle\\' => 
         array (
@@ -728,9 +728,9 @@ class ComposerStaticInit813ae848c4956a1156f41c20415d0afc
         ),
         'Doctrine\\Common\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
-            1 => __DIR__ . '/..' . '/doctrine/event-manager/lib/Doctrine/Common',
-            2 => __DIR__ . '/..' . '/doctrine/persistence/lib/Doctrine/Common',
+            0 => __DIR__ . '/..' . '/doctrine/event-manager/lib/Doctrine/Common',
+            1 => __DIR__ . '/..' . '/doctrine/persistence/lib/Doctrine/Common',
+            2 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
         ),
         'Doctrine\\Bundle\\MigrationsBundle\\' => 
         array (
@@ -971,6 +971,7 @@ class ComposerStaticInit813ae848c4956a1156f41c20415d0afc
         'CsrDelft\\common\\Doctrine\\VerbergNovietenFilter' => __DIR__ . '/../..' . '/lib/common/Doctrine/VerbergNovietenFilter.php',
         'CsrDelft\\common\\Eisen' => __DIR__ . '/../..' . '/lib/common/Eisen.php',
         'CsrDelft\\common\\Enum' => __DIR__ . '/../..' . '/lib/common/Enum.php',
+        'CsrDelft\\common\\FlashType' => __DIR__ . '/../..' . '/lib/common/FlashType.php',
         'CsrDelft\\common\\LDAP' => __DIR__ . '/../..' . '/lib/common/LDAP.php',
         'CsrDelft\\common\\Logging\\LogActivationStrategy' => __DIR__ . '/../..' . '/lib/common/Logging/LogActivationStrategy.php',
         'CsrDelft\\common\\Logging\\LogProcessor' => __DIR__ . '/../..' . '/lib/common/Logging/LogProcessor.php',
@@ -1010,9 +1011,9 @@ class ComposerStaticInit813ae848c4956a1156f41c20415d0afc
         'CsrDelft\\common\\Util\\DateUtil' => __DIR__ . '/../..' . '/lib/common/Util/DateUtil.php',
         'CsrDelft\\common\\Util\\DebugUtil' => __DIR__ . '/../..' . '/lib/common/Util/DebugUtil.php',
         'CsrDelft\\common\\Util\\FileUtil' => __DIR__ . '/../..' . '/lib/common/Util/FileUtil.php',
+        'CsrDelft\\common\\Util\\FlashUtil' => __DIR__ . '/../..' . '/lib/common/Util/FlashUtil.php',
         'CsrDelft\\common\\Util\\HostUtil' => __DIR__ . '/../..' . '/lib/common/Util/HostUtil.php',
         'CsrDelft\\common\\Util\\InstellingUtil' => __DIR__ . '/../..' . '/lib/common/Util/InstellingUtil.php',
-        'CsrDelft\\common\\Util\\MeldingUtil' => __DIR__ . '/../..' . '/lib/common/Util/MeldingUtil.php',
         'CsrDelft\\common\\Util\\PathUtil' => __DIR__ . '/../..' . '/lib/common/Util/PathUtil.php',
         'CsrDelft\\common\\Util\\ReflectionUtil' => __DIR__ . '/../..' . '/lib/common/Util/ReflectionUtil.php',
         'CsrDelft\\common\\Util\\SqlUtil' => __DIR__ . '/../..' . '/lib/common/Util/SqlUtil.php',
@@ -1413,8 +1414,11 @@ class ComposerStaticInit813ae848c4956a1156f41c20415d0afc
         'CsrDelft\\service\\forum\\ForumService' => __DIR__ . '/../..' . '/lib/service/forum/ForumService.php',
         'CsrDelft\\service\\maalcie\\MaaltijdAanmeldingenService' => __DIR__ . '/../..' . '/lib/service/maalcie/MaaltijdAanmeldingenService.php',
         'CsrDelft\\service\\maalcie\\MaaltijdAbonnementenService' => __DIR__ . '/../..' . '/lib/service/maalcie/MaaltijdAbonnementenService.php',
+        'CsrDelft\\service\\maalcie\\MaaltijdArchiefService' => __DIR__ . '/../..' . '/lib/service/maalcie/MaaltijdArchiefService.php',
         'CsrDelft\\service\\maalcie\\MaaltijdGastAanmeldingenService' => __DIR__ . '/../..' . '/lib/service/maalcie/MaaltijdGastAanmeldingenService.php',
         'CsrDelft\\service\\maalcie\\MaaltijdRepetitieAanmeldingenService' => __DIR__ . '/../..' . '/lib/service/maalcie/MaaltijdRepetitieAanmeldingenService.php',
+        'CsrDelft\\service\\maalcie\\MaaltijdRepetitiesService' => __DIR__ . '/../..' . '/lib/service/maalcie/MaaltijdRepetitiesService.php',
+        'CsrDelft\\service\\maalcie\\MaaltijdenService' => __DIR__ . '/../..' . '/lib/service/maalcie/MaaltijdenService.php',
         'CsrDelft\\service\\pin\\PinDownloadException' => __DIR__ . '/../..' . '/lib/service/pin/PinDownloadException.php',
         'CsrDelft\\service\\pin\\PinTransactieDownloader' => __DIR__ . '/../..' . '/lib/service/pin/PinTransactieDownloader.php',
         'CsrDelft\\service\\pin\\PinTransactieMatcher' => __DIR__ . '/../..' . '/lib/service/pin/PinTransactieMatcher.php',
@@ -1434,7 +1438,6 @@ class ComposerStaticInit813ae848c4956a1156f41c20415d0afc
         'CsrDelft\\view\\IsHetAlView' => __DIR__ . '/../..' . '/lib/view/IsHetAlView.php',
         'CsrDelft\\view\\JsonLijstResponse' => __DIR__ . '/../..' . '/lib/view/JsonLijstResponse.php',
         'CsrDelft\\view\\JsonResponse' => __DIR__ . '/../..' . '/lib/view/JsonResponse.php',
-        'CsrDelft\\view\\MeldingResponse' => __DIR__ . '/../..' . '/lib/view/MeldingResponse.php',
         'CsrDelft\\view\\PlainView' => __DIR__ . '/../..' . '/lib/view/PlainView.php',
         'CsrDelft\\view\\RechtenForm' => __DIR__ . '/../..' . '/lib/view/RechtenForm.php',
         'CsrDelft\\view\\RechtenTable' => __DIR__ . '/../..' . '/lib/view/RechtenTable.php',
@@ -22376,10 +22379,10 @@ class ComposerStaticInit813ae848c4956a1156f41c20415d0afc
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit813ae848c4956a1156f41c20415d0afc::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit813ae848c4956a1156f41c20415d0afc::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit813ae848c4956a1156f41c20415d0afc::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit813ae848c4956a1156f41c20415d0afc::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit16c13ac02df6705400bbd14496436272::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit16c13ac02df6705400bbd14496436272::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit16c13ac02df6705400bbd14496436272::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit16c13ac02df6705400bbd14496436272::$classMap;
 
         }, null, ClassLoader::class);
     }
