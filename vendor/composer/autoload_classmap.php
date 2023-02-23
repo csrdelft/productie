@@ -236,6 +236,7 @@ return array(
     'CsrDelft\\common\\Util\\SqlUtil' => $baseDir . '/lib/common/Util/SqlUtil.php',
     'CsrDelft\\common\\Util\\TextUtil' => $baseDir . '/lib/common/Util/TextUtil.php',
     'CsrDelft\\common\\Util\\UrlUtil' => $baseDir . '/lib/common/Util/UrlUtil.php',
+    'CsrDelft\\common\\Util\\VueUtil' => $baseDir . '/lib/common/Util/VueUtil.php',
     'CsrDelft\\common\\instellingen\\InstellingConfiguration' => $baseDir . '/lib/common/instellingen/InstellingConfiguration.php',
     'CsrDelft\\common\\instellingen\\InstellingType' => $baseDir . '/lib/common/instellingen/InstellingType.php',
     'CsrDelft\\common\\yaml\\YamlFileLoader' => $baseDir . '/lib/common/yaml/YamlFileLoader.php',
