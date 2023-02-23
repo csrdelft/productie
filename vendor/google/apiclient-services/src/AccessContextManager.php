@@ -23,7 +23,7 @@ use Google\Client;
  * Service definition for AccessContextManager (v1).
  *
  * <p>
- * An API for setting attribute based access control to requests to GCP
+ * An API for setting attribute based access control to requests to Google Cloud
  * services.</p>
  *
  * <p>
@@ -41,6 +41,7 @@ class AccessContextManager extends \Google\Service
 
   public $accessPolicies;
   public $accessPolicies_accessLevels;
+  public $accessPolicies_authorizedOrgsDescs;
   public $accessPolicies_servicePerimeters;
   public $operations;
   public $organizations_gcpUserAccessBindings;
@@ -91,6 +92,16 @@ class AccessContextManager extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'getIamPolicy' => [
+              'path' => 'v1/{+resource}:getIamPolicy',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'list' => [
               'path' => 'v1/accessPolicies',
               'httpMethod' => 'GET',
@@ -120,6 +131,26 @@ class AccessContextManager extends \Google\Service
                 'updateMask' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+              ],
+            ],'setIamPolicy' => [
+              'path' => 'v1/{+resource}:setIamPolicy',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'testIamPermissions' => [
+              'path' => 'v1/{+resource}:testIamPermissions',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
               ],
             ],
@@ -212,6 +243,88 @@ class AccessContextManager extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'testIamPermissions' => [
+              'path' => 'v1/{+resource}:testIamPermissions',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->accessPolicies_authorizedOrgsDescs = new AccessContextManager\Resource\AccessPoliciesAuthorizedOrgsDescs(
+        $this,
+        $this->serviceName,
+        'authorizedOrgsDescs',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'v1/{+parent}/authorizedOrgsDescs',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/authorizedOrgsDescs',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],
           ]
         ]
@@ -299,6 +412,16 @@ class AccessContextManager extends \Google\Service
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'testIamPermissions' => [
+              'path' => 'v1/{+resource}:testIamPermissions',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,

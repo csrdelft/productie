@@ -20,33 +20,77 @@ namespace Google\Service\RecaptchaEnterprise;
 class GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentRequest extends \Google\Collection
 {
   protected $collection_key = 'reasons';
+  /**
+   * @var string
+   */
   public $annotation;
+  /**
+   * @var string
+   */
   public $hashedAccountId;
+  /**
+   * @var string[]
+   */
   public $reasons;
+  protected $transactionEventType = GoogleCloudRecaptchaenterpriseV1TransactionEvent::class;
+  protected $transactionEventDataType = '';
+  public $transactionEvent;
 
+  /**
+   * @param string
+   */
   public function setAnnotation($annotation)
   {
     $this->annotation = $annotation;
   }
+  /**
+   * @return string
+   */
   public function getAnnotation()
   {
     return $this->annotation;
   }
+  /**
+   * @param string
+   */
   public function setHashedAccountId($hashedAccountId)
   {
     $this->hashedAccountId = $hashedAccountId;
   }
+  /**
+   * @return string
+   */
   public function getHashedAccountId()
   {
     return $this->hashedAccountId;
   }
+  /**
+   * @param string[]
+   */
   public function setReasons($reasons)
   {
     $this->reasons = $reasons;
   }
+  /**
+   * @return string[]
+   */
   public function getReasons()
   {
     return $this->reasons;
+  }
+  /**
+   * @param GoogleCloudRecaptchaenterpriseV1TransactionEvent
+   */
+  public function setTransactionEvent(GoogleCloudRecaptchaenterpriseV1TransactionEvent $transactionEvent)
+  {
+    $this->transactionEvent = $transactionEvent;
+  }
+  /**
+   * @return GoogleCloudRecaptchaenterpriseV1TransactionEvent
+   */
+  public function getTransactionEvent()
+  {
+    return $this->transactionEvent;
   }
 }
 

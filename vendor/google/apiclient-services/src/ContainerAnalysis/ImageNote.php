@@ -21,6 +21,10 @@ class ImageNote extends \Google\Model
 {
   protected $fingerprintType = Fingerprint::class;
   protected $fingerprintDataType = '';
+  public $fingerprint;
+  /**
+   * @var string
+   */
   public $resourceUrl;
 
   /**
@@ -37,10 +41,16 @@ class ImageNote extends \Google\Model
   {
     return $this->fingerprint;
   }
+  /**
+   * @param string
+   */
   public function setResourceUrl($resourceUrl)
   {
     $this->resourceUrl = $resourceUrl;
   }
+  /**
+   * @return string
+   */
   public function getResourceUrl()
   {
     return $this->resourceUrl;

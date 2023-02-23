@@ -22,20 +22,46 @@ class Stream extends \Google\Collection
   protected $collection_key = 'errors';
   protected $backfillAllType = BackfillAllStrategy::class;
   protected $backfillAllDataType = '';
+  public $backfillAll;
   protected $backfillNoneType = BackfillNoneStrategy::class;
   protected $backfillNoneDataType = '';
+  public $backfillNone;
+  /**
+   * @var string
+   */
   public $createTime;
+  /**
+   * @var string
+   */
   public $customerManagedEncryptionKey;
   protected $destinationConfigType = DestinationConfig::class;
   protected $destinationConfigDataType = '';
+  public $destinationConfig;
+  /**
+   * @var string
+   */
   public $displayName;
   protected $errorsType = Error::class;
   protected $errorsDataType = 'array';
+  public $errors;
+  /**
+   * @var string[]
+   */
   public $labels;
+  /**
+   * @var string
+   */
   public $name;
   protected $sourceConfigType = SourceConfig::class;
   protected $sourceConfigDataType = '';
+  public $sourceConfig;
+  /**
+   * @var string
+   */
   public $state;
+  /**
+   * @var string
+   */
   public $updateTime;
 
   /**
@@ -66,18 +92,30 @@ class Stream extends \Google\Collection
   {
     return $this->backfillNone;
   }
+  /**
+   * @param string
+   */
   public function setCreateTime($createTime)
   {
     $this->createTime = $createTime;
   }
+  /**
+   * @return string
+   */
   public function getCreateTime()
   {
     return $this->createTime;
   }
+  /**
+   * @param string
+   */
   public function setCustomerManagedEncryptionKey($customerManagedEncryptionKey)
   {
     $this->customerManagedEncryptionKey = $customerManagedEncryptionKey;
   }
+  /**
+   * @return string
+   */
   public function getCustomerManagedEncryptionKey()
   {
     return $this->customerManagedEncryptionKey;
@@ -96,10 +134,16 @@ class Stream extends \Google\Collection
   {
     return $this->destinationConfig;
   }
+  /**
+   * @param string
+   */
   public function setDisplayName($displayName)
   {
     $this->displayName = $displayName;
   }
+  /**
+   * @return string
+   */
   public function getDisplayName()
   {
     return $this->displayName;
@@ -118,18 +162,30 @@ class Stream extends \Google\Collection
   {
     return $this->errors;
   }
+  /**
+   * @param string[]
+   */
   public function setLabels($labels)
   {
     $this->labels = $labels;
   }
+  /**
+   * @return string[]
+   */
   public function getLabels()
   {
     return $this->labels;
   }
+  /**
+   * @param string
+   */
   public function setName($name)
   {
     $this->name = $name;
   }
+  /**
+   * @return string
+   */
   public function getName()
   {
     return $this->name;
@@ -148,18 +204,30 @@ class Stream extends \Google\Collection
   {
     return $this->sourceConfig;
   }
+  /**
+   * @param string
+   */
   public function setState($state)
   {
     $this->state = $state;
   }
+  /**
+   * @return string
+   */
   public function getState()
   {
     return $this->state;
   }
+  /**
+   * @param string
+   */
   public function setUpdateTime($updateTime)
   {
     $this->updateTime = $updateTime;
   }
+  /**
+   * @return string
+   */
   public function getUpdateTime()
   {
     return $this->updateTime;

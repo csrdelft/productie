@@ -19,17 +19,36 @@ namespace Google\Service\Datapipelines;
 
 class GoogleCloudDatapipelinesV1LaunchTemplateRequest extends \Google\Model
 {
+  /**
+   * @var string
+   */
   public $gcsPath;
   protected $launchParametersType = GoogleCloudDatapipelinesV1LaunchTemplateParameters::class;
   protected $launchParametersDataType = '';
+  public $launchParameters;
+  /**
+   * @var string
+   */
   public $location;
+  /**
+   * @var string
+   */
   public $projectId;
+  /**
+   * @var bool
+   */
   public $validateOnly;
 
+  /**
+   * @param string
+   */
   public function setGcsPath($gcsPath)
   {
     $this->gcsPath = $gcsPath;
   }
+  /**
+   * @return string
+   */
   public function getGcsPath()
   {
     return $this->gcsPath;
@@ -48,26 +67,44 @@ class GoogleCloudDatapipelinesV1LaunchTemplateRequest extends \Google\Model
   {
     return $this->launchParameters;
   }
+  /**
+   * @param string
+   */
   public function setLocation($location)
   {
     $this->location = $location;
   }
+  /**
+   * @return string
+   */
   public function getLocation()
   {
     return $this->location;
   }
+  /**
+   * @param string
+   */
   public function setProjectId($projectId)
   {
     $this->projectId = $projectId;
   }
+  /**
+   * @return string
+   */
   public function getProjectId()
   {
     return $this->projectId;
   }
+  /**
+   * @param bool
+   */
   public function setValidateOnly($validateOnly)
   {
     $this->validateOnly = $validateOnly;
   }
+  /**
+   * @return bool
+   */
   public function getValidateOnly()
   {
     return $this->validateOnly;

@@ -22,6 +22,10 @@ class ListCommentsResponse extends \Google\Collection
   protected $collection_key = 'comments';
   protected $commentsType = Comment::class;
   protected $commentsDataType = 'array';
+  public $comments;
+  /**
+   * @var string
+   */
   public $nextPageToken;
 
   /**
@@ -38,10 +42,16 @@ class ListCommentsResponse extends \Google\Collection
   {
     return $this->comments;
   }
+  /**
+   * @param string
+   */
   public function setNextPageToken($nextPageToken)
   {
     $this->nextPageToken = $nextPageToken;
   }
+  /**
+   * @return string
+   */
   public function getNextPageToken()
   {
     return $this->nextPageToken;

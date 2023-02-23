@@ -21,6 +21,10 @@ class PartialUpdateClusterRequest extends \Google\Model
 {
   protected $clusterType = Cluster::class;
   protected $clusterDataType = '';
+  public $cluster;
+  /**
+   * @var string
+   */
   public $updateMask;
 
   /**
@@ -37,10 +41,16 @@ class PartialUpdateClusterRequest extends \Google\Model
   {
     return $this->cluster;
   }
+  /**
+   * @param string
+   */
   public function setUpdateMask($updateMask)
   {
     $this->updateMask = $updateMask;
   }
+  /**
+   * @return string
+   */
   public function getUpdateMask()
   {
     return $this->updateMask;

@@ -29,7 +29,7 @@ use Google\Service\CloudBuild\RetryBuildRequest;
  * Typical usage is:
  *  <code>
  *   $cloudbuildService = new Google\Service\CloudBuild(...);
- *   $builds = $cloudbuildService->builds;
+ *   $builds = $cloudbuildService->projects_locations_builds;
  *  </code>
  */
 class ProjectsLocationsBuilds extends \Google\Service\Resource
@@ -111,7 +111,7 @@ class ProjectsLocationsBuilds extends \Google\Service\Resource
    * (builds.listProjectsLocationsBuilds)
    *
    * @param string $parent The parent of the collection of `Builds`. Format:
-   * `projects/{project}/locations/location`
+   * `projects/{project}/locations/{location}`
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter The raw filter text to constrain the results.

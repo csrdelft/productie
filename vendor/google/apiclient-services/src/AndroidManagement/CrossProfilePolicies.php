@@ -19,33 +19,78 @@ namespace Google\Service\AndroidManagement;
 
 class CrossProfilePolicies extends \Google\Model
 {
+  /**
+   * @var string
+   */
   public $crossProfileCopyPaste;
+  /**
+   * @var string
+   */
   public $crossProfileDataSharing;
+  /**
+   * @var string
+   */
   public $showWorkContactsInPersonalProfile;
+  /**
+   * @var string
+   */
+  public $workProfileWidgetsDefault;
 
+  /**
+   * @param string
+   */
   public function setCrossProfileCopyPaste($crossProfileCopyPaste)
   {
     $this->crossProfileCopyPaste = $crossProfileCopyPaste;
   }
+  /**
+   * @return string
+   */
   public function getCrossProfileCopyPaste()
   {
     return $this->crossProfileCopyPaste;
   }
+  /**
+   * @param string
+   */
   public function setCrossProfileDataSharing($crossProfileDataSharing)
   {
     $this->crossProfileDataSharing = $crossProfileDataSharing;
   }
+  /**
+   * @return string
+   */
   public function getCrossProfileDataSharing()
   {
     return $this->crossProfileDataSharing;
   }
+  /**
+   * @param string
+   */
   public function setShowWorkContactsInPersonalProfile($showWorkContactsInPersonalProfile)
   {
     $this->showWorkContactsInPersonalProfile = $showWorkContactsInPersonalProfile;
   }
+  /**
+   * @return string
+   */
   public function getShowWorkContactsInPersonalProfile()
   {
     return $this->showWorkContactsInPersonalProfile;
+  }
+  /**
+   * @param string
+   */
+  public function setWorkProfileWidgetsDefault($workProfileWidgetsDefault)
+  {
+    $this->workProfileWidgetsDefault = $workProfileWidgetsDefault;
+  }
+  /**
+   * @return string
+   */
+  public function getWorkProfileWidgetsDefault()
+  {
+    return $this->workProfileWidgetsDefault;
   }
 }
 

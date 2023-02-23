@@ -20,14 +20,24 @@ namespace Google\Service\MyBusinessVerifications;
 class ListVerificationsResponse extends \Google\Collection
 {
   protected $collection_key = 'verifications';
+  /**
+   * @var string
+   */
   public $nextPageToken;
   protected $verificationsType = Verification::class;
   protected $verificationsDataType = 'array';
+  public $verifications;
 
+  /**
+   * @param string
+   */
   public function setNextPageToken($nextPageToken)
   {
     $this->nextPageToken = $nextPageToken;
   }
+  /**
+   * @return string
+   */
   public function getNextPageToken()
   {
     return $this->nextPageToken;

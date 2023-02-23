@@ -22,8 +22,18 @@ class GoogleChromeManagementV1CpuStatusReport extends \Google\Collection
   protected $collection_key = 'cpuTemperatureInfo';
   protected $cpuTemperatureInfoType = GoogleChromeManagementV1CpuTemperatureInfo::class;
   protected $cpuTemperatureInfoDataType = 'array';
+  public $cpuTemperatureInfo;
+  /**
+   * @var int
+   */
   public $cpuUtilizationPct;
+  /**
+   * @var string
+   */
   public $reportTime;
+  /**
+   * @var string
+   */
   public $sampleFrequency;
 
   /**
@@ -40,26 +50,44 @@ class GoogleChromeManagementV1CpuStatusReport extends \Google\Collection
   {
     return $this->cpuTemperatureInfo;
   }
+  /**
+   * @param int
+   */
   public function setCpuUtilizationPct($cpuUtilizationPct)
   {
     $this->cpuUtilizationPct = $cpuUtilizationPct;
   }
+  /**
+   * @return int
+   */
   public function getCpuUtilizationPct()
   {
     return $this->cpuUtilizationPct;
   }
+  /**
+   * @param string
+   */
   public function setReportTime($reportTime)
   {
     $this->reportTime = $reportTime;
   }
+  /**
+   * @return string
+   */
   public function getReportTime()
   {
     return $this->reportTime;
   }
+  /**
+   * @param string
+   */
   public function setSampleFrequency($sampleFrequency)
   {
     $this->sampleFrequency = $sampleFrequency;
   }
+  /**
+   * @return string
+   */
   public function getSampleFrequency()
   {
     return $this->sampleFrequency;

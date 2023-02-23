@@ -22,6 +22,10 @@ class GoogleCloudDialogflowCxV3ListChangelogsResponse extends \Google\Collection
   protected $collection_key = 'changelogs';
   protected $changelogsType = GoogleCloudDialogflowCxV3Changelog::class;
   protected $changelogsDataType = 'array';
+  public $changelogs;
+  /**
+   * @var string
+   */
   public $nextPageToken;
 
   /**
@@ -38,10 +42,16 @@ class GoogleCloudDialogflowCxV3ListChangelogsResponse extends \Google\Collection
   {
     return $this->changelogs;
   }
+  /**
+   * @param string
+   */
   public function setNextPageToken($nextPageToken)
   {
     $this->nextPageToken = $nextPageToken;
   }
+  /**
+   * @return string
+   */
   public function getNextPageToken()
   {
     return $this->nextPageToken;

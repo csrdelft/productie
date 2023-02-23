@@ -19,29 +19,49 @@ namespace Google\Service\Contactcenterinsights;
 
 class GoogleCloudContactcenterinsightsV1RuntimeAnnotation extends \Google\Model
 {
+  /**
+   * @var string
+   */
   public $annotationId;
   protected $answerFeedbackType = GoogleCloudContactcenterinsightsV1AnswerFeedback::class;
   protected $answerFeedbackDataType = '';
+  public $answerFeedback;
   protected $articleSuggestionType = GoogleCloudContactcenterinsightsV1ArticleSuggestionData::class;
   protected $articleSuggestionDataType = '';
+  public $articleSuggestion;
+  /**
+   * @var string
+   */
   public $createTime;
   protected $dialogflowInteractionType = GoogleCloudContactcenterinsightsV1DialogflowInteractionData::class;
   protected $dialogflowInteractionDataType = '';
+  public $dialogflowInteraction;
   protected $endBoundaryType = GoogleCloudContactcenterinsightsV1AnnotationBoundary::class;
   protected $endBoundaryDataType = '';
+  public $endBoundary;
   protected $faqAnswerType = GoogleCloudContactcenterinsightsV1FaqAnswerData::class;
   protected $faqAnswerDataType = '';
+  public $faqAnswer;
   protected $smartComposeSuggestionType = GoogleCloudContactcenterinsightsV1SmartComposeSuggestionData::class;
   protected $smartComposeSuggestionDataType = '';
+  public $smartComposeSuggestion;
   protected $smartReplyType = GoogleCloudContactcenterinsightsV1SmartReplyData::class;
   protected $smartReplyDataType = '';
+  public $smartReply;
   protected $startBoundaryType = GoogleCloudContactcenterinsightsV1AnnotationBoundary::class;
   protected $startBoundaryDataType = '';
+  public $startBoundary;
 
+  /**
+   * @param string
+   */
   public function setAnnotationId($annotationId)
   {
     $this->annotationId = $annotationId;
   }
+  /**
+   * @return string
+   */
   public function getAnnotationId()
   {
     return $this->annotationId;
@@ -74,10 +94,16 @@ class GoogleCloudContactcenterinsightsV1RuntimeAnnotation extends \Google\Model
   {
     return $this->articleSuggestion;
   }
+  /**
+   * @param string
+   */
   public function setCreateTime($createTime)
   {
     $this->createTime = $createTime;
   }
+  /**
+   * @return string
+   */
   public function getCreateTime()
   {
     return $this->createTime;

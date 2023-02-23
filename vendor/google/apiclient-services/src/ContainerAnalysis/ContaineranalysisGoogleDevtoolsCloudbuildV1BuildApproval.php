@@ -21,8 +21,13 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1BuildApproval extends \Google\M
 {
   protected $configType = ContaineranalysisGoogleDevtoolsCloudbuildV1ApprovalConfig::class;
   protected $configDataType = '';
+  public $config;
   protected $resultType = ContaineranalysisGoogleDevtoolsCloudbuildV1ApprovalResult::class;
   protected $resultDataType = '';
+  public $result;
+  /**
+   * @var string
+   */
   public $state;
 
   /**
@@ -53,10 +58,16 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1BuildApproval extends \Google\M
   {
     return $this->result;
   }
+  /**
+   * @param string
+   */
   public function setState($state)
   {
     $this->state = $state;
   }
+  /**
+   * @return string
+   */
   public function getState()
   {
     return $this->state;

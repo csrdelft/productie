@@ -17,16 +17,38 @@
 
 namespace Google\Service\VMMigrationService;
 
-class CloneJob extends \Google\Model
+class CloneJob extends \Google\Collection
 {
+  protected $collection_key = 'steps';
   protected $computeEngineTargetDetailsType = ComputeEngineTargetDetails::class;
   protected $computeEngineTargetDetailsDataType = '';
+  public $computeEngineTargetDetails;
+  /**
+   * @var string
+   */
   public $createTime;
+  /**
+   * @var string
+   */
+  public $endTime;
   protected $errorType = Status::class;
   protected $errorDataType = '';
+  public $error;
+  /**
+   * @var string
+   */
   public $name;
+  /**
+   * @var string
+   */
   public $state;
+  /**
+   * @var string
+   */
   public $stateTime;
+  protected $stepsType = CloneStep::class;
+  protected $stepsDataType = 'array';
+  public $steps;
 
   /**
    * @param ComputeEngineTargetDetails
@@ -42,13 +64,33 @@ class CloneJob extends \Google\Model
   {
     return $this->computeEngineTargetDetails;
   }
+  /**
+   * @param string
+   */
   public function setCreateTime($createTime)
   {
     $this->createTime = $createTime;
   }
+  /**
+   * @return string
+   */
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param string
+   */
+  public function setEndTime($endTime)
+  {
+    $this->endTime = $endTime;
+  }
+  /**
+   * @return string
+   */
+  public function getEndTime()
+  {
+    return $this->endTime;
   }
   /**
    * @param Status
@@ -64,29 +106,61 @@ class CloneJob extends \Google\Model
   {
     return $this->error;
   }
+  /**
+   * @param string
+   */
   public function setName($name)
   {
     $this->name = $name;
   }
+  /**
+   * @return string
+   */
   public function getName()
   {
     return $this->name;
   }
+  /**
+   * @param string
+   */
   public function setState($state)
   {
     $this->state = $state;
   }
+  /**
+   * @return string
+   */
   public function getState()
   {
     return $this->state;
   }
+  /**
+   * @param string
+   */
   public function setStateTime($stateTime)
   {
     $this->stateTime = $stateTime;
   }
+  /**
+   * @return string
+   */
   public function getStateTime()
   {
     return $this->stateTime;
+  }
+  /**
+   * @param CloneStep[]
+   */
+  public function setSteps($steps)
+  {
+    $this->steps = $steps;
+  }
+  /**
+   * @return CloneStep[]
+   */
+  public function getSteps()
+  {
+    return $this->steps;
   }
 }
 

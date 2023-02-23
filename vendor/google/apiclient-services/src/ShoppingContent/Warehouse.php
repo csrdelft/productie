@@ -21,12 +21,21 @@ class Warehouse extends \Google\Model
 {
   protected $businessDayConfigType = BusinessDayConfig::class;
   protected $businessDayConfigDataType = '';
+  public $businessDayConfig;
   protected $cutoffTimeType = WarehouseCutoffTime::class;
   protected $cutoffTimeDataType = '';
+  public $cutoffTime;
+  /**
+   * @var string
+   */
   public $handlingDays;
+  /**
+   * @var string
+   */
   public $name;
   protected $shippingAddressType = Address::class;
   protected $shippingAddressDataType = '';
+  public $shippingAddress;
 
   /**
    * @param BusinessDayConfig
@@ -56,18 +65,30 @@ class Warehouse extends \Google\Model
   {
     return $this->cutoffTime;
   }
+  /**
+   * @param string
+   */
   public function setHandlingDays($handlingDays)
   {
     $this->handlingDays = $handlingDays;
   }
+  /**
+   * @return string
+   */
   public function getHandlingDays()
   {
     return $this->handlingDays;
   }
+  /**
+   * @param string
+   */
   public function setName($name)
   {
     $this->name = $name;
   }
+  /**
+   * @return string
+   */
   public function getName()
   {
     return $this->name;

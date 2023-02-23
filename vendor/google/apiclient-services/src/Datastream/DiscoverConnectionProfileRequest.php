@@ -21,13 +21,28 @@ class DiscoverConnectionProfileRequest extends \Google\Model
 {
   protected $connectionProfileType = ConnectionProfile::class;
   protected $connectionProfileDataType = '';
+  public $connectionProfile;
+  /**
+   * @var string
+   */
   public $connectionProfileName;
+  /**
+   * @var bool
+   */
   public $fullHierarchy;
+  /**
+   * @var int
+   */
   public $hierarchyDepth;
   protected $mysqlRdbmsType = MysqlRdbms::class;
   protected $mysqlRdbmsDataType = '';
+  public $mysqlRdbms;
   protected $oracleRdbmsType = OracleRdbms::class;
   protected $oracleRdbmsDataType = '';
+  public $oracleRdbms;
+  protected $postgresqlRdbmsType = PostgresqlRdbms::class;
+  protected $postgresqlRdbmsDataType = '';
+  public $postgresqlRdbms;
 
   /**
    * @param ConnectionProfile
@@ -43,26 +58,44 @@ class DiscoverConnectionProfileRequest extends \Google\Model
   {
     return $this->connectionProfile;
   }
+  /**
+   * @param string
+   */
   public function setConnectionProfileName($connectionProfileName)
   {
     $this->connectionProfileName = $connectionProfileName;
   }
+  /**
+   * @return string
+   */
   public function getConnectionProfileName()
   {
     return $this->connectionProfileName;
   }
+  /**
+   * @param bool
+   */
   public function setFullHierarchy($fullHierarchy)
   {
     $this->fullHierarchy = $fullHierarchy;
   }
+  /**
+   * @return bool
+   */
   public function getFullHierarchy()
   {
     return $this->fullHierarchy;
   }
+  /**
+   * @param int
+   */
   public function setHierarchyDepth($hierarchyDepth)
   {
     $this->hierarchyDepth = $hierarchyDepth;
   }
+  /**
+   * @return int
+   */
   public function getHierarchyDepth()
   {
     return $this->hierarchyDepth;
@@ -94,6 +127,20 @@ class DiscoverConnectionProfileRequest extends \Google\Model
   public function getOracleRdbms()
   {
     return $this->oracleRdbms;
+  }
+  /**
+   * @param PostgresqlRdbms
+   */
+  public function setPostgresqlRdbms(PostgresqlRdbms $postgresqlRdbms)
+  {
+    $this->postgresqlRdbms = $postgresqlRdbms;
+  }
+  /**
+   * @return PostgresqlRdbms
+   */
+  public function getPostgresqlRdbms()
+  {
+    return $this->postgresqlRdbms;
   }
 }
 

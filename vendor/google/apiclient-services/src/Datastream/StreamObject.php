@@ -22,13 +22,28 @@ class StreamObject extends \Google\Collection
   protected $collection_key = 'errors';
   protected $backfillJobType = BackfillJob::class;
   protected $backfillJobDataType = '';
+  public $backfillJob;
+  /**
+   * @var string
+   */
   public $createTime;
+  /**
+   * @var string
+   */
   public $displayName;
   protected $errorsType = Error::class;
   protected $errorsDataType = 'array';
+  public $errors;
+  /**
+   * @var string
+   */
   public $name;
   protected $sourceObjectType = SourceObjectIdentifier::class;
   protected $sourceObjectDataType = '';
+  public $sourceObject;
+  /**
+   * @var string
+   */
   public $updateTime;
 
   /**
@@ -45,18 +60,30 @@ class StreamObject extends \Google\Collection
   {
     return $this->backfillJob;
   }
+  /**
+   * @param string
+   */
   public function setCreateTime($createTime)
   {
     $this->createTime = $createTime;
   }
+  /**
+   * @return string
+   */
   public function getCreateTime()
   {
     return $this->createTime;
   }
+  /**
+   * @param string
+   */
   public function setDisplayName($displayName)
   {
     $this->displayName = $displayName;
   }
+  /**
+   * @return string
+   */
   public function getDisplayName()
   {
     return $this->displayName;
@@ -75,10 +102,16 @@ class StreamObject extends \Google\Collection
   {
     return $this->errors;
   }
+  /**
+   * @param string
+   */
   public function setName($name)
   {
     $this->name = $name;
   }
+  /**
+   * @return string
+   */
   public function getName()
   {
     return $this->name;
@@ -97,10 +130,16 @@ class StreamObject extends \Google\Collection
   {
     return $this->sourceObject;
   }
+  /**
+   * @param string
+   */
   public function setUpdateTime($updateTime)
   {
     $this->updateTime = $updateTime;
   }
+  /**
+   * @return string
+   */
   public function getUpdateTime()
   {
     return $this->updateTime;

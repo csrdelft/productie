@@ -19,17 +19,58 @@ namespace Google\Service\Translate;
 
 class TranslateDocumentRequest extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $customizedAttribution;
   protected $documentInputConfigType = DocumentInputConfig::class;
   protected $documentInputConfigDataType = '';
+  public $documentInputConfig;
   protected $documentOutputConfigType = DocumentOutputConfig::class;
   protected $documentOutputConfigDataType = '';
+  public $documentOutputConfig;
+  /**
+   * @var bool
+   */
+  public $enableShadowRemovalNativePdf;
   protected $glossaryConfigType = TranslateTextGlossaryConfig::class;
   protected $glossaryConfigDataType = '';
+  public $glossaryConfig;
+  /**
+   * @var bool
+   */
+  public $isTranslateNativePdfOnly;
+  /**
+   * @var string[]
+   */
   public $labels;
+  /**
+   * @var string
+   */
   public $model;
+  /**
+   * @var string
+   */
   public $sourceLanguageCode;
+  /**
+   * @var string
+   */
   public $targetLanguageCode;
 
+  /**
+   * @param string
+   */
+  public function setCustomizedAttribution($customizedAttribution)
+  {
+    $this->customizedAttribution = $customizedAttribution;
+  }
+  /**
+   * @return string
+   */
+  public function getCustomizedAttribution()
+  {
+    return $this->customizedAttribution;
+  }
   /**
    * @param DocumentInputConfig
    */
@@ -59,6 +100,20 @@ class TranslateDocumentRequest extends \Google\Model
     return $this->documentOutputConfig;
   }
   /**
+   * @param bool
+   */
+  public function setEnableShadowRemovalNativePdf($enableShadowRemovalNativePdf)
+  {
+    $this->enableShadowRemovalNativePdf = $enableShadowRemovalNativePdf;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableShadowRemovalNativePdf()
+  {
+    return $this->enableShadowRemovalNativePdf;
+  }
+  /**
    * @param TranslateTextGlossaryConfig
    */
   public function setGlossaryConfig(TranslateTextGlossaryConfig $glossaryConfig)
@@ -72,34 +127,72 @@ class TranslateDocumentRequest extends \Google\Model
   {
     return $this->glossaryConfig;
   }
+  /**
+   * @param bool
+   */
+  public function setIsTranslateNativePdfOnly($isTranslateNativePdfOnly)
+  {
+    $this->isTranslateNativePdfOnly = $isTranslateNativePdfOnly;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsTranslateNativePdfOnly()
+  {
+    return $this->isTranslateNativePdfOnly;
+  }
+  /**
+   * @param string[]
+   */
   public function setLabels($labels)
   {
     $this->labels = $labels;
   }
+  /**
+   * @return string[]
+   */
   public function getLabels()
   {
     return $this->labels;
   }
+  /**
+   * @param string
+   */
   public function setModel($model)
   {
     $this->model = $model;
   }
+  /**
+   * @return string
+   */
   public function getModel()
   {
     return $this->model;
   }
+  /**
+   * @param string
+   */
   public function setSourceLanguageCode($sourceLanguageCode)
   {
     $this->sourceLanguageCode = $sourceLanguageCode;
   }
+  /**
+   * @return string
+   */
   public function getSourceLanguageCode()
   {
     return $this->sourceLanguageCode;
   }
+  /**
+   * @param string
+   */
   public function setTargetLanguageCode($targetLanguageCode)
   {
     $this->targetLanguageCode = $targetLanguageCode;
   }
+  /**
+   * @return string
+   */
   public function getTargetLanguageCode()
   {
     return $this->targetLanguageCode;

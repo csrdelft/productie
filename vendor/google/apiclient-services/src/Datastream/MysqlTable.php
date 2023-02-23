@@ -22,6 +22,10 @@ class MysqlTable extends \Google\Collection
   protected $collection_key = 'mysqlColumns';
   protected $mysqlColumnsType = MysqlColumn::class;
   protected $mysqlColumnsDataType = 'array';
+  public $mysqlColumns;
+  /**
+   * @var string
+   */
   public $table;
 
   /**
@@ -38,10 +42,16 @@ class MysqlTable extends \Google\Collection
   {
     return $this->mysqlColumns;
   }
+  /**
+   * @param string
+   */
   public function setTable($table)
   {
     $this->table = $table;
   }
+  /**
+   * @return string
+   */
   public function getTable()
   {
     return $this->table;

@@ -21,6 +21,10 @@ class GoogleCloudContactcenterinsightsV1AnalysisResult extends \Google\Model
 {
   protected $callAnalysisMetadataType = GoogleCloudContactcenterinsightsV1AnalysisResultCallAnalysisMetadata::class;
   protected $callAnalysisMetadataDataType = '';
+  public $callAnalysisMetadata;
+  /**
+   * @var string
+   */
   public $endTime;
 
   /**
@@ -37,10 +41,16 @@ class GoogleCloudContactcenterinsightsV1AnalysisResult extends \Google\Model
   {
     return $this->callAnalysisMetadata;
   }
+  /**
+   * @param string
+   */
   public function setEndTime($endTime)
   {
     $this->endTime = $endTime;
   }
+  /**
+   * @return string
+   */
   public function getEndTime()
   {
     return $this->endTime;

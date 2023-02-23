@@ -19,15 +19,77 @@ namespace Google\Service\PaymentsResellerSubscription;
 
 class GoogleCloudPaymentsResellerSubscriptionV1PromotionIntroductoryPricingDetailsIntroductoryPricingSpec extends \Google\Model
 {
+  protected $discountAmountType = GoogleCloudPaymentsResellerSubscriptionV1Amount::class;
+  protected $discountAmountDataType = '';
+  public $discountAmount;
+  /**
+   * @var string
+   */
+  public $discountRatioMicros;
+  /**
+   * @var int
+   */
   public $recurrenceCount;
+  /**
+   * @var string
+   */
+  public $regionCode;
 
+  /**
+   * @param GoogleCloudPaymentsResellerSubscriptionV1Amount
+   */
+  public function setDiscountAmount(GoogleCloudPaymentsResellerSubscriptionV1Amount $discountAmount)
+  {
+    $this->discountAmount = $discountAmount;
+  }
+  /**
+   * @return GoogleCloudPaymentsResellerSubscriptionV1Amount
+   */
+  public function getDiscountAmount()
+  {
+    return $this->discountAmount;
+  }
+  /**
+   * @param string
+   */
+  public function setDiscountRatioMicros($discountRatioMicros)
+  {
+    $this->discountRatioMicros = $discountRatioMicros;
+  }
+  /**
+   * @return string
+   */
+  public function getDiscountRatioMicros()
+  {
+    return $this->discountRatioMicros;
+  }
+  /**
+   * @param int
+   */
   public function setRecurrenceCount($recurrenceCount)
   {
     $this->recurrenceCount = $recurrenceCount;
   }
+  /**
+   * @return int
+   */
   public function getRecurrenceCount()
   {
     return $this->recurrenceCount;
+  }
+  /**
+   * @param string
+   */
+  public function setRegionCode($regionCode)
+  {
+    $this->regionCode = $regionCode;
+  }
+  /**
+   * @return string
+   */
+  public function getRegionCode()
+  {
+    return $this->regionCode;
   }
 }
 

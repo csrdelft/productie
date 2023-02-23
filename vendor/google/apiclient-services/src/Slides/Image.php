@@ -19,17 +19,31 @@ namespace Google\Service\Slides;
 
 class Image extends \Google\Model
 {
+  /**
+   * @var string
+   */
   public $contentUrl;
   protected $imagePropertiesType = ImageProperties::class;
   protected $imagePropertiesDataType = '';
+  public $imageProperties;
   protected $placeholderType = Placeholder::class;
   protected $placeholderDataType = '';
+  public $placeholder;
+  /**
+   * @var string
+   */
   public $sourceUrl;
 
+  /**
+   * @param string
+   */
   public function setContentUrl($contentUrl)
   {
     $this->contentUrl = $contentUrl;
   }
+  /**
+   * @return string
+   */
   public function getContentUrl()
   {
     return $this->contentUrl;
@@ -62,10 +76,16 @@ class Image extends \Google\Model
   {
     return $this->placeholder;
   }
+  /**
+   * @param string
+   */
   public function setSourceUrl($sourceUrl)
   {
     $this->sourceUrl = $sourceUrl;
   }
+  /**
+   * @return string
+   */
   public function getSourceUrl()
   {
     return $this->sourceUrl;

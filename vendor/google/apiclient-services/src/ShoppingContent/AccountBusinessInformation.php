@@ -21,10 +21,21 @@ class AccountBusinessInformation extends \Google\Model
 {
   protected $addressType = AccountAddress::class;
   protected $addressDataType = '';
+  public $address;
   protected $customerServiceType = AccountCustomerService::class;
   protected $customerServiceDataType = '';
+  public $customerService;
+  /**
+   * @var string
+   */
   public $koreanBusinessRegistrationNumber;
+  /**
+   * @var string
+   */
   public $phoneNumber;
+  /**
+   * @var string
+   */
   public $phoneVerificationStatus;
 
   /**
@@ -55,26 +66,44 @@ class AccountBusinessInformation extends \Google\Model
   {
     return $this->customerService;
   }
+  /**
+   * @param string
+   */
   public function setKoreanBusinessRegistrationNumber($koreanBusinessRegistrationNumber)
   {
     $this->koreanBusinessRegistrationNumber = $koreanBusinessRegistrationNumber;
   }
+  /**
+   * @return string
+   */
   public function getKoreanBusinessRegistrationNumber()
   {
     return $this->koreanBusinessRegistrationNumber;
   }
+  /**
+   * @param string
+   */
   public function setPhoneNumber($phoneNumber)
   {
     $this->phoneNumber = $phoneNumber;
   }
+  /**
+   * @return string
+   */
   public function getPhoneNumber()
   {
     return $this->phoneNumber;
   }
+  /**
+   * @param string
+   */
   public function setPhoneVerificationStatus($phoneVerificationStatus)
   {
     $this->phoneVerificationStatus = $phoneVerificationStatus;
   }
+  /**
+   * @return string
+   */
   public function getPhoneVerificationStatus()
   {
     return $this->phoneVerificationStatus;

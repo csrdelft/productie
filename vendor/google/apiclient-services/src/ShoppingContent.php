@@ -60,11 +60,13 @@ class ShoppingContent extends \Google\Service
   public $orders;
   public $ordertrackingsignals;
   public $pos;
+  public $productdeliverytime;
   public $products;
   public $productstatuses;
   public $productstatuses_repricingreports;
   public $promotions;
   public $pubsubnotificationsettings;
+  public $quotas;
   public $regionalinventory;
   public $regions;
   public $reports;
@@ -978,6 +980,10 @@ class ShoppingContent extends \Google\Service
                   'required' => true,
                 ],
                 'country' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'feedLabel' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],
@@ -2004,6 +2010,56 @@ class ShoppingContent extends \Google\Service
           ]
         ]
     );
+    $this->productdeliverytime = new ShoppingContent\Resource\Productdeliverytime(
+        $this,
+        $this->serviceName,
+        'productdeliverytime',
+        [
+          'methods' => [
+            'create' => [
+              'path' => '{merchantId}/productdeliverytime',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'delete' => [
+              'path' => '{merchantId}/productdeliverytime/{productId}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'productId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => '{merchantId}/productdeliverytime/{productId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'productId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->products = new ShoppingContent\Resource\Products(
         $this,
         $this->serviceName,
@@ -2264,6 +2320,34 @@ class ShoppingContent extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->quotas = new ShoppingContent\Resource\Quotas(
+        $this,
+        $this->serviceName,
+        'quotas',
+        [
+          'methods' => [
+            'list' => [
+              'path' => '{merchantId}/quotas',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],

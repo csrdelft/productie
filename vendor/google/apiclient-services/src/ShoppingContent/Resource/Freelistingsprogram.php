@@ -32,7 +32,9 @@ class Freelistingsprogram extends \Google\Service\Resource
 {
   /**
    * Retrieves the status and review eligibility for the free listing program.
-   * (freelistingsprogram.get)
+   * Returns errors and warnings if they require action to resolve, will become
+   * disapprovals, or impact impressions. Use `accountstatuses` to view all issues
+   * for an account. (freelistingsprogram.get)
    *
    * @param string $merchantId Required. The ID of the account.
    * @param array $optParams Optional parameters.
@@ -45,9 +47,8 @@ class Freelistingsprogram extends \Google\Service\Resource
     return $this->call('get', [$params], FreeListingsProgramStatus::class);
   }
   /**
-   * Requests a review for Free Listings program in the provided region.
-   * Important: This method is only whitelisted for selected merchants.
-   * (freelistingsprogram.requestreview)
+   * Requests a review of free listings in a specific region. This method is only
+   * available to selected merchants. (freelistingsprogram.requestreview)
    *
    * @param string $merchantId Required. The ID of the account.
    * @param RequestReviewFreeListingsRequest $postBody

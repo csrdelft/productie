@@ -19,32 +19,78 @@ namespace Google\Service\SQLAdmin;
 
 class UserPasswordValidationPolicy extends \Google\Model
 {
+  /**
+   * @var int
+   */
   public $allowedFailedAttempts;
+  /**
+   * @var bool
+   */
   public $enableFailedAttemptsCheck;
+  /**
+   * @var bool
+   */
+  public $enablePasswordVerification;
+  /**
+   * @var string
+   */
   public $passwordExpirationDuration;
   protected $statusType = PasswordStatus::class;
   protected $statusDataType = '';
+  public $status;
 
+  /**
+   * @param int
+   */
   public function setAllowedFailedAttempts($allowedFailedAttempts)
   {
     $this->allowedFailedAttempts = $allowedFailedAttempts;
   }
+  /**
+   * @return int
+   */
   public function getAllowedFailedAttempts()
   {
     return $this->allowedFailedAttempts;
   }
+  /**
+   * @param bool
+   */
   public function setEnableFailedAttemptsCheck($enableFailedAttemptsCheck)
   {
     $this->enableFailedAttemptsCheck = $enableFailedAttemptsCheck;
   }
+  /**
+   * @return bool
+   */
   public function getEnableFailedAttemptsCheck()
   {
     return $this->enableFailedAttemptsCheck;
   }
+  /**
+   * @param bool
+   */
+  public function setEnablePasswordVerification($enablePasswordVerification)
+  {
+    $this->enablePasswordVerification = $enablePasswordVerification;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnablePasswordVerification()
+  {
+    return $this->enablePasswordVerification;
+  }
+  /**
+   * @param string
+   */
   public function setPasswordExpirationDuration($passwordExpirationDuration)
   {
     $this->passwordExpirationDuration = $passwordExpirationDuration;
   }
+  /**
+   * @return string
+   */
   public function getPasswordExpirationDuration()
   {
     return $this->passwordExpirationDuration;

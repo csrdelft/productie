@@ -21,8 +21,13 @@ class DiffUploadRequest extends \Google\Model
 {
   protected $checksumsInfoType = CompositeMedia::class;
   protected $checksumsInfoDataType = '';
+  public $checksumsInfo;
   protected $objectInfoType = CompositeMedia::class;
   protected $objectInfoDataType = '';
+  public $objectInfo;
+  /**
+   * @var string
+   */
   public $objectVersion;
 
   /**
@@ -53,10 +58,16 @@ class DiffUploadRequest extends \Google\Model
   {
     return $this->objectInfo;
   }
+  /**
+   * @param string
+   */
   public function setObjectVersion($objectVersion)
   {
     $this->objectVersion = $objectVersion;
   }
+  /**
+   * @return string
+   */
   public function getObjectVersion()
   {
     return $this->objectVersion;

@@ -17,45 +17,124 @@
 
 namespace Google\Service\Connectors;
 
-class ConfigVariableTemplate extends \Google\Model
+class ConfigVariableTemplate extends \Google\Collection
 {
+  protected $collection_key = 'enumOptions';
+  protected $authorizationCodeLinkType = AuthorizationCodeLink::class;
+  protected $authorizationCodeLinkDataType = '';
+  /**
+   * @var string
+   */
   public $description;
+  /**
+   * @var string
+   */
   public $displayName;
+  protected $enumOptionsType = EnumOption::class;
+  protected $enumOptionsDataType = 'array';
+  /**
+   * @var string
+   */
   public $key;
+  /**
+   * @var bool
+   */
   public $required;
   protected $roleGrantType = RoleGrant::class;
   protected $roleGrantDataType = '';
+  /**
+   * @var string
+   */
+  public $state;
+  /**
+   * @var string
+   */
   public $validationRegex;
+  /**
+   * @var string
+   */
   public $valueType;
 
+  /**
+   * @param AuthorizationCodeLink
+   */
+  public function setAuthorizationCodeLink(AuthorizationCodeLink $authorizationCodeLink)
+  {
+    $this->authorizationCodeLink = $authorizationCodeLink;
+  }
+  /**
+   * @return AuthorizationCodeLink
+   */
+  public function getAuthorizationCodeLink()
+  {
+    return $this->authorizationCodeLink;
+  }
+  /**
+   * @param string
+   */
   public function setDescription($description)
   {
     $this->description = $description;
   }
+  /**
+   * @return string
+   */
   public function getDescription()
   {
     return $this->description;
   }
+  /**
+   * @param string
+   */
   public function setDisplayName($displayName)
   {
     $this->displayName = $displayName;
   }
+  /**
+   * @return string
+   */
   public function getDisplayName()
   {
     return $this->displayName;
   }
+  /**
+   * @param EnumOption[]
+   */
+  public function setEnumOptions($enumOptions)
+  {
+    $this->enumOptions = $enumOptions;
+  }
+  /**
+   * @return EnumOption[]
+   */
+  public function getEnumOptions()
+  {
+    return $this->enumOptions;
+  }
+  /**
+   * @param string
+   */
   public function setKey($key)
   {
     $this->key = $key;
   }
+  /**
+   * @return string
+   */
   public function getKey()
   {
     return $this->key;
   }
+  /**
+   * @param bool
+   */
   public function setRequired($required)
   {
     $this->required = $required;
   }
+  /**
+   * @return bool
+   */
   public function getRequired()
   {
     return $this->required;
@@ -74,18 +153,44 @@ class ConfigVariableTemplate extends \Google\Model
   {
     return $this->roleGrant;
   }
+  /**
+   * @param string
+   */
+  public function setState($state)
+  {
+    $this->state = $state;
+  }
+  /**
+   * @return string
+   */
+  public function getState()
+  {
+    return $this->state;
+  }
+  /**
+   * @param string
+   */
   public function setValidationRegex($validationRegex)
   {
     $this->validationRegex = $validationRegex;
   }
+  /**
+   * @return string
+   */
   public function getValidationRegex()
   {
     return $this->validationRegex;
   }
+  /**
+   * @param string
+   */
   public function setValueType($valueType)
   {
     $this->valueType = $valueType;
   }
+  /**
+   * @return string
+   */
   public function getValueType()
   {
     return $this->valueType;

@@ -22,6 +22,10 @@ class GoogleCloudContactcenterinsightsV1ListConversationsResponse extends \Googl
   protected $collection_key = 'conversations';
   protected $conversationsType = GoogleCloudContactcenterinsightsV1Conversation::class;
   protected $conversationsDataType = 'array';
+  public $conversations;
+  /**
+   * @var string
+   */
   public $nextPageToken;
 
   /**
@@ -38,10 +42,16 @@ class GoogleCloudContactcenterinsightsV1ListConversationsResponse extends \Googl
   {
     return $this->conversations;
   }
+  /**
+   * @param string
+   */
   public function setNextPageToken($nextPageToken)
   {
     $this->nextPageToken = $nextPageToken;
   }
+  /**
+   * @return string
+   */
   public function getNextPageToken()
   {
     return $this->nextPageToken;

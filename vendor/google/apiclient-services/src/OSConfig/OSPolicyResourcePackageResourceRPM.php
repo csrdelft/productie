@@ -19,14 +19,24 @@ namespace Google\Service\OSConfig;
 
 class OSPolicyResourcePackageResourceRPM extends \Google\Model
 {
+  /**
+   * @var bool
+   */
   public $pullDeps;
   protected $sourceType = OSPolicyResourceFile::class;
   protected $sourceDataType = '';
+  public $source;
 
+  /**
+   * @param bool
+   */
   public function setPullDeps($pullDeps)
   {
     $this->pullDeps = $pullDeps;
   }
+  /**
+   * @return bool
+   */
   public function getPullDeps()
   {
     return $this->pullDeps;

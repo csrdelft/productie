@@ -21,6 +21,10 @@ class GoogleCloudContactcenterinsightsV1CreateIssueModelRequest extends \Google\
 {
   protected $issueModelType = GoogleCloudContactcenterinsightsV1IssueModel::class;
   protected $issueModelDataType = '';
+  public $issueModel;
+  /**
+   * @var string
+   */
   public $parent;
 
   /**
@@ -37,10 +41,16 @@ class GoogleCloudContactcenterinsightsV1CreateIssueModelRequest extends \Google\
   {
     return $this->issueModel;
   }
+  /**
+   * @param string
+   */
   public function setParent($parent)
   {
     $this->parent = $parent;
   }
+  /**
+   * @return string
+   */
   public function getParent()
   {
     return $this->parent;

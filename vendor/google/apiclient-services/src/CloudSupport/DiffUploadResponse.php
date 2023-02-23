@@ -19,14 +19,24 @@ namespace Google\Service\CloudSupport;
 
 class DiffUploadResponse extends \Google\Model
 {
+  /**
+   * @var string
+   */
   public $objectVersion;
   protected $originalObjectType = CompositeMedia::class;
   protected $originalObjectDataType = '';
+  public $originalObject;
 
+  /**
+   * @param string
+   */
   public function setObjectVersion($objectVersion)
   {
     $this->objectVersion = $objectVersion;
   }
+  /**
+   * @return string
+   */
   public function getObjectVersion()
   {
     return $this->objectVersion;

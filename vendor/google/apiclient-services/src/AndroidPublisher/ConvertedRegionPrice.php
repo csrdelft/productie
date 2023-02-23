@@ -21,9 +21,14 @@ class ConvertedRegionPrice extends \Google\Model
 {
   protected $priceType = Money::class;
   protected $priceDataType = '';
+  public $price;
+  /**
+   * @var string
+   */
   public $regionCode;
   protected $taxAmountType = Money::class;
   protected $taxAmountDataType = '';
+  public $taxAmount;
 
   /**
    * @param Money
@@ -39,10 +44,16 @@ class ConvertedRegionPrice extends \Google\Model
   {
     return $this->price;
   }
+  /**
+   * @param string
+   */
   public function setRegionCode($regionCode)
   {
     $this->regionCode = $regionCode;
   }
+  /**
+   * @return string
+   */
   public function getRegionCode()
   {
     return $this->regionCode;

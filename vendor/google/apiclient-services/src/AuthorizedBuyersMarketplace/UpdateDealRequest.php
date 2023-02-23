@@ -21,6 +21,10 @@ class UpdateDealRequest extends \Google\Model
 {
   protected $dealType = Deal::class;
   protected $dealDataType = '';
+  public $deal;
+  /**
+   * @var string
+   */
   public $updateMask;
 
   /**
@@ -37,10 +41,16 @@ class UpdateDealRequest extends \Google\Model
   {
     return $this->deal;
   }
+  /**
+   * @param string
+   */
   public function setUpdateMask($updateMask)
   {
     $this->updateMask = $updateMask;
   }
+  /**
+   * @return string
+   */
   public function getUpdateMask()
   {
     return $this->updateMask;

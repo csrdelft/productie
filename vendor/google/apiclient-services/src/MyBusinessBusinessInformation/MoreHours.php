@@ -20,14 +20,24 @@ namespace Google\Service\MyBusinessBusinessInformation;
 class MoreHours extends \Google\Collection
 {
   protected $collection_key = 'periods';
+  /**
+   * @var string
+   */
   public $hoursTypeId;
   protected $periodsType = TimePeriod::class;
   protected $periodsDataType = 'array';
+  public $periods;
 
+  /**
+   * @param string
+   */
   public function setHoursTypeId($hoursTypeId)
   {
     $this->hoursTypeId = $hoursTypeId;
   }
+  /**
+   * @return string
+   */
   public function getHoursTypeId()
   {
     return $this->hoursTypeId;

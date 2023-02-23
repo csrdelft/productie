@@ -22,7 +22,14 @@ class GoogleIdentityStsV1betaOptions extends \Google\Collection
   protected $collection_key = 'audiences';
   protected $accessBoundaryType = GoogleIdentityStsV1betaAccessBoundary::class;
   protected $accessBoundaryDataType = '';
+  public $accessBoundary;
+  /**
+   * @var string[]
+   */
   public $audiences;
+  /**
+   * @var string
+   */
   public $userProject;
 
   /**
@@ -39,18 +46,30 @@ class GoogleIdentityStsV1betaOptions extends \Google\Collection
   {
     return $this->accessBoundary;
   }
+  /**
+   * @param string[]
+   */
   public function setAudiences($audiences)
   {
     $this->audiences = $audiences;
   }
+  /**
+   * @return string[]
+   */
   public function getAudiences()
   {
     return $this->audiences;
   }
+  /**
+   * @param string
+   */
   public function setUserProject($userProject)
   {
     $this->userProject = $userProject;
   }
+  /**
+   * @return string
+   */
   public function getUserProject()
   {
     return $this->userProject;

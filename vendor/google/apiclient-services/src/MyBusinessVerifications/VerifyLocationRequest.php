@@ -21,13 +21,30 @@ class VerifyLocationRequest extends \Google\Model
 {
   protected $contextType = ServiceBusinessContext::class;
   protected $contextDataType = '';
+  public $context;
+  /**
+   * @var string
+   */
   public $emailAddress;
+  /**
+   * @var string
+   */
   public $languageCode;
+  /**
+   * @var string
+   */
   public $mailerContact;
+  /**
+   * @var string
+   */
   public $method;
+  /**
+   * @var string
+   */
   public $phoneNumber;
   protected $tokenType = VerificationToken::class;
   protected $tokenDataType = '';
+  public $token;
 
   /**
    * @param ServiceBusinessContext
@@ -43,42 +60,72 @@ class VerifyLocationRequest extends \Google\Model
   {
     return $this->context;
   }
+  /**
+   * @param string
+   */
   public function setEmailAddress($emailAddress)
   {
     $this->emailAddress = $emailAddress;
   }
+  /**
+   * @return string
+   */
   public function getEmailAddress()
   {
     return $this->emailAddress;
   }
+  /**
+   * @param string
+   */
   public function setLanguageCode($languageCode)
   {
     $this->languageCode = $languageCode;
   }
+  /**
+   * @return string
+   */
   public function getLanguageCode()
   {
     return $this->languageCode;
   }
+  /**
+   * @param string
+   */
   public function setMailerContact($mailerContact)
   {
     $this->mailerContact = $mailerContact;
   }
+  /**
+   * @return string
+   */
   public function getMailerContact()
   {
     return $this->mailerContact;
   }
+  /**
+   * @param string
+   */
   public function setMethod($method)
   {
     $this->method = $method;
   }
+  /**
+   * @return string
+   */
   public function getMethod()
   {
     return $this->method;
   }
+  /**
+   * @param string
+   */
   public function setPhoneNumber($phoneNumber)
   {
     $this->phoneNumber = $phoneNumber;
   }
+  /**
+   * @return string
+   */
   public function getPhoneNumber()
   {
     return $this->phoneNumber;

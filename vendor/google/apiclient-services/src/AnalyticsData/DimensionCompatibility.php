@@ -19,14 +19,24 @@ namespace Google\Service\AnalyticsData;
 
 class DimensionCompatibility extends \Google\Model
 {
+  /**
+   * @var string
+   */
   public $compatibility;
   protected $dimensionMetadataType = DimensionMetadata::class;
   protected $dimensionMetadataDataType = '';
+  public $dimensionMetadata;
 
+  /**
+   * @param string
+   */
   public function setCompatibility($compatibility)
   {
     $this->compatibility = $compatibility;
   }
+  /**
+   * @return string
+   */
   public function getCompatibility()
   {
     return $this->compatibility;

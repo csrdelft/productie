@@ -638,6 +638,24 @@ class CloudSearch extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'patch' => [
+              'path' => 'v1/settings/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'debugOptions.enableDebugging' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'update' => [
               'path' => 'v1/settings/{+name}',
               'httpMethod' => 'PUT',
@@ -707,6 +725,20 @@ class CloudSearch extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'patch' => [
+              'path' => 'v1/settings/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'reset' => [
               'path' => 'v1/settings/{+name}:reset',
               'httpMethod' => 'POST',
@@ -725,6 +757,10 @@ class CloudSearch extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],
@@ -791,6 +827,35 @@ class CloudSearch extends \Google\Service
                   'type' => 'integer',
                 ],
                 'toDate.year' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+              ],
+            ],'getSearchapplication' => [
+              'path' => 'v1/stats/searchapplication',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'endDate.day' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'endDate.month' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'endDate.year' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'startDate.day' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'startDate.month' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'startDate.year' => [
                   'location' => 'query',
                   'type' => 'integer',
                 ],

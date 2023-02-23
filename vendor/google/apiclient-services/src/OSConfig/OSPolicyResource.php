@@ -21,13 +21,20 @@ class OSPolicyResource extends \Google\Model
 {
   protected $execType = OSPolicyResourceExecResource::class;
   protected $execDataType = '';
+  public $exec;
   protected $fileType = OSPolicyResourceFileResource::class;
   protected $fileDataType = '';
+  public $file;
+  /**
+   * @var string
+   */
   public $id;
   protected $pkgType = OSPolicyResourcePackageResource::class;
   protected $pkgDataType = '';
+  public $pkg;
   protected $repositoryType = OSPolicyResourceRepositoryResource::class;
   protected $repositoryDataType = '';
+  public $repository;
 
   /**
    * @param OSPolicyResourceExecResource
@@ -57,10 +64,16 @@ class OSPolicyResource extends \Google\Model
   {
     return $this->file;
   }
+  /**
+   * @param string
+   */
   public function setId($id)
   {
     $this->id = $id;
   }
+  /**
+   * @return string
+   */
   public function getId()
   {
     return $this->id;

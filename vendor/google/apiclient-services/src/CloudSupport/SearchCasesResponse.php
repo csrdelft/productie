@@ -22,6 +22,10 @@ class SearchCasesResponse extends \Google\Collection
   protected $collection_key = 'cases';
   protected $casesType = CloudsupportCase::class;
   protected $casesDataType = 'array';
+  public $cases;
+  /**
+   * @var string
+   */
   public $nextPageToken;
 
   /**
@@ -38,10 +42,16 @@ class SearchCasesResponse extends \Google\Collection
   {
     return $this->cases;
   }
+  /**
+   * @param string
+   */
   public function setNextPageToken($nextPageToken)
   {
     $this->nextPageToken = $nextPageToken;
   }
+  /**
+   * @return string
+   */
   public function getNextPageToken()
   {
     return $this->nextPageToken;

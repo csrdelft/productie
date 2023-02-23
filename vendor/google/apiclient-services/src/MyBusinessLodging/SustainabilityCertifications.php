@@ -20,25 +20,50 @@ namespace Google\Service\MyBusinessLodging;
 class SustainabilityCertifications extends \Google\Collection
 {
   protected $collection_key = 'ecoCertifications';
+  /**
+   * @var string
+   */
   public $breeamCertification;
+  /**
+   * @var string
+   */
   public $breeamCertificationException;
   protected $ecoCertificationsType = EcoCertification::class;
   protected $ecoCertificationsDataType = 'array';
+  public $ecoCertifications;
+  /**
+   * @var string
+   */
   public $leedCertification;
+  /**
+   * @var string
+   */
   public $leedCertificationException;
 
+  /**
+   * @param string
+   */
   public function setBreeamCertification($breeamCertification)
   {
     $this->breeamCertification = $breeamCertification;
   }
+  /**
+   * @return string
+   */
   public function getBreeamCertification()
   {
     return $this->breeamCertification;
   }
+  /**
+   * @param string
+   */
   public function setBreeamCertificationException($breeamCertificationException)
   {
     $this->breeamCertificationException = $breeamCertificationException;
   }
+  /**
+   * @return string
+   */
   public function getBreeamCertificationException()
   {
     return $this->breeamCertificationException;
@@ -57,18 +82,30 @@ class SustainabilityCertifications extends \Google\Collection
   {
     return $this->ecoCertifications;
   }
+  /**
+   * @param string
+   */
   public function setLeedCertification($leedCertification)
   {
     $this->leedCertification = $leedCertification;
   }
+  /**
+   * @return string
+   */
   public function getLeedCertification()
   {
     return $this->leedCertification;
   }
+  /**
+   * @param string
+   */
   public function setLeedCertificationException($leedCertificationException)
   {
     $this->leedCertificationException = $leedCertificationException;
   }
+  /**
+   * @return string
+   */
   public function getLeedCertificationException()
   {
     return $this->leedCertificationException;

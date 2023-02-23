@@ -19,95 +19,244 @@ namespace Google\Service\ShoppingContent;
 
 class Promotion extends \Google\Collection
 {
-  protected $collection_key = 'shippingServiceNames';
+  protected $collection_key = 'storeCodeExclusion';
+  /**
+   * @var string[]
+   */
   public $brand;
+  /**
+   * @var string[]
+   */
   public $brandExclusion;
+  /**
+   * @var string
+   */
   public $contentLanguage;
+  /**
+   * @var string
+   */
   public $couponValueType;
+  /**
+   * @var string
+   */
   public $freeGiftDescription;
+  /**
+   * @var string
+   */
   public $freeGiftItemId;
   protected $freeGiftValueType = PriceAmount::class;
   protected $freeGiftValueDataType = '';
+  public $freeGiftValue;
+  /**
+   * @var string
+   */
   public $genericRedemptionCode;
+  /**
+   * @var int
+   */
   public $getThisQuantityDiscounted;
+  /**
+   * @var string
+   */
   public $id;
+  /**
+   * @var string[]
+   */
   public $itemGroupId;
+  /**
+   * @var string[]
+   */
   public $itemGroupIdExclusion;
+  /**
+   * @var string[]
+   */
   public $itemId;
+  /**
+   * @var string[]
+   */
   public $itemIdExclusion;
+  /**
+   * @var int
+   */
   public $limitQuantity;
   protected $limitValueType = PriceAmount::class;
   protected $limitValueDataType = '';
+  public $limitValue;
+  /**
+   * @var string
+   */
   public $longTitle;
   protected $minimumPurchaseAmountType = PriceAmount::class;
   protected $minimumPurchaseAmountDataType = '';
+  public $minimumPurchaseAmount;
+  /**
+   * @var int
+   */
   public $minimumPurchaseQuantity;
   protected $moneyBudgetType = PriceAmount::class;
   protected $moneyBudgetDataType = '';
+  public $moneyBudget;
   protected $moneyOffAmountType = PriceAmount::class;
   protected $moneyOffAmountDataType = '';
+  public $moneyOffAmount;
+  /**
+   * @var string
+   */
   public $offerType;
+  /**
+   * @var int
+   */
   public $orderLimit;
+  /**
+   * @var int
+   */
   public $percentOff;
+  /**
+   * @var string
+   */
   public $productApplicability;
+  /**
+   * @var string[]
+   */
   public $productType;
+  /**
+   * @var string[]
+   */
   public $productTypeExclusion;
+  /**
+   * @var string[]
+   */
   public $promotionDestinationIds;
+  /**
+   * @var string
+   */
   public $promotionDisplayDates;
   protected $promotionDisplayTimePeriodType = TimePeriod::class;
   protected $promotionDisplayTimePeriodDataType = '';
+  public $promotionDisplayTimePeriod;
+  /**
+   * @var string
+   */
   public $promotionEffectiveDates;
   protected $promotionEffectiveTimePeriodType = TimePeriod::class;
   protected $promotionEffectiveTimePeriodDataType = '';
+  public $promotionEffectiveTimePeriod;
+  /**
+   * @var string
+   */
   public $promotionId;
+  protected $promotionStatusType = PromotionPromotionStatus::class;
+  protected $promotionStatusDataType = '';
+  public $promotionStatus;
+  /**
+   * @var string
+   */
+  public $promotionUrl;
+  /**
+   * @var string[]
+   */
   public $redemptionChannel;
+  /**
+   * @var string[]
+   */
   public $shippingServiceNames;
+  /**
+   * @var string
+   */
+  public $storeApplicability;
+  /**
+   * @var string[]
+   */
+  public $storeCode;
+  /**
+   * @var string[]
+   */
+  public $storeCodeExclusion;
+  /**
+   * @var string
+   */
   public $targetCountry;
 
+  /**
+   * @param string[]
+   */
   public function setBrand($brand)
   {
     $this->brand = $brand;
   }
+  /**
+   * @return string[]
+   */
   public function getBrand()
   {
     return $this->brand;
   }
+  /**
+   * @param string[]
+   */
   public function setBrandExclusion($brandExclusion)
   {
     $this->brandExclusion = $brandExclusion;
   }
+  /**
+   * @return string[]
+   */
   public function getBrandExclusion()
   {
     return $this->brandExclusion;
   }
+  /**
+   * @param string
+   */
   public function setContentLanguage($contentLanguage)
   {
     $this->contentLanguage = $contentLanguage;
   }
+  /**
+   * @return string
+   */
   public function getContentLanguage()
   {
     return $this->contentLanguage;
   }
+  /**
+   * @param string
+   */
   public function setCouponValueType($couponValueType)
   {
     $this->couponValueType = $couponValueType;
   }
+  /**
+   * @return string
+   */
   public function getCouponValueType()
   {
     return $this->couponValueType;
   }
+  /**
+   * @param string
+   */
   public function setFreeGiftDescription($freeGiftDescription)
   {
     $this->freeGiftDescription = $freeGiftDescription;
   }
+  /**
+   * @return string
+   */
   public function getFreeGiftDescription()
   {
     return $this->freeGiftDescription;
   }
+  /**
+   * @param string
+   */
   public function setFreeGiftItemId($freeGiftItemId)
   {
     $this->freeGiftItemId = $freeGiftItemId;
   }
+  /**
+   * @return string
+   */
   public function getFreeGiftItemId()
   {
     return $this->freeGiftItemId;
@@ -126,66 +275,114 @@ class Promotion extends \Google\Collection
   {
     return $this->freeGiftValue;
   }
+  /**
+   * @param string
+   */
   public function setGenericRedemptionCode($genericRedemptionCode)
   {
     $this->genericRedemptionCode = $genericRedemptionCode;
   }
+  /**
+   * @return string
+   */
   public function getGenericRedemptionCode()
   {
     return $this->genericRedemptionCode;
   }
+  /**
+   * @param int
+   */
   public function setGetThisQuantityDiscounted($getThisQuantityDiscounted)
   {
     $this->getThisQuantityDiscounted = $getThisQuantityDiscounted;
   }
+  /**
+   * @return int
+   */
   public function getGetThisQuantityDiscounted()
   {
     return $this->getThisQuantityDiscounted;
   }
+  /**
+   * @param string
+   */
   public function setId($id)
   {
     $this->id = $id;
   }
+  /**
+   * @return string
+   */
   public function getId()
   {
     return $this->id;
   }
+  /**
+   * @param string[]
+   */
   public function setItemGroupId($itemGroupId)
   {
     $this->itemGroupId = $itemGroupId;
   }
+  /**
+   * @return string[]
+   */
   public function getItemGroupId()
   {
     return $this->itemGroupId;
   }
+  /**
+   * @param string[]
+   */
   public function setItemGroupIdExclusion($itemGroupIdExclusion)
   {
     $this->itemGroupIdExclusion = $itemGroupIdExclusion;
   }
+  /**
+   * @return string[]
+   */
   public function getItemGroupIdExclusion()
   {
     return $this->itemGroupIdExclusion;
   }
+  /**
+   * @param string[]
+   */
   public function setItemId($itemId)
   {
     $this->itemId = $itemId;
   }
+  /**
+   * @return string[]
+   */
   public function getItemId()
   {
     return $this->itemId;
   }
+  /**
+   * @param string[]
+   */
   public function setItemIdExclusion($itemIdExclusion)
   {
     $this->itemIdExclusion = $itemIdExclusion;
   }
+  /**
+   * @return string[]
+   */
   public function getItemIdExclusion()
   {
     return $this->itemIdExclusion;
   }
+  /**
+   * @param int
+   */
   public function setLimitQuantity($limitQuantity)
   {
     $this->limitQuantity = $limitQuantity;
   }
+  /**
+   * @return int
+   */
   public function getLimitQuantity()
   {
     return $this->limitQuantity;
@@ -204,10 +401,16 @@ class Promotion extends \Google\Collection
   {
     return $this->limitValue;
   }
+  /**
+   * @param string
+   */
   public function setLongTitle($longTitle)
   {
     $this->longTitle = $longTitle;
   }
+  /**
+   * @return string
+   */
   public function getLongTitle()
   {
     return $this->longTitle;
@@ -226,10 +429,16 @@ class Promotion extends \Google\Collection
   {
     return $this->minimumPurchaseAmount;
   }
+  /**
+   * @param int
+   */
   public function setMinimumPurchaseQuantity($minimumPurchaseQuantity)
   {
     $this->minimumPurchaseQuantity = $minimumPurchaseQuantity;
   }
+  /**
+   * @return int
+   */
   public function getMinimumPurchaseQuantity()
   {
     return $this->minimumPurchaseQuantity;
@@ -262,66 +471,114 @@ class Promotion extends \Google\Collection
   {
     return $this->moneyOffAmount;
   }
+  /**
+   * @param string
+   */
   public function setOfferType($offerType)
   {
     $this->offerType = $offerType;
   }
+  /**
+   * @return string
+   */
   public function getOfferType()
   {
     return $this->offerType;
   }
+  /**
+   * @param int
+   */
   public function setOrderLimit($orderLimit)
   {
     $this->orderLimit = $orderLimit;
   }
+  /**
+   * @return int
+   */
   public function getOrderLimit()
   {
     return $this->orderLimit;
   }
+  /**
+   * @param int
+   */
   public function setPercentOff($percentOff)
   {
     $this->percentOff = $percentOff;
   }
+  /**
+   * @return int
+   */
   public function getPercentOff()
   {
     return $this->percentOff;
   }
+  /**
+   * @param string
+   */
   public function setProductApplicability($productApplicability)
   {
     $this->productApplicability = $productApplicability;
   }
+  /**
+   * @return string
+   */
   public function getProductApplicability()
   {
     return $this->productApplicability;
   }
+  /**
+   * @param string[]
+   */
   public function setProductType($productType)
   {
     $this->productType = $productType;
   }
+  /**
+   * @return string[]
+   */
   public function getProductType()
   {
     return $this->productType;
   }
+  /**
+   * @param string[]
+   */
   public function setProductTypeExclusion($productTypeExclusion)
   {
     $this->productTypeExclusion = $productTypeExclusion;
   }
+  /**
+   * @return string[]
+   */
   public function getProductTypeExclusion()
   {
     return $this->productTypeExclusion;
   }
+  /**
+   * @param string[]
+   */
   public function setPromotionDestinationIds($promotionDestinationIds)
   {
     $this->promotionDestinationIds = $promotionDestinationIds;
   }
+  /**
+   * @return string[]
+   */
   public function getPromotionDestinationIds()
   {
     return $this->promotionDestinationIds;
   }
+  /**
+   * @param string
+   */
   public function setPromotionDisplayDates($promotionDisplayDates)
   {
     $this->promotionDisplayDates = $promotionDisplayDates;
   }
+  /**
+   * @return string
+   */
   public function getPromotionDisplayDates()
   {
     return $this->promotionDisplayDates;
@@ -340,10 +597,16 @@ class Promotion extends \Google\Collection
   {
     return $this->promotionDisplayTimePeriod;
   }
+  /**
+   * @param string
+   */
   public function setPromotionEffectiveDates($promotionEffectiveDates)
   {
     $this->promotionEffectiveDates = $promotionEffectiveDates;
   }
+  /**
+   * @return string
+   */
   public function getPromotionEffectiveDates()
   {
     return $this->promotionEffectiveDates;
@@ -362,34 +625,128 @@ class Promotion extends \Google\Collection
   {
     return $this->promotionEffectiveTimePeriod;
   }
+  /**
+   * @param string
+   */
   public function setPromotionId($promotionId)
   {
     $this->promotionId = $promotionId;
   }
+  /**
+   * @return string
+   */
   public function getPromotionId()
   {
     return $this->promotionId;
   }
+  /**
+   * @param PromotionPromotionStatus
+   */
+  public function setPromotionStatus(PromotionPromotionStatus $promotionStatus)
+  {
+    $this->promotionStatus = $promotionStatus;
+  }
+  /**
+   * @return PromotionPromotionStatus
+   */
+  public function getPromotionStatus()
+  {
+    return $this->promotionStatus;
+  }
+  /**
+   * @param string
+   */
+  public function setPromotionUrl($promotionUrl)
+  {
+    $this->promotionUrl = $promotionUrl;
+  }
+  /**
+   * @return string
+   */
+  public function getPromotionUrl()
+  {
+    return $this->promotionUrl;
+  }
+  /**
+   * @param string[]
+   */
   public function setRedemptionChannel($redemptionChannel)
   {
     $this->redemptionChannel = $redemptionChannel;
   }
+  /**
+   * @return string[]
+   */
   public function getRedemptionChannel()
   {
     return $this->redemptionChannel;
   }
+  /**
+   * @param string[]
+   */
   public function setShippingServiceNames($shippingServiceNames)
   {
     $this->shippingServiceNames = $shippingServiceNames;
   }
+  /**
+   * @return string[]
+   */
   public function getShippingServiceNames()
   {
     return $this->shippingServiceNames;
   }
+  /**
+   * @param string
+   */
+  public function setStoreApplicability($storeApplicability)
+  {
+    $this->storeApplicability = $storeApplicability;
+  }
+  /**
+   * @return string
+   */
+  public function getStoreApplicability()
+  {
+    return $this->storeApplicability;
+  }
+  /**
+   * @param string[]
+   */
+  public function setStoreCode($storeCode)
+  {
+    $this->storeCode = $storeCode;
+  }
+  /**
+   * @return string[]
+   */
+  public function getStoreCode()
+  {
+    return $this->storeCode;
+  }
+  /**
+   * @param string[]
+   */
+  public function setStoreCodeExclusion($storeCodeExclusion)
+  {
+    $this->storeCodeExclusion = $storeCodeExclusion;
+  }
+  /**
+   * @return string[]
+   */
+  public function getStoreCodeExclusion()
+  {
+    return $this->storeCodeExclusion;
+  }
+  /**
+   * @param string
+   */
   public function setTargetCountry($targetCountry)
   {
     $this->targetCountry = $targetCountry;
   }
+  /**
+   * @return string
+   */
   public function getTargetCountry()
   {
     return $this->targetCountry;

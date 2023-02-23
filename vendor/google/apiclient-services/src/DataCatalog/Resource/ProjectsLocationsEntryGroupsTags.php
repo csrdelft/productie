@@ -26,7 +26,7 @@ use Google\Service\DataCatalog\GoogleCloudDatacatalogV1Tag;
  * Typical usage is:
  *  <code>
  *   $datacatalogService = new Google\Service\DataCatalog(...);
- *   $tags = $datacatalogService->tags;
+ *   $tags = $datacatalogService->projects_locations_entryGroups_tags;
  *  </code>
  */
 class ProjectsLocationsEntryGroupsTags extends \Google\Service\Resource
@@ -71,7 +71,8 @@ class ProjectsLocationsEntryGroupsTags extends \Google\Service\Resource
     return $this->call('delete', [$params], DatacatalogEmpty::class);
   }
   /**
-   * Lists tags assigned to an Entry. (tags.listProjectsLocationsEntryGroupsTags)
+   * Lists tags assigned to an Entry. The columns in the response are lowercased.
+   * (tags.listProjectsLocationsEntryGroupsTags)
    *
    * @param string $parent Required. The name of the Data Catalog resource to list
    * the tags of. The resource can be an Entry or an EntryGroup (without

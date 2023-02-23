@@ -22,13 +22,30 @@ class ComplianceNote extends \Google\Collection
   protected $collection_key = 'version';
   protected $cisBenchmarkType = CisBenchmark::class;
   protected $cisBenchmarkDataType = '';
+  public $cisBenchmark;
+  /**
+   * @var string
+   */
   public $description;
+  /**
+   * @var string
+   */
   public $rationale;
+  /**
+   * @var string
+   */
   public $remediation;
+  /**
+   * @var string
+   */
   public $scanInstructions;
+  /**
+   * @var string
+   */
   public $title;
   protected $versionType = ComplianceVersion::class;
   protected $versionDataType = 'array';
+  public $version;
 
   /**
    * @param CisBenchmark
@@ -44,42 +61,72 @@ class ComplianceNote extends \Google\Collection
   {
     return $this->cisBenchmark;
   }
+  /**
+   * @param string
+   */
   public function setDescription($description)
   {
     $this->description = $description;
   }
+  /**
+   * @return string
+   */
   public function getDescription()
   {
     return $this->description;
   }
+  /**
+   * @param string
+   */
   public function setRationale($rationale)
   {
     $this->rationale = $rationale;
   }
+  /**
+   * @return string
+   */
   public function getRationale()
   {
     return $this->rationale;
   }
+  /**
+   * @param string
+   */
   public function setRemediation($remediation)
   {
     $this->remediation = $remediation;
   }
+  /**
+   * @return string
+   */
   public function getRemediation()
   {
     return $this->remediation;
   }
+  /**
+   * @param string
+   */
   public function setScanInstructions($scanInstructions)
   {
     $this->scanInstructions = $scanInstructions;
   }
+  /**
+   * @return string
+   */
   public function getScanInstructions()
   {
     return $this->scanInstructions;
   }
+  /**
+   * @param string
+   */
   public function setTitle($title)
   {
     $this->title = $title;
   }
+  /**
+   * @return string
+   */
   public function getTitle()
   {
     return $this->title;

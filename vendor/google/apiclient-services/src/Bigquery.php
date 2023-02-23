@@ -785,6 +785,10 @@ class Bigquery extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'view' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
               ],
             ],'getIamPolicy' => [
               'path' => '{+resource}:getIamPolicy',
@@ -853,6 +857,10 @@ class Bigquery extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'autodetect_schema' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
               ],
             ],'setIamPolicy' => [
               'path' => '{+resource}:setIamPolicy',
@@ -892,6 +900,10 @@ class Bigquery extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'autodetect_schema' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ],
               ],
             ],

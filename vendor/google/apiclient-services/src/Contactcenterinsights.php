@@ -46,6 +46,7 @@ class Contactcenterinsights extends \Google\Service
   public $projects_locations_issueModels_issues;
   public $projects_locations_operations;
   public $projects_locations_phraseMatchers;
+  public $projects_locations_views;
 
   /**
    * Constructs the internal representation of the Contactcenterinsights
@@ -104,7 +105,17 @@ class Contactcenterinsights extends \Google\Service
         'conversations',
         [
           'methods' => [
-            'calculateStats' => [
+            'bulkAnalyze' => [
+              'path' => 'v1/{+parent}/conversations:bulkAnalyze',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'calculateStats' => [
               'path' => 'v1/{+location}/conversations:calculateStats',
               'httpMethod' => 'GET',
               'parameters' => [
@@ -158,6 +169,16 @@ class Contactcenterinsights extends \Google\Service
                 'view' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+              ],
+            ],'ingest' => [
+              'path' => 'v1/{+parent}/conversations:ingest',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
               ],
             ],'list' => [
@@ -386,7 +407,17 @@ class Contactcenterinsights extends \Google\Service
         'issues',
         [
           'methods' => [
-            'get' => [
+            'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
               'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
@@ -524,6 +555,78 @@ class Contactcenterinsights extends \Google\Service
                 'filter' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_views = new Contactcenterinsights\Resource\ProjectsLocationsViews(
+        $this,
+        $this->serviceName,
+        'views',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'v1/{+parent}/views',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/views',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
                 'pageSize' => [
                   'location' => 'query',

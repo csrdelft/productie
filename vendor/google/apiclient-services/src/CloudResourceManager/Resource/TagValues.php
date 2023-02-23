@@ -39,7 +39,7 @@ class TagValues extends \Google\Service\Resource
   /**
    * Creates a TagValue as a child of the specified TagKey. If a another request
    * with the same parameters is sent while the original request is in process the
-   * second request will receive an error. A maximum of 300 TagValues can exist
+   * second request will receive an error. A maximum of 1000 TagValues can exist
    * under a TagKey at any given time. (tagValues.create)
    *
    * @param TagValue $postBody
@@ -77,9 +77,9 @@ class TagValues extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Retrieves TagValue. If the TagValue or namespaced name does not exist, or if
-   * the user does not have permission to view it, this method will return
-   * `PERMISSION_DENIED`. (tagValues.get)
+   * Retrieves a TagValue. This method will return `PERMISSION_DENIED` if the
+   * value does not exist or the user does not have permission to view it.
+   * (tagValues.get)
    *
    * @param string $name Required. Resource name for TagValue to be fetched in the
    * format `tagValues/456`.
@@ -101,8 +101,9 @@ class TagValues extends \Google\Service\Resource
    * (tagValues.getIamPolicy)
    *
    * @param string $resource REQUIRED: The resource for which the policy is being
-   * requested. See the operation documentation for the appropriate value for this
-   * field.
+   * requested. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
    * @param GetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
@@ -124,8 +125,7 @@ class TagValues extends \Google\Service\Resource
    * @opt_param string pageToken Optional. A pagination token returned from a
    * previous call to `ListTagValues` that indicates where this listing should
    * continue from.
-   * @opt_param string parent Required. Resource name for TagKey, parent of the
-   * TagValues to be listed, in the format `tagKeys/123`.
+   * @opt_param string parent Required.
    * @return ListTagValuesResponse
    */
   public function listTagValues($optParams = [])
@@ -161,8 +161,9 @@ class TagValues extends \Google\Service\Resource
    * tagValue. (tagValues.setIamPolicy)
    *
    * @param string $resource REQUIRED: The resource for which the policy is being
-   * specified. See the operation documentation for the appropriate value for this
-   * field.
+   * specified. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
@@ -180,8 +181,9 @@ class TagValues extends \Google\Service\Resource
    * (tagValues.testIamPermissions)
    *
    * @param string $resource REQUIRED: The resource for which the policy detail is
-   * being requested. See the operation documentation for the appropriate value
-   * for this field.
+   * being requested. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse

@@ -266,6 +266,16 @@ class AIPlatformNotebooks extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'diagnose' => [
+              'path' => 'v1/{+name}:diagnose',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'get' => [
               'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
@@ -309,6 +319,10 @@ class AIPlatformNotebooks extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'type' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
               ],
             ],'list' => [
               'path' => 'v1/{+parent}/instances',
@@ -340,6 +354,16 @@ class AIPlatformNotebooks extends \Google\Service
               ],
             ],'report' => [
               'path' => 'v1/{+name}:report',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'reportEvent' => [
+              'path' => 'v1/{+name}:reportEvent',
               'httpMethod' => 'POST',
               'parameters' => [
                 'name' => [
@@ -440,6 +464,16 @@ class AIPlatformNotebooks extends \Google\Service
               ],
             ],'updateConfig' => [
               'path' => 'v1/{+name}:updateConfig',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'updateMetadataItems' => [
+              'path' => 'v1/{+name}:updateMetadataItems',
               'httpMethod' => 'PATCH',
               'parameters' => [
                 'name' => [
@@ -559,6 +593,10 @@ class AIPlatformNotebooks extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'requestId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
                 'runtimeId' => [
                   'location' => 'query',
                   'type' => 'string',
@@ -567,6 +605,20 @@ class AIPlatformNotebooks extends \Google\Service
             ],'delete' => [
               'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'requestId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'diagnose' => [
+              'path' => 'v1/{+name}:diagnose',
+              'httpMethod' => 'POST',
               'parameters' => [
                 'name' => [
                   'location' => 'path',
@@ -614,6 +666,34 @@ class AIPlatformNotebooks extends \Google\Service
                 'pageToken' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'requestId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'refreshRuntimeTokenInternal' => [
+              'path' => 'v1/{+name}:refreshRuntimeTokenInternal',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
               ],
             ],'reportEvent' => [
@@ -681,6 +761,16 @@ class AIPlatformNotebooks extends \Google\Service
               'httpMethod' => 'POST',
               'parameters' => [
                 'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'upgrade' => [
+              'path' => 'v1/{+name}:upgrade',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,

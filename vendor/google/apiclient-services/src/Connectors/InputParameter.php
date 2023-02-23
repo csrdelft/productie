@@ -19,51 +19,96 @@ namespace Google\Service\Connectors;
 
 class InputParameter extends \Google\Model
 {
+  /**
+   * @var string
+   */
   public $dataType;
+  /**
+   * @var array
+   */
   public $defaultValue;
+  /**
+   * @var string
+   */
   public $description;
+  /**
+   * @var string
+   */
+  public $name;
+  /**
+   * @var bool
+   */
   public $nullable;
-  public $parameter;
 
+  /**
+   * @param string
+   */
   public function setDataType($dataType)
   {
     $this->dataType = $dataType;
   }
+  /**
+   * @return string
+   */
   public function getDataType()
   {
     return $this->dataType;
   }
+  /**
+   * @param array
+   */
   public function setDefaultValue($defaultValue)
   {
     $this->defaultValue = $defaultValue;
   }
+  /**
+   * @return array
+   */
   public function getDefaultValue()
   {
     return $this->defaultValue;
   }
+  /**
+   * @param string
+   */
   public function setDescription($description)
   {
     $this->description = $description;
   }
+  /**
+   * @return string
+   */
   public function getDescription()
   {
     return $this->description;
   }
+  /**
+   * @param string
+   */
+  public function setName($name)
+  {
+    $this->name = $name;
+  }
+  /**
+   * @return string
+   */
+  public function getName()
+  {
+    return $this->name;
+  }
+  /**
+   * @param bool
+   */
   public function setNullable($nullable)
   {
     $this->nullable = $nullable;
   }
+  /**
+   * @return bool
+   */
   public function getNullable()
   {
     return $this->nullable;
-  }
-  public function setParameter($parameter)
-  {
-    $this->parameter = $parameter;
-  }
-  public function getParameter()
-  {
-    return $this->parameter;
   }
 }
 

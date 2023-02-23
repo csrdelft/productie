@@ -22,6 +22,10 @@ class GoogleCloudPolicyanalyzerV1QueryActivityResponse extends \Google\Collectio
   protected $collection_key = 'activities';
   protected $activitiesType = GoogleCloudPolicyanalyzerV1Activity::class;
   protected $activitiesDataType = 'array';
+  public $activities;
+  /**
+   * @var string
+   */
   public $nextPageToken;
 
   /**
@@ -38,10 +42,16 @@ class GoogleCloudPolicyanalyzerV1QueryActivityResponse extends \Google\Collectio
   {
     return $this->activities;
   }
+  /**
+   * @param string
+   */
   public function setNextPageToken($nextPageToken)
   {
     $this->nextPageToken = $nextPageToken;
   }
+  /**
+   * @return string
+   */
   public function getNextPageToken()
   {
     return $this->nextPageToken;

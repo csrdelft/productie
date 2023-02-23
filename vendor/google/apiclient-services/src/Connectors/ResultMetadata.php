@@ -19,33 +19,60 @@ namespace Google\Service\Connectors;
 
 class ResultMetadata extends \Google\Model
 {
+  /**
+   * @var string
+   */
   public $dataType;
+  /**
+   * @var string
+   */
   public $description;
-  public $field;
+  /**
+   * @var string
+   */
+  public $name;
 
+  /**
+   * @param string
+   */
   public function setDataType($dataType)
   {
     $this->dataType = $dataType;
   }
+  /**
+   * @return string
+   */
   public function getDataType()
   {
     return $this->dataType;
   }
+  /**
+   * @param string
+   */
   public function setDescription($description)
   {
     $this->description = $description;
   }
+  /**
+   * @return string
+   */
   public function getDescription()
   {
     return $this->description;
   }
-  public function setField($field)
+  /**
+   * @param string
+   */
+  public function setName($name)
   {
-    $this->field = $field;
+    $this->name = $name;
   }
-  public function getField()
+  /**
+   * @return string
+   */
+  public function getName()
   {
-    return $this->field;
+    return $this->name;
   }
 }
 

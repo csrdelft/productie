@@ -21,7 +21,14 @@ class SqlInstancesStartExternalSyncRequest extends \Google\Model
 {
   protected $mysqlSyncConfigType = MySqlSyncConfig::class;
   protected $mysqlSyncConfigDataType = '';
+  public $mysqlSyncConfig;
+  /**
+   * @var bool
+   */
   public $skipVerification;
+  /**
+   * @var string
+   */
   public $syncMode;
 
   /**
@@ -38,18 +45,30 @@ class SqlInstancesStartExternalSyncRequest extends \Google\Model
   {
     return $this->mysqlSyncConfig;
   }
+  /**
+   * @param bool
+   */
   public function setSkipVerification($skipVerification)
   {
     $this->skipVerification = $skipVerification;
   }
+  /**
+   * @return bool
+   */
   public function getSkipVerification()
   {
     return $this->skipVerification;
   }
+  /**
+   * @param string
+   */
   public function setSyncMode($syncMode)
   {
     $this->syncMode = $syncMode;
   }
+  /**
+   * @return string
+   */
   public function getSyncMode()
   {
     return $this->syncMode;

@@ -71,7 +71,47 @@ class Firestore extends \Google\Service
         'databases',
         [
           'methods' => [
-            'exportDocuments' => [
+            'create' => [
+              'path' => 'v1/{+parent}/databases',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'databaseId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'allowMissing' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+                'etag' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'freeId' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+                'validateOnly' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+              ],
+            ],'exportDocuments' => [
               'path' => 'v1/{+name}:exportDocuments',
               'httpMethod' => 'POST',
               'parameters' => [
@@ -412,6 +452,50 @@ class Firestore extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'listDocuments' => [
+              'path' => 'v1/{+parent}/{collectionId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'collectionId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'mask.fieldPaths' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'readTime' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'showMissing' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+                'transaction' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'listen' => [
               'path' => 'v1/{+database}/documents:listen',
               'httpMethod' => 'POST',
@@ -465,6 +549,16 @@ class Firestore extends \Google\Service
               'httpMethod' => 'POST',
               'parameters' => [
                 'database' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'runAggregationQuery' => [
+              'path' => 'v1/{+parent}:runAggregationQuery',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,

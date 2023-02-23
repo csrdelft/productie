@@ -22,34 +22,69 @@ class Note extends \Google\Collection
   protected $collection_key = 'relatedUrl';
   protected $attestationType = AttestationNote::class;
   protected $attestationDataType = '';
+  public $attestation;
   protected $buildType = BuildNote::class;
   protected $buildDataType = '';
+  public $build;
   protected $complianceType = ComplianceNote::class;
   protected $complianceDataType = '';
+  public $compliance;
+  /**
+   * @var string
+   */
   public $createTime;
   protected $deploymentType = DeploymentNote::class;
   protected $deploymentDataType = '';
+  public $deployment;
   protected $discoveryType = DiscoveryNote::class;
   protected $discoveryDataType = '';
+  public $discovery;
   protected $dsseAttestationType = DSSEAttestationNote::class;
   protected $dsseAttestationDataType = '';
+  public $dsseAttestation;
+  /**
+   * @var string
+   */
   public $expirationTime;
   protected $imageType = ImageNote::class;
   protected $imageDataType = '';
+  public $image;
+  /**
+   * @var string
+   */
   public $kind;
+  /**
+   * @var string
+   */
   public $longDescription;
+  /**
+   * @var string
+   */
   public $name;
   protected $packageType = PackageNote::class;
   protected $packageDataType = '';
+  public $package;
+  /**
+   * @var string[]
+   */
   public $relatedNoteNames;
   protected $relatedUrlType = RelatedUrl::class;
   protected $relatedUrlDataType = 'array';
+  public $relatedUrl;
+  /**
+   * @var string
+   */
   public $shortDescription;
+  /**
+   * @var string
+   */
   public $updateTime;
   protected $upgradeType = UpgradeNote::class;
   protected $upgradeDataType = '';
+  public $upgrade;
   protected $vulnerabilityType = VulnerabilityNote::class;
   protected $vulnerabilityDataType = '';
+  public $vulnerability;
 
   /**
    * @param AttestationNote
@@ -93,10 +128,16 @@ class Note extends \Google\Collection
   {
     return $this->compliance;
   }
+  /**
+   * @param string
+   */
   public function setCreateTime($createTime)
   {
     $this->createTime = $createTime;
   }
+  /**
+   * @return string
+   */
   public function getCreateTime()
   {
     return $this->createTime;
@@ -143,10 +184,16 @@ class Note extends \Google\Collection
   {
     return $this->dsseAttestation;
   }
+  /**
+   * @param string
+   */
   public function setExpirationTime($expirationTime)
   {
     $this->expirationTime = $expirationTime;
   }
+  /**
+   * @return string
+   */
   public function getExpirationTime()
   {
     return $this->expirationTime;
@@ -165,26 +212,44 @@ class Note extends \Google\Collection
   {
     return $this->image;
   }
+  /**
+   * @param string
+   */
   public function setKind($kind)
   {
     $this->kind = $kind;
   }
+  /**
+   * @return string
+   */
   public function getKind()
   {
     return $this->kind;
   }
+  /**
+   * @param string
+   */
   public function setLongDescription($longDescription)
   {
     $this->longDescription = $longDescription;
   }
+  /**
+   * @return string
+   */
   public function getLongDescription()
   {
     return $this->longDescription;
   }
+  /**
+   * @param string
+   */
   public function setName($name)
   {
     $this->name = $name;
   }
+  /**
+   * @return string
+   */
   public function getName()
   {
     return $this->name;
@@ -203,10 +268,16 @@ class Note extends \Google\Collection
   {
     return $this->package;
   }
+  /**
+   * @param string[]
+   */
   public function setRelatedNoteNames($relatedNoteNames)
   {
     $this->relatedNoteNames = $relatedNoteNames;
   }
+  /**
+   * @return string[]
+   */
   public function getRelatedNoteNames()
   {
     return $this->relatedNoteNames;
@@ -225,18 +296,30 @@ class Note extends \Google\Collection
   {
     return $this->relatedUrl;
   }
+  /**
+   * @param string
+   */
   public function setShortDescription($shortDescription)
   {
     $this->shortDescription = $shortDescription;
   }
+  /**
+   * @return string
+   */
   public function getShortDescription()
   {
     return $this->shortDescription;
   }
+  /**
+   * @param string
+   */
   public function setUpdateTime($updateTime)
   {
     $this->updateTime = $updateTime;
   }
+  /**
+   * @return string
+   */
   public function getUpdateTime()
   {
     return $this->updateTime;

@@ -22,40 +22,119 @@ class NodeConfig extends \Google\Collection
   protected $collection_key = 'taints';
   protected $acceleratorsType = AcceleratorConfig::class;
   protected $acceleratorsDataType = 'array';
+  public $accelerators;
   protected $advancedMachineFeaturesType = AdvancedMachineFeatures::class;
   protected $advancedMachineFeaturesDataType = '';
+  public $advancedMachineFeatures;
+  /**
+   * @var string
+   */
   public $bootDiskKmsKey;
+  protected $confidentialNodesType = ConfidentialNodes::class;
+  protected $confidentialNodesDataType = '';
+  public $confidentialNodes;
+  /**
+   * @var int
+   */
   public $diskSizeGb;
+  /**
+   * @var string
+   */
   public $diskType;
+  protected $ephemeralStorageLocalSsdConfigType = EphemeralStorageLocalSsdConfig::class;
+  protected $ephemeralStorageLocalSsdConfigDataType = '';
+  public $ephemeralStorageLocalSsdConfig;
+  protected $fastSocketType = FastSocket::class;
+  protected $fastSocketDataType = '';
+  public $fastSocket;
   protected $gcfsConfigType = GcfsConfig::class;
   protected $gcfsConfigDataType = '';
+  public $gcfsConfig;
   protected $gvnicType = VirtualNIC::class;
   protected $gvnicDataType = '';
+  public $gvnic;
+  /**
+   * @var string
+   */
   public $imageType;
   protected $kubeletConfigType = NodeKubeletConfig::class;
   protected $kubeletConfigDataType = '';
+  public $kubeletConfig;
+  /**
+   * @var string[]
+   */
   public $labels;
   protected $linuxNodeConfigType = LinuxNodeConfig::class;
   protected $linuxNodeConfigDataType = '';
+  public $linuxNodeConfig;
+  protected $localNvmeSsdBlockConfigType = LocalNvmeSsdBlockConfig::class;
+  protected $localNvmeSsdBlockConfigDataType = '';
+  public $localNvmeSsdBlockConfig;
+  /**
+   * @var int
+   */
   public $localSsdCount;
+  protected $loggingConfigType = NodePoolLoggingConfig::class;
+  protected $loggingConfigDataType = '';
+  public $loggingConfig;
+  /**
+   * @var string
+   */
   public $machineType;
+  /**
+   * @var string[]
+   */
   public $metadata;
+  /**
+   * @var string
+   */
   public $minCpuPlatform;
+  /**
+   * @var string
+   */
   public $nodeGroup;
+  /**
+   * @var string[]
+   */
   public $oauthScopes;
+  /**
+   * @var bool
+   */
   public $preemptible;
   protected $reservationAffinityType = ReservationAffinity::class;
   protected $reservationAffinityDataType = '';
+  public $reservationAffinity;
+  /**
+   * @var string[]
+   */
+  public $resourceLabels;
   protected $sandboxConfigType = SandboxConfig::class;
   protected $sandboxConfigDataType = '';
+  public $sandboxConfig;
+  /**
+   * @var string
+   */
   public $serviceAccount;
   protected $shieldedInstanceConfigType = ShieldedInstanceConfig::class;
   protected $shieldedInstanceConfigDataType = '';
+  public $shieldedInstanceConfig;
+  /**
+   * @var bool
+   */
+  public $spot;
+  /**
+   * @var string[]
+   */
   public $tags;
   protected $taintsType = NodeTaint::class;
   protected $taintsDataType = 'array';
+  public $taints;
+  protected $windowsNodeConfigType = WindowsNodeConfig::class;
+  protected $windowsNodeConfigDataType = '';
+  public $windowsNodeConfig;
   protected $workloadMetadataConfigType = WorkloadMetadataConfig::class;
   protected $workloadMetadataConfigDataType = '';
+  public $workloadMetadataConfig;
 
   /**
    * @param AcceleratorConfig[]
@@ -85,29 +164,89 @@ class NodeConfig extends \Google\Collection
   {
     return $this->advancedMachineFeatures;
   }
+  /**
+   * @param string
+   */
   public function setBootDiskKmsKey($bootDiskKmsKey)
   {
     $this->bootDiskKmsKey = $bootDiskKmsKey;
   }
+  /**
+   * @return string
+   */
   public function getBootDiskKmsKey()
   {
     return $this->bootDiskKmsKey;
   }
+  /**
+   * @param ConfidentialNodes
+   */
+  public function setConfidentialNodes(ConfidentialNodes $confidentialNodes)
+  {
+    $this->confidentialNodes = $confidentialNodes;
+  }
+  /**
+   * @return ConfidentialNodes
+   */
+  public function getConfidentialNodes()
+  {
+    return $this->confidentialNodes;
+  }
+  /**
+   * @param int
+   */
   public function setDiskSizeGb($diskSizeGb)
   {
     $this->diskSizeGb = $diskSizeGb;
   }
+  /**
+   * @return int
+   */
   public function getDiskSizeGb()
   {
     return $this->diskSizeGb;
   }
+  /**
+   * @param string
+   */
   public function setDiskType($diskType)
   {
     $this->diskType = $diskType;
   }
+  /**
+   * @return string
+   */
   public function getDiskType()
   {
     return $this->diskType;
+  }
+  /**
+   * @param EphemeralStorageLocalSsdConfig
+   */
+  public function setEphemeralStorageLocalSsdConfig(EphemeralStorageLocalSsdConfig $ephemeralStorageLocalSsdConfig)
+  {
+    $this->ephemeralStorageLocalSsdConfig = $ephemeralStorageLocalSsdConfig;
+  }
+  /**
+   * @return EphemeralStorageLocalSsdConfig
+   */
+  public function getEphemeralStorageLocalSsdConfig()
+  {
+    return $this->ephemeralStorageLocalSsdConfig;
+  }
+  /**
+   * @param FastSocket
+   */
+  public function setFastSocket(FastSocket $fastSocket)
+  {
+    $this->fastSocket = $fastSocket;
+  }
+  /**
+   * @return FastSocket
+   */
+  public function getFastSocket()
+  {
+    return $this->fastSocket;
   }
   /**
    * @param GcfsConfig
@@ -137,10 +276,16 @@ class NodeConfig extends \Google\Collection
   {
     return $this->gvnic;
   }
+  /**
+   * @param string
+   */
   public function setImageType($imageType)
   {
     $this->imageType = $imageType;
   }
+  /**
+   * @return string
+   */
   public function getImageType()
   {
     return $this->imageType;
@@ -159,10 +304,16 @@ class NodeConfig extends \Google\Collection
   {
     return $this->kubeletConfig;
   }
+  /**
+   * @param string[]
+   */
   public function setLabels($labels)
   {
     $this->labels = $labels;
   }
+  /**
+   * @return string[]
+   */
   public function getLabels()
   {
     return $this->labels;
@@ -181,58 +332,128 @@ class NodeConfig extends \Google\Collection
   {
     return $this->linuxNodeConfig;
   }
+  /**
+   * @param LocalNvmeSsdBlockConfig
+   */
+  public function setLocalNvmeSsdBlockConfig(LocalNvmeSsdBlockConfig $localNvmeSsdBlockConfig)
+  {
+    $this->localNvmeSsdBlockConfig = $localNvmeSsdBlockConfig;
+  }
+  /**
+   * @return LocalNvmeSsdBlockConfig
+   */
+  public function getLocalNvmeSsdBlockConfig()
+  {
+    return $this->localNvmeSsdBlockConfig;
+  }
+  /**
+   * @param int
+   */
   public function setLocalSsdCount($localSsdCount)
   {
     $this->localSsdCount = $localSsdCount;
   }
+  /**
+   * @return int
+   */
   public function getLocalSsdCount()
   {
     return $this->localSsdCount;
   }
+  /**
+   * @param NodePoolLoggingConfig
+   */
+  public function setLoggingConfig(NodePoolLoggingConfig $loggingConfig)
+  {
+    $this->loggingConfig = $loggingConfig;
+  }
+  /**
+   * @return NodePoolLoggingConfig
+   */
+  public function getLoggingConfig()
+  {
+    return $this->loggingConfig;
+  }
+  /**
+   * @param string
+   */
   public function setMachineType($machineType)
   {
     $this->machineType = $machineType;
   }
+  /**
+   * @return string
+   */
   public function getMachineType()
   {
     return $this->machineType;
   }
+  /**
+   * @param string[]
+   */
   public function setMetadata($metadata)
   {
     $this->metadata = $metadata;
   }
+  /**
+   * @return string[]
+   */
   public function getMetadata()
   {
     return $this->metadata;
   }
+  /**
+   * @param string
+   */
   public function setMinCpuPlatform($minCpuPlatform)
   {
     $this->minCpuPlatform = $minCpuPlatform;
   }
+  /**
+   * @return string
+   */
   public function getMinCpuPlatform()
   {
     return $this->minCpuPlatform;
   }
+  /**
+   * @param string
+   */
   public function setNodeGroup($nodeGroup)
   {
     $this->nodeGroup = $nodeGroup;
   }
+  /**
+   * @return string
+   */
   public function getNodeGroup()
   {
     return $this->nodeGroup;
   }
+  /**
+   * @param string[]
+   */
   public function setOauthScopes($oauthScopes)
   {
     $this->oauthScopes = $oauthScopes;
   }
+  /**
+   * @return string[]
+   */
   public function getOauthScopes()
   {
     return $this->oauthScopes;
   }
+  /**
+   * @param bool
+   */
   public function setPreemptible($preemptible)
   {
     $this->preemptible = $preemptible;
   }
+  /**
+   * @return bool
+   */
   public function getPreemptible()
   {
     return $this->preemptible;
@@ -252,6 +473,20 @@ class NodeConfig extends \Google\Collection
     return $this->reservationAffinity;
   }
   /**
+   * @param string[]
+   */
+  public function setResourceLabels($resourceLabels)
+  {
+    $this->resourceLabels = $resourceLabels;
+  }
+  /**
+   * @return string[]
+   */
+  public function getResourceLabels()
+  {
+    return $this->resourceLabels;
+  }
+  /**
    * @param SandboxConfig
    */
   public function setSandboxConfig(SandboxConfig $sandboxConfig)
@@ -265,10 +500,16 @@ class NodeConfig extends \Google\Collection
   {
     return $this->sandboxConfig;
   }
+  /**
+   * @param string
+   */
   public function setServiceAccount($serviceAccount)
   {
     $this->serviceAccount = $serviceAccount;
   }
+  /**
+   * @return string
+   */
   public function getServiceAccount()
   {
     return $this->serviceAccount;
@@ -287,10 +528,30 @@ class NodeConfig extends \Google\Collection
   {
     return $this->shieldedInstanceConfig;
   }
+  /**
+   * @param bool
+   */
+  public function setSpot($spot)
+  {
+    $this->spot = $spot;
+  }
+  /**
+   * @return bool
+   */
+  public function getSpot()
+  {
+    return $this->spot;
+  }
+  /**
+   * @param string[]
+   */
   public function setTags($tags)
   {
     $this->tags = $tags;
   }
+  /**
+   * @return string[]
+   */
   public function getTags()
   {
     return $this->tags;
@@ -308,6 +569,20 @@ class NodeConfig extends \Google\Collection
   public function getTaints()
   {
     return $this->taints;
+  }
+  /**
+   * @param WindowsNodeConfig
+   */
+  public function setWindowsNodeConfig(WindowsNodeConfig $windowsNodeConfig)
+  {
+    $this->windowsNodeConfig = $windowsNodeConfig;
+  }
+  /**
+   * @return WindowsNodeConfig
+   */
+  public function getWindowsNodeConfig()
+  {
+    return $this->windowsNodeConfig;
   }
   /**
    * @param WorkloadMetadataConfig

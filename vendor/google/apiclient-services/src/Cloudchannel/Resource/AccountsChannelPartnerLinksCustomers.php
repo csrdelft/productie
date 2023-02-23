@@ -27,7 +27,7 @@ use Google\Service\Cloudchannel\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $cloudchannelService = new Google\Service\Cloudchannel(...);
- *   $customers = $cloudchannelService->customers;
+ *   $customers = $cloudchannelService->accounts_channelPartnerLinks_customers;
  *  </code>
  */
 class AccountsChannelPartnerLinksCustomers extends \Google\Service\Resource
@@ -124,6 +124,10 @@ class AccountsChannelPartnerLinksCustomers extends \Google\Service\Resource
    * list customers from. Parent uses the format: accounts/{account_id}.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string filter Optional. Filters applied to the
+   * [CloudChannelService.ListCustomers] results. See
+   * https://cloud.google.com/channel/docs/concepts/google-cloud/filter-customers
+   * for more information.
    * @opt_param int pageSize Optional. The maximum number of customers to return.
    * The service may return fewer than this value. If unspecified, returns at most
    * 10 customers. The maximum value is 50.

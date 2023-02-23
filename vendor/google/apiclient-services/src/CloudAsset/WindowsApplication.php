@@ -19,33 +19,64 @@ namespace Google\Service\CloudAsset;
 
 class WindowsApplication extends \Google\Model
 {
+  /**
+   * @var string
+   */
   public $displayName;
+  /**
+   * @var string
+   */
   public $displayVersion;
+  /**
+   * @var string
+   */
   public $helpLink;
   protected $installDateType = Date::class;
   protected $installDateDataType = '';
+  public $installDate;
+  /**
+   * @var string
+   */
   public $publisher;
 
+  /**
+   * @param string
+   */
   public function setDisplayName($displayName)
   {
     $this->displayName = $displayName;
   }
+  /**
+   * @return string
+   */
   public function getDisplayName()
   {
     return $this->displayName;
   }
+  /**
+   * @param string
+   */
   public function setDisplayVersion($displayVersion)
   {
     $this->displayVersion = $displayVersion;
   }
+  /**
+   * @return string
+   */
   public function getDisplayVersion()
   {
     return $this->displayVersion;
   }
+  /**
+   * @param string
+   */
   public function setHelpLink($helpLink)
   {
     $this->helpLink = $helpLink;
   }
+  /**
+   * @return string
+   */
   public function getHelpLink()
   {
     return $this->helpLink;
@@ -64,10 +95,16 @@ class WindowsApplication extends \Google\Model
   {
     return $this->installDate;
   }
+  /**
+   * @param string
+   */
   public function setPublisher($publisher)
   {
     $this->publisher = $publisher;
   }
+  /**
+   * @return string
+   */
   public function getPublisher()
   {
     return $this->publisher;

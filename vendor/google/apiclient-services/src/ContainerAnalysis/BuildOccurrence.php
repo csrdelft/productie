@@ -21,10 +21,16 @@ class BuildOccurrence extends \Google\Model
 {
   protected $intotoProvenanceType = InTotoProvenance::class;
   protected $intotoProvenanceDataType = '';
+  public $intotoProvenance;
   protected $intotoStatementType = InTotoStatement::class;
   protected $intotoStatementDataType = '';
+  public $intotoStatement;
   protected $provenanceType = BuildProvenance::class;
   protected $provenanceDataType = '';
+  public $provenance;
+  /**
+   * @var string
+   */
   public $provenanceBytes;
 
   /**
@@ -69,10 +75,16 @@ class BuildOccurrence extends \Google\Model
   {
     return $this->provenance;
   }
+  /**
+   * @param string
+   */
   public function setProvenanceBytes($provenanceBytes)
   {
     $this->provenanceBytes = $provenanceBytes;
   }
+  /**
+   * @return string
+   */
   public function getProvenanceBytes()
   {
     return $this->provenanceBytes;

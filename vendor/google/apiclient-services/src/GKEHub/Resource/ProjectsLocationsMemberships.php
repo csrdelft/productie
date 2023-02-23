@@ -31,7 +31,7 @@ use Google\Service\GKEHub\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $gkehubService = new Google\Service\GKEHub(...);
- *   $memberships = $gkehubService->memberships;
+ *   $memberships = $gkehubService->projects_locations_memberships;
  *  </code>
  */
 class ProjectsLocationsMemberships extends \Google\Service\Resource
@@ -155,8 +155,9 @@ class ProjectsLocationsMemberships extends \Google\Service\Resource
    * resource exists and does not have a policy set. (memberships.getIamPolicy)
    *
    * @param string $resource REQUIRED: The resource for which the policy is being
-   * requested. See the operation documentation for the appropriate value for this
-   * field.
+   * requested. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int options.requestedPolicyVersion Optional. The maximum policy
@@ -185,6 +186,7 @@ class ProjectsLocationsMemberships extends \Google\Service\Resource
    *
    * @param string $parent Required. The parent (project and location) where the
    * Memberships will be listed. Specified in the format `projects/locations`.
+   * `projects/locations/-` list memberships in all the regions.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Optional. Lists Memberships that match the filter
@@ -244,8 +246,9 @@ class ProjectsLocationsMemberships extends \Google\Service\Resource
    * `PERMISSION_DENIED` errors. (memberships.setIamPolicy)
    *
    * @param string $resource REQUIRED: The resource for which the policy is being
-   * specified. See the operation documentation for the appropriate value for this
-   * field.
+   * specified. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
@@ -265,8 +268,9 @@ class ProjectsLocationsMemberships extends \Google\Service\Resource
    * (memberships.testIamPermissions)
    *
    * @param string $resource REQUIRED: The resource for which the policy detail is
-   * being requested. See the operation documentation for the appropriate value
-   * for this field.
+   * being requested. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse

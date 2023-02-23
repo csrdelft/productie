@@ -21,13 +21,25 @@ class FinalizedDeal extends \Google\Model
 {
   protected $dealType = Deal::class;
   protected $dealDataType = '';
+  public $deal;
   protected $dealPausingInfoType = DealPausingInfo::class;
   protected $dealPausingInfoDataType = '';
+  public $dealPausingInfo;
+  /**
+   * @var string
+   */
   public $dealServingStatus;
+  /**
+   * @var string
+   */
   public $name;
+  /**
+   * @var bool
+   */
   public $readyToServe;
   protected $rtbMetricsType = RtbMetrics::class;
   protected $rtbMetricsDataType = '';
+  public $rtbMetrics;
 
   /**
    * @param Deal
@@ -57,26 +69,44 @@ class FinalizedDeal extends \Google\Model
   {
     return $this->dealPausingInfo;
   }
+  /**
+   * @param string
+   */
   public function setDealServingStatus($dealServingStatus)
   {
     $this->dealServingStatus = $dealServingStatus;
   }
+  /**
+   * @return string
+   */
   public function getDealServingStatus()
   {
     return $this->dealServingStatus;
   }
+  /**
+   * @param string
+   */
   public function setName($name)
   {
     $this->name = $name;
   }
+  /**
+   * @return string
+   */
   public function getName()
   {
     return $this->name;
   }
+  /**
+   * @param bool
+   */
   public function setReadyToServe($readyToServe)
   {
     $this->readyToServe = $readyToServe;
   }
+  /**
+   * @return bool
+   */
   public function getReadyToServe()
   {
     return $this->readyToServe;

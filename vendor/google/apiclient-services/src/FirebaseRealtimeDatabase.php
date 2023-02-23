@@ -23,8 +23,8 @@ use Google\Client;
  * Service definition for FirebaseRealtimeDatabase (v1beta).
  *
  * <p>
- * The Firebase Realtime Database Management API enables programmatic
- * provisioning and management of Realtime Database instances.</p>
+ * The Firebase Realtime Database API enables programmatic provisioning and
+ * management of Realtime Database instances.</p>
  *
  * <p>
  * For more information about this service, see the API
@@ -138,9 +138,23 @@ class FirebaseRealtimeDatabase extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'showDeleted' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
               ],
             ],'reenable' => [
               'path' => 'v1beta/{+name}:reenable',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'undelete' => [
+              'path' => 'v1beta/{+name}:undelete',
               'httpMethod' => 'POST',
               'parameters' => [
                 'name' => [

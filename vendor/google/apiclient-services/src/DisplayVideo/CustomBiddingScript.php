@@ -20,45 +20,89 @@ namespace Google\Service\DisplayVideo;
 class CustomBiddingScript extends \Google\Collection
 {
   protected $collection_key = 'errors';
+  /**
+   * @var bool
+   */
   public $active;
+  /**
+   * @var string
+   */
   public $createTime;
+  /**
+   * @var string
+   */
   public $customBiddingAlgorithmId;
+  /**
+   * @var string
+   */
   public $customBiddingScriptId;
   protected $errorsType = ScriptError::class;
   protected $errorsDataType = 'array';
+  public $errors;
+  /**
+   * @var string
+   */
   public $name;
   protected $scriptType = CustomBiddingScriptRef::class;
   protected $scriptDataType = '';
+  public $script;
+  /**
+   * @var string
+   */
   public $state;
 
+  /**
+   * @param bool
+   */
   public function setActive($active)
   {
     $this->active = $active;
   }
+  /**
+   * @return bool
+   */
   public function getActive()
   {
     return $this->active;
   }
+  /**
+   * @param string
+   */
   public function setCreateTime($createTime)
   {
     $this->createTime = $createTime;
   }
+  /**
+   * @return string
+   */
   public function getCreateTime()
   {
     return $this->createTime;
   }
+  /**
+   * @param string
+   */
   public function setCustomBiddingAlgorithmId($customBiddingAlgorithmId)
   {
     $this->customBiddingAlgorithmId = $customBiddingAlgorithmId;
   }
+  /**
+   * @return string
+   */
   public function getCustomBiddingAlgorithmId()
   {
     return $this->customBiddingAlgorithmId;
   }
+  /**
+   * @param string
+   */
   public function setCustomBiddingScriptId($customBiddingScriptId)
   {
     $this->customBiddingScriptId = $customBiddingScriptId;
   }
+  /**
+   * @return string
+   */
   public function getCustomBiddingScriptId()
   {
     return $this->customBiddingScriptId;
@@ -77,10 +121,16 @@ class CustomBiddingScript extends \Google\Collection
   {
     return $this->errors;
   }
+  /**
+   * @param string
+   */
   public function setName($name)
   {
     $this->name = $name;
   }
+  /**
+   * @return string
+   */
   public function getName()
   {
     return $this->name;
@@ -99,10 +149,16 @@ class CustomBiddingScript extends \Google\Collection
   {
     return $this->script;
   }
+  /**
+   * @param string
+   */
   public function setState($state)
   {
     $this->state = $state;
   }
+  /**
+   * @return string
+   */
   public function getState()
   {
     return $this->state;

@@ -20,31 +20,85 @@ namespace Google\Service\VMMigrationService;
 class MigratingVm extends \Google\Collection
 {
   protected $collection_key = 'recentCutoverJobs';
+  protected $awsSourceVmDetailsType = AwsSourceVmDetails::class;
+  protected $awsSourceVmDetailsDataType = '';
+  public $awsSourceVmDetails;
   protected $computeEngineTargetDefaultsType = ComputeEngineTargetDefaults::class;
   protected $computeEngineTargetDefaultsDataType = '';
+  public $computeEngineTargetDefaults;
+  /**
+   * @var string
+   */
   public $createTime;
   protected $currentSyncInfoType = ReplicationCycle::class;
   protected $currentSyncInfoDataType = '';
+  public $currentSyncInfo;
+  /**
+   * @var string
+   */
   public $description;
+  /**
+   * @var string
+   */
   public $displayName;
   protected $errorType = Status::class;
   protected $errorDataType = '';
+  public $error;
+  /**
+   * @var string
+   */
   public $group;
+  /**
+   * @var string[]
+   */
   public $labels;
   protected $lastSyncType = ReplicationSync::class;
   protected $lastSyncDataType = '';
+  public $lastSync;
+  /**
+   * @var string
+   */
   public $name;
   protected $policyType = SchedulePolicy::class;
   protected $policyDataType = '';
+  public $policy;
   protected $recentCloneJobsType = CloneJob::class;
   protected $recentCloneJobsDataType = 'array';
+  public $recentCloneJobs;
   protected $recentCutoverJobsType = CutoverJob::class;
   protected $recentCutoverJobsDataType = 'array';
+  public $recentCutoverJobs;
+  /**
+   * @var string
+   */
   public $sourceVmId;
+  /**
+   * @var string
+   */
   public $state;
+  /**
+   * @var string
+   */
   public $stateTime;
+  /**
+   * @var string
+   */
   public $updateTime;
 
+  /**
+   * @param AwsSourceVmDetails
+   */
+  public function setAwsSourceVmDetails(AwsSourceVmDetails $awsSourceVmDetails)
+  {
+    $this->awsSourceVmDetails = $awsSourceVmDetails;
+  }
+  /**
+   * @return AwsSourceVmDetails
+   */
+  public function getAwsSourceVmDetails()
+  {
+    return $this->awsSourceVmDetails;
+  }
   /**
    * @param ComputeEngineTargetDefaults
    */
@@ -59,10 +113,16 @@ class MigratingVm extends \Google\Collection
   {
     return $this->computeEngineTargetDefaults;
   }
+  /**
+   * @param string
+   */
   public function setCreateTime($createTime)
   {
     $this->createTime = $createTime;
   }
+  /**
+   * @return string
+   */
   public function getCreateTime()
   {
     return $this->createTime;
@@ -81,18 +141,30 @@ class MigratingVm extends \Google\Collection
   {
     return $this->currentSyncInfo;
   }
+  /**
+   * @param string
+   */
   public function setDescription($description)
   {
     $this->description = $description;
   }
+  /**
+   * @return string
+   */
   public function getDescription()
   {
     return $this->description;
   }
+  /**
+   * @param string
+   */
   public function setDisplayName($displayName)
   {
     $this->displayName = $displayName;
   }
+  /**
+   * @return string
+   */
   public function getDisplayName()
   {
     return $this->displayName;
@@ -111,18 +183,30 @@ class MigratingVm extends \Google\Collection
   {
     return $this->error;
   }
+  /**
+   * @param string
+   */
   public function setGroup($group)
   {
     $this->group = $group;
   }
+  /**
+   * @return string
+   */
   public function getGroup()
   {
     return $this->group;
   }
+  /**
+   * @param string[]
+   */
   public function setLabels($labels)
   {
     $this->labels = $labels;
   }
+  /**
+   * @return string[]
+   */
   public function getLabels()
   {
     return $this->labels;
@@ -141,10 +225,16 @@ class MigratingVm extends \Google\Collection
   {
     return $this->lastSync;
   }
+  /**
+   * @param string
+   */
   public function setName($name)
   {
     $this->name = $name;
   }
+  /**
+   * @return string
+   */
   public function getName()
   {
     return $this->name;
@@ -191,34 +281,58 @@ class MigratingVm extends \Google\Collection
   {
     return $this->recentCutoverJobs;
   }
+  /**
+   * @param string
+   */
   public function setSourceVmId($sourceVmId)
   {
     $this->sourceVmId = $sourceVmId;
   }
+  /**
+   * @return string
+   */
   public function getSourceVmId()
   {
     return $this->sourceVmId;
   }
+  /**
+   * @param string
+   */
   public function setState($state)
   {
     $this->state = $state;
   }
+  /**
+   * @return string
+   */
   public function getState()
   {
     return $this->state;
   }
+  /**
+   * @param string
+   */
   public function setStateTime($stateTime)
   {
     $this->stateTime = $stateTime;
   }
+  /**
+   * @return string
+   */
   public function getStateTime()
   {
     return $this->stateTime;
   }
+  /**
+   * @param string
+   */
   public function setUpdateTime($updateTime)
   {
     $this->updateTime = $updateTime;
   }
+  /**
+   * @return string
+   */
   public function getUpdateTime()
   {
     return $this->updateTime;

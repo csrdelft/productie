@@ -22,11 +22,17 @@ class UpgradeNote extends \Google\Collection
   protected $collection_key = 'distributions';
   protected $distributionsType = UpgradeDistribution::class;
   protected $distributionsDataType = 'array';
+  public $distributions;
+  /**
+   * @var string
+   */
   public $package;
   protected $versionType = Version::class;
   protected $versionDataType = '';
+  public $version;
   protected $windowsUpdateType = WindowsUpdate::class;
   protected $windowsUpdateDataType = '';
+  public $windowsUpdate;
 
   /**
    * @param UpgradeDistribution[]
@@ -42,10 +48,16 @@ class UpgradeNote extends \Google\Collection
   {
     return $this->distributions;
   }
+  /**
+   * @param string
+   */
   public function setPackage($package)
   {
     $this->package = $package;
   }
+  /**
+   * @return string
+   */
   public function getPackage()
   {
     return $this->package;
