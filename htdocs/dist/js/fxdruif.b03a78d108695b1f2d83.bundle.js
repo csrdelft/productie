@@ -1,2 +1,0 @@
-(()=>{"use strict";class t{static laadAnimatie(){document.querySelectorAll(".forumpasfoto a[href^='/profiel/20']").forEach((t=>{t.parentElement.classList.add("druif"),t.addEventListener("mouseover",(()=>t.parentElement.classList.add("start-druifeffect")))}))}start(){window.addEventListener("load",function(t,e,a){let s;return function(...i){const n=a&&!s;clearTimeout(s),s=window.setTimeout((()=>{s=void 0,a||t.apply(this,i)}),e),n&&t.apply(this,i)}}(t.laadAnimatie,250,!0),{passive:!0})}}(new t).start()})();
-//# sourceMappingURL=fxdruif.b03a78d108695b1f2d83.bundle.js.map
