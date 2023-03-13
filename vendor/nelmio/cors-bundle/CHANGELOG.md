@@ -1,3 +1,22 @@
+Newer changelog entries can be found in the [GitHub Releases](https://github.com/nelmio/NelmioCorsBundle/releases)
+
+### 2.3.0 (2023-02-15)
+
+  * Downgraded `CacheableResponseVaryListener`'s priority from 0 to -10 to ensure it runs after FrameworkExtraBundle listeners have set their cache headers (#179)
+  * Added optional logging support if you inject a Logger into the CorsListener you can get debug info about the whole CORS decision process (#173)
+  * Added support for setting `expose_headers` to a wildcard `'*'` which exposes all headers, this works as long as allow_credentials is not enabled as per the spec (#132)
+  * Added `skip_same_as_origin` flag (default to true which is the old behavior) to allow opting out of skipping the CORS headers in the response if the Origin matches the application's hostname (#178)
+  * Fixed ProviderMock having an invalid return type (#169)
+  * Dropped support for Symfony 4.3 and 5.0 to 5.3
+
+### 2.2.0 (2021-12-01)
+
+  * Added support for Symfony 6
+
+### 2.1.1 (2021-04-20)
+
+  * Fixed response for unauthorized headers containing a reflected XSS (https://github.com/nelmio/NelmioCorsBundle/pull/163)
+
 ### 2.1.0 (2020-07-22)
 
   * Added `Vary: Origin` header to cacheable responses to make sure proxies cache them correctly
