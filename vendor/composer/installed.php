@@ -3,7 +3,7 @@
         'name' => 'csr/csrdelft.nl',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '1cbc4e9c9a82ccb57bdfb9e5c5fbe48f2b491edf',
+        'reference' => '45d591f1311ac0a42b9fd3d7b31c96de3999119e',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -69,7 +69,7 @@
         'csr/csrdelft.nl' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '1cbc4e9c9a82ccb57bdfb9e5c5fbe48f2b491edf',
+            'reference' => '45d591f1311ac0a42b9fd3d7b31c96de3999119e',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -446,15 +446,6 @@
             'replaced' => array(
                 0 => '*',
             ),
-        ),
-        'maknz/slack' => array(
-            'pretty_version' => '1.7.0',
-            'version' => '1.7.0.0',
-            'reference' => '7f21fefc70c76b304adc1b3a780c8740dfcfb595',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../maknz/slack',
-            'aliases' => array(),
-            'dev_requirement' => false,
         ),
         'minishlink/web-push' => array(
             'pretty_version' => 'v7.0.0',

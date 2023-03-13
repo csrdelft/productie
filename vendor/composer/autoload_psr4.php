@@ -95,7 +95,6 @@ return array(
     'Nelmio\\CorsBundle\\' => array($vendorDir . '/nelmio/cors-bundle'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Minishlink\\WebPush\\' => array($vendorDir . '/minishlink/web-push/src'),
-    'Maknz\\Slack\\' => array($vendorDir . '/maknz/slack/src'),
     'League\\OAuth2\\Server\\' => array($vendorDir . '/league/oauth2-server/src'),
     'League\\Event\\' => array($vendorDir . '/league/event/src'),
     'League\\Bundle\\OAuth2ServerBundle\\' => array($vendorDir . '/league/oauth2-server-bundle/src'),
