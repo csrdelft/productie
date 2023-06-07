@@ -350,8 +350,8 @@
         ],
         "css": [
           {
-            "src": "css/extern-owee.6e6a973ebf14d4dd7713.css",
-            "integrity": "sha256-TPprOB6oNdHzUhYbWY1pT0eXgkekjbn6ZgvRFr/bzJY= sha384-PMWS9HHXPhbO93Javgestnj8A86sImvB7JEB09Eg6f+n1hPksyIvBkS9grV9UE/v sha512-05RzNIEOTM++Tq0Ksz3S5jVjf/SB5urFmKGRb+rFmkQn2oGXYsCyCDdnhbfFQSFKag/cmNy1UqToUWwSsUVcUA=="
+            "src": "css/extern-owee.dd75bd194dce6ffb6f16.css",
+            "integrity": "sha256-w8oN+VIh8twRiVcEsembyS4PVIZ59j6Q/MmATYNzwcU= sha384-kTBpwxRNGFdtAhPQkzaVmW2JqVg3oNc0WkaeLH4r3vsTb6/nWOTnGjC8nelRYarM sha512-CfWUcGv2wueaKeg28qmwD9Q2zfN63v4goqcnsAQkBD7bYdBCFCblCT5jpgewrZgm/n1kfsO+Bi3OMFVJUSWiQQ=="
           }
         ]
       }
@@ -612,8 +612,8 @@
     "integrity": "sha256-bqIWk6DXUuaMKJ+XiZRw8Er2v4NnlIWTWY9+QqAVoOE= sha384-6pb7jj6uvpaDdJmQpfevb3DlAJcjv1uVdEZAJ8zLePbxWoxCHDJHlqtgLgsasMT3 sha512-xxVQ/CLIaiT9YXjckgNY6r7FdCO7Bxzxfb9VEel8flR3jwsYBD+vlnooT+mST1i6vs58Q/2p8zfnQPTVtmiFFw=="
   },
   "extern-owee.css": {
-    "src": "css/extern-owee.6e6a973ebf14d4dd7713.css",
-    "integrity": "sha256-TPprOB6oNdHzUhYbWY1pT0eXgkekjbn6ZgvRFr/bzJY= sha384-PMWS9HHXPhbO93Javgestnj8A86sImvB7JEB09Eg6f+n1hPksyIvBkS9grV9UE/v sha512-05RzNIEOTM++Tq0Ksz3S5jVjf/SB5urFmKGRb+rFmkQn2oGXYsCyCDdnhbfFQSFKag/cmNy1UqToUWwSsUVcUA=="
+    "src": "css/extern-owee.dd75bd194dce6ffb6f16.css",
+    "integrity": "sha256-w8oN+VIh8twRiVcEsembyS4PVIZ59j6Q/MmATYNzwcU= sha384-kTBpwxRNGFdtAhPQkzaVmW2JqVg3oNc0WkaeLH4r3vsTb6/nWOTnGjC8nelRYarM sha512-CfWUcGv2wueaKeg28qmwD9Q2zfN63v4goqcnsAQkBD7bYdBCFCblCT5jpgewrZgm/n1kfsO+Bi3OMFVJUSWiQQ=="
   },
   "extern-owee.js": {
     "src": "js/extern-owee.e190bf0bc41e713daa20.bundle.js",
@@ -666,10 +666,6 @@
   "fonts/OrpheusPro-Bold.otf": {
     "src": "fonts/504f88c889d90b38761c.otf",
     "integrity": "sha256-bCdfTz6haND643k3qA6JhtsaNww1driUSt6zRfrNtIM= sha384-cTsJNER5QEnMn+x7EqXKuqn+svHE43GvmfsH08/NOzhSrP0+IhPAMTDNoR6jgXmv sha512-ctqR74ZNVuGxpLNIPYTNWk+4QL8rk0t0+0oDuHKUTBs3KwOet/uf87spJwQRC8MRMrwrAzGn7YPFGVJ1/8l1Qg=="
-  },
-  "fonts/Playbill.ttf": {
-    "src": "fonts/93b69782d5815251da02.ttf",
-    "integrity": "sha256-45NhV3Ho6ISikJSNCNyiP4Wlq+iXGQFzDr1FQ2s4boY= sha384-UR5Qdwoc7yaiwtJWEaZFYIqAYy4iDJZWqW8+zWBlagexrnkzaGLxhXbOeZppzOt6 sha512-/K85AWoke1IsRhIuEdPM5oMIiaAinUwRCsvdMPUYxdpHdCkwsouPCFu2eXKTwVYcWC4Y4y+BagkowsLp2SEhaw=="
   },
   "fonts/SourceSansPro-Black.otf": {
     "src": "fonts/46ac4a80d50e7812e677.otf",
@@ -830,10 +826,6 @@
   "fxtrein.js": {
     "src": "js/fxtrein.23bd2e5cdbabff221d62.bundle.js",
     "integrity": "sha256-VJxE2Wjd1PKGHnDjIhmdau6bEgRV+0gc2ZknrGYL3Sw= sha384-KzuebN6r1+tB6pWVT5VHtpcilMZysb0/MB7ugmwlb77h7gYnw15zVswd8ZENLx58 sha512-mx26aJe8Wo4GxE8jfuQdhjlpU7WmL3GMT2bhypIILkdEIiD0C8H8zp5xtWa6AGShF88yHrNBqoueLQ8HKtHTGA=="
-  },
-  "images/Freestyle Script.TTF": {
-    "src": "images/66481f539db7e51d22d9.TTF",
-    "integrity": "sha256-LhMYI4YUg7lm+HyiMGO6bzwM7PmsXXhdce0XENq0d9U= sha384-8jGwie8ure8Sd4ucz8PR9gHpDuBsLRXHg3NUaK9dmJ4q7nhpxaBM8h9Z/8h/hQVn sha512-vQ6q91aDnwVaSzyMMdNk30aSzolkMlRWWjS21aV+E3GP4RxSlUb1EtJCyizRHMhqc7f2c8zhJ2sv+P7YDwJxMA=="
   },
   "images/achtergrond.jpg": {
     "src": "images/5ec87f10c85a2ff2fade.jpg",
