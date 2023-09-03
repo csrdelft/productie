@@ -572,16 +572,6 @@
         ]
       }
     },
-    "lustrum12-js": {
-      "assets": {
-        "js": [
-          {
-            "src": "js/lustrum12-js.e251defdcf20e07cdd61.bundle.js",
-            "integrity": "sha256-jKrwvWcnup8FSlU35GdAcAkHXlawjQHmXCxjuBmzVIg= sha384-ixAkl0ynjZygc5zcZPjfu9ZDsydrCPmJoRqP+xHtFSS5AQN0HFqkaEAHjX3h2cRR sha512-TbBwJgqJcqYmuPw8FayoBFwAWl4b0MB3wXWSYqlIm2TvanaUHWbog399Wpwb2C9xcyHQec8iKFb/+9+6EdQOLw=="
-          }
-        ]
-      }
-    },
     "lustrumreis": {
       "assets": {
         "css": [
@@ -1531,10 +1521,6 @@
     "src": "js/ledenmemory.a515d0cbd42d790208c9.bundle.js.map",
     "integrity": "sha256-RkJEwMHCpcDoOfDgg91mTNA4MWqEZlNkVcBnjlUQq8Y= sha384-Nfxk/ku9hEhyl74ghecriMkfTy+8+aPolnz9gtAKANkrzjf8BhakbEhwQaS4ajog sha512-N6fDlsEU3EKkncC1vLSeFYywxtPYeXGh9h7PFzEFiq9dVT8a5DTuRngbjb5plHrum1EquvjN9FZdSGza5mQpPg=="
   },
-  "js/lustrum12-js.e251defdcf20e07cdd61.bundle.js.map": {
-    "src": "js/lustrum12-js.e251defdcf20e07cdd61.bundle.js.map",
-    "integrity": "sha256-+MYgAHOL4g02ivd+BwKhyk02C8esiCM+GvLKQFNYVZ0= sha384-bC7LAdF2jWN4jYmc2NHdR/vt04XjMg6vo+PX3eXU+IRxEnuWj2XaKWKzIIQD51Hw sha512-JJGwp5Uwd4MgN4l3fF/wf2/Q9Vn/Mx/hH6DxTt3x+hRMjjGz2SwSUQFGgg78qQcdpSRz2Cd/NMeOiogRghpY3A=="
-  },
   "js/sentry.a22f570e384ee8376fe8.bundle.js.map": {
     "src": "js/sentry.a22f570e384ee8376fe8.bundle.js.map",
     "integrity": "sha256-6sGB0RJJMAPEvuO/oW5b658xkWAvYoCicjuG+kT1Cpk= sha384-jfZ4vNm26pPcgcjCqgKIkOZSStzOY1qpH2EHSbZZfr0CNi+x5pJ9dK4U9nBLaHVb sha512-yLWkXEnyCSo6PqXN70iTg2rOpDsvtgDEFUKUPlsImOs7UFvyR4Ip7Zy+mVCbIRSAZuG0HQna4306RQFpMQORtA=="
@@ -1550,10 +1536,6 @@
   "lustrum.css": {
     "src": "css/lustrum.3fcb3163b7c78cd8b8ce.css",
     "integrity": "sha256-/KQR/hze1rBQa0D2E46mmjZ3SpvqpNXXAshnTk/Dddw= sha384-7yJdy0Gh0nbcMsYVNyiRFkpKcB4HFuxsvaaO6lKiIuE67XdX42rbEmRUohDHz+ZG sha512-iB7Ztww3JVX0u9QFlswLcmQgGqdsd58VVsdgDIfPDd1C/unM4+iY7oJlRrVlDgvNivvbV2qI1O2815iU61c66g=="
-  },
-  "lustrum12-js.js": {
-    "src": "js/lustrum12-js.e251defdcf20e07cdd61.bundle.js",
-    "integrity": "sha256-jKrwvWcnup8FSlU35GdAcAkHXlawjQHmXCxjuBmzVIg= sha384-ixAkl0ynjZygc5zcZPjfu9ZDsydrCPmJoRqP+xHtFSS5AQN0HFqkaEAHjX3h2cRR sha512-TbBwJgqJcqYmuPw8FayoBFwAWl4b0MB3wXWSYqlIm2TvanaUHWbog399Wpwb2C9xcyHQec8iKFb/+9+6EdQOLw=="
   },
   "lustrumdies.css": {
     "src": "css/lustrumdies.9f4dfbbb2dd33f4870e7.css",
