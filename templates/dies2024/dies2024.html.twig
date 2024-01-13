@@ -49,7 +49,6 @@
 		<div class="youtube-container closed">
 			<div class="embed-responsive ratio ratio-16x9" id="player">
 				<iframe src="https://www.youtube.com/embed/-mEqkoSjM4s?si=nWL9U0QOIgS0M-ZQ" title="themafilmpje"  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-					{# frameborder="0" #}
 				</iframe>
 			</div>
 		</div>
@@ -73,7 +72,7 @@
 		<div class="d-flex dag flex-column">
 			<h2 class="ondertitel col-md-12">Dinsdag 13 februari</h2>
 			<div class="activiteit row">
-				<h3 class="col-md-11">18:00 Return of the Dies</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseReturnoftheDies" aria-expanded="false" aria-controls="collapseReturnoftheDies">18:00 Return of the Dies</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseReturnoftheDies" aria-expanded="false" aria-controls="collapseReturnoftheDies">
 					{{ icon('caret-down') }}
 				</button>
@@ -83,17 +82,13 @@
 						<p class="col-md-12">Het is weer zover: het is tijd voor de Dies Natalis! Twee weken vol sprankelende activiteiten, schitterende borrels en een stralend gala. U weet: een goed begin is het halve werk, dus begin de Dies goed en kom naar het openingsdiner om met ons de terugkomst van de Dies te vieren.
 						</p>
 						<div class="dies-activiteit-ketzers col-md-12">
-							{# <a class="toggler btn btn-primary">Laat ketzers zien</a> #}
 							<div class="ketzers">
 								<div class="ketzer">
-									{# 2418 #}
-									{# {{ '[maaltijd=2418]' | bbcode }} #}
 									{{ '[maaltijd=2474]' | bbcode }}
 								</div>
 							</div>
 						</div>
 						<div class="dies-activiteit-ketzers col-md-12">
-							{# <a class="toggler btn btn-primary">Laat ketzers zien</a> #}
 							<div class="ketzers">
 								<div class="ketzer">
 									{{ '[maaltijd=2487]' | bbcode }}
@@ -105,7 +100,7 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">21:00 The Sound of Music</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseSoundOfMusic" aria-expanded="false" aria-controls="collapseSoundOfMusic">21:00 The Sound of Music</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSoundOfMusic" aria-expanded="false" aria-controls="collapseSoundOfMusic">
 					{{ icon('caret-down') }}
 				</button>
@@ -118,7 +113,7 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">23:00 From Dusk Till Dawn</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseIdeeFDTD13" aria-expanded="false" aria-controls="collapseIdeeFDTD13">23:00 From Dusk Till Dawn</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseIdeeFDTD13" aria-expanded="false" aria-controls="collapseIdeeFDTD13">
 					{{ icon('caret-down') }}
 				</button>
@@ -131,7 +126,7 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">23:00 12 Angry Men</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapse12AM" aria-expanded="false" aria-controls="collapse12AM">23:00 12 Angry Men</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse12AM" aria-expanded="false" aria-controls="collapse12AM">
 					{{ icon('caret-down') }}
 				</button>
@@ -139,16 +134,25 @@
 				<div class="collapse" id="collapse12AM">
 					<div class="d-flex row">
 						<p class="col-md-12">Mocht u denken, volgend jaar wil ik net zo in de schijnwerpers staan als Ama. Debatmeesteres, ketz u dan hier in, misschien bent u wel de volgende!</p>
+						<div class="dies-activiteit-ketzers col-md-12">
+							<div class="ketzers">
+								<div class="ketzer">
+									{{ '[activiteit=12447]' | bbcode }}
+								</div>
+							</div>
+						</div>
+
 					</div>
 				</div>
 			</div>
 
 		</div>
+
 		<div class="d-flex dag flex-column">
 			<h2 class="ondertitel col-md-12">Woensdag 14 februari</h2>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">16:00 Craft me a Romance</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseCMAR" aria-expanded="false" aria-controls="collapseCMAR">16:00 Craft me a Romance</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCMAR" aria-expanded="false" aria-controls="collapseCMAR">
 					{{ icon('caret-down') }}
 				</button>
@@ -157,10 +161,8 @@
 					<div class="d-flex row">
 						<p class="col-md-12">Gefeliciteerd, u heeft een dadel om u te vergezellen naar het gala! Maar hoe zorgt u ervoor dat u en uw dadel een gezellige avond hebben? Door een prachtige corsage te klussen natuurlijk! Achter een goede corsage schuilt een goed verhaal, zo heeft u gelijk stof om tijdens het gala over te kletsen. Knutsel nu alvast de romantiek in elkaar, dan komt de rest vanzelf wel. <br/> PS. Dit jaar verzorgen de dames de corsage, in verband met het schrikkeljaar. Onderaan deze pagina kunt u de etiquetteregels lezen om uw geheugen op te frissen.</p>
 						<div class="dies-activiteit-ketzers col-md-12">
-							{# <a class="toggler btn btn-primary">Laat ketzers zien</a> #}
 							<div class="ketzers">
 								<div class="ketzer">
-									{# 12093 #}
 									{{ '[activiteit=12417]' | bbcode }}
 								</div>
 							</div>
@@ -170,7 +172,7 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">16:00 Suits</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseSuits" aria-expanded="false" aria-controls="collapseSuits">16:00 Suits</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSuits" aria-expanded="false" aria-controls="collapseSuits">
 					{{ icon('caret-down') }}
 				</button>
@@ -179,7 +181,6 @@
 					<div class="d-flex row">
 						<p class="col-md-12">Voor aankomend gala komt elke man natuurlijk in zijn rokkostuum om indruk te maken op zijn dadel. Heeft u deze uitdossing nog niet klaarliggen? Geen zorgen! Kom naar Confide om rokkostuums te passen en met korting aan te schaffen. Zo zal u straks nog meer gaan schitteren, net als een echte beroemdheid.</p>
 						<div class="dies-activiteit-ketzers col-md-12">
-							{# <a class="toggler btn btn-primary">Laat ketzers zien</a> #}
 							<div class="ketzers">
 								<div class="ketzer">
 									{{ '[activiteit=12418]' | bbcode }}
@@ -191,7 +192,7 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">18:00 Cinema Paradiso</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseCP" aria-expanded="false" aria-controls="collapseCP">18:00 Cinema Paradiso</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCP" aria-expanded="false" aria-controls="collapseCP">
 					{{ icon('caret-down') }}
 				</button>
@@ -200,7 +201,6 @@
 					<div class="d-flex row">
 						<p class="col-md-12">Ervaar hoe paradijselijk het is om naar een première te gaan. U bent de filmster van de avond. Begeef u tussen de paparazzi, word verwelkomd met een heerlijke versnapering en geniet van de nieuwste film ‘Poor Things’ met bekende acteurs en actrices als Emma Stone, Mark Ruffalo en Willem Dafoe in Filmhuis Lumen! Deze film is nu al geselecteerd voor een Oscar. Ketz u snel in, er zijn maar 90 plaatsen!</p>
 						<div class="dies-activiteit-ketzers col-md-12">
-							{# <a class="toggler btn btn-primary">Laat ketzers zien</a> #}
 							<div class="ketzers">
 								<div class="ketzer">
 									{{ '[activiteit=12420]' | bbcode }}
@@ -219,7 +219,7 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">22:00 From Dusk Till Dawn</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseFDTD14" aria-expanded="false" aria-controls="collapseFDTD14">22:00 From Dusk Till Dawn</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFDTD14" aria-expanded="false" aria-controls="collapseFDTD14">
 					{{ icon('caret-down') }}
 				</button>
@@ -232,7 +232,7 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">23:00 12 Angry Men</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapse12AM14" aria-expanded="false" aria-controls="collapse12AM14">23:00 12 Angry Men</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse12AM14" aria-expanded="false" aria-controls="collapse12AM14">
 					{{ icon('caret-down') }}
 				</button>
@@ -249,7 +249,7 @@
 			<h2 class="ondertitel col-md-12">Donderdag 15 februari</h2>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">18:30 The Circle</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseCircle" aria-expanded="false" aria-controls="collapseCircle">18:30 The Circle</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCircle" aria-expanded="false" aria-controls="collapseCircle">
 					{{ icon('caret-down') }}
 				</button>
@@ -260,7 +260,7 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">22:00 The Great Gatsby</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseTGG" aria-expanded="false" aria-controls="collapseTGG">22:00 The Great Gatsby</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTGG" aria-expanded="false" aria-controls="collapseTGG">
 					{{ icon('caret-down') }}
 				</button>
@@ -277,7 +277,7 @@
 			<h2 class="ondertitel col-md-12">Vrijdag 16 februari</h2>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">10:00 Knives Out</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseKnivesOut" aria-expanded="false" aria-controls="collapseKnivesOut">10:00 Knives Out</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseKnivesOut" aria-expanded="false" aria-controls="collapseKnivesOut">
 					{{ icon('caret-down') }}
 				</button>
@@ -288,7 +288,7 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">20:00 Dirty Dancing</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseDirtyDancing" aria-expanded="false" aria-controls="collapseDirtyDancing">20:00 Dirty Dancing</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDirtyDancing" aria-expanded="false" aria-controls="collapseDirtyDancing">
 					{{ icon('caret-down') }}
 				</button>
@@ -298,7 +298,6 @@
 						Danst u straks de sterren van de hemel? Tijdens deze werkgroep leert u een typische oud-Hollywoodse dansstijl. Het is een ideale voorbereiding voor het gala. Vraag uw dadel mee om alvast samen te oefenen of kom individueel schitteren. Ketzt u dus in om te genieten van dit filmachtige moment.
 					</p>
 					<div class="dies-activiteit-ketzers col-md-12">
-						{# <a class="toggler btn btn-primary">Laat ketzers zien</a> #}
 						<div class="ketzers">
 							<div class="ketzer">
 								{{ '[activiteit=12419]' | bbcode }}
@@ -306,7 +305,6 @@
 						</div>
 					</div>
 					<div class="dies-activiteit-ketzers col-md-12">
-						{# <a class="toggler btn btn-primary">Laat ketzers zien</a> #}
 						<div class="ketzers">
 							<div class="ketzer">
 								{{ '[activiteit=12433]' | bbcode }}
@@ -317,8 +315,8 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">22:00 From Dusk Till Dawn</h3>
-				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFDTD16" aria-expanded="false" aria-controls=collapseFDTD16>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseFDTD16" aria-expanded="false" aria-controls="collapseFDTD16">22:00 From Dusk Till Dawn</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFDTD16" aria-expanded="false" aria-controls="collapseFDTD16">
 					{{ icon('caret-down') }}
 				</button>
 
@@ -330,7 +328,7 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">22:00 12 Angry Men</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapse12AM16" aria-expanded="false" aria-controls="collapse12AM16">22:00 12 Angry Men</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse12AM16" aria-expanded="false" aria-controls="collapse12AM16">
 					{{ icon('caret-down') }}
 				</button>
@@ -347,7 +345,7 @@
 			<h2 class="ondertitel col-md-12">Zaterdag 17 februari</h2>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">14:00 The Good, The Bad and The Ugly</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseGBU" aria-expanded="false" aria-controls="collapseGBU">14:00 The Good, The Bad and The Ugly</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGBU" aria-expanded="false" aria-controls="collapseGBU">
 					{{ icon('caret-down') }}
 				</button>
@@ -358,7 +356,6 @@
 							Waarschijnlijk hebben ze al veel verhalen gehoord, maar vandaag kunt u het ook echt laten zien. De brusjesdag is hét moment om uw brusjes kennis te laten maken met C.S.R. En Delft is natuurlijk ook filmachtig mooi, waarschijnlijk kent u het al best goed, nu is er de kans om dit ook aan uw brusjes te laten zien!
 						</p>
 						<div class="dies-activiteit-ketzers col-md-12">
-							{# <a class="toggler btn btn-primary">Laat ketzers zien</a> #}
 							<div class="ketzers">
 								<div class="ketzer">
 									{{ '[activiteit=12421]' | bbcode }}
@@ -366,7 +363,6 @@
 							</div>
 						</div>
 						<div class="dies-activiteit-ketzers col-md-12">
-							{# <a class="toggler btn btn-primary">Laat ketzers zien</a> #}
 							<div class="ketzers">
 								<div class="ketzer">
 									{{ '[maaltijd=2478]' | bbcode }}
@@ -378,7 +374,7 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">20:00 Sleeping Beauty</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseSleepingBeauty" aria-expanded="false" aria-controls="collapseSleepingBeauty">20:00 Sleeping Beauty</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSleepingBeauty" aria-expanded="false" aria-controls="collapseSleepingBeauty">
 					{{ icon('caret-down') }}
 				</button>
@@ -389,7 +385,6 @@
 							Na een week aan veel activiteiten en gezelligheid wordt het tijd om even tot rust te komen. Uw lichtje kan niet altijd even hard blijven branden. Deze avond staat helemaal in het teken van ontspanning.
 						</p>
 						<div class="dies-activiteit-ketzers col-md-12">
-							{# <a class="toggler btn btn-primary">Laat ketzers zien</a> #}
 							<div class="ketzers">
 								<div class="ketzer">
 									{{ '[activiteit=12422]' | bbcode }}
@@ -405,7 +400,7 @@
 			<h2 class="ondertitel col-md-12">Zondag 18 februari</h2>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">10:00 The Theory of Everything</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseTheoryOfEverything" aria-expanded="false" aria-controls="collapseTheoryOfEverything">10:00 The Theory of Everything</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTheoryOfEverything" aria-expanded="false" aria-controls="collapseTheoryOfEverything">
 					{{ icon('caret-down') }}
 				</button>
@@ -420,7 +415,7 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">14:00 Jumanji</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseJumanji" aria-expanded="false" aria-controls="collapseJumanji">14:00 Jumanji</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseJumanji" aria-expanded="false" aria-controls="collapseJumanji">
 					{{ icon('caret-down') }}
 				</button>
@@ -446,7 +441,7 @@
 			<h2 class="ondertitel col-md-12">Maandag 19 februari</h2>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">16:00 Once Upon a time...</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseOUAT" aria-expanded="false" aria-controls="collapseOUAT">16:00 Once Upon a time...</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOUAT" aria-expanded="false" aria-controls="collapseOUAT">
 					{{ icon('caret-down') }}
 				</button>
@@ -455,7 +450,6 @@
 					<div class="d-flex row">
 						<p class="col-md-12">Er was eens… een hele behulpzame YER training over storytelling: ‘Verhalen vertellen’. Leer over het aanspreken van uw publiek, het gebruik van de juiste opbouw en het toepassen van mooie intonatie. Straks zal u net zulke spannende plotten schrijven als beroemde regisseurs en net zulke goede verhalen uiteenzetten als befaamde presentatoren. Waar wacht u nog op? Inketzen met uw hoofd.<br/>https://www.yer.nl/trainingen-en-evenementen/training-storytelling-csr-x-yer/</p>
 						<div class="dies-activiteit-ketzers col-md-12">
-							{# <a class="toggler btn btn-primary">Laat ketzers zien</a> #}
 							<div class="ketzers">
 								<div class="ketzer">
 									{{ '[activiteit=12426]' | bbcode }}
@@ -467,7 +461,7 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">18:30 The Hunger Games</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseHungerGames" aria-expanded="false" aria-controls="collapseHungerGames">18:30 The Hunger Games</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHungerGames" aria-expanded="false" aria-controls="collapseHungerGames">
 					{{ icon('caret-down') }}
 				</button>
@@ -478,7 +472,6 @@
 							Sluit de eerste dag van de week af met een avond vol vertier en plezier verzorgd door de heren van Museum J.C.J. van Speijk. Bijkomend voordeel: u kunt vervolgens gelijk door naar de HV!
 						</p>
 						<div class="dies-activiteit-ketzers col-md-12">
-							{# <a class="toggler btn btn-primary">Laat ketzers zien</a> #}
 							<div class="ketzers">
 								<div class="ketzer">
 									{{ '[maaltijd=2476]' | bbcode }}
@@ -486,7 +479,6 @@
 							</div>
 						</div>
 						<div class="dies-activiteit-ketzers col-md-12">
-							{# <a class="toggler btn btn-primary">Laat ketzers zien</a> #}
 							<div class="ketzers">
 								<div class="ketzer">
 									{{ '[maaltijd=2488]' | bbcode }}
@@ -498,7 +490,7 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">20:00 Insomnia</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseInsommia" aria-expanded="false" aria-controls="collapseInsommia">20:00 Insomnia</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInsommia" aria-expanded="false" aria-controls="collapseInsommia">
 					{{ icon('caret-down') }}
 				</button>
@@ -517,7 +509,7 @@
 			<h2 class="ondertitel col-md-12">Dinsdag 20 februari</h2>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">12:30 The Hangover</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseHangover" aria-expanded="false" aria-controls="collapseHangover">12:30 The Hangover</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHangover" aria-expanded="false" aria-controls="collapseHangover">
 					{{ icon('caret-down') }}
 				</button>
@@ -539,7 +531,7 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">20:00 The Greatest Showman</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseTheGreatShowman" aria-expanded="false" aria-controls="collapseTheGreatShowman">20:00 The Greatest Showman</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTheGreatShowman" aria-expanded="false" aria-controls="collapseTheGreatShowman">
 					{{ icon('caret-down') }}
 				</button>
@@ -550,7 +542,6 @@
 							3,2,1 actie! De schijnwerpers staan gericht op het podium. Dit is de avond waar alle acteerkunsten en theatrale vaardigheden het podium mogen betreden. Mocht u een epische, humoristische, verwarrende, of prikkelende act willen bijdragen, ketzt u dan in.
 						</p>
 						<div class="dies-activiteit-ketzers col-md-12">
-							{# <a class="toggler btn btn-primary">Laat ketzers zien</a> #}
 							<div class="ketzers">
 								<div class="ketzer">
 									{{ '[activiteit=12427]' | bbcode }}
@@ -562,7 +553,7 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">22:00 From Dusk Till Dawn</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseDuskTillDawn20" aria-expanded="false" aria-controls="collapseDuskTillDawn20">22:00 From Dusk Till Dawn</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDuskTillDawn20" aria-expanded="false" aria-controls="collapseDuskTillDawn20">
 					{{ icon('caret-down') }}
 				</button>
@@ -577,7 +568,7 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">22:00 12 Angry Men</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapse12AM20" aria-expanded="false" aria-controls="collapse12AM20">22:00 12 Angry Men</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse12AM20" aria-expanded="false" aria-controls="collapse12AM20">
 					{{ icon('caret-down') }}
 				</button>
@@ -596,7 +587,7 @@
 			<h2 class="ondertitel col-md-12">Woensdag 21 februari</h2>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">14:00 Pirates of the Caribbean</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapsePOTC" aria-expanded="false" aria-controls="collapsePOTC">14:00 Pirates of the Caribbean</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePOTC" aria-expanded="false" aria-controls="collapsePOTC">
 					{{ icon('caret-down') }}
 				</button>
@@ -609,8 +600,8 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">20:00 The Shawshank Redemption</h3>
-				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSR" aria-expanded="false" aria-controls=collapseSR>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseSR" aria-expanded="false" aria-controls="collapseSR">20:00 The Shawshank Redemption</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSR" aria-expanded="false" aria-controls="collapseSR">
 					{{ icon('caret-down') }}
 				</button>
 
@@ -626,7 +617,7 @@
 			<h2 class="ondertitel col-md-12">Donderdag 22 februari</h2>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">18:30 Ratatouille</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseRata" aria-expanded="false" aria-controls="collapseRata">18:30 Ratatouille</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRata" aria-expanded="false" aria-controls="collapseRata">
 					{{ icon('caret-down') }}
 				</button>
@@ -637,7 +628,6 @@
 							Als u aan film denkt en aan eten denkt, denkt u natuurlijk onmiddellijk aan Ratatouille! Kom smullen op Confide, waar de smaken op uw bord zullen twinkelen als filmsterren.
 						</p>
 						<div class="dies-activiteit-ketzers col-md-12">
-							{# <a class="toggler btn btn-primary">Laat ketzers zien</a> #}
 							<div class="ketzers">
 								<div class="ketzer">
 									{{ '[maaltijd=2477]' | bbcode }}
@@ -649,7 +639,7 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">20:00 A star is born</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseBornStar" aria-expanded="false" aria-controls="collapseBornStar">20:00 A star is born</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBornStar" aria-expanded="false" aria-controls="collapseBornStar">
 					{{ icon('caret-down') }}
 				</button>
@@ -662,7 +652,7 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">22:00 From Dusk Till Dawn</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseFDTD22" aria-expanded="false" aria-controls="collapseFDTD22">22:00 From Dusk Till Dawn</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFDTD22" aria-expanded="false" aria-controls="collapseFDTD22">
 					{{ icon('caret-down') }}
 				</button>
@@ -675,7 +665,7 @@
 			</div>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">23:00 12 Angry Men</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapse12AM22" aria-expanded="false" aria-controls="collapse12AM22">23:00 12 Angry Men</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse12AM22" aria-expanded="false" aria-controls="collapse12AM22">
 					{{ icon('caret-down') }}
 				</button>
@@ -694,7 +684,7 @@
 			<h2 class="ondertitel col-md-12">Vrijdag 23 februari</h2>
 
 			<div class="activiteit row">
-				<h3 class="col-md-11">16:00 Ga La Land</h3>
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseGaLaLand" aria-expanded="false" aria-controls="collapseGaLaLand">16:00 Ga La Land</h3>
 				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGaLaLand" aria-expanded="false" aria-controls="collapseGaLaLand">
 					{{ icon('caret-down') }}
 				</button>
@@ -706,7 +696,6 @@
 						</p>
 						{# Galaketzer #}
 						<div class="dies-activiteit-ketzers col-md-12">
-							{# <a class="toggler btn btn-primary">Laat ketzers zien</a> #}
 							<div class="ketzers">
 								<div class="ketzer">
 									{{ '[activiteit=12428]' | bbcode }}
@@ -714,7 +703,6 @@
 							</div>
 						</div>
 						<div class="dies-activiteit-ketzers col-md-12">
-							{# <a class="toggler btn btn-primary">Laat ketzers zien</a> #}
 							{# Reserveketzer #}
 							<div class="ketzers">
 								<div class="ketzer">
@@ -812,7 +800,4 @@
 		</div>
 	</div>
 </section>
-{# <section class="sponsor">
-	<img src="/images/dies2023/galjemaSponsor.png" alt="Galjema sponsor"/>
-</section> #}
 </body>
