@@ -32,8 +32,8 @@
     "integrity": "sha256-EkfPbR9cZPQDTCODpD5MrfYrkITaMsmkZnfQSftmQac= sha384-5vYLLPXnXoZmp26x0pRkrXoALnCE3kuoMW+UEJc9g5INVN8utxNAyf83p6EYfHOK sha512-lxH6JnywNtgSAip1d7rR6FcIvTtFZBVEMKGSdQFbBjwsSVS+I8C16ewZGKQ43mfsHIlTvMgU6kNMTU7P60oqiA=="
   },
   "dies2024.css": {
-    "src": "css/dies2024.a002484d1a003454f83c.css",
-    "integrity": "sha256-dsxOTwCt9VM2SVPz5GjE/c9RVtRq8vXhFIRKMKUk7BU= sha384-fU7eKNufcrsQGSWQ86eylcZ9K3QmU9/uqDyjo3CY7JrVWYObrkRwgws2CiItyeii sha512-oRr7+EGamOTIRU7t5sOJ7I8BeqwHXPo5sbYl5v3uyaqMItIV77Nd/AQ4ERrmLHZjTI+1P9zBSyiqBVX5Ih0iGg=="
+    "src": "css/dies2024.229309cf25039ea6b5d0.css",
+    "integrity": "sha256-k978riwFoz4CKSd41alHmVB8oQD/O7Bh+VET0yT8Rag= sha384-BgI6OP7iAQWwzJeyVMSjcBpzoHMCnAy5deowsngvm3lu19wW6T7P0wuE/xpkhKTG sha512-LIpISfhZPXxj+JIwYCgHliMtwaVPAP5nHcGDIyZH3YpVcRa2+WIwy3Xku+9GtWSIERzSWQlIKm2ymoLBOoTHlA=="
   },
   "effect-civisaldo.css": {
     "src": "css/effect-civisaldo.4e9987af0efcf79a782c.css",
@@ -600,8 +600,8 @@
       "assets": {
         "css": [
           {
-            "src": "css/dies2024.a002484d1a003454f83c.css",
-            "integrity": "sha256-dsxOTwCt9VM2SVPz5GjE/c9RVtRq8vXhFIRKMKUk7BU= sha384-fU7eKNufcrsQGSWQ86eylcZ9K3QmU9/uqDyjo3CY7JrVWYObrkRwgws2CiItyeii sha512-oRr7+EGamOTIRU7t5sOJ7I8BeqwHXPo5sbYl5v3uyaqMItIV77Nd/AQ4ERrmLHZjTI+1P9zBSyiqBVX5Ih0iGg=="
+            "src": "css/dies2024.229309cf25039ea6b5d0.css",
+            "integrity": "sha256-k978riwFoz4CKSd41alHmVB8oQD/O7Bh+VET0yT8Rag= sha384-BgI6OP7iAQWwzJeyVMSjcBpzoHMCnAy5deowsngvm3lu19wW6T7P0wuE/xpkhKTG sha512-LIpISfhZPXxj+JIwYCgHliMtwaVPAP5nHcGDIyZH3YpVcRa2+WIwy3Xku+9GtWSIERzSWQlIKm2ymoLBOoTHlA=="
           }
         ]
       }
@@ -840,8 +840,8 @@
     "integrity": "sha256-VJxE2Wjd1PKGHnDjIhmdau6bEgRV+0gc2ZknrGYL3Sw= sha384-KzuebN6r1+tB6pWVT5VHtpcilMZysb0/MB7ugmwlb77h7gYnw15zVswd8ZENLx58 sha512-mx26aJe8Wo4GxE8jfuQdhjlpU7WmL3GMT2bhypIILkdEIiD0C8H8zp5xtWa6AGShF88yHrNBqoueLQ8HKtHTGA=="
   },
   "images/Achtergrond.svg": {
-    "src": "images/e98a495fcbdff4693fd2.svg",
-    "integrity": "sha256-QE9v+3xtJ2g/FitvQA2igPPqZG97hHV/lVzVbAKtWiE= sha384-ZD2xzuN+yeuVsVasVwCGqoD9wUg14PRVXY7OUNLzOXtMxsghym//FcR0iBmOBAIX sha512-+F5eZ/xuq2gRstZ7Xdb+8LtWpBFBH0/VYwzsM7Y/lhUux8nK0QACmCTmjzW6VglcwkgXFksOdp/22aEKgX/aUg=="
+    "src": "images/4346001f5a15bfb46207.svg",
+    "integrity": "sha256-rtjBYHdi/NBr0UUkcy5XqGuj+Ra+9DmTuBTRNVS3t3o= sha384-G3W3Fi2WrBn4ci9YgH3QFOL+T03FUo/TvSM+BIUa1avY0tn7l1OR0JpMvjhvGWQt sha512-4mTbIc1vwylCdwza/BeQnLzD9o8cuRhmXLBoX3FG6CGNlr/yoKLulEH6PkuZByw//5ynKyb3oL3KkeC/4KIMmA=="
   },
   "images/Kader_donker.png": {
     "src": "images/5cce2ba9b7c661c3e065.png",
