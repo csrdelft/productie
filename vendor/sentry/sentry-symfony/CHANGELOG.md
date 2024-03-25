@@ -1,6 +1,230 @@
 # Changelog
 
-## Unreleased
+## 4.14.0
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Symfony SDK v4.14.0.
+
+### Features
+
+- Add support for `doctrine/dabl: ^4.0` [(#811)](https://github.com/getsentry/sentry-symfony/pull/811)
+
+### Bug Fixes
+
+- Fix overwritting `DbalTracingPass` [(#808)](https://github.com/getsentry/sentry-symfony/pull/808)
+- Use `AbstractDriverMiddleware` [(#810)](https://github.com/getsentry/sentry-symfony/pull/810)
+
+## 4.13.2
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Symfony SDK v4.13.2.
+
+### Bug Fixes
+
+- Fix detection of the installed version of `symfony/http-client` [(#797)](https://github.com/getsentry/sentry-symfony/pull/797)
+
+## 4.13.1
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Symfony SDK v4.13.1.
+
+### Bug Fixes
+
+- Fix the HTTP client decoration when no `http_client` service is registered [(#792)](https://github.com/getsentry/sentry-symfony/pull/792)
+
+## 4.13.0
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Symfony SDK v4.13.0.
+
+### Features
+
+- Add support for Symfony 7 [(#761)](https://github.com/getsentry/sentry-symfony/pull/761)
+
+### Bug Fixes
+
+- Fix the decoration of the HTTP client when tracing is enabled [(#786)](https://github.com/getsentry/sentry-symfony/pull/786)
+
+## 4.12.0
+
+### Features
+
+- Add support for `symfony/psr-http-message-bridge: ^6.4` [(#750)](https://github.com/getsentry/sentry-symfony/pull/750)
+- Report individual exceptions from `DelayedMessageHandlingException` [(#760)](https://github.com/getsentry/sentry-symfony/pull/760)
+
+## 4.11.0
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Symfony SDK v4.11.0.
+
+### Bug Fixes
+
+- Silence `TokenInterface::isAuthenticated` deprecation in `LoginListener` [(#755)](https://github.com/getsentry/sentry-symfony/pull/755)
+
+### Misc
+
+- Prefer the `SENTRY_RELEASE` environment variable over the package root version [(#753)](https://github.com/getsentry/sentry-symfony/pull/753)
+
+## 4.10.0
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Symfony SDK v4.10.0.
+
+### Features
+
+- Tracing without Performance [(#742)](https://github.com/getsentry/sentry-symfony/pull/742)
+
+  The SDK will now continue a trace from incoming HTTP requests, even if performance is not enabled.
+  To continue a trace outward, you may attach the Sentry tracing headers to any HTTP client request.
+  You can fetch the required header values by calling \Sentry\getBaggage() and \Sentry\getTraceparent().
+
+- Add `ignore_exceptions` and `ignore_transactions` options [(#724)](https://github.com/getsentry/sentry-symfony/pull/724)
+
+### Misc
+
+- Improve setting logged-in users on the scope [(#720)](https://github.com/getsentry/sentry-symfony/pull/720)
+- Move DB span tags to span data [(#743)](https://github.com/getsentry/sentry-symfony/pull/743)
+- Set the span status when tracing an HTTP client request [(#748)](https://github.com/getsentry/sentry-symfony/pull/748)
+
+## 4.9.2
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Symfony SDK v4.9.2.
+
+### Bug Fixes
+
+- We decided to revert two previous PRs that aimed to remove deprecation warnings during test runs [(#736)](https://github.com/getsentry/sentry-symfony/pull/736)
+
+  - Revert: Add a new Doctrine DBAL tracing driver that does not implement the deprecated `VersionAwarePlatformDriver` [(#723)](https://github.com/getsentry/sentry-symfony/pull/723)
+  - Revert: Fix a regression in `TracingDriverForV32` by adding `VersionAwarePlatformDriver::createDatabasePlatformForVersion` [(#731)](https://github.com/getsentry/sentry-symfony/pull/731)
+
+We are sorry for the inconvenience caused by these changes.
+
+## 4.9.1
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Symfony SDK v4.9.1.
+
+### Bug Fixes
+
+- Fix a regression in `TracingDriverForV32` by adding `VersionAwarePlatformDriver::createDatabasePlatformForVersion` [(#731)](https://github.com/getsentry/sentry-symfony/pull/731)
+
+## 4.9.0
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Symfony SDK v4.9.0.
+
+### Features
+
+- Add a new Doctrine DBAL tracing driver that does not implement the deprecated `VersionAwarePlatformDriver` [(#723)](https://github.com/getsentry/sentry-symfony/pull/723)
+
+  The driver is automatically picked if `doctrine/dbal` version `3.2.0` or higher is installed.
+
+### Bug Fixes
+
+-  Fix config type of `http_connect_timeout`and `http_timeout` options [(#721)](https://github.com/getsentry/sentry-symfony/pull/721)
+
+### Misc
+
+- Bump the underlying PHP SDK to version `^3.19` [(#725)](https://github.com/getsentry/sentry-symfony/pull/725)
+
+## 4.8.0
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Symfony SDK v4.8.0.
+
+### Features
+
+- Set cache keys as span descriptions [(#677)](https://github.com/getsentry/sentry-symfony/pull/677)
+
+  To better identify the source of a cache operation, we now set the cache key as the description of `cache` op spans.
+
+### Bug Fixes
+
+- Add direct dependency for `guzzlehttp/psr7` [(#708)](https://github.com/getsentry/sentry-symfony/pull/708)
+- Drop `kernel.build_dir` param below Symfony 5.2 [(#711)](https://github.com/getsentry/sentry-symfony/pull/711)
+
+## 4.7.0
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Symfony SDK v4.7.0.
+
+### Features
+
+- Add `profiles_sample_rate` config option [(#698)](https://github.com/getsentry/sentry-symfony/pull/698)
+
+  With this new config option, you can now use our new profiling feature in Symfony as well.
+  Please consult https://github.com/getsentry/sentry-php/releases/3.15.0 for setup instructions.
+
+## 4.6.0
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Symfony SDK v4.6.0.
+This release contains a colorful bouquet of new features.
+
+### Features
+
+- Report exceptions to Sentry as unhandled by default [(#674)](https://github.com/getsentry/sentry-symfony/pull/674)
+
+  All unhandled exceptions will now be marked as `handled: false`. You can query for such events on the issues list page,
+  by searching for `error.handled:false`.
+
+- Exceptions from messages which will be retried are sent to Sentry as handled [(#674)](https://github.com/getsentry/sentry-symfony/pull/674)
+
+  All unhandled exceptions happening on the message bus will now be unpacked and reported individually.
+  The `WorkerMessageFailedEvent::willRetry` property is used to determine the `handled` value of the event sent to Sentry.
+
+- Add `register_error_handler` config option [(#687)](https://github.com/getsentry/sentry-symfony/pull/687)
+
+  With this option, you can disable the global error and exception handlers of the base PHP SDK.
+  If disabled, only events logged by Monolog will be sent to Sentry.
+
+  ```yaml
+    sentry:
+        dsn: '%env(SENTRY_DSN)%'
+        register_error_listener: false
+        register_error_handler: false
+
+    monolog:
+        handlers:
+            sentry:
+                type: sentry
+                level: !php/const Monolog\Logger::ERROR
+                hub_id: Sentry\State\HubInterface
+  ```
+
+- Add `before_send_transaction` [(#691)](https://github.com/getsentry/sentry-symfony/pull/691)
+
+  Similar to `before_send`, you can now apply additional logic for `transaction` events.
+  You can mutate the `transaction` event before it is sent to Sentry. If your callback returns `null`,
+  the event is dropped.
+
+  ```yaml
+    sentry:
+        options:
+            before_send_transaction: 'sentry.callback.before_send_transaction'
+
+    services:
+        sentry.callback.before_send_transaction:
+            class: 'App\Service\Sentry'
+            factory: [ '@App\Service\Sentry', 'getBeforeSendTransaction' ]
+  ```
+
+  ```php
+    <?php
+
+    namespace App\Service;
+
+    class Sentry
+    {
+        public function getBeforeSendTransaction(): callable
+        {
+            return function (\Sentry\Event $event): ?\Sentry\Event {
+                return $event;
+            };
+        }
+    }
+  ```
+
+- Use the `_route` attribute as the transaction name [(#692)](https://github.com/getsentry/sentry-symfony/pull/692)
+
+  If you're using named routes, the SDK will default to use this attribute as the transaction name.
+  With this change, you should be able to see a full list of your transactions on the performance page,
+  instead of `<< unparameterized >>`.
+
+  You may need to update your starred transactions as well as your dashboards due to this change.
+
+### Bug Fixes
+
+- Sanatize HTTP client spans [(#690)](https://github.com/getsentry/sentry-symfony/pull/690)
 
 ## 4.5.0 (2022-11-28)
 

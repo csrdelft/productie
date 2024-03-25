@@ -117,7 +117,7 @@ trait HttpClientTrait
         }
 
         // Validate on_progress
-        if (!\is_callable($onProgress = $options['on_progress'] ?? 'var_dump')) {
+        if (isset($options['on_progress']) && !\is_callable($onProgress = $options['on_progress'])) {
             throw new InvalidArgumentException(sprintf('Option "on_progress" must be callable, "%s" given.', get_debug_type($onProgress)));
         }
 
@@ -171,7 +171,7 @@ trait HttpClientTrait
 
         // Finalize normalization of options
         $options['http_version'] = (string) ($options['http_version'] ?? '') ?: null;
-        if (0 > $options['timeout'] = (float) ($options['timeout'] ?? ini_get('default_socket_timeout'))) {
+        if (0 > $options['timeout'] = (float) ($options['timeout'] ?? \ini_get('default_socket_timeout'))) {
             $options['timeout'] = 172800.0; // 2 days
         }
 
@@ -206,9 +206,11 @@ trait HttpClientTrait
 
         $options += $defaultOptions;
 
-        foreach (self::$emptyDefaults ?? [] as $k => $v) {
-            if (!isset($options[$k])) {
-                $options[$k] = $v;
+        if (isset(self::$emptyDefaults)) {
+            foreach (self::$emptyDefaults as $k => $v) {
+                if (!isset($options[$k])) {
+                    $options[$k] = $v;
+                }
             }
         }
 
@@ -417,7 +419,7 @@ trait HttpClientTrait
      *
      * @throws InvalidArgumentException When the value cannot be json-encoded
      */
-    private static function jsonEncode($value, int $flags = null, int $maxDepth = 512): string
+    private static function jsonEncode($value, ?int $flags = null, int $maxDepth = 512): string
     {
         $flags = $flags ?? (\JSON_HEX_TAG | \JSON_HEX_APOS | \JSON_HEX_AMP | \JSON_HEX_QUOT | \JSON_PRESERVE_ZERO_FRACTION);
 
@@ -545,7 +547,7 @@ trait HttpClientTrait
             }
 
             // https://tools.ietf.org/html/rfc3986#section-3.3
-            $parts[$part] = preg_replace_callback("#[^-A-Za-z0-9._~!$&/'()*+,;=:@%]++#", function ($m) { return rawurlencode($m[0]); }, $parts[$part]);
+            $parts[$part] = preg_replace_callback("#[^-A-Za-z0-9._~!$&/'()[\]*+,;=:@{}%]++#", function ($m) { return rawurlencode($m[0]); }, $parts[$part]);
         }
 
         return [
@@ -619,6 +621,23 @@ trait HttpClientTrait
         $queryArray = [];
 
         if ($queryString) {
+            if (str_contains($queryString, '%')) {
+                // https://tools.ietf.org/html/rfc3986#section-2.3 + some chars not encoded by browsers
+                $queryString = strtr($queryString, [
+                    '%21' => '!',
+                    '%24' => '$',
+                    '%28' => '(',
+                    '%29' => ')',
+                    '%2A' => '*',
+                    '%2F' => '/',
+                    '%3A' => ':',
+                    '%3B' => ';',
+                    '%40' => '@',
+                    '%5B' => '[',
+                    '%5D' => ']',
+                ]);
+            }
+
             foreach (explode('&', $queryString) as $v) {
                 $queryArray[rawurldecode(explode('=', $v, 2)[0])] = $v;
             }
@@ -632,16 +651,7 @@ trait HttpClientTrait
      */
     private static function getProxy(?string $proxy, array $url, ?string $noProxy): ?array
     {
-        if (null === $proxy) {
-            // Ignore HTTP_PROXY except on the CLI to work around httpoxy set of vulnerabilities
-            $proxy = $_SERVER['http_proxy'] ?? (\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) ? $_SERVER['HTTP_PROXY'] ?? null : null) ?? $_SERVER['all_proxy'] ?? $_SERVER['ALL_PROXY'] ?? null;
-
-            if ('https:' === $url['scheme']) {
-                $proxy = $_SERVER['https_proxy'] ?? $_SERVER['HTTPS_PROXY'] ?? $proxy;
-            }
-        }
-
-        if (null === $proxy) {
+        if (null === $proxy = self::getProxyUrl($proxy, $url)) {
             return null;
         }
 
@@ -667,6 +677,22 @@ trait HttpClientTrait
             'auth' => isset($proxy['user']) ? 'Basic '.base64_encode(rawurldecode($proxy['user']).':'.rawurldecode($proxy['pass'] ?? '')) : null,
             'no_proxy' => $noProxy,
         ];
+    }
+
+    private static function getProxyUrl(?string $proxy, array $url): ?string
+    {
+        if (null !== $proxy) {
+            return $proxy;
+        }
+
+        // Ignore HTTP_PROXY except on the CLI to work around httpoxy set of vulnerabilities
+        $proxy = $_SERVER['http_proxy'] ?? (\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) ? $_SERVER['HTTP_PROXY'] ?? null : null) ?? $_SERVER['all_proxy'] ?? $_SERVER['ALL_PROXY'] ?? null;
+
+        if ('https:' === $url['scheme']) {
+            $proxy = $_SERVER['https_proxy'] ?? $_SERVER['HTTPS_PROXY'] ?? $proxy;
+        }
+
+        return $proxy;
     }
 
     private static function shouldBuffer(array $headers): bool

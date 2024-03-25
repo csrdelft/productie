@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sentry\SentryBundle\DependencyInjection;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use Jean85\PrettyVersions;
 use Psr\Log\NullLogger;
 use Sentry\Client;
 use Sentry\ClientBuilder;
@@ -19,6 +20,7 @@ use Sentry\SentryBundle\EventListener\MessengerListener;
 use Sentry\SentryBundle\EventListener\TracingConsoleListener;
 use Sentry\SentryBundle\EventListener\TracingRequestListener;
 use Sentry\SentryBundle\EventListener\TracingSubRequestListener;
+use Sentry\SentryBundle\Integration\IntegrationConfigurator;
 use Sentry\SentryBundle\SentryBundle;
 use Sentry\SentryBundle\Tracing\Doctrine\DBAL\ConnectionConfigurator;
 use Sentry\SentryBundle\Tracing\Doctrine\DBAL\TracingDriverMiddleware;
@@ -66,6 +68,10 @@ final class SentryExtension extends ConfigurableExtension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
 
+        if (!$container->hasParameter('env(SENTRY_RELEASE)')) {
+            $container->setParameter('env(SENTRY_RELEASE)', PrettyVersions::getRootPackageVersion()->getPrettyVersion());
+        }
+
         $this->registerConfiguration($container, $mergedConfig);
         $this->registerErrorListenerConfiguration($container, $mergedConfig);
         $this->registerMessengerListenerConfiguration($container, $mergedConfig['messenger']);
@@ -101,6 +107,10 @@ final class SentryExtension extends ConfigurableExtension
             $options['before_send'] = new Reference($options['before_send']);
         }
 
+        if (isset($options['before_send_transaction'])) {
+            $options['before_send_transaction'] = new Reference($options['before_send_transaction']);
+        }
+
         if (isset($options['before_breadcrumb'])) {
             $options['before_breadcrumb'] = new Reference($options['before_breadcrumb']);
         }
@@ -111,9 +121,10 @@ final class SentryExtension extends ConfigurableExtension
             }, $options['class_serializers']);
         }
 
-        if (isset($options['integrations'])) {
-            $options['integrations'] = $this->configureIntegrationsOption($options['integrations'], $config);
-        }
+        $container->getDefinition(IntegrationConfigurator::class)
+            ->setArgument(0, $this->configureIntegrationsOption($options['integrations'], $config))
+            ->setArgument(1, $config['register_error_handler']);
+        $options['integrations'] = new Reference(IntegrationConfigurator::class);
 
         $container
             ->register('sentry.client.options', Options::class)

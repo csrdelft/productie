@@ -35,7 +35,7 @@ class FileType extends AbstractType
 
     private $translator;
 
-    public function __construct(TranslatorInterface $translator = null)
+    public function __construct(?TranslatorInterface $translator = null)
     {
         $this->translator = $translator;
     }
@@ -181,7 +181,7 @@ class FileType extends AbstractType
      */
     private static function getMaxFilesize()
     {
-        $iniMax = strtolower(ini_get('upload_max_filesize'));
+        $iniMax = strtolower(\ini_get('upload_max_filesize'));
 
         if ('' === $iniMax) {
             return \PHP_INT_MAX;
@@ -198,11 +198,11 @@ class FileType extends AbstractType
 
         switch (substr($iniMax, -1)) {
             case 't': $max *= 1024;
-            // no break
+                // no break
             case 'g': $max *= 1024;
-            // no break
+                // no break
             case 'm': $max *= 1024;
-            // no break
+                // no break
             case 'k': $max *= 1024;
         }
 

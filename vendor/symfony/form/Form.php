@@ -275,7 +275,7 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
     /**
      * {@inheritdoc}
      */
-    public function setParent(FormInterface $parent = null)
+    public function setParent(?FormInterface $parent = null)
     {
         if ($this->submitted) {
             throw new AlreadySubmittedException('You cannot set the parent of a submitted form.');
@@ -356,7 +356,7 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
         }
 
         // Treat data as strings unless a transformer exists
-        if (is_scalar($modelData) && !$this->config->getViewTransformers() && !$this->config->getModelTransformers()) {
+        if (\is_scalar($modelData) && !$this->config->getViewTransformers() && !$this->config->getModelTransformers()) {
             $modelData = (string) $modelData;
         }
 
@@ -539,14 +539,14 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
         // and radio buttons with empty values.
         if (false === $submittedData) {
             $submittedData = null;
-        } elseif (is_scalar($submittedData)) {
+        } elseif (\is_scalar($submittedData)) {
             $submittedData = (string) $submittedData;
         } elseif ($this->config->getRequestHandler()->isFileUpload($submittedData)) {
             if (!$this->config->getOption('allow_file_upload')) {
                 $submittedData = null;
                 $this->transformationFailure = new TransformationFailedException('Submitted data was expected to be text or number, file upload given.');
             }
-        } elseif (\is_array($submittedData) && !$this->config->getCompound() && !$this->config->hasOption('multiple')) {
+        } elseif (\is_array($submittedData) && !$this->config->getCompound() && !$this->config->getOption('multiple', false)) {
             $submittedData = null;
             $this->transformationFailure = new TransformationFailedException('Submitted data was expected to be text or number, array given.');
         }
@@ -850,7 +850,7 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
     /**
      * {@inheritdoc}
      */
-    public function add($child, string $type = null, array $options = [])
+    public function add($child, ?string $type = null, array $options = [])
     {
         if ($this->submitted) {
             throw new AlreadySubmittedException('You cannot add children to a submitted form.');
@@ -1045,7 +1045,7 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
     /**
      * {@inheritdoc}
      */
-    public function createView(FormView $parent = null)
+    public function createView(?FormView $parent = null)
     {
         if (null === $parent && $this->parent) {
             $parent = $this->parent->createView();
@@ -1154,7 +1154,7 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
         // compound forms is passed to the data mapper and thus should
         // not be converted to a string before.
         if (!($transformers = $this->config->getViewTransformers()) && !$this->config->getCompound()) {
-            return null === $value || is_scalar($value) ? (string) $value : $value;
+            return null === $value || \is_scalar($value) ? (string) $value : $value;
         }
 
         try {

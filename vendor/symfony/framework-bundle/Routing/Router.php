@@ -40,7 +40,7 @@ class Router extends BaseRouter implements WarmableInterface, ServiceSubscriberI
     /**
      * @param mixed $resource The main resource to load
      */
-    public function __construct(ContainerInterface $container, $resource, array $options = [], RequestContext $context = null, ContainerInterface $parameters = null, LoggerInterface $logger = null, string $defaultLocale = null)
+    public function __construct(ContainerInterface $container, $resource, array $options = [], ?RequestContext $context = null, ?ContainerInterface $parameters = null, ?LoggerInterface $logger = null, ?string $defaultLocale = null)
     {
         $this->container = $container;
         $this->resource = $resource;
@@ -180,14 +180,14 @@ class Router extends BaseRouter implements WarmableInterface, ServiceSubscriberI
 
             $resolved = ($this->paramFetcher)($match[1]);
 
-            if (is_scalar($resolved)) {
+            if (\is_scalar($resolved)) {
                 $this->collectedParameters[$match[1]] = $resolved;
 
                 if (\is_string($resolved)) {
                     $resolved = $this->resolve($resolved);
                 }
 
-                if (is_scalar($resolved)) {
+                if (\is_scalar($resolved)) {
                     return false === $resolved ? '0' : (string) $resolved;
                 }
             }

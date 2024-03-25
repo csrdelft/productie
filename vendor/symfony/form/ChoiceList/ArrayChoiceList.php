@@ -15,7 +15,7 @@ namespace Symfony\Component\Form\ChoiceList;
  * A list of choices with arbitrary data types.
  *
  * The user of this class is responsible for assigning string values to the
- * choices annd for their uniqueness.
+ * choices and for their uniqueness.
  * Both the choices and their values are passed to the constructor.
  * Each choice must have a corresponding value (with the same key) in
  * the values array.
@@ -57,7 +57,7 @@ class ArrayChoiceList implements ChoiceListInterface
      *                               incrementing integers are used as
      *                               values
      */
-    public function __construct(iterable $choices, callable $value = null)
+    public function __construct(iterable $choices, ?callable $value = null)
     {
         if ($choices instanceof \Traversable) {
             $choices = iterator_to_array($choices);
@@ -219,7 +219,7 @@ class ArrayChoiceList implements ChoiceListInterface
                 }
 
                 continue;
-            } elseif (!is_scalar($choice)) {
+            } elseif (!\is_scalar($choice)) {
                 return false;
             }
 

@@ -9,10 +9,9 @@ use Doctrine\DBAL\Schema\Identifier;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\TableDiff;
-use Doctrine\DBAL\Types\BigIntType;
 use Doctrine\DBAL\Types\BinaryType;
 use Doctrine\DBAL\Types\BlobType;
-use Doctrine\DBAL\Types\IntegerType;
+use Doctrine\DBAL\Types\PhpIntegerMappingType;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\Deprecations\Deprecation;
 use UnexpectedValueException;
@@ -122,7 +121,7 @@ class PostgreSQLPlatform extends AbstractPlatform
             $str = $this->getSubstringExpression($str, $startPos);
 
             return 'CASE WHEN (POSITION(' . $substr . ' IN ' . $str . ') = 0) THEN 0'
-                . ' ELSE (POSITION(' . $substr . ' IN ' . $str . ') + ' . ($startPos - 1) . ') END';
+                . ' ELSE (POSITION(' . $substr . ' IN ' . $str . ') + ' . $startPos . ' - 1) END';
         }
 
         return 'POSITION(' . $substr . ' IN ' . $str . ')';
@@ -237,7 +236,7 @@ class PostgreSQLPlatform extends AbstractPlatform
     /**
      * {@inheritDoc}
      *
-     * @deprecated Use {@link PostgreSQLSchemaManager::listSchemaNames()} instead.
+     * @deprecated Use {@see PostgreSQLSchemaManager::listSchemaNames()} instead.
      */
     public function getListNamespacesSQL()
     {
@@ -615,7 +614,7 @@ SQL
      * Checks whether a given column diff is a logically unchanged binary type column.
      *
      * Used to determine whether a column alteration for a binary type column can be skipped.
-     * Doctrine's {@link BinaryType} and {@link BlobType} are mapped to the same database column type on this platform
+     * Doctrine's {@see BinaryType} and {@see BlobType} are mapped to the same database column type on this platform
      * as this platform does not have a native VARBINARY/BINARY column type. Therefore the comparator
      * might detect differences for binary type columns which do not have to be propagated
      * to database as there actually is no difference at database level.
@@ -803,7 +802,7 @@ SQL
             return $callback(true);
         }
 
-        throw new UnexpectedValueException("Unrecognized boolean literal '${value}'");
+        throw new UnexpectedValueException(sprintf("Unrecognized boolean literal '%s'", $value));
     }
 
     /**
@@ -1161,7 +1160,7 @@ SQL
     /**
      * {@inheritDoc}
      *
-     * @deprecated Implement {@link createReservedKeywordsList()} instead.
+     * @deprecated Implement {@see createReservedKeywordsList()} instead.
      */
     protected function getReservedKeywordsClass()
     {
@@ -1230,7 +1229,7 @@ SQL
     {
         return isset($column['type'], $column['autoincrement'])
             && $column['autoincrement'] === true
-            && $this->isNumericType($column['type']);
+            && $this->isIntegerType($column['type']);
     }
 
     /**
@@ -1242,17 +1241,17 @@ SQL
             return $columnDiff->hasChanged('type');
         }
 
-        $oldTypeIsNumeric = $this->isNumericType($columnDiff->fromColumn->getType());
-        $newTypeIsNumeric = $this->isNumericType($columnDiff->column->getType());
+        $oldTypeIsInteger = $this->isIntegerType($columnDiff->fromColumn->getType());
+        $newTypeIsInteger = $this->isIntegerType($columnDiff->column->getType());
 
-        // default should not be changed when switching between numeric types and the default comes from a sequence
+        // default should not be changed when switching between integer types and the default comes from a sequence
         return $columnDiff->hasChanged('type')
-            && ! ($oldTypeIsNumeric && $newTypeIsNumeric && $columnDiff->column->getAutoincrement());
+            && ! ($oldTypeIsInteger && $newTypeIsInteger && $columnDiff->column->getAutoincrement());
     }
 
-    private function isNumericType(Type $type): bool
+    private function isIntegerType(Type $type): bool
     {
-        return $type instanceof IntegerType || $type instanceof BigIntType;
+        return $type instanceof PhpIntegerMappingType;
     }
 
     private function getOldColumnComment(ColumnDiff $columnDiff): ?string

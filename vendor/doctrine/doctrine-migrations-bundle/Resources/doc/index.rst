@@ -41,7 +41,6 @@ application:
 
     # config/packages/doctrine_migrations.yaml
 
-
     doctrine_migrations:
         # List of namespace/path pairs to search for migrations, at least one required
         migrations_paths:
@@ -82,6 +81,9 @@ application:
 
         # Whether or not to wrap migrations in a single transaction.
         transactional: true
+
+        # Whether or not to enable the profiler collector to calculate and visualize migration status. This adds some queries overhead.
+        # enable_profiler: false
 
         services:
             # Custom migration sorting service id
@@ -444,7 +446,23 @@ This ignores the tables, and any named objects such as sequences, on the DBAL le
 Note that if you have multiple connections configured then the ``schema_filter`` configuration
 will need to be placed per-connection.
 
+Troubleshooting out of sync metadata storage issue
+--------------------------------------------------
+``doctrine/migrations`` relies on a properly configured Database server version in the connection string to manage the table storing the
+migrations, also known as the metadata storage.
+
+If you encounter the error ``The metadata storage is not up to date, please run the sync-metadata-storage command to fix this issue.``
+when running the command ``doctrine:migrations:migrate`` or the suggested command itself ``doctrine:migrations:sync-metadata-storage`` please
+check the database connection string, and make sure that the proper server version is defined. If you are running a MariaDB database,
+you should prefix the server version with ``mariadb-`` (ex: ``mariadb-10.2.12``). See the `configuring_database`_ section.
+
+Example connection string for MariaDB:
+
+.. code-block:: terminal
+    DATABASE_URL=mysql://root:@127.0.0.1:3306/testtest?serverVersion=mariadb-10.4.11
+
 .. _documentation: https://www.doctrine-project.org/projects/doctrine-migrations/en/current/index.html
+.. _configuring_database: https://symfony.com/doc/current/doctrine.html#configuring-the-database
 .. _DoctrineMigrationsBundle: https://github.com/doctrine/DoctrineMigrationsBundle
 .. _`Doctrine Database Migrations`: https://github.com/doctrine/migrations
 .. _`Symfony Flex`: https://symfony.com/doc/current/setup/flex.html

@@ -29,7 +29,7 @@ class ColorType extends AbstractType
 
     private $translator;
 
-    public function __construct(TranslatorInterface $translator = null)
+    public function __construct(?TranslatorInterface $translator = null)
     {
         $this->translator = $translator;
     }
@@ -55,7 +55,7 @@ class ColorType extends AbstractType
 
             $messageTemplate = 'This value is not a valid HTML5 color.';
             $messageParameters = [
-                '{{ value }}' => is_scalar($value) ? (string) $value : \gettype($value),
+                '{{ value }}' => \is_scalar($value) ? (string) $value : \gettype($value),
             ];
             $message = $this->translator ? $this->translator->trans($messageTemplate, $messageParameters, 'validators') : $messageTemplate;
 

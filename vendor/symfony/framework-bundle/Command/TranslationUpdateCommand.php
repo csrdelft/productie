@@ -61,7 +61,7 @@ class TranslationUpdateCommand extends Command
     private $codePaths;
     private $enabledLocales;
 
-    public function __construct(TranslationWriterInterface $writer, TranslationReaderInterface $reader, ExtractorInterface $extractor, string $defaultLocale, string $defaultTransPath = null, string $defaultViewsPath = null, array $transPaths = [], array $codePaths = [], array $enabledLocales = [])
+    public function __construct(TranslationWriterInterface $writer, TranslationReaderInterface $reader, ExtractorInterface $extractor, string $defaultLocale, ?string $defaultTransPath = null, ?string $defaultViewsPath = null, array $transPaths = [], array $codePaths = [], array $enabledLocales = [])
     {
         parent::__construct();
 
@@ -93,7 +93,7 @@ class TranslationUpdateCommand extends Command
                 new InputOption('clean', null, InputOption::VALUE_NONE, 'Should clean not found messages'),
                 new InputOption('domain', null, InputOption::VALUE_OPTIONAL, 'Specify the domain to extract'),
                 new InputOption('xliff-version', null, InputOption::VALUE_OPTIONAL, 'Override the default xliff version (deprecated)'),
-                new InputOption('sort', null, InputOption::VALUE_OPTIONAL, 'Return list of messages sorted alphabetically', 'asc'),
+                new InputOption('sort', null, InputOption::VALUE_OPTIONAL, 'Return list of messages sorted alphabetically (only works with --dump-messages)', 'asc'),
                 new InputOption('as-tree', null, InputOption::VALUE_OPTIONAL, 'Dump the messages as a tree-like structure: The given value defines the level where to switch to inline YAML'),
             ])
             ->setDescription(self::$defaultDescription)
@@ -123,7 +123,6 @@ You can sort the output with the <comment>--sort</> flag:
 You can dump a tree-like structure using the yaml format with <comment>--as-tree</> flag:
 
     <info>php %command.full_name% --force --format=yaml --as-tree=3 en AcmeBundle</info>
-    <info>php %command.full_name% --force --format=yaml --sort=asc --as-tree=3 fr</info>
 
 EOF
             )
@@ -407,6 +406,7 @@ EOF
     {
         $extractedCatalogue = new MessageCatalogue($locale);
         $this->extractor->setPrefix($prefix);
+        $transPaths = $this->filterDuplicateTransPaths($transPaths);
         foreach ($transPaths as $path) {
             if (is_dir($path) || is_file($path)) {
                 $this->extractor->extract($path, $extractedCatalogue);
@@ -414,6 +414,27 @@ EOF
         }
 
         return $extractedCatalogue;
+    }
+
+    private function filterDuplicateTransPaths(array $transPaths): array
+    {
+        $transPaths = array_filter(array_map('realpath', $transPaths));
+
+        sort($transPaths);
+
+        $filteredPaths = [];
+
+        foreach ($transPaths as $path) {
+            foreach ($filteredPaths as $filteredPath) {
+                if (str_starts_with($path, $filteredPath.\DIRECTORY_SEPARATOR)) {
+                    continue 2;
+                }
+            }
+
+            $filteredPaths[] = $path;
+        }
+
+        return $filteredPaths;
     }
 
     private function loadCurrentMessages(string $locale, array $transPaths): MessageCatalogue

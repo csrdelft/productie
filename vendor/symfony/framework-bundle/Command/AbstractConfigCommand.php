@@ -58,6 +58,47 @@ abstract class AbstractConfigCommand extends ContainerDebugCommand
     }
 
     /**
+     * @param OutputInterface|StyleInterface $output
+     */
+    protected function listNonBundleExtensions($output)
+    {
+        $title = 'Available registered non-bundle extension aliases';
+        $headers = ['Extension alias'];
+        $rows = [];
+
+        $kernel = $this->getApplication()->getKernel();
+
+        $bundleExtensions = [];
+        foreach ($kernel->getBundles() as $bundle) {
+            if ($extension = $bundle->getContainerExtension()) {
+                $bundleExtensions[\get_class($extension)] = true;
+            }
+        }
+
+        $extensions = $this->getContainerBuilder($kernel)->getExtensions();
+
+        foreach ($extensions as $alias => $extension) {
+            if (isset($bundleExtensions[\get_class($extension)])) {
+                continue;
+            }
+            $rows[] = [$alias];
+        }
+
+        if (!$rows) {
+            return;
+        }
+
+        if ($output instanceof StyleInterface) {
+            $output->title($title);
+            $output->table($headers, $rows);
+        } else {
+            $output->writeln($title);
+            $table = new Table($output);
+            $table->setHeaders($headers)->setRows($rows)->render();
+        }
+    }
+
+    /**
      * @return ExtensionInterface
      */
     protected function findExtension(string $name)
@@ -96,20 +137,20 @@ abstract class AbstractConfigCommand extends ContainerDebugCommand
                 $guess = $bundle->getName();
                 $minScore = $distance;
             }
+        }
 
-            $extension = $bundle->getContainerExtension();
+        $container = $this->getContainerBuilder($kernel);
 
-            if ($extension) {
-                if ($name === $extension->getAlias()) {
-                    return $extension;
-                }
+        if ($container->hasExtension($name)) {
+            return $container->getExtension($name);
+        }
 
-                $distance = levenshtein($name, $extension->getAlias());
+        foreach ($container->getExtensions() as $extension) {
+            $distance = levenshtein($name, $extension->getAlias());
 
-                if ($distance < $minScore) {
-                    $guess = $extension->getAlias();
-                    $minScore = $distance;
-                }
+            if ($distance < $minScore) {
+                $guess = $extension->getAlias();
+                $minScore = $distance;
             }
         }
 

@@ -327,9 +327,9 @@ class QueryBuilder
     /**
      * Executes this query using the bound parameters and their types.
      *
-     * @deprecated Use {@link executeQuery()} or {@link executeStatement()} instead.
+     * @deprecated Use {@see executeQuery()} or {@see executeStatement()} instead.
      *
-     * @return Result|int
+     * @return Result|int|string
      *
      * @throws Exception
      */
@@ -1437,18 +1437,18 @@ class QueryBuilder
     /**
      * Creates a new named parameter and bind the value $value to it.
      *
-     * This method provides a shortcut for {@link Statement::bindValue()}
+     * This method provides a shortcut for {@see Statement::bindValue()}
      * when using prepared statements.
      *
      * The parameter $value specifies the value that you want to bind. If
-     * $placeholder is not provided bindValue() will automatically create a
-     * placeholder for you. An automatic placeholder will be of the name
-     * ':dcValue1', ':dcValue2' etc.
+     * $placeholder is not provided createNamedParameter() will automatically
+     * create a placeholder for you. An automatic placeholder will be of the
+     * name ':dcValue1', ':dcValue2' etc.
      *
      * Example:
      * <code>
      * $value = 2;
-     * $q->eq( 'id', $q->bindValue( $value ) );
+     * $q->eq( 'id', $q->createNamedParameter( $value ) );
      * $stmt = $q->executeQuery(); // executed with 'id = 2'
      * </code>
      *

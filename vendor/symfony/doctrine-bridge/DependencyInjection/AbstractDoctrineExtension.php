@@ -139,7 +139,7 @@ abstract class AbstractDoctrineExtension extends Extension
      *
      * @return array|false
      */
-    protected function getMappingDriverBundleConfigDefaults(array $bundleConfig, \ReflectionClass $bundle, ContainerBuilder $container/*, string $bundleDir = null*/)
+    protected function getMappingDriverBundleConfigDefaults(array $bundleConfig, \ReflectionClass $bundle, ContainerBuilder $container/* , string $bundleDir = null */)
     {
         if (\func_num_args() < 4 && __CLASS__ !== static::class && __CLASS__ !== (new \ReflectionMethod($this, __FUNCTION__))->getDeclaringClass()->getName() && !$this instanceof \PHPUnit\Framework\MockObject\MockObject && !$this instanceof \Prophecy\Prophecy\ProphecySubjectInterface && !$this instanceof \Mockery\MockInterface) {
             trigger_deprecation('symfony/doctrine-bridge', '5.4', 'The "%s()" method will have a new "string $bundleDir = null" argument in version 6.0, not defining it is deprecated.', __METHOD__);
@@ -148,10 +148,15 @@ abstract class AbstractDoctrineExtension extends Extension
             $bundleDir = func_get_arg(3);
         }
 
-        $bundleDir ?? $bundleDir = \dirname($bundle->getFileName());
+        $bundleClassDir = \dirname($bundle->getFileName());
+        $bundleDir ?? $bundleDir = $bundleClassDir;
 
         if (!$bundleConfig['type']) {
             $bundleConfig['type'] = $this->detectMetadataDriver($bundleDir, $container);
+
+            if (!$bundleConfig['type'] && $bundleDir !== $bundleClassDir) {
+                $bundleConfig['type'] = $this->detectMetadataDriver($bundleClassDir, $container);
+            }
         }
 
         if (!$bundleConfig['type']) {
@@ -161,7 +166,7 @@ abstract class AbstractDoctrineExtension extends Extension
 
         if (!$bundleConfig['dir']) {
             if (\in_array($bundleConfig['type'], ['annotation', 'staticphp', 'attribute'])) {
-                $bundleConfig['dir'] = $bundleDir.'/'.$this->getMappingObjectDefaultName();
+                $bundleConfig['dir'] = $bundleClassDir.'/'.$this->getMappingObjectDefaultName();
             } else {
                 $bundleConfig['dir'] = $bundleDir.'/'.$this->getMappingResourceConfigDirectory($bundleDir);
             }
@@ -274,8 +279,8 @@ abstract class AbstractDoctrineExtension extends Extension
             }
             $container->fileExists($resource, false);
 
-            if ($container->fileExists($dir.'/'.$this->getMappingObjectDefaultName(), false)) {
-                return $this->detectMappingType($dir, $container);
+            if ($container->fileExists($discoveryPath = $dir.'/'.$this->getMappingObjectDefaultName(), false)) {
+                return $this->detectMappingType($discoveryPath, $container);
             }
 
             return null;
@@ -306,10 +311,16 @@ abstract class AbstractDoctrineExtension extends Extension
         foreach ($glob as $file) {
             $content = file_get_contents($file);
 
-            if (preg_match('/^#\[.*'.$quotedMappingObjectName.'\b/m', $content)) {
+            if (
+                preg_match('/^#\[.*'.$quotedMappingObjectName.'\b/m', $content) ||
+                preg_match('/^#\[.*Embeddable\b/m', $content)
+            ) {
                 break;
             }
-            if (preg_match('/^ \* @.*'.$quotedMappingObjectName.'\b/m', $content)) {
+            if (
+                preg_match('/^(?: \*|\/\*\*) @.*'.$quotedMappingObjectName.'\b/m', $content) ||
+                preg_match('/^(?: \*|\/\*\*) @.*Embeddable\b/m', $content)
+            ) {
                 $type = 'annotation';
                 break;
             }
@@ -357,7 +368,7 @@ abstract class AbstractDoctrineExtension extends Extension
                 $container->setDefinition($this->getObjectManagerElementName(sprintf('%s_memcached_instance', $objectManagerName)), $memcachedInstance);
                 $cacheDef->addMethodCall('setMemcached', [new Reference($this->getObjectManagerElementName(sprintf('%s_memcached_instance', $objectManagerName)))]);
                 break;
-             case 'redis':
+            case 'redis':
                 $redisClass = !empty($cacheDriver['class']) ? $cacheDriver['class'] : '%'.$this->getObjectManagerElementName('cache.redis.class').'%';
                 $redisInstanceClass = !empty($cacheDriver['instance_class']) ? $cacheDriver['instance_class'] : '%'.$this->getObjectManagerElementName('cache.redis_instance.class').'%';
                 $redisHost = !empty($cacheDriver['host']) ? $cacheDriver['host'] : '%'.$this->getObjectManagerElementName('cache.redis_host').'%';
@@ -457,7 +468,7 @@ abstract class AbstractDoctrineExtension extends Extension
      *
      * @return string
      */
-    abstract protected function getMappingResourceConfigDirectory(/*string $bundleDir = null*/);
+    abstract protected function getMappingResourceConfigDirectory(/* string $bundleDir = null */);
 
     /**
      * Extension used by the mapping files.

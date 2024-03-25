@@ -26,7 +26,7 @@ return static function (ContainerConfigurator $container) {
         ->set('annotations.reader', AnnotationReader::class)
             ->call('addGlobalIgnoredName', [
                 'required',
-                service('annotations.dummy_registry'), // dummy arg to register class_exists as annotation loader only when required
+                service('annotations.dummy_registry')->nullOnInvalid(), // dummy arg to register class_exists as annotation loader only when required
             ])
 
         ->set('annotations.dummy_registry', AnnotationRegistry::class)
@@ -38,6 +38,8 @@ return static function (ContainerConfigurator $container) {
                 inline_service(ArrayAdapter::class),
                 abstract_arg('Debug-Flag'),
             ])
+            ->tag('annotations.cached_reader')
+            ->tag('container.do_not_inline')
 
         ->set('annotations.filesystem_cache_adapter', FilesystemAdapter::class)
             ->args([

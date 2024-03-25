@@ -36,10 +36,17 @@ class FilterChoiceLoaderDecorator extends AbstractChoiceLoader
         }
 
         foreach ($structuredValues as $group => $values) {
-            if ($values && $filtered = array_filter($list->getChoicesForValues($values), $this->filter)) {
-                $choices[$group] = $filtered;
+            if (\is_array($values)) {
+                if ($values && $filtered = array_filter($list->getChoicesForValues($values), $this->filter)) {
+                    $choices[$group] = $filtered;
+                }
+                continue;
+                // filter empty groups
             }
-            // filter empty groups
+
+            if ($filtered = array_filter($list->getChoicesForValues([$values]), $this->filter)) {
+                $choices[$group] = $filtered[0];
+            }
         }
 
         return $choices ?? [];
@@ -48,7 +55,7 @@ class FilterChoiceLoaderDecorator extends AbstractChoiceLoader
     /**
      * {@inheritdoc}
      */
-    public function loadChoicesForValues(array $values, callable $value = null): array
+    public function loadChoicesForValues(array $values, ?callable $value = null): array
     {
         return array_filter($this->decoratedLoader->loadChoicesForValues($values, $value), $this->filter);
     }
@@ -56,7 +63,7 @@ class FilterChoiceLoaderDecorator extends AbstractChoiceLoader
     /**
      * {@inheritdoc}
      */
-    public function loadValuesForChoices(array $choices, callable $value = null): array
+    public function loadValuesForChoices(array $choices, ?callable $value = null): array
     {
         return $this->decoratedLoader->loadValuesForChoices(array_filter($choices, $this->filter), $value);
     }

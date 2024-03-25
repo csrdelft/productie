@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Sentry\SentryBundle\EventListener;
 
-use Sentry\Tracing\Transaction;
-use Sentry\Tracing\TransactionContext;
 use Sentry\Tracing\TransactionSource;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\TerminateEvent;
+
+use function Sentry\continueTrace;
 
 /**
  * This event listener acts on the master requests and starts a transaction
@@ -37,15 +37,23 @@ final class TracingRequestListener extends AbstractTracingRequestListener
         /** @var float $requestStartTime */
         $requestStartTime = $request->server->get('REQUEST_TIME_FLOAT', microtime(true));
 
-        $context = TransactionContext::fromHeaders(
+        $context = continueTrace(
             $request->headers->get('sentry-trace', ''),
             $request->headers->get('baggage', '')
         );
         $context->setOp('http.server');
-        $context->setName(sprintf('%s %s%s%s', $request->getMethod(), $request->getSchemeAndHttpHost(), $request->getBaseUrl(), $request->getPathInfo()));
-        $context->setSource(TransactionSource::url());
+
+        $routeName = $request->attributes->get('_route');
+        if (null !== $routeName && \is_string($routeName)) {
+            $context->setName(sprintf('%s %s', $request->getMethod(), $routeName));
+            $context->setSource(TransactionSource::route());
+        } else {
+            $context->setName(sprintf('%s %s%s%s', $request->getMethod(), $request->getSchemeAndHttpHost(), $request->getBaseUrl(), $request->getPathInfo()));
+            $context->setSource(TransactionSource::url());
+        }
+
         $context->setStartTimestamp($requestStartTime);
-        $context->setTags($this->getTags($request));
+        $context->setData($this->getData($request));
 
         $this->hub->setSpan($this->hub->startTransaction($context));
     }
@@ -68,19 +76,19 @@ final class TracingRequestListener extends AbstractTracingRequestListener
     }
 
     /**
-     * Gets the tags to attach to the transaction.
+     * Gets the data to attach to the transaction.
      *
      * @param Request $request The HTTP request
      *
      * @return array<string, string>
      */
-    private function getTags(Request $request): array
+    private function getData(Request $request): array
     {
         $client = $this->hub->getClient();
         $httpFlavor = $this->getHttpFlavor($request);
         $tags = [
             'net.host.port' => (string) $request->getPort(),
-            'http.method' => $request->getMethod(),
+            'http.request.method' => $request->getMethod(),
             'http.url' => $request->getUri(),
             'route' => $this->getRouteName($request),
         ];

@@ -37,7 +37,7 @@ class KernelBrowser extends HttpKernelBrowser
     /**
      * {@inheritdoc}
      */
-    public function __construct(KernelInterface $kernel, array $server = [], History $history = null, CookieJar $cookieJar = null)
+    public function __construct(KernelInterface $kernel, array $server = [], ?History $history = null, ?CookieJar $cookieJar = null)
     {
         parent::__construct($kernel, $server, $history, $cookieJar);
     }
@@ -167,6 +167,7 @@ class KernelBrowser extends HttpKernelBrowser
         // avoid shutting down the Kernel if no request has been performed yet
         // WebTestCase::createClient() boots the Kernel but do not handle a request
         if ($this->hasPerformedRequest && $this->reboot) {
+            $this->kernel->boot();
             $this->kernel->shutdown();
         } else {
             $this->hasPerformedRequest = true;
@@ -218,7 +219,7 @@ class KernelBrowser extends HttpKernelBrowser
 
         $requires = '';
         foreach (get_declared_classes() as $class) {
-            if (0 === strpos($class, 'ComposerAutoloaderInit')) {
+            if (str_starts_with($class, 'ComposerAutoloaderInit')) {
                 $r = new \ReflectionClass($class);
                 $file = \dirname($r->getFileName(), 2).'/autoload.php';
                 if (is_file($file)) {

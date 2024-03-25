@@ -22,8 +22,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\DependencyInjection\Extension\ConfigurationExtensionInterface;
-use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -69,7 +67,7 @@ When the option is not provided, <comment>yaml</comment> is used.
 
 For dumping a specific option, add its path as second argument (only available for the yaml format):
 
-  <info>php %command.full_name% framework profiler.matcher</info>
+  <info>php %command.full_name% framework http_client.default_options</info>
 
 EOF
             )
@@ -88,18 +86,11 @@ EOF
 
         if (null === $name = $input->getArgument('name')) {
             $this->listBundles($errorIo);
-
-            $kernel = $this->getApplication()->getKernel();
-            if ($kernel instanceof ExtensionInterface
-                && ($kernel instanceof ConfigurationInterface || $kernel instanceof ConfigurationExtensionInterface)
-                && $kernel->getAlias()
-            ) {
-                $errorIo->table(['Kernel Extension'], [[$kernel->getAlias()]]);
-            }
+            $this->listNonBundleExtensions($errorIo);
 
             $errorIo->comment([
                 'Provide the name of a bundle as the first argument of this command to dump its default configuration. (e.g. <comment>config:dump-reference FrameworkBundle</comment>)',
-                'For dumping a specific option, add its path as the second argument of this command. (e.g. <comment>config:dump-reference FrameworkBundle profiler.matcher</comment> to dump the <comment>framework.profiler.matcher</comment> configuration)',
+                'For dumping a specific option, add its path as the second argument of this command. (e.g. <comment>config:dump-reference FrameworkBundle http_client.default_options</comment> to dump the <comment>framework.http_client.default_options</comment> configuration)',
             ]);
 
             return 0;
@@ -163,6 +154,7 @@ EOF
     public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
     {
         if ($input->mustSuggestArgumentValuesFor('name')) {
+            $suggestions->suggestValues($this->getAvailableExtensions());
             $suggestions->suggestValues($this->getAvailableBundles());
         }
 
@@ -171,13 +163,24 @@ EOF
         }
     }
 
+    private function getAvailableExtensions(): array
+    {
+        $kernel = $this->getApplication()->getKernel();
+
+        $extensions = [];
+        foreach ($this->getContainerBuilder($kernel)->getExtensions() as $alias => $extension) {
+            $extensions[] = $alias;
+        }
+
+        return $extensions;
+    }
+
     private function getAvailableBundles(): array
     {
         $bundles = [];
 
         foreach ($this->getApplication()->getKernel()->getBundles() as $bundle) {
             $bundles[] = $bundle->getName();
-            $bundles[] = $bundle->getContainerExtension()->getAlias();
         }
 
         return $bundles;

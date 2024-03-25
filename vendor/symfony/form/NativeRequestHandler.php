@@ -12,6 +12,7 @@
 namespace Symfony\Component\Form;
 
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
+use Symfony\Component\Form\Util\FormUtil;
 use Symfony\Component\Form\Util\ServerParams;
 
 /**
@@ -34,7 +35,7 @@ class NativeRequestHandler implements RequestHandlerInterface
         'type',
     ];
 
-    public function __construct(ServerParams $params = null)
+    public function __construct(?ServerParams $params = null)
     {
         $this->serverParams = $params ?? new ServerParams();
     }
@@ -106,7 +107,7 @@ class NativeRequestHandler implements RequestHandlerInterface
             }
 
             if (\is_array($params) && \is_array($files)) {
-                $data = array_replace_recursive($params, $files);
+                $data = FormUtil::mergeParamsAndFiles($params, $files);
             } else {
                 $data = $params ?: $files;
             }
@@ -198,6 +199,8 @@ class NativeRequestHandler implements RequestHandlerInterface
             return $data;
         }
 
+        // Remove extra key added by PHP 8.1.
+        unset($data['full_path']);
         $keys = array_keys($data);
         sort($keys);
 

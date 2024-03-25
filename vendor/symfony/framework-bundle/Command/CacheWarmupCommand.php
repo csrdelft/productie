@@ -18,6 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Dumper\Preloader;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerAggregate;
+use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 
 /**
  * Warmup the cache.
@@ -55,11 +56,6 @@ The <info>%command.name%</info> command warms up the cache.
 
 Before running this command, the cache must be empty.
 
-This command does not generate the classes cache (as when executing this
-command, too many classes that should be part of the cache are already loaded
-in memory). Use <comment>curl</comment> or any other similar tool to warm up
-the classes cache if you want.
-
 EOF
             )
         ;
@@ -78,8 +74,13 @@ EOF
         if (!$input->getOption('no-optional-warmers')) {
             $this->cacheWarmer->enableOptionalWarmers();
         }
+        $cacheDir = $kernel->getContainer()->getParameter('kernel.cache_dir');
 
-        $preload = $this->cacheWarmer->warmUp($cacheDir = $kernel->getContainer()->getParameter('kernel.cache_dir'));
+        if ($kernel instanceof WarmableInterface) {
+            $kernel->warmUp($cacheDir);
+        }
+
+        $preload = $this->cacheWarmer->warmUp($cacheDir);
 
         if ($preload && file_exists($preloadFile = $cacheDir.'/'.$kernel->getContainer()->getParameter('kernel.container_class').'.preload.php')) {
             Preloader::append($preloadFile, $preload);
