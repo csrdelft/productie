@@ -13,11 +13,12 @@ namespace Symfony\Flex\Command;
 
 use Composer\Command\BaseCommand;
 use Composer\Downloader\TransportException;
-use Composer\Util\HttpDownloader;
+use Composer\Package\Package;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Flex\GithubApi;
 use Symfony\Flex\InformationOperation;
 use Symfony\Flex\Lock;
 use Symfony\Flex\Recipe;
@@ -31,13 +32,13 @@ class RecipesCommand extends BaseCommand
     private $flex;
 
     private $symfonyLock;
-    private $downloader;
+    private $githubApi;
 
     public function __construct(/* cannot be type-hinted */ $flex, Lock $symfonyLock, $downloader)
     {
         $this->flex = $flex;
         $this->symfonyLock = $symfonyLock;
-        $this->downloader = $downloader;
+        $this->githubApi = new GithubApi($downloader);
 
         parent::__construct();
     }
@@ -54,26 +55,32 @@ class RecipesCommand extends BaseCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $installedRepo = $this->getComposer()->getRepositoryManager()->getLocalRepository();
 
         // Inspect one or all packages
         $package = $input->getArgument('package');
         if (null !== $package) {
-            $packages = [0 => ['name' => strtolower($package)]];
+            $packages = [strtolower($package)];
         } else {
             $locker = $this->getComposer()->getLocker();
             $lockData = $locker->getLockData();
 
             // Merge all packages installed
-            $packages = array_merge($lockData['packages'], $lockData['packages-dev']);
+            $packages = array_column(array_merge($lockData['packages'], $lockData['packages-dev']), 'name');
+            $packages = array_unique(array_merge($packages, array_keys($this->symfonyLock->all())));
         }
 
         $operations = [];
-        foreach ($packages as $value) {
-            if (null === $pkg = $installedRepo->findPackage($value['name'], '*')) {
-                $this->getIO()->writeError(sprintf('<error>Package %s is not installed</error>', $value['name']));
+        foreach ($packages as $name) {
+            $pkg = $installedRepo->findPackage($name, '*');
+
+            if (!$pkg && $this->symfonyLock->has($name)) {
+                $pkgVersion = $this->symfonyLock->get($name)['version'];
+                $pkg = new Package($name, $pkgVersion, $pkgVersion);
+            } elseif (!$pkg) {
+                $this->getIO()->writeError(sprintf('<error>Package %s is not installed</error>', $name));
 
                 continue;
             }
@@ -136,7 +143,7 @@ class RecipesCommand extends BaseCommand
             '',
             'Run:',
             ' * <info>composer recipes vendor/package</info> to see details about a recipe.',
-            ' * <info>composer recipes:install vendor/package --force -v</info> to update that recipe.',
+            ' * <info>composer recipes:update vendor/package</info> to update that recipe.',
             '',
         ]));
 
@@ -158,6 +165,10 @@ class RecipesCommand extends BaseCommand
         $lockBranch = $recipeLock['recipe']['branch'] ?? null;
         $lockVersion = $recipeLock['recipe']['version'] ?? $recipeLock['version'] ?? null;
 
+        if ('master' === $lockBranch && \in_array($lockRepo, ['github.com/symfony/recipes', 'github.com/symfony/recipes-contrib'])) {
+            $lockBranch = 'main';
+        }
+
         $status = '<comment>up to date</comment>';
         if ($recipe->isAuto()) {
             $status = '<comment>auto-generated recipe</comment>';
@@ -171,13 +182,15 @@ class RecipesCommand extends BaseCommand
         $commitDate = null;
         if (null !== $lockRef && null !== $lockRepo) {
             try {
-                list($gitSha, $commitDate) = $this->findRecipeCommitDataFromTreeRef(
+                $recipeCommitData = $this->githubApi->findRecipeCommitDataFromTreeRef(
                     $recipe->getName(),
                     $lockRepo,
                     $lockBranch ?? '',
                     $lockVersion,
                     $lockRef
                 );
+                $gitSha = $recipeCommitData ? $recipeCommitData['commit'] : null;
+                $commitDate = $recipeCommitData ? $recipeCommitData['date'] : null;
             } catch (TransportException $exception) {
                 $io->writeError('Error downloading exact git sha for installed recipe.');
             }
@@ -213,7 +226,11 @@ class RecipesCommand extends BaseCommand
 
             // show commits since one second after the currently-installed recipe
             if (null !== $commitDate) {
-                $historyUrl .= '?since='.(new \DateTime($commitDate))->modify('+1 seconds')->format('c\Z');
+                $historyUrl .= '?since=';
+                $historyUrl .= (new \DateTime($commitDate))
+                    ->setTimezone(new \DateTimeZone('UTC'))
+                    ->modify('+1 seconds')
+                    ->format('Y-m-d\TH:i:s\Z');
             }
 
             $io->write('<info>recipe history</info>   : '.$historyUrl);
@@ -232,7 +249,7 @@ class RecipesCommand extends BaseCommand
             $io->write([
                 '',
                 'Update this recipe by running:',
-                sprintf('<info>composer recipes:install %s --force -v</info>', $recipe->getName()),
+                sprintf('<info>composer recipes:update %s</info>', $recipe->getName()),
             ]);
         }
     }
@@ -323,64 +340,5 @@ class RecipesCommand extends BaseCommand
         }
 
         $io->write($line);
-    }
-
-    /**
-     * Attempts to find the original git sha when the recipe was installed.
-     */
-    private function findRecipeCommitDataFromTreeRef(string $package, string $repo, string $branch, string $version, string $lockRef)
-    {
-        // only supports public repository placement
-        if (0 !== strpos($repo, 'github.com')) {
-            return [null, null];
-        }
-
-        $parts = explode('/', $repo);
-        if (3 !== \count($parts)) {
-            return [null, null];
-        }
-
-        $recipePath = sprintf('%s/%s', $package, $version);
-        $commitsData = $this->requestGitHubApi(sprintf(
-            'https://api.github.com/repos/%s/%s/commits?path=%s&sha=%s',
-            $parts[1],
-            $parts[2],
-            $recipePath,
-            $branch
-        ));
-
-        foreach ($commitsData as $commitData) {
-            // go back the commits one-by-one
-            $treeUrl = $commitData['commit']['tree']['url'].'?recursive=true';
-
-            // fetch the full tree, then look for the tree for the package path
-            $treeData = $this->requestGitHubApi($treeUrl);
-            foreach ($treeData['tree'] as $treeItem) {
-                if ($treeItem['path'] !== $recipePath) {
-                    continue;
-                }
-
-                if ($treeItem['sha'] === $lockRef) {
-                    // shorten for brevity
-                    return [
-                        substr($commitData['sha'], 0, 7),
-                        $commitData['commit']['committer']['date'],
-                    ];
-                }
-            }
-        }
-
-        return [null, null];
-    }
-
-    private function requestGitHubApi(string $path)
-    {
-        if ($this->downloader instanceof HttpDownloader) {
-            $contents = $this->downloader->get($path)->getBody();
-        } else {
-            $contents = $this->downloader->getContents('api.github.com', $path, false);
-        }
-
-        return json_decode($contents, true);
     }
 }

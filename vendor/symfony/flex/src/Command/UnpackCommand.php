@@ -49,7 +49,7 @@ class UnpackCommand extends BaseCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $composer = $this->getComposer();
         $packages = $this->resolver->resolve($input->getArgument('packages'), true);
@@ -110,8 +110,13 @@ class UnpackCommand extends BaseCommand
             ->setDumpAutoloader(false)
             ->setIgnorePlatformRequirements(true)
             ->setUpdate(true)
-            ->setUpdateAllowList(['php'])
         ;
+
+        if (method_exists($installer, 'setUpdateAllowList')) {
+            $installer->setUpdateAllowList(['php']);
+        } else {
+            $installer->setUpdateWhiteList(['php']);
+        }
 
         if (method_exists($composer->getEventDispatcher(), 'setRunScripts')) {
             $composer->getEventDispatcher()->setRunScripts(false);

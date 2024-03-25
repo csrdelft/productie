@@ -11,10 +11,23 @@ use Composer\Package\PackageInterface;
 class InformationOperation implements OperationInterface
 {
     private $package;
+    private $recipeRef = null;
+    private $version = null;
 
     public function __construct(PackageInterface $package)
     {
         $this->package = $package;
+    }
+
+    /**
+     * Call to get information about a specific version of a recipe.
+     *
+     * Both $recipeRef and $version would normally come from the symfony.lock file.
+     */
+    public function setSpecificRecipeVersion(string $recipeRef, string $version)
+    {
+        $this->recipeRef = $recipeRef;
+        $this->version = $version;
     }
 
     /**
@@ -27,6 +40,16 @@ class InformationOperation implements OperationInterface
         return $this->package;
     }
 
+    public function getRecipeRef(): ?string
+    {
+        return $this->recipeRef;
+    }
+
+    public function getVersion(): ?string
+    {
+        return $this->version;
+    }
+
     public function getJobType()
     {
         return 'information';
@@ -34,6 +57,8 @@ class InformationOperation implements OperationInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return string
      */
     public function getOperationType()
     {
@@ -42,6 +67,8 @@ class InformationOperation implements OperationInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return string
      */
     public function show($lock)
     {
