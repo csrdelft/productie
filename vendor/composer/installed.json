@@ -3274,14 +3274,14 @@
             },
             "installation-source": "dist",
             "autoload": {
-                "psr-4": {
-                    "Lcobucci\\JWT\\": "src"
-                },
                 "files": [
                     "compat/class-aliases.php",
                     "compat/json-exception-polyfill.php",
                     "compat/lcobucci-clock-polyfill.php"
-                ]
+                ],
+                "psr-4": {
+                    "Lcobucci\\JWT\\": "src"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -4560,6 +4560,7 @@
                 "issues": "https://github.com/php-http/message-factory/issues",
                 "source": "https://github.com/php-http/message-factory/tree/1.1.0"
             },
+            "abandoned": "psr/http-factory",
             "install-path": "../php-http/message-factory"
         },
         {
@@ -5463,6 +5464,7 @@
                 "issues": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/issues",
                 "source": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/tree/v5.6.1"
             },
+            "abandoned": "Symfony",
             "install-path": "../sensio/framework-extra-bundle"
         },
         {
@@ -11775,6 +11777,7 @@
                     "type": "patreon"
                 }
             ],
+            "abandoned": "web-token/jwt-library",
             "install-path": "../web-token/jwt-core"
         },
         {
@@ -11855,6 +11858,7 @@
                     "type": "patreon"
                 }
             ],
+            "abandoned": "web-token/jwt-library",
             "install-path": "../web-token/jwt-key-mgmt"
         },
         {
@@ -11934,6 +11938,7 @@
                     "type": "patreon"
                 }
             ],
+            "abandoned": "web-token/jwt-library",
             "install-path": "../web-token/jwt-signature"
         },
         {
@@ -12006,6 +12011,7 @@
                     "type": "patreon"
                 }
             ],
+            "abandoned": "web-token/jwt-library",
             "install-path": "../web-token/jwt-signature-algorithm-ecdsa"
         },
         {
@@ -12081,6 +12087,7 @@
                     "type": "patreon"
                 }
             ],
+            "abandoned": "web-token/jwt-library",
             "install-path": "../web-token/jwt-util-ecc"
         },
         {
