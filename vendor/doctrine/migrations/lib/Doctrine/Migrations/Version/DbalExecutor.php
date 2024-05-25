@@ -25,6 +25,7 @@ use Symfony\Component\Stopwatch\Stopwatch;
 use Throwable;
 
 use function count;
+use function method_exists;
 use function ucfirst;
 
 /**
@@ -34,51 +35,21 @@ use function ucfirst;
  */
 final class DbalExecutor implements Executor
 {
-    /** @var Connection */
-    private $connection;
-
-    /** @var SchemaDiffProvider */
-    private $schemaProvider;
-
-    /** @var ParameterFormatter */
-    private $parameterFormatter;
-
-    /** @var Stopwatch */
-    private $stopwatch;
-
     /** @var Query[] */
-    private $sql = [];
-
-    /** @var MetadataStorage */
-    private $metadataStorage;
-
-    /** @var LoggerInterface */
-    private $logger;
-
-    /** @var EventDispatcher */
-    private $dispatcher;
+    private array $sql = [];
 
     public function __construct(
-        MetadataStorage $metadataStorage,
-        EventDispatcher $dispatcher,
-        Connection $connection,
-        SchemaDiffProvider $schemaProvider,
-        LoggerInterface $logger,
-        ParameterFormatter $parameterFormatter,
-        Stopwatch $stopwatch
+        private readonly MetadataStorage $metadataStorage,
+        private readonly EventDispatcher $dispatcher,
+        private readonly Connection $connection,
+        private readonly SchemaDiffProvider $schemaProvider,
+        private readonly LoggerInterface $logger,
+        private readonly ParameterFormatter $parameterFormatter,
+        private readonly Stopwatch $stopwatch,
     ) {
-        $this->connection         = $connection;
-        $this->schemaProvider     = $schemaProvider;
-        $this->parameterFormatter = $parameterFormatter;
-        $this->stopwatch          = $stopwatch;
-        $this->metadataStorage    = $metadataStorage;
-        $this->logger             = $logger;
-        $this->dispatcher         = $dispatcher;
     }
 
-    /**
-     * @return Query[]
-     */
+    /** @return Query[] */
     public function getSql(): array
     {
         return $this->sql;
@@ -91,7 +62,7 @@ final class DbalExecutor implements Executor
 
     public function execute(
         MigrationPlan $plan,
-        MigratorConfiguration $configuration
+        MigratorConfiguration $configuration,
     ): ExecutionResult {
         $result = new ExecutionResult($plan->getVersion(), $plan->getDirection(), new DateTimeImmutable());
 
@@ -101,7 +72,7 @@ final class DbalExecutor implements Executor
             $this->executeMigration(
                 $plan,
                 $result,
-                $configuration
+                $configuration,
             );
 
             $result->setSql($this->sql);
@@ -122,14 +93,14 @@ final class DbalExecutor implements Executor
 
     private function startMigration(
         MigrationPlan $plan,
-        MigratorConfiguration $configuration
+        MigratorConfiguration $configuration,
     ): void {
         $this->sql = [];
 
         $this->dispatcher->dispatchVersionEvent(
             Events::onMigrationsVersionExecuting,
             $plan,
-            $configuration
+            $configuration,
         );
 
         if (! $plan->getMigration()->isTransactional()) {
@@ -143,7 +114,7 @@ final class DbalExecutor implements Executor
     private function executeMigration(
         MigrationPlan $plan,
         ExecutionResult $result,
-        MigratorConfiguration $configuration
+        MigratorConfiguration $configuration,
     ): ExecutionResult {
         $stopwatchEvent = $this->stopwatch->start('execute');
 
@@ -210,6 +181,10 @@ final class DbalExecutor implements Executor
 
         if (! $configuration->isDryRun()) {
             $this->metadataStorage->complete($result);
+        } elseif (method_exists($this->metadataStorage, 'getSql')) {
+            foreach ($this->metadataStorage->getSql($result) as $sqlQuery) {
+                $this->addSql($sqlQuery);
+            }
         }
 
         if ($migration->isTransactional()) {
@@ -222,15 +197,13 @@ final class DbalExecutor implements Executor
         $this->dispatcher->dispatchVersionEvent(
             Events::onMigrationsVersionExecuted,
             $plan,
-            $configuration
+            $configuration,
         );
 
         return $result;
     }
 
-    /**
-     * @return mixed[]
-     */
+    /** @return mixed[] */
     private function getMigrationHeader(MigrationPlan $planItem, AbstractMigration $migration, string $direction): array
     {
         $versionInfo = (string) $planItem->getVersion();
@@ -263,7 +236,7 @@ final class DbalExecutor implements Executor
         $this->dispatcher->dispatchVersionEvent(
             Events::onMigrationsVersionSkipped,
             $plan,
-            $configuration
+            $configuration,
         );
     }
 
@@ -276,7 +249,7 @@ final class DbalExecutor implements Executor
                     'version' => (string) $plan->getVersion(),
                     'reason' => $e->getMessage(),
                     'state' => $this->getExecutionStateAsString($result->getState()),
-                ]
+                ],
             );
         } elseif ($result->hasError()) {
             $this->logger->error(
@@ -285,7 +258,7 @@ final class DbalExecutor implements Executor
                     'version' => (string) $plan->getVersion(),
                     'error' => $e->getMessage(),
                     'state' => $this->getExecutionStateAsString($result->getState()),
-                ]
+                ],
             );
         }
     }
@@ -314,7 +287,7 @@ final class DbalExecutor implements Executor
     {
         $params = $this->parameterFormatter->formatParameters(
             $query->getParameters(),
-            $query->getTypes()
+            $query->getTypes(),
         );
 
         $this->logger->log(
@@ -323,7 +296,7 @@ final class DbalExecutor implements Executor
             [
                 'query'  => $query->getStatement(),
                 'params' => $params,
-            ]
+            ],
         );
     }
 
@@ -339,18 +312,11 @@ final class DbalExecutor implements Executor
 
     private function getExecutionStateAsString(int $state): string
     {
-        switch ($state) {
-            case State::PRE:
-                return 'Pre-Checks';
-
-            case State::POST:
-                return 'Post-Checks';
-
-            case State::EXEC:
-                return 'Execution';
-
-            default:
-                return 'No State';
-        }
+        return match ($state) {
+            State::PRE => 'Pre-Checks',
+            State::POST => 'Post-Checks',
+            State::EXEC => 'Execution',
+            default => 'No State',
+        };
     }
 }

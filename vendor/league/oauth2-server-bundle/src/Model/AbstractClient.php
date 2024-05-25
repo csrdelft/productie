@@ -13,47 +13,23 @@ use League\Bundle\OAuth2ServerBundle\ValueObject\Scope;
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-abstract class AbstractClient
+abstract class AbstractClient implements ClientInterface
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
+    protected string $identifier;
+    private ?string $secret;
 
-    /**
-     * @var string
-     */
-    protected $identifier;
+    /** @var list<RedirectUri> */
+    private array $redirectUris = [];
 
-    /**
-     * @var string|null
-     */
-    private $secret;
+    /** @var list<Grant> */
+    private array $grants = [];
 
-    /**
-     * @var list<RedirectUri>
-     */
-    private $redirectUris = [];
+    /** @var list<Scope> */
+    private array $scopes = [];
 
-    /**
-     * @var list<Grant>
-     */
-    private $grants = [];
-
-    /**
-     * @var list<Scope>
-     */
-    private $scopes = [];
-
-    /**
-     * @var bool
-     */
-    private $active = true;
-
-    /**
-     * @var bool
-     */
-    private $allowPlainTextPkce = false;
+    private bool $active = true;
+    private bool $allowPlainTextPkce = false;
 
     /**
      * @psalm-mutation-free
@@ -73,7 +49,7 @@ abstract class AbstractClient
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(string $name): ClientInterface
     {
         $this->name = $name;
 
@@ -106,7 +82,7 @@ abstract class AbstractClient
         return $this->redirectUris;
     }
 
-    public function setRedirectUris(RedirectUri ...$redirectUris): self
+    public function setRedirectUris(RedirectUri ...$redirectUris): ClientInterface
     {
         /** @var list<RedirectUri> $redirectUris */
         $this->redirectUris = $redirectUris;
@@ -114,17 +90,12 @@ abstract class AbstractClient
         return $this;
     }
 
-    /**
-     * @return list<Grant>
-     *
-     * @psalm-mutation-free
-     */
     public function getGrants(): array
     {
         return $this->grants;
     }
 
-    public function setGrants(Grant ...$grants): self
+    public function setGrants(Grant ...$grants): ClientInterface
     {
         /** @var list<Grant> $grants */
         $this->grants = $grants;
@@ -142,7 +113,7 @@ abstract class AbstractClient
         return $this->scopes;
     }
 
-    public function setScopes(Scope ...$scopes): self
+    public function setScopes(Scope ...$scopes): ClientInterface
     {
         /** @var list<Scope> $scopes */
         $this->scopes = $scopes;
@@ -158,7 +129,7 @@ abstract class AbstractClient
         return $this->active;
     }
 
-    public function setActive(bool $active): self
+    public function setActive(bool $active): ClientInterface
     {
         $this->active = $active;
 
@@ -170,7 +141,7 @@ abstract class AbstractClient
      */
     public function isConfidential(): bool
     {
-        return !empty($this->secret);
+        return null !== $this->secret && '' !== $this->secret;
     }
 
     /**
@@ -181,7 +152,7 @@ abstract class AbstractClient
         return $this->allowPlainTextPkce;
     }
 
-    public function setAllowPlainTextPkce(bool $allowPlainTextPkce): self
+    public function setAllowPlainTextPkce(bool $allowPlainTextPkce): ClientInterface
     {
         $this->allowPlainTextPkce = $allowPlainTextPkce;
 

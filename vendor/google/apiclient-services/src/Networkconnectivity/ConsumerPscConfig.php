@@ -30,7 +30,15 @@ class ConsumerPscConfig extends \Google\Model
   /**
    * @var string
    */
+  public $producerInstanceId;
+  /**
+   * @var string
+   */
   public $project;
+  /**
+   * @var string
+   */
+  public $state;
 
   /**
    * @param bool
@@ -63,6 +71,20 @@ class ConsumerPscConfig extends \Google\Model
   /**
    * @param string
    */
+  public function setProducerInstanceId($producerInstanceId)
+  {
+    $this->producerInstanceId = $producerInstanceId;
+  }
+  /**
+   * @return string
+   */
+  public function getProducerInstanceId()
+  {
+    return $this->producerInstanceId;
+  }
+  /**
+   * @param string
+   */
   public function setProject($project)
   {
     $this->project = $project;
@@ -73,6 +95,20 @@ class ConsumerPscConfig extends \Google\Model
   public function getProject()
   {
     return $this->project;
+  }
+  /**
+   * @param string
+   */
+  public function setState($state)
+  {
+    $this->state = $state;
+  }
+  /**
+   * @return string
+   */
+  public function getState()
+  {
+    return $this->state;
   }
 }
 

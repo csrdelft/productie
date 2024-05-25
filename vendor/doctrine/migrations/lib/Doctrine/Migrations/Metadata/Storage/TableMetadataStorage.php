@@ -9,7 +9,6 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Connections\PrimaryReadReplicaConnection;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
-use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Types\Types;
@@ -18,6 +17,7 @@ use Doctrine\Migrations\Metadata\AvailableMigration;
 use Doctrine\Migrations\Metadata\ExecutedMigration;
 use Doctrine\Migrations\Metadata\ExecutedMigrationsList;
 use Doctrine\Migrations\MigrationsRepository;
+use Doctrine\Migrations\Query\Query;
 use Doctrine\Migrations\Version\Comparator as MigrationsComparator;
 use Doctrine\Migrations\Version\Direction;
 use Doctrine\Migrations\Version\ExecutionResult;
@@ -26,7 +26,6 @@ use InvalidArgumentException;
 
 use function array_change_key_case;
 use function floatval;
-use function method_exists;
 use function round;
 use function sprintf;
 use function strlen;
@@ -38,47 +37,34 @@ use const CASE_LOWER;
 
 final class TableMetadataStorage implements MetadataStorage
 {
-    /** @var bool */
-    private $isInitialized;
+    private bool $isInitialized = false;
 
-    /** @var bool */
-    private $schemaUpToDate = false;
-
-    /** @var Connection */
-    private $connection;
+    private bool $schemaUpToDate = false;
 
     /** @var AbstractSchemaManager<AbstractPlatform> */
-    private $schemaManager;
+    private readonly AbstractSchemaManager $schemaManager;
 
-    /** @var AbstractPlatform */
-    private $platform;
-
-    /** @var TableMetadataStorageConfiguration */
-    private $configuration;
-
-    /** @var MigrationsRepository|null */
-    private $migrationRepository;
-
-    /** @var MigrationsComparator */
-    private $comparator;
+    private readonly AbstractPlatform $platform;
+    private readonly TableMetadataStorageConfiguration $configuration;
 
     public function __construct(
-        Connection $connection,
-        MigrationsComparator $comparator,
-        ?MetadataStorageConfiguration $configuration = null,
-        ?MigrationsRepository $migrationRepository = null
+        private readonly Connection $connection,
+        private readonly MigrationsComparator $comparator,
+        MetadataStorageConfiguration|null $configuration = null,
+        private readonly MigrationsRepository|null $migrationRepository = null,
     ) {
-        $this->migrationRepository = $migrationRepository;
-        $this->connection          = $connection;
-        $this->schemaManager       = $connection->getSchemaManager();
-        $this->platform            = $connection->getDatabasePlatform();
+        $this->schemaManager = $connection->createSchemaManager();
+        $this->platform      = $connection->getDatabasePlatform();
 
         if ($configuration !== null && ! ($configuration instanceof TableMetadataStorageConfiguration)) {
-            throw new InvalidArgumentException(sprintf('%s accepts only %s as configuration', self::class, TableMetadataStorageConfiguration::class));
+            throw new InvalidArgumentException(sprintf(
+                '%s accepts only %s as configuration',
+                self::class,
+                TableMetadataStorageConfiguration::class,
+            ));
         }
 
         $this->configuration = $configuration ?? new TableMetadataStorageConfiguration();
-        $this->comparator    = $comparator;
     }
 
     public function getExecutedMigrations(): ExecutedMigrationsList
@@ -108,15 +94,13 @@ final class TableMetadataStorage implements MetadataStorage
             $migration = new ExecutedMigration(
                 $version,
                 $executedAt instanceof DateTimeImmutable ? $executedAt : null,
-                $executionTime
+                $executionTime,
             );
 
             $migrations[(string) $version] = $migration;
         }
 
-        uasort($migrations, function (ExecutedMigration $a, ExecutedMigration $b): int {
-            return $this->comparator->compare($a->getVersion(), $b->getVersion());
-        });
+        uasort($migrations, fn (ExecutedMigration $a, ExecutedMigration $b): int => $this->comparator->compare($a->getVersion(), $b->getVersion()));
 
         return new ExecutedMigrationsList($migrations);
     }
@@ -128,8 +112,8 @@ final class TableMetadataStorage implements MetadataStorage
         $this->connection->executeStatement(
             sprintf(
                 'DELETE FROM %s WHERE 1 = 1',
-                $this->platform->quoteIdentifier($this->configuration->getTableName())
-            )
+                $this->platform->quoteIdentifier($this->configuration->getTableName()),
+            ),
         );
     }
 
@@ -148,10 +132,37 @@ final class TableMetadataStorage implements MetadataStorage
                 $this->configuration->getExecutionTimeColumnName() => $result->getTime() === null ? null : (int) round($result->getTime() * 1000),
             ], [
                 Types::STRING,
-                Types::DATETIME_MUTABLE,
+                Types::DATETIME_IMMUTABLE,
                 Types::INTEGER,
             ]);
         }
+    }
+
+    /** @return iterable<Query> */
+    public function getSql(ExecutionResult $result): iterable
+    {
+        yield new Query('-- Version ' . (string) $result->getVersion() . ' update table metadata');
+
+        if ($result->getDirection() === Direction::DOWN) {
+            yield new Query(sprintf(
+                'DELETE FROM %s WHERE %s = %s',
+                $this->configuration->getTableName(),
+                $this->configuration->getVersionColumnName(),
+                $this->connection->quote((string) $result->getVersion()),
+            ));
+
+            return;
+        }
+
+        yield new Query(sprintf(
+            'INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, 0)',
+            $this->configuration->getTableName(),
+            $this->configuration->getVersionColumnName(),
+            $this->configuration->getExecutedAtColumnName(),
+            $this->configuration->getExecutionTimeColumnName(),
+            $this->connection->quote((string) $result->getVersion()),
+            $this->connection->quote(($result->getExecutedAt() ?? new DateTimeImmutable())->format('Y-m-d H:i:s')),
+        ));
     }
 
     public function ensureInitialized(): void
@@ -179,19 +190,16 @@ final class TableMetadataStorage implements MetadataStorage
         $this->updateMigratedVersionsFromV1orV2toV3();
     }
 
-    private function needsUpdate(Table $expectedTable): ?TableDiff
+    private function needsUpdate(Table $expectedTable): TableDiff|null
     {
         if ($this->schemaUpToDate) {
             return null;
         }
 
-        $comparator   = method_exists($this->schemaManager, 'createComparator') ?
-            $this->schemaManager->createComparator() :
-            new Comparator();
-        $currentTable = $this->schemaManager->listTableDetails($this->configuration->getTableName());
-        $diff         = $comparator->diffTable($currentTable, $expectedTable);
+        $currentTable = $this->schemaManager->introspectTable($this->configuration->getTableName());
+        $diff         = $this->schemaManager->createComparator()->compareTables($currentTable, $expectedTable);
 
-        return $diff instanceof TableDiff ? $diff : null;
+        return $diff->isEmpty() ? null : $diff;
     }
 
     private function isInitialized(): bool
@@ -227,7 +235,7 @@ final class TableMetadataStorage implements MetadataStorage
         $schemaChangelog->addColumn(
             $this->configuration->getVersionColumnName(),
             'string',
-            ['notnull' => true, 'length' => $this->configuration->getVersionColumnLength()]
+            ['notnull' => true, 'length' => $this->configuration->getVersionColumnLength()],
         );
         $schemaChangelog->addColumn($this->configuration->getExecutedAtColumnName(), 'datetime', ['notnull' => false]);
         $schemaChangelog->addColumn($this->configuration->getExecutionTimeColumnName(), 'integer', ['notnull' => false]);
@@ -259,7 +267,7 @@ final class TableMetadataStorage implements MetadataStorage
                     ],
                     [
                         $this->configuration->getVersionColumnName() => (string) $executedMigration->getVersion(),
-                    ]
+                    ],
                 );
                 unset($executedMigrations[$k]);
             }
@@ -270,7 +278,7 @@ final class TableMetadataStorage implements MetadataStorage
     {
         return strpos(
             (string) $availableMigration->getVersion(),
-            (string) $executedMigration->getVersion()
+            (string) $executedMigration->getVersion(),
         ) !== strlen((string) $availableMigration->getVersion()) -
                 strlen((string) $executedMigration->getVersion());
     }

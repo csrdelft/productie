@@ -20,7 +20,7 @@ namespace Google\Service;
 use Google\Client;
 
 /**
- * Service definition for DiscoveryEngine (v1beta).
+ * Service definition for DiscoveryEngine (v1).
  *
  * <p>
  * Discovery Engine API.</p>
@@ -38,22 +38,44 @@ class DiscoveryEngine extends \Google\Service
   const CLOUD_PLATFORM =
       "https://www.googleapis.com/auth/cloud-platform";
 
+  public $projects_locations_collections_dataConnector_operations;
+  public $projects_locations_collections_dataStores;
   public $projects_locations_collections_dataStores_branches_documents;
   public $projects_locations_collections_dataStores_branches_operations;
+  public $projects_locations_collections_dataStores_conversations;
   public $projects_locations_collections_dataStores_models_operations;
   public $projects_locations_collections_dataStores_operations;
+  public $projects_locations_collections_dataStores_schemas;
+  public $projects_locations_collections_dataStores_schemas_operations;
   public $projects_locations_collections_dataStores_servingConfigs;
+  public $projects_locations_collections_dataStores_siteSearchEngine;
+  public $projects_locations_collections_dataStores_siteSearchEngine_operations;
+  public $projects_locations_collections_dataStores_siteSearchEngine_targetSites;
+  public $projects_locations_collections_dataStores_siteSearchEngine_targetSites_operations;
+  public $projects_locations_collections_dataStores_suggestionDenyListEntries;
   public $projects_locations_collections_dataStores_userEvents;
+  public $projects_locations_collections_engines;
+  public $projects_locations_collections_engines_conversations;
   public $projects_locations_collections_engines_operations;
+  public $projects_locations_collections_engines_servingConfigs;
   public $projects_locations_collections_operations;
+  public $projects_locations_dataStores;
   public $projects_locations_dataStores_branches_documents;
   public $projects_locations_dataStores_branches_operations;
+  public $projects_locations_dataStores_conversations;
   public $projects_locations_dataStores_models_operations;
   public $projects_locations_dataStores_operations;
+  public $projects_locations_dataStores_schemas;
   public $projects_locations_dataStores_servingConfigs;
+  public $projects_locations_dataStores_siteSearchEngine;
+  public $projects_locations_dataStores_siteSearchEngine_targetSites;
+  public $projects_locations_dataStores_suggestionDenyListEntries;
   public $projects_locations_dataStores_userEvents;
+  public $projects_locations_groundingConfigs;
   public $projects_locations_operations;
+  public $projects_locations_userEvents;
   public $projects_operations;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the DiscoveryEngine service.
@@ -66,115 +88,20 @@ class DiscoveryEngine extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://discoveryengine.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://discoveryengine.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
-    $this->version = 'v1beta';
+    $this->version = 'v1';
     $this->serviceName = 'discoveryengine';
 
-    $this->projects_locations_collections_dataStores_branches_documents = new DiscoveryEngine\Resource\ProjectsLocationsCollectionsDataStoresBranchesDocuments(
-        $this,
-        $this->serviceName,
-        'documents',
-        [
-          'methods' => [
-            'create' => [
-              'path' => 'v1beta/{+parent}/documents',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'parent' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'documentId' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'delete' => [
-              'path' => 'v1beta/{+name}',
-              'httpMethod' => 'DELETE',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'get' => [
-              'path' => 'v1beta/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'import' => [
-              'path' => 'v1beta/{+parent}/documents:import',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'parent' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'list' => [
-              'path' => 'v1beta/{+parent}/documents',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'parent' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'pageSize' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-                'pageToken' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'patch' => [
-              'path' => 'v1beta/{+name}',
-              'httpMethod' => 'PATCH',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'allowMissing' => [
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ],
-              ],
-            ],'purge' => [
-              'path' => 'v1beta/{+parent}/documents:purge',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'parent' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->projects_locations_collections_dataStores_branches_operations = new DiscoveryEngine\Resource\ProjectsLocationsCollectionsDataStoresBranchesOperations(
+    $this->projects_locations_collections_dataConnector_operations = new DiscoveryEngine\Resource\ProjectsLocationsCollectionsDataConnectorOperations(
         $this,
         $this->serviceName,
         'operations',
         [
           'methods' => [
             'get' => [
-              'path' => 'v1beta/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -184,7 +111,7 @@ class DiscoveryEngine extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1beta/{+name}/operations',
+              'path' => 'v1/{+name}/operations',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -209,14 +136,78 @@ class DiscoveryEngine extends \Google\Service
           ]
         ]
     );
-    $this->projects_locations_collections_dataStores_models_operations = new DiscoveryEngine\Resource\ProjectsLocationsCollectionsDataStoresModelsOperations(
+    $this->projects_locations_collections_dataStores = new DiscoveryEngine\Resource\ProjectsLocationsCollectionsDataStores(
         $this,
         $this->serviceName,
-        'operations',
+        'dataStores',
         [
           'methods' => [
-            'get' => [
-              'path' => 'v1beta/{+name}',
+            'completeQuery' => [
+              'path' => 'v1/{+dataStore}:completeQuery',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'dataStore' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'includeTailSuggestions' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+                'query' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'queryModel' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'userPseudoId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'create' => [
+              'path' => 'v1/{+parent}/dataStores',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'createAdvancedSiteSearch' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+                'dataStoreId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'getSiteSearchEngine' => [
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -226,7 +217,305 @@ class DiscoveryEngine extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1beta/{+name}/operations',
+              'path' => 'v1/{+parent}/dataStores',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_collections_dataStores_branches_documents = new DiscoveryEngine\Resource\ProjectsLocationsCollectionsDataStoresBranchesDocuments(
+        $this,
+        $this->serviceName,
+        'documents',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'v1/{+parent}/documents',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'documentId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'import' => [
+              'path' => 'v1/{+parent}/documents:import',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/documents',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'allowMissing' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'purge' => [
+              'path' => 'v1/{+parent}/documents:purge',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_collections_dataStores_branches_operations = new DiscoveryEngine\Resource\ProjectsLocationsCollectionsDataStoresBranchesOperations(
+        $this,
+        $this->serviceName,
+        'operations',
+        [
+          'methods' => [
+            'cancel' => [
+              'path' => 'v1/{+name}:cancel',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+name}/operations',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_collections_dataStores_conversations = new DiscoveryEngine\Resource\ProjectsLocationsCollectionsDataStoresConversations(
+        $this,
+        $this->serviceName,
+        'conversations',
+        [
+          'methods' => [
+            'converse' => [
+              'path' => 'v1/{+name}:converse',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'create' => [
+              'path' => 'v1/{+parent}/conversations',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/conversations',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_collections_dataStores_models_operations = new DiscoveryEngine\Resource\ProjectsLocationsCollectionsDataStoresModelsOperations(
+        $this,
+        $this->serviceName,
+        'operations',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+name}/operations',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -258,7 +547,7 @@ class DiscoveryEngine extends \Google\Service
         [
           'methods' => [
             'get' => [
-              'path' => 'v1beta/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -268,7 +557,125 @@ class DiscoveryEngine extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1beta/{+name}/operations',
+              'path' => 'v1/{+name}/operations',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_collections_dataStores_schemas = new DiscoveryEngine\Resource\ProjectsLocationsCollectionsDataStoresSchemas(
+        $this,
+        $this->serviceName,
+        'schemas',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'v1/{+parent}/schemas',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'schemaId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/schemas',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'allowMissing' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_collections_dataStores_schemas_operations = new DiscoveryEngine\Resource\ProjectsLocationsCollectionsDataStoresSchemasOperations(
+        $this,
+        $this->serviceName,
+        'operations',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+name}/operations',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -300,10 +707,280 @@ class DiscoveryEngine extends \Google\Service
         [
           'methods' => [
             'recommend' => [
-              'path' => 'v1beta/{+servingConfig}:recommend',
+              'path' => 'v1/{+servingConfig}:recommend',
               'httpMethod' => 'POST',
               'parameters' => [
                 'servingConfig' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'search' => [
+              'path' => 'v1/{+servingConfig}:search',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'servingConfig' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_collections_dataStores_siteSearchEngine = new DiscoveryEngine\Resource\ProjectsLocationsCollectionsDataStoresSiteSearchEngine(
+        $this,
+        $this->serviceName,
+        'siteSearchEngine',
+        [
+          'methods' => [
+            'batchVerifyTargetSites' => [
+              'path' => 'v1/{+parent}:batchVerifyTargetSites',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'disableAdvancedSiteSearch' => [
+              'path' => 'v1/{+siteSearchEngine}:disableAdvancedSiteSearch',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'siteSearchEngine' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'enableAdvancedSiteSearch' => [
+              'path' => 'v1/{+siteSearchEngine}:enableAdvancedSiteSearch',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'siteSearchEngine' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'fetchDomainVerificationStatus' => [
+              'path' => 'v1/{+siteSearchEngine}:fetchDomainVerificationStatus',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'siteSearchEngine' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'recrawlUris' => [
+              'path' => 'v1/{+siteSearchEngine}:recrawlUris',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'siteSearchEngine' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_collections_dataStores_siteSearchEngine_operations = new DiscoveryEngine\Resource\ProjectsLocationsCollectionsDataStoresSiteSearchEngineOperations(
+        $this,
+        $this->serviceName,
+        'operations',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+name}/operations',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_collections_dataStores_siteSearchEngine_targetSites = new DiscoveryEngine\Resource\ProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSites(
+        $this,
+        $this->serviceName,
+        'targetSites',
+        [
+          'methods' => [
+            'batchCreate' => [
+              'path' => 'v1/{+parent}/targetSites:batchCreate',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'create' => [
+              'path' => 'v1/{+parent}/targetSites',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/targetSites',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_collections_dataStores_siteSearchEngine_targetSites_operations = new DiscoveryEngine\Resource\ProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperations(
+        $this,
+        $this->serviceName,
+        'operations',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+name}/operations',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_collections_dataStores_suggestionDenyListEntries = new DiscoveryEngine\Resource\ProjectsLocationsCollectionsDataStoresSuggestionDenyListEntries(
+        $this,
+        $this->serviceName,
+        'suggestionDenyListEntries',
+        [
+          'methods' => [
+            'import' => [
+              'path' => 'v1/{+parent}/suggestionDenyListEntries:import',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'purge' => [
+              'path' => 'v1/{+parent}/suggestionDenyListEntries:purge',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
@@ -320,7 +997,7 @@ class DiscoveryEngine extends \Google\Service
         [
           'methods' => [
             'collect' => [
-              'path' => 'v1beta/{+parent}/userEvents:collect',
+              'path' => 'v1/{+parent}/userEvents:collect',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [
@@ -342,7 +1019,7 @@ class DiscoveryEngine extends \Google\Service
                 ],
               ],
             ],'import' => [
-              'path' => 'v1beta/{+parent}/userEvents:import',
+              'path' => 'v1/{+parent}/userEvents:import',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -352,13 +1029,183 @@ class DiscoveryEngine extends \Google\Service
                 ],
               ],
             ],'write' => [
-              'path' => 'v1beta/{+parent}/userEvents:write',
+              'path' => 'v1/{+parent}/userEvents:write',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_collections_engines = new DiscoveryEngine\Resource\ProjectsLocationsCollectionsEngines(
+        $this,
+        $this->serviceName,
+        'engines',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'v1/{+parent}/engines',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'engineId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/engines',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_collections_engines_conversations = new DiscoveryEngine\Resource\ProjectsLocationsCollectionsEnginesConversations(
+        $this,
+        $this->serviceName,
+        'conversations',
+        [
+          'methods' => [
+            'converse' => [
+              'path' => 'v1/{+name}:converse',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'create' => [
+              'path' => 'v1/{+parent}/conversations',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/conversations',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],
@@ -372,7 +1219,7 @@ class DiscoveryEngine extends \Google\Service
         [
           'methods' => [
             'get' => [
-              'path' => 'v1beta/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -382,7 +1229,7 @@ class DiscoveryEngine extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1beta/{+name}/operations',
+              'path' => 'v1/{+name}/operations',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -407,6 +1254,36 @@ class DiscoveryEngine extends \Google\Service
           ]
         ]
     );
+    $this->projects_locations_collections_engines_servingConfigs = new DiscoveryEngine\Resource\ProjectsLocationsCollectionsEnginesServingConfigs(
+        $this,
+        $this->serviceName,
+        'servingConfigs',
+        [
+          'methods' => [
+            'recommend' => [
+              'path' => 'v1/{+servingConfig}:recommend',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'servingConfig' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'search' => [
+              'path' => 'v1/{+servingConfig}:search',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'servingConfig' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->projects_locations_collections_operations = new DiscoveryEngine\Resource\ProjectsLocationsCollectionsOperations(
         $this,
         $this->serviceName,
@@ -414,7 +1291,7 @@ class DiscoveryEngine extends \Google\Service
         [
           'methods' => [
             'get' => [
-              'path' => 'v1beta/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -424,7 +1301,7 @@ class DiscoveryEngine extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1beta/{+name}/operations',
+              'path' => 'v1/{+name}/operations',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -441,6 +1318,126 @@ class DiscoveryEngine extends \Google\Service
                   'type' => 'integer',
                 ],
                 'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_dataStores = new DiscoveryEngine\Resource\ProjectsLocationsDataStores(
+        $this,
+        $this->serviceName,
+        'dataStores',
+        [
+          'methods' => [
+            'completeQuery' => [
+              'path' => 'v1/{+dataStore}:completeQuery',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'dataStore' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'includeTailSuggestions' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+                'query' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'queryModel' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'userPseudoId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'create' => [
+              'path' => 'v1/{+parent}/dataStores',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'createAdvancedSiteSearch' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+                'dataStoreId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'getSiteSearchEngine' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/dataStores',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],
@@ -456,7 +1453,7 @@ class DiscoveryEngine extends \Google\Service
         [
           'methods' => [
             'create' => [
-              'path' => 'v1beta/{+parent}/documents',
+              'path' => 'v1/{+parent}/documents',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -470,7 +1467,7 @@ class DiscoveryEngine extends \Google\Service
                 ],
               ],
             ],'delete' => [
-              'path' => 'v1beta/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => [
                 'name' => [
@@ -480,7 +1477,7 @@ class DiscoveryEngine extends \Google\Service
                 ],
               ],
             ],'get' => [
-              'path' => 'v1beta/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -490,7 +1487,7 @@ class DiscoveryEngine extends \Google\Service
                 ],
               ],
             ],'import' => [
-              'path' => 'v1beta/{+parent}/documents:import',
+              'path' => 'v1/{+parent}/documents:import',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -500,7 +1497,7 @@ class DiscoveryEngine extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1beta/{+parent}/documents',
+              'path' => 'v1/{+parent}/documents',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [
@@ -518,7 +1515,7 @@ class DiscoveryEngine extends \Google\Service
                 ],
               ],
             ],'patch' => [
-              'path' => 'v1beta/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'PATCH',
               'parameters' => [
                 'name' => [
@@ -530,9 +1527,13 @@ class DiscoveryEngine extends \Google\Service
                   'location' => 'query',
                   'type' => 'boolean',
                 ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
               ],
             ],'purge' => [
-              'path' => 'v1beta/{+parent}/documents:purge',
+              'path' => 'v1/{+parent}/documents:purge',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -551,8 +1552,18 @@ class DiscoveryEngine extends \Google\Service
         'operations',
         [
           'methods' => [
-            'get' => [
-              'path' => 'v1beta/{+name}',
+            'cancel' => [
+              'path' => 'v1/{+name}:cancel',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -562,7 +1573,7 @@ class DiscoveryEngine extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1beta/{+name}/operations',
+              'path' => 'v1/{+name}/operations',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -587,14 +1598,44 @@ class DiscoveryEngine extends \Google\Service
           ]
         ]
     );
-    $this->projects_locations_dataStores_models_operations = new DiscoveryEngine\Resource\ProjectsLocationsDataStoresModelsOperations(
+    $this->projects_locations_dataStores_conversations = new DiscoveryEngine\Resource\ProjectsLocationsDataStoresConversations(
         $this,
         $this->serviceName,
-        'operations',
+        'conversations',
         [
           'methods' => [
-            'get' => [
-              'path' => 'v1beta/{+name}',
+            'converse' => [
+              'path' => 'v1/{+name}:converse',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'create' => [
+              'path' => 'v1/{+parent}/conversations',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -604,7 +1645,67 @@ class DiscoveryEngine extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1beta/{+name}/operations',
+              'path' => 'v1/{+parent}/conversations',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_dataStores_models_operations = new DiscoveryEngine\Resource\ProjectsLocationsDataStoresModelsOperations(
+        $this,
+        $this->serviceName,
+        'operations',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+name}/operations',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -636,7 +1737,7 @@ class DiscoveryEngine extends \Google\Service
         [
           'methods' => [
             'get' => [
-              'path' => 'v1beta/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -646,7 +1747,7 @@ class DiscoveryEngine extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1beta/{+name}/operations',
+              'path' => 'v1/{+name}/operations',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -671,6 +1772,82 @@ class DiscoveryEngine extends \Google\Service
           ]
         ]
     );
+    $this->projects_locations_dataStores_schemas = new DiscoveryEngine\Resource\ProjectsLocationsDataStoresSchemas(
+        $this,
+        $this->serviceName,
+        'schemas',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'v1/{+parent}/schemas',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'schemaId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/schemas',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'allowMissing' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->projects_locations_dataStores_servingConfigs = new DiscoveryEngine\Resource\ProjectsLocationsDataStoresServingConfigs(
         $this,
         $this->serviceName,
@@ -678,10 +1855,168 @@ class DiscoveryEngine extends \Google\Service
         [
           'methods' => [
             'recommend' => [
-              'path' => 'v1beta/{+servingConfig}:recommend',
+              'path' => 'v1/{+servingConfig}:recommend',
               'httpMethod' => 'POST',
               'parameters' => [
                 'servingConfig' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'search' => [
+              'path' => 'v1/{+servingConfig}:search',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'servingConfig' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_dataStores_siteSearchEngine = new DiscoveryEngine\Resource\ProjectsLocationsDataStoresSiteSearchEngine(
+        $this,
+        $this->serviceName,
+        'siteSearchEngine',
+        [
+          'methods' => [
+            'disableAdvancedSiteSearch' => [
+              'path' => 'v1/{+siteSearchEngine}:disableAdvancedSiteSearch',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'siteSearchEngine' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'enableAdvancedSiteSearch' => [
+              'path' => 'v1/{+siteSearchEngine}:enableAdvancedSiteSearch',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'siteSearchEngine' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'recrawlUris' => [
+              'path' => 'v1/{+siteSearchEngine}:recrawlUris',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'siteSearchEngine' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_dataStores_siteSearchEngine_targetSites = new DiscoveryEngine\Resource\ProjectsLocationsDataStoresSiteSearchEngineTargetSites(
+        $this,
+        $this->serviceName,
+        'targetSites',
+        [
+          'methods' => [
+            'batchCreate' => [
+              'path' => 'v1/{+parent}/targetSites:batchCreate',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'create' => [
+              'path' => 'v1/{+parent}/targetSites',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/targetSites',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_dataStores_suggestionDenyListEntries = new DiscoveryEngine\Resource\ProjectsLocationsDataStoresSuggestionDenyListEntries(
+        $this,
+        $this->serviceName,
+        'suggestionDenyListEntries',
+        [
+          'methods' => [
+            'import' => [
+              'path' => 'v1/{+parent}/suggestionDenyListEntries:import',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'purge' => [
+              'path' => 'v1/{+parent}/suggestionDenyListEntries:purge',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
@@ -698,7 +2033,7 @@ class DiscoveryEngine extends \Google\Service
         [
           'methods' => [
             'collect' => [
-              'path' => 'v1beta/{+parent}/userEvents:collect',
+              'path' => 'v1/{+parent}/userEvents:collect',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [
@@ -720,7 +2055,7 @@ class DiscoveryEngine extends \Google\Service
                 ],
               ],
             ],'import' => [
-              'path' => 'v1beta/{+parent}/userEvents:import',
+              'path' => 'v1/{+parent}/userEvents:import',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -730,10 +2065,30 @@ class DiscoveryEngine extends \Google\Service
                 ],
               ],
             ],'write' => [
-              'path' => 'v1beta/{+parent}/userEvents:write',
+              'path' => 'v1/{+parent}/userEvents:write',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_groundingConfigs = new DiscoveryEngine\Resource\ProjectsLocationsGroundingConfigs(
+        $this,
+        $this->serviceName,
+        'groundingConfigs',
+        [
+          'methods' => [
+            'check' => [
+              'path' => 'v1/{+groundingConfig}:check',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'groundingConfig' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
@@ -750,7 +2105,7 @@ class DiscoveryEngine extends \Google\Service
         [
           'methods' => [
             'get' => [
-              'path' => 'v1beta/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -760,7 +2115,7 @@ class DiscoveryEngine extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1beta/{+name}/operations',
+              'path' => 'v1/{+name}/operations',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -785,14 +2140,44 @@ class DiscoveryEngine extends \Google\Service
           ]
         ]
     );
+    $this->projects_locations_userEvents = new DiscoveryEngine\Resource\ProjectsLocationsUserEvents(
+        $this,
+        $this->serviceName,
+        'userEvents',
+        [
+          'methods' => [
+            'write' => [
+              'path' => 'v1/{+parent}/userEvents:write',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->projects_operations = new DiscoveryEngine\Resource\ProjectsOperations(
         $this,
         $this->serviceName,
         'operations',
         [
           'methods' => [
-            'get' => [
-              'path' => 'v1beta/{+name}',
+            'cancel' => [
+              'path' => 'v1/{+name}:cancel',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -802,7 +2187,7 @@ class DiscoveryEngine extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1beta/{+name}/operations',
+              'path' => 'v1/{+name}/operations',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [

@@ -22,12 +22,20 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
   protected $collection_key = 'destinationConfigs';
   protected $authConfigType = GoogleCloudConnectorsV1AuthConfig::class;
   protected $authConfigDataType = '';
+  protected $billingConfigType = GoogleCloudConnectorsV1BillingConfig::class;
+  protected $billingConfigDataType = '';
   protected $configVariablesType = GoogleCloudConnectorsV1ConfigVariable::class;
   protected $configVariablesDataType = 'array';
   /**
    * @var string
    */
+  public $connectionRevision;
+  /**
+   * @var string
+   */
   public $connectorVersion;
+  protected $connectorVersionInfraConfigType = GoogleCloudConnectorsV1ConnectorVersionInfraConfig::class;
+  protected $connectorVersionInfraConfigDataType = '';
   /**
    * @var string
    */
@@ -46,10 +54,22 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
    * @var string
    */
   public $envoyImageLocation;
+  protected $eventingConfigType = GoogleCloudConnectorsV1EventingConfig::class;
+  protected $eventingConfigDataType = '';
+  /**
+   * @var string
+   */
+  public $eventingEnablementType;
+  protected $eventingRuntimeDataType = GoogleCloudConnectorsV1EventingRuntimeData::class;
+  protected $eventingRuntimeDataDataType = '';
   /**
    * @var string
    */
   public $imageLocation;
+  /**
+   * @var bool
+   */
+  public $isTrustedTester;
   /**
    * @var string[]
    */
@@ -104,6 +124,20 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
     return $this->authConfig;
   }
   /**
+   * @param GoogleCloudConnectorsV1BillingConfig
+   */
+  public function setBillingConfig(GoogleCloudConnectorsV1BillingConfig $billingConfig)
+  {
+    $this->billingConfig = $billingConfig;
+  }
+  /**
+   * @return GoogleCloudConnectorsV1BillingConfig
+   */
+  public function getBillingConfig()
+  {
+    return $this->billingConfig;
+  }
+  /**
    * @param GoogleCloudConnectorsV1ConfigVariable[]
    */
   public function setConfigVariables($configVariables)
@@ -120,6 +154,20 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
   /**
    * @param string
    */
+  public function setConnectionRevision($connectionRevision)
+  {
+    $this->connectionRevision = $connectionRevision;
+  }
+  /**
+   * @return string
+   */
+  public function getConnectionRevision()
+  {
+    return $this->connectionRevision;
+  }
+  /**
+   * @param string
+   */
   public function setConnectorVersion($connectorVersion)
   {
     $this->connectorVersion = $connectorVersion;
@@ -130,6 +178,20 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
   public function getConnectorVersion()
   {
     return $this->connectorVersion;
+  }
+  /**
+   * @param GoogleCloudConnectorsV1ConnectorVersionInfraConfig
+   */
+  public function setConnectorVersionInfraConfig(GoogleCloudConnectorsV1ConnectorVersionInfraConfig $connectorVersionInfraConfig)
+  {
+    $this->connectorVersionInfraConfig = $connectorVersionInfraConfig;
+  }
+  /**
+   * @return GoogleCloudConnectorsV1ConnectorVersionInfraConfig
+   */
+  public function getConnectorVersionInfraConfig()
+  {
+    return $this->connectorVersionInfraConfig;
   }
   /**
    * @param string
@@ -202,6 +264,48 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
     return $this->envoyImageLocation;
   }
   /**
+   * @param GoogleCloudConnectorsV1EventingConfig
+   */
+  public function setEventingConfig(GoogleCloudConnectorsV1EventingConfig $eventingConfig)
+  {
+    $this->eventingConfig = $eventingConfig;
+  }
+  /**
+   * @return GoogleCloudConnectorsV1EventingConfig
+   */
+  public function getEventingConfig()
+  {
+    return $this->eventingConfig;
+  }
+  /**
+   * @param string
+   */
+  public function setEventingEnablementType($eventingEnablementType)
+  {
+    $this->eventingEnablementType = $eventingEnablementType;
+  }
+  /**
+   * @return string
+   */
+  public function getEventingEnablementType()
+  {
+    return $this->eventingEnablementType;
+  }
+  /**
+   * @param GoogleCloudConnectorsV1EventingRuntimeData
+   */
+  public function setEventingRuntimeData(GoogleCloudConnectorsV1EventingRuntimeData $eventingRuntimeData)
+  {
+    $this->eventingRuntimeData = $eventingRuntimeData;
+  }
+  /**
+   * @return GoogleCloudConnectorsV1EventingRuntimeData
+   */
+  public function getEventingRuntimeData()
+  {
+    return $this->eventingRuntimeData;
+  }
+  /**
    * @param string
    */
   public function setImageLocation($imageLocation)
@@ -214,6 +318,20 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
   public function getImageLocation()
   {
     return $this->imageLocation;
+  }
+  /**
+   * @param bool
+   */
+  public function setIsTrustedTester($isTrustedTester)
+  {
+    $this->isTrustedTester = $isTrustedTester;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsTrustedTester()
+  {
+    return $this->isTrustedTester;
   }
   /**
    * @param string[]

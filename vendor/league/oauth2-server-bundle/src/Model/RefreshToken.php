@@ -4,32 +4,17 @@ declare(strict_types=1);
 
 namespace League\Bundle\OAuth2ServerBundle\Model;
 
-class RefreshToken
+class RefreshToken implements RefreshTokenInterface
 {
-    /**
-     * @var string
-     */
-    private $identifier;
-
-    /**
-     * @var \DateTimeInterface
-     */
-    private $expiry;
-
-    /**
-     * @var AccessToken|null
-     */
-    private $accessToken;
-
-    /**
-     * @var bool
-     */
-    private $revoked = false;
+    private string $identifier;
+    private \DateTimeInterface $expiry;
+    private ?AccessTokenInterface $accessToken;
+    private bool $revoked = false;
 
     /**
      * @psalm-mutation-free
      */
-    public function __construct(string $identifier, \DateTimeInterface $expiry, ?AccessToken $accessToken = null)
+    public function __construct(string $identifier, \DateTimeInterface $expiry, ?AccessTokenInterface $accessToken = null)
     {
         $this->identifier = $identifier;
         $this->expiry = $expiry;
@@ -63,7 +48,7 @@ class RefreshToken
     /**
      * @psalm-mutation-free
      */
-    public function getAccessToken(): ?AccessToken
+    public function getAccessToken(): ?AccessTokenInterface
     {
         return $this->accessToken;
     }
@@ -76,7 +61,7 @@ class RefreshToken
         return $this->revoked;
     }
 
-    public function revoke(): self
+    public function revoke(): RefreshTokenInterface
     {
         $this->revoked = true;
 

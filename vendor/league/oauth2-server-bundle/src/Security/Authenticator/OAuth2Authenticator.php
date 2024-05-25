@@ -36,25 +36,10 @@ final class OAuth2Authenticator implements AuthenticatorInterface, Authenticatio
      */
     use ForwardCompatAuthenticatorTrait;
 
-    /**
-     * @var HttpMessageFactoryInterface
-     */
-    private $httpMessageFactory;
-
-    /**
-     * @var ResourceServer
-     */
-    private $resourceServer;
-
-    /**
-     * @var UserProviderInterface
-     */
-    private $userProvider;
-
-    /**
-     * @var string
-     */
-    private $rolePrefix;
+    private HttpMessageFactoryInterface $httpMessageFactory;
+    private ResourceServer $resourceServer;
+    private UserProviderInterface $userProvider;
+    private string $rolePrefix;
 
     public function __construct(
         HttpMessageFactoryInterface $httpMessageFactory,
@@ -70,17 +55,15 @@ final class OAuth2Authenticator implements AuthenticatorInterface, Authenticatio
 
     public function supports(Request $request): ?bool
     {
-        return 0 === strpos($request->headers->get('Authorization', ''), 'Bearer ');
+        return str_starts_with($request->headers->get('Authorization', ''), 'Bearer ');
     }
 
-    public function start(Request $request, AuthenticationException $authException = null): Response
+    public function start(Request $request, ?AuthenticationException $authException = null): Response
     {
         return new Response('', 401, ['WWW-Authenticate' => 'Bearer']);
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return Passport
      */
     public function doAuthenticate(Request $request) /* : Passport */
@@ -103,12 +86,16 @@ final class OAuth2Authenticator implements AuthenticatorInterface, Authenticatio
         /** @var string $oauthClientId */
         $oauthClientId = $psr7Request->getAttribute('oauth_client_id', '');
 
+        /** @psalm-suppress MixedInferredReturnType */
         $userLoader = function (string $userIdentifier): UserInterface {
             if ('' === $userIdentifier) {
                 return new NullUser();
             }
             if (!method_exists($this->userProvider, 'loadUserByIdentifier')) {
-                /** @psalm-suppress DeprecatedMethod */
+                /**
+                 * @psalm-suppress DeprecatedMethod
+                 * @psalm-suppress MixedReturnStatement
+                 */
                 return $this->userProvider->loadUserByUsername($userIdentifier);
             }
 
@@ -128,7 +115,10 @@ final class OAuth2Authenticator implements AuthenticatorInterface, Authenticatio
     /**
      * @return OAuth2Token
      *
-     * @psalm-suppress DeprecatedClass
+     * @psalm-suppress DeprecatedInterface
+     * @psalm-suppress UndefinedClass
+     * @psalm-suppress MixedInferredReturnType
+     * @psalm-suppress RedundantCondition
      */
     public function createAuthenticatedToken(PassportInterface $passport, string $firewallName): TokenInterface
     {
@@ -137,6 +127,10 @@ final class OAuth2Authenticator implements AuthenticatorInterface, Authenticatio
         }
 
         $token = $this->createToken($passport, $firewallName);
+        /**
+         * @psalm-suppress TooManyArguments
+         * @psalm-suppress UndefinedMethod
+         */
         $token->setAuthenticated(true);
 
         return $token;
@@ -159,7 +153,10 @@ final class OAuth2Authenticator implements AuthenticatorInterface, Authenticatio
         $token = new OAuth2Token($passport->getUser(), $accessTokenId, $oauthClientId, $scopeBadge->getScopes(), $this->rolePrefix);
         if (method_exists(AuthenticatorInterface::class, 'createAuthenticatedToken') && !method_exists(AuthenticatorInterface::class, 'createToken')) {
             // symfony 5.4 only
-            /** @psalm-suppress TooManyArguments */
+            /**
+             * @psalm-suppress TooManyArguments
+             * @psalm-suppress UndefinedMethod
+             */
             $token->setAuthenticated(true, false);
         }
 

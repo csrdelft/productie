@@ -47,6 +47,10 @@ class AccessApprovalSettings extends \Google\Collection
    */
   public $notificationEmails;
   /**
+   * @var string
+   */
+  public $notificationPubsubTopic;
+  /**
    * @var bool
    */
   public $preferNoBroadApprovalRequests;
@@ -54,6 +58,10 @@ class AccessApprovalSettings extends \Google\Collection
    * @var int
    */
   public $preferredRequestExpirationDays;
+  /**
+   * @var bool
+   */
+  public $requireCustomerVisibleJustification;
 
   /**
    * @param string
@@ -154,6 +162,20 @@ class AccessApprovalSettings extends \Google\Collection
     return $this->notificationEmails;
   }
   /**
+   * @param string
+   */
+  public function setNotificationPubsubTopic($notificationPubsubTopic)
+  {
+    $this->notificationPubsubTopic = $notificationPubsubTopic;
+  }
+  /**
+   * @return string
+   */
+  public function getNotificationPubsubTopic()
+  {
+    return $this->notificationPubsubTopic;
+  }
+  /**
    * @param bool
    */
   public function setPreferNoBroadApprovalRequests($preferNoBroadApprovalRequests)
@@ -180,6 +202,20 @@ class AccessApprovalSettings extends \Google\Collection
   public function getPreferredRequestExpirationDays()
   {
     return $this->preferredRequestExpirationDays;
+  }
+  /**
+   * @param bool
+   */
+  public function setRequireCustomerVisibleJustification($requireCustomerVisibleJustification)
+  {
+    $this->requireCustomerVisibleJustification = $requireCustomerVisibleJustification;
+  }
+  /**
+   * @return bool
+   */
+  public function getRequireCustomerVisibleJustification()
+  {
+    return $this->requireCustomerVisibleJustification;
   }
 }
 

@@ -17,8 +17,17 @@
 
 namespace Google\Service\Workflows;
 
-class Workflow extends \Google\Model
+class Workflow extends \Google\Collection
 {
+  protected $collection_key = 'allKmsKeysVersions';
+  /**
+   * @var string[]
+   */
+  public $allKmsKeys;
+  /**
+   * @var string[]
+   */
+  public $allKmsKeysVersions;
   /**
    * @var string
    */
@@ -31,6 +40,10 @@ class Workflow extends \Google\Model
    * @var string
    */
   public $cryptoKeyName;
+  /**
+   * @var string
+   */
+  public $cryptoKeyVersion;
   /**
    * @var string
    */
@@ -69,7 +82,39 @@ class Workflow extends \Google\Model
    * @var string
    */
   public $updateTime;
+  /**
+   * @var string[]
+   */
+  public $userEnvVars;
 
+  /**
+   * @param string[]
+   */
+  public function setAllKmsKeys($allKmsKeys)
+  {
+    $this->allKmsKeys = $allKmsKeys;
+  }
+  /**
+   * @return string[]
+   */
+  public function getAllKmsKeys()
+  {
+    return $this->allKmsKeys;
+  }
+  /**
+   * @param string[]
+   */
+  public function setAllKmsKeysVersions($allKmsKeysVersions)
+  {
+    $this->allKmsKeysVersions = $allKmsKeysVersions;
+  }
+  /**
+   * @return string[]
+   */
+  public function getAllKmsKeysVersions()
+  {
+    return $this->allKmsKeysVersions;
+  }
   /**
    * @param string
    */
@@ -111,6 +156,20 @@ class Workflow extends \Google\Model
   public function getCryptoKeyName()
   {
     return $this->cryptoKeyName;
+  }
+  /**
+   * @param string
+   */
+  public function setCryptoKeyVersion($cryptoKeyVersion)
+  {
+    $this->cryptoKeyVersion = $cryptoKeyVersion;
+  }
+  /**
+   * @return string
+   */
+  public function getCryptoKeyVersion()
+  {
+    return $this->cryptoKeyVersion;
   }
   /**
    * @param string
@@ -251,6 +310,20 @@ class Workflow extends \Google\Model
   public function getUpdateTime()
   {
     return $this->updateTime;
+  }
+  /**
+   * @param string[]
+   */
+  public function setUserEnvVars($userEnvVars)
+  {
+    $this->userEnvVars = $userEnvVars;
+  }
+  /**
+   * @return string[]
+   */
+  public function getUserEnvVars()
+  {
+    return $this->userEnvVars;
   }
 }
 

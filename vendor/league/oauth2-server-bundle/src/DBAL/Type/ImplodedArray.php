@@ -20,7 +20,7 @@ abstract class ImplodedArray extends TextType
     /**
      * @psalm-suppress MixedArgumentTypeCoercion
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
+    public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
     {
         if (!\is_array($value)) {
             throw new \LogicException('This type can only be used in combination with arrays.');
@@ -39,13 +39,9 @@ abstract class ImplodedArray extends TextType
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @param mixed $value
-     *
      * @psalm-return list<T>
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): array
+    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): array
     {
         if (null === $value) {
             return [];
@@ -58,9 +54,6 @@ abstract class ImplodedArray extends TextType
         return $this->convertDatabaseValues($values);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         $column['length'] = 65535;
@@ -68,9 +61,6 @@ abstract class ImplodedArray extends TextType
         return parent::getSQLDeclaration($column, $platform);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;

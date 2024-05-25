@@ -13,9 +13,6 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 final class Configuration implements ConfigurationInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('league_oauth2_server');
@@ -110,6 +107,10 @@ final class Configuration implements ConfigurationInterface
                     ->info('Whether to enable access token saving to persistence layer')
                     ->defaultTrue()
                 ->end()
+                ->scalarNode('response_type_class')
+                    ->info('Define a custom ResponseType')
+                    ->defaultValue(null)
+                ->end()
             ->end()
         ;
 
@@ -184,10 +185,45 @@ final class Configuration implements ConfigurationInterface
                             ->cannotBeEmpty()
                             ->defaultValue('default')
                         ->end()
+                        ->scalarNode('table_prefix')
+                            ->info('Table name prefix.')
+                            ->cannotBeEmpty()
+                            ->defaultValue('oauth2_')
+                        ->end()
                     ->end()
                 ->end()
                 // In-memory persistence
                 ->scalarNode('in_memory')
+                ->end()
+                // Custom persistence
+                ->arrayNode('custom')
+                    ->children()
+                        ->scalarNode('access_token_manager')
+                            ->info('Service id of the custom access token manager')
+                            ->cannotBeEmpty()
+                            ->isRequired()
+                        ->end()
+                        ->scalarNode('authorization_code_manager')
+                            ->info('Service id of the custom authorization code manager')
+                            ->cannotBeEmpty()
+                            ->isRequired()
+                        ->end()
+                        ->scalarNode('client_manager')
+                            ->info('Service id of the custom client manager')
+                            ->cannotBeEmpty()
+                            ->isRequired()
+                        ->end()
+                        ->scalarNode('refresh_token_manager')
+                            ->info('Service id of the custom refresh token manager')
+                            ->cannotBeEmpty()
+                            ->isRequired()
+                        ->end()
+                        ->scalarNode('credentials_revoker')
+                            ->info('Service id of the custom credentials revoker')
+                            ->cannotBeEmpty()
+                            ->isRequired()
+                        ->end()
+                    ->end()
                 ->end()
             ->end()
         ;

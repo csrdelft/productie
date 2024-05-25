@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Doctrine\Migrations\Tools\Console;
 
 use Composer\InstalledVersions;
-use Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper;
-use Doctrine\Migrations\Configuration\Connection\ExistingConnection;
 use Doctrine\Migrations\Configuration\EntityManager\ExistingEntityManager;
 use Doctrine\Migrations\Configuration\Migration\ConfigurationFileWithFallback;
 use Doctrine\Migrations\DependencyFactory;
@@ -46,7 +44,7 @@ use const DIRECTORY_SEPARATOR;
  */
 class ConsoleRunner
 {
-    public static function findDependencyFactory(): ?DependencyFactory
+    public static function findDependencyFactory(): DependencyFactory|null
     {
         // Support for using the Doctrine ORM convention of providing a `cli-config.php` file.
         $configurationDirectories = [
@@ -71,7 +69,7 @@ class ConsoleRunner
             if (! is_readable($configurationFile)) {
                 throw new RuntimeException(sprintf(
                     'Configuration file "%s" cannot be read.',
-                    $configurationFile
+                    $configurationFile,
                 ));
             }
 
@@ -83,7 +81,7 @@ class ConsoleRunner
             throw new RuntimeException(sprintf(
                 'Configuration file "%s" must return an instance of "%s"',
                 $configurationFile,
-                DependencyFactory::class
+                DependencyFactory::class,
             ));
         }
 
@@ -91,14 +89,14 @@ class ConsoleRunner
     }
 
     /** @param DoctrineCommand[] $commands */
-    public static function run(array $commands = [], ?DependencyFactory $dependencyFactory = null): void
+    public static function run(array $commands = [], DependencyFactory|null $dependencyFactory = null): void
     {
         $cli = static::createApplication($commands, $dependencyFactory);
         $cli->run();
     }
 
     /** @param DoctrineCommand[] $commands */
-    public static function createApplication(array $commands = [], ?DependencyFactory $dependencyFactory = null): Application
+    public static function createApplication(array $commands = [], DependencyFactory|null $dependencyFactory = null): Application
     {
         $version = InstalledVersions::getVersion('doctrine/migrations');
         assert($version !== null);
@@ -110,7 +108,7 @@ class ConsoleRunner
         return $cli;
     }
 
-    public static function addCommands(Application $cli, ?DependencyFactory $dependencyFactory = null): void
+    public static function addCommands(Application $cli, DependencyFactory|null $dependencyFactory = null): void
     {
         $cli->addCommands([
             new CurrentCommand($dependencyFactory),
@@ -134,12 +132,7 @@ class ConsoleRunner
         $cli->add(new DiffCommand($dependencyFactory));
     }
 
-    /**
-     * @param mixed|HelperSet $dependencyFactory
-     *
-     * @return mixed|DependencyFactory
-     */
-    private static function checkLegacyConfiguration($dependencyFactory, string $configurationFile)
+    private static function checkLegacyConfiguration(mixed $dependencyFactory, string $configurationFile): mixed
     {
         if (! ($dependencyFactory instanceof HelperSet)) {
             return $dependencyFactory;
@@ -149,20 +142,13 @@ class ConsoleRunner
         if ($dependencyFactory->has('em') && $dependencyFactory->get('em') instanceof EntityManagerHelper) {
             return DependencyFactory::fromEntityManager(
                 $configurations,
-                new ExistingEntityManager($dependencyFactory->get('em')->getEntityManager())
-            );
-        }
-
-        if ($dependencyFactory->has('db') && $dependencyFactory->get('db') instanceof ConnectionHelper) {
-            return DependencyFactory::fromConnection(
-                $configurations,
-                new ExistingConnection($dependencyFactory->get('db')->getConnection())
+                new ExistingEntityManager($dependencyFactory->get('em')->getEntityManager()),
             );
         }
 
         throw new RuntimeException(sprintf(
             'Configuration HelperSet returned by "%s" does not have a valid "em" or the "db" helper.',
-            $configurationFile
+            $configurationFile,
         ));
     }
 }

@@ -22,8 +22,50 @@ class DeviceConnectivityManagement extends \Google\Model
   /**
    * @var string
    */
+  public $configureWifi;
+  /**
+   * @var string
+   */
+  public $tetheringSettings;
+  /**
+   * @var string
+   */
   public $usbDataAccess;
+  /**
+   * @var string
+   */
+  public $wifiDirectSettings;
+  protected $wifiSsidPolicyType = WifiSsidPolicy::class;
+  protected $wifiSsidPolicyDataType = '';
 
+  /**
+   * @param string
+   */
+  public function setConfigureWifi($configureWifi)
+  {
+    $this->configureWifi = $configureWifi;
+  }
+  /**
+   * @return string
+   */
+  public function getConfigureWifi()
+  {
+    return $this->configureWifi;
+  }
+  /**
+   * @param string
+   */
+  public function setTetheringSettings($tetheringSettings)
+  {
+    $this->tetheringSettings = $tetheringSettings;
+  }
+  /**
+   * @return string
+   */
+  public function getTetheringSettings()
+  {
+    return $this->tetheringSettings;
+  }
   /**
    * @param string
    */
@@ -37,6 +79,34 @@ class DeviceConnectivityManagement extends \Google\Model
   public function getUsbDataAccess()
   {
     return $this->usbDataAccess;
+  }
+  /**
+   * @param string
+   */
+  public function setWifiDirectSettings($wifiDirectSettings)
+  {
+    $this->wifiDirectSettings = $wifiDirectSettings;
+  }
+  /**
+   * @return string
+   */
+  public function getWifiDirectSettings()
+  {
+    return $this->wifiDirectSettings;
+  }
+  /**
+   * @param WifiSsidPolicy
+   */
+  public function setWifiSsidPolicy(WifiSsidPolicy $wifiSsidPolicy)
+  {
+    $this->wifiSsidPolicy = $wifiSsidPolicy;
+  }
+  /**
+   * @return WifiSsidPolicy
+   */
+  public function getWifiSsidPolicy()
+  {
+    return $this->wifiSsidPolicy;
   }
 }
 
