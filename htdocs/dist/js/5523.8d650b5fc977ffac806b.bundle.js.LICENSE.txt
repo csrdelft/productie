@@ -60,9 +60,3 @@
  * https://github.com/corejavascript/typeahead.js
  * Copyright 2013-2020 Twitter, Inc. and other contributors; Licensed MIT
  */
-
-/*! Hammer.JS - v2.0.7 - 2016-04-22
- * http://hammerjs.github.io/
- *
- * Copyright (c) 2016 Jorik Tangelder;
- * Licensed under the MIT license */
