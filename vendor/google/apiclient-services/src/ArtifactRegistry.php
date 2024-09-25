@@ -262,6 +262,14 @@ class ArtifactRegistry extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
                 'pageSize' => [
                   'location' => 'query',
                   'type' => 'integer',
@@ -387,7 +395,17 @@ class ArtifactRegistry extends \Google\Service
         'files',
         [
           'methods' => [
-            'download' => [
+            'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'download' => [
               'path' => 'v1/{+name}:download',
               'httpMethod' => 'GET',
               'parameters' => [
@@ -638,6 +656,14 @@ class ArtifactRegistry extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
                 'pageSize' => [
                   'location' => 'query',
                   'type' => 'integer',
@@ -797,6 +823,10 @@ class ArtifactRegistry extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
                 'orderBy' => [
                   'location' => 'query',
