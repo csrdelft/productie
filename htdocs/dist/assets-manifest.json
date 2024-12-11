@@ -316,8 +316,8 @@
             "integrity": "sha256-UCEwD2T+KIbf8NxFPWzermRM26X9Cd0QB2MMTX1QTU0= sha384-yCMzZ2f5pxbAB3COtob6thcBnWsg/OY/7a+oEqOCu/Y7Q5BscB8kM9ySlsTPEAdm sha512-EDO11mMIBtrUWjTjldUh7CKtjq3YxOw6NQUqnnSRgtuORvw6XAveDvuhtbuAoQ1SQ46uoDpQfVh8vuf8lV/F0Q=="
           },
           {
-            "src": "css/thema-donker.d62585a435b7c6c7c3de.css",
-            "integrity": "sha256-eDFopjSJSgNCB0mdKLS7Nt5YtVwIL08rqfmjwM50NYY= sha384-uIoMP8x0nnqKi7w/ek4MBqTIwaqoHsF0fesgE2X23fZU9f9ulclReHWpR20g6+l0 sha512-vKGN8cR5eaJld+OuH/DyX/Btqw2Ou/pwn5wDngoE5gSdmFxAOr0jqoA+//VMQpyCZp53edd8QxRIs262lQ8HSA=="
+            "src": "css/thema-donker.2065c3f90a6bd717e573.css",
+            "integrity": "sha256-eyPFYlVE5S2yWEv1YAcpqTPancyEOmj2r+0sbHwOzT4= sha384-GF63j7M9frIQscyIFI2xHKAQ+O9Cg7M0V4ogAD3L7ageRd+HQjCQkeRWJ6yFskCb sha512-TOu8FecBqRSs+YbZQL8oqtxEAFFxGTWnMpJ2W//Vk5qV7BsFduGPDFtV3RJ+Tx9ncpE1F9Ae/DgpGhnndWIqXQ=="
           }
         ]
       }
@@ -868,6 +868,10 @@
   "images/jarig.jpg": {
     "src": "images/5e24148f6965deaa9716.jpg",
     "integrity": "sha256-U6NLRxWFKJTpmkhk2WPeiNWlrsujsCwuBdQy+5YQHdk= sha384-P3PNTYtRJ5BcL6yL6wSfPt450hHYRAUmQnQ97ughmrlJOTBU7QFNPiqM5bpG4Nb7 sha512-EFmS1a0AW3m3dBZgDhqUoqAfcsmPA4GIVb/29GZGU8Fiefs/2zlpyhrbInkxXp4jj1TYa/K0xC3QEHO9Qmg3CA=="
+  },
+  "images/jarigDonker.png": {
+    "src": "images/ac1294e787e9148fa1a0.png",
+    "integrity": "sha256-GoBuw2kMqUcVLxv1kakVOxHDkKscNTcgEvt2hzd3eI0= sha384-ZYusfW9S0JoopEGEYXFL7n/ICIl36pXHj2hXbhFsemFatM2XfQJL4vCcX3iUtxw2 sha512-9cB6J4M26a0TwZhK+FI3uHidDYclqA+N5kt2H1ZA649CK/JF5mM6u7btHsYkKKnkxiAJxG4cobSQafXe49+tIA=="
   },
   "images/keolis_flirt3_blauwnet.png": {
     "src": "images/d92ee178a4b002c56a43.png",
@@ -1462,8 +1466,8 @@
     "integrity": "sha256-BL8V0SclW59h7pU2qdB9JyHy8raEV18KFal1t7pIVcE= sha384-V5F+8sqywxXZ3vErWJRagwgEluwhi08KXv/QpQY2i7laKPZgwosx0tXD/12DOyIp sha512-VGmwjrwd85hH70GRuALWrwc5AKk/qxpjq6H6m1Ht91AMzxL/qWRVao1uuG8Ic6wUjjZjgS175CxB0PUO0ucMdQ=="
   },
   "thema-donker.css": {
-    "src": "css/thema-donker.d62585a435b7c6c7c3de.css",
-    "integrity": "sha256-eDFopjSJSgNCB0mdKLS7Nt5YtVwIL08rqfmjwM50NYY= sha384-uIoMP8x0nnqKi7w/ek4MBqTIwaqoHsF0fesgE2X23fZU9f9ulclReHWpR20g6+l0 sha512-vKGN8cR5eaJld+OuH/DyX/Btqw2Ou/pwn5wDngoE5gSdmFxAOr0jqoA+//VMQpyCZp53edd8QxRIs262lQ8HSA=="
+    "src": "css/thema-donker.2065c3f90a6bd717e573.css",
+    "integrity": "sha256-eyPFYlVE5S2yWEv1YAcpqTPancyEOmj2r+0sbHwOzT4= sha384-GF63j7M9frIQscyIFI2xHKAQ+O9Cg7M0V4ogAD3L7ageRd+HQjCQkeRWJ6yFskCb sha512-TOu8FecBqRSs+YbZQL8oqtxEAFFxGTWnMpJ2W//Vk5qV7BsFduGPDFtV3RJ+Tx9ncpE1F9Ae/DgpGhnndWIqXQ=="
   },
   "thema-koevoet.css": {
     "src": "css/thema-koevoet.451c83501fd825c51e19.css",
