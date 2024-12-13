@@ -35,6 +35,10 @@
     "src": "css/dies2024.6ffc635501ea0d157f7a.css",
     "integrity": "sha256-xdUVg3qgy/aCkZhvTxIebBR0pjmj4hu6je3DJ9712MU= sha384-KFTQdhvCAQZQ1MyIcPa5TI6laI6wtoDkvPafDLruXRok+mQCNKBl0X4q64sxQnqT sha512-6R36j1v/n1siBEO1E8Y1c7HQ+gSD4Q7HVJ+VG6SeBtOMql8cFiMhoqlXowrMab4XC40mT5jgy9vK9sPA8rsJLw=="
   },
+  "dies2025.css": {
+    "src": "css/dies2025.429aafd90653ab7e672a.css",
+    "integrity": "sha256-2QSJUGZL0TUfWxsnPDkVwF02NZgOGLEcrS0oM02Q2QQ= sha384-h+mDm1I25B9uGXvhbKU95+kGpoODtI4EYJWwJ30Z/hOPwJKy7hLJRjRLgPbk77kZ sha512-1vt3WBUrwlBqhX1IxbrR/fq5o3fqRg14PXBCIssenWSuJUcFtEpRVRfnhhW/ABVcfklKrsHqJ95DjYCRQtZK+Q=="
+  },
   "effect-civisaldo.css": {
     "src": "css/effect-civisaldo.4e9987af0efcf79a782c.css",
     "integrity": "sha256-HiDFImavLXOu5GgfI/dE7rT9SNXmZKSDvGbnw63+6CI= sha384-njDT/Dfg+TugfNKdyfqQsqpPBtG7AKPm8RgsLfEZrxdi9l/ekkSg2xLC5vsL3vkH sha512-MO6Q7vW5TB9yN4ArSmnqbmll5c6jgua5IDjOmEcXsyJBT2YzLNhkqHbUySNkaABHgSeYZ4DQtupy4vVU88OJ6g=="
@@ -543,6 +547,16 @@
           }
         ]
       }
+    },
+    "dies2025": {
+      "assets": {
+        "css": [
+          {
+            "src": "css/dies2025.429aafd90653ab7e672a.css",
+            "integrity": "sha256-2QSJUGZL0TUfWxsnPDkVwF02NZgOGLEcrS0oM02Q2QQ= sha384-h+mDm1I25B9uGXvhbKU95+kGpoODtI4EYJWwJ30Z/hOPwJKy7hLJRjRLgPbk77kZ sha512-1vt3WBUrwlBqhX1IxbrR/fq5o3fqRg14PXBCIssenWSuJUcFtEpRVRfnhhW/ABVcfklKrsHqJ95DjYCRQtZK+Q=="
+          }
+        ]
+      }
     }
   },
   "extern-forum.css": {
@@ -676,6 +690,14 @@
   "fonts/UpperEastSide.ttf": {
     "src": "fonts/3d7091f8735e844f2a9d.ttf",
     "integrity": "sha256-C+n2nfAfb4tg2nMmR9eHRayahSVKttJzqhisUnlqQSY= sha384-PnTryFCLjGu+ty4bFwrdkuJuBLZ6zK5DEPnebe9Idb5SsaxcdUmuaijBI6EPjSE7 sha512-/4FPlZT81OE3Rrk6sfktmZexue2WT19f6isa3dedPv2KO7PacYNr33l2VAkMN2xOc3Y+0R61CulwawC5S3i/BQ=="
+  },
+  "fonts/calibri.ttf": {
+    "src": "fonts/2eb4a8e3e62e2d790880.ttf",
+    "integrity": "sha256-QbkhKr9frJPf2krEhb1yoBremY7vsS3KbyqX2IRiSXU= sha384-6487lLuu1g1BY120c0XEJ4cKfl0pWQYDf+8SmjL2Utyd51TKWxS7c4Cm/YbN7H2K sha512-YZ+3b4cbaR2sLFwJ7Bp7AmmIDZOUQtGP8NP7aLtlDyFnIWycpo0x9xCIKRuxr4SlRdpMNcuCZbiZMWFdxF4fCA=="
+  },
+  "fonts/constan.ttf": {
+    "src": "fonts/4b7c813a1c0c7ba25114.ttf",
+    "integrity": "sha256-HnHPnnQj5KJ6bBfULL2knoM0EIMvqNPfWpl5I4IoJ1E= sha384-7INVuKu0KWZrlSqGdChXa1W1/BDGOhA1xXCG+a0tyxBvLB0HinK+zkby7wm2d8M/ sha512-Z0ENJXBXwzqnkLNLnamkyn9QywIO92C1U4L54RuP3GQcUDXncDWiMmXK743dmJlrpjiMf83t1dF5LzeCmiY5Xw=="
   },
   "fonts/copasetic.otf": {
     "src": "fonts/5f06c0830c428889bad1.otf",
