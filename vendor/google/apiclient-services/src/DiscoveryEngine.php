@@ -214,10 +214,6 @@ class DiscoveryEngine extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
-                'cmekConfigName' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
                 'createAdvancedSiteSearch' => [
                   'location' => 'query',
                   'type' => 'boolean',
@@ -225,10 +221,6 @@ class DiscoveryEngine extends \Google\Service
                 'dataStoreId' => [
                   'location' => 'query',
                   'type' => 'string',
-                ],
-                'disableCmek' => [
-                  'location' => 'query',
-                  'type' => 'boolean',
                 ],
                 'skipDefaultSchemaCreation' => [
                   'location' => 'query',
@@ -1900,10 +1892,6 @@ class DiscoveryEngine extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
-                'cmekConfigName' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
                 'createAdvancedSiteSearch' => [
                   'location' => 'query',
                   'type' => 'boolean',
@@ -1911,10 +1899,6 @@ class DiscoveryEngine extends \Google\Service
                 'dataStoreId' => [
                   'location' => 'query',
                   'type' => 'string',
-                ],
-                'disableCmek' => [
-                  'location' => 'query',
-                  'type' => 'boolean',
                 ],
                 'skipDefaultSchemaCreation' => [
                   'location' => 'query',

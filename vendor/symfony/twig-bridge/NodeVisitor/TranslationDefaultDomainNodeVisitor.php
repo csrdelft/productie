@@ -20,11 +20,8 @@ use Twig\Node\Expression\AssignNameExpression;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Expression\FilterExpression;
 use Twig\Node\Expression\NameExpression;
-use Twig\Node\Expression\Variable\AssignContextVariable;
-use Twig\Node\Expression\Variable\ContextVariable;
 use Twig\Node\ModuleNode;
 use Twig\Node\Node;
-use Twig\Node\Nodes;
 use Twig\Node\SetNode;
 use Twig\NodeVisitor\NodeVisitorInterface;
 
@@ -33,7 +30,7 @@ use Twig\NodeVisitor\NodeVisitorInterface;
  */
 final class TranslationDefaultDomainNodeVisitor implements NodeVisitorInterface
 {
-    private $scope;
+    private Scope $scope;
 
     public function __construct()
     {
@@ -53,14 +50,10 @@ final class TranslationDefaultDomainNodeVisitor implements NodeVisitorInterface
                 return $node;
             } else {
                 $var = $this->getVarName();
-                $name = class_exists(AssignContextVariable::class) ? new AssignContextVariable($var, $node->getTemplateLine()) : new AssignNameExpression($var, $node->getTemplateLine());
-                $this->scope->set('domain', class_exists(ContextVariable::class) ? new ContextVariable($var, $node->getTemplateLine()) : new NameExpression($var, $node->getTemplateLine()));
+                $name = new AssignNameExpression($var, $node->getTemplateLine());
+                $this->scope->set('domain', new NameExpression($var, $node->getTemplateLine()));
 
-                if (class_exists(Nodes::class)) {
-                    return new SetNode(false, new Nodes([$name]), new Nodes([$node->getNode('expr')]), $node->getTemplateLine());
-                } else {
-                    return new SetNode(false, new Node([$name]), new Node([$node->getNode('expr')]), $node->getTemplateLine());
-                }
+                return new SetNode(false, new Node([$name]), new Node([$node->getNode('expr')]), $node->getTemplateLine());
             }
         }
 
@@ -103,9 +96,6 @@ final class TranslationDefaultDomainNodeVisitor implements NodeVisitorInterface
         return $node;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPriority(): int
     {
         return -10;

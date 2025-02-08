@@ -20,7 +20,7 @@ namespace Google\Service\DiscoveryEngine;
 class GoogleCloudDiscoveryengineV1CheckGroundingResponse extends \Google\Collection
 {
   protected $collection_key = 'claims';
-  protected $citedChunksType = GoogleCloudDiscoveryengineV1CheckGroundingResponseFactChunk::class;
+  protected $citedChunksType = GoogleCloudDiscoveryengineV1FactChunk::class;
   protected $citedChunksDataType = 'array';
   protected $claimsType = GoogleCloudDiscoveryengineV1CheckGroundingResponseClaim::class;
   protected $claimsDataType = 'array';
@@ -30,14 +30,14 @@ class GoogleCloudDiscoveryengineV1CheckGroundingResponse extends \Google\Collect
   public $supportScore;
 
   /**
-   * @param GoogleCloudDiscoveryengineV1CheckGroundingResponseFactChunk[]
+   * @param GoogleCloudDiscoveryengineV1FactChunk[]
    */
   public function setCitedChunks($citedChunks)
   {
     $this->citedChunks = $citedChunks;
   }
   /**
-   * @return GoogleCloudDiscoveryengineV1CheckGroundingResponseFactChunk[]
+   * @return GoogleCloudDiscoveryengineV1FactChunk[]
    */
   public function getCitedChunks()
   {

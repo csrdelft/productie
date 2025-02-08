@@ -24,8 +24,6 @@ class GoogleMapsPlacesV1Place extends \Google\Collection
   protected $accessibilityOptionsDataType = '';
   protected $addressComponentsType = GoogleMapsPlacesV1PlaceAddressComponent::class;
   protected $addressComponentsDataType = 'array';
-  protected $addressDescriptorType = GoogleMapsPlacesV1AddressDescriptor::class;
-  protected $addressDescriptorDataType = '';
   /**
    * @var string
    */
@@ -255,20 +253,6 @@ class GoogleMapsPlacesV1Place extends \Google\Collection
   public function getAddressComponents()
   {
     return $this->addressComponents;
-  }
-  /**
-   * @param GoogleMapsPlacesV1AddressDescriptor
-   */
-  public function setAddressDescriptor(GoogleMapsPlacesV1AddressDescriptor $addressDescriptor)
-  {
-    $this->addressDescriptor = $addressDescriptor;
-  }
-  /**
-   * @return GoogleMapsPlacesV1AddressDescriptor
-   */
-  public function getAddressDescriptor()
-  {
-    return $this->addressDescriptor;
   }
   /**
    * @param string

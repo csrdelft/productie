@@ -99,12 +99,6 @@ final class SqlFormatter
 
         // Format token by token
         while ($token = $cursor->next(Token::TOKEN_TYPE_WHITESPACE)) {
-            $prevNotWhitespaceToken = $cursor->subCursor()->previous(Token::TOKEN_TYPE_WHITESPACE);
-            $tokenValueUpper        = strtoupper($token->value());
-            if ($prevNotWhitespaceToken !== null && $prevNotWhitespaceToken->value() === '.') {
-                $tokenValueUpper = false;
-            }
-
             $highlighted = $this->highlighter->highlightToken(
                 $token->type(),
                 $token->value(),
@@ -128,6 +122,7 @@ final class SqlFormatter
             if ($newline) {
                 $return = rtrim($return, ' ');
 
+                $prevNotWhitespaceToken = $cursor->subCursor()->previous(Token::TOKEN_TYPE_WHITESPACE);
                 if ($prevNotWhitespaceToken !== null && $prevNotWhitespaceToken->value() === ';') {
                     $return .= "\n";
                 }
@@ -279,7 +274,7 @@ final class SqlFormatter
                 }
 
                 // if SQL 'LIMIT' clause, start variable to reset newline
-                if ($tokenValueUpper === 'LIMIT' && ! $inlineParentheses) {
+                if (strtoupper($token->value()) === 'LIMIT' && ! $inlineParentheses) {
                     $clauseLimit = true;
                 }
             } elseif ($token->value() === ';') {
@@ -289,28 +284,30 @@ final class SqlFormatter
                 }
 
                 $newline = true;
-            } elseif ($tokenValueUpper === 'CASE') {
+            } elseif (strtoupper($token->value()) === 'CASE') {
                 $increaseBlockIndent = true;
-            } elseif ($tokenValueUpper === 'BEGIN') {
+            } elseif (strtoupper($token->value()) === 'BEGIN') {
                 $newline             = true;
                 $increaseBlockIndent = true;
-            } elseif ($tokenValueUpper === 'LOOP') {
+            } elseif (strtoupper($token->value()) === 'LOOP') {
                 // https://docs.oracle.com/en/database/oracle/oracle-database/19/lnpls/basic-LOOP-statement.html
 
+                $prevNotWhitespaceToken = $cursor->subCursor()->previous(Token::TOKEN_TYPE_WHITESPACE);
                 if ($prevNotWhitespaceToken !== null && strtoupper($prevNotWhitespaceToken->value()) !== 'END') {
                     $newline             = true;
                     $increaseBlockIndent = true;
                 }
-            } elseif (in_array($tokenValueUpper, ['WHEN', 'THEN', 'ELSE', 'END'], true)) {
-                if ($tokenValueUpper !== 'THEN') {
+            } elseif (in_array(strtoupper($token->value()), ['WHEN', 'THEN', 'ELSE', 'END'], true)) {
+                if (strtoupper($token->value()) !== 'THEN') {
                     $decreaseIndentationLevelFx();
 
+                    $prevNotWhitespaceToken = $cursor->subCursor()->previous(Token::TOKEN_TYPE_WHITESPACE);
                     if ($prevNotWhitespaceToken !== null && strtoupper($prevNotWhitespaceToken->value()) !== 'CASE') {
                         $appendNewLineIfNotAddedFx();
                     }
                 }
 
-                if ($tokenValueUpper === 'THEN' || $tokenValueUpper === 'ELSE') {
+                if (strtoupper($token->value()) === 'THEN' || strtoupper($token->value()) === 'ELSE') {
                     $newline             = true;
                     $increaseBlockIndent = true;
                 }
@@ -341,6 +338,7 @@ final class SqlFormatter
                 }
             } elseif ($token->isOfType(Token::TOKEN_TYPE_BOUNDARY)) {
                 // Multiple boundary characters in a row should not have spaces between them (not including parentheses)
+                $prevNotWhitespaceToken = $cursor->subCursor()->previous(Token::TOKEN_TYPE_WHITESPACE);
                 if ($prevNotWhitespaceToken !== null && $prevNotWhitespaceToken->isOfType(Token::TOKEN_TYPE_BOUNDARY)) {
                     $prevToken = $cursor->subCursor()->previous();
                     if ($prevToken !== null && ! $prevToken->isOfType(Token::TOKEN_TYPE_WHITESPACE)) {

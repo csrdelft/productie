@@ -154,8 +154,6 @@ class BackendService extends \Google\Collection
    * @var string
    */
   public $sessionAffinity;
-  protected $strongSessionAffinityCookieType = BackendServiceHttpCookie::class;
-  protected $strongSessionAffinityCookieDataType = '';
   protected $subsettingType = Subsetting::class;
   protected $subsettingDataType = '';
   /**
@@ -724,20 +722,6 @@ class BackendService extends \Google\Collection
   public function getSessionAffinity()
   {
     return $this->sessionAffinity;
-  }
-  /**
-   * @param BackendServiceHttpCookie
-   */
-  public function setStrongSessionAffinityCookie(BackendServiceHttpCookie $strongSessionAffinityCookie)
-  {
-    $this->strongSessionAffinityCookie = $strongSessionAffinityCookie;
-  }
-  /**
-   * @return BackendServiceHttpCookie
-   */
-  public function getStrongSessionAffinityCookie()
-  {
-    return $this->strongSessionAffinityCookie;
   }
   /**
    * @param Subsetting
