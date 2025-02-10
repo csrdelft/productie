@@ -22,23 +22,20 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class TransformationFailureListener implements EventSubscriberInterface
 {
-    private ?TranslatorInterface $translator;
+    private $translator;
 
     public function __construct(?TranslatorInterface $translator = null)
     {
         $this->translator = $translator;
     }
 
-    public static function getSubscribedEvents(): array
+    public static function getSubscribedEvents()
     {
         return [
             FormEvents::POST_SUBMIT => ['convertTransformationFailureToFormError', -1024],
         ];
     }
 
-    /**
-     * @return void
-     */
     public function convertTransformationFailureToFormError(FormEvent $event)
     {
         $form = $event->getForm();

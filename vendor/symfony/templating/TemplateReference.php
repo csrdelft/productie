@@ -11,14 +11,10 @@
 
 namespace Symfony\Component\Templating;
 
-trigger_deprecation('symfony/templating', '6.4', '"%s" is deprecated since version 6.4 and will be removed in 7.0. Use Twig instead.', TemplateReference::class);
-
 /**
  * Internal representation of a template.
  *
  * @author Victor Berchet <victor@suumit.com>
- *
- * @deprecated since Symfony 6.4, use Twig instead
  */
 class TemplateReference implements TemplateReferenceInterface
 {
@@ -32,12 +28,18 @@ class TemplateReference implements TemplateReferenceInterface
         ];
     }
 
-    public function __toString(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function __toString()
     {
         return $this->getLogicalName();
     }
 
-    public function set(string $name, string $value): static
+    /**
+     * {@inheritdoc}
+     */
+    public function set(string $name, string $value)
     {
         if (\array_key_exists($name, $this->parameters)) {
             $this->parameters[$name] = $value;
@@ -48,7 +50,10 @@ class TemplateReference implements TemplateReferenceInterface
         return $this;
     }
 
-    public function get(string $name): string
+    /**
+     * {@inheritdoc}
+     */
+    public function get(string $name)
     {
         if (\array_key_exists($name, $this->parameters)) {
             return $this->parameters[$name];
@@ -57,17 +62,26 @@ class TemplateReference implements TemplateReferenceInterface
         throw new \InvalidArgumentException(sprintf('The template does not support the "%s" parameter.', $name));
     }
 
-    public function all(): array
+    /**
+     * {@inheritdoc}
+     */
+    public function all()
     {
         return $this->parameters;
     }
 
-    public function getPath(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getPath()
     {
         return $this->parameters['name'];
     }
 
-    public function getLogicalName(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getLogicalName()
     {
         return $this->parameters['name'];
     }

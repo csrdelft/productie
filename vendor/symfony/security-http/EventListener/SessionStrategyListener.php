@@ -27,7 +27,7 @@ use Symfony\Component\Security\Http\Session\SessionAuthenticationStrategyInterfa
  */
 class SessionStrategyListener implements EventSubscriberInterface
 {
-    private SessionAuthenticationStrategyInterface $sessionAuthenticationStrategy;
+    private $sessionAuthenticationStrategy;
 
     public function __construct(SessionAuthenticationStrategyInterface $sessionAuthenticationStrategy)
     {
@@ -39,13 +39,14 @@ class SessionStrategyListener implements EventSubscriberInterface
         $request = $event->getRequest();
         $token = $event->getAuthenticatedToken();
 
-        if (!$request->hasPreviousSession()) {
+        if (!$request->hasSession() || !$request->hasPreviousSession()) {
             return;
         }
 
         if ($previousToken = $event->getPreviousToken()) {
-            $user = $token->getUserIdentifier();
-            $previousUser = $previousToken->getUserIdentifier();
+            // @deprecated since Symfony 5.3, change to $token->getUserIdentifier() in 6.0
+            $user = method_exists($token, 'getUserIdentifier') ? $token->getUserIdentifier() : $token->getUsername();
+            $previousUser = method_exists($previousToken, 'getUserIdentifier') ? $previousToken->getUserIdentifier() : $previousToken->getUsername();
 
             if ('' !== ($user ?? '') && $user === $previousUser && \get_class($token) === \get_class($previousToken)) {
                 return;

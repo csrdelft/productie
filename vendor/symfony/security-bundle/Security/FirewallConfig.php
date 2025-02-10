@@ -16,21 +16,33 @@ namespace Symfony\Bundle\SecurityBundle\Security;
  */
 final class FirewallConfig
 {
-    public function __construct(
-        private readonly string $name,
-        private readonly string $userChecker,
-        private readonly ?string $requestMatcher = null,
-        private readonly bool $securityEnabled = true,
-        private readonly bool $stateless = false,
-        private readonly ?string $provider = null,
-        private readonly ?string $context = null,
-        private readonly ?string $entryPoint = null,
-        private readonly ?string $accessDeniedHandler = null,
-        private readonly ?string $accessDeniedUrl = null,
-        private readonly array $authenticators = [],
-        private readonly ?array $switchUser = null,
-        private readonly ?array $logout = null
-    ) {
+    private $name;
+    private $userChecker;
+    private $requestMatcher;
+    private $securityEnabled;
+    private $stateless;
+    private $provider;
+    private $context;
+    private $entryPoint;
+    private $accessDeniedHandler;
+    private $accessDeniedUrl;
+    private $authenticators;
+    private $switchUser;
+
+    public function __construct(string $name, string $userChecker, ?string $requestMatcher = null, bool $securityEnabled = true, bool $stateless = false, ?string $provider = null, ?string $context = null, ?string $entryPoint = null, ?string $accessDeniedHandler = null, ?string $accessDeniedUrl = null, array $authenticators = [], ?array $switchUser = null)
+    {
+        $this->name = $name;
+        $this->userChecker = $userChecker;
+        $this->requestMatcher = $requestMatcher;
+        $this->securityEnabled = $securityEnabled;
+        $this->stateless = $stateless;
+        $this->provider = $provider;
+        $this->context = $context;
+        $this->entryPoint = $entryPoint;
+        $this->accessDeniedHandler = $accessDeniedHandler;
+        $this->accessDeniedUrl = $accessDeniedUrl;
+        $this->authenticators = $authenticators;
+        $this->switchUser = $switchUser;
     }
 
     public function getName(): string
@@ -50,6 +62,16 @@ final class FirewallConfig
     public function isSecurityEnabled(): bool
     {
         return $this->securityEnabled;
+    }
+
+    /**
+     * @deprecated since Symfony 5.4
+     */
+    public function allowsAnonymous(): bool
+    {
+        trigger_deprecation('symfony/security-bundle', '5.4', 'The "%s()" method is deprecated.', __METHOD__);
+
+        return \in_array('anonymous', $this->authenticators, true);
     }
 
     public function isStateless(): bool
@@ -90,6 +112,16 @@ final class FirewallConfig
         return $this->accessDeniedUrl;
     }
 
+    /**
+     * @deprecated since Symfony 5.4, use {@see getAuthenticators()} instead
+     */
+    public function getListeners(): array
+    {
+        trigger_deprecation('symfony/security-bundle', '5.4', 'Method "%s()" is deprecated, use "%s::getAuthenticators()" instead.', __METHOD__, __CLASS__);
+
+        return $this->getAuthenticators();
+    }
+
     public function getAuthenticators(): array
     {
         return $this->authenticators;
@@ -98,10 +130,5 @@ final class FirewallConfig
     public function getSwitchUser(): ?array
     {
         return $this->switchUser;
-    }
-
-    public function getLogout(): ?array
-    {
-        return $this->logout;
     }
 }

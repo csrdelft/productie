@@ -25,10 +25,10 @@ use Symfony\Component\Security\Core\Exception\LogicException;
  */
 class PasswordCredentials implements CredentialsInterface
 {
-    private ?string $password = null;
-    private bool $resolved = false;
+    private $password;
+    private $resolved = false;
 
-    public function __construct(#[\SensitiveParameter] string $password)
+    public function __construct(string $password)
     {
         $this->password = $password;
     }

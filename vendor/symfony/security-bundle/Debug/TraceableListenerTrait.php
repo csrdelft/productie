@@ -11,7 +11,6 @@
 
 namespace Symfony\Bundle\SecurityBundle\Debug;
 
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authenticator\Debug\TraceableAuthenticatorManagerListener;
 use Symfony\Component\VarDumper\Caster\ClassStub;
 
@@ -22,20 +21,20 @@ use Symfony\Component\VarDumper\Caster\ClassStub;
  */
 trait TraceableListenerTrait
 {
-    private ?Response $response = null;
-    private mixed $listener;
-    private ?float $time = null;
-    private object $stub;
+    private $response;
+    private $listener;
+    private $time;
+    private $stub;
 
     /**
      * Proxies all method calls to the original listener.
      */
-    public function __call(string $method, array $arguments): mixed
+    public function __call(string $method, array $arguments)
     {
         return $this->listener->{$method}(...$arguments);
     }
 
-    public function getWrappedListener(): mixed
+    public function getWrappedListener()
     {
         return $this->listener;
     }
@@ -45,7 +44,7 @@ trait TraceableListenerTrait
         return [
             'response' => $this->response,
             'time' => $this->time,
-            'stub' => $this->stub ??= ClassStub::wrapCallable($this->listener instanceof TraceableAuthenticatorManagerListener ? $this->listener->getAuthenticatorManagerListener() : $this->listener),
+            'stub' => $this->stub ?? $this->stub = ClassStub::wrapCallable($this->listener instanceof TraceableAuthenticatorManagerListener ? $this->listener->getAuthenticatorManagerListener() : $this->listener),
         ];
     }
 }

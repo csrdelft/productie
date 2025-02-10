@@ -4,7 +4,7 @@ return [
     'Names' => [
         'aa' => 'Afar',
         'ab' => 'Abkhazian',
-        'ace' => 'Acehnese',
+        'ace' => 'Achinese',
         'ach' => 'Acoli',
         'ada' => 'Adangme',
         'ady' => 'Adyghe',

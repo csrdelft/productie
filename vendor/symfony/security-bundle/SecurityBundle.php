@@ -15,7 +15,6 @@ use Symfony\Bundle\SecurityBundle\DependencyInjection\Compiler\AddExpressionLang
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Compiler\AddSecurityVotersPass;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Compiler\AddSessionDomainConstraintPass;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Compiler\CleanRememberMeVerifierPass;
-use Symfony\Bundle\SecurityBundle\DependencyInjection\Compiler\MakeFirewallsEventDispatcherTraceablePass;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Compiler\RegisterCsrfFeaturesPass;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Compiler\RegisterEntryPointPass;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Compiler\RegisterGlobalSecurityEventListenersPass;
@@ -23,13 +22,11 @@ use Symfony\Bundle\SecurityBundle\DependencyInjection\Compiler\RegisterLdapLocat
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Compiler\RegisterTokenUsageTrackingPass;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Compiler\ReplaceDecoratedRememberMeHandlerPass;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Compiler\SortFirewallListenersPass;
-use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\AccessToken\OidcTokenHandlerFactory;
-use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\AccessToken\OidcUserInfoTokenHandlerFactory;
-use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\AccessToken\ServiceTokenHandlerFactory;
-use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AccessTokenFactory;
+use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AnonymousFactory;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\CustomAuthenticatorFactory;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\FormLoginFactory;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\FormLoginLdapFactory;
+use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\GuardAuthenticationFactory;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\HttpBasicFactory;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\HttpBasicLdapFactory;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\JsonLoginFactory;
@@ -56,9 +53,6 @@ use Symfony\Component\Security\Http\SecurityEvents;
  */
 class SecurityBundle extends Bundle
 {
-    /**
-     * @return void
-     */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
@@ -74,14 +68,11 @@ class SecurityBundle extends Bundle
         $extension->addAuthenticatorFactory(new RememberMeFactory());
         $extension->addAuthenticatorFactory(new X509Factory());
         $extension->addAuthenticatorFactory(new RemoteUserFactory());
+        $extension->addAuthenticatorFactory(new GuardAuthenticationFactory());
+        $extension->addAuthenticatorFactory(new AnonymousFactory());
         $extension->addAuthenticatorFactory(new CustomAuthenticatorFactory());
         $extension->addAuthenticatorFactory(new LoginThrottlingFactory());
         $extension->addAuthenticatorFactory(new LoginLinkFactory());
-        $extension->addAuthenticatorFactory(new AccessTokenFactory([
-            new ServiceTokenHandlerFactory(),
-            new OidcUserInfoTokenHandlerFactory(),
-            new OidcTokenHandlerFactory(),
-        ]));
 
         $extension->addUserProviderFactory(new InMemoryFactory());
         $extension->addUserProviderFactory(new LdapFactory());
@@ -103,8 +94,5 @@ class SecurityBundle extends Bundle
             AuthenticationEvents::ALIASES,
             SecurityEvents::ALIASES
         )));
-
-        // must be registered before DecoratorServicePass
-        $container->addCompilerPass(new MakeFirewallsEventDispatcherTraceablePass(), PassConfig::TYPE_OPTIMIZE, 10);
     }
 }

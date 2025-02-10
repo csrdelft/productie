@@ -27,9 +27,12 @@ use Symfony\Component\Security\Core\Exception\UserNotFoundException;
  * configuration, web service). This is totally independent of how the authentication
  * information is submitted or what the UserInterface object looks like.
  *
- * @author Fabien Potencier <fabien@symfony.com>
+ * @see UserInterface
  *
- * @template-covariant TUser of UserInterface
+ * @method UserInterface loadUserByIdentifier(string $identifier) loads the user for the given user identifier (e.g. username or email).
+ *                                                                This method must throw UserNotFoundException if the user is not found.
+ *
+ * @author Fabien Potencier <fabien@symfony.com>
  */
 interface UserProviderInterface
 {
@@ -42,8 +45,6 @@ interface UserProviderInterface
      * map.
      *
      * @return UserInterface
-     *
-     * @psalm-return TUser
      *
      * @throws UnsupportedUserException if the user is not supported
      * @throws UserNotFoundException    if the user is not found
@@ -58,13 +59,11 @@ interface UserProviderInterface
     public function supportsClass(string $class);
 
     /**
-     * Loads the user for the given user identifier (e.g. username or email).
-     *
-     * This method must throw UserNotFoundException if the user is not found.
-     *
-     * @return TUser
+     * @return UserInterface
      *
      * @throws UserNotFoundException
+     *
+     * @deprecated since Symfony 5.3, use loadUserByIdentifier() instead
      */
-    public function loadUserByIdentifier(string $identifier): UserInterface;
+    public function loadUserByUsername(string $username);
 }

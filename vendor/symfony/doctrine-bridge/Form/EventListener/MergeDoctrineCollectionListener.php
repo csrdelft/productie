@@ -27,7 +27,7 @@ use Symfony\Component\Form\FormEvents;
  */
 class MergeDoctrineCollectionListener implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents(): array
+    public static function getSubscribedEvents()
     {
         // Higher priority than core MergeCollectionListener so that this one
         // is called before
@@ -38,9 +38,6 @@ class MergeDoctrineCollectionListener implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @return void
-     */
     public function onSubmit(FormEvent $event)
     {
         $collection = $event->getForm()->getData();

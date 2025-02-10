@@ -14,7 +14,6 @@ namespace Symfony\Bridge\Doctrine\Form;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractExtension;
-use Symfony\Component\Form\FormTypeGuesserInterface;
 
 class DoctrineOrmExtension extends AbstractExtension
 {
@@ -25,14 +24,14 @@ class DoctrineOrmExtension extends AbstractExtension
         $this->registry = $registry;
     }
 
-    protected function loadTypes(): array
+    protected function loadTypes()
     {
         return [
             new EntityType($this->registry),
         ];
     }
 
-    protected function loadTypeGuesser(): ?FormTypeGuesserInterface
+    protected function loadTypeGuesser()
     {
         return new DoctrineOrmTypeGuesser($this->registry);
     }

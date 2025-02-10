@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class HttpFoundationRequestHandler implements RequestHandlerInterface
 {
-    private ServerParams $serverParams;
+    private $serverParams;
 
     public function __construct(?ServerParams $serverParams = null)
     {
@@ -37,12 +37,12 @@ class HttpFoundationRequestHandler implements RequestHandlerInterface
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
-    public function handleRequest(FormInterface $form, mixed $request = null)
+    public function handleRequest(FormInterface $form, $request = null)
     {
         if (!$request instanceof Request) {
-            throw new UnexpectedTypeException($request, Request::class);
+            throw new UnexpectedTypeException($request, 'Symfony\Component\HttpFoundation\Request');
         }
 
         $name = $form->getName();
@@ -110,12 +110,18 @@ class HttpFoundationRequestHandler implements RequestHandlerInterface
         $form->submit($data, 'PATCH' !== $method);
     }
 
-    public function isFileUpload(mixed $data): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function isFileUpload($data)
     {
         return $data instanceof File;
     }
 
-    public function getUploadFileError(mixed $data): ?int
+    /**
+     * @return int|null
+     */
+    public function getUploadFileError($data)
     {
         if (!$data instanceof UploadedFile || $data->isValid()) {
             return null;

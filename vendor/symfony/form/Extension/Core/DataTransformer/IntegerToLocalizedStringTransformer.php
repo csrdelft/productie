@@ -33,7 +33,10 @@ class IntegerToLocalizedStringTransformer extends NumberToLocalizedStringTransfo
         parent::__construct(0, $grouping, $roundingMode, $locale);
     }
 
-    public function reverseTransform(mixed $value): int|float|null
+    /**
+     * {@inheritdoc}
+     */
+    public function reverseTransform($value)
     {
         $decimalSeparator = $this->getNumberFormatter()->getSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL);
 
@@ -49,7 +52,7 @@ class IntegerToLocalizedStringTransformer extends NumberToLocalizedStringTransfo
     /**
      * @internal
      */
-    protected function castParsedValue(int|float $value): int|float
+    protected function castParsedValue($value)
     {
         return $value;
     }

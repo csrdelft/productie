@@ -22,15 +22,15 @@ interface TokenStorageInterface
 {
     /**
      * Returns the current security token.
+     *
+     * @return TokenInterface|null
      */
-    public function getToken(): ?TokenInterface;
+    public function getToken();
 
     /**
      * Sets the authentication token.
      *
      * @param TokenInterface|null $token A TokenInterface token, or null if no further authentication information should be stored
-     *
-     * @return void
      */
-    public function setToken(?TokenInterface $token);
+    public function setToken(?TokenInterface $token = null);
 }

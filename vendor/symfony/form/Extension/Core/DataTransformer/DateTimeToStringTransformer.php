@@ -18,15 +18,15 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  * @author Florian Eckerstorfer <florian@eckerstorfer.org>
- *
- * @extends BaseDateTimeTransformer<string>
  */
 class DateTimeToStringTransformer extends BaseDateTimeTransformer
 {
     /**
      * Format used for generating strings.
+     *
+     * @var string
      */
-    private string $generateFormat;
+    private $generateFormat;
 
     /**
      * Format used for parsing strings.
@@ -34,8 +34,10 @@ class DateTimeToStringTransformer extends BaseDateTimeTransformer
      * Different than the {@link $generateFormat} because formats for parsing
      * support additional characters in PHP that are not supported for
      * generating strings.
+     *
+     * @var string
      */
-    private string $parseFormat;
+    private $parseFormat;
 
     /**
      * Transforms a \DateTime instance to a string.
@@ -73,9 +75,11 @@ class DateTimeToStringTransformer extends BaseDateTimeTransformer
      *
      * @param \DateTimeInterface $dateTime A DateTimeInterface object
      *
+     * @return string
+     *
      * @throws TransformationFailedException If the given value is not a \DateTimeInterface
      */
-    public function transform(mixed $dateTime): string
+    public function transform($dateTime)
     {
         if (null === $dateTime) {
             return '';
@@ -85,7 +89,10 @@ class DateTimeToStringTransformer extends BaseDateTimeTransformer
             throw new TransformationFailedException('Expected a \DateTimeInterface.');
         }
 
-        $dateTime = \DateTimeImmutable::createFromInterface($dateTime);
+        if (!$dateTime instanceof \DateTimeImmutable) {
+            $dateTime = clone $dateTime;
+        }
+
         $dateTime = $dateTime->setTimezone(new \DateTimeZone($this->outputTimezone));
 
         return $dateTime->format($this->generateFormat);
@@ -96,10 +103,12 @@ class DateTimeToStringTransformer extends BaseDateTimeTransformer
      *
      * @param string $value A value as produced by PHP's date() function
      *
+     * @return \DateTime|null
+     *
      * @throws TransformationFailedException If the given value is not a string,
      *                                       or could not be transformed
      */
-    public function reverseTransform(mixed $value): ?\DateTime
+    public function reverseTransform($value)
     {
         if (empty($value)) {
             return null;

@@ -29,8 +29,12 @@ class FormUtil
      * This logic is reused multiple times throughout the processing of
      * a form and needs to be consistent. PHP keyword `empty` cannot
      * be used as it also considers 0 and "0" to be empty.
+     *
+     * @param mixed $data
+     *
+     * @return bool
      */
-    public static function isEmpty(mixed $data): bool
+    public static function isEmpty($data)
     {
         // Should not do a check for [] === $data!!!
         // This method is used in occurrences where arrays are

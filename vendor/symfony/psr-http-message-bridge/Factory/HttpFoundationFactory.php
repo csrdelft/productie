@@ -23,19 +23,28 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
+ * {@inheritdoc}
+ *
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
 class HttpFoundationFactory implements HttpFoundationFactoryInterface
 {
     /**
-     * @param int $responseBufferMaxLength The maximum output buffering size for each iteration when sending the response
+     * @var int The maximum output buffering size for each iteration when sending the response
      */
-    public function __construct(
-        private readonly int $responseBufferMaxLength = 16372,
-    ) {
+    private $responseBufferMaxLength;
+
+    public function __construct(int $responseBufferMaxLength = 16372)
+    {
+        $this->responseBufferMaxLength = $responseBufferMaxLength;
     }
 
-    public function createRequest(ServerRequestInterface $psrRequest, bool $streamed = false): Request
+    /**
+     * {@inheritdoc}
+     *
+     * @return Request
+     */
+    public function createRequest(ServerRequestInterface $psrRequest, bool $streamed = false)
     {
         $server = [];
         $uri = $psrRequest->getUri();
@@ -104,13 +113,20 @@ class HttpFoundationFactory implements HttpFoundationFactoryInterface
 
     /**
      * Gets a temporary file path.
+     *
+     * @return string
      */
-    protected function getTemporaryPath(): string
+    protected function getTemporaryPath()
     {
         return tempnam(sys_get_temp_dir(), uniqid('symfony', true));
     }
 
-    public function createResponse(ResponseInterface $psrResponse, bool $streamed = false): Response
+    /**
+     * {@inheritdoc}
+     *
+     * @return Response
+     */
+    public function createResponse(ResponseInterface $psrResponse, bool $streamed = false)
     {
         $cookies = $psrResponse->getHeader('Set-Cookie');
         $psrResponse = $psrResponse->withoutHeader('Set-Cookie');
@@ -132,10 +148,87 @@ class HttpFoundationFactory implements HttpFoundationFactoryInterface
         $response->setProtocolVersion($psrResponse->getProtocolVersion());
 
         foreach ($cookies as $cookie) {
-            $response->headers->setCookie(Cookie::fromString($cookie));
+            $response->headers->setCookie($this->createCookie($cookie));
         }
 
         return $response;
+    }
+
+    /**
+     * Creates a Cookie instance from a cookie string.
+     *
+     * Some snippets have been taken from the Guzzle project: https://github.com/guzzle/guzzle/blob/5.3/src/Cookie/SetCookie.php#L34
+     *
+     * @throws \InvalidArgumentException
+     */
+    private function createCookie(string $cookie): Cookie
+    {
+        foreach (explode(';', $cookie) as $part) {
+            $part = trim($part);
+
+            $data = explode('=', $part, 2);
+            $name = $data[0];
+            $value = isset($data[1]) ? trim($data[1], " \n\r\t\0\x0B\"") : null;
+
+            if (!isset($cookieName)) {
+                $cookieName = $name;
+                $cookieValue = $value;
+
+                continue;
+            }
+
+            if ('expires' === strtolower($name) && null !== $value) {
+                $cookieExpire = new \DateTime($value);
+
+                continue;
+            }
+
+            if ('path' === strtolower($name) && null !== $value) {
+                $cookiePath = $value;
+
+                continue;
+            }
+
+            if ('domain' === strtolower($name) && null !== $value) {
+                $cookieDomain = $value;
+
+                continue;
+            }
+
+            if ('secure' === strtolower($name)) {
+                $cookieSecure = true;
+
+                continue;
+            }
+
+            if ('httponly' === strtolower($name)) {
+                $cookieHttpOnly = true;
+
+                continue;
+            }
+
+            if ('samesite' === strtolower($name) && null !== $value) {
+                $samesite = $value;
+
+                continue;
+            }
+        }
+
+        if (!isset($cookieName)) {
+            throw new \InvalidArgumentException('The value of the Set-Cookie header is malformed.');
+        }
+
+        return new Cookie(
+            $cookieName,
+            $cookieValue,
+            $cookieExpire ?? 0,
+            $cookiePath ?? '/',
+            $cookieDomain ?? null,
+            isset($cookieSecure),
+            isset($cookieHttpOnly),
+            true,
+            $samesite ?? null
+        );
     }
 
     private function createStreamedResponseCallback(StreamInterface $body): callable

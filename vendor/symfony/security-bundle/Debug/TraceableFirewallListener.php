@@ -26,12 +26,9 @@ use Symfony\Contracts\Service\ResetInterface;
  */
 final class TraceableFirewallListener extends FirewallListener implements ResetInterface
 {
-    private array $wrappedListeners = [];
-    private array $authenticatorsInfo = [];
+    private $wrappedListeners = [];
+    private $authenticatorsInfo = [];
 
-    /**
-     * @return array
-     */
     public function getWrappedListeners()
     {
         return $this->wrappedListeners;
@@ -48,7 +45,7 @@ final class TraceableFirewallListener extends FirewallListener implements ResetI
         $this->authenticatorsInfo = [];
     }
 
-    protected function callListeners(RequestEvent $event, iterable $listeners): void
+    protected function callListeners(RequestEvent $event, iterable $listeners)
     {
         $wrappedListeners = [];
         $wrappedLazyListeners = [];

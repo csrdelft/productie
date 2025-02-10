@@ -23,7 +23,7 @@ class JsonEncoder implements EncoderInterface, DecoderInterface
     protected $encodingImpl;
     protected $decodingImpl;
 
-    private array $defaultContext = [
+    private $defaultContext = [
         JsonDecode::ASSOCIATIVE => true,
     ];
 
@@ -34,26 +34,38 @@ class JsonEncoder implements EncoderInterface, DecoderInterface
         $this->decodingImpl = $decodingImpl ?? new JsonDecode($this->defaultContext);
     }
 
-    public function encode(mixed $data, string $format, array $context = []): string
+    /**
+     * {@inheritdoc}
+     */
+    public function encode($data, string $format, array $context = [])
     {
         $context = array_merge($this->defaultContext, $context);
 
         return $this->encodingImpl->encode($data, self::FORMAT, $context);
     }
 
-    public function decode(string $data, string $format, array $context = []): mixed
+    /**
+     * {@inheritdoc}
+     */
+    public function decode(string $data, string $format, array $context = [])
     {
         $context = array_merge($this->defaultContext, $context);
 
         return $this->decodingImpl->decode($data, self::FORMAT, $context);
     }
 
-    public function supportsEncoding(string $format): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsEncoding(string $format)
     {
         return self::FORMAT === $format;
     }
 
-    public function supportsDecoding(string $format): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsDecoding(string $format)
     {
         return self::FORMAT === $format;
     }

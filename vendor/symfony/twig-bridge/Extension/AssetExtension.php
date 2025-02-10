@@ -22,18 +22,21 @@ use Twig\TwigFunction;
  */
 final class AssetExtension extends AbstractExtension
 {
-    private Packages $packages;
+    private $packages;
 
     public function __construct(Packages $packages)
     {
         $this->packages = $packages;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('asset', $this->getAssetUrl(...)),
-            new TwigFunction('asset_version', $this->getAssetVersion(...)),
+            new TwigFunction('asset', [$this, 'getAssetUrl']),
+            new TwigFunction('asset_version', [$this, 'getAssetVersion']),
         ];
     }
 

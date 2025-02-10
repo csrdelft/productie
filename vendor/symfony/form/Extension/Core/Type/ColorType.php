@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -26,7 +27,7 @@ class ColorType extends AbstractType
      */
     private const HTML5_PATTERN = '/^#[0-9a-f]{6}$/i';
 
-    private ?TranslatorInterface $translator;
+    private $translator;
 
     public function __construct(?TranslatorInterface $translator = null)
     {
@@ -34,7 +35,7 @@ class ColorType extends AbstractType
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -42,8 +43,7 @@ class ColorType extends AbstractType
             return;
         }
 
-        $translator = $this->translator;
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, static function (FormEvent $event) use ($translator): void {
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
             $value = $event->getData();
             if (null === $value || '' === $value) {
                 return;
@@ -57,31 +57,41 @@ class ColorType extends AbstractType
             $messageParameters = [
                 '{{ value }}' => \is_scalar($value) ? (string) $value : \gettype($value),
             ];
-            $message = $translator?->trans($messageTemplate, $messageParameters, 'validators') ?? $messageTemplate;
+            $message = $this->translator ? $this->translator->trans($messageTemplate, $messageParameters, 'validators') : $messageTemplate;
 
             $event->getForm()->addError(new FormError($message, $messageTemplate, $messageParameters));
         });
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'html5' => false,
-            'invalid_message' => 'Please select a valid color.',
+            'invalid_message' => function (Options $options, $previousValue) {
+                return ($options['legacy_error_messages'] ?? true)
+                    ? $previousValue
+                    : 'Please select a valid color.';
+            },
         ]);
 
         $resolver->setAllowedTypes('html5', 'bool');
     }
 
-    public function getParent(): ?string
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
     {
         return TextType::class;
     }
 
-    public function getBlockPrefix(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return 'color';
     }

@@ -26,7 +26,7 @@ class ChoiceGroupView implements \IteratorAggregate
     /**
      * Creates a new choice group view.
      *
-     * @param array<ChoiceGroupView|ChoiceView> $choices the choice views in the group
+     * @param array<array-key, ChoiceGroupView|ChoiceView> $choices the choice views in the group
      */
     public function __construct(string $label, array $choices = [])
     {
@@ -35,9 +35,12 @@ class ChoiceGroupView implements \IteratorAggregate
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @return \Traversable<array-key, ChoiceGroupView|ChoiceView>
      */
-    public function getIterator(): \Traversable
+    #[\ReturnTypeWillChange]
+    public function getIterator()
     {
         return new \ArrayIterator($this->choices);
     }

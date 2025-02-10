@@ -395,7 +395,7 @@ return [
         'ng' => 'ndonga',
         'nia' => 'niha',
         'niu' => 'niuéen',
-        'njo' => 'ao',
+        'njo' => 'Ao',
         'nl' => 'néerlandais',
         'nmg' => 'ngoumba',
         'nn' => 'norvégien nynorsk',

@@ -64,17 +64,18 @@ class ArrayChoiceList implements ChoiceListInterface
         }
 
         if (null === $value && $this->castableToString($choices)) {
-            $value = static fn ($choice) => false === $choice ? '0' : (string) $choice;
+            $value = function ($choice) {
+                return false === $choice ? '0' : (string) $choice;
+            };
         }
 
         if (null !== $value) {
             // If a deterministic value generator was passed, use it later
-            $this->valueCallback = $value(...);
+            $this->valueCallback = $value;
         } else {
             // Otherwise generate incrementing integers as values
-            $value = static function () {
-                static $i = 0;
-
+            $i = 0;
+            $value = function () use (&$i) {
                 return $i++;
             };
         }
@@ -89,27 +90,42 @@ class ArrayChoiceList implements ChoiceListInterface
         $this->structuredValues = $structuredValues;
     }
 
-    public function getChoices(): array
+    /**
+     * {@inheritdoc}
+     */
+    public function getChoices()
     {
         return $this->choices;
     }
 
-    public function getValues(): array
+    /**
+     * {@inheritdoc}
+     */
+    public function getValues()
     {
         return array_map('strval', array_keys($this->choices));
     }
 
-    public function getStructuredValues(): array
+    /**
+     * {@inheritdoc}
+     */
+    public function getStructuredValues()
     {
         return $this->structuredValues;
     }
 
-    public function getOriginalKeys(): array
+    /**
+     * {@inheritdoc}
+     */
+    public function getOriginalKeys()
     {
         return $this->originalKeys;
     }
 
-    public function getChoicesForValues(array $values): array
+    /**
+     * {@inheritdoc}
+     */
+    public function getChoicesForValues(array $values)
     {
         $choices = [];
 
@@ -122,7 +138,10 @@ class ArrayChoiceList implements ChoiceListInterface
         return $choices;
     }
 
-    public function getValuesForChoices(array $choices): array
+    /**
+     * {@inheritdoc}
+     */
+    public function getValuesForChoices(array $choices)
     {
         $values = [];
 
@@ -163,7 +182,7 @@ class ArrayChoiceList implements ChoiceListInterface
      *
      * @internal
      */
-    protected function flatten(array $choices, callable $value, ?array &$choicesByValues, ?array &$keysByValues, ?array &$structuredValues): void
+    protected function flatten(array $choices, callable $value, ?array &$choicesByValues, ?array &$keysByValues, ?array &$structuredValues)
     {
         if (null === $choicesByValues) {
             $choicesByValues = [];

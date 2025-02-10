@@ -35,6 +35,13 @@ abstract class TypeTestCase extends FormIntegrationTestCase
         $this->builder = new FormBuilder('', null, $this->dispatcher, $this->factory);
     }
 
+    protected function tearDown(): void
+    {
+        if (\in_array(ValidatorExtensionTrait::class, class_uses($this))) {
+            $this->validator = null;
+        }
+    }
+
     protected function getExtensions()
     {
         $extensions = [];

@@ -15,11 +15,9 @@ use Symfony\Component\Uid\Uuid;
 
 final class UuidType extends AbstractUidType
 {
-    public const NAME = 'uuid';
-
     public function getName(): string
     {
-        return self::NAME;
+        return 'uuid';
     }
 
     protected function getUidClass(): string

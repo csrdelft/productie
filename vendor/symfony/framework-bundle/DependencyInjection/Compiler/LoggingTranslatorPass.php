@@ -22,9 +22,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class LoggingTranslatorPass implements CompilerPassInterface
 {
-    /**
-     * @return void
-     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasAlias('logger') || !$container->hasAlias('translator')) {

@@ -18,7 +18,7 @@ use Symfony\Component\Form\FormView;
 class TextareaType extends AbstractType
 {
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
@@ -26,12 +26,18 @@ class TextareaType extends AbstractType
         unset($view->vars['attr']['pattern']);
     }
 
-    public function getParent(): ?string
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
     {
         return TextType::class;
     }
 
-    public function getBlockPrefix(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return 'textarea';
     }

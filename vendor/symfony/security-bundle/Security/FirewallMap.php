@@ -24,8 +24,8 @@ use Symfony\Component\Security\Http\FirewallMapInterface;
  */
 class FirewallMap implements FirewallMapInterface
 {
-    private ContainerInterface $container;
-    private iterable $map;
+    private $container;
+    private $map;
 
     public function __construct(ContainerInterface $container, iterable $map)
     {
@@ -33,7 +33,7 @@ class FirewallMap implements FirewallMapInterface
         $this->map = $map;
     }
 
-    public function getListeners(Request $request): array
+    public function getListeners(Request $request)
     {
         $context = $this->getFirewallContext($request);
 
@@ -44,7 +44,10 @@ class FirewallMap implements FirewallMapInterface
         return [$context->getListeners(), $context->getExceptionListener(), $context->getLogoutListener()];
     }
 
-    public function getFirewallConfig(Request $request): ?FirewallConfig
+    /**
+     * @return FirewallConfig|null
+     */
+    public function getFirewallConfig(Request $request)
     {
         $context = $this->getFirewallContext($request);
 
@@ -72,14 +75,7 @@ class FirewallMap implements FirewallMapInterface
             if (null === $requestMatcher || $requestMatcher->matches($request)) {
                 $request->attributes->set('_firewall_context', $contextId);
 
-                /** @var FirewallContext $context */
-                $context = $this->container->get($contextId);
-
-                if ($context->getConfig()?->isStateless() && !$request->attributes->has('_stateless')) {
-                    $request->attributes->set('_stateless', true);
-                }
-
-                return $context;
+                return $this->container->get($contextId);
             }
         }
 

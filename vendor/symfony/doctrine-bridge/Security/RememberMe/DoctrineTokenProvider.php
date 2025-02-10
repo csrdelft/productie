@@ -43,31 +43,36 @@ use Symfony\Component\Security\Core\Exception\TokenNotFoundException;
  */
 class DoctrineTokenProvider implements TokenProviderInterface, TokenVerifierInterface
 {
-    private Connection $conn;
+    private $conn;
 
     public function __construct(Connection $conn)
     {
         $this->conn = $conn;
     }
 
-    public function loadTokenBySeries(string $series): PersistentTokenInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function loadTokenBySeries(string $series)
     {
-        // the alias for lastUsed works around case insensitivity in PostgreSQL
-        $sql = 'SELECT class, username, value, lastUsed AS last_used FROM rememberme_token WHERE series=:series';
+        $sql = 'SELECT class, username, value, lastUsed FROM rememberme_token WHERE series=:series';
         $paramValues = ['series' => $series];
         $paramTypes = ['series' => ParameterType::STRING];
         $stmt = $this->conn->executeQuery($sql, $paramValues, $paramTypes);
-        $row = $stmt instanceof Result || $stmt instanceof DriverResult ? $stmt->fetchAssociative() : $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        // fetching numeric because column name casing depends on platform, eg. Oracle converts all not quoted names to uppercase
+        $row = $stmt instanceof Result || $stmt instanceof DriverResult ? $stmt->fetchNumeric() : $stmt->fetch(\PDO::FETCH_NUM);
 
         if ($row) {
-            return new PersistentToken($row['class'], $row['username'], $series, $row['value'], new \DateTime($row['last_used']));
+            [$class, $username, $value, $last_used] = $row;
+            return new PersistentToken($class, $username, $series, $value, new \DateTime($last_used));
         }
 
         throw new TokenNotFoundException('No token found.');
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function deleteTokenBySeries(string $series)
     {
@@ -82,9 +87,9 @@ class DoctrineTokenProvider implements TokenProviderInterface, TokenVerifierInte
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
-    public function updateToken(string $series, #[\SensitiveParameter] string $tokenValue, \DateTime $lastUsed)
+    public function updateToken(string $series, string $tokenValue, \DateTime $lastUsed)
     {
         $sql = 'UPDATE rememberme_token SET value=:value, lastUsed=:lastUsed WHERE series=:series';
         $paramValues = [
@@ -108,14 +113,15 @@ class DoctrineTokenProvider implements TokenProviderInterface, TokenVerifierInte
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function createNewToken(PersistentTokenInterface $token)
     {
         $sql = 'INSERT INTO rememberme_token (class, username, series, value, lastUsed) VALUES (:class, :username, :series, :value, :lastUsed)';
         $paramValues = [
             'class' => $token->getClass(),
-            'username' => $token->getUserIdentifier(),
+            // @deprecated since Symfony 5.3, change to $token->getUserIdentifier() in 6.0
+            'username' => method_exists($token, 'getUserIdentifier') ? $token->getUserIdentifier() : $token->getUsername(),
             'series' => $token->getSeries(),
             'value' => $token->getTokenValue(),
             'lastUsed' => $token->getLastUsed(),
@@ -134,7 +140,10 @@ class DoctrineTokenProvider implements TokenProviderInterface, TokenVerifierInte
         }
     }
 
-    public function verifyToken(PersistentTokenInterface $token, #[\SensitiveParameter] string $tokenValue): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function verifyToken(PersistentTokenInterface $token, string $tokenValue): bool
     {
         // Check if the token value matches the current persisted token
         if (hash_equals($token->getTokenValue(), $tokenValue)) {
@@ -157,7 +166,7 @@ class DoctrineTokenProvider implements TokenProviderInterface, TokenVerifierInte
         // we also accept it as a valid value.
         try {
             $tmpToken = $this->loadTokenBySeries($tmpSeries);
-        } catch (TokenNotFoundException) {
+        } catch (TokenNotFoundException $e) {
             return false;
         }
 
@@ -168,7 +177,10 @@ class DoctrineTokenProvider implements TokenProviderInterface, TokenVerifierInte
         return hash_equals($tmpToken->getTokenValue(), $tokenValue);
     }
 
-    public function updateExistingToken(PersistentTokenInterface $token, #[\SensitiveParameter] string $tokenValue, \DateTimeInterface $lastUsed): void
+    /**
+     * {@inheritdoc}
+     */
+    public function updateExistingToken(PersistentTokenInterface $token, string $tokenValue, \DateTimeInterface $lastUsed): void
     {
         if (!$token instanceof PersistentToken) {
             return;
@@ -197,18 +209,15 @@ class DoctrineTokenProvider implements TokenProviderInterface, TokenVerifierInte
 
     /**
      * Adds the Table to the Schema if "remember me" uses this Connection.
-     *
-     * @param \Closure $isSameDatabase
      */
-    public function configureSchema(Schema $schema, Connection $forConnection/* , \Closure $isSameDatabase */): void
+    public function configureSchema(Schema $schema, Connection $forConnection): void
     {
-        if ($schema->hasTable('rememberme_token')) {
+        // only update the schema for this connection
+        if ($forConnection !== $this->conn) {
             return;
         }
 
-        $isSameDatabase = 2 < \func_num_args() ? func_get_arg(2) : static fn () => false;
-
-        if ($forConnection !== $this->conn && !$isSameDatabase($this->conn->executeStatement(...))) {
+        if ($schema->hasTable('rememberme_token')) {
             return;
         }
 

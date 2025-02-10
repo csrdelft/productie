@@ -11,21 +11,19 @@
 
 namespace Symfony\Component\Templating;
 
-trigger_deprecation('symfony/templating', '6.4', '"%s" is deprecated since version 6.4 and will be removed in 7.0. Use Twig instead.', TemplateReferenceInterface::class);
-
 /**
  * Interface to be implemented by all templates.
  *
  * @author Victor Berchet <victor@suumit.com>
- *
- * @deprecated since Symfony 6.4, use Twig instead
  */
-interface TemplateReferenceInterface extends \Stringable
+interface TemplateReferenceInterface
 {
     /**
      * Gets the template parameters.
+     *
+     * @return array
      */
-    public function all(): array;
+    public function all();
 
     /**
      * Sets a template parameter.
@@ -34,33 +32,41 @@ interface TemplateReferenceInterface extends \Stringable
      *
      * @throws \InvalidArgumentException if the parameter name is not supported
      */
-    public function set(string $name, string $value): static;
+    public function set(string $name, string $value);
 
     /**
      * Gets a template parameter.
      *
+     * @return string
+     *
      * @throws \InvalidArgumentException if the parameter name is not supported
      */
-    public function get(string $name): string;
+    public function get(string $name);
 
     /**
      * Returns the path to the template.
      *
      * By default, it just returns the template name.
+     *
+     * @return string
      */
-    public function getPath(): string;
+    public function getPath();
 
     /**
      * Returns the "logical" template name.
      *
      * The template name acts as a unique identifier for the template.
+     *
+     * @return string
      */
-    public function getLogicalName(): string;
+    public function getLogicalName();
 
     /**
      * Returns the string representation as shortcut for getLogicalName().
      *
      * Alias of getLogicalName().
+     *
+     * @return string
      */
-    public function __toString(): string;
+    public function __toString();
 }

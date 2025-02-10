@@ -26,10 +26,14 @@ use Symfony\Component\Form\Exception\UnexpectedTypeException;
 class RadioListMapper implements DataMapperInterface
 {
     /**
-     * @return void
+     * {@inheritdoc}
      */
-    public function mapDataToForms(mixed $choice, \Traversable $radios)
+    public function mapDataToForms($choice, iterable $radios)
     {
+        if (\is_array($radios)) {
+            trigger_deprecation('symfony/form', '5.3', 'Passing an array as the second argument of the "%s()" method is deprecated, pass "\Traversable" instead.', __METHOD__);
+        }
+
         if (!\is_string($choice)) {
             throw new UnexpectedTypeException($choice, 'string');
         }
@@ -41,10 +45,14 @@ class RadioListMapper implements DataMapperInterface
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
-    public function mapFormsToData(\Traversable $radios, mixed &$choice)
+    public function mapFormsToData(iterable $radios, &$choice)
     {
+        if (\is_array($radios)) {
+            trigger_deprecation('symfony/form', '5.3', 'Passing an array as the first argument of the "%s()" method is deprecated, pass "\Traversable" instead.', __METHOD__);
+        }
+
         if (null !== $choice && !\is_string($choice)) {
             throw new UnexpectedTypeException($choice, 'null or string');
         }

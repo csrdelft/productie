@@ -34,8 +34,8 @@ class_exists(TranslatorTrait::class);
  */
 final class TranslationExtension extends AbstractExtension
 {
-    private ?TranslatorInterface $translator;
-    private ?TranslationNodeVisitor $translationNodeVisitor;
+    private $translator;
+    private $translationNodeVisitor;
 
     public function __construct(?TranslatorInterface $translator = null, ?TranslationNodeVisitor $translationNodeVisitor = null)
     {
@@ -58,20 +58,29 @@ final class TranslationExtension extends AbstractExtension
         return $this->translator;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('t', $this->createTranslatable(...)),
+            new TwigFunction('t', [$this, 'createTranslatable']),
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getFilters(): array
     {
         return [
-            new TwigFilter('trans', $this->trans(...)),
+            new TwigFilter('trans', [$this, 'trans']),
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getTokenParsers(): array
     {
         return [
@@ -83,6 +92,9 @@ final class TranslationExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getNodeVisitors(): array
     {
         return [$this->getTranslationNodeVisitor(), new TranslationDefaultDomainNodeVisitor()];
@@ -94,9 +106,10 @@ final class TranslationExtension extends AbstractExtension
     }
 
     /**
-     * @param array|string $arguments Can be the locale as a string when $message is a TranslatableInterface
+     * @param string|\Stringable|TranslatableInterface|null $message
+     * @param array|string                                  $arguments Can be the locale as a string when $message is a TranslatableInterface
      */
-    public function trans(string|\Stringable|TranslatableInterface|null $message, array|string $arguments = [], ?string $domain = null, ?string $locale = null, ?int $count = null): string
+    public function trans($message, $arguments = [], ?string $domain = null, ?string $locale = null, ?int $count = null): string
     {
         if ($message instanceof TranslatableInterface) {
             if ([] !== $arguments && !\is_string($arguments)) {

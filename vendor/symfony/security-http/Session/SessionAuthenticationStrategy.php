@@ -31,8 +31,8 @@ class SessionAuthenticationStrategy implements SessionAuthenticationStrategyInte
     public const MIGRATE = 'migrate';
     public const INVALIDATE = 'invalidate';
 
-    private string $strategy;
-    private ?ClearableTokenStorageInterface $csrfTokenStorage = null;
+    private $strategy;
+    private $csrfTokenStorage = null;
 
     public function __construct(string $strategy, ?ClearableTokenStorageInterface $csrfTokenStorage = null)
     {
@@ -44,7 +44,7 @@ class SessionAuthenticationStrategy implements SessionAuthenticationStrategyInte
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function onAuthentication(Request $request, TokenInterface $token)
     {

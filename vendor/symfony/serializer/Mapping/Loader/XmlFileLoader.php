@@ -12,8 +12,6 @@
 namespace Symfony\Component\Serializer\Mapping\Loader;
 
 use Symfony\Component\Config\Util\XmlUtils;
-use Symfony\Component\PropertyAccess\Exception\InvalidPropertyPathException;
-use Symfony\Component\PropertyAccess\PropertyPath;
 use Symfony\Component\Serializer\Exception\MappingException;
 use Symfony\Component\Serializer\Mapping\AttributeMetadata;
 use Symfony\Component\Serializer\Mapping\ClassDiscriminatorMapping;
@@ -31,11 +29,18 @@ class XmlFileLoader extends FileLoader
      *
      * @var \SimpleXMLElement[]|null
      */
-    private ?array $classes = null;
+    private $classes;
 
-    public function loadClassMetadata(ClassMetadataInterface $classMetadata): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function loadClassMetadata(ClassMetadataInterface $classMetadata)
     {
-        if (!$this->classes ??= $this->getClassesFromXml()) {
+        if (null === $this->classes) {
+            $this->classes = $this->getClassesFromXml();
+        }
+
+        if (!$this->classes) {
             return false;
         }
 
@@ -64,14 +69,6 @@ class XmlFileLoader extends FileLoader
 
                 if (isset($attribute['serialized-name'])) {
                     $attributeMetadata->setSerializedName((string) $attribute['serialized-name']);
-                }
-
-                if (isset($attribute['serialized-path'])) {
-                    try {
-                        $attributeMetadata->setSerializedPath(new PropertyPath((string) $attribute['serialized-path']));
-                    } catch (InvalidPropertyPathException) {
-                        throw new MappingException(sprintf('The "serialized-path" value must be a valid property path for the attribute "%s" of the class "%s".', $attributeName, $classMetadata->getName()));
-                    }
                 }
 
                 if (isset($attribute['ignore'])) {
@@ -122,9 +119,13 @@ class XmlFileLoader extends FileLoader
      *
      * @return string[]
      */
-    public function getMappedClasses(): array
+    public function getMappedClasses()
     {
-        return array_keys($this->classes ??= $this->getClassesFromXml());
+        if (null === $this->classes) {
+            $this->classes = $this->getClassesFromXml();
+        }
+
+        return array_keys($this->classes);
     }
 
     /**

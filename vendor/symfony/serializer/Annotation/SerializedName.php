@@ -11,11 +11,48 @@
 
 namespace Symfony\Component\Serializer\Annotation;
 
-class_exists(\Symfony\Component\Serializer\Attribute\SerializedName::class);
+use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 
-if (false) {
-    #[\Attribute(\Attribute::TARGET_METHOD | \Attribute::TARGET_PROPERTY)]
-    class SerializedName extends \Symfony\Component\Serializer\Attribute\SerializedName
+/**
+ * Annotation class for @SerializedName().
+ *
+ * @Annotation
+ * @NamedArgumentConstructor
+ * @Target({"PROPERTY", "METHOD"})
+ *
+ * @author Fabien Bourigault <bourigaultfabien@gmail.com>
+ */
+#[\Attribute(\Attribute::TARGET_METHOD | \Attribute::TARGET_PROPERTY)]
+final class SerializedName
+{
+    /**
+     * @var string
+     */
+    private $serializedName;
+
+    /**
+     * @param string $serializedName
+     */
+    public function __construct($serializedName)
     {
+        if (\is_array($serializedName)) {
+            trigger_deprecation('symfony/serializer', '5.3', 'Passing an array as first argument to "%s" is deprecated. Use named arguments instead.', __METHOD__);
+
+            if (!isset($serializedName['value'])) {
+                throw new InvalidArgumentException(sprintf('Parameter of annotation "%s" should be set.', static::class));
+            }
+            $serializedName = $serializedName['value'];
+        }
+
+        if (!\is_string($serializedName) || empty($serializedName)) {
+            throw new InvalidArgumentException(sprintf('Parameter of annotation "%s" must be a non-empty string.', static::class));
+        }
+
+        $this->serializedName = $serializedName;
+    }
+
+    public function getSerializedName(): string
+    {
+        return $this->serializedName;
     }
 }

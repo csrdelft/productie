@@ -25,15 +25,15 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class CsrfValidationListener implements EventSubscriberInterface
 {
-    private string $fieldName;
-    private CsrfTokenManagerInterface $tokenManager;
-    private string $tokenId;
-    private string $errorMessage;
-    private ?TranslatorInterface $translator;
-    private ?string $translationDomain;
-    private ServerParams $serverParams;
+    private $fieldName;
+    private $tokenManager;
+    private $tokenId;
+    private $errorMessage;
+    private $translator;
+    private $translationDomain;
+    private $serverParams;
 
-    public static function getSubscribedEvents(): array
+    public static function getSubscribedEvents()
     {
         return [
             FormEvents::PRE_SUBMIT => 'preSubmit',
@@ -51,9 +51,6 @@ class CsrfValidationListener implements EventSubscriberInterface
         $this->serverParams = $serverParams ?? new ServerParams();
     }
 
-    /**
-     * @return void
-     */
     public function preSubmit(FormEvent $event)
     {
         $form = $event->getForm();

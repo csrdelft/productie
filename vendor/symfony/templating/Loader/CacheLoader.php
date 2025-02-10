@@ -12,10 +12,7 @@
 namespace Symfony\Component\Templating\Loader;
 
 use Symfony\Component\Templating\Storage\FileStorage;
-use Symfony\Component\Templating\Storage\Storage;
 use Symfony\Component\Templating\TemplateReferenceInterface;
-
-trigger_deprecation('symfony/templating', '6.4', '"%s" is deprecated since version 6.4 and will be removed in 7.0. Use Twig instead.', CacheLoader::class);
 
 /**
  * CacheLoader is a loader that caches other loaders responses
@@ -25,8 +22,6 @@ trigger_deprecation('symfony/templating', '6.4', '"%s" is deprecated since versi
  * All other mechanism would imply the use of `eval()`.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @deprecated since Symfony 6.4, use Twig instead
  */
 class CacheLoader extends Loader
 {
@@ -42,7 +37,10 @@ class CacheLoader extends Loader
         $this->dir = $dir;
     }
 
-    public function load(TemplateReferenceInterface $template): Storage|false
+    /**
+     * {@inheritdoc}
+     */
+    public function load(TemplateReferenceInterface $template)
     {
         $key = hash('sha256', $template->getLogicalName());
         $dir = $this->dir.\DIRECTORY_SEPARATOR.substr($key, 0, 2);
@@ -50,7 +48,9 @@ class CacheLoader extends Loader
         $path = $dir.\DIRECTORY_SEPARATOR.$file;
 
         if (is_file($path)) {
-            $this->logger?->debug('Fetching template from cache.', ['name' => $template->get('name')]);
+            if (null !== $this->logger) {
+                $this->logger->debug('Fetching template from cache.', ['name' => $template->get('name')]);
+            }
 
             return new FileStorage($path);
         }
@@ -67,12 +67,17 @@ class CacheLoader extends Loader
 
         file_put_contents($path, $content);
 
-        $this->logger?->debug('Storing template in cache.', ['name' => $template->get('name')]);
+        if (null !== $this->logger) {
+            $this->logger->debug('Storing template in cache.', ['name' => $template->get('name')]);
+        }
 
         return new FileStorage($path);
     }
 
-    public function isFresh(TemplateReferenceInterface $template, int $time): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function isFresh(TemplateReferenceInterface $template, int $time)
     {
         return $this->loader->isFresh($template, $time);
     }

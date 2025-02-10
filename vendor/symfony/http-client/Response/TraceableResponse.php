@@ -31,12 +31,17 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
  */
 class TraceableResponse implements ResponseInterface, StreamableInterface
 {
-    public function __construct(
-        private HttpClientInterface $client,
-        private ResponseInterface $response,
-        private mixed &$content,
-        private ?StopwatchEvent $event = null,
-    ) {
+    private HttpClientInterface $client;
+    private ResponseInterface $response;
+    private mixed $content;
+    private ?StopwatchEvent $event;
+
+    public function __construct(HttpClientInterface $client, ResponseInterface $response, &$content, StopwatchEvent $event = null)
+    {
+        $this->client = $client;
+        $this->response = $response;
+        $this->content = &$content;
+        $this->event = $event;
     }
 
     public function __sleep(): array
@@ -44,7 +49,7 @@ class TraceableResponse implements ResponseInterface, StreamableInterface
         throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
     }
 
-    public function __wakeup(): void
+    public function __wakeup()
     {
         throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
     }
@@ -52,9 +57,7 @@ class TraceableResponse implements ResponseInterface, StreamableInterface
     public function __destruct()
     {
         try {
-            if (method_exists($this->response, '__destruct')) {
-                $this->response->__destruct();
-            }
+            $this->response->__destruct();
         } finally {
             if ($this->event?->isStarted()) {
                 $this->event->stop();
@@ -129,7 +132,7 @@ class TraceableResponse implements ResponseInterface, StreamableInterface
         }
     }
 
-    public function getInfo(?string $type = null): mixed
+    public function getInfo(string $type = null): mixed
     {
         return $this->response->getInfo($type);
     }

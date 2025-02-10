@@ -19,22 +19,20 @@ interface SerializerInterface
     /**
      * Serializes data in the appropriate format.
      *
-     * @param array<string, mixed> $context Options normalizers/encoders have access to
+     * @param mixed  $data    Any data
+     * @param string $format  Format name
+     * @param array  $context Options normalizers/encoders have access to
+     *
+     * @return string
      */
-    public function serialize(mixed $data, string $format, array $context = []): string;
+    public function serialize($data, string $format, array $context = []);
 
     /**
      * Deserializes data into the given type.
      *
-     * @template TObject of object
-     * @template TType of string|class-string<TObject>
+     * @param mixed $data
      *
-     * @param TType                $type
-     * @param array<string, mixed> $context
-     *
-     * @psalm-return (TType is class-string<TObject> ? TObject : mixed)
-     *
-     * @phpstan-return ($type is class-string<TObject> ? TObject : mixed)
+     * @return mixed
      */
-    public function deserialize(mixed $data, string $type, string $format, array $context = []): mixed;
+    public function deserialize($data, string $type, string $format, array $context = []);
 }

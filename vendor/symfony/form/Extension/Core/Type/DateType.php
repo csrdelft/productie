@@ -19,8 +19,6 @@ use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToLocalizedStr
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToStringTransformer;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToTimestampTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\ReversedTransformer;
@@ -46,7 +44,7 @@ class DateType extends AbstractType
     ];
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -86,10 +84,12 @@ class DateType extends AbstractType
             $emptyData = $builder->getEmptyData() ?: [];
 
             if ($emptyData instanceof \Closure) {
-                $lazyEmptyData = static fn ($option) => static function (FormInterface $form) use ($emptyData, $option) {
-                    $emptyData = $emptyData($form->getParent());
+                $lazyEmptyData = static function ($option) use ($emptyData) {
+                    return static function (FormInterface $form) use ($emptyData, $option) {
+                        $emptyData = $emptyData($form->getParent());
 
-                    return $emptyData[$option] ?? '';
+                        return $emptyData[$option] ?? '';
+                    };
                 };
 
                 $yearOptions['empty_data'] = $lazyEmptyData('year');
@@ -180,25 +180,10 @@ class DateType extends AbstractType
                 new DateTimeToArrayTransformer($options['model_timezone'], $options['model_timezone'], ['year', 'month', 'day'])
             ));
         }
-
-        if (\in_array($options['input'], ['datetime', 'datetime_immutable'], true) && null !== $options['model_timezone']) {
-            $builder->addEventListener(FormEvents::POST_SET_DATA, static function (FormEvent $event) use ($options): void {
-                $date = $event->getData();
-
-                if (!$date instanceof \DateTimeInterface) {
-                    return;
-                }
-
-                if ($date->getTimezone()->getName() !== $options['model_timezone']) {
-                    trigger_deprecation('symfony/form', '6.4', sprintf('Using a "%s" instance with a timezone ("%s") not matching the configured model timezone "%s" is deprecated.', $date::class, $date->getTimezone()->getName(), $options['model_timezone']));
-                    // throw new LogicException(sprintf('Using a "%s" instance with a timezone ("%s") not matching the configured model timezone "%s" is not supported.', $date::class, $date->getTimezone()->getName(), $options['model_timezone']));
-                }
-            });
-        }
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
@@ -238,15 +223,19 @@ class DateType extends AbstractType
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $compound = static fn (Options $options) => 'single_text' !== $options['widget'];
+        $compound = function (Options $options) {
+            return 'single_text' !== $options['widget'];
+        };
 
-        $placeholderDefault = static fn (Options $options) => $options['required'] ? null : '';
+        $placeholderDefault = function (Options $options) {
+            return $options['required'] ? null : '';
+        };
 
-        $placeholderNormalizer = static function (Options $options, $placeholder) use ($placeholderDefault) {
+        $placeholderNormalizer = function (Options $options, $placeholder) use ($placeholderDefault) {
             if (\is_array($placeholder)) {
                 $default = $placeholderDefault($options);
 
@@ -263,7 +252,7 @@ class DateType extends AbstractType
             ];
         };
 
-        $choiceTranslationDomainNormalizer = static function (Options $options, $choiceTranslationDomain) {
+        $choiceTranslationDomainNormalizer = function (Options $options, $choiceTranslationDomain) {
             if (\is_array($choiceTranslationDomain)) {
                 $default = false;
 
@@ -280,17 +269,15 @@ class DateType extends AbstractType
             ];
         };
 
-        $format = static fn (Options $options) => 'single_text' === $options['widget'] ? self::HTML5_FORMAT : self::DEFAULT_FORMAT;
+        $format = function (Options $options) {
+            return 'single_text' === $options['widget'] ? self::HTML5_FORMAT : self::DEFAULT_FORMAT;
+        };
 
         $resolver->setDefaults([
             'years' => range((int) date('Y') - 5, (int) date('Y') + 5),
             'months' => range(1, 12),
             'days' => range(1, 31),
-            'widget' => static function (Options $options) {
-                trigger_deprecation('symfony/form', '6.3', 'Not configuring the "widget" option of form type "date" is deprecated. It will default to "single_text" in Symfony 7.0.');
-
-                return 'choice';
-            },
+            'widget' => 'choice',
             'input' => 'datetime',
             'format' => $format,
             'model_timezone' => null,
@@ -307,10 +294,16 @@ class DateType extends AbstractType
             // this option.
             'data_class' => null,
             'compound' => $compound,
-            'empty_data' => static fn (Options $options) => $options['compound'] ? [] : '',
+            'empty_data' => function (Options $options) {
+                return $options['compound'] ? [] : '';
+            },
             'choice_translation_domain' => false,
             'input_format' => 'Y-m-d',
-            'invalid_message' => 'Please enter a valid date.',
+            'invalid_message' => function (Options $options, $previousValue) {
+                return ($options['legacy_error_messages'] ?? true)
+                    ? $previousValue
+                    : 'Please enter a valid date.';
+            },
         ]);
 
         $resolver->setNormalizer('placeholder', $placeholderNormalizer);
@@ -335,7 +328,7 @@ class DateType extends AbstractType
         $resolver->setAllowedTypes('days', 'array');
         $resolver->setAllowedTypes('input_format', 'string');
 
-        $resolver->setNormalizer('html5', static function (Options $options, $html5) {
+        $resolver->setNormalizer('html5', function (Options $options, $html5) {
             if ($html5 && 'single_text' === $options['widget'] && self::HTML5_FORMAT !== $options['format']) {
                 throw new LogicException(sprintf('Cannot use the "format" option of "%s" when the "html5" option is enabled.', self::class));
             }
@@ -344,12 +337,15 @@ class DateType extends AbstractType
         });
     }
 
-    public function getBlockPrefix(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return 'date';
     }
 
-    private function formatTimestamps(\IntlDateFormatter $formatter, string $regex, array $timestamps): array
+    private function formatTimestamps(\IntlDateFormatter $formatter, string $regex, array $timestamps)
     {
         $pattern = $formatter->getPattern();
         $timezone = $formatter->getTimeZoneId();
@@ -374,18 +370,18 @@ class DateType extends AbstractType
         return $formattedTimestamps;
     }
 
-    private function listYears(array $years): array
+    private function listYears(array $years)
     {
         $result = [];
 
         foreach ($years as $year) {
-            $result[\PHP_INT_SIZE === 4 ? \DateTimeImmutable::createFromFormat('Y e', $year.' UTC')->format('U') : gmmktime(0, 0, 0, 6, 15, $year)] = $year;
+            $result[\PHP_INT_SIZE === 4 ? \DateTime::createFromFormat('Y e', $year.' UTC')->format('U') : gmmktime(0, 0, 0, 6, 15, $year)] = $year;
         }
 
         return $result;
     }
 
-    private function listMonths(array $months): array
+    private function listMonths(array $months)
     {
         $result = [];
 
@@ -396,7 +392,7 @@ class DateType extends AbstractType
         return $result;
     }
 
-    private function listDays(array $days): array
+    private function listDays(array $days)
     {
         $result = [];
 

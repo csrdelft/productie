@@ -1,11 +1,6 @@
 CHANGELOG
 =========
 
-6.3
----
-
- * Deprecate the bridge
-
 4.2.0
 -----
 

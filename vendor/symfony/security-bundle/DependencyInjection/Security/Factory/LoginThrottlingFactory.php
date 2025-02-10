@@ -11,16 +11,14 @@
 
 namespace Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory;
 
+use Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Exception\LogicException;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpFoundation\RateLimiter\RequestRateLimiterInterface;
-use Symfony\Component\Lock\LockInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
-use Symfony\Component\RateLimiter\Storage\CacheStorage;
 use Symfony\Component\Security\Http\RateLimiter\DefaultLoginRateLimiter;
 
 /**
@@ -28,12 +26,23 @@ use Symfony\Component\Security\Http\RateLimiter\DefaultLoginRateLimiter;
  *
  * @internal
  */
-class LoginThrottlingFactory implements AuthenticatorFactoryInterface
+class LoginThrottlingFactory implements AuthenticatorFactoryInterface, SecurityFactoryInterface
 {
+    public function create(ContainerBuilder $container, string $id, array $config, string $userProvider, ?string $defaultEntryPoint): array
+    {
+        throw new \LogicException('Login throttling is not supported when "security.enable_authenticator_manager" is not set to true.');
+    }
+
     public function getPriority(): int
     {
         // this factory doesn't register any authenticators, this priority doesn't matter
         return 0;
+    }
+
+    public function getPosition(): string
+    {
+        // this factory doesn't register any authenticators, this position doesn't matter
+        return 'pre_auth';
     }
 
     public function getKey(): string
@@ -44,7 +53,7 @@ class LoginThrottlingFactory implements AuthenticatorFactoryInterface
     /**
      * @param ArrayNodeDefinition $builder
      */
-    public function addConfiguration(NodeDefinition $builder): void
+    public function addConfiguration(NodeDefinition $builder)
     {
         $builder
             ->children()
@@ -62,16 +71,20 @@ class LoginThrottlingFactory implements AuthenticatorFactoryInterface
         }
 
         if (!isset($config['limiter'])) {
+            if (!class_exists(FrameworkExtension::class) || !method_exists(FrameworkExtension::class, 'registerRateLimiter')) {
+                throw new \LogicException('You must either configure a rate limiter for "security.firewalls.'.$firewallName.'.login_throttling" or install symfony/framework-bundle:^5.2.');
+            }
+
             $limiterOptions = [
                 'policy' => 'fixed_window',
                 'limit' => $config['max_attempts'],
                 'interval' => $config['interval'],
                 'lock_factory' => $config['lock_factory'],
             ];
-            $this->registerRateLimiter($container, $localId = '_login_local_'.$firewallName, $limiterOptions);
+            FrameworkExtension::registerRateLimiter($container, $localId = '_login_local_'.$firewallName, $limiterOptions);
 
             $limiterOptions['limit'] = 5 * $config['max_attempts'];
-            $this->registerRateLimiter($container, $globalId = '_login_global_'.$firewallName, $limiterOptions);
+            FrameworkExtension::registerRateLimiter($container, $globalId = '_login_global_'.$firewallName, $limiterOptions);
 
             $container->register($config['limiter'] = 'security.login_throttling.'.$firewallName.'.limiter', DefaultLoginRateLimiter::class)
                 ->addArgument(new Reference('limiter.'.$globalId))
@@ -86,34 +99,5 @@ class LoginThrottlingFactory implements AuthenticatorFactoryInterface
             ->addTag('kernel.event_subscriber', ['dispatcher' => 'security.event_dispatcher.'.$firewallName]);
 
         return [];
-    }
-
-    private function registerRateLimiter(ContainerBuilder $container, string $name, array $limiterConfig): void
-    {
-        // default configuration (when used by other DI extensions)
-        $limiterConfig += ['lock_factory' => 'lock.factory', 'cache_pool' => 'cache.rate_limiter'];
-
-        $limiter = $container->setDefinition($limiterId = 'limiter.'.$name, new ChildDefinition('limiter'));
-
-        if (null !== $limiterConfig['lock_factory']) {
-            if (!interface_exists(LockInterface::class)) {
-                throw new LogicException(sprintf('Rate limiter "%s" requires the Lock component to be installed. Try running "composer require symfony/lock".', $name));
-            }
-
-            $limiter->replaceArgument(2, new Reference($limiterConfig['lock_factory']));
-        }
-        unset($limiterConfig['lock_factory']);
-
-        if (null === $storageId = $limiterConfig['storage_service'] ?? null) {
-            $container->register($storageId = 'limiter.storage.'.$name, CacheStorage::class)->addArgument(new Reference($limiterConfig['cache_pool']));
-        }
-
-        $limiter->replaceArgument(1, new Reference($storageId));
-        unset($limiterConfig['storage_service'], $limiterConfig['cache_pool']);
-
-        $limiterConfig['id'] = $name;
-        $limiter->replaceArgument(0, $limiterConfig);
-
-        $container->registerAliasForArgument($limiterId, RateLimiterFactory::class, $name.'.limiter');
     }
 }

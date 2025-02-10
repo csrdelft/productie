@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Encapsulates the logic needed to create sub-requests, redirect the user, and match URLs.
@@ -26,20 +27,24 @@ use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
  */
 class HttpUtils
 {
-    private ?UrlGeneratorInterface $urlGenerator;
-    private UrlMatcherInterface|RequestMatcherInterface|null $urlMatcher;
-    private ?string $domainRegexp;
-    private ?string $secureDomainRegexp;
+    private $urlGenerator;
+    private $urlMatcher;
+    private $domainRegexp;
+    private $secureDomainRegexp;
 
     /**
-     * @param $domainRegexp       A regexp the target of HTTP redirections must match, scheme included
-     * @param $secureDomainRegexp A regexp the target of HTTP redirections must match when the scheme is "https"
+     * @param UrlMatcherInterface|RequestMatcherInterface $urlMatcher         The URL or Request matcher
+     * @param string|null                                 $domainRegexp       A regexp the target of HTTP redirections must match, scheme included
+     * @param string|null                                 $secureDomainRegexp A regexp the target of HTTP redirections must match when the scheme is "https"
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct(?UrlGeneratorInterface $urlGenerator = null, UrlMatcherInterface|RequestMatcherInterface|null $urlMatcher = null, ?string $domainRegexp = null, ?string $secureDomainRegexp = null)
+    public function __construct(?UrlGeneratorInterface $urlGenerator = null, $urlMatcher = null, ?string $domainRegexp = null, ?string $secureDomainRegexp = null)
     {
         $this->urlGenerator = $urlGenerator;
+        if (null !== $urlMatcher && !$urlMatcher instanceof UrlMatcherInterface && !$urlMatcher instanceof RequestMatcherInterface) {
+            throw new \InvalidArgumentException('Matcher must either implement UrlMatcherInterface or RequestMatcherInterface.');
+        }
         $this->urlMatcher = $urlMatcher;
         $this->domainRegexp = $domainRegexp;
         $this->secureDomainRegexp = $secureDomainRegexp;
@@ -49,9 +54,11 @@ class HttpUtils
      * Creates a redirect Response.
      *
      * @param string $path   A path (an absolute path (/foo), an absolute URL (http://...), or a route name (foo))
-     * @param int    $status The HTTP status code (302 "Found" by default)
+     * @param int    $status The status code
+     *
+     * @return RedirectResponse
      */
-    public function createRedirectResponse(Request $request, string $path, int $status = 302): RedirectResponse
+    public function createRedirectResponse(Request $request, string $path, int $status = 302)
     {
         if (null !== $this->secureDomainRegexp && 'https' === $this->urlMatcher->getContext()->getScheme() && preg_match('#^https?:[/\\\\]{2,}+[^/]++#i', $path, $host) && !preg_match(sprintf($this->secureDomainRegexp, preg_quote($request->getHttpHost())), $host[0])) {
             $path = '/';
@@ -67,24 +74,28 @@ class HttpUtils
      * Creates a Request.
      *
      * @param string $path A path (an absolute path (/foo), an absolute URL (http://...), or a route name (foo))
+     *
+     * @return Request
      */
-    public function createRequest(Request $request, string $path): Request
+    public function createRequest(Request $request, string $path)
     {
         $newRequest = Request::create($this->generateUri($request, $path), 'get', [], $request->cookies->all(), [], $request->server->all());
 
         static $setSession;
 
-        $setSession ??= \Closure::bind(static function ($newRequest, $request) { $newRequest->session = $request->session; }, null, Request::class);
+        if (null === $setSession) {
+            $setSession = \Closure::bind(static function ($newRequest, $request) { $newRequest->session = $request->session; }, null, Request::class);
+        }
         $setSession($newRequest, $request);
 
-        if ($request->attributes->has(SecurityRequestAttributes::AUTHENTICATION_ERROR)) {
-            $newRequest->attributes->set(SecurityRequestAttributes::AUTHENTICATION_ERROR, $request->attributes->get(SecurityRequestAttributes::AUTHENTICATION_ERROR));
+        if ($request->attributes->has(Security::AUTHENTICATION_ERROR)) {
+            $newRequest->attributes->set(Security::AUTHENTICATION_ERROR, $request->attributes->get(Security::AUTHENTICATION_ERROR));
         }
-        if ($request->attributes->has(SecurityRequestAttributes::ACCESS_DENIED_ERROR)) {
-            $newRequest->attributes->set(SecurityRequestAttributes::ACCESS_DENIED_ERROR, $request->attributes->get(SecurityRequestAttributes::ACCESS_DENIED_ERROR));
+        if ($request->attributes->has(Security::ACCESS_DENIED_ERROR)) {
+            $newRequest->attributes->set(Security::ACCESS_DENIED_ERROR, $request->attributes->get(Security::ACCESS_DENIED_ERROR));
         }
-        if ($request->attributes->has(SecurityRequestAttributes::LAST_USERNAME)) {
-            $newRequest->attributes->set(SecurityRequestAttributes::LAST_USERNAME, $request->attributes->get(SecurityRequestAttributes::LAST_USERNAME));
+        if ($request->attributes->has(Security::LAST_USERNAME)) {
+            $newRequest->attributes->set(Security::LAST_USERNAME, $request->attributes->get(Security::LAST_USERNAME));
         }
 
         if ($request->get('_format')) {
@@ -104,7 +115,7 @@ class HttpUtils
      *
      * @return bool true if the path is the same as the one from the Request, false otherwise
      */
-    public function checkRequestPath(Request $request, string $path): bool
+    public function checkRequestPath(Request $request, string $path)
     {
         if ('/' !== $path[0]) {
             // Shortcut if request has already been matched before
@@ -121,9 +132,9 @@ class HttpUtils
                 }
 
                 return isset($parameters['_route']) && $path === $parameters['_route'];
-            } catch (MethodNotAllowedException) {
+            } catch (MethodNotAllowedException $e) {
                 return false;
-            } catch (ResourceNotFoundException) {
+            } catch (ResourceNotFoundException $e) {
                 return false;
             }
         }
@@ -136,9 +147,11 @@ class HttpUtils
      *
      * @param string $path A path (an absolute path (/foo), an absolute URL (http://...), or a route name (foo))
      *
+     * @return string
+     *
      * @throws \LogicException
      */
-    public function generateUri(Request $request, string $path): string
+    public function generateUri(Request $request, string $path)
     {
         $url = parse_url($path);
 

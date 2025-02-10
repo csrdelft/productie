@@ -38,12 +38,15 @@ final class WrappedLazyListener extends AbstractListener
         return $this->listener->supports($request);
     }
 
-    public function authenticate(RequestEvent $event): void
+    /**
+     * {@inheritdoc}
+     */
+    public function authenticate(RequestEvent $event)
     {
         $startTime = microtime(true);
 
         try {
-            $this->listener->authenticate($event);
+            $ret = $this->listener->authenticate($event);
         } catch (LazyResponseException $e) {
             $this->response = $e->getResponse();
 
@@ -53,5 +56,7 @@ final class WrappedLazyListener extends AbstractListener
         }
 
         $this->response = $event->getResponse();
+
+        return $ret;
     }
 }

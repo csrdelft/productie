@@ -273,7 +273,6 @@ return [
         'WST',
         'XAF',
         'XCD',
-        'XCG',
         'XEU',
         'XFO',
         'XFU',

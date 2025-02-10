@@ -13,11 +13,12 @@ namespace Symfony\Component\Security\Http\EventListener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
-use Symfony\Component\Security\Core\User\LegacyPasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\PasswordUpgradeBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\UserPassportInterface;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
 /**
@@ -27,17 +28,24 @@ use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
  */
 class PasswordMigratingListener implements EventSubscriberInterface
 {
-    private PasswordHasherFactoryInterface $hasherFactory;
+    private $hasherFactory;
 
-    public function __construct(PasswordHasherFactoryInterface $hasherFactory)
+    /**
+     * @param PasswordHasherFactoryInterface $hasherFactory
+     */
+    public function __construct($hasherFactory)
     {
+        if ($hasherFactory instanceof EncoderFactoryInterface) {
+            trigger_deprecation('symfony/security-core', '5.3', 'Passing a "%s" instance to the "%s" constructor is deprecated, use "%s" instead.', EncoderFactoryInterface::class, __CLASS__, PasswordHasherFactoryInterface::class);
+        }
+
         $this->hasherFactory = $hasherFactory;
     }
 
     public function onLoginSuccess(LoginSuccessEvent $event): void
     {
         $passport = $event->getPassport();
-        if (!$passport->hasBadge(PasswordUpgradeBadge::class)) {
+        if (!$passport instanceof UserPassportInterface || !$passport->hasBadge(PasswordUpgradeBadge::class)) {
             return;
         }
 
@@ -50,11 +58,11 @@ class PasswordMigratingListener implements EventSubscriberInterface
         }
 
         $user = $passport->getUser();
-        if (!$user instanceof PasswordAuthenticatedUserInterface || null === $user->getPassword()) {
+        if (null === $user->getPassword()) {
             return;
         }
 
-        $passwordHasher = $this->hasherFactory->getPasswordHasher($user);
+        $passwordHasher = $this->hasherFactory instanceof EncoderFactoryInterface ? $this->hasherFactory->getEncoder($user) : $this->hasherFactory->getPasswordHasher($user);
         if (!$passwordHasher->needsRehash($user->getPassword())) {
             return;
         }
@@ -78,12 +86,7 @@ class PasswordMigratingListener implements EventSubscriberInterface
             }
         }
 
-        $salt = null;
-        if ($user instanceof LegacyPasswordAuthenticatedUserInterface) {
-            $salt = $user->getSalt();
-        }
-
-        $passwordUpgrader->upgradePassword($user, $passwordHasher->hash($plaintextPassword, $salt));
+        $passwordUpgrader->upgradePassword($user, $passwordHasher instanceof PasswordHasherInterface ? $passwordHasher->hash($plaintextPassword, $user->getSalt()) : $passwordHasher->encodePassword($plaintextPassword, $user->getSalt()));
     }
 
     public static function getSubscribedEvents(): array

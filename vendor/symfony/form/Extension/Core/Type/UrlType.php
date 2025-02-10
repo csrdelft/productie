@@ -16,12 +16,13 @@ use Symfony\Component\Form\Extension\Core\EventListener\FixUrlProtocolListener;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UrlType extends AbstractType
 {
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -31,7 +32,7 @@ class UrlType extends AbstractType
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
@@ -42,24 +43,34 @@ class UrlType extends AbstractType
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'default_protocol' => 'http',
-            'invalid_message' => 'Please enter a valid URL.',
+            'invalid_message' => function (Options $options, $previousValue) {
+                return ($options['legacy_error_messages'] ?? true)
+                    ? $previousValue
+                    : 'Please enter a valid URL.';
+            },
         ]);
 
         $resolver->setAllowedTypes('default_protocol', ['null', 'string']);
     }
 
-    public function getParent(): ?string
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
     {
         return TextType::class;
     }
 
-    public function getBlockPrefix(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return 'url';
     }

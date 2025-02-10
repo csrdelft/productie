@@ -25,15 +25,13 @@ class FileLocator implements FileLocatorInterface
     /**
      * @param string|string[] $paths A path or an array of paths where to look for resources
      */
-    public function __construct(string|array $paths = [])
+    public function __construct($paths = [])
     {
         $this->paths = (array) $paths;
     }
 
     /**
-     * @return string|string[]
-     *
-     * @psalm-return ($first is true ? string : string[])
+     * {@inheritdoc}
      */
     public function locate(string $name, ?string $currentPath = null, bool $first = true)
     {
@@ -86,7 +84,7 @@ class FileLocator implements FileLocatorInterface
                 && ':' === $file[1]
                 && ('\\' === $file[2] || '/' === $file[2])
             )
-            || null !== parse_url($file, \PHP_URL_SCHEME)
+            || parse_url($file, \PHP_URL_SCHEME)
         ) {
             return true;
         }

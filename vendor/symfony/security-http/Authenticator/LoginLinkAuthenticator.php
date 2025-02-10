@@ -19,7 +19,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerI
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
+use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\HttpUtils;
 use Symfony\Component\Security\Http\LoginLink\Exception\InvalidLoginLinkAuthenticationException;
@@ -31,11 +31,11 @@ use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
  */
 final class LoginLinkAuthenticator extends AbstractAuthenticator implements InteractiveAuthenticatorInterface
 {
-    private LoginLinkHandlerInterface $loginLinkHandler;
-    private HttpUtils $httpUtils;
-    private AuthenticationSuccessHandlerInterface $successHandler;
-    private AuthenticationFailureHandlerInterface $failureHandler;
-    private array $options;
+    private $loginLinkHandler;
+    private $httpUtils;
+    private $successHandler;
+    private $failureHandler;
+    private $options;
 
     public function __construct(LoginLinkHandlerInterface $loginLinkHandler, HttpUtils $httpUtils, AuthenticationSuccessHandlerInterface $successHandler, AuthenticationFailureHandlerInterface $failureHandler, array $options)
     {
@@ -52,23 +52,25 @@ final class LoginLinkAuthenticator extends AbstractAuthenticator implements Inte
             && $this->httpUtils->checkRequestPath($request, $this->options['check_route']);
     }
 
-    public function authenticate(Request $request): Passport
+    public function authenticate(Request $request): PassportInterface
     {
-        if (!$username = $request->get('user')) {
+        $username = $request->get('user');
+        if (!$username) {
             throw new InvalidLoginLinkAuthenticationException('Missing user from link.');
         }
 
-        $userBadge = new UserBadge($username, function () use ($request) {
-            try {
-                $user = $this->loginLinkHandler->consumeLoginLink($request);
-            } catch (InvalidLoginLinkExceptionInterface $e) {
-                throw new InvalidLoginLinkAuthenticationException('Login link could not be validated.', 0, $e);
-            }
+        return new SelfValidatingPassport(
+            new UserBadge($username, function () use ($request) {
+                try {
+                    $user = $this->loginLinkHandler->consumeLoginLink($request);
+                } catch (InvalidLoginLinkExceptionInterface $e) {
+                    throw new InvalidLoginLinkAuthenticationException('Login link could not be validated.', 0, $e);
+                }
 
-            return $user;
-        });
-
-        return new SelfValidatingPassport($userBadge, [new RememberMeBadge()]);
+                return $user;
+            }),
+            [new RememberMeBadge()]
+        );
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response

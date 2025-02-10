@@ -20,11 +20,21 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  *
  * @internal
  */
-class CustomAuthenticatorFactory implements AuthenticatorFactoryInterface
+class CustomAuthenticatorFactory implements AuthenticatorFactoryInterface, SecurityFactoryInterface
 {
+    public function create(ContainerBuilder $container, string $id, array $config, string $userProvider, ?string $defaultEntryPoint): array
+    {
+        throw new \LogicException('Custom authenticators are not supported when "security.enable_authenticator_manager" is not set to true.');
+    }
+
     public function getPriority(): int
     {
         return 0;
+    }
+
+    public function getPosition(): string
+    {
+        return 'pre_auth';
     }
 
     public function getKey(): string
@@ -35,7 +45,7 @@ class CustomAuthenticatorFactory implements AuthenticatorFactoryInterface
     /**
      * @param ArrayNodeDefinition $builder
      */
-    public function addConfiguration(NodeDefinition $builder): void
+    public function addConfiguration(NodeDefinition $builder)
     {
         $builder
             ->info('An array of service ids for all of your "authenticators"')
@@ -47,7 +57,7 @@ class CustomAuthenticatorFactory implements AuthenticatorFactoryInterface
         $factoryRootNode
             ->fixXmlConfig('custom_authenticator')
             ->validate()
-                ->ifTrue(fn ($v) => isset($v['custom_authenticators']) && empty($v['custom_authenticators']))
+                ->ifTrue(function ($v) { return isset($v['custom_authenticators']) && empty($v['custom_authenticators']); })
                 ->then(function ($v) {
                     unset($v['custom_authenticators']);
 

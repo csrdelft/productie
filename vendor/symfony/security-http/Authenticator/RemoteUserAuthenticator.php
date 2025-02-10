@@ -30,7 +30,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class RemoteUserAuthenticator extends AbstractPreAuthenticatedAuthenticator
 {
-    private string $userKey;
+    private $userKey;
 
     public function __construct(UserProviderInterface $userProvider, TokenStorageInterface $tokenStorage, string $firewallName, string $userKey = 'REMOTE_USER', ?LoggerInterface $logger = null)
     {

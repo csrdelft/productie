@@ -13,7 +13,6 @@ namespace Symfony\Component\Security\Http\Authenticator\Passport\Badge;
 
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\AuthenticationServiceException;
-use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\EventListener\UserProviderListener;
@@ -28,13 +27,9 @@ use Symfony\Component\Security\Http\EventListener\UserProviderListener;
  */
 class UserBadge implements BadgeInterface
 {
-    public const MAX_USERNAME_LENGTH = 4096;
-
-    private string $userIdentifier;
-    /** @var callable|null */
+    private $userIdentifier;
     private $userLoader;
-    private UserInterface $user;
-    private ?array $attributes;
+    private $user;
 
     /**
      * Initializes the user badge.
@@ -49,15 +44,10 @@ class UserBadge implements BadgeInterface
      * is thrown). If this is not set, the default user provider will be used with
      * $userIdentifier as username.
      */
-    public function __construct(string $userIdentifier, ?callable $userLoader = null, ?array $attributes = null)
+    public function __construct(string $userIdentifier, ?callable $userLoader = null)
     {
-        if (\strlen($userIdentifier) > self::MAX_USERNAME_LENGTH) {
-            throw new BadCredentialsException('Username too long.');
-        }
-
         $this->userIdentifier = $userIdentifier;
         $this->userLoader = $userLoader;
-        $this->attributes = $attributes;
     }
 
     public function getUserIdentifier(): string
@@ -65,17 +55,12 @@ class UserBadge implements BadgeInterface
         return $this->userIdentifier;
     }
 
-    public function getAttributes(): ?array
-    {
-        return $this->attributes;
-    }
-
     /**
      * @throws AuthenticationException when the user cannot be found
      */
     public function getUser(): UserInterface
     {
-        if (isset($this->user)) {
+        if (null !== $this->user) {
             return $this->user;
         }
 
@@ -83,11 +68,7 @@ class UserBadge implements BadgeInterface
             throw new \LogicException(sprintf('No user loader is configured, did you forget to register the "%s" listener?', UserProviderListener::class));
         }
 
-        if (null === $this->getAttributes()) {
-            $user = ($this->userLoader)($this->userIdentifier);
-        } else {
-            $user = ($this->userLoader)($this->userIdentifier, $this->getAttributes());
-        }
+        $user = ($this->userLoader)($this->userIdentifier);
 
         // No user has been found via the $this->userLoader callback
         if (null === $user) {

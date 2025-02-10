@@ -11,14 +11,10 @@
 
 namespace Symfony\Component\Templating\Helper;
 
-trigger_deprecation('symfony/templating', '6.4', '"%s" is deprecated since version 6.4 and will be removed in 7.0. Use Twig instead.', SlotsHelper::class);
-
 /**
  * SlotsHelper manages template slots.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @deprecated since Symfony 6.4, use Twig instead
  */
 class SlotsHelper extends Helper
 {
@@ -30,8 +26,6 @@ class SlotsHelper extends Helper
      *
      * This method starts an output buffer that will be
      * closed when the stop() method is called.
-     *
-     * @return void
      *
      * @throws \InvalidArgumentException if a slot with the same name is already started
      */
@@ -51,8 +45,6 @@ class SlotsHelper extends Helper
     /**
      * Stops a slot.
      *
-     * @return void
-     *
      * @throws \LogicException if no slot has been started
      */
     public function stop()
@@ -68,24 +60,28 @@ class SlotsHelper extends Helper
 
     /**
      * Returns true if the slot exists.
+     *
+     * @return bool
      */
-    public function has(string $name): bool
+    public function has(string $name)
     {
         return isset($this->slots[$name]);
     }
 
     /**
      * Gets the slot value.
+     *
+     * @param bool|string $default The default slot content
+     *
+     * @return string
      */
-    public function get(string $name, bool|string $default = false): string
+    public function get(string $name, $default = false)
     {
         return $this->slots[$name] ?? $default;
     }
 
     /**
      * Sets a slot value.
-     *
-     * @return void
      */
     public function set(string $name, string $content)
     {
@@ -95,9 +91,11 @@ class SlotsHelper extends Helper
     /**
      * Outputs a slot.
      *
+     * @param bool|string $default The default slot content
+     *
      * @return bool true if the slot is defined or if a default content has been provided, false otherwise
      */
-    public function output(string $name, bool|string $default = false): bool
+    public function output(string $name, $default = false)
     {
         if (!isset($this->slots[$name])) {
             if (false !== $default) {
@@ -116,8 +114,10 @@ class SlotsHelper extends Helper
 
     /**
      * Returns the canonical name of this helper.
+     *
+     * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return 'slots';
     }

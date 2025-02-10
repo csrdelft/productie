@@ -14,7 +14,7 @@ namespace Symfony\Component\Uid;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  */
-abstract class AbstractUid implements \JsonSerializable, \Stringable
+abstract class AbstractUid implements \JsonSerializable
 {
     /**
      * The identifier in its canonic representation.
@@ -29,14 +29,18 @@ abstract class AbstractUid implements \JsonSerializable, \Stringable
     /**
      * Creates an AbstractUid from an identifier represented in any of the supported formats.
      *
+     * @return static
+     *
      * @throws \InvalidArgumentException When the passed value is not valid
      */
-    abstract public static function fromString(string $uid): static;
+    abstract public static function fromString(string $uid): self;
 
     /**
+     * @return static
+     *
      * @throws \InvalidArgumentException When the passed value is not valid
      */
-    public static function fromBinary(string $uid): static
+    public static function fromBinary(string $uid): self
     {
         if (16 !== \strlen($uid)) {
             throw new \InvalidArgumentException('Invalid binary uid provided.');
@@ -46,9 +50,11 @@ abstract class AbstractUid implements \JsonSerializable, \Stringable
     }
 
     /**
+     * @return static
+     *
      * @throws \InvalidArgumentException When the passed value is not valid
      */
-    public static function fromBase58(string $uid): static
+    public static function fromBase58(string $uid): self
     {
         if (22 !== \strlen($uid)) {
             throw new \InvalidArgumentException('Invalid base-58 uid provided.');
@@ -58,9 +64,11 @@ abstract class AbstractUid implements \JsonSerializable, \Stringable
     }
 
     /**
+     * @return static
+     *
      * @throws \InvalidArgumentException When the passed value is not valid
      */
-    public static function fromBase32(string $uid): static
+    public static function fromBase32(string $uid): self
     {
         if (26 !== \strlen($uid)) {
             throw new \InvalidArgumentException('Invalid base-32 uid provided.');
@@ -72,9 +80,11 @@ abstract class AbstractUid implements \JsonSerializable, \Stringable
     /**
      * @param string $uid A valid RFC 9562/4122 uid
      *
+     * @return static
+     *
      * @throws \InvalidArgumentException When the passed value is not valid
      */
-    public static function fromRfc4122(string $uid): static
+    public static function fromRfc4122(string $uid): self
     {
         if (36 !== \strlen($uid)) {
             throw new \InvalidArgumentException('Invalid RFC4122 uid provided.');
@@ -90,8 +100,6 @@ abstract class AbstractUid implements \JsonSerializable, \Stringable
 
     /**
      * Returns the identifier as a base58 case sensitive string.
-     *
-     * @example 2AifFTC3zXgZzK5fPrrprL (len=22)
      */
     public function toBase58(): string
     {
@@ -100,10 +108,6 @@ abstract class AbstractUid implements \JsonSerializable, \Stringable
 
     /**
      * Returns the identifier as a base32 case insensitive string.
-     *
-     * @see https://tools.ietf.org/html/rfc4648#section-6
-     *
-     * @example 09EJ0S614A9FXVG9C5537Q9ZE1 (len=26)
      */
     public function toBase32(): string
     {
@@ -123,10 +127,6 @@ abstract class AbstractUid implements \JsonSerializable, \Stringable
 
     /**
      * Returns the identifier as a RFC 9562/4122 case insensitive string.
-     *
-     * @see https://datatracker.ietf.org/doc/html/rfc9562/#section-4
-     *
-     * @example 09748193-048a-4bfb-b825-8528cf74fdc1 (len=36)
      */
     public function toRfc4122(): string
     {
@@ -140,19 +140,9 @@ abstract class AbstractUid implements \JsonSerializable, \Stringable
     }
 
     /**
-     * Returns the identifier as a prefixed hexadecimal case insensitive string.
-     *
-     * @example 0x09748193048a4bfbb8258528cf74fdc1 (len=34)
-     */
-    public function toHex(): string
-    {
-        return '0x'.bin2hex($this->toBinary());
-    }
-
-    /**
      * Returns whether the argument is an AbstractUid and contains the same value as the current instance.
      */
-    public function equals(mixed $other): bool
+    public function equals($other): bool
     {
         if (!$other instanceof self) {
             return false;

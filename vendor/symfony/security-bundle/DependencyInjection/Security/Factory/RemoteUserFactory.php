@@ -24,11 +24,30 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * @internal
  */
-class RemoteUserFactory implements AuthenticatorFactoryInterface
+class RemoteUserFactory implements SecurityFactoryInterface, AuthenticatorFactoryInterface
 {
     public const PRIORITY = -10;
 
-    public function createAuthenticator(ContainerBuilder $container, string $firewallName, array $config, string $userProviderId): string
+    public function create(ContainerBuilder $container, string $id, array $config, string $userProvider, ?string $defaultEntryPoint): array
+    {
+        $providerId = 'security.authentication.provider.pre_authenticated.'.$id;
+        $container
+            ->setDefinition($providerId, new ChildDefinition('security.authentication.provider.pre_authenticated'))
+            ->replaceArgument(0, new Reference($userProvider))
+            ->replaceArgument(1, new Reference('security.user_checker.'.$id))
+            ->addArgument($id)
+        ;
+
+        $listenerId = 'security.authentication.listener.remote_user.'.$id;
+        $listener = $container->setDefinition($listenerId, new ChildDefinition('security.authentication.listener.remote_user'));
+        $listener->replaceArgument(2, $id);
+        $listener->replaceArgument(3, $config['user']);
+        $listener->addMethodCall('setSessionAuthenticationStrategy', [new Reference('security.authentication.session_strategy.'.$id)]);
+
+        return [$providerId, $listenerId, $defaultEntryPoint];
+    }
+
+    public function createAuthenticator(ContainerBuilder $container, string $firewallName, array $config, string $userProviderId)
     {
         $authenticatorId = 'security.authenticator.remote_user.'.$firewallName;
         $container
@@ -46,12 +65,17 @@ class RemoteUserFactory implements AuthenticatorFactoryInterface
         return self::PRIORITY;
     }
 
+    public function getPosition(): string
+    {
+        return 'pre_auth';
+    }
+
     public function getKey(): string
     {
         return 'remote-user';
     }
 
-    public function addConfiguration(NodeDefinition $node): void
+    public function addConfiguration(NodeDefinition $node)
     {
         $node
             ->children()

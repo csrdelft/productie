@@ -1,11 +1,6 @@
 CHANGELOG
 =========
 
-6.4
----
-
-* Deprecate the component, use Twig instead
-
 2.5.0
 -----
 

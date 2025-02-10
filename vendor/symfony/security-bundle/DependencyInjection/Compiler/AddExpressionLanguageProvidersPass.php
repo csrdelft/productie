@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\Reference;
 class AddExpressionLanguageProvidersPass implements CompilerPassInterface
 {
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
@@ -36,7 +36,6 @@ class AddExpressionLanguageProvidersPass implements CompilerPassInterface
 
         if (!$container->hasDefinition('cache.system')) {
             $container->removeDefinition('cache.security_expression_language');
-            $container->removeDefinition('cache.security_is_granted_attribute_expression_language');
         }
     }
 }

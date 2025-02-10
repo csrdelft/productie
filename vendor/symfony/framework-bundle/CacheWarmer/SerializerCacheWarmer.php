@@ -27,7 +27,7 @@ use Symfony\Component\Serializer\Mapping\Loader\YamlFileLoader;
  */
 class SerializerCacheWarmer extends AbstractPhpFileCacheWarmer
 {
-    private array $loaders;
+    private $loaders;
 
     /**
      * @param LoaderInterface[] $loaders      The serializer metadata loaders
@@ -39,7 +39,10 @@ class SerializerCacheWarmer extends AbstractPhpFileCacheWarmer
         $this->loaders = $loaders;
     }
 
-    protected function doWarmUp(string $cacheDir, ArrayAdapter $arrayAdapter): bool
+    /**
+     * {@inheritdoc}
+     */
+    protected function doWarmUp(string $cacheDir, ArrayAdapter $arrayAdapter)
     {
         if (!class_exists(CacheClassMetadataFactory::class) || !method_exists(XmlFileLoader::class, 'getMappedClasses') || !method_exists(YamlFileLoader::class, 'getMappedClasses')) {
             return false;
@@ -51,7 +54,7 @@ class SerializerCacheWarmer extends AbstractPhpFileCacheWarmer
             foreach ($loader->getMappedClasses() as $mappedClass) {
                 try {
                     $metadataFactory->getMetadataFor($mappedClass);
-                } catch (AnnotationException) {
+                } catch (AnnotationException $e) {
                     // ignore failing annotations
                 } catch (\Exception $e) {
                     $this->ignoreAutoloadException($mappedClass, $e);

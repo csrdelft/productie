@@ -23,18 +23,13 @@ use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
 final class BackedEnumNormalizer implements NormalizerInterface, DenormalizerInterface, CacheableSupportsMethodInterface
 {
     /**
-     * If true, will denormalize any invalid value into null.
+     * {@inheritdoc}
+     *
+     * @return int|string
+     *
+     * @throws InvalidArgumentException
      */
-    public const ALLOW_INVALID_VALUES = 'allow_invalid_values';
-
-    public function getSupportedTypes(?string $format): array
-    {
-        return [
-           \BackedEnum::class => true,
-        ];
-    }
-
-    public function normalize(mixed $object, ?string $format = null, array $context = []): int|string
+    public function normalize($object, ?string $format = null, array $context = [])
     {
         if (!$object instanceof \BackedEnum) {
             throw new InvalidArgumentException('The data must belong to a backed enumeration.');
@@ -43,30 +38,23 @@ final class BackedEnumNormalizer implements NormalizerInterface, DenormalizerInt
         return $object->value;
     }
 
-    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsNormalization($data, ?string $format = null): bool
     {
         return $data instanceof \BackedEnum;
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @throws NotNormalizableValueException
      */
-    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+    public function denormalize($data, string $type, ?string $format = null, array $context = [])
     {
         if (!is_subclass_of($type, \BackedEnum::class)) {
             throw new InvalidArgumentException('The data must belong to a backed enumeration.');
-        }
-
-        if ($context[self::ALLOW_INVALID_VALUES] ?? false) {
-            if (null === $data || (!\is_int($data) && !\is_string($data))) {
-                return null;
-            }
-
-            try {
-                return $type::tryFrom($data);
-            } catch (\TypeError) {
-                return null;
-            }
         }
 
         if (!\is_int($data) && !\is_string($data)) {
@@ -84,18 +72,19 @@ final class BackedEnumNormalizer implements NormalizerInterface, DenormalizerInt
         }
     }
 
-    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsDenormalization($data, string $type, ?string $format = null): bool
     {
         return is_subclass_of($type, \BackedEnum::class);
     }
 
     /**
-     * @deprecated since Symfony 6.3, use "getSupportedTypes()" instead
+     * {@inheritdoc}
      */
     public function hasCacheableSupportsMethod(): bool
     {
-        trigger_deprecation('symfony/serializer', '6.3', 'The "%s()" method is deprecated, use "getSupportedTypes()" instead.', __METHOD__);
-
         return true;
     }
 }

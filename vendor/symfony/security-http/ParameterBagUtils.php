@@ -16,23 +16,24 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PropertyAccess\Exception\AccessException;
 use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
  * @internal
  */
 final class ParameterBagUtils
 {
-    private static PropertyAccessorInterface $propertyAccessor;
+    private static $propertyAccessor;
 
     /**
      * Returns a "parameter" value.
      *
      * Paths like foo[bar] will be evaluated to find deeper items in nested data structures.
      *
+     * @return mixed
+     *
      * @throws InvalidArgumentException when the given path is malformed
      */
-    public static function getParameterBagValue(ParameterBag $parameters, string $path): mixed
+    public static function getParameterBagValue(ParameterBag $parameters, string $path)
     {
         if (false === $pos = strpos($path, '[')) {
             return $parameters->all()[$path] ?? null;
@@ -44,11 +45,13 @@ final class ParameterBagUtils
             return null;
         }
 
-        self::$propertyAccessor ??= PropertyAccess::createPropertyAccessor();
+        if (null === self::$propertyAccessor) {
+            self::$propertyAccessor = PropertyAccess::createPropertyAccessor();
+        }
 
         try {
             return self::$propertyAccessor->getValue($value, substr($path, $pos));
-        } catch (AccessException) {
+        } catch (AccessException $e) {
             return null;
         }
     }
@@ -58,31 +61,29 @@ final class ParameterBagUtils
      *
      * Paths like foo[bar] will be evaluated to find deeper items in nested data structures.
      *
+     * @return mixed
+     *
      * @throws InvalidArgumentException when the given path is malformed
      */
-    public static function getRequestParameterValue(Request $request, string $path, array $parameters = []): mixed
+    public static function getRequestParameterValue(Request $request, string $path)
     {
         if (false === $pos = strpos($path, '[')) {
-            return $parameters[$path] ?? $request->get($path);
+            return $request->get($path);
         }
 
         $root = substr($path, 0, $pos);
 
-        if (null === $value = $parameters[$root] ?? $request->get($root)) {
+        if (null === $value = $request->get($root)) {
             return null;
         }
 
-        self::$propertyAccessor ??= PropertyAccess::createPropertyAccessor();
+        if (null === self::$propertyAccessor) {
+            self::$propertyAccessor = PropertyAccess::createPropertyAccessor();
+        }
 
         try {
-            $value = self::$propertyAccessor->getValue($value, substr($path, $pos));
-
-            if (null === $value && isset($parameters[$root]) && null !== $value = $request->get($root)) {
-                $value = self::$propertyAccessor->getValue($value, substr($path, $pos));
-            }
-
-            return $value;
-        } catch (AccessException) {
+            return self::$propertyAccessor->getValue($value, substr($path, $pos));
+        } catch (AccessException $e) {
             return null;
         }
     }

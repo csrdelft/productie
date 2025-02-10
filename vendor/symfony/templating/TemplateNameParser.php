@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\Templating;
 
-trigger_deprecation('symfony/templating', '6.4', '"%s" is deprecated since version 6.4 and will be removed in 7.0. Use Twig instead.', TemplateNameParser::class);
-
 /**
  * TemplateNameParser is the default implementation of TemplateNameParserInterface.
  *
@@ -20,12 +18,13 @@ trigger_deprecation('symfony/templating', '6.4', '"%s" is deprecated since versi
  * and the extension for the engine.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @deprecated since Symfony 6.4, use Twig instead
  */
 class TemplateNameParser implements TemplateNameParserInterface
 {
-    public function parse(string|TemplateReferenceInterface $name): TemplateReferenceInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function parse($name)
     {
         if ($name instanceof TemplateReferenceInterface) {
             return $name;

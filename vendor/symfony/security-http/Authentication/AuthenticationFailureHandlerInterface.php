@@ -27,7 +27,11 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 interface AuthenticationFailureHandlerInterface
 {
     /**
-     * This is called when an interactive authentication attempt fails.
+     * This is called when an interactive authentication attempt fails. This is
+     * called by authentication listeners inheriting from
+     * AbstractAuthenticationListener.
+     *
+     * @return Response
      */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response;
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception);
 }

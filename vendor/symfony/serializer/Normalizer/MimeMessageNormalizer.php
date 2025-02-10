@@ -18,7 +18,6 @@ use Symfony\Component\Mime\Header\UnstructuredHeader;
 use Symfony\Component\Mime\Message;
 use Symfony\Component\Mime\Part\AbstractPart;
 use Symfony\Component\Mime\RawMessage;
-use Symfony\Component\Serializer\Exception\LogicException;
 use Symfony\Component\Serializer\SerializerAwareInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -32,39 +31,29 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 final class MimeMessageNormalizer implements NormalizerInterface, DenormalizerInterface, SerializerAwareInterface, CacheableSupportsMethodInterface
 {
-    private NormalizerInterface&DenormalizerInterface $serializer;
-    private array $headerClassMap;
-    private \ReflectionProperty $headersProperty;
+    private $serializer;
+    private $normalizer;
+    private $headerClassMap;
+    private $headersProperty;
 
-    public function __construct(private readonly PropertyNormalizer $normalizer)
+    public function __construct(PropertyNormalizer $normalizer)
     {
+        $this->normalizer = $normalizer;
         $this->headerClassMap = (new \ReflectionClassConstant(Headers::class, 'HEADER_CLASS_MAP'))->getValue();
         $this->headersProperty = new \ReflectionProperty(Headers::class, 'headers');
+        $this->headersProperty->setAccessible(true);
     }
 
-    public function getSupportedTypes(?string $format): array
+    public function setSerializer(SerializerInterface $serializer)
     {
-        $isCacheable = __CLASS__ === static::class || $this->hasCacheableSupportsMethod();
-
-        return [
-            Message::class => $isCacheable,
-            Headers::class => $isCacheable,
-            HeaderInterface::class => $isCacheable,
-            Address::class => $isCacheable,
-            AbstractPart::class => $isCacheable,
-        ];
-    }
-
-    public function setSerializer(SerializerInterface $serializer): void
-    {
-        if (!$serializer instanceof NormalizerInterface || !$serializer instanceof DenormalizerInterface) {
-            throw new LogicException(sprintf('The passed serializer should implement both NormalizerInterface and DenormalizerInterface, "%s" given.', get_debug_type($serializer)));
-        }
         $this->serializer = $serializer;
         $this->normalizer->setSerializer($serializer);
     }
 
-    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+    /**
+     * {@inheritdoc}
+     */
+    public function normalize($object, ?string $format = null, array $context = [])
     {
         if ($object instanceof Headers) {
             $ret = [];
@@ -78,7 +67,7 @@ final class MimeMessageNormalizer implements NormalizerInterface, DenormalizerIn
         $ret = $this->normalizer->normalize($object, $format, $context);
 
         if ($object instanceof AbstractPart) {
-            $ret['class'] = $object::class;
+            $ret['class'] = \get_class($object);
             unset($ret['seekable'], $ret['cid'], $ret['handle']);
         }
 
@@ -89,7 +78,10 @@ final class MimeMessageNormalizer implements NormalizerInterface, DenormalizerIn
         return $ret;
     }
 
-    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+    /**
+     * {@inheritdoc}
+     */
+    public function denormalize($data, string $type, ?string $format = null, array $context = [])
     {
         if (Headers::class === $type) {
             $ret = [];
@@ -111,23 +103,27 @@ final class MimeMessageNormalizer implements NormalizerInterface, DenormalizerIn
         return $this->normalizer->denormalize($data, $type, $format, $context);
     }
 
-    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsNormalization($data, ?string $format = null): bool
     {
         return $data instanceof Message || $data instanceof Headers || $data instanceof HeaderInterface || $data instanceof Address || $data instanceof AbstractPart;
     }
 
-    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsDenormalization($data, string $type, ?string $format = null): bool
     {
         return is_a($type, Message::class, true) || Headers::class === $type || AbstractPart::class === $type;
     }
 
     /**
-     * @deprecated since Symfony 6.3, use "getSupportedTypes()" instead
+     * {@inheritdoc}
      */
     public function hasCacheableSupportsMethod(): bool
     {
-        trigger_deprecation('symfony/serializer', '6.3', 'The "%s()" method is deprecated, implement "%s::getSupportedTypes()" instead.', __METHOD__, get_debug_type($this));
-
-        return true;
+        return __CLASS__ === static::class;
     }
 }
