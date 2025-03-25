@@ -3,7 +3,7 @@
         'name' => 'csr/csrdelft.nl',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'e260c309a3396f5bc2884682b29388ee9d7acfaa',
+        'reference' => 'd383aa2d4ecb464b699518831e4883a1528d101f',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -69,7 +69,7 @@
         'csr/csrdelft.nl' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'e260c309a3396f5bc2884682b29388ee9d7acfaa',
+            'reference' => 'd383aa2d4ecb464b699518831e4883a1528d101f',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
