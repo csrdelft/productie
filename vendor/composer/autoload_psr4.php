@@ -9,6 +9,8 @@ return array(
     'setasign\\Fpdi\\' => array($vendorDir . '/setasign/fpdi/src'),
     'phpseclib3\\' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
     'phpDocumentor\\Reflection\\' => array($vendorDir . '/phpdocumentor/reflection-docblock/src', $vendorDir . '/phpdocumentor/type-resolver/src', $vendorDir . '/phpdocumentor/reflection-common/src'),
+    'chillerlan\\Settings\\' => array($vendorDir . '/chillerlan/php-settings-container/src'),
+    'chillerlan\\QRCode\\' => array($vendorDir . '/chillerlan/php-qrcode/src'),
     'Zumba\\JsonSerializer\\Test\\' => array($vendorDir . '/zumba/json-serializer/tests'),
     'Zumba\\' => array($vendorDir . '/zumba/json-serializer/src'),
     'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
