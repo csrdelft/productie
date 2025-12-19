@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description"
+				content="Website voor de 64e dies natalis der Civitas Studiosorum Reformatorum.">
+	<meta name="author" content="David van der Ham">
+
+	<title>Flamenco</title>
+
+	{{ csrfMetaTag() }}
+
+	{{ js_asset('app') }}
+	{{ css_asset('common') }}
+	{{ css_asset('thema-normaal')}}
+	{{ css_asset('dies2026') }}
+
+	{% include 'common/sentry.html.twig' %}
+</head>
+
+<body id="Flamenco" class="body">
+<nav class="site-header py-1">
+	<div class="container d-flex flex-column flex-md-row justify-content-around">
+		<a class="py-2 px-2" href="./">Flamenco</a>
+		<a class="py-2 px-2 d-none d-md-inline-block" href="#filmpje">Film</a>
+		<a class="py-2 px-2 d-none d-md-inline-block" href="#programma">Programma</a>
+		<a class="py-2 px-2 d-none d-md-inline-block" href="#etiquette">Etiquette</a>
+	</div>
+</nav>
+
+<section class="poster-boven">
+	<a id="poster" class="anchor"></a>
+	<div class="poster">
+		<div class="container">
+			{% include 'dies2026/poster2.svg' %}
+		</div>
+	</div>
+	<br/>
+</section>
+
+<div class="filmpje">
+	<a id="filmpje" class="anchor"></a>
+	<div class="containerFilmpje">
+		<div class="titel">
+			<h1>Themafilm</h1>
+		</div>
+		<div class="container video-container size-16x9">
+			<div class="youtube-container closed">
+				<div class="embed-responsive ratio ratio-16x9" id="player">
+					<iframe src="https://www.youtube.com/embed/7rUgF5SRdvY?si=Qsbg5MsBgsLFxLci" title="YouTube video player"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+				</div>
+		</div>
+		</div>
+	</div>
+</div>
+
+<section class="programma d-flex">
+	<a id="programma" class="anchor"></a>
+	<div class="container">
+		<div class="titel">
+			<h1>Programma</h1>
+		</div>
+
+		<div class="poster posteract">
+			<img src="/images/dies2026/activiteiten.svg" alt="activiteiten poster" />
+		</div>
+
+		<a id="11-feb" class="anchor"></a>
+		<div class="d-flex dag flex-column">
+			<h2 class="ondertitel col-md-12">Dinsdag 10 februari</h2>
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseReturnoftheDies" aria-expanded="false" aria-controls="collapseReturnoftheDies">18:00 Entrada</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseReturnoftheDies" aria-expanded="false" aria-controls="collapseReturnoftheDies">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseReturnoftheDies">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">Drie gangen aan Michelin-ster waardig voedsel?
+							Hebben we.
+							Gezelligheid met de leden?
+							Zal er zijn.
+							Een sfeer zoals dat alleen in Spanje kan?
+							Is er, inclusief kaarslicht.
+							Heb ik een reden om mij niet in te ketzen?
+							Eigenlijk niet, nee. Kan hieronder.
+							Is er ook wijn?
+							Alleen het allerbeste, mits u u inketzt.
+							Is er een betere manier om de Dies te starten?
+							Hebben wij nog niet gevonden. Bij zijn dus!
+						</p>
+						<div class="dies-activiteit-ketzers col-md-12">
+							<div class="ketzers">
+								<div class="ketzer">
+									{{ '[maaltijd=2679]' | bbcode }}
+								</div>
+							</div>
+						</div>
+						<div class="dies-activiteit-ketzers col-md-12">
+							<div class="ketzers">
+								<div class="ketzer">
+									{{ '[maaltijd=2680]' | bbcode }}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseSoundOfMusic" aria-expanded="false" aria-controls="collapseSoundOfMusic">20:30 Santo por Siempre</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSoundOfMusic" aria-expanded="false" aria-controls="collapseSoundOfMusic">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseSoundOfMusic">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">God is heilig, God was heilig en God blijft heilig. Dit vieren we, door Hem te prijzen tijdens de Laudate Et Orate.
+							Wees welkom en kom ook, want God is heilig, voor altijd!
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseIdeeFDTD13" aria-expanded="false" aria-controls="collapseIdeeFDTD13">23:00 Bar-celona</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseIdeeFDTD13" aria-expanded="false" aria-controls="collapseIdeeFDTD13">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseIdeeFDTD13">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">Bij een feestje wordt ook gek gedaan. Kom gek doen op de borrel, daar is 'ie voor! Geniet samen met de leden van een pilsje van de Bar-celona.</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapse12AM" aria-expanded="false" aria-controls="collapse12AM">23:00 El duelo</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse12AM" aria-expanded="false" aria-controls="collapse12AM">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapse12AM">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">Vind u vechten nou ook stom, maar houd u van de confrontatie over de onderwerpen die er echt toe doen. Kruis dan de degens, ga het duel aan, en doe mee aan het debattoernooi. Of kom kijken, altijd prijs!!</p>
+						<div class="dies-activiteit-ketzers col-md-12">
+							<div class="ketzers">
+								<div class="ketzer">
+									{{ '[activiteit=13041]' | bbcode }}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<a class="anchor" id="12-feb" ></a>
+		<div class="d-flex dag flex-column">
+			<h2 class="ondertitel col-md-12">Woensdag 11 februari</h2>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseCMAR" aria-expanded="false" aria-controls="collapseCMAR">15:00 El macho</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCMAR" aria-expanded="false" aria-controls="collapseCMAR">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseCMAR">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">Vrouwen zien er altijd goed uit. Geen discussie over mogelijk, een feit van het leven.
+							Voor de man is dit helaas niet zo, maar er zijn wel trucs om er zo goed mogelijk uit te zien.
+							Ten eerste kan u een rokkostuum aantrekken. Elegant, klassiek en nu met korting. Kom naar de passessie van Gents en laat u een pak aanmeten.
+							Voor de tweede truc is een corsage cruciaal. Naast dat een schitterstuk uiteraard een outfit afmaakt, is de binding aan uw date (die er goed uit ziet) de klap op de vuurpijl.
+							Toch is een corsage soms moeilijk te maken. Laat je dus helpen door DéDé bij de corsage klussessie.
+						</p>
+						<div class="dies-activiteit-ketzers col-md-12">
+							<div class="ketzers">
+								<div class="ketzer">
+									{{ '[activiteit=13035]' | bbcode }}
+								</div>
+							</div>
+						</div>
+						<div class="dies-activiteit-ketzers col-md-12">
+							<div class="ketzers">
+								<div class="ketzer">
+									{{ '[activiteit=13036]' | bbcode }}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseCP" aria-expanded="false" aria-controls="collapseCP">18:00 Tipsy Tapas</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCP" aria-expanded="false" aria-controls="collapseCP">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseCP">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">In deze Spaanse weken kan een tapasborrel uiteraard niet ontbreken! Daarnaast staat Spanje natuurlijk bekend om zijn lekkere wijnen. Deze avond bieden wij u een uniek asssortiment aan van de beste wijnen uit de streek. Bovendien kunt u deze vrolijke avond genieten van live muziek. Genoeg redenen dus om je in te ketzen!
+						</p>
+						<div class="dies-activiteit-ketzers col-md-12">
+							<div class="ketzers">
+								<div class="ketzer">
+									{{ '[maaltijd=2681]' | bbcode }}
+								</div>
+							</div>
+						</div>
+
+						<div class="dies-activiteit-ketzers col-md-12">
+							<div class="ketzers">
+								<div class="ketzer">
+									{{ '[maaltijd=2682]' | bbcode }}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapse12-23" aria-expanded="false" aria-controls="collapse12-23">23:00 Bar-celona</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse12-23" aria-expanded="false" aria-controls="collapse12-23">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapse12-23">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">Bij een feestje wordt ook gek gedaan. Kom gek doen op de borrel, daar is 'ie voor! Geniet samen met de leden van een pilsje van de Bar-celona van de Spaanse sfeertjes op Confide!</p>
+					</div>
+				</div>
+			</div>
+
+			 <div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapse12AM14" aria-expanded="false" aria-controls="collapse12AM14">23:30 El Duelo</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse12AM14" aria-expanded="false" aria-controls="collapse12AM14">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapse12AM14">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">Vind u vechten nou ook stom, maar houd u van de confrontatie over de onderwerpen die er echt toe doen. Kruis dan de degens, ga het duel aan, en doe mee aan het debattoernooi. Of kom kijken, altijd prijs!</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<a class="anchor" id="13-feb" ></a>
+		<div class="d-flex dag flex-column">
+			<h2 class="ondertitel col-md-12">Donderdag 12 februari</h2>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseTGG" aria-expanded="false" aria-controls="collapseTGG">18:30 Compania</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTGG" aria-expanded="false" aria-controls="collapseTGG">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseTGG">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">TODO</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapse13-22" aria-expanded="false" aria-controls="collapse13-22">22:00 Waaiers en Draaiers</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse13-22" aria-expanded="false" aria-controls="collapse13-22">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapse13-22">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">De naam zegt het al: dit mooie feest heeft waaiers en draaiers. Kom dansen en zingen, en geniet van de waaiers (Spaanse aankleding), en draaiers (DJ’s en bandjes)</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<a class="anchor" id="14-feb" ></a>
+		<div class="d-flex dag flex-column">
+			<h2 class="ondertitel col-md-12">Vrijdag 13 februari</h2>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseKnivesOut" aria-expanded="false" aria-controls="collapseKnivesOut">12:45 El Classico</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseKnivesOut" aria-expanded="false" aria-controls="collapseKnivesOut">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseKnivesOut">
+					<p class="col-md-12 actbeschrijving">Elk jaar krijgt u de mogelijkheid om u te bewijzen als beste verticale van de civitas. Zo ook dit jaar! Dit jaar met een iets andere versie zodat de strijd er nog heftiger aan toe zal gaan. Trommel dus al uw verticalegenootjes op en neem deel aan de El Classico!
+					</p>
+				</div>
+			</div>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseDirtyDancing" aria-expanded="false" aria-controls="collapseDirtyDancing">17:00 Bar-celona</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDirtyDancing" aria-expanded="false" aria-controls="collapseDirtyDancing">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseDirtyDancing">
+					<p class="col-md-12 actbeschrijving">
+						Bij een feestje wordt ook gek gedaan. Kom gek doen op deze VrijMiBo, daar is 'ie voor! Geniet samen met de leden van een pilsje van de Bar-celona en van de Spaanse sfeertjes op Confide!.
+					</p>
+				</div>
+			</div>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapse12AM16" aria-expanded="false" aria-controls="collapse12AM16">17:00 El Duelo</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse12AM16" aria-expanded="false" aria-controls="collapse12AM16">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapse12AM16">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">Vers uit de vercticale strijd kunt u wederom genieten van mooie duellen!</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseFDTD16" aria-expanded="false" aria-controls="collapseFDTD16">19:30 Go Flamenco</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFDTD16" aria-expanded="false" aria-controls="collapseFDTD16">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseFDTD16">
+					<p class="col-md-12 actbeschrijving">Altijd al gedroomd van het ritme van Flamenco in je voeten? Ketz u dan snel in voor
+						deze dansles. De dansles zal gegeven worden door een ervaren Flamenco lerares waardoor
+						u op het gala uw mooiste Flamenco dans kan laten zien!</p>
+				</div>
+				<div class="dies-activiteit-ketzers col-md-12">
+					<div class="ketzers">
+						<div class="ketzer">
+							{{ '[activiteit=13037]' | bbcode }}
+						</div>
+					</div>
+				</div>
+				<div class="dies-activiteit-ketzers col-md-12">
+					<div class="ketzers">
+						<div class="ketzer">
+							{{ '[activiteit=13038]' | bbcode }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<a class="anchor" id="15-feb" ></a>
+		<div class="d-flex dag flex-column">
+			<h2 class="ondertitel col-md-12">Zaterdag 14 februari</h2>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseGBU" aria-expanded="false" aria-controls="collapseGBU">14:00 La Cucaracha</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGBU" aria-expanded="false" aria-controls="collapseGBU">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseGBU">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">Zijn uw brusjes na al uw verhalen over de Civitas en Delft nieuwsgierig geworden naar het studentenleven? Dan is deze dag de uitgelezen kans om ze alles met eigen ogen te laten zien en ervaren. Op Confide geven we een rondleiding, en gaan we debatteren, brassen en borrelen! Ook neemt u uw brusjes mee het centrum in om Delft en verschillende C.S.R.-huizen te laten zien! Nog niet genoeg? Laat je brusjes nog langer genieten van de Civitas en ketz je ook in voor de maaltijd na afloop van de brusjes dag! Vergeet niet bij de maaltijdketzer aan te geven hoeveel brusjes u meeneemt naar de maaltijd! </p>
+						<div class="dies-activiteit-ketzers col-md-12">
+							<div class="ketzers">
+								<div class="ketzer">
+									{{ '[activiteit=13039]' | bbcode }}
+								</div>
+							</div>
+						</div>
+						<div class="dies-activiteit-ketzers col-md-12">
+							<div class="ketzers">
+								<div class="ketzer">
+									{{ '[maaltijd=2685]' | bbcode }}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<a class="anchor" id="16-feb" ></a>
+		<div class="d-flex dag flex-column">
+			<h2 class="ondertitel col-md-12">Zondag 15 februari</h2>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseTheoryOfEverything" aria-expanded="false" aria-controls="collapseTheoryOfEverything">10:00 La Sagrada Familia</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTheoryOfEverything" aria-expanded="false" aria-controls="collapseTheoryOfEverything">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseTheoryOfEverything">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">Samen gaan we naar de kerk. Samen eren we, staan we stil en geloven we. Na afloop van de dienst doen we nog een bakje koffie en een koek op Confide, en u bent weer opgeladen voor de week.</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseJumanji" aria-expanded="false" aria-controls="collapseJumanji">15:00 Ole Ole</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseJumanji" aria-expanded="false" aria-controls="collapseJumanji">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseJumanji">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">
+							Stoom afblazen na deze eerste Dies week? Kom naar de spelletjesmiddag! Gezelligheid brengt u, wij brengen snacks. Wordt top.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<a class="anchor" id="17-feb" ></a>
+		<div class="d-flex dag flex-column">
+			<h2 class="ondertitel col-md-12">Maandag 16 februari</h2>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseOUAT" aria-expanded="false" aria-controls="collapseOUAT">18:00 Stierengevecht</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOUAT" aria-expanded="false" aria-controls="collapseOUAT">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseOUAT">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">De Heren van Museum J.C.J. Van Speijk hebben ook dit jaar weer een onvergetelijk diner voor u in petto. Met bloed, zweet en tranen zullen zij u deze avond vermaken onder genot van een heerlijk diner.</p>
+						<div class="dies-activiteit-ketzers col-md-12">
+							<div class="ketzers">
+								<div class="ketzer">
+									{{ '[maaltijd=2683]' | bbcode }}
+								</div>
+							</div>
+						</div>
+						<div class="dies-activiteit-ketzers col-md-12">
+							<div class="ketzers">
+								<div class="ketzer">
+									{{ '[maaltijd=2684]' | bbcode }}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseInsommia" aria-expanded="false" aria-controls="collapseInsommia">20:00 80 Urige Oorlog</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInsommia" aria-expanded="false" aria-controls="collapseInsommia">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseInsommia">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">
+							Deze avond strijden de novieten voor hun lidmaatschap. Het mag dan een lange avond zijn, de overwinning belooft op een prachtig lidmaatschap bij C.S.R.! En leden, kom vooral uw novieten aanmoedigen en sta ze bij tijdens deze 80 urige oorlog.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<a class="anchor" id="18-feb" ></a>
+		<div class="d-flex dag flex-column">
+			<h2 class="ondertitel col-md-12">Dinsdag 17 februari</h2>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseHangover" aria-expanded="false" aria-controls="collapseHangover">20:00 El Teatro</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHangover" aria-expanded="false" aria-controls="collapseHangover">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseHangover">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">Heeft u altijd al stiekem een keer een dans willen wagen op het podium van Confide? Of uw beste gitaarsolo te laten horen aan de leden? Het is tijd om uw podium te pakken en te laten zien wat u allemaal in petto heeft! Heeft u een hilarisch idee voor een act, die u altijd al had willen opvoeren? Ketz u dan in voor deze cabaretavond! Of kom een avondje ontspannen en genieten van de vele vermakelijke acts.
+						</p>
+						<div class="dies-activiteit-ketzers col-md-12">
+							<div class="ketzers">
+								<div class="ketzer">
+									{{ '[activiteit=13040]' | bbcode }}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseDuskTillDawn20" aria-expanded="false" aria-controls="collapseDuskTillDawn20">22:30 Bar-celona</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDuskTillDawn20" aria-expanded="false" aria-controls="collapseDuskTillDawn20">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseDuskTillDawn20">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">
+							Bij een feestje wordt ook gek gedaan. Kom gek doen op de borrel, daar is 'ie voor! Geniet samen met de leden van een pilsje van de Bar-celona en van de Spaanse sfeertjes op Confide!
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapse12AM20" aria-expanded="false" aria-controls="collapse12AM20">23:00 El Duelo</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse12AM20" aria-expanded="false" aria-controls="collapse12AM20">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapse12AM20">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">Vind u vechten nou ook stom, maar houd u van de confrontatie over de onderwerpen die er echt toe doen. Kruis dan de degens, ga het duel aan, en doe mee aan het debattoernooi. Of kom kijken, altijd prijs!
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<a class="anchor" id="19-feb" ></a>
+		<div class="d-flex dag flex-column">
+			<h2 class="ondertitel col-md-12">Woensdag 18 februari</h2>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapsePOTC" aria-expanded="false" aria-controls="collapsePOTC">14:00 De Dans Ontspringen</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePOTC" aria-expanded="false" aria-controls="collapsePOTC">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapsePOTC">
+					<p class="col-md-12 actbeschrijving">Externe genodigden komen naar Confide om het bestuur te feliciteren met de 64e verjaardag van onze mooie vereniging. Het kan zomaar gebeuren dat deze genodigden een bijzondere dans genaamd brassen beginnen. Wees dus aanwezig om het bestuur te helpen deze dans te ontspringen!</p>
+				</div>
+			</div>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseSR" aria-expanded="false" aria-controls="collapseSR">20:00 Meedansen</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSR" aria-expanded="false" aria-controls="collapseSR">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseSR">
+					<p class="col-md-12 actbeschrijving">Ontspringt de dans niet langer en dans mee! Bij de interne receptie feliciteren de leden het Bestuur met 64-jarig bestaan van onze mooie vereniging. Dat wordt een feestje!
+					</p>
+				</div>
+			</div>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseBorrel19" aria-expanded="false" aria-controls="collapseBorrel19">22:30 Bar-celona</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBorrel19" aria-expanded="false" aria-controls="collapseBorrel19">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseBorrel19">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">Bij een feestje wordt ook gek gedaan. Kom gek doen op de borrel, daar is 'ie voor! Geniet samen met de leden van een pilsje van de Bar-celona en van de Spaanse sfeertjes op Confide!
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapse19-23" aria-expanded="false" aria-controls="collapse19-23">23:00 El Duelo</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse19-23" aria-expanded="false" aria-controls="collapse19-23">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapse19-23">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">
+							Vind u vechten nou ook stom, maar houd u van de confrontatie over de onderwerpen die er echt toe doen. Kruis dan de degens, ga het duel aan, en doe mee aan het debattoernooi. Of kom kijken, altijd prijs!
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<a class="anchor" id="20-feb" ></a>
+		<div class="d-flex dag flex-column">
+			<h2 class="ondertitel col-md-12">Donderdag 19 februari</h2>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseRata" aria-expanded="false" aria-controls="collapseRata">18:30 Los Gezelligitos</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRata" aria-expanded="false" aria-controls="collapseRata">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseRata">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">Morgenavond is alweer de Grande Finale, het prachtige gala! Daarom is het goed om ons nog even te bezinnen. Samen met je kring ga je even terug naar de Schepper die ons zoveel mooie momenten geeft.
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseBornStar" aria-expanded="false" aria-controls="collapseBornStar">20:00 De Rode Draad</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBornStar" aria-expanded="false" aria-controls="collapseBornStar">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseBornStar">
+					<p class="col-md-12 actbeschrijving">Ama. Vab heeft hard gewerkt aan het nieuwe kringboekje. De lezing van deze avond zal hier alvast een voorproefje van geven. Kom in deze drukke weken tot rust bij God.
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<a class="anchor" id="21-feb" ></a>
+		<div class="d-flex dag flex-column">
+			<h2 class="ondertitel col-md-12">Vrijdag 20 februari</h2>
+
+			<div class="activiteit row">
+				<h3 class="col-md-11" data-bs-toggle="collapse" data-bs-target="#collapseGaLaLand" aria-expanded="false" aria-controls="collapseGaLaLand">15:00 Grande Finale</h3>
+				<button class="btn btn-primary col-md-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGaLaLand" aria-expanded="false" aria-controls="collapseGaLaLand">
+					{{ icon('caret-down') }}
+				</button>
+
+				<div class="collapse" id="collapseGaLaLand">
+					<div class="d-flex row">
+						<p class="col-md-12 actbeschrijving">TODO
+						</p>
+						{# Galaketzer #}
+						<div class="dies-activiteit-ketzers col-md-12">
+							<div class="ketzers">
+								<div class="ketzer">
+									{{ '[activiteit=12745]' | bbcode }}
+								</div>
+							</div>
+						</div>
+						<div class="dies-activiteit-ketzers col-md-12">
+							{# Reserveketzer #}
+							<div class="ketzers">
+								<div class="ketzer">
+									{{ '[activiteit=12746]' | bbcode }}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</section><section class="etiquette">
+	<a id="etiquette" class="anchor"></a>
+
+	<div class="container">
+		<!-- Title -->
+		<div class="titel">
+			<h1>Etiquette</h1>
+		</div>
+
+		<!-- Intro paragraph -->
+		<div class="actbeschrijving">
+			<p>
+				De Dies is het hoogtepunt van het verenigingsleven. U wilt zich tijdens deze feestelijke weken van uw meest galante kant laten zien. Daarom zijn hier voor u de etiquette uiteengezet.
+				Tijdens de Dies Natalis is het passend om goed gekleed naar Confide te komen. Jas en das wordt gewaardeerd, uiteraard zonder dissonanten zoals gymschoenen of witte sokken. Het is verder de gewoonte om tijdens de Dies uw penning te dragen op Confide. Eerstejaars zullen deze ontvangen op de Dies H.V. als ze geïnstalleerd worden. Op het gala hoeft u uw penning niet te dragen.
+			</p>
+		</div>
+
+		<!-- Three columns -->
+		<div class="d-flex row">
+			<!-- Column 1 -->
+			<div class="col-md-4">
+				<h2 class="subkopje-etiquette">Gala Voorbereiding</h2>
+				<h3>Uitnodigingen</h3>
+				<p>
+					De heer vraagt de dame in een brief, handgeschreven met zilveren pen op blauw papier, of zij hem wil vergezellen naar het gala. De dame antwoordt hierop met een brief, handgeschreven met gouden pen op roze papier, waarin zij de heer uitnodigt om bij haar thuis een kopje thee te komen drinken. Tijdens deze visite wordt er niet over het gala gesproken. Als de dame het verzoek afwijst, serveert zij niets bij de thee. Gaat ze mee naar het gala, dan serveert ze koekjes, en is ze geïnteresseerd in meer dan alleen het gala, dan serveert ze zelfgebakken taart. Slagroom op de taart is de klap op de vuurpijl
+				</p>
+				<p>
+					Als de dame besluit mee te gaan, moet ze tijdens de visite op de een of andere tersluikse manier de kleur van haar jurk duidelijk maken, zodat de heer de kleur van de corsages hierop aan kan passen. Bijvoorbeeld door een tipje van de jurk uit de kast te laten hangen, of bloemen van een bepaalde kleur te verzorgen.
+				</p>
+				<p>
+					In het geval dat u zich niet identificeert in de bovenstaande rollen of u zich niet comfortabel voelt bij het sturen van een blauwe dan wel een roze brief, kunt u ook een groene brief sturen. Hierbij stuurt de uitnodigende partij een brief die handgeschreven is met bronzen pen op groen papier. De ontvanger van deze brief heeft de keuze om te reageren met een groene, blauwe of roze brief, met respectievelijk een bronzen, zilveren of gouden pen, om de uitnodigende partij uit te nodigen op een kopje thee.
+				</p>
+				<p>
+					De uitnodigende partij verzorgt een tweetal corsages die tijdens het gala gedragen kunnen worden. Traditioneel is de corsage een klein bloemstukje, maar de corsage kan ook een ludieke vorm aannemen. De heer draagt de traditionele corsage op de linker revers met de bloem omhoog. De dame draagt de corsage links onder het sleutelbeen met de bloem naar beneden.
+				</p>
+			</div>
+
+			<!-- Column 2 -->
+			<div class="col-md-4">
+				<h2 class="subkopje-etiquette">Laatste voorbereidingen</h2>
+				<h3>Kleding</h3>
+				<p>
+					En dan is het zover: het is de grote dag van het gala. De heer haalt zijn dame thuis op. Als hem open wordt gedaan, wordt de heer bijna verblind door de schoonheid van de dame, waar hij haar dan ook terecht mee complimenteert. Ze draagt een lange avondjapon en hakken. Maar ook de heer mag er zijn. Hij is gekleed in rokkostuum en heeft glimmende lakschoenen aan. Hij had ook nog een smoking in de kast hangen, maar dat vond hij, terecht, inferieur aan een rokkostuum.
+				</p>
+				<p>
+					Tijdens het gala is het niet gepast om een horloge te dragen, immers: gezelligheid kent geen tijd. Enige uitzondering zijn zakhorloges voor de heren en sierlijke horloges die als ornament gedragen worden voor de dames. De heer heeft op het gala twee zakdoeken bij zich: één om eventueel zichzelf het zweet van het voorhoofd te deppen en één voor zijn date, die immers zelf geen zakken heeft. Verder heeft de heer weinig bij zich buiten huissleutels, corsages en geld voor de taxi. Een mobiele telefoon is toegestaan, mits deze op de "stille" stand staat. Voor een dame is een klein handtasje toegestaan.
+				</p>
+				<h3>Na aankomst bij de dadel</h3>
+				<p>
+					Na een kopje thee wandelen ze samen naar Confide. De heer loopt links van de dame om zo de nodige bescherming te bieden en hij zorgt er voor dat hij niet te hard loopt. Bij aankomst op Confide houdt de heer de deur open voor de dame en laat haar voorgaan. Aldaar tovert de heer twee corsages uit de binnenzak van zijn jasje. Eén daarvan speldt hij bij de dame op, en één bij zichzelf. Na het begroeten van vrienden en het kennismaken met onbekenden, is het tijd geworden om zich te verplaatsen naar de vervoersmodaliteit, die de galagangers naar de - nog steeds onbekende - locatie zullen brengen.
+				</p>
+				<p>
+					Na een korte rit komen ze op de plaats van bestemming. Het overtreft alle verwachtingen. Opnieuw houdt de heer de deur open voor de dame en laat haar voorgaan. Indien er een trap aanwezig is in de locatie, betreedt de heer deze als eerste, hij mag immers niet de gelegenheid krijgen om de bekoorlijke enkels van de dame te bekijken. Bij een trap afdalen gaat de heer voor om bij het struikelen van de dame haar op te kunnen vangen. De heer helpt de dame uit haar jas en geeft deze af bij de garderobe, daarna gaat hij haar voor naar de eetzaal. Ze gaan zitten op de plaats die aan hen is toegewezen, de heer neemt plaats aan de linkerzijde van de dame. De heer neemt pas plaats aan tafel als hij de stoel voor de dame heeft aangeschoven.
+				</p>
+			</div>
+
+			<!-- Column 3 -->
+			<div class="col-md-4">
+				<h2 class="subkopje-etiquette">Tijdens het gala</h2>
+				<h3>Het diner</h3>
+				<p>
+					Als iedereen zit, wordt de maaltijd geopend door de DiesCie praeses. Nadat de maaltijd geopend is, wordt het eten binnengebracht. Als zowel de dame als de heer en hun beide buren voorzien zijn, beginnen ze met eten. Uiteraard hebben ze hierbij de ellebogen niet op tafel. Ze beginnen met het bestek aan de buitenkant. Gedurende de maaltijd werken ze naar binnen. Voordat de heer een slokje van zijn wijn neemt, veegt hij eerst zijn mond af om vetafdrukken op zijn glas te voorkomen. Tijdens het eten wordt er heel wat afgepraat.
+					In het geval dat een van de partners zich wil verwijderen, wordt toestemming gevraagd aan de partner. Als de dame dit vraagt, staat ze gelijk op, net als de heer en die kan pas gaan zitten als zij zich heeft verwijderd. Bij terugkeer van de dame schuift de heer haar stoel aan. Het is niet correct om de partner lang alleen te laten.
+
+				</p>
+				<h3>Het feest</h3>
+				<p>Na het eten en het debatteren, gaat de band spelen. Het is tijd om te gaan dansen. Een heer vraagt een dame ten dans door een lichte buiging te maken en te vragen: "Mag ik deze dans van u?". De dame antwoordt bevestigend door een knik. De heer biedt de dame zijn rechterarm en begeleidt haar richting dansvloer. Kan de heer de dame zijn arm niet aanbieden door de drukte, dan loopt de dame voorop. Tijdens de dans bent u uitsluitend gericht op uw partner van dat moment en voert u geen gesprek met een ander paar. Na afloop van de dans begeleidt de heer de dame weer terug naar haar plaats.
+				</p>
+				<p>Uiteraard vraagt de heer als eerste zijn eigen dame ten dans, voordat hij een ander vraagt. In principe wordt een dansverzoek niet zonder goede reden door de dame geweigerd. Als een dame heeft geweigerd, is het niet correct om direct een dame die in de buurt van de eerste dame stond ter dans te vragen, zij kan hierdoor het gevoel krijgen dat ze tweede keus is. Als een dame geweigerd heeft, is het ook niet de bedoeling dat zij meteen met een ander gaat dansen. Nadat u een dame terug heeft gebracht naar haar plaats, vraagt u niet direct een andere dame om een dans.</p>
+				<h3>Palen</h3>
+				<p>De dame wordt door een andere heer ten dans gevraagd en de heer heeft nu niet meer zo'n behoefte aan dansen. Hij steekt een sigaar op met een cederhoutje. Hij rookt de sigaar rustig en gelijkmatig op. Als de sigaar op is, drukt hij deze niet uit, maar legt hij de sigaar in de asbak om uit te doven.</p>
+				<h3>Terug naar huis</h3>
+				<p>	De heer en de dame dansen nog veel, hebben goede gesprekken en maken een aantal nieuwe vrienden. Alles dat een begin heeft, heeft ook een eind. Bij de garderobe haalt de heer de jas van de dame en helpt haar bij het aantrekken. Bij het weggaan gaat de dame de heer voor, maar bij de deur wacht zij tot de heer hem voor haar opent. De heer brengt de dame netjes naar huis. Wanneer de dame dit verlangt kan zij de heer uitnodigen voor een slaapmutsje, wanneer de dame dit niet doet dient de heer de keuze van de dame te respecteren.
+					Het is voor het vertrekken voor de heer geoorloofd de rits van de jurk van de dame maximaal twintig centimeter open te ritsen. Dit zodat de dame niet achterblijft in een jurk waar zij niet uit kan. Tot slot neemt de heer met een tedere kus afscheid en gaat zijnsweegs, mijmerend over de bijzondere avond die voorbij is.
+				</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+</body>
