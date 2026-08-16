@@ -70,13 +70,23 @@ class JsonSerializer
     protected $undefinedAttributeMode = self::UNDECLARED_PROPERTY_MODE_SET;
 
     /**
+     * Allowed classes for deserialization.
+     * Null means all classes are allowed (default, backward-compatible).
+     * An empty array means no classes are allowed.
+     * A non-empty array restricts deserialization to only the listed classes.
+     *
+     * @var array|null
+     */
+    protected $allowedClasses = null;
+
+    /**
      * Constructor.
      *
-     * @param ClosureSerializerInterface $closureSerializer This parameter is deprecated and will be removed in 5.0.0. Use addClosureSerializer() instead.
+     * @param ClosureSerializerInterface|null $closureSerializer This parameter is deprecated and will be removed in 5.0.0. Use addClosureSerializer() instead.
      * @param array                      $customObjectSerializerMap
      */
     public function __construct(
-        ClosureSerializerInterface $closureSerializer = null,
+        ?ClosureSerializerInterface $closureSerializer = null,
         $customObjectSerializerMap = []
     ) {
         $this->closureManager = new ClosureSerializer\ClosureSerializerManager();
@@ -240,6 +250,24 @@ class JsonSerializer
     }
 
     /**
+     * Set the list of classes allowed during deserialization.
+     *
+     * When set to an array, only those classes can be instantiated via the
+     * "@type" key in a JSON payload. Classes registered in the custom object
+     * serializer map are always allowed regardless of this setting.
+     * Pass null (the default) to restore the unrestricted, backward-compatible
+     * behaviour. Pass an empty array to forbid all class instantiation.
+     *
+     * @param  array|null $allowedClasses
+     * @return self
+     */
+    public function setAllowedClasses(?array $allowedClasses): self
+    {
+        $this->allowedClasses = $allowedClasses;
+        return $this;
+    }
+
+    /**
      * Parse the data to be json encoded
      *
      * @param  mixed $value
@@ -325,7 +353,39 @@ class JsonSerializer
         foreach ($ref->getProperties() as $prop) {
             $props[] = $prop->getName();
         }
+
+        // Private properties of parent classes are not returned by getProperties() on the child class,
+        // so we traverse the parent chain to collect them.
+        $parentRef = $ref->getParentClass();
+        while ($parentRef !== false) {
+            foreach ($parentRef->getProperties(\ReflectionProperty::IS_PRIVATE) as $prop) {
+                $props[] = $prop->getName();
+            }
+            $parentRef = $parentRef->getParentClass();
+        }
+
         return array_unique(array_merge($props, array_keys(get_object_vars($value))));
+    }
+
+    /**
+     * Find a ReflectionProperty by traversing the class hierarchy (needed for parent private properties)
+     *
+     * @param  ReflectionClass $ref
+     * @param  string          $name
+     * @return \ReflectionProperty
+     * @throws ReflectionException
+     */
+    protected function getReflectionProperty($ref, $name)
+    {
+        $classRef = $ref;
+        while ($classRef !== false) {
+            try {
+                return $classRef->getProperty($name);
+            } catch (ReflectionException $e) {
+                $classRef = $classRef->getParentClass();
+            }
+        }
+        throw new ReflectionException('Property ' . $name . ' not found in class ' . $ref->getName() . ' or its parents');
     }
 
     /**
@@ -341,8 +401,11 @@ class JsonSerializer
         $data = [];
         foreach ($properties as $property) {
             try {
-                $propRef = $ref->getProperty($property);
+                $propRef = $this->getReflectionProperty($ref, $property);
                 $propRef->setAccessible(true);
+                if (!$propRef->isInitialized($value)) {
+                    continue;
+                }
                 $data[$property] = $propRef->getValue($value);
             } catch (ReflectionException $e) {
                 $data[$property] = $value->$property;
@@ -449,6 +512,13 @@ class JsonSerializer
             throw new JsonSerializerException('Unable to find class ' . $className);
         }
 
+        if ($this->allowedClasses !== null && !in_array($className, $this->allowedClasses, true)) {
+            throw new JsonSerializerException(
+                'Class ' . $className . ' is not allowed for deserialization. ' .
+                'Use setAllowedClasses() to configure the list of allowed classes.'
+            );
+        }
+
         if ($className === 'DateTime' || $className === 'DateTimeImmutable') {
             $obj = $this->restoreUsingUnserialize($className, $value);
             $this->objectMapping[$this->objectMappingIndex++] = $obj;
@@ -477,7 +547,7 @@ class JsonSerializer
         $this->objectMapping[$this->objectMappingIndex++] = $obj;
         foreach ($value as $property => $propertyValue) {
             try {
-                $propRef = $ref->getProperty($property);
+                $propRef = $this->getReflectionProperty($ref, $property);
                 $propRef->setAccessible(true);
                 $propRef->setValue($obj, $this->unserializeData($propertyValue));
             } catch (ReflectionException $e) {

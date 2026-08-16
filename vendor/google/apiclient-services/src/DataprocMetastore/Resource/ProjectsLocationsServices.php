@@ -291,9 +291,9 @@ class ProjectsLocationsServices extends \Google\Service\Resource
   /**
    * Updates the parameters of a single service. (services.patch)
    *
-   * @param string $name Immutable. The relative resource name of the metastore
-   * service, in the following format:projects/{project_number}/locations/{locatio
-   * n_id}/services/{service_id}.
+   * @param string $name Immutable. Identifier. The relative resource name of the
+   * metastore service, in the following format:projects/{project_number}/location
+   * s/{location_id}/services/{service_id}.
    * @param Service $postBody
    * @param array $optParams Optional parameters.
    *

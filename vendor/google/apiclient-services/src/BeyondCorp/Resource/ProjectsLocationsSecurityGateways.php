@@ -19,8 +19,8 @@ namespace Google\Service\BeyondCorp\Resource;
 
 use Google\Service\BeyondCorp\GoogleCloudBeyondcorpSecuritygatewaysV1ListSecurityGatewaysResponse;
 use Google\Service\BeyondCorp\GoogleCloudBeyondcorpSecuritygatewaysV1SecurityGateway;
-use Google\Service\BeyondCorp\GoogleCloudBeyondcorpSecuritygatewaysV1SetPeeringRequest;
 use Google\Service\BeyondCorp\GoogleIamV1Policy;
+use Google\Service\BeyondCorp\GoogleIamV1SetIamPolicyRequest;
 use Google\Service\BeyondCorp\GoogleIamV1TestIamPermissionsRequest;
 use Google\Service\BeyondCorp\GoogleIamV1TestIamPermissionsResponse;
 use Google\Service\BeyondCorp\GoogleLongrunningOperation;
@@ -36,7 +36,7 @@ use Google\Service\BeyondCorp\GoogleLongrunningOperation;
 class ProjectsLocationsSecurityGateways extends \Google\Service\Resource
 {
   /**
-   * Creates a new SecurityGateway in a given project and location.
+   * Creates a new Security Gateway in a given project and location.
    * (securityGateways.create)
    *
    * @param string $parent Required. The resource project name of the
@@ -47,8 +47,9 @@ class ProjectsLocationsSecurityGateways extends \Google\Service\Resource
    *
    * @opt_param string requestId Optional. An optional request ID to identify
    * requests. Specify a unique request ID so that if you must retry your request,
-   * the server will know to ignore request if it has already been completed. The
-   * server will guarantee that for at least 60 minutes since the first request.
+   * the server will know to ignore the request if it has already been completed.
+   * The server will guarantee that for at least 60 minutes since the first
+   * request.
    * @opt_param string securityGatewayId Optional. User-settable SecurityGateway
    * resource ID. * Must start with a letter. * Must contain between 4-63
    * characters from `/a-z-/`. * Must end with a number or letter.
@@ -190,7 +191,7 @@ class ProjectsLocationsSecurityGateways extends \Google\Service\Resource
    * clients from accidentally creating duplicate commitments. The request ID must
    * be a valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
-   * @opt_param string updateMask Required. Mutable fields include: display_name,
+   * @opt_param string updateMask Optional. Mutable fields include: display_name,
    * hubs.
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
@@ -202,23 +203,24 @@ class ProjectsLocationsSecurityGateways extends \Google\Service\Resource
     return $this->call('patch', [$params], GoogleLongrunningOperation::class);
   }
   /**
-   * This is a custom method to allow customers to create a peering connections
-   * between Google network and customer networks. This is enabled only for the
-   * allowlisted customers. (securityGateways.setPeering)
+   * Sets the access control policy on the specified resource. Replaces any
+   * existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and
+   * `PERMISSION_DENIED` errors. (securityGateways.setIamPolicy)
    *
-   * @param string $securityGateway Required. BeyondCorp SecurityGateway name
-   * using the form:
-   * `projects/{project}/locations/{location}/securityGateways/{security_gateway}`
-   * @param GoogleCloudBeyondcorpSecuritygatewaysV1SetPeeringRequest $postBody
+   * @param string $resource REQUIRED: The resource for which the policy is being
+   * specified. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
+   * @param GoogleIamV1SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
-   * @return GoogleLongrunningOperation
+   * @return GoogleIamV1Policy
    * @throws \Google\Service\Exception
    */
-  public function setPeering($securityGateway, GoogleCloudBeyondcorpSecuritygatewaysV1SetPeeringRequest $postBody, $optParams = [])
+  public function setIamPolicy($resource, GoogleIamV1SetIamPolicyRequest $postBody, $optParams = [])
   {
-    $params = ['securityGateway' => $securityGateway, 'postBody' => $postBody];
+    $params = ['resource' => $resource, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('setPeering', [$params], GoogleLongrunningOperation::class);
+    return $this->call('setIamPolicy', [$params], GoogleIamV1Policy::class);
   }
   /**
    * Returns permissions that a caller has on the specified resource. If the

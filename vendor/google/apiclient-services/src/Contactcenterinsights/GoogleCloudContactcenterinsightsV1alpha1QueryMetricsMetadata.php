@@ -19,6 +19,31 @@ namespace Google\Service\Contactcenterinsights;
 
 class GoogleCloudContactcenterinsightsV1alpha1QueryMetricsMetadata extends \Google\Model
 {
+  /**
+   * Whether the result rows were truncated because the result row size is too
+   * large to materialize.
+   *
+   * @var bool
+   */
+  public $resultIsTruncated;
+
+  /**
+   * Whether the result rows were truncated because the result row size is too
+   * large to materialize.
+   *
+   * @param bool $resultIsTruncated
+   */
+  public function setResultIsTruncated($resultIsTruncated)
+  {
+    $this->resultIsTruncated = $resultIsTruncated;
+  }
+  /**
+   * @return bool
+   */
+  public function getResultIsTruncated()
+  {
+    return $this->resultIsTruncated;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

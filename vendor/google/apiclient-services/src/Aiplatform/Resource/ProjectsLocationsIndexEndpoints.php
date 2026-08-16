@@ -72,7 +72,7 @@ class ProjectsLocationsIndexEndpoints extends \Google\Service\Resource
   }
   /**
    * Deploys an Index into this IndexEndpoint, creating a DeployedIndex within it.
-   * Only non-empty Indexes can be deployed. (indexEndpoints.deployIndex)
+   * (indexEndpoints.deployIndex)
    *
    * @param string $indexEndpoint Required. The name of the IndexEndpoint resource
    * into which to deploy an Index. Format:
@@ -163,6 +163,12 @@ class ProjectsLocationsIndexEndpoints extends \Google\Service\Resource
    * `projects/{project}/locations/{location}/indexEndpoints/{index_endpoint}`
    * @param GoogleCloudAiplatformV1DeployedIndex $postBody
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Optional. The update mask applies to the
+   * resource. The supported paths are `automatic_resources`,
+   * `dedicated_resources`, `enable_access_logging` and
+   * `deployed_index_auth_config`. When omitted, the service will perform a full
+   * update of all fields. See google.protobuf.FieldMask.
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */

@@ -165,6 +165,8 @@ class Buckets extends \Google\Service\Resource
    * @opt_param string prefix Filter results to buckets whose names begin with
    * this prefix.
    * @opt_param string projection Set of properties to return. Defaults to noAcl.
+   * @opt_param bool returnPartialSuccess If true, return a list of bucket
+   * resource names for buckets that are in unreachable locations.
    * @opt_param bool softDeleted If true, only soft-deleted bucket versions will
    * be returned. The default is false. For more information, see [Soft
    * Delete](https://cloud.google.com/storage/docs/soft-delete).
@@ -251,15 +253,17 @@ class Buckets extends \Google\Service\Resource
    * @param string $generation Generation of a bucket.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string projection Set of properties to return. Defaults to full.
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
+   * @return Bucket
    * @throws \Google\Service\Exception
    */
   public function restore($bucket, $generation, $optParams = [])
   {
     $params = ['bucket' => $bucket, 'generation' => $generation];
     $params = array_merge($params, $optParams);
-    return $this->call('restore', [$params]);
+    return $this->call('restore', [$params], Bucket::class);
   }
   /**
    * Updates an IAM policy for the specified bucket. (buckets.setIamPolicy)

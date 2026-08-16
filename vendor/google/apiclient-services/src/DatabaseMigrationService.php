@@ -81,6 +81,10 @@ class DatabaseMigrationService extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'fetchReservedPublicIps' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
                 'pageSize' => [
                   'location' => 'query',
                   'type' => 'integer',
@@ -108,6 +112,11 @@ class DatabaseMigrationService extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'extraLocationTypes' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
                 ],
                 'filter' => [
                   'location' => 'query',
@@ -662,6 +671,16 @@ class DatabaseMigrationService extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'fetchSourceObjects' => [
+              'path' => 'v1/{+name}:fetchSourceObjects',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'generateSshScript' => [
               'path' => 'v1/{+migrationJob}:generateSshScript',
               'httpMethod' => 'POST',
@@ -840,7 +859,17 @@ class DatabaseMigrationService extends \Google\Service
         'objects',
         [
           'methods' => [
-            'getIamPolicy' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'getIamPolicy' => [
               'path' => 'v1/{+resource}:getIamPolicy',
               'httpMethod' => 'GET',
               'parameters' => [
@@ -852,6 +881,34 @@ class DatabaseMigrationService extends \Google\Service
                 'options.requestedPolicyVersion' => [
                   'location' => 'query',
                   'type' => 'integer',
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/objects',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'lookup' => [
+              'path' => 'v1/{+parent}/objects:lookup',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
               ],
             ],'setIamPolicy' => [
@@ -935,6 +992,10 @@ class DatabaseMigrationService extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'returnPartialSuccess' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
               ],
             ],
           ]
@@ -964,6 +1025,10 @@ class DatabaseMigrationService extends \Google\Service
                   'type' => 'string',
                 ],
                 'skipValidation' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+                'validateOnly' => [
                   'location' => 'query',
                   'type' => 'boolean',
                 ],

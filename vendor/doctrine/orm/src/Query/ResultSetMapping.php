@@ -49,7 +49,7 @@ class ResultSetMapping
      * Maps alias names to related association field names.
      *
      * @ignore
-     * @psalm-var array<string, string>
+     * @phpstan-var array<string, string>
      */
     public $relationMap = [];
 
@@ -57,7 +57,7 @@ class ResultSetMapping
      * Maps alias names to parent alias names.
      *
      * @ignore
-     * @psalm-var array<string, string>
+     * @phpstan-var array<string, string>
      */
     public $parentAliasMap = [];
 
@@ -65,15 +65,22 @@ class ResultSetMapping
      * Maps column names in the result set to field names for each class.
      *
      * @ignore
-     * @psalm-var array<string, string>
+     * @phpstan-var array<string, string>
      */
     public $fieldMappings = [];
+
+    /**
+     * Map field names for each class to alias
+     *
+     * @var array<class-string, array<string, array<string, string>>>
+     */
+    public $columnAliasMappings = [];
 
     /**
      * Maps column names in the result set to the alias/field name to use in the mapped result.
      *
      * @ignore
-     * @psalm-var array<string, string|int>
+     * @phpstan-var array<string, string|int>
      */
     public $scalarMappings = [];
 
@@ -81,7 +88,7 @@ class ResultSetMapping
      * Maps scalar columns to enums
      *
      * @ignore
-     * @psalm-var array<string, string>
+     * @phpstan-var array<string, string>
      */
     public $enumMappings = [];
 
@@ -89,7 +96,7 @@ class ResultSetMapping
      * Maps column names in the result set to the alias/field type to use in the mapped result.
      *
      * @ignore
-     * @psalm-var array<string, string>
+     * @phpstan-var array<string, string>
      */
     public $typeMappings = [];
 
@@ -97,7 +104,7 @@ class ResultSetMapping
      * Maps entities in the result set to the alias name to use in the mapped result.
      *
      * @ignore
-     * @psalm-var array<string, string|null>
+     * @phpstan-var array<string, string|null>
      */
     public $entityMappings = [];
 
@@ -105,7 +112,7 @@ class ResultSetMapping
      * Maps column names of meta columns (foreign keys, discriminator columns, ...) to field names.
      *
      * @ignore
-     * @psalm-var array<string, string>
+     * @phpstan-var array<string, string>
      */
     public $metaMappings = [];
 
@@ -113,7 +120,7 @@ class ResultSetMapping
      * Maps column names in the result set to the alias they belong to.
      *
      * @ignore
-     * @psalm-var array<string, string>
+     * @phpstan-var array<string, string>
      */
     public $columnOwnerMap = [];
 
@@ -121,7 +128,7 @@ class ResultSetMapping
      * List of columns in the result set that are used as discriminator columns.
      *
      * @ignore
-     * @psalm-var array<string, string>
+     * @phpstan-var array<string, string>
      */
     public $discriminatorColumns = [];
 
@@ -129,7 +136,7 @@ class ResultSetMapping
      * Maps alias names to field names that should be used for indexing.
      *
      * @ignore
-     * @psalm-var array<string, string>
+     * @phpstan-var array<string, string>
      */
     public $indexByMap = [];
 
@@ -144,28 +151,28 @@ class ResultSetMapping
     /**
      * This is necessary to hydrate derivate foreign keys correctly.
      *
-     * @psalm-var array<string, array<string, bool>>
+     * @phpstan-var array<string, array<string, bool>>
      */
     public $isIdentifierColumn = [];
 
     /**
      * Maps column names in the result set to field names for each new object expression.
      *
-     * @psalm-var array<string, array<string, mixed>>
+     * @phpstan-var array<string, array<string, mixed>>
      */
     public $newObjectMappings = [];
 
     /**
      * Maps metadata parameter names to the metadata attribute.
      *
-     * @psalm-var array<int|string, string>
+     * @phpstan-var array<int|string, string>
      */
     public $metadataParameterMapping = [];
 
     /**
      * Contains query parameter names to be resolved as discriminator values
      *
-     * @psalm-var array<string, string>
+     * @phpstan-var array<string, string>
      */
     public $discriminatorParameters = [];
 
@@ -335,13 +342,34 @@ class ResultSetMapping
         // column name => alias of owner
         $this->columnOwnerMap[$columnName] = $alias;
         // field name => class name of declaring class
-        $this->declaringClasses[$columnName] = $declaringClass ?: $this->aliasMap[$alias];
+        $declaringClass                      = $declaringClass ?: $this->aliasMap[$alias];
+        $this->declaringClasses[$columnName] = $declaringClass;
+
+        $this->columnAliasMappings[$declaringClass][$alias][$fieldName] = $columnName;
 
         if (! $this->isMixed && $this->scalarMappings) {
             $this->isMixed = true;
         }
 
         return $this;
+    }
+
+    public function hasColumnAliasByField(string $alias, string $fieldName): bool
+    {
+        if (! isset($this->aliasMap[$alias])) {
+            return false;
+        }
+
+        $declaringClass = $this->aliasMap[$alias];
+
+        return isset($this->columnAliasMappings[$declaringClass][$alias][$fieldName]);
+    }
+
+    public function getColumnAliasByField(string $alias, string $fieldName): string
+    {
+        $declaringClass = $this->aliasMap[$alias];
+
+        return $this->columnAliasMappings[$declaringClass][$alias][$fieldName];
     }
 
     /**
@@ -546,7 +574,7 @@ class ResultSetMapping
      * Gets the number of different entities that appear in the mapped result.
      *
      * @return int
-     * @psalm-return 0|positive-int
+     * @phpstan-return 0|positive-int
      */
     public function getEntityResultCount()
     {

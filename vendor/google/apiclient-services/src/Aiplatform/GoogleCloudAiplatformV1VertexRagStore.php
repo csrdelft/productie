@@ -20,34 +20,33 @@ namespace Google\Service\Aiplatform;
 class GoogleCloudAiplatformV1VertexRagStore extends \Google\Collection
 {
   protected $collection_key = 'ragResources';
-  /**
-   * @var string[]
-   */
-  public $ragCorpora;
   protected $ragResourcesType = GoogleCloudAiplatformV1VertexRagStoreRagResource::class;
   protected $ragResourcesDataType = 'array';
+  protected $ragRetrievalConfigType = GoogleCloudAiplatformV1RagRetrievalConfig::class;
+  protected $ragRetrievalConfigDataType = '';
   /**
+   * Optional. Number of top k results to return from the selected corpora.
+   *
+   * @deprecated
    * @var int
    */
   public $similarityTopK;
+  /**
+   * Optional. Only return results with vector distance smaller than the
+   * threshold.
+   *
+   * @deprecated
+   * @var 
+   */
   public $vectorDistanceThreshold;
 
   /**
-   * @param string[]
-   */
-  public function setRagCorpora($ragCorpora)
-  {
-    $this->ragCorpora = $ragCorpora;
-  }
-  /**
-   * @return string[]
-   */
-  public function getRagCorpora()
-  {
-    return $this->ragCorpora;
-  }
-  /**
-   * @param GoogleCloudAiplatformV1VertexRagStoreRagResource[]
+   * Optional. The representation of the rag source. It can be used to specify
+   * corpus only or ragfiles. Currently only support one corpus or multiple
+   * files from one corpus. In the future we may open up multiple corpora
+   * support.
+   *
+   * @param GoogleCloudAiplatformV1VertexRagStoreRagResource[] $ragResources
    */
   public function setRagResources($ragResources)
   {
@@ -61,13 +60,33 @@ class GoogleCloudAiplatformV1VertexRagStore extends \Google\Collection
     return $this->ragResources;
   }
   /**
-   * @param int
+   * Optional. The retrieval config for the Rag query.
+   *
+   * @param GoogleCloudAiplatformV1RagRetrievalConfig $ragRetrievalConfig
+   */
+  public function setRagRetrievalConfig(GoogleCloudAiplatformV1RagRetrievalConfig $ragRetrievalConfig)
+  {
+    $this->ragRetrievalConfig = $ragRetrievalConfig;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1RagRetrievalConfig
+   */
+  public function getRagRetrievalConfig()
+  {
+    return $this->ragRetrievalConfig;
+  }
+  /**
+   * Optional. Number of top k results to return from the selected corpora.
+   *
+   * @deprecated
+   * @param int $similarityTopK
    */
   public function setSimilarityTopK($similarityTopK)
   {
     $this->similarityTopK = $similarityTopK;
   }
   /**
+   * @deprecated
    * @return int
    */
   public function getSimilarityTopK()

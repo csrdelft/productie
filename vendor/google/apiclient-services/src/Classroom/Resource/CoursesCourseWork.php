@@ -22,6 +22,7 @@ use Google\Service\Classroom\ClassroomEmpty;
 use Google\Service\Classroom\CourseWork;
 use Google\Service\Classroom\ListCourseWorkResponse;
 use Google\Service\Classroom\ModifyCourseWorkAssigneesRequest;
+use Google\Service\Classroom\Rubric;
 
 /**
  * The "courseWork" collection of methods.
@@ -109,7 +110,7 @@ class CoursesCourseWork extends \Google\Service\Resource
    * maintain the integrity of its own data and permissions model, an add-on
    * should call this to validate query parameters and the requesting user's role
    * whenever the add-on is opened in an
-   * [iframe](https://developers.google.com/classroom/add-ons/get-
+   * [iframe](https://developers.google.com/workspace/classroom/add-ons/get-
    * started/iframes/iframes-overview). This method returns the following error
    * codes: * `PERMISSION_DENIED` for access errors. * `INVALID_ARGUMENT` if the
    * request is malformed. * `NOT_FOUND` if one of the identified resources does
@@ -129,8 +130,9 @@ class CoursesCourseWork extends \Google\Service\Resource
    * the post.
    * @opt_param string attachmentId Optional. The identifier of the attachment.
    * This field is required for all requests except when the user is in the
-   * [Attachment Discovery iframe](https://developers.google.com/classroom/add-
-   * ons/get-started/iframes/attachment-discovery-iframe).
+   * [Attachment Discovery
+   * iframe](https://developers.google.com/workspace/classroom/add-ons/get-
+   * started/iframes/attachment-discovery-iframe).
    * @opt_param string postId Optional. Deprecated, use `item_id` instead.
    * @return AddOnContext
    * @throws \Google\Service\Exception
@@ -184,7 +186,8 @@ class CoursesCourseWork extends \Google\Service\Resource
    * the following error codes: * `PERMISSION_DENIED` if the requesting user is
    * not permitted to access the requested course or course work or for access
    * errors. * `INVALID_ARGUMENT` if the request is malformed. * `NOT_FOUND` if
-   * the requested course or course work does not exist.
+   * the requested course or course work does not exist. * `FAILED_PRECONDITION`
+   * for the following request error: * EmptyAssignees
    * (courseWork.modifyAssignees)
    *
    * @param string $courseId Identifier of the course. This identifier can be
@@ -230,8 +233,7 @@ class CoursesCourseWork extends \Google\Service\Resource
    * error is returned. The following fields may be specified by teachers: *
    * `title` * `description` * `state` * `due_date` * `due_time` * `max_points` *
    * `scheduled_time` * `submission_modification_mode` * `topic_id` *
-   * `grading_period_id` Available in [V1_20240401_PREVIEW](https://developers.goo
-   * gle.com/classroom/reference/preview) and later.
+   * `grading_period_id`
    * @return CourseWork
    * @throws \Google\Service\Exception
    */
@@ -240,6 +242,52 @@ class CoursesCourseWork extends \Google\Service\Resource
     $params = ['courseId' => $courseId, 'id' => $id, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], CourseWork::class);
+  }
+  /**
+   * Updates a rubric. See google.classroom.v1.Rubric for details of which fields
+   * can be updated. Rubric update capabilities are
+   * [limited](/classroom/rubrics/limitations) once grading has started. The
+   * requesting user and course owner must have rubrics creation capabilities. For
+   * details, see [licensing requirements](https://developers.google.com/workspace
+   * /classroom/rubrics/limitations#license-requirements). This request must be
+   * made by the Google Cloud console of the [OAuth client
+   * ID](https://support.google.com/cloud/answer/6158849) used to create the
+   * parent course work item. This method returns the following error codes: *
+   * `PERMISSION_DENIED` if the requesting developer project didn't create the
+   * corresponding course work, if the user isn't permitted to make the requested
+   * modification to the rubric, or for access errors. This error code is also
+   * returned if grading has already started on the rubric. * `INVALID_ARGUMENT`
+   * if the request is malformed and for the following request error: *
+   * `RubricCriteriaInvalidFormat` * `NOT_FOUND` if the requested course, course
+   * work, or rubric doesn't exist or if the user doesn't have access to the
+   * corresponding course work. * `INTERNAL` if grading has already started on the
+   * rubric. (courseWork.updateRubric)
+   *
+   * @param string $courseId Required. Identifier of the course.
+   * @param string $courseWorkId Required. Identifier of the course work.
+   * @param Rubric $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string id Optional. Identifier of the rubric.
+   * @opt_param string updateMask Optional. Mask that identifies which fields on
+   * the rubric to update. This field is required to do an update. The update
+   * fails if invalid fields are specified. There are multiple options to define
+   * the criteria of a rubric: the `source_spreadsheet_id` and the `criteria`
+   * list. Only one of these can be used at a time to define a rubric. The rubric
+   * `criteria` list is fully replaced by the rubric criteria specified in the
+   * update request. For example, if a criterion or level is missing from the
+   * request, it is deleted. New criteria and levels are added and an ID is
+   * assigned. Existing criteria and levels retain the previously assigned ID if
+   * the ID is specified in the request. The following fields can be specified by
+   * teachers: * `criteria` * `source_spreadsheet_id`
+   * @return Rubric
+   * @throws \Google\Service\Exception
+   */
+  public function updateRubric($courseId, $courseWorkId, Rubric $postBody, $optParams = [])
+  {
+    $params = ['courseId' => $courseId, 'courseWorkId' => $courseWorkId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('updateRubric', [$params], Rubric::class);
   }
 }
 

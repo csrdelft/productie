@@ -21,7 +21,6 @@ use Doctrine\ORM\Internal\Hydration\IterableResult;
 use Doctrine\ORM\Mapping\MappingException as ORMMappingException;
 use Doctrine\ORM\Proxy\DefaultProxyClassNameResolver;
 use Doctrine\ORM\Query\Parameter;
-use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\Mapping\MappingException;
 use LogicException;
@@ -90,7 +89,7 @@ abstract class AbstractQuery
      * The parameter map of this query.
      *
      * @var ArrayCollection|Parameter[]
-     * @psalm-var ArrayCollection<int, Parameter>
+     * @phpstan-var ArrayCollection<int, Parameter>
      */
     protected $parameters;
 
@@ -111,7 +110,7 @@ abstract class AbstractQuery
     /**
      * The map of query hints.
      *
-     * @psalm-var array<string, mixed>
+     * @phpstan-var array<string, mixed>
      */
     protected $_hints = [];
 
@@ -119,7 +118,7 @@ abstract class AbstractQuery
      * The hydration mode.
      *
      * @var string|int
-     * @psalm-var string|AbstractQuery::HYDRATE_*
+     * @phpstan-var string|AbstractQuery::HYDRATE_*
      */
     protected $_hydrationMode = self::HYDRATE_OBJECT;
 
@@ -157,7 +156,7 @@ abstract class AbstractQuery
      * Second level query cache mode.
      *
      * @var int|null
-     * @psalm-var Cache::MODE_*|null
+     * @phpstan-var Cache::MODE_*|null
      */
     protected $cacheMode;
 
@@ -254,7 +253,7 @@ abstract class AbstractQuery
 
     /**
      * @return int|null
-     * @psalm-return Cache::MODE_*|null
+     * @phpstan-return Cache::MODE_*|null
      */
     public function getCacheMode()
     {
@@ -263,7 +262,7 @@ abstract class AbstractQuery
 
     /**
      * @param int $cacheMode
-     * @psalm-param Cache::MODE_* $cacheMode
+     * @phpstan-param Cache::MODE_* $cacheMode
      *
      * @return $this
      */
@@ -311,7 +310,7 @@ abstract class AbstractQuery
      * Get all defined parameters.
      *
      * @return ArrayCollection The defined query parameters.
-     * @psalm-return ArrayCollection<int, Parameter>
+     * @phpstan-return ArrayCollection<int, Parameter>
      */
     public function getParameters()
     {
@@ -344,14 +343,14 @@ abstract class AbstractQuery
      * Sets a collection of query parameters.
      *
      * @param ArrayCollection|mixed[] $parameters
-     * @psalm-param ArrayCollection<int, Parameter>|mixed[] $parameters
+     * @phpstan-param ArrayCollection<int, Parameter>|mixed[] $parameters
      *
      * @return $this
      */
     public function setParameters($parameters)
     {
         if (is_array($parameters)) {
-            /** @psalm-var ArrayCollection<int, Parameter> $parameterCollection */
+            /** @phpstan-var ArrayCollection<int, Parameter> $parameterCollection */
             $parameterCollection = new ArrayCollection();
 
             foreach ($parameters as $key => $value) {
@@ -844,7 +843,7 @@ abstract class AbstractQuery
      * @param class-string $class
      * @param string       $assocName
      * @param int          $fetchMode
-     * @psalm-param Mapping\ClassMetadata::FETCH_EAGER|Mapping\ClassMetadata::FETCH_LAZY $fetchMode
+     * @phpstan-param Mapping\ClassMetadata::FETCH_EAGER|Mapping\ClassMetadata::FETCH_LAZY $fetchMode
      *
      * @return $this
      */
@@ -870,7 +869,7 @@ abstract class AbstractQuery
      *
      * @param string|int $hydrationMode Doctrine processing mode to be used during hydration process.
      *                                  One of the Query::HYDRATE_* constants.
-     * @psalm-param string|AbstractQuery::HYDRATE_* $hydrationMode
+     * @phpstan-param string|AbstractQuery::HYDRATE_* $hydrationMode
      *
      * @return $this
      */
@@ -885,7 +884,7 @@ abstract class AbstractQuery
      * Gets the hydration mode currently used by the query.
      *
      * @return string|int
-     * @psalm-return string|AbstractQuery::HYDRATE_*
+     * @phpstan-return string|AbstractQuery::HYDRATE_*
      */
     public function getHydrationMode()
     {
@@ -898,7 +897,7 @@ abstract class AbstractQuery
      * Alias for execute(null, $hydrationMode = HYDRATE_OBJECT).
      *
      * @param string|int $hydrationMode
-     * @psalm-param string|AbstractQuery::HYDRATE_* $hydrationMode
+     * @phpstan-param string|AbstractQuery::HYDRATE_* $hydrationMode
      *
      * @return mixed
      */
@@ -947,7 +946,7 @@ abstract class AbstractQuery
      * Get exactly one result or null.
      *
      * @param string|int|null $hydrationMode
-     * @psalm-param string|AbstractQuery::HYDRATE_*|null $hydrationMode
+     * @phpstan-param string|AbstractQuery::HYDRATE_*|null $hydrationMode
      *
      * @return mixed
      *
@@ -985,7 +984,7 @@ abstract class AbstractQuery
      * If there is no result, a NoResultException is thrown.
      *
      * @param string|int|null $hydrationMode
-     * @psalm-param string|AbstractQuery::HYDRATE_*|null $hydrationMode
+     * @phpstan-param string|AbstractQuery::HYDRATE_*|null $hydrationMode
      *
      * @return mixed
      *
@@ -1083,8 +1082,8 @@ abstract class AbstractQuery
      *
      * @param ArrayCollection|mixed[]|null $parameters    The query parameters.
      * @param string|int|null              $hydrationMode The hydration mode to use.
-     * @psalm-param ArrayCollection<int, Parameter>|array<string, mixed>|null $parameters
-     * @psalm-param string|AbstractQuery::HYDRATE_*|null                      $hydrationMode The hydration mode to use.
+     * @phpstan-param ArrayCollection<int, Parameter>|array<string, mixed>|null $parameters
+     * @phpstan-param string|AbstractQuery::HYDRATE_*|null                      $hydrationMode The hydration mode to use.
      *
      * @return IterableResult
      */
@@ -1121,8 +1120,8 @@ abstract class AbstractQuery
      *
      * @param ArrayCollection|array|mixed[] $parameters    The query parameters.
      * @param string|int|null               $hydrationMode The hydration mode to use.
-     * @psalm-param ArrayCollection<int, Parameter>|mixed[] $parameters
-     * @psalm-param string|AbstractQuery::HYDRATE_*|null    $hydrationMode
+     * @phpstan-param ArrayCollection<int, Parameter>|mixed[] $parameters
+     * @phpstan-param string|AbstractQuery::HYDRATE_*|null    $hydrationMode
      *
      * @return iterable<mixed>
      */
@@ -1144,10 +1143,6 @@ abstract class AbstractQuery
             throw new LogicException('Uninitialized result set mapping.');
         }
 
-        if ($rsm->isMixed && count($rsm->scalarMappings) > 0) {
-            throw QueryException::iterateWithMixedResultNotAllowed();
-        }
-
         $stmt = $this->_doExecute();
 
         return $this->_em->newHydrator($this->_hydrationMode)->toIterable($stmt, $rsm, $this->_hints);
@@ -1158,8 +1153,8 @@ abstract class AbstractQuery
      *
      * @param ArrayCollection|mixed[]|null $parameters    Query parameters.
      * @param string|int|null              $hydrationMode Processing mode to be used during the hydration process.
-     * @psalm-param ArrayCollection<int, Parameter>|mixed[]|null $parameters
-     * @psalm-param string|AbstractQuery::HYDRATE_*|null         $hydrationMode
+     * @phpstan-param ArrayCollection<int, Parameter>|mixed[]|null $parameters
+     * @phpstan-param string|AbstractQuery::HYDRATE_*|null         $hydrationMode
      *
      * @return mixed
      */
@@ -1177,8 +1172,8 @@ abstract class AbstractQuery
      *
      * @param ArrayCollection|mixed[]|null $parameters
      * @param string|int|null              $hydrationMode
-     * @psalm-param ArrayCollection<int, Parameter>|mixed[]|null $parameters
-     * @psalm-param string|AbstractQuery::HYDRATE_*|null         $hydrationMode
+     * @phpstan-param ArrayCollection<int, Parameter>|mixed[]|null $parameters
+     * @phpstan-param string|AbstractQuery::HYDRATE_*|null         $hydrationMode
      *
      * @return mixed
      */
@@ -1259,8 +1254,8 @@ abstract class AbstractQuery
      *
      * @param ArrayCollection|mixed[]|null $parameters
      * @param string|int|null              $hydrationMode
-     * @psalm-param ArrayCollection<int, Parameter>|mixed[]|null $parameters
-     * @psalm-param string|AbstractQuery::HYDRATE_*|null         $hydrationMode
+     * @phpstan-param ArrayCollection<int, Parameter>|mixed[]|null $parameters
+     * @phpstan-param string|AbstractQuery::HYDRATE_*|null         $hydrationMode
      *
      * @return mixed
      */
@@ -1323,7 +1318,7 @@ abstract class AbstractQuery
      * automatically generated for you.
      *
      * @return string[] ($key, $hash)
-     * @psalm-return array{string, string} ($key, $hash)
+     * @phpstan-return array{string, string} ($key, $hash)
      */
     protected function getHydrationCacheId()
     {
@@ -1380,7 +1375,7 @@ abstract class AbstractQuery
     }
 
     /**
-     * Executes the query and returns a the resulting Statement object.
+     * Executes the query and returns the resulting Statement object.
      *
      * @return Result|int The executed database statement that holds
      *                    the results, or an integer indicating how

@@ -19,6 +19,51 @@ namespace Google\Service\DiscoveryEngine;
 
 class GoogleCloudDiscoveryengineV1betaAdvancedSiteSearchConfig extends \Google\Model
 {
+  /**
+   * If set true, automatic refresh is disabled for the DataStore.
+   *
+   * @var bool
+   */
+  public $disableAutomaticRefresh;
+  /**
+   * If set true, initial indexing is disabled for the DataStore.
+   *
+   * @var bool
+   */
+  public $disableInitialIndex;
+
+  /**
+   * If set true, automatic refresh is disabled for the DataStore.
+   *
+   * @param bool $disableAutomaticRefresh
+   */
+  public function setDisableAutomaticRefresh($disableAutomaticRefresh)
+  {
+    $this->disableAutomaticRefresh = $disableAutomaticRefresh;
+  }
+  /**
+   * @return bool
+   */
+  public function getDisableAutomaticRefresh()
+  {
+    return $this->disableAutomaticRefresh;
+  }
+  /**
+   * If set true, initial indexing is disabled for the DataStore.
+   *
+   * @param bool $disableInitialIndex
+   */
+  public function setDisableInitialIndex($disableInitialIndex)
+  {
+    $this->disableInitialIndex = $disableInitialIndex;
+  }
+  /**
+   * @return bool
+   */
+  public function getDisableInitialIndex()
+  {
+    return $this->disableInitialIndex;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

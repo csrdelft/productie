@@ -17,9 +17,10 @@
 
 namespace Google\Service\Contactcenterinsights\Resource;
 
+use Google\Service\Contactcenterinsights\GoogleCloudContactcenterinsightsV1CalculateStatsResponse;
 use Google\Service\Contactcenterinsights\GoogleCloudContactcenterinsightsV1Conversation;
+use Google\Service\Contactcenterinsights\GoogleCloudContactcenterinsightsV1GenerateConversationSignedAudioResponse;
 use Google\Service\Contactcenterinsights\GoogleCloudContactcenterinsightsV1ListConversationsResponse;
-use Google\Service\Contactcenterinsights\GoogleLongrunningOperation;
 use Google\Service\Contactcenterinsights\GoogleProtobufEmpty;
 
 /**
@@ -33,27 +34,22 @@ use Google\Service\Contactcenterinsights\GoogleProtobufEmpty;
 class ProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations extends \Google\Service\Resource
 {
   /**
-   * Creates a conversation. Note that this method does not support audio
-   * transcription or redaction. Use `conversations.upload` instead.
-   * (conversations.create)
+   * Gets conversation statistics. (conversations.calculateStats)
    *
-   * @param string $parent Required. The parent resource of the conversation.
-   * @param GoogleCloudContactcenterinsightsV1Conversation $postBody
+   * @param string $location Required. The location of the conversations.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string conversationId A unique ID for the new conversation. This
-   * ID will become the final component of the conversation's resource name. If no
-   * ID is specified, a server-generated ID will be used. This value should be
-   * 4-64 characters and must match the regular expression `^[a-z0-9-]{4,64}$`.
-   * Valid characters are `a-z-`
-   * @return GoogleCloudContactcenterinsightsV1Conversation
+   * @opt_param string filter A filter to reduce results to a specific subset.
+   * This field is useful for getting statistics about conversations with specific
+   * properties.
+   * @return GoogleCloudContactcenterinsightsV1CalculateStatsResponse
    * @throws \Google\Service\Exception
    */
-  public function create($parent, GoogleCloudContactcenterinsightsV1Conversation $postBody, $optParams = [])
+  public function calculateStats($location, $optParams = [])
   {
-    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = ['location' => $location];
     $params = array_merge($params, $optParams);
-    return $this->call('create', [$params], GoogleCloudContactcenterinsightsV1Conversation::class);
+    return $this->call('calculateStats', [$params], GoogleCloudContactcenterinsightsV1CalculateStatsResponse::class);
   }
   /**
    * Deletes a conversation. (conversations.delete)
@@ -72,6 +68,21 @@ class ProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations extends \G
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('delete', [$params], GoogleProtobufEmpty::class);
+  }
+  /**
+   * Gets the signed URI for the audio for the given conversation.
+   * (conversations.generateSignedAudio)
+   *
+   * @param string $name Required. The name of the conversation to sign.
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudContactcenterinsightsV1GenerateConversationSignedAudioResponse
+   * @throws \Google\Service\Exception
+   */
+  public function generateSignedAudio($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('generateSignedAudio', [$params], GoogleCloudContactcenterinsightsV1GenerateConversationSignedAudioResponse::class);
   }
   /**
    * Gets a conversation. (conversations.get)
@@ -124,61 +135,6 @@ class ProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations extends \G
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], GoogleCloudContactcenterinsightsV1ListConversationsResponse::class);
-  }
-  /**
-   * Updates a conversation. (conversations.patch)
-   *
-   * @param string $name Immutable. The resource name of the conversation. Format:
-   * projects/{project}/locations/{location}/conversations/{conversation}
-   * @param GoogleCloudContactcenterinsightsV1Conversation $postBody
-   * @param array $optParams Optional parameters.
-   *
-   * @opt_param string updateMask The list of fields to be updated. All possible
-   * fields can be updated by passing `*`, or a subset of the following updateable
-   * fields can be provided: * `agent_id` * `language_code` * `labels` *
-   * `metadata` * `quality_metadata` * `call_metadata` * `start_time` *
-   * `expire_time` or `ttl` * `data_source.gcs_source.audio_uri` or
-   * `data_source.dialogflow_source.audio_uri`
-   * @return GoogleCloudContactcenterinsightsV1Conversation
-   * @throws \Google\Service\Exception
-   */
-  public function patch($name, GoogleCloudContactcenterinsightsV1Conversation $postBody, $optParams = [])
-  {
-    $params = ['name' => $name, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('patch', [$params], GoogleCloudContactcenterinsightsV1Conversation::class);
-  }
-  /**
-   * Create a long-running conversation upload operation. This method differs from
-   * `CreateConversation` by allowing audio transcription and optional DLP
-   * redaction. (conversations.upload)
-   *
-   * @param string $parent Required. The parent resource of the conversation.
-   * @param GoogleCloudContactcenterinsightsV1Conversation $postBody
-   * @param array $optParams Optional parameters.
-   *
-   * @opt_param string conversationId Optional. A unique ID for the new
-   * conversation. This ID will become the final component of the conversation's
-   * resource name. If no ID is specified, a server-generated ID will be used.
-   * This value should be 4-64 characters and must match the regular expression
-   * `^[a-z0-9-]{4,64}$`. Valid characters are `a-z-`
-   * @opt_param string redactionConfig.deidentifyTemplate The fully-qualified DLP
-   * deidentify template resource name. Format:
-   * `projects/{project}/deidentifyTemplates/{template}`
-   * @opt_param string redactionConfig.inspectTemplate The fully-qualified DLP
-   * inspect template resource name. Format:
-   * `projects/{project}/locations/{location}/inspectTemplates/{template}`
-   * @opt_param string speechConfig.speechRecognizer The fully-qualified Speech
-   * Recognizer resource name. Format:
-   * `projects/{project_id}/locations/{location}/recognizer/{recognizer}`
-   * @return GoogleLongrunningOperation
-   * @throws \Google\Service\Exception
-   */
-  public function upload($parent, GoogleCloudContactcenterinsightsV1Conversation $postBody, $optParams = [])
-  {
-    $params = ['parent' => $parent, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('upload', [$params], GoogleLongrunningOperation::class);
   }
 }
 

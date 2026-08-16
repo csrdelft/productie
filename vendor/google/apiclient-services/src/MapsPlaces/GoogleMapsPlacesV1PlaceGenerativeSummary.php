@@ -19,29 +19,39 @@ namespace Google\Service\MapsPlaces;
 
 class GoogleMapsPlacesV1PlaceGenerativeSummary extends \Google\Model
 {
-  protected $descriptionType = GoogleTypeLocalizedText::class;
-  protected $descriptionDataType = '';
+  protected $disclosureTextType = GoogleTypeLocalizedText::class;
+  protected $disclosureTextDataType = '';
   protected $overviewType = GoogleTypeLocalizedText::class;
   protected $overviewDataType = '';
-  protected $referencesType = GoogleMapsPlacesV1References::class;
-  protected $referencesDataType = '';
+  /**
+   * A link where users can flag a problem with the overview summary.
+   *
+   * @var string
+   */
+  public $overviewFlagContentUri;
 
   /**
-   * @param GoogleTypeLocalizedText
+   * The AI disclosure message "Summarized with Gemini" (and its localized
+   * variants). This will be in the language specified in the request if
+   * available.
+   *
+   * @param GoogleTypeLocalizedText $disclosureText
    */
-  public function setDescription(GoogleTypeLocalizedText $description)
+  public function setDisclosureText(GoogleTypeLocalizedText $disclosureText)
   {
-    $this->description = $description;
+    $this->disclosureText = $disclosureText;
   }
   /**
    * @return GoogleTypeLocalizedText
    */
-  public function getDescription()
+  public function getDisclosureText()
   {
-    return $this->description;
+    return $this->disclosureText;
   }
   /**
-   * @param GoogleTypeLocalizedText
+   * The overview of the place.
+   *
+   * @param GoogleTypeLocalizedText $overview
    */
   public function setOverview(GoogleTypeLocalizedText $overview)
   {
@@ -55,18 +65,20 @@ class GoogleMapsPlacesV1PlaceGenerativeSummary extends \Google\Model
     return $this->overview;
   }
   /**
-   * @param GoogleMapsPlacesV1References
+   * A link where users can flag a problem with the overview summary.
+   *
+   * @param string $overviewFlagContentUri
    */
-  public function setReferences(GoogleMapsPlacesV1References $references)
+  public function setOverviewFlagContentUri($overviewFlagContentUri)
   {
-    $this->references = $references;
+    $this->overviewFlagContentUri = $overviewFlagContentUri;
   }
   /**
-   * @return GoogleMapsPlacesV1References
+   * @return string
    */
-  public function getReferences()
+  public function getOverviewFlagContentUri()
   {
-    return $this->references;
+    return $this->overviewFlagContentUri;
   }
 }
 

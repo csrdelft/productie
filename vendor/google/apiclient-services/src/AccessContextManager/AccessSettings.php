@@ -21,16 +21,24 @@ class AccessSettings extends \Google\Collection
 {
   protected $collection_key = 'accessLevels';
   /**
+   * Optional. Access level that a user must have to be granted access. Only one
+   * access level is supported, not multiple. This repeated field must have
+   * exactly one element. Example:
+   * "accessPolicies/9522/accessLevels/device_trusted"
+   *
    * @var string[]
    */
   public $accessLevels;
-  protected $reauthSettingsType = ReauthSettings::class;
-  protected $reauthSettingsDataType = '';
   protected $sessionSettingsType = SessionSettings::class;
   protected $sessionSettingsDataType = '';
 
   /**
-   * @param string[]
+   * Optional. Access level that a user must have to be granted access. Only one
+   * access level is supported, not multiple. This repeated field must have
+   * exactly one element. Example:
+   * "accessPolicies/9522/accessLevels/device_trusted"
+   *
+   * @param string[] $accessLevels
    */
   public function setAccessLevels($accessLevels)
   {
@@ -44,21 +52,9 @@ class AccessSettings extends \Google\Collection
     return $this->accessLevels;
   }
   /**
-   * @param ReauthSettings
-   */
-  public function setReauthSettings(ReauthSettings $reauthSettings)
-  {
-    $this->reauthSettings = $reauthSettings;
-  }
-  /**
-   * @return ReauthSettings
-   */
-  public function getReauthSettings()
-  {
-    return $this->reauthSettings;
-  }
-  /**
-   * @param SessionSettings
+   * Optional. Session settings applied to user access on a given AccessScope.
+   *
+   * @param SessionSettings $sessionSettings
    */
   public function setSessionSettings(SessionSettings $sessionSettings)
   {

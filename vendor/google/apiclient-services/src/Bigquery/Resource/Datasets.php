@@ -35,7 +35,8 @@ class Datasets extends \Google\Service\Resource
    * Deletes the dataset specified by the datasetId value. Before you can delete a
    * dataset, you must delete all its tables, either manually or by specifying
    * deleteContents. Immediately after deletion, you can create another dataset
-   * with the same name. (datasets.delete)
+   * with the same name. # IAM Permissions Requires the `bigquery.datasets.delete`
+   * permission on the dataset. (datasets.delete)
    *
    * @param string $projectId Required. Project ID of the dataset being deleted
    * @param string $datasetId Required. Dataset ID of dataset being deleted
@@ -53,7 +54,8 @@ class Datasets extends \Google\Service\Resource
     return $this->call('delete', [$params]);
   }
   /**
-   * Returns the dataset specified by datasetID. (datasets.get)
+   * Returns the dataset specified by datasetID. # IAM Permissions Requires the
+   * `bigquery.datasets.get` permission on the dataset. (datasets.get)
    *
    * @param string $projectId Required. Project ID of the requested dataset
    * @param string $datasetId Required. Dataset ID of the requested dataset
@@ -64,7 +66,7 @@ class Datasets extends \Google\Service\Resource
    * value will be rejected. Requests for conditional access policy binding in
    * datasets must specify version 3. Dataset with no conditional role bindings in
    * access policy may specify any valid value or leave the field unset. This
-   * field will be maped to [IAM Policy version]
+   * field will be mapped to [IAM Policy version]
    * (https://cloud.google.com/iam/docs/policies#versions) and will be used to
    * fetch policy from IAM. If unset or if 0 or 1 value is used for dataset with
    * conditional bindings, access entry with condition will have role string
@@ -86,7 +88,8 @@ class Datasets extends \Google\Service\Resource
     return $this->call('get', [$params], Dataset::class);
   }
   /**
-   * Creates a new empty dataset. (datasets.insert)
+   * Creates a new empty dataset. # IAM Permissions Requires the
+   * `bigquery.datasets.create` permission on the project. (datasets.insert)
    *
    * @param string $projectId Required. Project ID of the new dataset
    * @param Dataset $postBody
@@ -101,7 +104,7 @@ class Datasets extends \Google\Service\Resource
    * must specify version 3. * But dataset with no conditional role bindings in
    * access policy may specify any valid value or leave the field unset. If unset
    * or if 0 or 1 value is used for dataset with conditional bindings, request
-   * will be rejected. This field will be maped to IAM Policy version
+   * will be rejected. This field will be mapped to IAM Policy version
    * (https://cloud.google.com/iam/docs/policies#versions) and will be used to set
    * policy in IAM.
    * @return Dataset
@@ -115,14 +118,17 @@ class Datasets extends \Google\Service\Resource
   }
   /**
    * Lists all datasets in the specified project to which the user has been
-   * granted the READER dataset role. (datasets.listDatasets)
+   * granted the READER dataset role. # IAM Permissions Requires no specific IAM
+   * permission(s) to use this method. Results are filtered to only include
+   * datasets on which the caller has the `bigquery.datasets.get` permission.
+   * (datasets.listDatasets)
    *
    * @param string $projectId Required. Project ID of the datasets to be listed
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool all Whether to list all datasets, including hidden ones
    * @opt_param string filter An expression for filtering the results of the
-   * request by label. The syntax is `labels.[:]`. Multiple filters can be ANDed
+   * request by label. The syntax is `labels.[:]`. Multiple filters can be AND-ed
    * together by connecting with a space. Example: `labels.department:receiving
    * labels.active`. See [Filtering datasets using
    * labels](https://cloud.google.com/bigquery/docs/filtering-
@@ -145,7 +151,9 @@ class Datasets extends \Google\Service\Resource
    * Updates information in an existing dataset. The update method replaces the
    * entire dataset resource, whereas the patch method only replaces fields that
    * are provided in the submitted dataset resource. This method supports RFC5789
-   * patch semantics. (datasets.patch)
+   * patch semantics. # IAM Permissions Requires the following IAM permission(s)
+   * to use this method: - `bigquery.datasets.update` on the dataset. -
+   * `bigquery.datasets.get` on the dataset. (datasets.patch)
    *
    * @param string $projectId Required. Project ID of the dataset being updated
    * @param string $datasetId Required. Dataset ID of the dataset being updated
@@ -164,9 +172,12 @@ class Datasets extends \Google\Service\Resource
    * with no conditional role bindings in access policy may specify any valid
    * value or leave the field unset. If unset or if 0 or 1 value is used for
    * dataset with conditional bindings, request will be rejected. This field will
-   * be maped to IAM Policy version
+   * be mapped to IAM Policy version
    * (https://cloud.google.com/iam/docs/policies#versions) and will be used to set
    * policy in IAM.
+   * @opt_param string updateMode Optional. Specifies the fields of dataset that
+   * update/patch operation is targeting By default, both metadata and ACL fields
+   * are updated.
    * @return Dataset
    * @throws \Google\Service\Exception
    */
@@ -179,7 +190,9 @@ class Datasets extends \Google\Service\Resource
   /**
    * Undeletes a dataset which is within time travel window based on datasetId. If
    * a time is specified, the dataset version deleted at that time is undeleted,
-   * else the last live version is undeleted. (datasets.undelete)
+   * else the last live version is undeleted. # IAM Permissions Requires the
+   * following IAM permission(s) to use this method: - `bigquery.datasets.create`
+   * on the project. - `bigquery.datasets.get` on the dataset. (datasets.undelete)
    *
    * @param string $projectId Required. Project ID of the dataset to be undeleted
    * @param string $datasetId Required. Dataset ID of dataset being deleted
@@ -197,7 +210,8 @@ class Datasets extends \Google\Service\Resource
   /**
    * Updates information in an existing dataset. The update method replaces the
    * entire dataset resource, whereas the patch method only replaces fields that
-   * are provided in the submitted dataset resource. (datasets.update)
+   * are provided in the submitted dataset resource. # IAM Permissions Requires
+   * the `bigquery.datasets.update` permission on the dataset. (datasets.update)
    *
    * @param string $projectId Required. Project ID of the dataset being updated
    * @param string $datasetId Required. Dataset ID of the dataset being updated
@@ -216,9 +230,12 @@ class Datasets extends \Google\Service\Resource
    * with no conditional role bindings in access policy may specify any valid
    * value or leave the field unset. If unset or if 0 or 1 value is used for
    * dataset with conditional bindings, request will be rejected. This field will
-   * be maped to IAM Policy version
+   * be mapped to IAM Policy version
    * (https://cloud.google.com/iam/docs/policies#versions) and will be used to set
    * policy in IAM.
+   * @opt_param string updateMode Optional. Specifies the fields of dataset that
+   * update/patch operation is targeting By default, both metadata and ACL fields
+   * are updated.
    * @return Dataset
    * @throws \Google\Service\Exception
    */

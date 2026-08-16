@@ -85,9 +85,9 @@ class YouTube extends \Google\Service
   public $thumbnails;
   public $videoAbuseReportReasons;
   public $videoCategories;
+  public $videoTrainability;
   public $videos;
   public $watermarks;
-  public $youtube_v3;
   public $youtube_v3_liveChat_messages;
   public $rootUrlTemplate;
 
@@ -562,6 +562,10 @@ class YouTube extends \Google\Service
                   'type' => 'string',
                 ],
                 'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'postId' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],
@@ -1811,6 +1815,10 @@ class YouTube extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'onBehalfOfContentOwnerChannel' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
               ],
             ],
           ]
@@ -1986,13 +1994,51 @@ class YouTube extends \Google\Service
           ]
         ]
     );
+    $this->videoTrainability = new YouTube\Resource\VideoTrainability(
+        $this,
+        $this->serviceName,
+        'videoTrainability',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'youtube/v3/videoTrainability',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'id' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->videos = new YouTube\Resource\Videos(
         $this,
         $this->serviceName,
         'videos',
         [
           'methods' => [
-            'delete' => [
+            'batchGetStats' => [
+              'path' => 'youtube/v3/videos:batchGetStats',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'id' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
+                ],
+                'onBehalfOfContentOwner' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'part' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
+                ],
+              ],
+            ],'delete' => [
               'path' => 'youtube/v3/videos',
               'httpMethod' => 'DELETE',
               'parameters' => [
@@ -2187,26 +2233,6 @@ class YouTube extends \Google\Service
                 'onBehalfOfContentOwner' => [
                   'location' => 'query',
                   'type' => 'string',
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->youtube_v3 = new YouTube\Resource\YoutubeV3(
-        $this,
-        $this->serviceName,
-        'v3',
-        [
-          'methods' => [
-            'updateCommentThreads' => [
-              'path' => 'youtube/v3/commentThreads',
-              'httpMethod' => 'PUT',
-              'parameters' => [
-                'part' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                  'repeated' => true,
                 ],
               ],
             ],

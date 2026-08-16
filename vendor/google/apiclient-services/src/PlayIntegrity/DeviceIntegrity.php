@@ -19,18 +19,49 @@ namespace Google\Service\PlayIntegrity;
 
 class DeviceIntegrity extends \Google\Collection
 {
-  protected $collection_key = 'deviceRecognitionVerdict';
+  protected $collection_key = 'legacyDeviceRecognitionVerdict';
+  protected $deviceAttributesType = DeviceAttributes::class;
+  protected $deviceAttributesDataType = '';
   protected $deviceRecallType = DeviceRecall::class;
   protected $deviceRecallDataType = '';
   /**
+   * Details about the integrity of the device the app is running on.
+   *
    * @var string[]
    */
   public $deviceRecognitionVerdict;
+  /**
+   * Contains legacy details about the integrity of the device the app is
+   * running on. Only for devices with Android version T or higher and only for
+   * apps opted in to the new verdicts. Only available during the transition
+   * period to the new verdicts system and will be removed afterwards.
+   *
+   * @var string[]
+   */
+  public $legacyDeviceRecognitionVerdict;
   protected $recentDeviceActivityType = RecentDeviceActivity::class;
   protected $recentDeviceActivityDataType = '';
 
   /**
-   * @param DeviceRecall
+   * Attributes of the device where the integrity token was generated.
+   *
+   * @param DeviceAttributes $deviceAttributes
+   */
+  public function setDeviceAttributes(DeviceAttributes $deviceAttributes)
+  {
+    $this->deviceAttributes = $deviceAttributes;
+  }
+  /**
+   * @return DeviceAttributes
+   */
+  public function getDeviceAttributes()
+  {
+    return $this->deviceAttributes;
+  }
+  /**
+   * Details about the device recall bits set by the developer.
+   *
+   * @param DeviceRecall $deviceRecall
    */
   public function setDeviceRecall(DeviceRecall $deviceRecall)
   {
@@ -44,7 +75,9 @@ class DeviceIntegrity extends \Google\Collection
     return $this->deviceRecall;
   }
   /**
-   * @param string[]
+   * Details about the integrity of the device the app is running on.
+   *
+   * @param string[] $deviceRecognitionVerdict
    */
   public function setDeviceRecognitionVerdict($deviceRecognitionVerdict)
   {
@@ -58,7 +91,28 @@ class DeviceIntegrity extends \Google\Collection
     return $this->deviceRecognitionVerdict;
   }
   /**
-   * @param RecentDeviceActivity
+   * Contains legacy details about the integrity of the device the app is
+   * running on. Only for devices with Android version T or higher and only for
+   * apps opted in to the new verdicts. Only available during the transition
+   * period to the new verdicts system and will be removed afterwards.
+   *
+   * @param string[] $legacyDeviceRecognitionVerdict
+   */
+  public function setLegacyDeviceRecognitionVerdict($legacyDeviceRecognitionVerdict)
+  {
+    $this->legacyDeviceRecognitionVerdict = $legacyDeviceRecognitionVerdict;
+  }
+  /**
+   * @return string[]
+   */
+  public function getLegacyDeviceRecognitionVerdict()
+  {
+    return $this->legacyDeviceRecognitionVerdict;
+  }
+  /**
+   * Details about the device activity of the device the app is running on.
+   *
+   * @param RecentDeviceActivity $recentDeviceActivity
    */
   public function setRecentDeviceActivity(RecentDeviceActivity $recentDeviceActivity)
   {

@@ -43,8 +43,8 @@ use function trim;
 /**
  * The SqlWalker walks over a DQL AST and constructs the corresponding SQL.
  *
- * @psalm-import-type QueryComponent from Parser
- * @psalm-consistent-constructor
+ * @phpstan-import-type QueryComponent from Parser
+ * @phpstan-consistent-constructor
  */
 class SqlWalker implements TreeWalker
 {
@@ -111,7 +111,7 @@ class SqlWalker implements TreeWalker
     /**
      * Map from result variable names to their SQL column alias names.
      *
-     * @psalm-var array<string|int, string|list<string>>
+     * @phpstan-var array<string|int, string|list<string>>
      */
     private $scalarResultAliasMap = [];
 
@@ -132,21 +132,21 @@ class SqlWalker implements TreeWalker
     /**
      * Map of all components/classes that appear in the DQL query.
      *
-     * @psalm-var array<string, QueryComponent>
+     * @phpstan-var array<string, QueryComponent>
      */
     private $queryComponents;
 
     /**
      * A list of classes that appear in non-scalar SelectExpressions.
      *
-     * @psalm-var array<string, array{class: ClassMetadata, dqlAlias: string, resultAlias: string|null}>
+     * @phpstan-var array<string, array{class: ClassMetadata, dqlAlias: string, resultAlias: string|null}>
      */
     private $selectedClasses = [];
 
     /**
      * The DQL alias of the root class of the currently traversed query.
      *
-     * @psalm-var list<string>
+     * @phpstan-var list<string>
      */
     private $rootAliases = [];
 
@@ -175,7 +175,7 @@ class SqlWalker implements TreeWalker
     /**
      * @param Query        $query        The parsed Query.
      * @param ParserResult $parserResult The result of the parsing process.
-     * @psalm-param array<string, QueryComponent> $queryComponents The query components (symbol table).
+     * @phpstan-param array<string, QueryComponent> $queryComponents The query components (symbol table).
      */
     public function __construct($query, $parserResult, array $queryComponents)
     {
@@ -225,7 +225,7 @@ class SqlWalker implements TreeWalker
      * @param string $dqlAlias The DQL alias.
      *
      * @return mixed[]
-     * @psalm-return QueryComponent
+     * @phpstan-return QueryComponent
      */
     public function getQueryComponent($dqlAlias)
     {
@@ -255,7 +255,7 @@ class SqlWalker implements TreeWalker
      * Sets or overrides a query component for a given dql alias.
      *
      * @param string $dqlAlias The DQL alias.
-     * @psalm-param QueryComponent $queryComponent
+     * @phpstan-param QueryComponent $queryComponent
      *
      * @return void
      *
@@ -297,7 +297,6 @@ class SqlWalker implements TreeWalker
         }
     }
 
-    /** @psalm-internal Doctrine\ORM */
     protected function createUpdateStatementExecutor(AST\UpdateStatement $AST): Exec\AbstractSqlExecutor
     {
         $primaryClass = $this->em->getClassMetadata($AST->updateClause->abstractSchemaName);
@@ -307,7 +306,6 @@ class SqlWalker implements TreeWalker
             : new Exec\SingleTableDeleteUpdateExecutor($AST, $this);
     }
 
-    /** @psalm-internal Doctrine\ORM */
     protected function createDeleteStatementExecutor(AST\DeleteStatement $AST): Exec\AbstractSqlExecutor
     {
         $primaryClass = $this->em->getClassMetadata($AST->deleteClause->abstractSchemaName);
@@ -469,7 +467,7 @@ class SqlWalker implements TreeWalker
     /**
      * Generates a discriminator column SQL condition for the class with the given DQL alias.
      *
-     * @psalm-param list<string> $dqlAliases List of root DQL aliases to inspect for discriminator restrictions.
+     * @phpstan-param list<string> $dqlAliases List of root DQL aliases to inspect for discriminator restrictions.
      */
     private function generateDiscriminatorColumnConditionSQL(array $dqlAliases): string
     {
@@ -1035,7 +1033,7 @@ class SqlWalker implements TreeWalker
      * @param AST\JoinAssociationDeclaration                             $joinAssociationDeclaration
      * @param int                                                        $joinType
      * @param AST\ConditionalExpression|AST\Phase2OptimizableConditional $condExpr
-     * @psalm-param AST\Join::JOIN_TYPE_* $joinType
+     * @phpstan-param AST\Join::JOIN_TYPE_* $joinType
      *
      * @return string
      *
@@ -1231,9 +1229,12 @@ class SqlWalker implements TreeWalker
     {
         $orderByItems = array_map([$this, 'walkOrderByItem'], $orderByClause->orderByItems);
 
-        $collectionOrderByItems = $this->generateOrderedCollectionOrderByItems();
-        if ($collectionOrderByItems !== '') {
-            $orderByItems = array_merge($orderByItems, (array) $collectionOrderByItems);
+        if ($orderByClause->includeCollectionOrderByItems) {
+            $collectionOrderByItems = $this->generateOrderedCollectionOrderByItems();
+
+            if ($collectionOrderByItems !== '') {
+                $orderByItems = array_merge($orderByItems, (array) $collectionOrderByItems);
+            }
         }
 
         return ' ORDER BY ' . implode(', ', $orderByItems);
@@ -1589,7 +1590,9 @@ class SqlWalker implements TreeWalker
 
                     $sqlParts[] = $col . ' AS ' . $columnAlias;
 
-                    $this->scalarResultAliasMap[$resultAlias][] = $columnAlias;
+                    if ($resultAlias !== null) {
+                        $this->scalarResultAliasMap[$resultAlias][] = $columnAlias;
+                    }
 
                     $this->rsm->addFieldResult($dqlAlias, $columnAlias, $fieldName, $class->name);
 
@@ -1624,7 +1627,9 @@ class SqlWalker implements TreeWalker
 
                             $sqlParts[] = $col . ' AS ' . $columnAlias;
 
-                            $this->scalarResultAliasMap[$resultAlias][] = $columnAlias;
+                            if ($resultAlias !== null) {
+                                $this->scalarResultAliasMap[$resultAlias][] = $columnAlias;
+                            }
 
                             $this->rsm->addFieldResult($dqlAlias, $columnAlias, $fieldName, $subClassName);
                         }
@@ -2358,7 +2363,9 @@ class SqlWalker implements TreeWalker
      */
     public function walkInListExpression(AST\InListExpression $inExpr): string
     {
+        /** @phpstan-ignore property.deprecatedClass */
         return $this->walkArithmeticExpression($inExpr->expression)
+                /** @phpstan-ignore property.deprecatedClass */
             . ($inExpr->not ? ' NOT' : '') . ' IN ('
             . implode(', ', array_map([$this, 'walkInParameter'], $inExpr->literals))
             . ')';
@@ -2369,7 +2376,9 @@ class SqlWalker implements TreeWalker
      */
     public function walkInSubselectExpression(AST\InSubselectExpression $inExpr): string
     {
+        /** @phpstan-ignore property.deprecatedClass */
         return $this->walkArithmeticExpression($inExpr->expression)
+            /** @phpstan-ignore property.deprecatedClass */
             . ($inExpr->not ? ' NOT' : '') . ' IN ('
             . $this->walkSubselect($inExpr->subselect)
             . ')';

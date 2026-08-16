@@ -53,6 +53,7 @@ class AccessContextManager extends \Google\Service
   public $accessPolicies_servicePerimeters;
   public $operations;
   public $organizations_gcpUserAccessBindings;
+  public $permissions;
   public $services;
   public $rootUrlTemplate;
 
@@ -499,6 +500,10 @@ class AccessContextManager extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'returnPartialSuccess' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
               ],
             ],
           ]
@@ -549,6 +554,10 @@ class AccessContextManager extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
                 'pageSize' => [
                   'location' => 'query',
                   'type' => 'integer',
@@ -572,6 +581,29 @@ class AccessContextManager extends \Google\Service
                   'type' => 'boolean',
                 ],
                 'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->permissions = new AccessContextManager\Resource\Permissions(
+        $this,
+        $this->serviceName,
+        'permissions',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v1/permissions',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],

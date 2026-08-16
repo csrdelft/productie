@@ -18,10 +18,13 @@
 namespace Google\Service\CloudAlloyDBAdmin\Resource;
 
 use Google\Service\CloudAlloyDBAdmin\Cluster;
+use Google\Service\CloudAlloyDBAdmin\ExportClusterRequest;
+use Google\Service\CloudAlloyDBAdmin\ImportClusterRequest;
 use Google\Service\CloudAlloyDBAdmin\ListClustersResponse;
 use Google\Service\CloudAlloyDBAdmin\Operation;
 use Google\Service\CloudAlloyDBAdmin\PromoteClusterRequest;
 use Google\Service\CloudAlloyDBAdmin\RestoreClusterRequest;
+use Google\Service\CloudAlloyDBAdmin\RestoreFromCloudSQLRequest;
 use Google\Service\CloudAlloyDBAdmin\SwitchoverClusterRequest;
 use Google\Service\CloudAlloyDBAdmin\UpgradeClusterRequest;
 
@@ -137,6 +140,21 @@ class ProjectsLocationsClusters extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
+   * Exports data from the cluster. Imperative only. (clusters.export)
+   *
+   * @param string $name Required. The resource name of the cluster.
+   * @param ExportClusterRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function export($name, ExportClusterRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('export', [$params], Operation::class);
+  }
+  /**
    * Gets details of a single Cluster. (clusters.get)
    *
    * @param string $name Required. The name of the resource. For the required
@@ -153,6 +171,21 @@ class ProjectsLocationsClusters extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], Cluster::class);
+  }
+  /**
+   * Imports data to the cluster. Imperative only. (clusters.import)
+   *
+   * @param string $name Required. The resource name of the cluster.
+   * @param ImportClusterRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function import($name, ImportClusterRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('import', [$params], Operation::class);
   }
   /**
    * Lists Clusters in a given project and location.
@@ -258,6 +291,23 @@ class ProjectsLocationsClusters extends \Google\Service\Resource
     $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('restore', [$params], Operation::class);
+  }
+  /**
+   * Restores an AlloyDB cluster from a CloudSQL resource.
+   * (clusters.restoreFromCloudSQL)
+   *
+   * @param string $parent Required. The location of the new cluster. For the
+   * required format, see the comment on Cluster.name field.
+   * @param RestoreFromCloudSQLRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function restoreFromCloudSQL($parent, RestoreFromCloudSQLRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('restoreFromCloudSQL', [$params], Operation::class);
   }
   /**
    * Switches the roles of PRIMARY and SECONDARY clusters without any data loss.

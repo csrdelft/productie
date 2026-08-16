@@ -18,7 +18,6 @@ use function is_array;
 use function is_scalar;
 use function is_string;
 use function ltrim;
-use function method_exists;
 use function rtrim;
 use function sprintf;
 use function str_contains;
@@ -89,10 +88,7 @@ class ClassGenerator extends AbstractGenerator implements TraitUsageInterface
 
         $cg->setAbstract($classReflection->isAbstract());
         $cg->setFinal($classReflection->isFinal());
-
-        if (method_exists($classReflection, 'isReadonly')) {
-            $cg->setReadonly((bool) $classReflection->isReadonly());
-        }
+        $cg->setReadonly($classReflection->isReadonly());
 
         // set the namespace
         if ($classReflection->inNamespace()) {
@@ -532,11 +528,7 @@ class ClassGenerator extends AbstractGenerator implements TraitUsageInterface
      */
     public function getConstant($constantName)
     {
-        if (isset($this->constants[$constantName])) {
-            return $this->constants[$constantName];
-        }
-
-        return false;
+        return $this->constants[$constantName] ?? false;
     }
 
     /**

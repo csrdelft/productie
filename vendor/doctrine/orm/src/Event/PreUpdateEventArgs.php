@@ -24,11 +24,11 @@ class PreUpdateEventArgs extends LifecycleEventArgs
     /**
      * @param object    $entity
      * @param mixed[][] $changeSet
-     * @psalm-param array<string, array{mixed, mixed}|PersistentCollection> $changeSet
+     * @phpstan-param array<string, array{mixed, mixed}|PersistentCollection> $changeSet
      */
     public function __construct($entity, EntityManagerInterface $em, array &$changeSet)
     {
-        // @phpstan-ignore staticMethod.deprecatedClass
+        // @phpstan-ignore method.deprecatedClass
         parent::__construct($entity, $em);
 
         $this->entityChangeSet = &$changeSet;
@@ -38,7 +38,7 @@ class PreUpdateEventArgs extends LifecycleEventArgs
      * Retrieves entity changeset.
      *
      * @return mixed[][]
-     * @psalm-return array<string, array{mixed, mixed}|PersistentCollection>
+     * @phpstan-return array<string, array{mixed, mixed}|PersistentCollection>
      */
     public function getEntityChangeSet()
     {
