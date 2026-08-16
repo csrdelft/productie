@@ -1,5 +1,6 @@
 # Makefile
 #
+# @since       2026-04-21
 # @category    Library
 # @package     TCPDF
 # @author      Nicola Asuni <info@tecnick.com>
@@ -26,10 +27,10 @@ PROJECT=tcpdf
 VERSION=$(shell sed -E 's/\\n$$//' VERSION | tr -d '\r\n')
 
 # Current directory
-CURRENTDIR=$(CURDIR)/
+CURRENTDIR=$(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
 # Target directory
-TARGETDIR=target
+TARGETDIR=$(CURRENTDIR)target
 
 # sed argument for in-place substitutions
 SEDINPLACE=-i
@@ -45,13 +46,6 @@ PHP=$(shell which php)
 
 # Composer executable
 COMPOSER=$(PHP) -d "apc.enable_cli=0" $(shell which composer)
-
-# tc-lib-pdf-font package path and sentinel asset
-TCPDF_FONT_PKGDIR=./vendor/tecnickcom/tc-lib-pdf-font
-TCPDF_FONT_SENTINEL=$(TCPDF_FONT_PKGDIR)/target/fonts/core/helvetica.json
-
-# Mago version
-MAGOVERSION=1.46.0
 
 # --- MAKE TARGETS ---
 
@@ -84,41 +78,15 @@ buildall: deps
 ## Delete vendor and generated directories
 .PHONY: clean
 clean:
-	rm -rf ./vendor ./tests/vendor "$(TARGETDIR)" ./build ./cache
+	rm -rf ./vendor ./tests/vendor $(TARGETDIR) ./build ./cache
 
-## Clean all artifacts and download all dependencies
+## Download dependencies for the library and test harness
 .PHONY: deps
 deps: ensuretarget
-	rm -rf ./vendor/*
-	($(COMPOSER) install -vvv --no-interaction)
-	curl --proto '=https' --tlsv1.2 --silent --show-error --fail --location https://carthage.software/mago.sh | bash -s -- --install-dir=./vendor/bin --version=$(MAGOVERSION)
-
-## Initialize tc-lib-pdf font assets if needed
-.PHONY: fonts
-fonts:
-	@if [ ! -d "$(TCPDF_FONT_PKGDIR)" ]; then \
-		echo "tc-lib-pdf-font is not installed. Run composer install first."; \
-		exit 1; \
+	$(COMPOSER) install --no-interaction
+	@if [ -f ./tests/composer.json ]; then \
+		$(COMPOSER) --working-dir=tests install --no-interaction; \
 	fi
-	@if [ -f "$(TCPDF_FONT_SENTINEL)" ]; then \
-		echo "tc-lib-pdf font assets already initialized."; \
-	else \
-		echo "Initializing tc-lib-pdf font assets..."; \
-		$(MAKE) -C "$(TCPDF_FONT_PKGDIR)" clean; \
-		$(COMPOSER) --working-dir="$(TCPDF_FONT_PKGDIR)" install --no-interaction; \
-		$(MAKE) -C "$(TCPDF_FONT_PKGDIR)" fonts; \
-	fi
-
-## Rebuild tc-lib-pdf font assets from scratch
-.PHONY: fonts-rebuild
-fonts-rebuild:
-	@if [ ! -d "$(TCPDF_FONT_PKGDIR)" ]; then \
-		echo "tc-lib-pdf-font is not installed. Run composer install first."; \
-		exit 1; \
-	fi
-	$(MAKE) -C "$(TCPDF_FONT_PKGDIR)" clean
-	$(COMPOSER) --working-dir="$(TCPDF_FONT_PKGDIR)" install --no-interaction
-	$(MAKE) -C "$(TCPDF_FONT_PKGDIR)" fonts
 
 ## Generate source code documentation with Doctum if available
 .PHONY: doc
@@ -133,22 +101,17 @@ doc:
 ## Create missing target directories for test and build artifacts
 .PHONY: ensuretarget
 ensuretarget:
-	mkdir -p "$(TARGETDIR)/test"
-	mkdir -p "$(TARGETDIR)/report"
-	mkdir -p "$(TARGETDIR)/doc"
+	mkdir -p $(TARGETDIR)/test
+	mkdir -p $(TARGETDIR)/report
+	mkdir -p $(TARGETDIR)/doc
 
-## Format the source code
-.PHONY: format
-format:
-	./vendor/bin/mago fmt ./ examples
-
-## Analyze and Lint the source code
+## Lint PHP files (syntax only)
 .PHONY: lint
 lint:
-	./vendor/bin/mago --config ./mago.src.toml lint ./tcpdf.php ./scripts
-	./vendor/bin/mago --config ./mago.src.toml analyze ./tcpdf.php ./scripts
-	./vendor/bin/mago --config ./mago.test.toml lint ./test
-	./vendor/bin/mago --config ./mago.test.toml analyze ./test
+	find . -type f -name '*.php' \
+		-not -path './vendor/*' \
+		-not -path './tests/vendor/*' \
+		-print0 | xargs -0 -n1 -P4 $(PHP) -l > /dev/null
 
 ## Run all checks
 .PHONY: qa
@@ -172,30 +135,16 @@ tag:
 	git push origin --tags && \
 	git pull
 
-## Run the PHPUnit test suite
+## Run integration tests from tests/launch.sh
 .PHONY: test
-test: ensuretarget
-	XDEBUG_MODE=off $(PHP) ./vendor/bin/phpunit --configuration phpunit.xml.dist --no-coverage
-
-## Run all examples headless and verify the produced PDF documents
-.PHONY: smoke
-smoke: ensuretarget
-	$(PHP) ./scripts/example_smoke.php
-
-## Generate the public method inventory reports
-.PHONY: inventory
-inventory: ensuretarget
-	$(PHP) ./scripts/inventory.php
-
-## Verify the delegation map and regenerate MAPPING.md
-.PHONY: mapping
-mapping:
-	$(PHP) ./scripts/mapping.php
+test:
+	XDEBUG_MODE=coverage sh ./tests/launch.sh
 
 ## Set the code version from the VERSION file
 .PHONY: version
 version:
-	sed $(SEDINPLACE) -E "1,170 s#^// Version[[:space:]]+: .*#// Version      : ${VERSION}#" tcpdf.php
+	sed $(SEDINPLACE) -E "s#^([[:space:]]*private static [^=]+ = ')[^']*';#\1${VERSION}';#" include/tcpdf_static.php
+	sed $(SEDINPLACE) -E "1,170 s#^// Version[[:space:]]+: .*#// Version     : ${VERSION}#" tcpdf.php
 	sed $(SEDINPLACE) -E "1,170 s#^ \* @version .*# * @version ${VERSION}#" tcpdf.php
 
 ## Increase the version patch number
