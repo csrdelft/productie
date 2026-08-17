@@ -354,50 +354,6 @@
             "install-path": "../chillerlan/php-settings-container"
         },
         {
-            "name": "clegginabox/pdf-merger",
-            "version": "dev-master",
-            "version_normalized": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/clegginabox/pdf-merger.git",
-                "reference": "998997f71bc0bc82c987707899f12d3d40421b24"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/clegginabox/pdf-merger/zipball/998997f71bc0bc82c987707899f12d3d40421b24",
-                "reference": "998997f71bc0bc82c987707899f12d3d40421b24",
-                "shasum": ""
-            },
-            "require": {
-                "setasign/fpdf": "^1.8",
-                "setasign/fpdi": "^2.2"
-            },
-            "time": "2024-06-21T04:59:28+00:00",
-            "default-branch": true,
-            "type": "library",
-            "installation-source": "dist",
-            "autoload": {
-                "classmap": [
-                    "src/PDFMerger/PDFMerger.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Paul Clegg",
-                    "email": "paul@clegginabox.co.uk"
-                }
-            ],
-            "description": "PDF File Merger for PHP5",
-            "support": {
-                "source": "https://github.com/clegginabox/pdf-merger/tree/master"
-            },
-            "install-path": "../clegginabox/pdf-merger"
-        },
-        {
             "name": "clue/stream-filter",
             "version": "v1.7.0",
             "version_normalized": "1.7.0.0",
@@ -2564,17 +2520,17 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.454.0",
-            "version_normalized": "0.454.0.0",
+            "version": "v0.455.0",
+            "version_normalized": "0.455.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "4c0b343eb836b63616592ce98eca9f804b2b6493"
+                "reference": "86cecb5443bde01cb6731a650735680b9ab8b4c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/4c0b343eb836b63616592ce98eca9f804b2b6493",
-                "reference": "4c0b343eb836b63616592ce98eca9f804b2b6493",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/86cecb5443bde01cb6731a650735680b9ab8b4c0",
+                "reference": "86cecb5443bde01cb6731a650735680b9ab8b4c0",
                 "shasum": ""
             },
             "require": {
@@ -2583,7 +2539,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^9.6"
             },
-            "time": "2026-08-10T01:06:25+00:00",
+            "time": "2026-08-17T01:06:24+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -2605,7 +2561,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.454.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.455.0"
             },
             "install-path": "../google/apiclient-services"
         },
@@ -5839,55 +5795,6 @@
                 }
             ],
             "install-path": "../sentry/sentry-symfony"
-        },
-        {
-            "name": "setasign/fpdf",
-            "version": "1.9.0",
-            "version_normalized": "1.9.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Setasign/FPDF.git",
-                "reference": "051b70e4c57dedc88df41b1eff1c62894e5f9ed0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Setasign/FPDF/zipball/051b70e4c57dedc88df41b1eff1c62894e5f9ed0",
-                "reference": "051b70e4c57dedc88df41b1eff1c62894e5f9ed0",
-                "shasum": ""
-            },
-            "require": {
-                "ext-gd": "*",
-                "ext-zlib": "*"
-            },
-            "time": "2026-05-31T14:25:29+00:00",
-            "type": "library",
-            "installation-source": "dist",
-            "autoload": {
-                "classmap": [
-                    "fpdf.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Olivier Plathey",
-                    "email": "oliver@fpdf.org",
-                    "homepage": "http://fpdf.org/"
-                }
-            ],
-            "description": "FPDF is a PHP class which allows to generate PDF files with pure PHP. F from FPDF stands for Free: you may use it for any kind of usage and modify it to suit your needs.",
-            "homepage": "http://www.fpdf.org",
-            "keywords": [
-                "fpdf",
-                "pdf"
-            ],
-            "support": {
-                "source": "https://github.com/Setasign/FPDF/tree/1.9.0"
-            },
-            "install-path": "../setasign/fpdf"
         },
         {
             "name": "setasign/fpdi",
