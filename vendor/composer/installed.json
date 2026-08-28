@@ -5744,9 +5744,9 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "releases/3.2.x": "3.2.x-dev",
+                    "releases/1.x": "1.x-dev",
                     "releases/2.x": "2.x-dev",
-                    "releases/1.x": "1.x-dev"
+                    "releases/3.2.x": "3.2.x-dev"
                 }
             },
             "installation-source": "dist",
@@ -8992,8 +8992,8 @@
             "type": "metapackage",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
