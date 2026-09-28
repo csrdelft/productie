@@ -3,7 +3,7 @@
         'name' => 'tecnickcom/tc-lib-pdf-font',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'dfbc62413bb61990ce7dfedfe19657f94e8cca31',
+        'reference' => 'e4e9d47f24422a2ac71fa2631309eb30a1ad1005',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'carthage-software/mago' => array(
-            'pretty_version' => '1.47.6',
-            'version' => '1.47.6.0',
-            'reference' => 'ad48106b8d1dbf3140f3a4bd4d244a5e47c9e495',
+            'pretty_version' => '1.50.0',
+            'version' => '1.50.0.0',
+            'reference' => '74c48ba74d708f38259c6325a4f12ff443fb19bf',
             'type' => 'library',
             'install_path' => __DIR__ . '/../carthage-software/mago',
             'aliases' => array(),
@@ -385,7 +385,7 @@
         'tecnickcom/tc-lib-pdf-font' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'dfbc62413bb61990ce7dfedfe19657f94e8cca31',
+            'reference' => 'e4e9d47f24422a2ac71fa2631309eb30a1ad1005',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
