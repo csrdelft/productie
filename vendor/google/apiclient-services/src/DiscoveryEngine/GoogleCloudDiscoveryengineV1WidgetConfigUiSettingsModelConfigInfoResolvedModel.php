@@ -44,6 +44,15 @@ class GoogleCloudDiscoveryengineV1WidgetConfigUiSettingsModelConfigInfoResolvedM
    */
   public $icon;
   /**
+   * Output only. Absolute URL of a brand mark to render instead of `icon`, for
+   * models whose vendor logo is not a GM3 glyph. `icon` stays populated as the
+   * fallback, so a client that does not render images, or that fails to fetch
+   * this one, shows the glyph instead of nothing.
+   *
+   * @var string
+   */
+  public $iconUrl;
+  /**
    * Output only. Whether the model is currently in preview. Clients should
    * surface this via a "Preview" badge in the selector UI.
    *
@@ -69,6 +78,13 @@ class GoogleCloudDiscoveryengineV1WidgetConfigUiSettingsModelConfigInfoResolvedM
    * @var string
    */
   public $modelId;
+  /**
+   * Output only. Whether this model should be promoted in the GE chat homepage
+   * banner.
+   *
+   * @var bool
+   */
+  public $promoted;
 
   /**
    * Output only. Admin-surface metadata; populated only for the Console admin
@@ -140,6 +156,25 @@ class GoogleCloudDiscoveryengineV1WidgetConfigUiSettingsModelConfigInfoResolvedM
     return $this->icon;
   }
   /**
+   * Output only. Absolute URL of a brand mark to render instead of `icon`, for
+   * models whose vendor logo is not a GM3 glyph. `icon` stays populated as the
+   * fallback, so a client that does not render images, or that fails to fetch
+   * this one, shows the glyph instead of nothing.
+   *
+   * @param string $iconUrl
+   */
+  public function setIconUrl($iconUrl)
+  {
+    $this->iconUrl = $iconUrl;
+  }
+  /**
+   * @return string
+   */
+  public function getIconUrl()
+  {
+    return $this->iconUrl;
+  }
+  /**
    * Output only. Whether the model is currently in preview. Clients should
    * surface this via a "Preview" badge in the selector UI.
    *
@@ -194,6 +229,23 @@ class GoogleCloudDiscoveryengineV1WidgetConfigUiSettingsModelConfigInfoResolvedM
   public function getModelId()
   {
     return $this->modelId;
+  }
+  /**
+   * Output only. Whether this model should be promoted in the GE chat homepage
+   * banner.
+   *
+   * @param bool $promoted
+   */
+  public function setPromoted($promoted)
+  {
+    $this->promoted = $promoted;
+  }
+  /**
+   * @return bool
+   */
+  public function getPromoted()
+  {
+    return $this->promoted;
   }
 }
 

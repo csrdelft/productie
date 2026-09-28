@@ -110,6 +110,7 @@ class Compute extends \Google\Service
   public $organizationSecurityPolicies;
   public $packetMirrorings;
   public $previewFeatures;
+  public $projectViews;
   public $projects;
   public $publicAdvertisedPrefixes;
   public $publicDelegatedPrefixes;
@@ -524,6 +525,36 @@ class Compute extends \Google\Service
           'methods' => [
             'calendarMode' => [
               'path' => 'projects/{project}/regions/{region}/advice/calendarMode',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'project' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'region' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'capacity' => [
+              'path' => 'projects/{project}/regions/{region}/advice/capacity',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'project' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'region' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'capacityHistory' => [
+              'path' => 'projects/{project}/regions/{region}/advice/capacityHistory',
               'httpMethod' => 'POST',
               'parameters' => [
                 'project' => [
@@ -11879,6 +11910,31 @@ class Compute extends \Google\Service
           ]
         ]
     );
+    $this->projectViews = new Compute\Resource\ProjectViews(
+        $this,
+        $this->serviceName,
+        'projectViews',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'projects/{project}/regions/{region}/projectViews',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'project' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'region' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->projects = new Compute\Resource\Projects(
         $this,
         $this->serviceName,
@@ -18932,6 +18988,35 @@ class Compute extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],'getHealth' => [
+              'path' => 'projects/{project}/zones/{zone}/{+parentName}/reservationSlots/{reservationSlot}/getHealth',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'project' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'zone' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'parentName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'reservationSlot' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'requestId' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],'getVersion' => [

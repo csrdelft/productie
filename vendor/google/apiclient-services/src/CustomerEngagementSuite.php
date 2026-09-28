@@ -443,10 +443,6 @@ class CustomerEngagementSuite extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
-                'view' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
               ],
             ],'list' => [
               'path' => 'v1/{+parent}/conversations',
@@ -585,6 +581,16 @@ class CustomerEngagementSuite extends \Google\Service
           'methods' => [
             'send' => [
               'path' => 'v1/{+tenant}/message:send',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'tenant' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'stream' => [
+              'path' => 'v1/{+tenant}/message:stream',
               'httpMethod' => 'POST',
               'parameters' => [
                 'tenant' => [
@@ -785,6 +791,16 @@ class CustomerEngagementSuite extends \Google\Service
           'methods' => [
             'send' => [
               'path' => 'v1/{+tenant}/message:send',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'tenant' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'stream' => [
+              'path' => 'v1/{+tenant}/message:stream',
               'httpMethod' => 'POST',
               'parameters' => [
                 'tenant' => [
@@ -1111,6 +1127,20 @@ class CustomerEngagementSuite extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'restore' => [
               'path' => 'v1/{+name}:restore',
               'httpMethod' => 'POST',
@@ -1133,6 +1163,16 @@ class CustomerEngagementSuite extends \Google\Service
           'methods' => [
             'send' => [
               'path' => 'v1/{+tenant}/message:send',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'tenant' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'stream' => [
+              'path' => 'v1/{+tenant}/message:stream',
               'httpMethod' => 'POST',
               'parameters' => [
                 'tenant' => [

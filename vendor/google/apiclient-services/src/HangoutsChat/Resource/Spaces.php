@@ -97,11 +97,19 @@ class Spaces extends \Google\Service\Resource
    * @param Space $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string requestId Optional. A unique identifier for this request. A
-   * random UUID is recommended. Specifying an existing request ID returns the
-   * space created with that ID instead of creating a new space. Specifying an
-   * existing request ID from the same Chat app with a different authenticated
-   * user returns an error.
+   * @opt_param string requestId Optional. A unique ID for this request. A random
+   * UUID is recommended. Specifying a request ID makes the request idempotent,
+   * which ensures that multiple identical requests with the same request ID
+   * result in only a single space being created. Subsequent requests with the
+   * same request ID return the existing space and do not update the space, even
+   * if the requested details differ from the current state. To use this field
+   * effectively: - Ensure that subsequent requests are identical and use the same
+   * authentication credentials as the original request. - If a space was already
+   * created with the provided request ID, the request returns that space. Note
+   * that the returned space might not be fully populated; the API echoes the
+   * space in your request with the system-assigned resource name populated. To
+   * retrieve the latest metadata for the space, call `GetSpace`. - Reusing an
+   * existing request ID with a different authenticated user results in an error.
    * @return Space
    * @throws \Google\Service\Exception
    */
@@ -496,8 +504,9 @@ class Spaces extends \Google\Service\Resource
    * [Developer Preview](https://developers.google.com/workspace/preview).
    * @opt_param int pageSize The maximum number of spaces to return. The service
    * may return fewer than this value. If unspecified, at most 100 spaces are
-   * returned. The maximum value is 1000. If you use a value more than 1000, it's
-   * automatically changed to 1000.
+   * returned. The maximum value is 1000 when `useAdminAccess` is set to `true`.
+   * Otherwise, the maximum value is 100. If you use a value more than the maximum
+   * value, it's automatically changed to the maximum value.
    * @opt_param string pageToken A token, received from the previous search spaces
    * call. Provide this parameter to retrieve the subsequent page. When
    * paginating, all other parameters provided should match the call that provided
@@ -550,7 +559,9 @@ class Spaces extends \Google\Service\Resource
    * space_type = "SPACE" (display_name:"Hello" OR display_name:"Fun") AND
    * space_type = "SPACE" (external_user_allowed = "true" AND space_type =
    * "SPACE") // Returns an empty response. (external_user_allowed = "true" AND
-   * display_name:"Hello" AND space_type = "SPACE") ```
+   * display_name:"Hello" AND space_type = "SPACE") ``` The maximum query length
+   * is 1,000 characters. Invalid queries are rejected by the server with an
+   * `INVALID_ARGUMENT` error.
    * @opt_param bool useAdminAccess When `true`, the method runs using the user's
    * Google Workspace administrator privileges. The calling user must be a Google
    * Workspace administrator with the [manage chat and spaces conversations

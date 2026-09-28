@@ -188,10 +188,11 @@ class GoogleCloudDiscoveryengineV1Engine extends \Google\Collection
    * agent-sharing` * `disable-image-generation` * `disable-video-generation` *
    * `disable-onedrive-upload` * `disable-talk-to-content` * `disable-google-
    * drive-upload` * `disable-welcome-emails` * `disable-canvas` * `canvas-
-   * workspace` * `skills` * `skill-sharing` * `skill-sharing-without-admin-
-   * approval` * `disable-projects` * `sobi` * `enable-end-user-sharing-with-
-   * groups` * `single-agent-orchestration` * `multi-agent-orchestration` *
-   * `cross-product-intelligence` * `workflow-agents` * `in-app-notifications`
+   * workspace` * `canvas-app-builder` * `skills` * `skill-sharing` * `skill-
+   * sharing-without-admin-approval` * `disable-projects` * `sobi` * `enable-
+   * end-user-sharing-with-groups` * `single-agent-orchestration` * `multi-
+   * agent-orchestration` * `cross-product-intelligence` * `workflow-agents` *
+   * `in-app-notifications`
    *
    * @var string[]
    */
@@ -246,6 +247,8 @@ class GoogleCloudDiscoveryengineV1Engine extends \Google\Collection
   public $procurementContactEmails;
   protected $searchEngineConfigType = GoogleCloudDiscoveryengineV1EngineSearchEngineConfig::class;
   protected $searchEngineConfigDataType = '';
+  protected $sessionConfigType = GoogleCloudDiscoveryengineV1SessionConfig::class;
+  protected $sessionConfigDataType = '';
   /**
    * Required. The solutions of the engine.
    *
@@ -499,10 +502,11 @@ class GoogleCloudDiscoveryengineV1Engine extends \Google\Collection
    * agent-sharing` * `disable-image-generation` * `disable-video-generation` *
    * `disable-onedrive-upload` * `disable-talk-to-content` * `disable-google-
    * drive-upload` * `disable-welcome-emails` * `disable-canvas` * `canvas-
-   * workspace` * `skills` * `skill-sharing` * `skill-sharing-without-admin-
-   * approval` * `disable-projects` * `sobi` * `enable-end-user-sharing-with-
-   * groups` * `single-agent-orchestration` * `multi-agent-orchestration` *
-   * `cross-product-intelligence` * `workflow-agents` * `in-app-notifications`
+   * workspace` * `canvas-app-builder` * `skills` * `skill-sharing` * `skill-
+   * sharing-without-admin-approval` * `disable-projects` * `sobi` * `enable-
+   * end-user-sharing-with-groups` * `single-agent-orchestration` * `multi-
+   * agent-orchestration` * `cross-product-intelligence` * `workflow-agents` *
+   * `in-app-notifications`
    *
    * @param string[] $features
    */
@@ -683,6 +687,22 @@ class GoogleCloudDiscoveryengineV1Engine extends \Google\Collection
   public function getSearchEngineConfig()
   {
     return $this->searchEngineConfig;
+  }
+  /**
+   * Optional. Non-empty default. Session config for the engine.
+   *
+   * @param GoogleCloudDiscoveryengineV1SessionConfig $sessionConfig
+   */
+  public function setSessionConfig(GoogleCloudDiscoveryengineV1SessionConfig $sessionConfig)
+  {
+    $this->sessionConfig = $sessionConfig;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1SessionConfig
+   */
+  public function getSessionConfig()
+  {
+    return $this->sessionConfig;
   }
   /**
    * Required. The solutions of the engine.
