@@ -1562,8 +1562,8 @@
     "integrity": "sha256-wMgd7EblP0n/IlD061tO4+BW0PT8/XXXJLKflMS4RXY= sha384-kcX+kzYvgOE0LnZhQu601rOMWOyRj0CwHgbcMkemJCgry8LdLA+aEQk75L5M2FqY sha512-qvAJKaP2JQXqCiQOmW20B1KKR3+eFQeVudZhBGg5DvxS9/fDqQk0KVwwqTJJRN8maBAowhjlDm5UexEI7unsOQ=="
   },
   "lustrumdies.ttf": {
-    "src": "fonts/f4d75ec1c6bc71d8b639.ttf",
-    "integrity": "sha256-Tw5EQbvPKhidfijwEhWlxvbpPQtBwMnbtrDrr/pYaP4= sha384-KFJdFTEwiz9Vhp+IO6nPhvjGDD0yqwiybbGqd7C7ZWb00gb3oFMHqTN93lKA/9e4 sha512-Bp6QRqZv3j299uk2ehPd1TUadQJ5WXOaFJmHA6vvRnlWXJAfAOcvCbUmChcDYBs3boYGpqvPbAr7pqnqQoZ4lQ=="
+    "src": "fonts/3d7091f8735e844f2a9d.ttf",
+    "integrity": "sha256-C+n2nfAfb4tg2nMmR9eHRayahSVKttJzqhisUnlqQSY= sha384-PnTryFCLjGu+ty4bFwrdkuJuBLZ6zK5DEPnebe9Idb5SsaxcdUmuaijBI6EPjSE7 sha512-/4FPlZT81OE3Rrk6sfktmZexue2WT19f6isa3dedPv2KO7PacYNr33l2VAkMN2xOc3Y+0R61CulwawC5S3i/BQ=="
   },
   "lustrumdiesthema.css": {
     "src": "css/lustrumdiesthema.f7eeeef00f4fb95bc760.css",
