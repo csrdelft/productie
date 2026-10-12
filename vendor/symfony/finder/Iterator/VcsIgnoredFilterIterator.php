@@ -39,7 +39,7 @@ final class VcsIgnoredFilterIterator extends \FilterIterator
         $this->baseDir = $this->normalizePath(realpath($baseDir) ?: $baseDir);
 
         foreach ([$this->baseDir, ...$this->parentDirectoriesUpwards($this->baseDir)] as $directory) {
-            if (@file_exists("{$directory}/.git")) {
+            if (@is_dir("{$directory}/.git")) {
                 $this->baseDir = $directory;
                 break;
             }

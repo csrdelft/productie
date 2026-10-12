@@ -22,11 +22,9 @@ use Symfony\Polyfill\Intl\Icu\Exception\MethodNotImplementedException;
  *  - {@link \__construct}
  *  - {@link create}
  *  - {@link asort}
- *  - {@link compare}
  *  - {@link getErrorCode}
  *  - {@link getErrorMessage}
  *  - {@link getLocale}
- *  - {@link sort}
  *
  * @author Igor Wiedler <igor@wiedler.ch>
  * @author Bernhard Schussek <bschussek@gmail.com>
@@ -108,7 +106,15 @@ abstract class Collator
      */
     public function asort(array &$array, int $flags = self::SORT_REGULAR)
     {
-        return uasort($array, $this->getComparator($flags));
+        $intlToPlainFlagMap = [
+            self::SORT_REGULAR => \SORT_REGULAR,
+            self::SORT_NUMERIC => \SORT_NUMERIC,
+            self::SORT_STRING => \SORT_STRING,
+        ];
+
+        $plainSortFlag = $intlToPlainFlagMap[$flags] ?? self::SORT_REGULAR;
+
+        return asort($array, $plainSortFlag);
     }
 
     /**
@@ -120,7 +126,7 @@ abstract class Collator
      */
     public function compare(string $string1, string $string2)
     {
-        return (strcasecmp($string1, $string2) <=> 0) ?: $string2 <=> $string1;
+        return strcasecmp($string1, $string2) ?: $string2 <=> $string1;
     }
 
     /**
@@ -239,38 +245,16 @@ abstract class Collator
     }
 
     /**
-     * Sort array using specified collator.
-     *
-     * @param array &$array Input array
-     * @param int   $flags  Flags for sorting, see {@link asort}
+     * Not supported. Sort array using specified collator.
      *
      * @return bool True on success or false on failure
      *
      * @see https://php.net/collator.sort
+     *
+     * @throws MethodNotImplementedException
      */
     public function sort(array &$array, int $flags = self::SORT_REGULAR)
     {
-        return usort($array, $this->getComparator($flags));
-    }
-
-    private function getComparator(int $flags): \Closure
-    {
-        if (self::SORT_NUMERIC === $flags) {
-            return static function ($a, $b) {
-                return (float) $a <=> (float) $b;
-            };
-        }
-
-        return function ($a, $b) use ($flags) {
-            // Like intl, which casts objects to strings when they allow it
-            $a = \is_object($a) && method_exists($a, '__toString') ? (string) $a : $a;
-            $b = \is_object($b) && method_exists($b, '__toString') ? (string) $b : $b;
-
-            if (self::SORT_STRING === $flags || (\is_string($a) && \is_string($b) && !(is_numeric($a) && is_numeric($b)))) {
-                return $this->compare((string) $a, (string) $b);
-            }
-
-            return $a <=> $b;
-        };
+        throw new MethodNotImplementedException(__METHOD__);
     }
 }

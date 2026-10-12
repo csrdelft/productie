@@ -34,5 +34,6 @@ return array(
     'ac2da84b5f360a33c0c760ac23936bfb' => $vendorDir . '/globalcitizen/php-iban/php-iban.php',
     'a8d3953fd9959404dd22d3dfcd0a79f0' => $vendorDir . '/google/apiclient/src/aliases.php',
     '39d333a989a6b1782fd993e87683d446' => $vendorDir . '/sentry/sentry-symfony/src/aliases.php',
+    'a1105708a18b76903365ca1c4aa61b02' => $vendorDir . '/symfony/translation/Resources/functions.php',
     '4368e4d537f3da342a5a97079f340105' => $vendorDir . '/twig/cssinliner-extra/Resources/functions.php',
 );
