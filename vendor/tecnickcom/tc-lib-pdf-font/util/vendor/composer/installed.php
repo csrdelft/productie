@@ -3,7 +3,7 @@
         'name' => 'tecnickcom/tc-lib-pdf-font',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'd26c7442b1eb00c845712da8e803dfd0ec141c29',
+        'reference' => 'c5317813a013bd43b91af06cbb59e2d98a354511',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'tecnickcom/tc-lib-pdf-font' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'd26c7442b1eb00c845712da8e803dfd0ec141c29',
+            'reference' => 'c5317813a013bd43b91af06cbb59e2d98a354511',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
