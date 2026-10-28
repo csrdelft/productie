@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitf68b8dfc3a7257258111dca548f3ae0e
+class ComposerStaticInitb8a141eae4e1340bb506259398894cfb
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1528,7 +1528,9 @@ class ComposerStaticInitf68b8dfc3a7257258111dca548f3ae0e
         'CsrDelft\\controller\\LidInstellingenController' => __DIR__ . '/../..' . '/lib/controller/LidInstellingenController.php',
         'CsrDelft\\controller\\LoginController' => __DIR__ . '/../..' . '/lib/controller/LoginController.php',
         'CsrDelft\\controller\\Lustrum12Controller' => __DIR__ . '/../..' . '/lib/controller/Lustrum12Controller.php',
+        'CsrDelft\\controller\\Lustrum13Controller' => __DIR__ . '/../..' . '/lib/controller/Lustrum13Controller.php',
         'CsrDelft\\controller\\MenuBeheerController' => __DIR__ . '/../..' . '/lib/controller/MenuBeheerController.php',
+        'CsrDelft\\controller\\PanoramaSpelController' => __DIR__ . '/../..' . '/lib/controller/PanoramaSpelController.php',
         'CsrDelft\\controller\\PasfotoController' => __DIR__ . '/../..' . '/lib/controller/PasfotoController.php',
         'CsrDelft\\controller\\PeilingOptiesController' => __DIR__ . '/../..' . '/lib/controller/PeilingOptiesController.php',
         'CsrDelft\\controller\\PeilingenController' => __DIR__ . '/../..' . '/lib/controller/PeilingenController.php',
@@ -1723,6 +1725,12 @@ class ComposerStaticInitf68b8dfc3a7257258111dca548f3ae0e
         'CsrDelft\\entity\\maalcie\\MaaltijdBeoordelingDTO' => __DIR__ . '/../..' . '/lib/entity/maalcie/MaaltijdBeoordelingDTO.php',
         'CsrDelft\\entity\\maalcie\\MaaltijdRepetitie' => __DIR__ . '/../..' . '/lib/entity/maalcie/MaaltijdRepetitie.php',
         'CsrDelft\\entity\\maalcie\\RepetitieMaaltijdMaken' => __DIR__ . '/../..' . '/lib/entity/maalcie/RepetitieMaaltijdMaken.php',
+        'CsrDelft\\entity\\panorama\\ExpeditieHulp' => __DIR__ . '/../..' . '/lib/entity/panorama/ExpeditieHulp.php',
+        'CsrDelft\\entity\\panorama\\ExpeditieSpeler' => __DIR__ . '/../..' . '/lib/entity/panorama/ExpeditieSpeler.php',
+        'CsrDelft\\entity\\panorama\\ExpeditieTeam' => __DIR__ . '/../..' . '/lib/entity/panorama/ExpeditieTeam.php',
+        'CsrDelft\\entity\\panorama\\PanoramaDailyAnswer' => __DIR__ . '/../..' . '/lib/entity/panorama/PanoramaDailyAnswer.php',
+        'CsrDelft\\entity\\panorama\\PanoramaDailyQuestion' => __DIR__ . '/../..' . '/lib/entity/panorama/PanoramaDailyQuestion.php',
+        'CsrDelft\\entity\\panorama\\PanoramaGameConfiguration' => __DIR__ . '/../..' . '/lib/entity/panorama/PanoramaGameConfiguration.php',
         'CsrDelft\\entity\\peilingen\\Peiling' => __DIR__ . '/../..' . '/lib/entity/peilingen/Peiling.php',
         'CsrDelft\\entity\\peilingen\\PeilingOptie' => __DIR__ . '/../..' . '/lib/entity/peilingen/PeilingOptie.php',
         'CsrDelft\\entity\\peilingen\\PeilingStem' => __DIR__ . '/../..' . '/lib/entity/peilingen/PeilingStem.php',
@@ -1902,6 +1910,11 @@ class ComposerStaticInitf68b8dfc3a7257258111dca548f3ae0e
         'CsrDelft\\service\\maalcie\\MaaltijdRepetitieAanmeldingenService' => __DIR__ . '/../..' . '/lib/service/maalcie/MaaltijdRepetitieAanmeldingenService.php',
         'CsrDelft\\service\\maalcie\\MaaltijdRepetitiesService' => __DIR__ . '/../..' . '/lib/service/maalcie/MaaltijdRepetitiesService.php',
         'CsrDelft\\service\\maalcie\\MaaltijdenService' => __DIR__ . '/../..' . '/lib/service/maalcie/MaaltijdenService.php',
+        'CsrDelft\\service\\panorama\\PanoramaArcade' => __DIR__ . '/../..' . '/lib/service/panorama/PanoramaArcade.php',
+        'CsrDelft\\service\\panorama\\PanoramaArcadeService' => __DIR__ . '/../..' . '/lib/service/panorama/PanoramaArcadeService.php',
+        'CsrDelft\\service\\panorama\\PanoramaDailyQuiz' => __DIR__ . '/../..' . '/lib/service/panorama/PanoramaDailyQuiz.php',
+        'CsrDelft\\service\\panorama\\PanoramaGameSettings' => __DIR__ . '/../..' . '/lib/service/panorama/PanoramaGameSettings.php',
+        'CsrDelft\\service\\panorama\\PanoramaRoute' => __DIR__ . '/../..' . '/lib/service/panorama/PanoramaRoute.php',
         'CsrDelft\\service\\pin\\PinDownloadException' => __DIR__ . '/../..' . '/lib/service/pin/PinDownloadException.php',
         'CsrDelft\\service\\pin\\PinTransactieDownloader' => __DIR__ . '/../..' . '/lib/service/pin/PinTransactieDownloader.php',
         'CsrDelft\\service\\pin\\PinTransactieMatcher' => __DIR__ . '/../..' . '/lib/service/pin/PinTransactieMatcher.php',
@@ -1915,6 +1928,10 @@ class ComposerStaticInitf68b8dfc3a7257258111dca548f3ae0e
         'CsrDelft\\tests\\AbstractVoterTestCase' => __DIR__ . '/../..' . '/tests/lib/AbstractVoterTestCase.php',
         'CsrDelft\\tests\\BrowserTestCase' => __DIR__ . '/../..' . '/tests/lib/BrowserTestCase.php',
         'CsrDelft\\tests\\CsrTestCase' => __DIR__ . '/../..' . '/tests/lib/CsrTestCase.php',
+        'CsrDelft\\tests\\service\\panorama\\PanoramaArcadeServiceTest' => __DIR__ . '/../..' . '/tests/lib/service/panorama/PanoramaArcadeServiceTest.php',
+        'CsrDelft\\tests\\service\\panorama\\PanoramaArcadeTest' => __DIR__ . '/../..' . '/tests/lib/service/panorama/PanoramaArcadeTest.php',
+        'CsrDelft\\tests\\service\\panorama\\PanoramaDailyQuizTest' => __DIR__ . '/../..' . '/tests/lib/service/panorama/PanoramaDailyQuizTest.php',
+        'CsrDelft\\tests\\service\\panorama\\PanoramaGameSettingsTest' => __DIR__ . '/../..' . '/tests/lib/service/panorama/PanoramaGameSettingsTest.php',
         'CsrDelft\\view\\ChartTimeSeries' => __DIR__ . '/../..' . '/lib/view/ChartTimeSeries.php',
         'CsrDelft\\view\\GenericSuggestiesResponse' => __DIR__ . '/../..' . '/lib/view/GenericSuggestiesResponse.php',
         'CsrDelft\\view\\Icon' => __DIR__ . '/../..' . '/lib/view/Icon.php',
@@ -45376,10 +45393,10 @@ class ComposerStaticInitf68b8dfc3a7257258111dca548f3ae0e
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitf68b8dfc3a7257258111dca548f3ae0e::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitf68b8dfc3a7257258111dca548f3ae0e::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitf68b8dfc3a7257258111dca548f3ae0e::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitf68b8dfc3a7257258111dca548f3ae0e::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitb8a141eae4e1340bb506259398894cfb::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitb8a141eae4e1340bb506259398894cfb::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitb8a141eae4e1340bb506259398894cfb::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitb8a141eae4e1340bb506259398894cfb::$classMap;
 
         }, null, ClassLoader::class);
     }

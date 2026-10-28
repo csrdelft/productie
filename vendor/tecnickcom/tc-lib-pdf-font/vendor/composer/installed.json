@@ -2139,17 +2139,17 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v7.4.20",
-            "version_normalized": "7.4.20.0",
+            "version": "v7.4.21",
+            "version_normalized": "7.4.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "a7faee783a87b55f27460fc571f8c639bf9d93a2"
+                "reference": "059334a6ef0eedfcabfec52fd0a71576d610a70c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/a7faee783a87b55f27460fc571f8c639bf9d93a2",
-                "reference": "a7faee783a87b55f27460fc571f8c639bf9d93a2",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/059334a6ef0eedfcabfec52fd0a71576d610a70c",
+                "reference": "059334a6ef0eedfcabfec52fd0a71576d610a70c",
                 "shasum": ""
             },
             "require": {
@@ -2174,7 +2174,7 @@
                 "symfony/expression-language": "^6.4|^7.0|^8.0",
                 "symfony/yaml": "^6.4|^7.0|^8.0"
             },
-            "time": "2026-09-29T12:35:16+00:00",
+            "time": "2026-10-13T12:53:30+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -2202,7 +2202,7 @@
             "description": "Allows you to standardize and centralize the way objects are constructed in your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/dependency-injection/tree/v7.4.20"
+                "source": "https://github.com/symfony/dependency-injection/tree/v7.4.21"
             },
             "funding": [
                 {
@@ -2300,17 +2300,17 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v7.4.18",
-            "version_normalized": "7.4.18.0",
+            "version": "v7.4.21",
+            "version_normalized": "7.4.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "90d412aa5277c6819db39e7605aa46b1019e3232"
+                "reference": "fd0e3462be6d32a0d130e8423e4940a7688162d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/90d412aa5277c6819db39e7605aa46b1019e3232",
-                "reference": "90d412aa5277c6819db39e7605aa46b1019e3232",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/fd0e3462be6d32a0d130e8423e4940a7688162d8",
+                "reference": "fd0e3462be6d32a0d130e8423e4940a7688162d8",
                 "shasum": ""
             },
             "require": {
@@ -2321,7 +2321,7 @@
             "require-dev": {
                 "symfony/process": "^6.4|^7.0|^8.0"
             },
-            "time": "2026-08-23T10:03:40+00:00",
+            "time": "2026-10-06T20:05:19+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -2349,7 +2349,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v7.4.18"
+                "source": "https://github.com/symfony/filesystem/tree/v7.4.21"
             },
             "funding": [
                 {
@@ -2721,17 +2721,17 @@
         },
         {
             "name": "tecnickcom/tc-lib-file",
-            "version": "3.9.8",
-            "version_normalized": "3.9.8.0",
+            "version": "3.9.9",
+            "version_normalized": "3.9.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/tc-lib-file.git",
-                "reference": "4a4b8457ed3fe4a88e6cc85bc3f8a863ff8a667a"
+                "reference": "973e4b9b13dc3cd910f4f6aeb996ed92250f4218"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/tc-lib-file/zipball/4a4b8457ed3fe4a88e6cc85bc3f8a863ff8a667a",
-                "reference": "4a4b8457ed3fe4a88e6cc85bc3f8a863ff8a667a",
+                "url": "https://api.github.com/repos/tecnickcom/tc-lib-file/zipball/973e4b9b13dc3cd910f4f6aeb996ed92250f4218",
+                "reference": "973e4b9b13dc3cd910f4f6aeb996ed92250f4218",
                 "shasum": ""
             },
             "require": {
@@ -2740,14 +2740,14 @@
                 "php": "^8.2"
             },
             "require-dev": {
-                "carthage-software/mago": "1.55.0",
-                "pdepend/pdepend": "^2.16",
-                "phpunit/phpunit": "^11.5 || ^12.5 || ^13.3"
+                "carthage-software/mago": "1.57.0",
+                "pdepend/pdepend": "^3.0",
+                "phpunit/phpunit": "^11.5 || ^12.5 || ^13.4"
             },
             "suggest": {
                 "ext-intl": "Enables Unicode NFC normalization when matching paths against the allowlist"
             },
-            "time": "2026-10-10T08:22:31+00:00",
+            "time": "2026-10-17T10:47:08+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -2792,17 +2792,17 @@
         },
         {
             "name": "tecnickcom/tc-lib-pdf-encrypt",
-            "version": "2.11.7",
-            "version_normalized": "2.11.7.0",
+            "version": "2.12.1",
+            "version_normalized": "2.12.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/tc-lib-pdf-encrypt.git",
-                "reference": "d0874aa17e819477c575ce309b56160ba0491124"
+                "reference": "1aca6aab0dc4b34621c8b6256258e247a486a06b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/tc-lib-pdf-encrypt/zipball/d0874aa17e819477c575ce309b56160ba0491124",
-                "reference": "d0874aa17e819477c575ce309b56160ba0491124",
+                "url": "https://api.github.com/repos/tecnickcom/tc-lib-pdf-encrypt/zipball/1aca6aab0dc4b34621c8b6256258e247a486a06b",
+                "reference": "1aca6aab0dc4b34621c8b6256258e247a486a06b",
                 "shasum": ""
             },
             "require": {
@@ -2813,11 +2813,11 @@
                 "php": "^8.2"
             },
             "require-dev": {
-                "carthage-software/mago": "1.55.0",
-                "pdepend/pdepend": "^2.16",
-                "phpunit/phpunit": "^11.5 || ^12.5 || ^13.3"
+                "carthage-software/mago": "1.57.0",
+                "pdepend/pdepend": "^3.0",
+                "phpunit/phpunit": "^11.5 || ^12.5 || ^13.4"
             },
-            "time": "2026-10-10T08:26:41+00:00",
+            "time": "2026-10-17T10:47:25+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -2860,28 +2860,28 @@
         },
         {
             "name": "tecnickcom/tc-lib-unicode-data",
-            "version": "3.1.1",
-            "version_normalized": "3.1.1.0",
+            "version": "3.1.2",
+            "version_normalized": "3.1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/tc-lib-unicode-data.git",
-                "reference": "2c169c70961f61d012ed1a72ac2dcb2710aecccc"
+                "reference": "b9b5b2fe8c9db2408b99f15d46b6e8031f73fb0d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/tc-lib-unicode-data/zipball/2c169c70961f61d012ed1a72ac2dcb2710aecccc",
-                "reference": "2c169c70961f61d012ed1a72ac2dcb2710aecccc",
+                "url": "https://api.github.com/repos/tecnickcom/tc-lib-unicode-data/zipball/b9b5b2fe8c9db2408b99f15d46b6e8031f73fb0d",
+                "reference": "b9b5b2fe8c9db2408b99f15d46b6e8031f73fb0d",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.2"
             },
             "require-dev": {
-                "carthage-software/mago": "1.55.0",
-                "pdepend/pdepend": "^2.16",
-                "phpunit/phpunit": "^11.5 || ^12.5 || ^13.3"
+                "carthage-software/mago": "1.57.0",
+                "pdepend/pdepend": "^3.0",
+                "phpunit/phpunit": "^11.5 || ^12.5 || ^13.4"
             },
-            "time": "2026-10-10T08:31:57+00:00",
+            "time": "2026-10-17T10:48:16+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
