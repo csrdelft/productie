@@ -60,8 +60,8 @@
     "integrity": "sha256-xdUVg3qgy/aCkZhvTxIebBR0pjmj4hu6je3DJ9712MU= sha384-KFTQdhvCAQZQ1MyIcPa5TI6laI6wtoDkvPafDLruXRok+mQCNKBl0X4q64sxQnqT sha512-6R36j1v/n1siBEO1E8Y1c7HQ+gSD4Q7HVJ+VG6SeBtOMql8cFiMhoqlXowrMab4XC40mT5jgy9vK9sPA8rsJLw=="
   },
   "dies2024.otf": {
-    "src": "fonts/5f06c0830c428889bad1.otf",
-    "integrity": "sha256-n7Gz9qPNNKuzZRGeGkSO2XMZaMd5YYxG+B2q8jJXe80= sha384-8BvwhhmF/60bRCMgL2uGqL/1XFUdga4ElSdM46gVlkxqZ6Jh/lL3oaRqvryDWUeh sha512-lwWeY1YwNPCCbCMc7huXOwYwEarkHQTDgft0+MjZzjJ+kd6oddTab9n33xSFUZVve9VQnHZ811sxhXQPomObUw=="
+    "src": "fonts/07b2376620e069e3bd4b.otf",
+    "integrity": "sha256-UsYOwHnN6qIl+wqpQVsaXCct4wRXH0Ic+zVKOqIESsQ= sha384-D/TRqF7kA1N80CXC6MTa1AkYaSeZyB3/XDkDv4usIQ67GeP5ATBzbgB5Jb7p241x sha512-fn5kpOdj3N8F9v51JzJF3H2oHzqXkQBMz6hdjsELUlGT5IwwUGVkEnqTSiHAAv/9zToGxo4jfzfzr1bgtPNOQQ=="
   },
   "dies2024.png": {
     "src": "images/1aa38b6e986ee31bce89.png",
