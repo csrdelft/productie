@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[1311],{1311(e,s,n){n.r(s);var r=n(5616),a=n.n(r),h=n(291);a()(()=>{a()("a.ruilen").each(function(){a()(this).removeClass("ruilen"),a()(this).on("dragover",h.OY),a()(this).on("drop",h.xX)})})}}]);
+//# sourceMappingURL=1311.a52de21e71bc9a94dfc5.chunk.js.map
